@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/grey_more_light2"
+    android:weightSum="15"
+    >
+
+    <LinearLayout
+        android:id="@+id/linearLayout_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="13.5"
+        android:orientation="vertical">
+
+        <include
+            layout="@layout/toolbar_layout" />
+
+
+        <android.support.v4.widget.NestedScrollView
+            android:id="@+id/nestedScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:layout_above="@+id/relativePayment"
+            android:layout_marginBottom="@dimen/ten_dip"
+            android:layout_below="@+id/linearLayout_toolbar"
+            android:background="#F1F5F8">
+
+            <LinearLayout
+                android:id="@+id/layout_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:descendantFocusability="blocksDescendants"
+                android:orientation="vertical">
+
+
+                <LinearLayout
+                    android:id="@+id/linearAddressLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="invisible"
+                    >
+
+
+                    <android.support.v7.widget.CardView
+                        xmlns:android="http://schemas.android.com/apk/res/android"
+                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:cardCornerRadius="5dp"
+                        app:cardMaxElevation="8dp"
+                        android:layout_margin="@dimen/ten_dip"
+                        >
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            >
+
+                            <LinearLayout
+                                android:id="@+id/linearAddress"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                >
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:orientation="vertical"
+                                    android:padding="10dp"
+                                    >
+
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content">
+
+                                        <TextView
+                                            android:id="@+id/addressLine1"
+                                            style="@style/myAddress"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:maxLines="2"
+                                            android:text="" />
+
+                                    </LinearLayout>
+
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content">
+
+                                        <TextView
+                                            android:id="@+id/addressLine2"
+                                            style="@style/myAddress"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:text="" />
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="5dp"
+                                        >
+
+                                        <TextView
+                                            android:id="@+id/addressLine3"
+                                            style="@style/myAddress"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+
+                                            android:text="" />
+                                    </LinearLayout>
+
+
+                                </LinearLayout>
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="0.5dp"
+                                    android:background="@color/slate_gray"
+                                    android:visibility="invisible"
+                                    ></View>
+
+                                <RelativeLayout
+                                    android:id="@+id/relativeChangeAddress"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:padding="10dp"
+                                    android:visibility="invisible"
+                                    >
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="CHANGE ADDRESS"
+                                        android:layout_centerHorizontal="true"
+                                        android:textColor="@color/black"
+                                        />
+
+
+                                </RelativeLayout>
+
+
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+
+                    </android.support.v7.widget.CardView>
+
+                </LinearLayout>
+
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/order_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/ten_dip">
+
+                </android.support.v7.widget.RecyclerView>
+
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/cardviewProductDeatails"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/ten_dip"
+                    android:visibility="invisible"
+                    >
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/tvPriceDetailHeading"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/ten_dip"
+                            android:text="PRICE DETAILS"
+                            android:textColor="@color/black" />
+
+                        <View
+                            android:id="@+id/view1"
+                            android:layout_width="match_parent"
+                            android:layout_height="0.5dp"
+                            android:layout_below="@+id/tvPriceDetailHeading"
+                            android:background="@color/slate_gray"></View>
+
+
+                        <RelativeLayout
+                            android:id="@+id/relativePriceItems"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/view1">
+
+                            <TextView
+                                android:id="@+id/tvPriceItemsHeading"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentLeft="true"
+                                android:padding="@dimen/ten_dip"
+                                android:text="Price(3 items)" />
+
+
+                            <TextView
+                                android:id="@+id/tvPriceItems"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:padding="@dimen/ten_dip"
+                                android:text="42565" />
+
+
+                        </RelativeLayout>
+
+
+                        <RelativeLayout
+                            android:id="@+id/relativeDelivery"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/relativePriceItems">
+
+                            <TextView
+                                android:id="@+id/tvDeliveryHeading"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentLeft="true"
+                                android:padding="@dimen/ten_dip"
+                                android:text="Delivery" />
+
+
+                            <TextView
+                                android:id="@+id/tvDelivery"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:padding="@dimen/ten_dip"
+                                android:text="Free"
+                                android:textColor="@color/green" />
+
+
+                        </RelativeLayout>
+
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/relativeDelivery">
+
+                            <TextView
+                                android:id="@+id/tvAmountPayableHeading"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentLeft="true"
+                                android:padding="@dimen/ten_dip"
+                                android:text="Amount Payable"
+                                android:textColor="@color/black" />
+
+
+                            <TextView
+                                android:id="@+id/tvAmountPayable"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:padding="@dimen/ten_dip"
+                                android:text="42515"
+                                android:textColor="@color/black" />
+
+
+                        </RelativeLayout>
+
+                    </RelativeLayout>
+
+
+                </android.support.v7.widget.CardView>
+
+
+            </LinearLayout>
+
+        </android.support.v4.widget.NestedScrollView>
+
+    </LinearLayout>
+
+
+
+
+    <RelativeLayout
+        android:id="@+id/relativePayment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@drawable/orange_back"
+        android:layout_gravity="center_horizontal|center_vertical"
+        android:gravity="center_vertical|center_horizontal"
+        android:padding="10dp"
+        android:layout_weight="1.5"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/button_orange_back"
+            android:text="@string/proceed_to_checkout"
+            android:textColor="@color/white"
+            android:textSize="@dimen/textsize_medium" />
+
+</RelativeLayout>
+    </LinearLayout>

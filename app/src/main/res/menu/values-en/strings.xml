@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">AapkaTrade</string>
+
+    <string name="my_profile_heading">My Profile</string>
+    <string name="my_profile_detail_heading">Hello,<font color="#0000FF"> Arvind </font> - To Update your account information.</string>
+    <string name="save">Save</string>
+    <string name="aapka_data">AAPKA <font color='white'>TRADE</font></string>
+    <string name="login">LOGIN</string>
+    <string name="change_password_heading">Change Password</string>
+
+
+    <string name="forgotpassword">Forget Password?</string>
+    <string name="new_user">New User?</string>
+
+
+    <string name="drawer_open">draweropen</string>
+    <string name="drawer_close">drawerclose</string>
+    <string name="language">language</string>
+
+
+    <string name="product_name">LED TV</string>
+
+    <string name="category">Category</string>
+    <string name="tab_1">Home</string>
+    <string name="tab_2">About Us</string>
+    <string name="tab_3">Track Order</string>
+    <string name="tab_4">Account</string>
+    <string name="welcomeguest">Welcome Guest</string>
+    <string name="nointernetconnection">No Internet connection found.</string>
+    <string name="nointernetconnection2">Check your connection.</string>
+    <string name="retry">RETRY</string>
+    <string name="viewall">View All</string>
+    <string name="latest_deals">LATEST DEALS</string>
+
+
+</resources>

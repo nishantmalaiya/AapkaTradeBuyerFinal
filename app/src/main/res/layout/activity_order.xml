@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_margin="@dimen/five_dip"
+    android:padding="@dimen/five_dip"
+    android:orientation="vertical"
+    android:id="@+id/rl"
+    android:background="#f5f5f5"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="#f5f5f5"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+
+        <RelativeLayout
+            android:id="@+id/relativeOrderDetail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:background="#f5f5f5"
+            android:layout_alignParentTop="true"
+
+            android:padding="10dp">
+
+
+            <RelativeLayout
+                android:id="@+id/relativeContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvCompanyName"
+                android:layout_marginTop="5dp">
+
+
+                <LinearLayout
+                    android:id="@+id/linearLayoutImage"
+                    android:layout_width="100dp"
+                    android:layout_height="90dp"
+                    android:orientation="horizontal"
+                    android:padding="5dp">
+
+                    <ImageView
+                        android:id="@+id/img_view_orderlist"
+                        android:layout_width="match_parent"
+
+                        android:layout_height="match_parent" />
+
+
+                </LinearLayout>
+
+
+                <TextView
+                    android:id="@+id/tvShopName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_toLeftOf="@+id/buttonDespatched"
+                    android:layout_toRightOf="@+id/linearLayoutImage"
+                    android:text="shopname"
+                    android:textColor="@color/black" />
+
+                <ImageView
+                    android:id="@+id/buttonDespatched"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:gravity="center_vertical"
+                    android:padding="5dp"
+                    android:visibility="gone"
+                    android:src="@drawable/ic_delete"
+                    android:text="Dispatched"
+
+                    android:textColor="#066C57"
+                    android:textSize="13sp" />
+
+
+
+
+                <TextView
+                    android:id="@+id/tvProductPrize"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvShopName"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_toRightOf="@+id/linearLayoutImage"
+                    android:text="Productprize" />
+
+                <TextView
+                    android:id="@+id/tvUserEmail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvProductPrize"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_toRightOf="@+id/linearLayoutImage"
+                    android:text="Order Status: Packaged"
+
+                    />
+
+            </RelativeLayout>
+
+
+            <ImageView
+                android:id="@+id/imgLocation"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_below="@+id/relativeContainer"
+                android:layout_marginTop="5dp"
+                android:src="@drawable/ic_location" />
+
+            <TextView
+                android:id="@+id/tvAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/relativeContainer"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@+id/imgLocation"
+                android:text="Sat ,6th may 2017 11:24 am Payment  Approved"
+                android:textColor="#066C57" />
+
+
+        </RelativeLayout>
+
+
+        <View
+            android:id="@+id/view1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/relativeOrderDetail"
+            android:background="#D2D0D0" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/view1"
+            android:paddingBottom="@dimen/five_dip"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+
+
+            android:paddingTop="@dimen/five_dip">
+
+            <TextView
+                android:id="@+id/tvExpectedDeliveryTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@+id/imgPaymentApproval"
+                android:text="Delivered expected by 28 jan 2017" />
+
+            <ImageView
+                android:id="@+id/imgPaymentApproval"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="5dp"
+
+                android:src="@drawable/ic_shipped" />
+
+
+        </RelativeLayout>
+    </RelativeLayout>
+
+</RelativeLayout>
+
+
+

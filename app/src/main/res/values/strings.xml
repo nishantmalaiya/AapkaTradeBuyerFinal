@@ -1,0 +1,256 @@
+<resources>
+    <string name="app_name" translatable="false">AapkaTrade Buyer</string>
+
+    <string name="my_profile_heading" translatable="false">My Profile</string>
+    <string name="my_profile_detail_heading" translatable="false">Hello,<font color="#0000FF"> Arvind </font> - To Update your account information.</string>
+    <string name="save" translatable="false">Save</string>
+    <string name="submit" translatable="false">SUBMIT</string>
+    <string name="aapka_data" translatable="false">AAPKA <font color='white'>TRADE</font></string>
+    <string name="login" translatable="false">LOGIN</string>
+    <string name="change_password_heading" translatable="false">Change Password</string>
+    <string name="email_or_mobile" translatable="false">Email/Mobile</string>
+    <string name="write_and_review">Write And Review</string>
+
+
+    <string name="forgotpassword" translatable="false">Forget Password?</string>
+    <string name="new_user" translatable="false">New User?</string>
+    <string name="pleaseWait">Wait !</string>
+    <string name="webpage_being_loaded">Data is loading &#8230;&#8230;&#8230;</string>
+
+    <string name="comp_doc" translatable="false">Company Document</string>
+    <string name="drawer_open" translatable="false">draweropen</string>
+    <string name="drawer_close" translatable="false">drawerclose</string>
+    <string name="language" translatable="false">language</string>
+    <string name="cart" translatable="false">cart</string>
+    <string name="product" translatable="false">PRODUCTS:</string>
+    <string name="qty" translatable="false">QTY:</string>
+
+    <string name="qty_def" translatable="false">05</string>
+
+    <string name="product_name" translatable="false">Product Name</string>
+
+    <string name="category" translatable="false">Category</string>
+    <string name="tab_1" translatable="false">Home</string>
+    <string name="tab_2" translatable="false">About Us</string>
+    <string name="tab_3" translatable="false">Track Order</string>
+    <string name="tab_4" translatable="false">Account</string>
+    <string name="tab_5" translatable="false">Contact Us</string>
+    <string name="welcomeguest" translatable="false">Welcome Guest</string>
+    <string name="nointernetconnection" translatable="false">No Internet connection found.</string>
+    <string name="nointernetconnection2" translatable="false">Check your connection.</string>
+    <string name="retry" translatable="false">RETRY</string>
+    <string name="viewall" translatable="false">View All</string>
+    <string name="latest_deals" translatable="false">LATEST POST</string>
+    <string name="english" translatable="false">English</string>
+    <string name="hindi" translatable="false">Hindi</string>
+    <string name="address" translatable="false">Address</string>
+    <string name="address1" translatable="false">Address*</string>
+
+    <string name="user_type">buyer</string>
+    <string name="google_api" translatable="false">AIzaSyDEC-Z8NKvcLAbB4vKdNa2ByUcXfOX_Tao</string>
+    <string name="forgot_your_password" translatable="false">Forgot your Password?</string>
+    <string name="forgot_your_password_instruction1" translatable="false">Enter your Email/Mobile number below to receive OTP</string>
+    <string name="email" translatable="false">Email</string>
+    <string name="emailId" translatable="false">Email ID*</string>
+    <string name="or" translatable="false">OR</string>
+    <string name="mobile_no" translatable="false">mobile no</string>
+    <string name="send_otp" translatable="false">SEND OTP</string>
+    <string name="otp_data_1" translatable="false">Make sure your information is</string>
+    <string name="otp_data_2" translatable="false">correct before continuing</string>
+    <string name="verify" translatable="false">VERIFY</string>
+    <string name="otp_not_recived" translatable="false">OTP Not Received?</string>
+
+    <string name="address_line1" translatable="false">3rd Floor, Tower B, JMD Megapolis</string>
+    <string name="address_line2" translatable="false">Sohna Road, Sector 48</string>
+    <string name="address_line3" translatable="false">Gurugram, Haryana 122001</string>
+    <string name="item_price" translatable="false">18,941</string>
+    <string name="item_subtotal_price" translatable="false">19,689</string>
+    <string name="product_detail" translatable="false">Product Detail:</string>
+    <string name="express_delivery" translatable="false">Express Delivery:   99</string>
+    <string name="delivery_date" translatable="false">Delivery date: 19 Jan to 20 Jan</string>
+    <string name="subtotal" translatable="false">Subtotal:</string>
+
+    <string name="webservice_base_url" translatable="false">http://staging.aapkatrade.com/slim</string>
+    <string name="logout" translatable="false">Logout</string>
+    <string name="latest_update" translatable="false">LATEST UPDATE</string>
+    <string name="first_name" translatable="false">First Name*</string>
+    <string name="last_name" translatable="false">Last Name*</string>
+    <string name="father_name" translatable="false">Father Name*</string>
+    <string name="password1" translatable="false">Password*</string>
+    <string name="confirm_password1" translatable="false">Confirm Password*</string>
+    <string name="mobile" translatable="false">Mobile*</string>
+    <string name="date_of_birth" translatable="false">Date Of Birth*</string>
+    <string name="pincode" translatable="false">Pincode</string>
+    <string name="accept_t_and_c" translatable="false">Accept Terms and Conditions</string>
+    <string name="save_and_next" translatable="false">Save &amp; Next</string>
+
+    <string name="search_data" translatable="false">What?e.g. Dairy</string>
+    <string name="aacount_no" translatable="false">Account No.*</string>
+    <string name="branch_code" translatable="false">Branch Code*</string>
+    <string name="branch_name" translatable="false">Branch Name</string>
+    <string name="ifsc_code" translatable="false">IFSC Code*</string>
+    <string name="micr_code" translatable="false">MICR Code*</string>
+    <string name="account_holder_name" translatable="false">Account Holder Name*</string>
+    <string name="registered_mobile" translatable="false">Registered Mobile*</string>
+    <string name="new_user_signup" translatable="false">New User Signup</string>
+    <string name="description_heading" translatable="false">Description</string>
+    <string name="description" translatable="false">Department Stores, Chocolate Retailers, Soft Drink Retailers,Grocery Stores, Beverage Dealers, General Stores, Deparmental Stores Home Delivery</string>
+    <string name="review_heading" translatable="false">Ratings &amp; Review</string>
+    <string name="selected_place" translatable="false">Selected Place</string>
+    <string name="personalDetails" translatable="false">Personal Details</string>
+    <string name="terms" translatable="false">Terms &amp; Conditions</string>white
+    <string name="invite" translatable="false">Invite &amp; Share</string>
+    <string name="action_settings" translatable="false">Settings</string>
+
+    <string name="your_location" translatable="false">Enter your Location</string>
+    <string name="ref_number" translatable="false">Reference Number</string>
+    <string name="location_hint" translatable="false">Enter your State Name</string>
+    <string name="oldPassword" translatable="false">Old Password</string>
+    <string name="newPassword" translatable="false">New Password</string>
+    <string name="confirmNewPassword" translatable="false">Confirm New Password</string>
+    <string name="title_activity_bank_management" translatable="false">BankManagementActivity</string>
+
+    <string name="title_activity_payout">PayoutActivity</string>
+    <string name="select_state">your state</string>
+    <string name="setvice_enquiry">Service Enquiry</string>
+
+
+    <string name="about_us_data1">Aapka trade is indias unique business platform where everybody can do the business. We are taking your services and products no matter how small or big to all over india from individual services to small scale businesses, startups or large corporations. </string>
+    <string name="about_us_data2">The Company mission is</string>
+    <string name="about_us_data3">ANYBODY CAN DO THE BUSINESS</string>
+    <string name="about_us_data4">Aapkatrade for Buyers</string>
+    <string name="about_us_data5">Convenience of connecting with sellers anytime, anywhere Wider marketplace with a range of products and suppliers One-stop shop for all requirements</string>
+    <string name="about_us_data6">You can shop all your needs</string>
+    <string name="about_us_data7">Aapkatrade for Suppliers</string>
+    <string name="about_us_data8"><li>Improved business visibility</li>.\n<li>Entrance to buyers from across the Globe Enlarged credibillity for your brand</li></string>
+    <string name="about_us_data9">You can sell any kind of services / products</string>
+
+
+    <string name="add_address_heading">Add Address</string>
+
+    <string name="order_mgt_heading">Order Management</string>
+    <string name="title_activity_add_vendor">AddVendorActivity</string>
+    <string name="filter_heading">Filter</string>
+    <string name="clear_all">Clear All</string>
+    <string name="apply_filter">Apply Filter</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="resetpassword">Reset Password?</string>
+    <string name="password_change_text">Enter your new password</string>
+    <string name="newpassword">New Password</string>
+    <string name="password_validing_text">Oops! Password must have length >=6 , a-z, A-Z, 0-9 and Special character</string>
+    <string name="passwordnotmathed">both password not matched</string>
+    <string name="filter_text">Filter Text</string>
+
+
+    <string name="welcomebuyer">Welcome Buyer</string>
+
+    <string name="shop_info">SHOP INFORMATION</string>
+    <string name="shop_products">SHOP PRODUCTS</string>
+    <string name="shop_time">SHOP TIME</string>
+
+    <string name="title_activity_my_cart">MyCartActivity</string>
+    <string name="enter_delivery_pin">Enter Delivery Pincode</string>
+    <string name="check">Check</string>
+
+    <string name="usertype">1</string>
+    <string name="continue_order">CONTINUE</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="trackorder">Track Your Order</string>
+
+    <string name="tracking_text">Enter 14 digit tracking no./Order id.</string>
+    <string name="trackorder_heading">We will send you a OTP to track your order status.</string>
+
+
+    <string name="opening_closing_shop">Opening Closing Shop</string>
+    <string name="fullname">Full Name</string>
+    <string name="customer_enquiry">Customer Enquiry</string>
+    <string name="service_enquiry">Service Enquiry</string>
+    <string name="buy_now">Buy Now</string>
+    <string name="add_to_cart">Add To Cart</string>
+    <string name="rupay">₹ 1055</string>
+    <string name="rupay_text">₹</string>
+    <string name="order_details">ORDER DETAILS</string>
+    <string name="discount">Discount</string>
+    <string name="unit">Unit</string>
+    <string name="amount_paid">Amount Paid</string>
+    <string name="check_availability_and_delivery">Check availability and delivery option</string>
+
+    <string name="select_payment_mode_title">Select Payment Mode</string>
+
+    <string name="postal_code">Postal Code</string>
+    <string name="order_id">Order Id</string>
+    <string name="order_date">Order Date</string>
+    <string name="manage_order">MANAGE ORDER</string>
+    <string name="request_invoice">Request Invoice</string>
+    <string name="help">Need Help?</string>
+    <string name="delivery_update">GST Delivery  Update</string>
+    <string name="ordered_status_one">Ordered</string>
+    <string name="ordered_status_two">Packaged</string>
+    <string name="ordered_status_three">Shipped</string>
+    <string name="ordered_status_four">Delivered</string>
+    <string name="quantity">Quantity</string>
+    <string name="enter_quantity">Enter Quantity</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
+    <string name="Rs">\u20B9</string>
+    <string name="place_order">Place Order</string>
+    <string name="b">Bharat</string>
+    <string name="readMore">......Read More</string>
+    <string name="buyer">Buyer</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="trackorder_title">TRACK </string>
+
+    <string name="name">Name</string>
+    <string name="status">Status</string>
+    <string name="available">Available</string>
+    <string name="datetime"><![CDATA[Date & Time]]></string>
+
+    <string name="subject">Subject</string>
+    <string name="user_name">User Name</string>
+    <string name="query">Query</string>
+    <string name="visit_us">Visit Us</string>
+    <string name="web_live_url">www.aapkatrade.com</string>
+    <string name="web_info_live_url">info@aapkatrade.com</string>
+    <string name="follow_us">Follow us</string>
+    <string name="customer_care_no">9812345678</string>
+    <string name="customer_care">Customer Care\\</string>
+    <string name="title_activity_payment_completion">PaymentCompletionActivity</string>
+    <string name="payment_success">Payment Successful</string>
+    <string name="message">Message</string>
+    <string name="receipt">Receipt</string>
+    <string name="done">Done</string>
+    <string name="cancel_order">Cancel Order</string>
+    <string name="payment_unsuccess">Payment Unsuccess</string>
+    <string name="cancelingRequest">Cancellation Request</string>
+    <string name="reason">Reason</string>
+    <string name="comments">Comments</string>
+    <string name="type_comment">Type your Comments</string>
+    <string name="enter_mobile_or_email">Enter Mobile No / Email</string>
+    <string name="optional">Optional</string>
+    <string name="create_password">Create Password</string>
+    <string name="trouble_code">Trouble Receiving Code ?</string>
+    <string name="resend_code">Resend Code</string>
+    <string name="navigation">Navigation</string>
+    <string name="got_it"> Thanks Got it</string>
+    <string name="tap_anywhere">Tap anywhere  to dismiss</string>
+
+    <string name="asset_statements" translatable="false">[{\n  \"relation\": [\"delegate_permission/common.handle_all_urls\"],\n  \"target\": {\n    \"namespace\": \"web\",\n    \"site\": \"https://www.aapkatrade.com\",\n  }\n}]</string>
+    <string name="slide_1_title">Welcome to Aapka Trade</string>
+    <string name="slide_1_description">AapkaTrade is India\'s uniques business platform where everybody can do the business</string>
+    <string name="next">Next</string>
+    <string name="skip">Skip</string>
+    <string name="start">START</string>
+    <string name="slide1HeaderText">Welcome To  AapkaTrade</string>
+    <string name="slide2HeaderText">The Company\'s Mission is Anybody Can Do The Business</string>
+    <string name="slide3HeaderText">Aapkatrade for Buyers</string>
+    <string name="slide4HeaderText">You Can Shop all Your Needs</string>
+    <string name="slide5HeaderText">We Focus on Rural Areas</string>
+
+    <string name="enter_otp">Enter OTP</string>
+    <string name="otp">OTP</string>
+    <string name="proceed_to_checkout">Proceed to Payment</string>
+    <string name="company_name">AAPKA TRADE</string>
+    <string name="tryagain">Try Again</string>
+
+</resources>

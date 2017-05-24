@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinate_myprofile"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EEEEEE"
+    android:orientation="vertical">
+
+
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:contentScrim="?attr/colorPrimary"
+
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+
+
+            >
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+
+                android:layout_height="@dimen/two_hundred_dip"
+                android:layout_marginTop="?attr/actionBarSize"
+                android:background="@drawable/navigation_profile_bg"
+                app:layout_collapseMode="parallax">
+
+
+
+
+
+
+                <FrameLayout
+                    android:layout_width="@dimen/hundred_dip"
+                    android:id="@+id/fl_user_pic"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:layout_height="@dimen/hundred_dip"
+                    android:layout_centerHorizontal="true">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/user_imageview"
+
+                        android:layout_width="@dimen/hundred_dip"
+android:padding="@dimen/two_dip"
+                        android:background="@drawable/circle_voilet"
+                        android:layout_height="@dimen/hundred_dip"
+                        android:layout_centerHorizontal="true"
+                        android:src="@drawable/ic_profile_user" />
+
+                    <RelativeLayout
+                        android:layout_width="@dimen/fourty_dip"
+                        android:layout_gravity="right"
+                        android:background="@drawable/circle_voilet"
+                        android:layout_height="@dimen/fourty_dip">
+                    <pl.droidsonroids.gif.GifImageView
+                        android:layout_width="@dimen/thirty_dip"
+                        android:id="@+id/gif_cameras"
+                        android:layout_centerHorizontal="true"
+                        android:padding="@dimen/five_dip"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/white_radius"
+
+                        android:layout_height="@dimen/thirty_dip"
+                        android:src="@drawable/camera_animated"/>
+                    </RelativeLayout>
+
+                </FrameLayout>
+
+
+            </RelativeLayout>
+
+
+            <include layout="@layout/toolbar_layout" />
+
+
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+
+    </android.support.design.widget.AppBarLayout>
+
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffe5e5e5"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include layout="@layout/content_my_profile"
+
+                />
+
+
+        </LinearLayout>
+
+
+    </android.support.v4.widget.NestedScrollView>
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="bottom">
+
+        <Button
+            android:id="@+id/btnSave"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/button_orange_back"
+            android:gravity="center"
+            android:text="@string/save"
+            android:textAllCaps="false"
+            android:textColor="@color/white" />
+
+
+    </RelativeLayout>
+
+</android.support.design.widget.CoordinatorLayout>

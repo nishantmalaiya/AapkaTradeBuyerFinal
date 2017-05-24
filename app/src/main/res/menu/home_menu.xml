@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.aapkatrade.buyer.Home.HomeActivity"
+    >
+
+    <item
+        android:id="@+id/login"
+        android:icon="@drawable/ic_login"
+        android:orderInCategory="101"
+        android:title="@string/login"
+        app:showAsAction="always" />
+
+
+
+    <item
+        android:id="@+id/cart_total_item"
+        android:orderInCategory="103"
+        android:title="@string/cart"
+        app:actionLayout="@layout/menu_cart_icon"
+        app:showAsAction="always"
+        />
+
+
+
+</menu>

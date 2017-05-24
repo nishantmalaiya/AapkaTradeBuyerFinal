@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:layout_marginLeft="@dimen/ten_dip"
+    android:layout_marginRight="@dimen/ten_dip"
+    android:layout_marginBottom="@dimen/ten_dip"
+    >
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        >
+
+        <RelativeLayout
+            android:id="@+id/relativeshop_service"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/ten_dip"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
+
+
+            <ImageView
+                android:id="@+id/imgProduct"
+                android:layout_width="@dimen/one_hundred_five_dip"
+                android:layout_height="@dimen/one_hundred_thirty"
+                android:src="@drawable/demo_review_pic"
+                android:scaleType="fitXY"
+                android:layout_marginRight="5dp"
+                />
+
+            <LinearLayout
+                android:layout_width="100dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="5dp"
+                android:visibility="gone"
+                android:weightSum="2"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:layout_height="30dp">
+
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Qty:"
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:id="@+id/textView34"
+                    android:textSize="12sp"
+                    />
+
+                <Spinner
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/spinner_addto_card"
+
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvProductName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rose "
+                android:layout_toRightOf="@+id/imgProduct"
+                android:layout_marginLeft="@dimen/ten_dip"
+                android:textColor="@color/black"
+                android:textSize="@dimen/fifteen_dip"
+                android:maxLines="1"
+                />
+
+            <TextView
+                android:id="@+id/tvProductShopName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Seller: Amazing Business Solutions"
+                android:layout_toRightOf="@+id/imgProduct"
+                android:layout_marginLeft="@dimen/ten_dip"
+                android:layout_below="@+id/tvProductName"
+                android:layout_marginTop="@dimen/five_dip"
+                android:maxLines="1"
+                />
+
+
+            <TextView
+                android:id="@+id/tvProductPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rs. 74.00"
+                android:layout_toRightOf="@+id/imgProduct"
+                android:layout_marginLeft="@dimen/ten_dip"
+                android:layout_below="@+id/tvProductShopName"
+                android:textColor="@color/orange"
+                android:layout_marginTop="@dimen/five_dip"
+                android:maxLines="1"
+                android:visibility="invisible"
+                />
+
+            <TextView
+                android:id="@+id/tvProductSubtotalPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rs. 74.00"
+                android:layout_toRightOf="@+id/imgProduct"
+                android:layout_marginLeft="@dimen/ten_dip"
+                android:layout_below="@+id/tvProductShopName"
+                android:textColor="@color/orange"
+                android:layout_marginTop="@dimen/five_dip"
+                android:maxLines="1"
+                />
+
+            <Button
+                android:id="@+id/buttonAddtoCart"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/thirty_dip"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/button_selector"
+                android:text="Remove"
+                android:padding="@dimen/five_dip"
+                android:textSize="@dimen/twelve_dip"
+                android:layout_below="@+id/tvProductShopName"
+                android:textAllCaps="false"
+                android:textColor="@drawable/button_text_color"
+                />
+
+
+            <LinearLayout
+                android:id="@+id/dropdown_ll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvProductPrice"
+                android:background="@drawable/border_bg_grey"
+                android:layout_toRightOf="@+id/imgProduct"
+                android:gravity="center"
+                android:layout_marginTop="@dimen/ten_dip"
+                android:layout_marginLeft="@dimen/five_dip"
+                android:padding="@dimen/three_dip" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/three_dip"
+                    android:text="Qty:"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:background="@drawable/border_white_bg"
+                    android:gravity="center"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/textView64"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/three_dip"
+                        android:layout_marginRight="@dimen/three_dip"
+                        android:padding="@dimen/three_dip"
+                        android:text="1"
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
+
+
+                    <ImageView
+                        android:layout_width="@dimen/twenty_dip"
+                        android:layout_height="@dimen/twenty_five_dip"
+                        android:background="#787575"
+                        android:src="@drawable/ic_chevron_white" />
+
+
+                </LinearLayout>
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+
+
+    </RelativeLayout>
+
+
+
+</android.support.v7.widget.CardView>
+
+

@@ -1,0 +1,39 @@
+<resources>
+    <string name="app_name">आपका ट्रेड </string>
+
+    <string name="my_profile_heading">मेरी प्रोफाइल</string>
+    <string name="my_profile_detail_heading">नमस्ते,<font color="#0000FF">
+अरविंद </font>- अपने खाते की जानकारी अद्यतन करने के लिए।</string>
+    <string name="save">बचाना</string>
+    <string name="aapka_data">आपका <font color='white'>ट्रेड</font></string>
+    <string name="login">लॉग इन करें</string>
+    <string name="change_password_heading">पासवर्ड बदलें</string>
+
+
+    <string name="forgotpassword">पासवर्ड भूल गए?</string>
+    <string name="new_user">नया उपयोगकर्ता?</string>
+
+
+    <string name="drawer_open">
+दराज खुला</string>
+    <string name="drawer_close">
+दराज बंद</string>
+    <string name="language">भाषा</string>
+
+
+    <string name="product_name">एलईडी टीवी</string>
+
+    <string name="category">श्रेणी</string>
+    <string name="tab_1">घर</string>
+    <string name="tab_2">हमारे बारे में</string>
+    <string name="tab_3">हमें रेटिंग दें</string>
+    <string name="tab_4">लेखा</string>
+    <string name="welcomeguest">इच्छित</string>
+    <string name="nointernetconnection">कोई इंटरनेट कनेक्शन मिल गया।</string>
+    <string name="nointernetconnection2">अपने कनेक्शन की जाँच करें।</string>
+    <string name="retry">पुनः प्रयास करें</string>
+    <string name="viewall">सभी को देखें</string>
+    <string name="latest_deals">नवीनतम सौदा</string>
+
+
+</resources>

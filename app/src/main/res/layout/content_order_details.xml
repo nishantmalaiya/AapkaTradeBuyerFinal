@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EEEEEE"
+
+    android:orientation="vertical">
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:id="@+id/nestedScrollView"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                app:cardCornerRadius="5dp">
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp">
+
+                    <TextView
+                        android:id="@+id/tvProductname"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="Xitefun Casual"
+                       />
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginTop="5dp">
+
+                        <TextView
+                            android:id="@+id/tvQtyHeading"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:text="Qty:"
+                            android:textColor="@color/black" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_toRightOf="@+id/tvQtyHeading"
+                            android:text="5"
+                          />
+
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/tvOrderIdHeading"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tvProductname"
+                        android:layout_marginTop="5dp"
+                        android:text="Order ID:"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:id="@+id/tvOrderId"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tvProductname"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_toRightOf="@+id/tvOrderIdHeading"
+                        android:text="4156454"
+                         />
+
+                    <TextView
+                        android:id="@+id/tvDateHeading"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tvOrderIdHeading"
+                        android:layout_marginTop="5dp"
+                        android:text="Date and Time:"
+                        android:textColor="@color/black" />
+
+
+                    <TextView
+                        android:id="@+id/TvOrderDate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tvOrderIdHeading"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_toRightOf="@+id/tvDateHeading"
+                        android:text="12/10/2017"
+                        />
+
+
+                    <TextView
+                        android:id="@+id/tvStatusHeading"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tvDateHeading"
+                        android:layout_marginTop="5dp"
+                        android:text="Status:"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:id="@+id/OrderStatus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tvDateHeading"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_toRightOf="@+id/tvStatusHeading"
+                        android:text="Available"
+                      />
+
+
+                </RelativeLayout>
+
+
+            </android.support.v7.widget.CardView>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycle_view_order_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                </android.support.v7.widget.RecyclerView>
+
+            </RelativeLayout>
+
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                app:cardCornerRadius="5dp">
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp">
+
+
+                    <ImageView
+                        android:id="@+id/imageAddress"
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:layout_gravity="center"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/location_green" />
+
+                    <TextView
+                        style="@style/myAddress"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_toRightOf="@+id/imageAddress"
+                        android:text="Shipping Address"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvOrderAddress"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/imageAddress"
+                        android:layout_marginTop="5dp"
+                        android:text="JMD Megapolis Sohna road" />
+
+                    <TextView
+                        android:id="@+id/tvpincode"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tvOrderAddress"
+                        android:text="JMD Megapolis Sohna road" />
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tvpincode"
+                        android:orientation="vertical"
+                        android:weightSum="2">
+
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+
+                            <ImageView
+                                android:id="@+id/order_email"
+                                android:layout_width="@dimen/twenty_dip"
+                                android:layout_height="@dimen/twenty_dip"
+                                android:src="@drawable/email_icon" />
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:id="@+id/tvEmail"
+                                android:layout_toRightOf="@+id/order_email"
+                                android:text="email"
+
+
+                                />
+
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+
+
+                            <ImageView
+                                android:id="@+id/order_phone"
+                                android:layout_width="@dimen/twenty_dip"
+                                android:layout_height="@dimen/twenty_dip"
+                                android:src="@drawable/ic_phone_icon" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:id="@+id/tvPhoneNo"
+                                android:layout_toRightOf="@+id/order_phone"
+                                android:text="phoneno"
+
+
+                                />
+
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
+                </RelativeLayout>
+
+
+            </android.support.v7.widget.CardView>
+
+
+        </LinearLayout>
+
+
+    </android.support.v4.widget.NestedScrollView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/ten_dip"
+
+        android:weightSum="2"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+
+
+        android:layout_height="@dimen/fourty_dip">
+
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:text="@string/cancel_order"
+            android:textColor="@color/white"
+            android:layout_margin="@dimen/two_dip"
+            android:id="@+id/cancelOrder"
+            android:background="@color/greenshad_Order"
+            android:layout_height="match_parent">
+
+        </Button>
+    </RelativeLayout>
+
+</RelativeLayout>
+
+
+
+
+

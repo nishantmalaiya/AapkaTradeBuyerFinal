@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="hint_color">#606060</color>
+    <color name="color_voilet">#FF6600</color>
+    <color name="green">#63BEAC</color>
+    <color name="green_transparent">#0063BEAC</color>
+    <color name="green_transparent2">#E6069f81</color>
+    <color name="teal">#008080</color>
+    <color name="purple">#800080</color>
+    <color name="purple_2">#8E5CD5</color>
+    <color name="cherry_red">#C24641</color>
+    <color name="red_light">#DD5563</color>
+    <color name="deep_pink">#FF1493</color>
+    <color name="turquoise">#40E0D0</color>
+    <color name="slate_gray">#708090</color>
+    <color name="sienna">#A0522D</color>
+    <color name="orange">#FF6600</color>
+    <color name="white">#FFFFFF</color>
+    <color name="screen_back">#F8EEE5</color>
+    <color name="black">#000000</color>
+    <color name="blue_gradient">#415673</color>
+    <color name="blue_gradient_dark">#FF212B39</color>
+    <color name="bg_product_title">#F2F2F2</color>
+    <color name="text_color_product_detail">#2E2E2E</color>
+    <color name="dialog_text">#4A4A4A</color>
+
+    <color name="grey">#B0B0B0</color>
+    <color name="grey_light">#EEEEEE</color>
+    <color name="grey_light2">#D2CECD</color>
+
+    <color name="grey_light3">#F8F8F8</color>
+
+    <color name="grey_gradient2">#737C7A</color>
+    <color name="grey_buy_now">#797574</color>
+    <color name="grey_quantity_spinner">#787575</color>
+    <color name="grey_2">#BDC1C0</color>
+
+    <color name="greenshad_Order">#65BEAC</color>
+    <color name="dark_purple">#6445b5</color>
+    <color name="green_light">#7dbd00</color>
+    <color name="item_details_color">#585858</color>
+    <color name="green_gradient2">#1C7B67</color>
+    <color name="transparent">#40d1cece</color>
+    <color name="filter_col1_bg">#f9f9f9</color>
+    <color name="selected_filter_col1_bg">#f9f0ea</color>
+
+    <color name="brown_light">#F1EEE4</color>
+    <color name="cardview_background">#EEEEEE</color>
+    <color name="black_overlay">#66000000</color>
+    <color name="dark_green">#52A090</color>
+    <color name="green_shad">#069f80</color>
+    <color name="list_strip">#E1E1E1</color>
+    <color name="white_shade">#E9E9E9</color>
+    <color name="text_order_tab">#066C57</color>
+
+    <color name="transparent_color">#FFFFFFFF</color>
+    <color name="red">#FA2B33</color>
+
+    <color name="dark_green_color">#3c763d</color>
+
+    <color name="open_shop_day_color1">#4ab2d6</color>
+    <color name="open_shop_day_color3">#ff6eb0</color>
+    <color name="open_shop_day_color4">#6599ff</color>
+    <color name="open_shop_day_color5">#4ecdc4</color>
+    <color name="open_shop_day_color7">#012f6a</color>
+
+    <color name="color_progress1">#88d365</color>
+    <color name="color_progress2">#ffcd42</color>
+    <color name="color_progress3">#ff6500</color>
+    <color name="color_progress4">#0088dc</color>
+    <color name="color_progress5">#909090</color>
+    <color name="color_progress_default">#e8e7e7</color>
+    <color name="shop_product_item">#7E7E7E</color>
+    <color name="grey_more_light2">#F1F5F8</color>
+    <color name="golden_text">#F0C10F</color>
+    <color name="bg_screen1">#06A282</color>
+
+    ////////////////////// gradients color slider
+
+    <color name="Welcome_screen1_gradient_TopColor">#048d71</color>
+    <color name="Welcome_screen1_gradient_BottomColor">#04e7b9</color>
+
+
+    <color name="Welcome_screen2_gradient_TopColor">#cb3d61</color>
+    <color name="Welcome_screen2_gradient_BottomColor">#ee7795</color>
+
+
+    <color name="Welcome_screen3_gradient_TopColor">#147ebf</color>
+    <color name="Welcome_screen3_gradient_BottomColor">#5dc1fe</color>
+
+
+    <color name="Welcome_screen4_gradient_TopColor">#8e25c3</color>
+    <color name="Welcome_screen4_gradient_BottomColor">#d586fd</color>
+
+
+    <color name="Welcome_screen5_gradient_TopColor">#b2470c</color>
+    <color name="Welcome_screen5_gradient_BottomColor">#ff782e</color>
+
+
+</resources>

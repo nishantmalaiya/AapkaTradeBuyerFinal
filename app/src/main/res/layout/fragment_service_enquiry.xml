@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/rl_dialog_enquiry_container"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:layout_marginBottom="@dimen/ten_dip"
+
+    >
+
+    <Button
+        android:id="@+id/imgCLose"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:paddingBottom="@dimen/five_dip"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:gravity="center_horizontal|center_vertical"
+        android:foregroundGravity="center_horizontal|center_vertical"
+        android:background="@drawable/bt_dialog_close"
+        android:textSize="@dimen/twenty_five_dip"
+        android:textStyle="bold"
+        android:text="x"
+        android:textAllCaps="false"
+        android:textColor="@color/white" />
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+
+        android:background="@drawable/bg_dialog" >
+
+        <RelativeLayout
+            android:id="@+id/dialogue_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/fifty_dip">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal|center_vertical"
+                android:textColor="@color/white"
+                android:textSize="@dimen/textsize_large"
+                android:text="@string/setvice_enquiry"/>
+
+        </RelativeLayout>
+
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="@dimen/fifty_dip"
+            android:orientation="vertical"
+            android:weightSum="15"
+            tools:context="com.aapkatrade.buyer.user_dashboard.associateagreement.AssociateAgreementDialog">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="13.5"
+                android:orientation="vertical">
+
+                <android.support.v4.widget.NestedScrollView
+                    android:layout_width="match_parent"
+                    android:background="#eeeeee"
+                    android:layout_height="match_parent">
+
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:descendantFocusability="beforeDescendants"
+                        android:focusableInTouchMode="true"
+android:layout_gravity="center_vertical"
+                        android:orientation="vertical"
+
+
+                        >
+<RelativeLayout
+    android:layout_width="wrap_content"
+    android:id="@+id/rl_imgview_enquiry"
+    android:layout_centerHorizontal="true"
+
+    android:layout_margin="@dimen/ten_dip"
+    android:background="@drawable/circle_white_transparent"
+    android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:id="@+id/imgview_enquiry_icon"
+                            android:layout_gravity="center_horizontal|center_vertical"
+                            android:layout_centerHorizontal="true"
+                            android:layout_margin="@dimen/ten_dip"
+                            android:background="@drawable/circle_green_back"
+                            android:src="@drawable/ic_svr_enquiry"  />
+</RelativeLayout>
+                        <android.support.v7.widget.CardView
+                            android:id="@+id/step1aLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/ten_dip"
+                            android:layout_marginRight="@dimen/ten_dip"
+                            app:cardBackgroundColor="@android:color/transparent"
+                            android:padding="@dimen/ten_dip"
+                            android:layout_below="@+id/rl_imgview_enquiry"
+                            android:layout_marginTop="@dimen/ten_dip"
+                            android:layout_marginBottom="@dimen/ten_dip"
+
+                            app:cardElevation="0dp"
+                            >
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                app:cardBackgroundColor="@color/transparent"
+                                android:orientation="vertical">
+
+
+
+
+
+                                <android.support.design.widget.TextInputLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="@dimen/twenty_dip"
+                                    android:layout_marginRight="@dimen/twenty_dip"
+                                    android:layout_marginTop="@dimen/ten_dip"
+                                    android:textColorHint="@color/hint_color">
+
+                                    <EditText
+                                        android:id="@+id/etFirstName"
+                                        style="@style/myedittext"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:hint="@string/fullname"
+                                        android:inputType="text"
+                                        android:paddingLeft="@dimen/ten_dip"
+                                        android:textColorHint="@color/green"
+                                        android:theme="@style/myedittext" />
+
+
+                                </android.support.design.widget.TextInputLayout>
+
+
+                                <android.support.design.widget.TextInputLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="@dimen/twenty_dip"
+                                    android:layout_marginRight="@dimen/twenty_dip"
+                                    android:layout_marginTop="@dimen/ten_dip"
+                                    android:textColorHint="@color/hint_color">
+
+                                    <EditText
+                                        android:id="@+id/et_email"
+                                        style="@style/myedittext"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:hint="@string/email"
+                                        android:inputType="textEmailAddress"
+                                        android:paddingLeft="@dimen/ten_dip"
+                                        android:textColorHint="@color/green"
+                                        android:theme="@style/myedittext" />
+
+
+                                </android.support.design.widget.TextInputLayout>
+
+
+                                <android.support.design.widget.TextInputLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="@dimen/twenty_dip"
+                                    android:layout_marginRight="@dimen/twenty_dip"
+                                    android:layout_marginTop="@dimen/ten_dip"
+                                    android:textColorHint="@color/hint_color">
+
+                                    <EditText
+                                        android:id="@+id/et_mobile"
+                                        style="@style/myedittext"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:hint="@string/mobile"
+                                        android:inputType="numberDecimal"
+                                        android:paddingLeft="@dimen/ten_dip"
+                                        android:maxLength="10"
+                                        android:textColorHint="@color/green"
+                                        android:theme="@style/myedittext" />
+
+
+                                </android.support.design.widget.TextInputLayout>
+
+                                <android.support.design.widget.TextInputLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="@dimen/twenty_dip"
+                                    android:layout_marginRight="@dimen/twenty_dip"
+                                    android:layout_marginTop="@dimen/ten_dip"
+                                    android:layout_marginBottom="@dimen/ten_dip"
+                                    android:textColorHint="@color/hint_color">
+
+                                    <EditText
+                                        android:id="@+id/et_service_enquiry"
+                                        style="@style/myedittext"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:hint="@string/customer_enquiry"
+                                        android:inputType="text"
+                                        android:paddingLeft="@dimen/ten_dip"
+                                        android:textColorHint="@color/green"
+                                        android:theme="@style/myedittext" />
+
+
+                                </android.support.design.widget.TextInputLayout>
+
+
+
+
+
+
+
+
+
+
+
+                            </LinearLayout>
+                        </android.support.v7.widget.CardView>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/ten_dip"
+                            />
+
+
+
+                    </RelativeLayout>
+
+
+                </android.support.v4.widget.NestedScrollView>
+
+
+            </LinearLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginBottom="@dimen/three_dip"
+                android:layout_marginLeft="@dimen/three_dip"
+                android:layout_marginRight="@dimen/three_dip"
+                android:layout_marginTop="@dimen/three_dip"
+                android:layout_weight="1.5"
+                android:background="@drawable/orange_background">
+
+
+                <TextView
+                    android:id="@+id/buttonSubmit"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:text="@string/submit"
+                    android:textColor="@color/white" />
+
+
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+</RelativeLayout>

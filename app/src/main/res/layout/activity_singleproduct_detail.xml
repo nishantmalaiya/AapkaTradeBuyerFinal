@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.aapkatrade.buyer.dialogs.track_order.singleproductdetail.SingleproductDetail">
+
+
+
+
+
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_margin="@dimen/five_dip"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:weightSum="4"
+            android:id="@+id/ll_ordered_status"
+            android:orientation="horizontal">
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:id="@+id/img_ic_order_status_one"
+ android:src="@drawable/ic_order_status_one"
+                    android:layout_height="wrap_content" />
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+
+                    android:layout_below="@+id/img_ic_order_status_one"
+
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+
+                        android:layout_centerHorizontal="true"
+                        android:id="@+id/tv_ordered"
+                        android:text="@string/ordered_status_one"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_below="@+id/tv_ordered"
+                        android:layout_alignLeft="@+id/tv_ordered"
+
+
+
+
+                        android:layout_height="@dimen/two_dip"/>
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_below="@+id/tv_ordered"
+                        android:layout_alignLeft="@+id/tv_ordered"
+
+                        android:layout_alignRight="@+id/tv_ordered"
+android:textColor="#cccccc"
+
+                        android:layout_height="@dimen/two_dip"/>
+
+
+
+                </RelativeLayout>
+
+
+
+
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+
+
+
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:id="@+id/img_ic_order_status_two"
+                    android:src="@drawable/ic_order_status_two"
+                    android:layout_height="wrap_content" />
+
+
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+
+                android:layout_below="@+id/img_ic_order_status_two"
+android:layout_centerHorizontal="true"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/ordered_status_two"
+                    android:id="@+id/tv_ordered_status_two"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_below="@+id/tv_ordered_status_two"
+
+
+
+
+
+                    android:layout_height="@dimen/two_dip"/>
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_below="@+id/tv_ordered_status_two"
+                    android:layout_alignLeft="@+id/tv_ordered_status_two"
+
+                    android:layout_alignRight="@+id/tv_ordered_status_two"
+                    android:textColor="#cccccc"
+
+                    android:layout_height="@dimen/two_dip"/>
+
+
+
+
+            </RelativeLayout>
+
+
+
+
+
+
+
+
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_centerHorizontal="true"
+
+                    android:id="@+id/img_ic_order_status_three"
+                    android:src="@drawable/ic_order_status_three"
+                    android:layout_height="wrap_content" />
+
+
+
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:id="@+id/tv_shpping_status"
+                    android:layout_below="@+id/img_ic_order_status_three"
+android:layout_centerHorizontal="true"
+
+                    android:text="@string/ordered_status_three"
+                    android:layout_height="wrap_content"/>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+
+                android:layout_below="@+id/img_ic_order_status_two"
+                android:layout_centerHorizontal="true"
+                android:layout_height="wrap_content">
+
+                </RelativeLayout>
+
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_centerHorizontal="true"
+
+                    android:id="@+id/img_ic_order_status_four"
+                    android:src="@drawable/ic_order_status_four"
+                    android:layout_height="wrap_content" />
+
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+android:layout_below="@+id/img_ic_order_status_four"
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/ordered_status_four"
+                    android:layout_height="wrap_content"/>
+
+
+            </RelativeLayout>
+
+
+
+
+
+        </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+android:layout_below="@+id/ll_ordered_status"
+                android:weightSum="7"
+                android:orientation="horizontal">
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_centerVertical="true"
+android:gravity="center_vertical"
+
+                        android:textColor="#cccccc"
+                        android:layout_height="@dimen/two_dip"/>
+
+
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+
+
+
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:gravity="center_vertical"
+
+                        android:textColor="#cccccc"
+                        android:layout_height="@dimen/two_dip"/>
+
+
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:gravity="center_vertical"
+
+                        android:textColor="#cccccc"
+                        android:layout_height="@dimen/two_dip"/>
+
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:gravity="center_vertical"
+
+                        android:textColor="#cccccc"
+                        android:layout_height="@dimen/two_dip"/>
+
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:gravity="center_vertical"
+                        android:text="@string/ordered_status_one"
+                        android:textColor="#cccccc"
+                        android:layout_height="@dimen/two_dip"/>
+
+
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:gravity="center_vertical"
+                        android:text="@string/ordered_status_one"
+                        android:textColor="#cccccc"
+                        android:layout_height="@dimen/two_dip"/>
+
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:gravity="center_vertical"
+                        android:text="@string/ordered_status_one"
+                        android:textColor="#cccccc"
+                        android:layout_height="@dimen/two_dip"/>
+
+
+                </RelativeLayout>
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+
+
+
+
+
+
+
+
+</RelativeLayout>

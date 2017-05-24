@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.aapkatrade.buyer">
+
+    <uses-permission android:name="com.example.pat.aapkatrade.permission.MAPS_RECEIVE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CLEAR_APP_CACHE" />
+
+    <permission
+        android:name="com.aapkatrade.buyer.permission.MAPS_RECEIVE"
+        android:protectionLevel="signature" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_app_icon"
+        android:label="@string/app_name"
+        android:screenOrientation="portrait"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <meta-data
+            android:name="asset_statements"
+            android:resource="@string/asset_statements" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_api" />
+
+        <activity
+            android:name="com.aapkatrade.buyer.MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Transparent">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.aapkatrade.buyer.login.LoginActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name="com.aapkatrade.buyer.user_dashboard.my_profile.MyProfileActivity" />
+        <activity android:name="com.aapkatrade.buyer.user_dashboard.changepassword.ChangePassword" />
+        <activity
+            android:name="com.aapkatrade.buyer.Home.HomeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name="com.aapkatrade.buyer.shopdetail.ShopDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.aapkatrade.buyer.Home.registration.RegistrationActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity android:name="com.aapkatrade.buyer.categories_tab.ParticularDataActivity.ParticularActivity" />
+        <activity android:name="com.aapkatrade.buyer.login.ActivityOTPVerify" />
+        <activity android:name="com.aapkatrade.buyer.general.ConnectivityNotFound" />
+        <activity android:name="com.aapkatrade.buyer.user_dashboard.order_list.OrderActivity" />
+        <activity android:name="com.aapkatrade.buyer.user_dashboard.order_list.order_details.OrderDetailsActivity" />
+        <activity android:name="com.aapkatrade.buyer.categories_tab.CategoriesTabActivity" />
+        <activity android:name="com.aapkatrade.buyer.login.ForgotPassword" />
+        <activity android:name="com.aapkatrade.buyer.categories_tab.ShopListByCategoryActivity" />
+        <activity android:name="com.aapkatrade.buyer.categories_tab.FilterActivity" />
+        <activity android:name="com.aapkatrade.buyer.user_dashboard.address.AddressActivity" />
+        <activity android:name="com.aapkatrade.buyer.user_dashboard.address.viewpager.CartCheckoutActivity" />
+
+        <receiver
+            android:name="com.aapkatrade.buyer.general.IncomingSms"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter android:priority="1000">
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </receiver>
+
+        <activity android:name="com.aapkatrade.buyer.user_dashboard.address.add_address.AddAddressActivity" />
+        <activity android:name="com.aapkatrade.buyer.user_dashboard.my_profile.ProfilePreviewActivity" />
+        <activity android:name="com.aapkatrade.buyer.search.Search" />
+        <activity android:name="com.aapkatrade.buyer.map.GoogleMapActivity" />
+        <activity android:name="com.aapkatrade.buyer.user_dashboard.order_list.OrderManagementActivity" />
+        <activity android:name="com.aapkatrade.buyer.ZoomImage.ZoomImageDialog" />
+        <activity android:name="com.aapkatrade.buyer.payment.PaymentActivity" />
+        <activity android:name="com.aapkatrade.buyer.rateus.RateUsActivity" />
+        <activity android:name="com.aapkatrade.buyer.shopdetail.shop_all_product.ShopAllProductActivity" />
+        <activity
+            android:name="com.aapkatrade.buyer.Home.cart.MyCartActivity"
+            android:label="@string/title_activity_my_cart" />
+
+        <service
+            android:name="com.aapkatrade.buyer.service.LocationService"
+            android:enabled="true"
+            android:exported="true" />
+
+        <activity android:name="com.aapkatrade.buyer.shopdetail.productdetail.ProductDetailActivity" />
+        <activity android:name="com.aapkatrade.buyer.dialogs.track_order.orderdetail.Order_detail" />
+        <activity android:name="com.aapkatrade.buyer.dialogs.track_order.singleproductdetail.SingleproductDetail" />
+        <activity android:name="com.aapkatrade.buyer.termandcondition.TermsAndConditionActivity" />
+        <activity android:name="com.aapkatrade.buyer.privacypolicy.PrivacyPolicyActivity" />
+        <activity
+            android:name="com.aapkatrade.buyer.payment.PaymentCompletionActivity"
+            android:label="@string/title_activity_payment_completion"
+            android:theme="@style/AppTheme" />
+        <activity android:name="com.aapkatrade.buyer.welcome.WelcomeActivity"></activity>
+    </application>
+
+</manifest>

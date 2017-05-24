@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_add_address"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/grey_more_light2"
+    android:orientation="vertical"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+
+        <include
+            layout="@layout/toolbar_layout"
+            />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_above="@+id/buttonSave"
+                >
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardElevation="4dp"
+                    android:layout_margin="@dimen/ten_dip"
+                    >
+                    <android.support.v4.widget.NestedScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginRight="@dimen/twenty_dip"
+                        android:layout_marginLeft="@dimen/twenty_dip"
+                        android:layout_marginTop="40dp"
+                        >
+
+                        <EditText
+                            android:id="@+id/etFirstName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/twenty_dip"
+                            android:layout_marginRight="@dimen/twenty_dip"
+                            android:hint="First Name"
+                            android:background="@drawable/edit_text_green_back"
+                            android:padding="@dimen/ten_dip"
+                            android:inputType="text"
+                            android:maxLines="1"
+                            android:textColorHint="@color/hint_color"
+                            android:textSize="14sp"
+                            />
+
+
+
+                        <EditText
+                            android:id="@+id/etMobileNo"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/twenty_dip"
+                            android:layout_marginRight="@dimen/twenty_dip"
+                            android:hint="Mobile No"
+                            android:background="@drawable/edit_text_green_back"
+                            android:padding="@dimen/ten_dip"
+                            android:inputType="number"
+                            android:maxLines="1"
+                            android:maxLength="10"
+                            android:textColorHint="@color/hint_color"
+                            android:textSize="14sp"
+                            android:layout_below="@+id/etFirstName"
+                            android:layout_marginTop="@dimen/twenty_dip"
+                            android:editable="false"
+                            />
+
+
+                        <EditText
+                            android:id="@+id/etPincode"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/twenty_dip"
+                            android:layout_marginRight="@dimen/twenty_dip"
+                            android:layout_marginTop="@dimen/twenty_dip"
+                            android:hint="Pincode"
+                            android:background="@drawable/edit_text_green_back"
+                            android:padding="@dimen/ten_dip"
+                            android:inputType="number"
+                            android:layout_below="@+id/etMobileNo"
+                            android:maxLines="1"
+                            android:textColorHint="@color/hint_color"
+                            android:textSize="14sp"
+                            android:maxLength="6"
+                            />
+
+
+                        <EditText
+                            android:id="@+id/etStateCategory"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/twenty_dip"
+                            android:layout_marginRight="@dimen/twenty_dip"
+                            android:layout_marginTop="@dimen/twenty_dip"
+                            android:hint="State"
+                            android:background="@drawable/edit_text_green_back"
+                            android:padding="@dimen/ten_dip"
+                            android:inputType="text"
+                            android:layout_below="@+id/etPincode"
+                            android:maxLines="1"
+                            android:textColorHint="@color/hint_color"
+                            android:textSize="14sp"
+                            />
+
+
+
+                        <EditText
+                            android:id="@+id/etCityCategory"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/twenty_dip"
+                            android:layout_marginRight="@dimen/twenty_dip"
+                            android:layout_marginTop="@dimen/twenty_dip"
+                            android:hint="City"
+                            android:background="@drawable/edit_text_green_back"
+                            android:padding="@dimen/ten_dip"
+                            android:inputType="text"
+                            android:layout_below="@+id/etStateCategory"
+                            android:maxLines="1"
+                            android:textColorHint="@color/hint_color"
+                            android:textSize="14sp"
+                            />
+
+
+
+                        <EditText
+                            android:id="@+id/etAddress"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/twenty_dip"
+                            android:layout_marginRight="@dimen/twenty_dip"
+                            android:hint="Address"
+                            android:background="@drawable/edit_text_green_back"
+                            android:padding="@dimen/ten_dip"
+                            android:inputType="text"
+                            android:layout_below="@+id/etCityCategory"
+                            android:maxLines="1"
+                            android:textColorHint="@color/hint_color"
+                            android:textSize="14sp"
+                            android:layout_marginTop="@dimen/twenty_dip"
+                            />
+                        <EditText
+                            android:id="@+id/etLandMark"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/twenty_dip"
+                            android:layout_marginRight="@dimen/twenty_dip"
+                            android:hint="landMark"
+                            android:background="@drawable/edit_text_green_back"
+                            android:padding="@dimen/ten_dip"
+                            android:inputType="text"
+                            android:layout_below="@+id/etAddress"
+                            android:maxLines="1"
+                            android:textColorHint="@color/hint_color"
+                            android:textSize="14sp"
+                            android:layout_marginTop="@dimen/twenty_dip"
+                            android:layout_marginBottom="@dimen/twenty_five_dip"
+                            />
+
+
+
+                    </RelativeLayout>
+
+                    </android.support.v4.widget.NestedScrollView>
+
+
+                </android.support.v7.widget.CardView>
+
+
+
+
+            </RelativeLayout>
+
+
+
+
+
+    </LinearLayout>
+
+
+
+    <Button
+        android:id="@+id/buttonSave"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="@dimen/twenty_dip"
+        android:text="Submit"
+        android:padding="@dimen/ten_dip"
+        android:background="@drawable/orange_back"
+        android:textColor="@color/white"
+        />
+
+
+
+
+</RelativeLayout>
+

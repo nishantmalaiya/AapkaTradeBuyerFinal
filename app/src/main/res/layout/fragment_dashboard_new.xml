@@ -1,0 +1,333 @@
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordination_home"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F1F5F8"
+    tools:context="com.aapkatrade.buyer.Home.DashboardFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/rl_searchview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/green"
+                android:focusable="false">
+
+                <include
+                    android:id="@+id/home_search"
+                    layout="@layout/search_view_dashbaord" />
+
+
+            </RelativeLayout>
+
+            <android.support.v4.widget.NestedScrollView
+                android:id="@+id/scrollView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#F1F5F8"
+                android:visibility="invisible">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="40dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+
+                        <android.support.v7.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginTop="10dp">
+
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center_horizontal"
+                                android:gravity="center_horizontal">
+
+
+                                <android.support.v4.view.ViewPager
+                                    android:id="@+id/viewpager_custom"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="150dp" />
+
+
+                                <me.relex.circleindicator.CircleIndicator
+                                    android:id="@+id/indicator_custom"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="40dp"
+                                    android:layout_alignParentBottom="true"
+                                    android:layout_centerHorizontal="true"
+
+                                    android:layout_marginBottom="100dp"
+                                    android:layout_marginLeft="16dp"
+                                    app:ci_animator="@anim/indicator_animator"
+                                    app:ci_drawable="@drawable/selecteditem_dot"
+                                    app:ci_drawable_unselected="@drawable/nonselected_item"
+                                    app:ci_height="3dp"
+                                    app:ci_margin="3dp"
+                                    app:ci_width="8dp" />
+
+                                <LinearLayout
+                                    android:id="@+id/viewpagerindicator"
+                                    android:layout_width="40dp"
+                                    android:layout_height="20dp"
+                                    android:layout_alignParentBottom="true"
+                                    android:layout_centerHorizontal="true"
+                                    android:layout_marginBottom="10dp"
+                                    android:orientation="horizontal">
+
+                                </LinearLayout>
+                            </RelativeLayout>
+                        </android.support.v7.widget.CardView>
+                    </LinearLayout>
+
+
+                    <ScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <RelativeLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="10dp">
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerVertical="true"
+                                        android:gravity="left"
+                                        android:orientation="vertical">
+
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="@string/latest_deals"
+                                            android:textColor="@color/black" />
+
+
+                                    </LinearLayout>
+
+                                    <RelativeLayout
+                                        android:id="@+id/rl_viewall_latest_post"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_alignParentRight="true"
+                                        android:layout_centerVertical="true"
+                                        android:background="@drawable/button_orange_back"
+                                        android:gravity="right"
+                                        android:padding="5dp">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="match_parent"
+                                            android:layout_alignParentLeft="true"
+                                            android:layout_alignParentStart="true"
+                                            android:layout_alignParentTop="true"
+                                            android:text="@string/viewall"
+                                            android:textAppearance="?android:attr/textAppearanceSmall"
+                                            android:textColor="@color/white"
+                                            android:textSize="10sp" />
+                                    </RelativeLayout>
+                                </RelativeLayout>
+
+                                <android.support.v7.widget.RecyclerView
+                                    android:id="@+id/recyclerlatestpost"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginRight="10dp"
+                                    android:nestedScrollingEnabled="false"
+                                    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+                                </android.support.v7.widget.RecyclerView>
+
+                            </LinearLayout>
+
+
+                            <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                xmlns:app="http://schemas.android.com/apk/res-auto"
+                                android:layout_width="match_parent"
+                                android:layout_height="60dp"
+                                android:layout_marginTop="@dimen/ten_dip">
+
+                                <ImageView
+                                    android:id="@+id/home_ads"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/fifty_dip"
+                                    android:src="@drawable/ic_home_ads2"
+                                    app:layout_heightPercent="100%"
+                                    app:layout_marginLeftPercent="0%"
+                                    app:layout_marginTopPercent="0%"
+                                    app:layout_widthPercent="100%" />
+                            </android.support.percent.PercentRelativeLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <RelativeLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginRight="10dp"
+                                    android:layout_marginTop="10dp">
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerVertical="true"
+                                        android:gravity="left"
+                                        android:orientation="vertical">
+
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginLeft="10dp"
+                                            android:text="@string/latest_update"
+                                            android:textColor="@color/black" />
+
+
+                                    </LinearLayout>
+
+                                    <RelativeLayout
+                                        android:id="@+id/rl_viewall_latest_update"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_alignParentRight="true"
+                                        android:layout_centerVertical="true"
+                                        android:background="@drawable/button_orange_back"
+                                        android:gravity="right"
+                                        android:padding="5dp">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="match_parent"
+                                            android:text="@string/viewall"
+                                            android:textAppearance="?android:attr/textAppearanceSmall"
+                                            android:textColor="@color/white"
+                                            android:textSize="10sp" />
+                                    </RelativeLayout>
+                                </RelativeLayout>
+
+                                <android.support.v7.widget.CardView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_margin="10dp">
+
+                                    <RelativeLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent">
+
+                                        <android.support.v7.widget.RecyclerView
+                                            android:id="@+id/recyclerlatestupdate"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="match_parent"
+                                            android:nestedScrollingEnabled="false"
+                                            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+
+                                        </android.support.v7.widget.RecyclerView>
+                                    </RelativeLayout>
+                                </android.support.v7.widget.CardView>
+
+                            </LinearLayout>
+                        </LinearLayout>
+                    </ScrollView>
+                </LinearLayout>
+
+            </android.support.v4.widget.NestedScrollView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/rl_retry"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+          android:gravity="center_vertical"
+            android:visibility="gone"
+            android:orientation="vertical"
+            android:minHeight="@dimen/seven_hundred_seventy_dip">
+
+            <ImageView
+                android:id="@+id/img_noconnection"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/img_no_internet" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/img_noconnection">
+
+                <TextView
+                    android:id="@+id/tv_network_notfound"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/textsize"
+                    android:gravity="center_horizontal"
+
+                    android:text="@string/nointernetconnection" />
+
+                <TextView
+                    android:id="@+id/tv_network_notfound2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_network_notfound"
+                    android:layout_marginTop="@dimen/textsize"
+                    android:gravity="center_horizontal"
+                    android:text="@string/nointernetconnection2" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/fourty_dip"
+                    android:layout_below="@+id/tv_network_notfound2"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/textsize"
+                    android:id="@+id/btn_tryagain"
+                    android:background="@color/color_voilet"
+                    android:padding="@dimen/five_dip"
+                    android:text="@string/tryagain"
+                    android:textColor="@color/white" />
+
+
+            </RelativeLayout>
+
+        </LinearLayout>
+    </RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>
