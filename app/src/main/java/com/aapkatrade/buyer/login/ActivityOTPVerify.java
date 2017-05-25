@@ -434,7 +434,15 @@ public class ActivityOTPVerify extends AppCompatActivity {
                         else if (class_name.contains("ForgotPassword"))
                         {
                             appSharedPreference.setSharedPref(SharedPreferenceConstants.USER_ID.toString(), jsonObject.get("user_id").getAsString());
-                            callwebserviceUpdateCart();
+
+                            Intent intent = new Intent(ActivityOTPVerify.this, ForgotPassword.class);
+                            intent.putExtra("forgot_index", "2");
+                            intent.putExtra("otp_id", otp_id);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(intent);
+
+
+
 
                         }
                         else if (class_name.contains("Track_order_dialog"))
@@ -523,6 +531,8 @@ public class ActivityOTPVerify extends AppCompatActivity {
             user_id = "";
         }
 
+
+
         Ion.with(context)
                 .load(loginUrl)
                 .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
@@ -545,15 +555,11 @@ public class ActivityOTPVerify extends AppCompatActivity {
                                 String message = result.get("message").getAsString();
                                 showMessage(message);
                             } else {
-                                Intent intent = new Intent(ActivityOTPVerify.this, ForgotPassword.class);
-                                intent.putExtra("forgot_index", "2");
-                                intent.putExtra("otp_id", otp_id);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                startActivity(intent);
+
                             }
                         }
 
-
+                        progressBarHandler.hide();
                     }
                 });
     }
@@ -589,7 +595,7 @@ public class ActivityOTPVerify extends AppCompatActivity {
 
                             if (error.contains("true")) {
                                 String message = result.get("message").getAsString();
-                                showMessage(message);
+                                //showMessage(message);
                             } else {
                                 Intent intent = new Intent(ActivityOTPVerify.this, HomeActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -601,6 +607,8 @@ public class ActivityOTPVerify extends AppCompatActivity {
 
                     }
                 });
+
+        progressBarHandler.hide();
     }
 
 
