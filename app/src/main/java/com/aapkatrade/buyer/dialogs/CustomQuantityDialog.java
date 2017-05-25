@@ -213,7 +213,7 @@ public class CustomQuantityDialog extends DialogFragment {
 
                                     HomeActivity.tvCartCount.setText(String.valueOf(appSharedPreference.getSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), 0)));
 
-                                    MyCartActivity.tvPriceItemsHeading.setText("Price(" + cart_count + "items)");
+                                    MyCartActivity.tvPriceItemsHeading.setText("Price (" + cart_count + " items)");
                                     MyCartActivity.tvPriceItems.setText(context.getResources().getText(R.string.Rs) + total_amount);
                                     MyCartActivity.tvAmountPayable.setText(context.getResources().getText(R.string.Rs) + total_amount);
                                     MyCartActivity.tvLastPayableAmount.setText(context.getResources().getText(R.string.Rs) + total_amount);
