@@ -104,7 +104,8 @@ public class Webservice_search_autocompleteadapter extends BaseAdapter implement
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             originalData = (ArrayList<String>) results.values;
-            notifyDataSetChanged();
+            notifyDataSetInvalidated();
+           //notifyDataSetChanged();
         }
 
     }
