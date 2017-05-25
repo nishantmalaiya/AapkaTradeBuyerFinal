@@ -20,6 +20,7 @@ import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Validation;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
+import com.aapkatrade.buyer.general.progressbar.ProgressDialogHandler;
 import com.aapkatrade.buyer.login.ActivityOTPVerify;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
@@ -33,7 +34,7 @@ public class Track_order_dialog extends DialogFragment {
     ImageView dialog_close;
     EditText tracking_id;
     Button validate_order_id;
-    ProgressBarHandler progressBarHandler;
+    ProgressDialogHandler progressBarHandler;
     TextToSpeech t1;
 
     public Track_order_dialog() {
@@ -48,7 +49,7 @@ public class Track_order_dialog extends DialogFragment {
         getDialog().getWindow().setBackgroundDrawableResource(R.drawable.rounded_dialog);
 
         initview(v);
-        progressBarHandler = new ProgressBarHandler(getActivity());
+        progressBarHandler = new ProgressDialogHandler(getActivity());
 
         dialog_close.setOnClickListener(new View.OnClickListener() {
             @Override
