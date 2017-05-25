@@ -40,13 +40,12 @@ import java.util.ArrayList;
 import it.carlom.stikkyheader.core.StikkyHeaderBuilder;
 
 
-public class ShopListByCategoryActivity extends AppCompatActivity
-{
+public class ShopListByCategoryActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
     private CategoriesListAdapter categoriesListAdapter;
     private ArrayList<CategoriesListData> shopArrayListByCategory = new ArrayList<>();
-     ProgressBarHandler progress_handler;
+    ProgressBarHandler progress_handler;
     private FrameLayout layout_container;
     private static String category_id, latitude = "0.0", longitude = "0.0";
     private AppSharedPreference appSharedPreference;
@@ -66,20 +65,15 @@ public class ShopListByCategoryActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop_list_by_category);
         appSharedPreference = new AppSharedPreference(ShopListByCategoryActivity.this);
-
         context = ShopListByCategoryActivity.this;
-
         Intent intent = getIntent();
-
         Bundle b = intent.getExtras();
-
-      if (b != null) {
+        if (b != null) {
             latitude = b.getString("latitude");
             longitude = b.getString("longitude");
             category_id = b.getString("category_id");
-            AndroidUtils.showErrorLog(context, "_______________latitude"+latitude+"longitude"+longitude+"category_id"+category_id);
+            AndroidUtils.showErrorLog(context, "_______________latitude" + latitude + "longitude" + longitude + "category_id" + category_id);
         }
-
         setUpToolBar();
         initView();
         linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
@@ -87,19 +81,13 @@ public class ShopListByCategoryActivity extends AppCompatActivity
         mRecyclerView.setHasFixedSize(true);
         StikkyHeaderBuilder.stickTo(mRecyclerView).setHeader(R.id.header_simple, view).minHeightHeaderDim(R.dimen.min_header_height).build();
         getShopListData("0");
-
-
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-
                 int totalItemCount = linearLayoutManager.getItemCount();
-
                 int firstVisibleItem = linearLayoutManager.findFirstVisibleItemPosition();
-
                 int lastVisibleItemCount = linearLayoutManager.findLastVisibleItemPosition();
-
                 if (totalItemCount > 0) {
                     if ((totalItemCount - 1) == lastVisibleItemCount) {
                         page = page + 1;
@@ -127,8 +115,7 @@ public class ShopListByCategoryActivity extends AppCompatActivity
         Log.e(AndroidUtils.getTag(context), "called categorylist webservice for category_id : " + category_id + "**" + latitude + "*****" + longitude);
 
 
-        if (!(FilterDialog.filterString != null && FilterDialog.filterString.length() > 0))
-        {
+        if (!(FilterDialog.filterString != null && FilterDialog.filterString.length() > 0)) {
             progress_handler.show();
 
             AndroidUtils.showErrorLog(context, "shoplist by NOOOOOOOOOOOOOOO filter" + getResources().getString(R.string.webservice_base_url) + "/shoplist");
@@ -245,7 +232,7 @@ public class ShopListByCategoryActivity extends AppCompatActivity
                         @Override
                         public void onCompleted(Exception e, JsonObject result) {
 
-                            
+
                             if (result == null) {
                                 layout_container.setVisibility(View.INVISIBLE);
                                 progress_handler.hide();
@@ -310,8 +297,6 @@ public class ShopListByCategoryActivity extends AppCompatActivity
     }
 
 
-
-
     private void getShopListData_scroll(final String pageNumber) {
         State state = new State("-1", "Select State", "0");
         productAvailableStateList.add(state);
@@ -320,8 +305,7 @@ public class ShopListByCategoryActivity extends AppCompatActivity
         Log.e(AndroidUtils.getTag(context), "called categorylist webservice for category_id : " + category_id + "**" + latitude + "*****" + longitude);
 
 
-        if (!(FilterDialog.filterString != null && FilterDialog.filterString.length() > 0))
-        {
+        if (!(FilterDialog.filterString != null && FilterDialog.filterString.length() > 0)) {
             //progress_handler.show();
 
             AndroidUtils.showErrorLog(context, "shoplist by NOOOOOOOOOOOOOOO filter" + getResources().getString(R.string.webservice_base_url) + "/shoplist");
@@ -405,7 +389,7 @@ public class ShopListByCategoryActivity extends AppCompatActivity
 
             AndroidUtils.showErrorLog(context, "shoplist by filter --> " + FilterDialog.filterString);
 
-           // progress_handler.show();
+            // progress_handler.show();
             Ion.with(ShopListByCategoryActivity.this)
                     .load(getResources().getString(R.string.webservice_base_url) + "/shoplist")
 
@@ -559,8 +543,7 @@ public class ShopListByCategoryActivity extends AppCompatActivity
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
+    public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.user, menu);
 
         final MenuItem alertMenuItem = menu.findItem(R.id.cart_total_item);
@@ -587,12 +570,9 @@ public class ShopListByCategoryActivity extends AppCompatActivity
         switch (id) {
             case R.id.cart_total_item:
 
-                if(appSharedPreference.getSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), 0)==0)
-                {
-                    Toast.makeText(getApplicationContext(),"My Cart have no items please add items in cart",Toast.LENGTH_SHORT).show();
-                }
-                else
-                {
+                if (appSharedPreference.getSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), 0) == 0) {
+                    Toast.makeText(getApplicationContext(), "My Cart have no items please add items in cart", Toast.LENGTH_SHORT).show();
+                } else {
                     Intent intent = new Intent(ShopListByCategoryActivity.this, MyCartActivity.class);
                     startActivity(intent);
                 }

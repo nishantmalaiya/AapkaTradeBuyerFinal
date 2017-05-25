@@ -1,5 +1,6 @@
 package com.aapkatrade.buyer.dialogs;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
@@ -25,6 +26,7 @@ import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
+@SuppressLint("ValidFragment")
 public class ServiceEnquiry extends DialogFragment {
 
 

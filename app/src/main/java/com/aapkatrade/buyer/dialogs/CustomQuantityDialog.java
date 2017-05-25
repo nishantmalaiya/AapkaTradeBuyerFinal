@@ -1,5 +1,6 @@
 package com.aapkatrade.buyer.dialogs;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -22,11 +23,12 @@ import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.interfaces.CommonInterface;
-import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
+import com.aapkatrade.buyer.general.progressbar.ProgressDialogHandler;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
+@SuppressLint("ValidFragment")
 public class CustomQuantityDialog extends DialogFragment {
 
     EditText etManualQuantity;
@@ -35,9 +37,9 @@ public class CustomQuantityDialog extends DialogFragment {
     Context context;
     int pos;
     String price;
-    ProgressBarHandler progressBarHandler;
+    ProgressDialogHandler progressDialogHandler;
 
-    AppSharedPreference app_sharedpreference;
+    AppSharedPreference appSharedPreference;
 
 
     public CustomQuantityDialog(Context context) {
@@ -78,8 +80,8 @@ public class CustomQuantityDialog extends DialogFragment {
                 } else {
                     if (Integer.parseInt(etManualQuantity.getText().toString().trim()) > 0) {
 
-                        progressBarHandler = new ProgressBarHandler(context);
-                        app_sharedpreference = new AppSharedPreference(context);
+                        progressDialogHandler = new ProgressDialogHandler(context);
+                        appSharedPreference = new AppSharedPreference(context);
 
                         callwebservice__update_cart(CartAdapter.itemList.get(pos).id, 1, etManualQuantity.getText().toString(), CartAdapter.itemList.get(pos).product_id);
 
@@ -152,11 +154,11 @@ public class CustomQuantityDialog extends DialogFragment {
 
     public void callwebservice__update_cart(String cart_id, final int position, String cart_quantity, String cart_product_id) {
 
-        progressBarHandler.show();
+        progressDialogHandler.show();
 
         String cart_url = context.getResources().getString(R.string.webservice_base_url) + "/cart_update";
 
-        String cart_user_id = app_sharedpreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), "notlogin");
+        String cart_user_id = appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), "notlogin");
         if (cart_user_id.equals("notlogin")) {
             cart_user_id = "";
         }
@@ -186,18 +188,18 @@ public class CustomQuantityDialog extends DialogFragment {
                                 String message = result.get("message").getAsString();
 
                                 if (message.equals("Product quantity exceeded")) {
-                                    progressBarHandler.hide();
+                                    progressDialogHandler.hide();
                                     Toast.makeText(context, " Product quantity exceeded", Toast.LENGTH_SHORT).show();
 
                                 } else if (message.equals("Failed to update cart")) {
 
-                                    progressBarHandler.hide();
+                                    progressDialogHandler.hide();
                                     Toast.makeText(context, "Failed to update cart", Toast.LENGTH_SHORT).show();
 
 
                                 } else if (message.equals("Invalid Device ID!")) {
 
-                                    progressBarHandler.hide();
+                                    progressDialogHandler.hide();
                                     Toast.makeText(context, "Invalid Device ID!", Toast.LENGTH_SHORT).show();
 
 
@@ -207,9 +209,9 @@ public class CustomQuantityDialog extends DialogFragment {
                                     String total_amount = jsonresult.get("total_amount").getAsString();
                                     String cart_count = jsonresult.get("total_qty").getAsString();
 
-                                    app_sharedpreference.setSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), Integer.valueOf(cart_count));
+                                    appSharedPreference.setSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), Integer.valueOf(cart_count));
 
-                                    HomeActivity.tvCartCount.setText(String.valueOf(app_sharedpreference.getSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), 0)));
+                                    HomeActivity.tvCartCount.setText(String.valueOf(appSharedPreference.getSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), 0)));
 
                                     MyCartActivity.tvPriceItemsHeading.setText("Price(" + cart_count + "items)");
                                     MyCartActivity.tvPriceItems.setText(context.getResources().getText(R.string.Rs) + total_amount);
@@ -225,18 +227,18 @@ public class CustomQuantityDialog extends DialogFragment {
                                     commonInterface.getData(Integer.parseInt(etManualQuantity.getText().toString().trim()));
 
                                     //notifyDataSetChanged();
-                                    progressBarHandler.hide();
+                                    progressDialogHandler.hide();
 
                                 }
 
                             } else {
-                                progressBarHandler.hide();
+                                progressDialogHandler.hide();
                                 Toast.makeText(context, "Server is not responding please try ", Toast.LENGTH_SHORT).show();
 
 
                             }
                         } else {
-                            progressBarHandler.hide();
+                            progressDialogHandler.hide();
                             Toast.makeText(context, "Server is not responding please try ", Toast.LENGTH_SHORT).show();
 
 
