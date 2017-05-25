@@ -20,6 +20,7 @@ import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -32,6 +33,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.aapkatrade.buyer.general.Validation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.aapkatrade.buyer.Home.aboutus.AboutUsFragment;
@@ -51,6 +53,7 @@ import com.aapkatrade.buyer.location.Mylocation;
 import com.aapkatrade.buyer.login.LoginActivity;
 import com.aapkatrade.buyer.user_dashboard.UserDashboardFragment;
 import com.aapkatrade.buyer.user_dashboard.my_profile.ProfilePreviewActivity;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -193,28 +196,6 @@ public class HomeActivity extends AppCompatActivity {
         ImageView home_link = (ImageView) toolbar.findViewById(R.id.iconHome);
         AndroidUtils.setImageColor(home_link, context, R.color.white);
         home_link.setVisibility(View.GONE);
-
-
-       /* RelativeLayout cartContainer = (RelativeLayout) toolbar.findViewById(R.id.cart_container);
-        TextView textView = (TextView) toolbar.findViewById(R.id.tvCart);
-
-        if(Integer.parseInt(textView.getText().toString())>0)
-        {
-            cartContainer.setVisibility(View.VISIBLE);
-        }
-
-        cartContainer.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-
-                Intent intent = new Intent(HomeActivity.this, MyCartActivity.class);
-                startActivity(intent);
-            }
-        });*/
-
-
     }
 
     private void replaceFragment(Fragment newFragment, String tag) {
@@ -644,6 +625,14 @@ public class HomeActivity extends AppCompatActivity {
             home_activity = 2;
         } else {
             tvCartCount.setText(String.valueOf(appSharedPreference.getSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), 0)));
+        }
+
+        if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString(), "notlogin") != null) {
+            if(NavigationFragment.profilePic!=null && Validation.isNonEmptyStr(appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_PIC.toString(), ""))) {
+                Picasso.with(context).load(appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_PIC.toString(), ""))
+                        .error(R.drawable.ic_profile_user)
+                        .into(NavigationFragment.profilePic);
+            }
         }
     }
 

@@ -176,7 +176,7 @@ public class LoginActivity extends AppCompatActivity {
                             }
                             else {
 
-                                showMessage(getResources().getString(R.string.welcomebuyer));
+                                showMessage(getResources().getString(R.string.welcome_buyer));
                                 Log.e("webservice_returndata", result.toString());
 
                                 saveDataInSharedPreference(result);

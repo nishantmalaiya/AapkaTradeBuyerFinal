@@ -72,7 +72,7 @@ public class NavigationFragment extends Fragment {
     private RecyclerView navigationRecycleview;
     private LinearLayoutManager navigationLinearLayoutManager;
     private ImageView navigationClose;
-    private CircleImageView profilePic;
+    public static CircleImageView profilePic;
 
     public NavigationFragment() {
     }

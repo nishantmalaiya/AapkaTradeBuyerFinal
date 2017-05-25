@@ -54,7 +54,6 @@ public class ProfilePreviewActivity extends AppCompatActivity {
         linearLayoutResetpassword = (LinearLayout) findViewById(R.id.linearLayoutResetpassword);
 
 
-
         btnEdit.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -90,7 +89,6 @@ public class ProfilePreviewActivity extends AppCompatActivity {
         });
 
 
-
         textViewName = (TextView) findViewById(R.id.textViewName);
 
         tvMobile = (TextView) findViewById(R.id.tvMobile);
@@ -102,7 +100,6 @@ public class ProfilePreviewActivity extends AppCompatActivity {
             String Username = appSharedPreference.getSharedPref(SharedPreferenceConstants.FIRST_NAME.toString(), "not");
             String Emailid = appSharedPreference.getSharedPref(SharedPreferenceConstants.EMAIL_ID.toString(), "not");
 
-            String userType = appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), "0");
             String user_image = appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_PIC.toString(), "");
 
             Log.e("user_image", user_image);
@@ -110,18 +107,16 @@ public class ProfilePreviewActivity extends AppCompatActivity {
             textViewName.setText(Username);
             tvEmail.setText(Emailid);
 
-            if (userType.equals("2")) {
                 Log.e("user_image2", user_image);
+                tvUserType.setText(getString(R.string.welcome_buyer));
+            AndroidUtils.showErrorLog(context, "Image URL onCreate" , appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_PIC.toString(), ""));
 
-//                Picasso.with(context).load(user_image)
-//
-//                        .error(R.drawable.ic_profile_user)
-//                        .into(userimage);
-                tvUserType.setText("Welcome Buyer");
-
-
+            Picasso.with(context).load(appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_PIC.toString(), ""))
+                    .error(R.drawable.ic_profile_user)
+                    .into(userimage);
             }
-        }
+
+
 
     }
 
@@ -181,66 +176,22 @@ public class ProfilePreviewActivity extends AppCompatActivity {
 
     }
 
-
+/*
     @Override
     protected void onRestart() {
         super.onRestart();
 
+        AndroidUtils.showErrorLog(context, "Image URL onRestart" , appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_PIC.toString(), ""));
+
         if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString(), "notlogin") != null) {
-            String Username = appSharedPreference.getSharedPref(SharedPreferenceConstants.FIRST_NAME.toString(), "not");
-            String Emailid = appSharedPreference.getSharedPref(SharedPreferenceConstants.EMAIL_ID.toString(), "not");
-
-            String userType = appSharedPreference.getSharedPref(SharedPreferenceConstants.EMAIL_ID.toString(), "0");
-            String user_image = appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_PIC.toString(), "");
-
-
-            textViewName.setText(Username);
-            tvEmail.setText(Emailid);
-
-            if (userType.equals("1")) {
-                Picasso.with(context).load(user_image)
-
-                        .error(R.drawable.ic_profile_user)
-                        .into(userimage);
-
-
-//                Ion.with(userimage)
-//                        .error(ContextCompat.getDrawable(this, R.drawable.ic_profile_user))
-//                        .placeholder(ContextCompat.getDrawable(this, R.drawable.ic_profile_user))
-//                        .load(user_image);
-
-
-                tvUserType.setText("Welcome Seller");
-
-            } else if (userType.equals("2")) {
-                Picasso.with(context).load(user_image)
-
-                        .error(R.drawable.ic_profile_user)
-                        .into(userimage);
-
-
-//                Ion.with(userimage)
-//                        .error(ContextCompat.getDrawable(this, R.drawable.ic_profile_user))
-//                        .placeholder(ContextCompat.getDrawable(this, R.drawable.ic_profile_user))
-//                        .load(user_image);
-                tvUserType.setText("Welcome Buyer");
-
-            } else if (userType.equals("3")) {
-                Picasso.with(context).load(user_image)
-
-                        .error(R.drawable.ic_profile_user)
-                        .into(userimage);
-
-
-//                Ion.with(userimage)
-//                        .error(ContextCompat.getDrawable(this, R.drawable.ic_profile_user))
-//                        .placeholder(ContextCompat.getDrawable(this, R.drawable.ic_profile_user))
-//                        .load(user_image);
-                tvUserType.setText("Welcome Bussiness Associate");
-
-            }
+            textViewName.setText(appSharedPreference.getSharedPref(SharedPreferenceConstants.FIRST_NAME.toString(), "not"));
+            tvEmail.setText(appSharedPreference.getSharedPref(SharedPreferenceConstants.EMAIL_ID.toString(), "not"));
+            Picasso.with(context).load(appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_PIC.toString(), ""))
+                    .error(R.drawable.ic_profile_user)
+                    .into(userimage);
+            tvUserType.setText(getString(R.string.wecome_buyer));
         }
-    }
+    }*/
 }
 
 
