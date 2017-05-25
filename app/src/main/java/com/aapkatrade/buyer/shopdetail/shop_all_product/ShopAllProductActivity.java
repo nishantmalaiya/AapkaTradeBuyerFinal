@@ -200,6 +200,7 @@ public class ShopAllProductActivity extends AppCompatActivity {
                                 for (int i = 0; i < jsonProductList.size(); i++) {
                                     JsonObject jsonproduct = (JsonObject) jsonProductList.get(i);
                                     String productId = jsonproduct.get("id").getAsString();
+
                                     String productName = jsonproduct.get("name").getAsString();
                                     String productShortDescription = jsonproduct.get("short_des").getAsString();
                                     String price = jsonproduct.get("price").getAsString();

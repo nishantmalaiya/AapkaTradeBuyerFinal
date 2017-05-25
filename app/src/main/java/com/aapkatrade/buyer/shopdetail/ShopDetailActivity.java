@@ -225,6 +225,7 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
                                 for (int i = 0; i < jsonProductList.size(); i++) {
                                     JsonObject jsonproduct = (JsonObject) jsonProductList.get(i);
                                     String product_id = jsonproduct.get("id").getAsString();
+                                    AndroidUtils.showErrorLog(context, "___________PRODUCT ID---22--------->"+product_id);
                                     String product_name = jsonproduct.get("name").getAsString();
                                     String productShortDescription = jsonproduct.get("short_des").getAsString();
                                     String price = jsonproduct.get("price").getAsString();

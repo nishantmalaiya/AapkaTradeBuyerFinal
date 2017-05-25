@@ -11,7 +11,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.aapkatrade.buyer.R;
+import com.aapkatrade.buyer.general.AppConfig;
 import com.aapkatrade.buyer.general.AppSharedPreference;
+import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
 import com.aapkatrade.buyer.shopdetail.productdetail.ProductDetailActivity;
@@ -68,6 +70,7 @@ public class ShopAllProductAdapter extends RecyclerView.Adapter<ShopAllProductHo
     {
 
         homeHolder = holder;
+        AndroidUtils.showErrorLog(context, "___________PRODUCT ID---3--------->"+itemList.get(position).productId);
 
         holder.tvProductName.setText(itemList.get(position).productName);
         holder.tvProductPrice.setText(context.getResources().getText(R.string.Rs)+itemList.get(position).productPrice);
@@ -161,6 +164,7 @@ public class ShopAllProductAdapter extends RecyclerView.Adapter<ShopAllProductHo
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, ProductDetailActivity.class);
+                AndroidUtils.showErrorLog(context, "___________PRODUCT ID------------>"+itemList.get(position).productId);
                 intent.putExtra("productId", itemList.get(position).productId);
                 context.startActivity(intent);
             }
@@ -182,7 +186,7 @@ public class ShopAllProductAdapter extends RecyclerView.Adapter<ShopAllProductHo
 
         String login_url = context.getResources().getString(R.string.webservice_base_url) + "/add_cart";
 
-        String android_id = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+        String android_id = AppConfig.getCurrentDeviceId(context);
 
         System.out.println("devece_id------------"+android_id);
 
