@@ -23,10 +23,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.aapkatrade.buyer.Home.HomeActivity;
+import com.aapkatrade.buyer.Home.cart.MyCartActivity;
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.dialogs.CustomQuantityDialog;
+import com.aapkatrade.buyer.general.AppConfig;
 import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
@@ -38,6 +41,7 @@ import com.aapkatrade.buyer.rateus.RateUsActivity;
 import com.aapkatrade.buyer.shopdetail.ShopViewPagerAdapter;
 import com.aapkatrade.buyer.shopdetail.reviewlist.ReviewListAdapter;
 import com.aapkatrade.buyer.shopdetail.reviewlist.ReviewListData;
+import com.aapkatrade.buyer.shopdetail.shop_all_product.ShopAllProductActivity;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -55,12 +59,13 @@ import me.relex.circleindicator.CircleIndicator;
 
 public class ProductDetailActivity extends AppCompatActivity
 {
+    private int productDetailActivity = 1;
     private Context context;
     private ProgressBarHandler progressBarHandler;
     private ViewPager viewPager;
     private String productId = "0", quantity = "1";
     private EditText editTextPostalCode, etManualQuantity;
-    private TextView tvProductName, tvProductPrice, tvDiscountValue, tvUnitValue, tvAmountPaidValue, tvDescriptionValue, tvPinCodeCheck, tvToatalRatingAndReview, tvRatingAverage, tvQuantity;
+    private TextView tvProductName, tvProductPrice, tvDiscountValue, tvUnitValue, tvAmountPaidValue, tvDescriptionValue, tvPinCodeCheck, tvToatalRatingAndReview, tvRatingAverage, tvQuantity, buyNow, addToCart;
     private TextView okButton;
     private TextView cancelButton;
     private LinearLayout viewPagerIndicator;
@@ -80,6 +85,7 @@ public class ProductDetailActivity extends AppCompatActivity
     private LinearLayout dropDownContainer;
     private DroppyMenuPopup droppyMenu;
     private String singleUnitPrice = "0";
+    public static TextView tvCartCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +101,7 @@ public class ProductDetailActivity extends AppCompatActivity
         initView();
         AndroidUtils.showErrorLog(context, "___________PRODUCT ID------------>"+productId);
         getProductDetailData(productId);
+
 
         relativeRateReview.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -160,6 +167,27 @@ public class ProductDetailActivity extends AppCompatActivity
         });
 
         droppyMenu = droppyBuilder.build();
+
+        buyNow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+
+                callwebservice__add_tocart_buy(productId,"",tvProductName.getText().toString(),singleUnitPrice,tvQuantity.getText().toString());
+
+            }
+        });
+
+        addToCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+
+                callwebservice__add_tocart(productId,"",tvProductName.getText().toString(),singleUnitPrice,tvQuantity.getText().toString());
+
+
+            }
+        });
     }
 
     private void initView() {
@@ -183,6 +211,8 @@ public class ProductDetailActivity extends AppCompatActivity
 
         mLayoutManager = new LinearLayoutManager(context);
         reviewRecyclerView.setLayoutManager(mLayoutManager);
+        buyNow = (TextView) findViewById(R.id.buyNow);
+        addToCart = (TextView) findViewById(R.id.addToCart);
 
         relativeRateReview = (RelativeLayout) findViewById(R.id.relativeRateReview);
         dropDownContainer = (LinearLayout) findViewById(R.id.dropDownContainer);
@@ -196,7 +226,6 @@ public class ProductDetailActivity extends AppCompatActivity
                 return null;
             }
         };
-        setPaidAmount("1");
 
         CustomQuantityDialog.commonInterface = new CommonInterface() {
             @Override
@@ -215,7 +244,7 @@ public class ProductDetailActivity extends AppCompatActivity
     private void setPaidAmount(String qty){
         if(Validation.isNumber(qty) && Validation.isNumber(singleUnitPrice)) {
             String tvAmountPaid = String.valueOf(Integer.parseInt(qty) * Integer.parseInt(singleUnitPrice));
-            tvAmountPaidValue.setText(tvAmountPaid);
+            tvAmountPaidValue.setText((new StringBuilder(getString(R.string.rupay_text)).append(" ").append(tvAmountPaid)).toString());
         }
     }
 
@@ -273,6 +302,9 @@ public class ProductDetailActivity extends AppCompatActivity
                                     }
                                     reviewListAdapter = new ReviewListAdapter(context, reviewListDatas);
                                     reviewRecyclerView.setAdapter(reviewListAdapter);
+
+
+
                                 }
                             } else {
                                 AndroidUtils.showErrorLog(context, " getProductDetailData webservice error is true.");
@@ -300,6 +332,7 @@ public class ProductDetailActivity extends AppCompatActivity
         tvDiscountValue.setText(resultJsonObject.get("discount").getAsString());
         tvUnitValue.setText(resultJsonObject.get("unit_name").getAsString());
         tvDescriptionValue.setText(resultJsonObject.get("short_des").getAsString());
+        setPaidAmount("1");
     }
 
 
@@ -366,83 +399,9 @@ public class ProductDetailActivity extends AppCompatActivity
 
 
     public void showPopup() {
-
         CustomQuantityDialog customQuantityDialog = new CustomQuantityDialog(context);
         FragmentManager fm = getSupportFragmentManager();
         customQuantityDialog.show(fm, "Quantity");
-
-
-
-        /*final MaterialDialog dialog = new MaterialDialog.Builder(context)
-                .customView(R.layout.layout_more_quantity, true).backgroundColor(ContextCompat.getColor(context,R.color.transparent))
-                .show();
-
-//                .onPositive(new MaterialDialog.SingleButtonCallback() {
-//                    @Override
-//                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-//                        if (Integer.valueOf(etManualQuantity.getText().toString()) > 0) {
-//                            quantity = etManualQuantity.getText().toString();
-//                            tvQuantity.setText(quantity);
-//                        } else {
-//                            etManualQuantity.setError("Please Select Valid Quantity.");
-//                        }
-//                        dialog.dismiss();
-//                    }
-//                })
-
-
-        etManualQuantity = (EditText) dialog.findViewById(R.id.editText);
-        okButton = (TextView) dialog.findViewById(R.id.okDialog);
-        cancelButton = (TextView) dialog.findViewById(R.id.cancelDialog);
-        disableButton(okButton);
-        disableButton(cancelButton);
-        okButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(okButton.isEnabled()){
-                    if(Integer.parseInt(etManualQuantity.getText().toString()) > 0){
-                        enableButton(okButton);
-
-                    }
-                } else {
-                    enableButton(okButton);
-                }
-                AndroidUtils.showErrorLog(context, "ok button");
-                dialog.hide();
-            }
-        });
-
-        cancelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                enableButton(cancelButton);
-                AndroidUtils.showErrorLog(context, "cancel button");
-                dialog.hide();
-            }
-        });
-
-        etManualQuantity.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void afterTextChanged(Editable s) {
-                // TODO Auto-generated method stub
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                // TODO Auto-generated method stub
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(Integer.parseInt(s.toString()) == 0){
-                    etManualQuantity.setError("Please Enter Valid Quantity");
-                } else {
-                    tvQuantity.setText(s);
-//                    dialog.dismiss();
-                }
-            }
-        });
-*/
     }
 
     private void enableButton(TextView textView) {
@@ -484,22 +443,276 @@ public class ProductDetailActivity extends AppCompatActivity
     }
 
 
+
+
+    private void setuptoolbar() {
+        ImageView homeIcon = (ImageView) findViewById(R.id.iconHome);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        AndroidUtils.setImageColor(homeIcon, context, R.color.white);
+        homeIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, HomeActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }
+        });
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle(null);
+            getSupportActionBar().setElevation(0);
+        }
+    }
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_map, menu);
+
+        getMenuInflater().inflate(R.menu.home_menu, menu);
+
+        final MenuItem alertMenuItem = menu.findItem(R.id.cart_total_item);
+
+        final MenuItem login = menu.findItem(R.id.login);
+
+        login.setVisible(false);
+
+        RelativeLayout badgeLayout = (RelativeLayout) alertMenuItem.getActionView();
+
+        tvCartCount = (TextView) badgeLayout.findViewById(R.id.tvCartCount);
+
+        tvCartCount.setText(String.valueOf(appSharedPreference.getSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), 0)));
+
+        badgeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                // Toast.makeText(getApplicationContext(), "Hi", Toast.LENGTH_SHORT).show();
+                onOptionsItemSelected(alertMenuItem);
+            }
+        });
+
+
         return true;
+
+
     }
+
+
+
+    private void callwebservice__add_tocart(String product_id, String device_id, String product_name,String price, String qty)
+    {
+        progressBarHandler.show();
+        System.out.println("price-----------------------"+price);
+
+        String login_url = context.getResources().getString(R.string.webservice_base_url) + "/add_cart";
+
+        String android_id = AppConfig.getCurrentDeviceId(context);
+
+        System.out.println("devece_id------------"+android_id);
+
+        String user_id = appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), "notlogin");
+        if (user_id.equals("notlogin"))
+        {
+            user_id="";
+        }
+
+        Ion.with(context)
+                .load(login_url)
+                .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                .setBodyParameter("user_id", user_id)
+                .setBodyParameter("product_id", product_id)
+                .setBodyParameter("device_id", android_id)
+                .setBodyParameter("name",product_name)
+                .setBodyParameter("price",price)
+                .setBodyParameter("quantity",qty)
+                .asJsonObject()
+                .setCallback(new FutureCallback<JsonObject>()
+                {
+                    @Override
+                    public void onCompleted(Exception e, JsonObject result)
+                    {
+
+                        if (result!=null)
+                        {
+                            System.out.println("result--------------" + result);
+                            String message = result.get("message").getAsString();
+                            JsonObject jsonObject = result.getAsJsonObject("result");
+
+                            if (message.equals("This Item Already Exist....."))
+                            {
+                                progressBarHandler.hide();
+                                Toast.makeText(context, "This Item Already Exist in Cart", Toast.LENGTH_SHORT).show();
+
+                            }
+                            else if (message.equals("Product Quantity exceeded")){
+
+                                progressBarHandler.hide();
+                                Toast.makeText(context, "Product is not Available in Stock", Toast.LENGTH_SHORT).show();
+
+                            }
+                            else
+                            {
+
+                                Toast.makeText(context, "Product Successfully Added on Cart", Toast.LENGTH_SHORT).show();
+                                String cart_count = jsonObject.get("total_qty").getAsString();
+                                appSharedPreference.setSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), Integer.valueOf(cart_count));
+
+                                //int j = appSharedPreference.getSharedPrefInt("cart_count",0);
+                                ProductDetailActivity.tvCartCount.setText(String.valueOf(appSharedPreference.getSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), 0)));
+                                progressBarHandler.hide();
+
+
+
+                            }
+
+
+                        }
+                        else
+                        {
+
+                            progressBarHandler.hide();
+                            Toast.makeText(context,"Server is not responding please try again",Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                });
+
+    }
+
+
+
+    private void callwebservice__add_tocart_buy(String product_id, String device_id, String product_name,String price, String qty)
+    {
+        progressBarHandler.show();
+        System.out.println("price-----------------------"+price);
+
+        String login_url = context.getResources().getString(R.string.webservice_base_url) + "/add_cart";
+
+        String android_id = AppConfig.getCurrentDeviceId(context);
+
+        System.out.println("devece_id------------"+android_id);
+
+        String user_id = appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), "notlogin");
+        if (user_id.equals("notlogin"))
+        {
+            user_id="";
+        }
+
+        Ion.with(context)
+                .load(login_url)
+                .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                .setBodyParameter("user_id", user_id)
+                .setBodyParameter("product_id", product_id)
+                .setBodyParameter("device_id", android_id)
+                .setBodyParameter("name",product_name)
+                .setBodyParameter("price",price)
+                .setBodyParameter("quantity",qty)
+                .asJsonObject()
+                .setCallback(new FutureCallback<JsonObject>()
+                {
+                    @Override
+                    public void onCompleted(Exception e, JsonObject result)
+                    {
+
+                        if (result!=null)
+                        {
+                            System.out.println("result--------------" + result);
+                            String message = result.get("message").getAsString();
+                            JsonObject jsonObject = result.getAsJsonObject("result");
+
+                            if (message.equals("This Item Already Exist....."))
+                            {
+                                progressBarHandler.hide();
+                                Toast.makeText(context, "This Item Already Exist in Cart", Toast.LENGTH_SHORT).show();
+
+                            }
+                            else if (message.equals("Product Quantity exceeded")){
+
+                                progressBarHandler.hide();
+                                Toast.makeText(context, "Product is not Available in Stock", Toast.LENGTH_SHORT).show();
+
+                            }
+                            else
+                            {
+
+                                Toast.makeText(context, "Product Successfully Added on Cart", Toast.LENGTH_SHORT).show();
+                                String cart_count = jsonObject.get("total_qty").getAsString();
+                                appSharedPreference.setSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), Integer.valueOf(cart_count));
+
+                                //int j = appSharedPreference.getSharedPrefInt("cart_count",0);
+                                ProductDetailActivity.tvCartCount.setText(String.valueOf(appSharedPreference.getSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), 0)));
+
+
+                                Intent intent = new Intent(context, MyCartActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intent);
+
+                                progressBarHandler.hide();
+
+
+
+                            }
+
+
+                        }
+                        else
+                        {
+
+                            progressBarHandler.hide();
+                            Toast.makeText(context,"Server is not responding please try again",Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                });
+
+    }
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.cart_total_item:
+
+
+                if(appSharedPreference.getSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), 0)==0)
+                {
+                    Toast.makeText(getApplicationContext(),"My Cart have no items please add items in cart",Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    Intent intent = new Intent(ProductDetailActivity.this, MyCartActivity.class);
+                    startActivity(intent);
+                }
+
+                break;
             case android.R.id.home:
                 finish();
                 break;
             default:
                 return super.onOptionsItemSelected(item);
+
         }
         return super.onOptionsItemSelected(item);
+    }
+
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (productDetailActivity == 1) {
+            productDetailActivity = 2;
+        } else {
+            tvCartCount.setText(String.valueOf(appSharedPreference.getSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), 0)));
+        }
+
     }
 
 
