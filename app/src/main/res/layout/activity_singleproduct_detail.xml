@@ -183,7 +183,6 @@ android:layout_centerHorizontal="true"
             <RelativeLayout
                 android:layout_width="wrap_content"
 
-                android:layout_below="@+id/img_ic_order_status_two"
                 android:layout_centerHorizontal="true"
                 android:layout_height="wrap_content">
 

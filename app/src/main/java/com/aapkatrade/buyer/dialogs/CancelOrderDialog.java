@@ -1,5 +1,6 @@
 package com.aapkatrade.buyer.dialogs;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
@@ -27,6 +28,7 @@ import java.util.ArrayList;
  * Created by PPC17 on 16-May-17.
  */
 
+@SuppressLint("ValidFragment")
 public class CancelOrderDialog extends DialogFragment {
     ImageView dialog_close;
     Spinner spinnerCancelReason;

@@ -24,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.aapkatrade.buyer.Home.banner_home.viewpageradapter_home;
 import com.aapkatrade.buyer.R;
@@ -36,10 +37,11 @@ import com.aapkatrade.buyer.general.LocationManagerCheck;
 import com.aapkatrade.buyer.general.Tabletsize;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
-import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
+import com.aapkatrade.buyer.general.progressbar.ProgressDialogHandler;
 import com.aapkatrade.buyer.location.GeoCoderAddress;
 import com.aapkatrade.buyer.location.Mylocation;
 import com.aapkatrade.buyer.search.Search;
+import com.aapkatrade.buyer.service.GpsLocationService;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
@@ -68,10 +70,11 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
     ArrayList<CommomData> commomDatas_latestupdate = new ArrayList<>();
     private CommomAdapter commomAdapter_latestpost, commomAdapter_latestproduct;
     //  public latestproductadapter latestproductadapter;
-    ProgressBarHandler progress_handler;
+    ProgressDialogHandler progress_handler;
     private int dotsCount;
     private ArrayList<String> imageIdList;
     private ImageView[] dots;
+    GpsLocationService gps;
 
     Button btn_tryagain;
     public static SearchView searchView;
@@ -146,7 +149,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
 
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
-        progress_handler = new ProgressBarHandler(getActivity());
+        progress_handler = new ProgressDialogHandler(getActivity());
 
         coordinatorLayout = (CoordinatorLayout) v.findViewById(R.id.coordination_home);
         coordinatorLayout.setVisibility(View.INVISIBLE);
@@ -203,24 +206,35 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
                 LocationManagerCheck locationManagerCheck = new LocationManagerCheck(getActivity());
 
                 if (locationManagerCheck.isLocationServiceAvailable()) {
-
-                    currentLatitude = appSharedPreference.getSharedPref(SharedPreferenceConstants.CURRENT_LATTITUDE.toString());
-                    currentLongitude = appSharedPreference.getSharedPref(SharedPreferenceConstants.CURRENT_LONGITUDE.toString());
-                    stateName = appSharedPreference.getSharedPref(SharedPreferenceConstants.CURRENT_STATE_NAME.toString());
+                    progress_handler.show();
 
 
-                    AndroidUtils.showErrorLog(context, "currentLatitude", currentLatitude + "******");
-                    AndroidUtils.showErrorLog(context, "currentLongitude", currentLongitude + "******");
-                    AndroidUtils.showErrorLog(context, "stateName", stateName + "******");
+                    gps = new GpsLocationService(getActivity());
+
+                    // check if GPS enabled
+                    if (gps.canGetLocation()) {
 
 
-                    Intent intentAsync = new Intent(getActivity(), Search.class);
-                    intentAsync.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    intentAsync.putExtra("classname", "homeactivity");
-                    intentAsync.putExtra("state_name", stateName);
-                    intentAsync.putExtra("latitude", currentLatitude);
-                    intentAsync.putExtra("longitude", currentLongitude);
-                    getActivity().startActivity(intentAsync);
+                        double latitude = gps.getLatitude();
+                        double longitude = gps.getLongitude();
+                        String statename = gps.getStaeName();
+
+
+                        Intent intentAsync = new Intent(getActivity(), Search.class);
+                        intentAsync.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        intentAsync.putExtra("classname", "homeactivity");
+                        intentAsync.putExtra("state_name", statename);
+                        intentAsync.putExtra("latitude", String.valueOf(latitude));
+                        intentAsync.putExtra("longitude", String.valueOf(longitude));
+                        getActivity().startActivity(intentAsync);
+
+                        progress_handler.hide();
+                    } else {
+                        // can't get location
+                        // GPS or Network is not enabled
+                        // Ask user to enable GPS/network in settings
+                        gps.showSettingsAlert();
+                    }
 
 
                 } else {
@@ -275,7 +289,12 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
 
                             appSharedPreference.setSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), Integer.valueOf(cart_count));
                             //int j = appSharedPreference.getSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(),0);
-                            HomeActivity.tvCartCount.setText(String.valueOf(appSharedPreference.getSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), 0)));
+
+                            if (HomeActivity.tvCartCount != null) {
+                                HomeActivity.tvCartCount.setText(String.valueOf(appSharedPreference.getSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), 0)));
+
+                            }
+
 
                             Log.e("cart_count---------", String.valueOf(appSharedPreference.getSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), 0)));
 
@@ -519,4 +538,18 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
 
     }
 
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        if (banner_timer != null)
+            banner_timer.cancel();
+    }
+
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (banner_timer != null)
+            banner_timer.cancel();
+    }
 }

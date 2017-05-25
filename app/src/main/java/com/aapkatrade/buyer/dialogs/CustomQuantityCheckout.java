@@ -39,7 +39,7 @@ public class CustomQuantityCheckout extends DialogFragment
     AppSharedPreference app_sharedpreference;
 
 
-    public CustomQuantityCheckout(Context context)
+    public CustomQuantityCheckout()
     {
 
     }

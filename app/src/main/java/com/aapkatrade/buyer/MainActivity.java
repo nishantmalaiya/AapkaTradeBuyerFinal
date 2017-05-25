@@ -11,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aapkatrade.buyer.Home.HomeActivity;
-import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.ConnectivityNotFound;
 import com.aapkatrade.buyer.general.ConnetivityCheck;
@@ -22,7 +21,7 @@ import com.aapkatrade.buyer.general.animation_effects.App_animation;
 import com.aapkatrade.buyer.general.progressbar.Custom_progress_bar;
 import com.aapkatrade.buyer.location.GeoCoderAddress;
 import com.aapkatrade.buyer.location.Mylocation;
-import com.aapkatrade.buyer.service.LocationService;
+import com.aapkatrade.buyer.service.GpsLocationService;
 import com.aapkatrade.buyer.welcome.WelcomeActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -38,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     private GeoCoderAddress geoCoderAddressAsync;
     private String AddressAsync;
     private AppSharedPreference appSharedpreference;
+    private GpsLocationService gps;
 
 
     @Override
@@ -113,8 +113,9 @@ public class MainActivity extends AppCompatActivity {
                             pd.dismiss();
                         }
 
-                        Intent serviceIntent = new Intent(MainActivity.this, LocationService.class);
-                        startService(serviceIntent);
+
+//                        Intent serviceIntent = new Intent(MainActivity.this, LocationService.class);
+//                        startService(serviceIntent);
 
 
                     } else {
@@ -139,46 +140,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        AndroidUtils.showErrorLog(MainActivity.this, "work while on Resume");
 
-//        Intent mainIntent = new Intent(MainActivity.this, HomeActivity.class);
-//        startActivity(mainIntent);
-//        finish();
-    }
-
-    @Override
-    protected void onPostResume() {
-        super.onPostResume();
-        AndroidUtils.showErrorLog(MainActivity.this, "work while on postResume");
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        AndroidUtils.showErrorLog(MainActivity.this, "work while on start");
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        AndroidUtils.showErrorLog(MainActivity.this, "work while on stop");
-    }
-
-    @Override
-    protected void onDestroy() {
-
-        super.onDestroy();
-        AndroidUtils.showErrorLog(MainActivity.this, "work while on onDestroy");
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        AndroidUtils.showErrorLog(MainActivity.this, "onPause");
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -198,8 +160,10 @@ public class MainActivity extends AppCompatActivity {
                             pd.dismiss();
                         }
 
-                        Intent serviceIntent = new Intent(MainActivity.this, LocationService.class);
-                        startService(serviceIntent);
+                        gps = new GpsLocationService(MainActivity.this);
+
+                        // check if GPS enabled
+
                     } else {
                         locationManagerCheck.createLocationServiceError(MainActivity.this);
                     }
