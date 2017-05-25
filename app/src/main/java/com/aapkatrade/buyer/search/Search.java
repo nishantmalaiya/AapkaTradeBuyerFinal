@@ -172,25 +172,30 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
                 String text = s.toString();
 
                 if (text.length() > 0) {
+                    if (state_list_spinner.getSelectedItemPosition() != 0) {
 
 
-                    String product_search_url = (getResources().getString(R.string.webservice_base_url)) + "/search_suggesion";
+                        String product_search_url = (getResources().getString(R.string.webservice_base_url)) + "/search_suggesion";
 
 
-                    call_search_suggest_webservice_product(product_search_url, text, state_list_spinner.getSelectedItem().toString());
+                        call_search_suggest_webservice_product(product_search_url, text, state_list_spinner.getSelectedItem().toString());
 
 
-                    autocomplete_textview_product.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> p, View v, int pos, long id) {
-                            Log.e("search_click_data", p.getItemAtPosition(pos).toString());
-                        }
-                    });
+                        autocomplete_textview_product.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> p, View v, int pos, long id) {
+                                Log.e("search_click_data", p.getItemAtPosition(pos).toString());
+                            }
+                        });
 
+                    } else {
+
+                        AndroidUtils.showSnackBar(coordinate_search, "Please Select State First");
+                    }
 
                 } else {
-                    if (product_autocompleteadapter != null)
-                        product_autocompleteadapter.notifyDataSetChanged();
+
+
                 }
 
             }
@@ -464,11 +469,13 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
                 .setCallback(new FutureCallback<JsonObject>() {
                     @Override
                     public void onCompleted(Exception e, JsonObject result) {
-                        if (result != null) {
 
-                            AndroidUtils.showErrorLog(context,result.toString());
+
+                        if (result != null) {
+                            System.out.println("result Search______" + result.toString());
+                            AndroidUtils.showErrorLog(context, result.toString());
                             SearchSuggestionList.clear();
-                            SearchSuggestionList = new ArrayList<String>();
+
                             DistanceList = new ArrayList<String>();
                             JsonObject jsonObject = result.getAsJsonObject();
 
@@ -503,8 +510,7 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
 
                                     if (SearchSuggestionList.size() != 0)
                                         autocomplete_textview_product.setAdapter(product_autocompleteadapter);
-
-
+                                    product_autocompleteadapter.notifyDataSetChanged();
 //
 
 
