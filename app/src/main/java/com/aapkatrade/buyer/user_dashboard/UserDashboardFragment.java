@@ -172,9 +172,16 @@ public class UserDashboardFragment extends Fragment {
         if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString(), "notlogin") != null) {
             String Username = appSharedPreference.getSharedPref(SharedPreferenceConstants.FIRST_NAME.toString(), "not");
             String Emailid = appSharedPreference.getSharedPref(SharedPreferenceConstants.EMAIL_ID.toString(), "not");
-            Picasso.with(getActivity()).load(appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_PIC.toString(), ""))
-                    .error(R.drawable.ic_profile_user)
-                    .into(imageviewpp);
+
+            if (Validation.isNonEmptyStr(appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_PIC.toString(), ""))){
+
+                Picasso.with(getActivity()).load(appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_PIC.toString(), ""))
+                        .error(R.drawable.ic_profile_user)
+                        .into(imageviewpp);
+
+            }
+
+
             if (Username.equals("notlogin")) {
                 textViewName.setText("");
                 tvEmail.setText("");
