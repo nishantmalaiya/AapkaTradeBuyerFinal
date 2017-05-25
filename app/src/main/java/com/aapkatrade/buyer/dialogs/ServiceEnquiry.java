@@ -22,6 +22,7 @@ import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Validation;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
+import com.aapkatrade.buyer.general.progressbar.ProgressDialogHandler;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
@@ -40,7 +41,8 @@ public class ServiceEnquiry extends DialogFragment {
     String shopid;
     private RelativeLayout dialogue_toolbar, startDateLayout, endDateLayout, rl_imgview_enquiry;
     private ImageView openStartDateCal, openEndDateCal;
-    ProgressBarHandler progressBarHandler;
+
+    ProgressDialogHandler progressDialogHandler;
     View v;
     ViewGroup viewgrp;
     ProgressBar progressBar;
@@ -61,7 +63,10 @@ public class ServiceEnquiry extends DialogFragment {
         v = inflater.inflate(R.layout.fragment_service_enquiry, container, false);
         getDialog().getWindow().setBackgroundDrawableResource(R.drawable.rounded_dialog);
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-        progressBarHandler =new ProgressBarHandler(getActivity());
+
+
+
+        progressDialogHandler =new ProgressDialogHandler(getActivity());
         initView(v);
 
 
@@ -145,8 +150,9 @@ public class ServiceEnquiry extends DialogFragment {
     }
 
     private void call_enquiry_webservice(String call_enquiry_url) {
+        progressDialogHandler.show();
 //
-        progressBarHandler.show();
+
         Ion.with(getActivity())
                 .load(call_enquiry_url)
                 .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
@@ -166,11 +172,11 @@ public class ServiceEnquiry extends DialogFragment {
                             AndroidUtils.showSnackBar(viewgrp, result.get("message").getAsString());
                             AndroidUtils.showErrorLog(getActivity(), result.toString());
 
-                            progressBarHandler.hide();
+                            progressDialogHandler.hide();
                             dismiss();
                         }
                         else {
-                            progressBarHandler.hide();
+                            progressDialogHandler.hide();
 
                         }
 

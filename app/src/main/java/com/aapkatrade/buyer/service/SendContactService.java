@@ -28,7 +28,7 @@ public class SendContactService extends Service {
     public static final String BROADCAST_ACTION = "Hello World";
     private static final int TWO_MINUTES = 1000 * 60 * 2;
     public LocationManager locationManager;
-    public LocationService.MyLocationListener listener;
+
     public Location previousBestLocation = null;
     public static CommonInterface commonInterface;
     Intent intent;

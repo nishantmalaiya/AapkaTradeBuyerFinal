@@ -37,7 +37,7 @@
             android:value="@string/google_api" />
 
         <activity
-            android:name="com.aapkatrade.buyer.MainActivity"
+            android:name=".MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Transparent">
             <intent-filter>
@@ -47,34 +47,34 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.aapkatrade.buyer.login.LoginActivity"
+            android:name=".login.LoginActivity"
             android:screenOrientation="portrait" />
-        <activity android:name="com.aapkatrade.buyer.user_dashboard.my_profile.MyProfileActivity" />
-        <activity android:name="com.aapkatrade.buyer.user_dashboard.changepassword.ChangePassword" />
+        <activity android:name=".user_dashboard.my_profile.MyProfileActivity" />
+        <activity android:name=".user_dashboard.changepassword.ChangePassword" />
         <activity
-            android:name="com.aapkatrade.buyer.Home.HomeActivity"
+            android:name=".Home.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name="com.aapkatrade.buyer.shopdetail.ShopDetailActivity"
+            android:name=".shopdetail.ShopDetailActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.aapkatrade.buyer.Home.registration.RegistrationActivity"
+            android:name=".Home.registration.RegistrationActivity"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name="com.aapkatrade.buyer.categories_tab.ParticularDataActivity.ParticularActivity" />
-        <activity android:name="com.aapkatrade.buyer.login.ActivityOTPVerify" />
-        <activity android:name="com.aapkatrade.buyer.general.ConnectivityNotFound" />
-        <activity android:name="com.aapkatrade.buyer.user_dashboard.order_list.OrderActivity" />
-        <activity android:name="com.aapkatrade.buyer.user_dashboard.order_list.order_details.OrderDetailsActivity" />
-        <activity android:name="com.aapkatrade.buyer.categories_tab.CategoriesTabActivity" />
-        <activity android:name="com.aapkatrade.buyer.login.ForgotPassword" />
-        <activity android:name="com.aapkatrade.buyer.categories_tab.ShopListByCategoryActivity" />
-        <activity android:name="com.aapkatrade.buyer.categories_tab.FilterActivity" />
-        <activity android:name="com.aapkatrade.buyer.user_dashboard.address.AddressActivity" />
-        <activity android:name="com.aapkatrade.buyer.user_dashboard.address.viewpager.CartCheckoutActivity" />
+        <activity android:name=".categories_tab.ParticularDataActivity.ParticularActivity" />
+        <activity android:name=".login.ActivityOTPVerify" />
+        <activity android:name=".general.ConnectivityNotFound" />
+        <activity android:name=".user_dashboard.order_list.OrderActivity" />
+        <activity android:name=".user_dashboard.order_list.order_details.OrderDetailsActivity" />
+        <activity android:name=".categories_tab.CategoriesTabActivity" />
+        <activity android:name=".login.ForgotPassword" />
+        <activity android:name=".categories_tab.ShopListByCategoryActivity" />
+        <activity android:name=".categories_tab.FilterActivity" />
+        <activity android:name=".user_dashboard.address.AddressActivity" />
+        <activity android:name=".user_dashboard.address.viewpager.CartCheckoutActivity" />
 
         <receiver
-            android:name="com.aapkatrade.buyer.general.IncomingSms"
+            android:name=".general.IncomingSms"
             android:enabled="true"
             android:exported="true">
             <intent-filter android:priority="1000">
@@ -84,34 +84,34 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name="com.aapkatrade.buyer.user_dashboard.address.add_address.AddAddressActivity" />
-        <activity android:name="com.aapkatrade.buyer.user_dashboard.my_profile.ProfilePreviewActivity" />
-        <activity android:name="com.aapkatrade.buyer.search.Search" />
-        <activity android:name="com.aapkatrade.buyer.map.GoogleMapActivity" />
-        <activity android:name="com.aapkatrade.buyer.user_dashboard.order_list.OrderManagementActivity" />
-        <activity android:name="com.aapkatrade.buyer.ZoomImage.ZoomImageDialog" />
-        <activity android:name="com.aapkatrade.buyer.payment.PaymentActivity" />
-        <activity android:name="com.aapkatrade.buyer.rateus.RateUsActivity" />
-        <activity android:name="com.aapkatrade.buyer.shopdetail.shop_all_product.ShopAllProductActivity" />
+        <activity android:name=".user_dashboard.address.add_address.AddAddressActivity" />
+        <activity android:name=".user_dashboard.my_profile.ProfilePreviewActivity" />
+        <activity android:name=".search.Search" />
+        <activity android:name=".map.GoogleMapActivity" />
+        <activity android:name=".user_dashboard.order_list.OrderManagementActivity" />
+        <activity android:name=".ZoomImage.ZoomImageDialog" />
+        <activity android:name=".payment.PaymentActivity" />
+        <activity android:name=".rateus.RateUsActivity" />
+        <activity android:name=".shopdetail.shop_all_product.ShopAllProductActivity" />
         <activity
-            android:name="com.aapkatrade.buyer.Home.cart.MyCartActivity"
+            android:name=".Home.cart.MyCartActivity"
             android:label="@string/title_activity_my_cart" />
 
-        <service
-            android:name="com.aapkatrade.buyer.service.LocationService"
-            android:enabled="true"
-            android:exported="true" />
-
-        <activity android:name="com.aapkatrade.buyer.shopdetail.productdetail.ProductDetailActivity" />
-        <activity android:name="com.aapkatrade.buyer.dialogs.track_order.orderdetail.Order_detail" />
-        <activity android:name="com.aapkatrade.buyer.dialogs.track_order.singleproductdetail.SingleproductDetail" />
-        <activity android:name="com.aapkatrade.buyer.termandcondition.TermsAndConditionActivity" />
-        <activity android:name="com.aapkatrade.buyer.privacypolicy.PrivacyPolicyActivity" />
+        <activity android:name=".shopdetail.productdetail.ProductDetailActivity" />
+        <activity android:name=".dialogs.track_order.orderdetail.Order_detail" />
+        <activity android:name=".dialogs.track_order.singleproductdetail.SingleproductDetail" />
+        <activity android:name=".termandcondition.TermsAndConditionActivity" />
+        <activity android:name=".privacypolicy.PrivacyPolicyActivity" />
         <activity
-            android:name="com.aapkatrade.buyer.payment.PaymentCompletionActivity"
+            android:name=".payment.PaymentCompletionActivity"
             android:label="@string/title_activity_payment_completion"
             android:theme="@style/AppTheme" />
-        <activity android:name="com.aapkatrade.buyer.welcome.WelcomeActivity"></activity>
+        <activity android:name=".welcome.WelcomeActivity" />
+
+        <service
+            android:name=".service.GpsLocationService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>

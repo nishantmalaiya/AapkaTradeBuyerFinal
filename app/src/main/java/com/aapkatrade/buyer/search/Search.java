@@ -102,7 +102,9 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
 
         latitude = i.getStringExtra("latitude");
         longitude = i.getStringExtra("longitude");
-        Log.e("current_statename_", currentlocation_statename);
+        Log.e("current_statename_", latitude);
+        Log.e("current_latitude", currentlocation_statename);
+        Log.e("current_longitude", longitude);
 
         class_name = i.getStringExtra("classname");
         Log.e("class_name", class_name);
@@ -444,7 +446,7 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
 
 
     private void call_search_suggest_webservice_product(String product_search_url, String product_search_text, String location_text) {
-        Context context = Search.this;
+        final Context context = Search.this;
 
 
         Ion.with(Search.this)
@@ -463,6 +465,8 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
                     @Override
                     public void onCompleted(Exception e, JsonObject result) {
                         if (result != null) {
+
+                            AndroidUtils.showErrorLog(context,result.toString());
                             SearchSuggestionList.clear();
                             SearchSuggestionList = new ArrayList<String>();
                             DistanceList = new ArrayList<String>();
