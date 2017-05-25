@@ -242,7 +242,7 @@ public class CustomQuantityCheckout extends DialogFragment
 
                                    // HomeActivity.tvCartCount.setText(String.valueOf(appSharedPreference.getSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), 0)));
 
-                                    CartCheckoutActivity.tvPriceItemsHeading.setText("Price(" + cart_count + "items)");
+                                    CartCheckoutActivity.tvPriceItemsHeading.setText("Price (" + cart_count + " items)");
                                     CartCheckoutActivity.tvPriceItems.setText(context.getResources().getText(R.string.Rs) + total_amount);
                                     CartCheckoutActivity.tvAmountPayable.setText(context.getResources().getText(R.string.Rs) + total_amount);
 

@@ -200,6 +200,9 @@ public class ProductDetailActivity extends AppCompatActivity
                 .setCallback(new FutureCallback<JsonObject>() {
                     @Override
                     public void onCompleted(Exception e, JsonObject result) {
+
+                        System.out.println("product_detail------------"+result);
+
                         progressBarHandler.hide();
                         if (result == null) {
                             AndroidUtils.showErrorLog(context, " getProductDetailData webservice result is null.");

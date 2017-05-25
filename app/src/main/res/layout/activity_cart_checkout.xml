@@ -120,33 +120,23 @@
                                     </LinearLayout>
 
 
-                                </LinearLayout>
-
-                                <View
-                                    android:layout_width="match_parent"
-                                    android:layout_height="0.5dp"
-                                    android:background="@color/slate_gray"
-                                    android:visibility="invisible"
-                                    ></View>
-
-                                <RelativeLayout
-                                    android:id="@+id/relativeChangeAddress"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:padding="10dp"
-                                    android:visibility="invisible"
-                                    >
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:text="CHANGE ADDRESS"
-                                        android:layout_centerHorizontal="true"
-                                        android:textColor="@color/black"
-                                        />
+                                        android:layout_marginTop="5dp"
+                                        >
+
+                                        <TextView
+                                            android:id="@+id/addressPhone"
+                                            style="@style/myAddress"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+
+                                            android:text="" />
+                                    </LinearLayout>
 
 
-                                </RelativeLayout>
+                                </LinearLayout>
 
 
                             </LinearLayout>
