@@ -37,6 +37,7 @@ import com.aapkatrade.buyer.general.LocationManagerCheck;
 import com.aapkatrade.buyer.general.Tabletsize;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
+import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
 import com.aapkatrade.buyer.general.progressbar.ProgressDialogHandler;
 import com.aapkatrade.buyer.location.GeoCoderAddress;
 import com.aapkatrade.buyer.location.Mylocation;
@@ -70,7 +71,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
     ArrayList<CommomData> commomDatas_latestupdate = new ArrayList<>();
     private CommomAdapter commomAdapter_latestpost, commomAdapter_latestproduct;
     //  public latestproductadapter latestproductadapter;
-    ProgressDialogHandler progress_handler;
+    ProgressBarHandler progress_handler;
     private int dotsCount;
     private ArrayList<String> imageIdList;
     private ImageView[] dots;
@@ -149,7 +150,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
 
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
-        progress_handler = new ProgressDialogHandler(getActivity());
+        progress_handler = new ProgressBarHandler(getActivity());
 
         coordinatorLayout = (CoordinatorLayout) v.findViewById(R.id.coordination_home);
         coordinatorLayout.setVisibility(View.INVISIBLE);

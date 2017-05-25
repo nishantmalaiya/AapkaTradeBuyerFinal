@@ -34,7 +34,10 @@ public class Track_order_dialog extends DialogFragment {
     ImageView dialog_close;
     EditText tracking_id;
     Button validate_order_id;
+
+
     ProgressDialogHandler progressDialogHandler;
+
     TextToSpeech t1;
 
     public Track_order_dialog() {
@@ -49,7 +52,11 @@ public class Track_order_dialog extends DialogFragment {
         getDialog().getWindow().setBackgroundDrawableResource(R.drawable.rounded_dialog);
 
         initview(v);
+
+       
+
         progressDialogHandler = new ProgressDialogHandler(getActivity());
+
 
         dialog_close.setOnClickListener(new View.OnClickListener() {
             @Override
