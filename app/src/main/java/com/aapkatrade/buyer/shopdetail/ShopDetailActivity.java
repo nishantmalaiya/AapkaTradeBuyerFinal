@@ -425,7 +425,7 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
             @Override
             public void onClick(View v) {
 
-                if (app_sharedpreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString(), "not").contains("not")) {
+               /* if (app_sharedpreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString(), "not").contains("not")) {
                     startActivity(new Intent(ShopDetailActivity.this, LoginActivity.class));
                 } else {
                     Intent rate_us = new Intent(ShopDetailActivity.this, RateUsActivity.class);
@@ -434,7 +434,7 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
                     rate_us.putExtra("product_price", "");
                     rate_us.putExtra("product_image", imageList.get(0));
                     startActivity(rate_us);
-                }
+                }*/
 
             }
         });
