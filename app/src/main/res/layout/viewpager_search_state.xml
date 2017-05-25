@@ -20,7 +20,7 @@
             android:paddingTop="@dimen/five_dip"
 
             android:paddingLeft="@dimen/twenty_dip"
-            android:maxLines="2"
+            android:minLines="2"
             android:paddingRight="@dimen/twenty_dip"
 
 
