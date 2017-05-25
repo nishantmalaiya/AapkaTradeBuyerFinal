@@ -782,6 +782,7 @@
         android:weightSum="2">
 
         <TextView
+            android:id="@+id/buyNow"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -793,6 +794,7 @@
 
 
         <TextView
+            android:id="@+id/addToCart"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"

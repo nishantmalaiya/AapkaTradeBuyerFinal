@@ -133,22 +133,9 @@ public class ShopAllProductActivity extends AppCompatActivity {
 
 
         return true;
-        /*getMenuInflater().inflate(R.menu.home_menu, menu);
 
-        FrameLayout badgeLayout = (FrameLayout) menu.findItem(R.id.cart_total_item).getActionView();
-
-        redCircle = (FrameLayout) badgeLayout.findViewById(R.id.view_alert_red_circle);
-        countTextView = (TextView) badgeLayout.findViewById(R.id.view_alert_count_textview);
-
-        return true;*/
 
     }
-
-    /*@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_map, menu);
-        return true;
-    }*/
 
 
     @Override
