@@ -107,7 +107,7 @@ public class ProductDetailActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
 
-                if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString(), "not").contains("not")) {
+            /*    if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString(), "not").contains("not")) {
                     startActivity(new Intent(context, LoginActivity.class));
                 } else {
                     Intent rate_us = new Intent(context, RateUsActivity.class);
@@ -116,7 +116,7 @@ public class ProductDetailActivity extends AppCompatActivity
                     rate_us.putExtra("product_price", tvProductPrice.getText().toString());
                     rate_us.putExtra("product_image", imageUrlArrayList.get(0));
                     startActivity(rate_us);
-                }
+                }*/
 
             }
         });
