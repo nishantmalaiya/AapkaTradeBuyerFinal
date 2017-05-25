@@ -264,11 +264,10 @@ public class LoginWithoutRegistrationDialog extends DialogFragment {
                             appSharedPreference.setSharedPref(SharedPreferenceConstants.USER_ID.toString(), result.get("user_id").getAsString());
                             AndroidUtils.showSnackBar(loginWithoutRegistrationContainer, result.get("message").getAsString());
                             saveDataInSharedPreference(result);
-                            if (result.get("message").getAsString().toLowerCase().contains("successfully") && result.get("message").getAsString().toLowerCase().contains("login")) {
-
+                            if (result.get("message").getAsString().toLowerCase().contains("successfully") && result.get("message").getAsString().toLowerCase().contains("login"))
+                            {
 
                                 callwebserviceUpdateCart();
-
 
                             }
 
@@ -285,7 +284,8 @@ public class LoginWithoutRegistrationDialog extends DialogFragment {
 
 
     @SuppressLint("NewApi")
-    private void initView(View view) {
+    private void initView(View view)
+    {
         progressDialogHandler = new ProgressDialogHandler(context);
         appSharedPreference = new AppSharedPreference(context);
         dialog_close_image_view = (ImageView) view.findViewById(R.id.dialog_close_image_view);
@@ -316,7 +316,6 @@ public class LoginWithoutRegistrationDialog extends DialogFragment {
 
     private void callwebserviceUpdateCart()
     {
-
 
         String login_url = context.getResources().getString(R.string.webservice_base_url) + "/update_cart_user";
 

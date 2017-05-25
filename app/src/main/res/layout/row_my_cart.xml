@@ -130,6 +130,7 @@
                 android:textSize="@dimen/twelve_dip"
                 android:layout_below="@+id/tvProductShopName"
                 android:textAllCaps="false"
+                android:layout_marginTop="@dimen/ten_dip"
                 android:textColor="@drawable/button_text_color"
                 />
 

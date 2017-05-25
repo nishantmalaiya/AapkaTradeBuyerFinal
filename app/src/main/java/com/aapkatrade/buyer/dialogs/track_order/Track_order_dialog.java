@@ -34,7 +34,10 @@ public class Track_order_dialog extends DialogFragment {
     ImageView dialog_close;
     EditText tracking_id;
     Button validate_order_id;
-    ProgressDialogHandler progressBarHandler;
+
+
+    ProgressDialogHandler progressDialogHandler;
+
     TextToSpeech t1;
 
     public Track_order_dialog() {
@@ -49,7 +52,11 @@ public class Track_order_dialog extends DialogFragment {
         getDialog().getWindow().setBackgroundDrawableResource(R.drawable.rounded_dialog);
 
         initview(v);
-        progressBarHandler = new ProgressDialogHandler(getActivity());
+
+       
+
+        progressDialogHandler = new ProgressDialogHandler(getActivity());
+
 
         dialog_close.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,7 +85,7 @@ public class Track_order_dialog extends DialogFragment {
 
     private void call_Validate_order_webservice() {
 
-        progressBarHandler.show();
+        progressDialogHandler.show();
         String track_order_url = getString(R.string.webservice_base_url) + "/track_order";
 
 
@@ -111,13 +118,13 @@ public class Track_order_dialog extends DialogFragment {
 
 
                     } else {
-                        progressBarHandler.hide();
+                        progressDialogHandler.hide();
                     }
 
 
                 }
 
-                progressBarHandler.hide();
+                progressDialogHandler.hide();
 
 
                 Log.e("result", result.toString());

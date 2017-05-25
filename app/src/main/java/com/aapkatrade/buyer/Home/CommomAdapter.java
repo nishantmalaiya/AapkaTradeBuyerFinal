@@ -229,6 +229,9 @@ public class CommomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 public void onClick(View v) {
 
                     Intent intent = new Intent(context, ProductDetailActivity.class);
+                    AndroidUtils.showErrorLog(context, "___________PRODUCT ID--(((---------->"+commomDatas.get(position).id);
+
+                    intent.putExtra("productId", commomDatas.get(position).id);
                     intent.putExtra("product_id", commomDatas.get(position).id);
                     intent.putExtra("product_name", commomDatas.get(position).name);
                     intent.putExtra("product_price", commomDatas.get(position).price);

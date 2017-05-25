@@ -1,7 +1,6 @@
 package com.aapkatrade.buyer.Home.cart;
 
 import android.content.Context;
-import android.provider.Settings;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
@@ -240,7 +239,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartHolder> implements Vie
             public void onClick(View v)
             {
                 String id = itemList.get(position).id;
-                callwebservice__delete_cart(id,position);
+                callwebserviceDeleteCart(id,position);
 
             }
         });
@@ -299,13 +298,13 @@ public class CartAdapter extends RecyclerView.Adapter<CartHolder> implements Vie
     }
 
 
-    private void callwebservice__delete_cart(String product_id, final int position)
+    private void callwebserviceDeleteCart(String product_id, final int position)
     {
         progressBarHandler.show();
 
         String login_url = context.getResources().getString(R.string.webservice_base_url) + "/cart_remove";
 
-        String android_id = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+        String android_id = AppConfig.getCurrentDeviceId(context);
 
         System.out.println("device_id------------"+android_id);
 
@@ -356,7 +355,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartHolder> implements Vie
 
                                     HomeActivity.tvCartCount.setText(String.valueOf(appSharedPreference.getSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), 0)));
 
-                                    MyCartActivity.tvPriceItemsHeading.setText("Price(" + cart_count + "items)");
+                                    MyCartActivity.tvPriceItemsHeading.setText("Price (" + cart_count + " items)");
                                     MyCartActivity.tvPriceItems.setText(context.getResources().getText(R.string.Rs) + total_amount);
                                     MyCartActivity.tvAmountPayable.setText(context.getResources().getText(R.string.Rs) + total_amount);
                                     MyCartActivity.tvLastPayableAmount.setText(context.getResources().getText(R.string.Rs) + total_amount);
@@ -457,7 +456,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartHolder> implements Vie
 
                                     HomeActivity.tvCartCount.setText(String.valueOf(appSharedPreference.getSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), 0)));
 
-                                    MyCartActivity.tvPriceItemsHeading.setText("Price(" + cart_count + "items)");
+                                    MyCartActivity.tvPriceItemsHeading.setText("Price (" + cart_count + " items)");
                                     MyCartActivity.tvPriceItems.setText(context.getResources().getText(R.string.Rs) + total_amount);
                                     MyCartActivity.tvAmountPayable.setText(context.getResources().getText(R.string.Rs) + total_amount);
                                     MyCartActivity.tvLastPayableAmount.setText(context.getResources().getText(R.string.Rs) + total_amount);

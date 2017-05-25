@@ -37,12 +37,11 @@ import java.util.ArrayList;
 public class CartCheckoutActivity extends AppCompatActivity {
 
     RelativeLayout relativePayment;
-    String fname, mobile, state_id, address;
     AppSharedPreference app_sharedpreference;
     ArrayList<CartData> cartDataArrayList = new ArrayList<>();
     private Context context;
     private ImageView locationImageView;
-    public static TextView tvContinue, tvPriceItemsHeading, tvPriceItems, tvLastPayableAmount, tvAmountPayable;
+    public static TextView tvContinue, tvPriceItemsHeading, tvPriceItems, tvLastPayableAmount, tvAmountPayable,addressPhone;
     RelativeLayout buttonContainer;
     RecyclerView mycartRecyclerView;
     CartCheckOutAdapter cartAdapter;
@@ -50,7 +49,6 @@ public class CartCheckoutActivity extends AppCompatActivity {
     public static CardView cardviewProductDeatails;
     public static LinearLayout linearAddressLayout;
     TextView addressLine1, addressLine2, addressLine3;
-    RelativeLayout relativeChangeAddress;
     String userid;
     int page = 1;
     LinearLayoutManager linearLayoutManager;
@@ -69,16 +67,7 @@ public class CartCheckoutActivity extends AppCompatActivity {
         progressBarHandler = new ProgressBarHandler(context);
 
         app_sharedpreference = new AppSharedPreference(getApplicationContext());
-        Bundle bundle = getIntent().getExtras();
 
-        fname = bundle.getString("fname");
-
-
-        mobile = bundle.getString("mobile");
-
-        state_id = bundle.getString("state_id");
-
-        address = bundle.getString("address");
 
         initView();
 
@@ -119,23 +108,17 @@ public class CartCheckoutActivity extends AppCompatActivity {
 
         addressLine3 = (TextView) findViewById(R.id.addressLine3);
 
-        relativeChangeAddress = (RelativeLayout) findViewById(R.id.relativeChangeAddress);
+        addressPhone = (TextView) findViewById(R.id.addressPhone);
 
-        relativeChangeAddress.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                Intent address = new Intent(CartCheckoutActivity.this, AddAddressActivity.class);
-                startActivity(address);
+        addressLine1.setText(app_sharedpreference.getSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS_NAME.toString(), ""));
 
-            }
-        });
+        addressLine2.setText(app_sharedpreference.getSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS.toString(), ""));
 
-        addressLine1.setText(fname);
+        addressLine3.setText(app_sharedpreference.getSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS_CITY.toString(), "")+"-"+app_sharedpreference.getSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS_PINCODE.toString(), ""));
 
-        addressLine2.setText(address);
+        addressPhone.setText(app_sharedpreference.getSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS_PHONE.toString(), ""));
 
-        addressLine3.setText(mobile);
 
         locationImageView = (ImageView) findViewById(R.id.locationImageView);
 
@@ -237,7 +220,7 @@ public class CartCheckoutActivity extends AppCompatActivity {
                             String cart_count = jsonObject.get("total_qty").getAsString();
                             String total_amount = jsonObject.get("total_amount").getAsString();
 
-                            tvPriceItemsHeading.setText("Price(" + cart_count + "items)");
+                            tvPriceItemsHeading.setText("Price (" + cart_count + " item)");
                             tvPriceItems.setText(getApplicationContext().getResources().getText(R.string.Rs) + total_amount);
                             tvAmountPayable.setText(getApplicationContext().getResources().getText(R.string.Rs) + total_amount);
                             // tvLastPayableAmount.setText(getApplicationContext().getResources().getText(R.string.Rs)+total_amount);
