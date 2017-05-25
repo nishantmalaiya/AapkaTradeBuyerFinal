@@ -12,6 +12,8 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,6 +30,7 @@ import com.aapkatrade.buyer.dialogs.CustomQuantityDialog;
 import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
+import com.aapkatrade.buyer.general.Validation;
 import com.aapkatrade.buyer.general.interfaces.CommonInterface;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
 import com.aapkatrade.buyer.login.LoginActivity;
@@ -35,6 +38,7 @@ import com.aapkatrade.buyer.rateus.RateUsActivity;
 import com.aapkatrade.buyer.shopdetail.ShopViewPagerAdapter;
 import com.aapkatrade.buyer.shopdetail.reviewlist.ReviewListAdapter;
 import com.aapkatrade.buyer.shopdetail.reviewlist.ReviewListData;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
@@ -75,6 +79,7 @@ public class ProductDetailActivity extends AppCompatActivity
     private AppSharedPreference appSharedPreference;
     private LinearLayout dropDownContainer;
     private DroppyMenuPopup droppyMenu;
+    private String singleUnitPrice = "0";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +93,7 @@ public class ProductDetailActivity extends AppCompatActivity
         }
         setUpToolBar();
         initView();
-
+        AndroidUtils.showErrorLog(context, "___________PRODUCT ID------------>"+productId);
         getProductDetailData(productId);
 
         relativeRateReview.setOnClickListener(new View.OnClickListener() {
@@ -127,21 +132,25 @@ public class ProductDetailActivity extends AppCompatActivity
                 switch (id) {
                     case 0:
                         tvQuantity.setText("1");
+                        setPaidAmount("1");
                         break;
                     case 1:
                         tvQuantity.setText("2");
+                        setPaidAmount("2");
                         break;
                     case 2:
                         tvQuantity.setText("3");
+                        setPaidAmount("3");
                         break;
                     case 3:
                         tvQuantity.setText("4");
+                        setPaidAmount("4");
                         break;
                     case 4:
                         tvQuantity.setText("5");
+                        setPaidAmount("5");
                         break;
                     case 5:
-                        tvQuantity.setText("1");
                         showPopup();
 
                         break;
@@ -187,7 +196,27 @@ public class ProductDetailActivity extends AppCompatActivity
                 return null;
             }
         };
+        setPaidAmount("1");
 
+        CustomQuantityDialog.commonInterface = new CommonInterface() {
+            @Override
+            public Object getData(Object object) {
+                if(object!=null){
+                    String qty = (String) object;
+                    tvQuantity.setText(qty);
+                    setPaidAmount(qty);
+                }
+                return null;
+            }
+        };
+
+    }
+
+    private void setPaidAmount(String qty){
+        if(Validation.isNumber(qty) && Validation.isNumber(singleUnitPrice)) {
+            String tvAmountPaid = String.valueOf(Integer.parseInt(qty) * Integer.parseInt(singleUnitPrice));
+            tvAmountPaidValue.setText(tvAmountPaid);
+        }
     }
 
     private void getProductDetailData(String productId) {
@@ -263,6 +292,7 @@ public class ProductDetailActivity extends AppCompatActivity
 
     private void loadProductDetailWithData(JsonObject resultJsonObject) {
         tvProductName.setText(resultJsonObject.get("name").getAsString());
+        singleUnitPrice =  resultJsonObject.get("price").getAsString();
         tvProductPrice.setText(new StringBuilder(getString(R.string.rupay_text)).append(" ").append(resultJsonObject.get("price").getAsString()));
         tvDiscountValue.setText(resultJsonObject.get("discount").getAsString());
         tvUnitValue.setText(resultJsonObject.get("unit_name").getAsString());
@@ -339,76 +369,77 @@ public class ProductDetailActivity extends AppCompatActivity
         customQuantityDialog.show(fm, "Quantity");
 
 
-//        final MaterialDialog dialog = new MaterialDialog.Builder(context)
-//                .customView(R.layout.layout_more_quantity, true).backgroundColor(ContextCompat.getColor(context,R.color.transparent))
-//                .show();
-//
-////                .onPositive(new MaterialDialog.SingleButtonCallback() {
-////                    @Override
-////                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-////                        if (Integer.valueOf(etManualQuantity.getText().toString()) > 0) {
-////                            quantity = etManualQuantity.getText().toString();
-////                            tvQuantity.setText(quantity);
-////                        } else {
-////                            etManualQuantity.setError("Please Select Valid Quantity.");
-////                        }
-////                        dialog.dismiss();
-////                    }
-////                })
-//
-//
-//        etManualQuantity = (EditText) dialog.findViewById(R.id.editText);
-//        okButton = (TextView) dialog.findViewById(R.id.okDialog);
-//        cancelButton = (TextView) dialog.findViewById(R.id.cancelDialog);
-//        disableButton(okButton);
-//        disableButton(cancelButton);
-//        okButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if(okButton.isEnabled()){
-//                    if(Integer.parseInt(etManualQuantity.getText().toString()) > 0){
-//                        enableButton(okButton);
-//
-//                    }
-//                } else {
-//                    enableButton(okButton);
-//                }
-//                AndroidUtils.showErrorLog(context, "ok button");
-//                dialog.hide();
-//            }
-//        });
-//
-//        cancelButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                enableButton(cancelButton);
-//                AndroidUtils.showErrorLog(context, "cancel button");
-//                dialog.hide();
-//            }
-//        });
-//
-//        etManualQuantity.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//                // TODO Auto-generated method stub
-//            }
-//
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//                // TODO Auto-generated method stub
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                if(Integer.parseInt(s.toString()) == 0){
-//                    etManualQuantity.setError("Please Enter Valid Quantity");
-//                } else {
-//                    tvQuantity.setText(s);
-////                    dialog.dismiss();
-//                }
-//            }
-//        });
 
+        /*final MaterialDialog dialog = new MaterialDialog.Builder(context)
+                .customView(R.layout.layout_more_quantity, true).backgroundColor(ContextCompat.getColor(context,R.color.transparent))
+                .show();
+
+//                .onPositive(new MaterialDialog.SingleButtonCallback() {
+//                    @Override
+//                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+//                        if (Integer.valueOf(etManualQuantity.getText().toString()) > 0) {
+//                            quantity = etManualQuantity.getText().toString();
+//                            tvQuantity.setText(quantity);
+//                        } else {
+//                            etManualQuantity.setError("Please Select Valid Quantity.");
+//                        }
+//                        dialog.dismiss();
+//                    }
+//                })
+
+
+        etManualQuantity = (EditText) dialog.findViewById(R.id.editText);
+        okButton = (TextView) dialog.findViewById(R.id.okDialog);
+        cancelButton = (TextView) dialog.findViewById(R.id.cancelDialog);
+        disableButton(okButton);
+        disableButton(cancelButton);
+        okButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(okButton.isEnabled()){
+                    if(Integer.parseInt(etManualQuantity.getText().toString()) > 0){
+                        enableButton(okButton);
+
+                    }
+                } else {
+                    enableButton(okButton);
+                }
+                AndroidUtils.showErrorLog(context, "ok button");
+                dialog.hide();
+            }
+        });
+
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                enableButton(cancelButton);
+                AndroidUtils.showErrorLog(context, "cancel button");
+                dialog.hide();
+            }
+        });
+
+        etManualQuantity.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void afterTextChanged(Editable s) {
+                // TODO Auto-generated method stub
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // TODO Auto-generated method stub
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(Integer.parseInt(s.toString()) == 0){
+                    etManualQuantity.setError("Please Enter Valid Quantity");
+                } else {
+                    tvQuantity.setText(s);
+//                    dialog.dismiss();
+                }
+            }
+        });
+*/
     }
 
     private void enableButton(TextView textView) {
