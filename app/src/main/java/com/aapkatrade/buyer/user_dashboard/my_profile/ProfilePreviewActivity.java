@@ -19,6 +19,7 @@ import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
+import com.aapkatrade.buyer.general.Validation;
 import com.aapkatrade.buyer.user_dashboard.changepassword.ChangePassword;
 import com.squareup.picasso.Picasso;
 
@@ -96,7 +97,7 @@ public class ProfilePreviewActivity extends AppCompatActivity {
         tvEmail = (TextView) findViewById(R.id.tvEmail);
         tvUserType = (TextView) findViewById(R.id.tvUserType);
 
-        if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString(), "notlogin") != null) {
+        if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString(), "notlogin") != null ) {
             String Username = appSharedPreference.getSharedPref(SharedPreferenceConstants.FIRST_NAME.toString(), "not");
             String Emailid = appSharedPreference.getSharedPref(SharedPreferenceConstants.EMAIL_ID.toString(), "not");
 
@@ -111,9 +112,14 @@ public class ProfilePreviewActivity extends AppCompatActivity {
                 tvUserType.setText(getString(R.string.welcome_buyer));
             AndroidUtils.showErrorLog(context, "Image URL onCreate" , appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_PIC.toString(), ""));
 
-            Picasso.with(context).load(appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_PIC.toString(), ""))
-                    .error(R.drawable.ic_profile_user)
-                    .into(userimage);
+
+            if (Validation.isNonEmptyStr(appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_PIC.toString(), ""))){
+
+                Picasso.with(context).load(appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_PIC.toString(), ""))
+                        .error(R.drawable.ic_profile_user)
+                        .into(userimage);
+            }
+
             }
 
 
