@@ -926,15 +926,18 @@
                     </RelativeLayout>
 
                     <RelativeLayout
+                        android:id="@+id/reviewListLayout"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="70dp">
+                        android:layout_height="wrap_content">
 
                         <android.support.v7.widget.RecyclerView
                             android:id="@+id/reviewList"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/ten_dip">
+                            android:layout_marginTop="@dimen/ten_dip"
+                            android:layout_marginBottom="@dimen/ten_dip"
+                            android:layout_marginLeft="@dimen/ten_dip"
+                            android:layout_marginRight="@dimen/ten_dip">
 
                         </android.support.v7.widget.RecyclerView>
 

@@ -11,6 +11,7 @@
     <dimen name="five_dip">5dp</dimen>
 
     <dimen name="ten_dip">10dp</dimen>
+    <dimen name="minus_ten_dip">-10dp</dimen>
     <dimen name="three_dip">3dp</dimen>
 
     <dimen name="thirty_five_dip">35dp</dimen>

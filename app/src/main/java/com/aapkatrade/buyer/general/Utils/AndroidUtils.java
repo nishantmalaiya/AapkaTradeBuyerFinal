@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
@@ -141,8 +142,7 @@ public class AndroidUtils {
 
     public static Drawable setImageColor(Context context, int imageDrawable, int color) {
         Drawable mDrawable = ContextCompat.getDrawable(context, imageDrawable);
-        mDrawable.setColorFilter(ContextCompat.getColor(context, color), PorterDuff.Mode.MULTIPLY);
-
+        mDrawable.setColorFilter(ContextCompat.getColor(context, color), PorterDuff.Mode.SRC_ATOP);
         return mDrawable;
 
     }
