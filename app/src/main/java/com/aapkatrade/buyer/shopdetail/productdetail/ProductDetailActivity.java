@@ -117,6 +117,8 @@ public class ProductDetailActivity extends AppCompatActivity
 //                    rate_us.putExtra("product_image", imageUrlArrayList.get(0));
 //                    startActivity(rate_us);
 //                }
+            
+
 
             }
         });

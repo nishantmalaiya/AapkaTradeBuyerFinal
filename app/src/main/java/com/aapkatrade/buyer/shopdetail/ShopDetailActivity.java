@@ -435,7 +435,6 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
 //                    rate_us.putExtra("product_image", imageList.get(0));
 //                    startActivity(rate_us);
 //                }
-
             }
         });
 
