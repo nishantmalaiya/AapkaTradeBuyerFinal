@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.aapkatrade.buyer.R;
+import com.aapkatrade.buyer.categories_tab.CategoriesListHolder;
 import com.aapkatrade.buyer.dialogs.track_order.orderdetail.CommonHolder_listProduct;
 import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.AppConfig;
@@ -35,7 +36,8 @@ import java.util.ArrayList;
 /**
  * Created by Netforce on 7/25/2016.
  */
-public class CommomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class CommomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
+{
 
     private Context context;
     private ArrayList<CommomData> commomDatas;
@@ -69,25 +71,39 @@ public class CommomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         CommomHolder viewHolder1;
         CommonHolder_grid viewHolder2;
         CommonHolder_listProduct viewHolder_listProduct;
+        CategoriesListHolder categoriesListHolder;
 
         //RecyclerView.ViewHolder viewHolder;
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        if (arrangementtype == "list") {
+        if (arrangementtype == "list")
+        {
             v = inflater.inflate(R.layout.row_dashboard, parent, false);
             viewHolder2 = new CommonHolder_grid(v);
             return viewHolder2;
 
+        }
+        else if (arrangementtype == "search_list")
+        {
+            v = inflater.inflate(R.layout.product_list_item2, parent, false);
+            categoriesListHolder = new CategoriesListHolder(v);
+            return categoriesListHolder;
 
-        } else if (arrangementtype == "list_product") {
+        }
+        else if (arrangementtype == "list_product")
+        {
             v = inflater.inflate(R.layout.row_dashboard_product_track_list, parent, false);
 
             viewHolder_listProduct = new CommonHolder_listProduct(v);
             return viewHolder_listProduct;
-        } else if (arrangementtype == "OrderedProductList") {
+        }
+        else if (arrangementtype == "OrderedProductList")
+        {
             v = inflater.inflate(R.layout.activity_order, parent, false);
             viewHolder_listProduct = new CommonHolder_listProduct(v);
             return viewHolder_listProduct;
-        } else {
+        }
+        else
+        {
             v = inflater.inflate(R.layout.row_dashboard_grid, parent, false);
             viewHolder1 = new CommomHolder(v);
             return viewHolder1;
@@ -97,12 +113,12 @@ public class CommomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder viewholder, final int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder viewholder, final int position)
+    {
         if (arrangementtype == "list")
-
         {
-            final CommomHolder holder = new CommomHolder(v);
 
+            final CommomHolder holder = new CommomHolder(v);
 
             if (Tabletsize.isTablet(context)) {
                 Picasso.with(context)
