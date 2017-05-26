@@ -35,6 +35,9 @@
     <string name="tab_3" translatable="false">Track Order</string>
     <string name="tab_4" translatable="false">Account</string>
     <string name="tab_5" translatable="false">Contact Us</string>
+
+
+
     <string name="welcomeguest" translatable="false">Welcome Guest</string>
     <string name="nointernetconnection" translatable="false">No Internet connection found.</string>
     <string name="nointernetconnection2" translatable="false">Check your connection.</string>
@@ -214,7 +217,7 @@
     <string name="web_info_live_url">info@aapkatrade.com</string>
     <string name="follow_us">Follow us</string>
     <string name="customer_care_no">9812345678</string>
-    <string name="customer_care">Customer Care\\</string>
+    <string name="customer_care">Customer Care</string>
     <string name="title_activity_payment_completion">PaymentCompletionActivity</string>
     <string name="payment_success">Payment Successful</string>
     <string name="message">Message</string>
