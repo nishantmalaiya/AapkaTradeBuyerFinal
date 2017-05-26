@@ -18,22 +18,27 @@ import java.util.ArrayList;
  * Created by PPC21 on 06-Feb-17.
  */
 
-public class Webservice_search_autocompleteadapter extends BaseAdapter implements Filterable {
+public class Webservice_search_autocompleteadapter extends BaseAdapter implements Filterable
+{
+
+
     Context context;
     ArrayList<String> names_data;
     ArrayList<String> distance_data;
     LayoutInflater inflter;
-
-    private ArrayList<String> originalData;
+    private ArrayList<String> categoriesList = new ArrayList<>();
     private ArrayList<String> filteredData;
+    private ArrayList<String> originalData;
     private ValueFilter valueFilter;
 
-    public Webservice_search_autocompleteadapter(Context applicationContext, ArrayList<String> names_data,ArrayList<String> distance_data) {
+
+    public Webservice_search_autocompleteadapter(Context applicationContext, ArrayList<String> names_data,ArrayList<String> distance_data,ArrayList<String> categoriesList)
+    {
         this.context = applicationContext;
 
         this.names_data = names_data;
         this.distance_data=distance_data;
-
+        this.categoriesList = categoriesList;
         inflter = (LayoutInflater.from(applicationContext));
     }
 
@@ -53,15 +58,15 @@ public class Webservice_search_autocompleteadapter extends BaseAdapter implement
     }
 
     @Override
-
-
     public View getView(int i, View view, ViewGroup viewGroup) {
         view = inflter.inflate(R.layout.search_suggestion_row, null);
         TextView names = (TextView) view.findViewById(R.id.tv_shop_name);
         TextView distance = (TextView) view.findViewById(R.id.tvDistance);
+        TextView category_name = (TextView) view.findViewById(R.id.tvCategoryName);
         Log.e("names", names_data.get(i));
         names.setText(names_data.get(i));
         distance.setText(distance_data.get(i));
+        category_name.setText(categoriesList.get(i));
         return view;
     }
 
@@ -102,11 +107,15 @@ public class Webservice_search_autocompleteadapter extends BaseAdapter implement
         }
 
         @Override
-        protected void publishResults(CharSequence constraint, FilterResults results) {
+        protected void publishResults(CharSequence constraint, FilterResults results)
+        {
             originalData = (ArrayList<String>) results.values;
             notifyDataSetInvalidated();
            //notifyDataSetChanged();
         }
+
+
+
 
     }
 
