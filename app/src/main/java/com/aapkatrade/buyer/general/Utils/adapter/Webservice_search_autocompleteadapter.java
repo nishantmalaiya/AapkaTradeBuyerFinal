@@ -35,7 +35,6 @@ public class Webservice_search_autocompleteadapter extends BaseAdapter implement
     public Webservice_search_autocompleteadapter(Context applicationContext, ArrayList<String> names_data,ArrayList<String> distance_data,ArrayList<String> categoriesList)
     {
         this.context = applicationContext;
-
         this.names_data = names_data;
         this.distance_data=distance_data;
         this.categoriesList = categoriesList;

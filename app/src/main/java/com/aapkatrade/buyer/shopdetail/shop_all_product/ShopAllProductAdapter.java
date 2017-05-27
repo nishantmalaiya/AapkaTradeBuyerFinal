@@ -78,7 +78,6 @@ public class ShopAllProductAdapter extends RecyclerView.Adapter<ShopAllProductHo
                 .error(R.drawable.default_noimage)
                 .into(holder.productImage);
 
-
         linearLayoutQuantity=homeHolder.dropdown_ll;
 
         textViewQuantity=homeHolder.tv_qty;

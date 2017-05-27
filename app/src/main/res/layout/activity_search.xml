@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-
+    android:background="#F1F5F8"
     >
 
     <RelativeLayout
@@ -159,7 +159,7 @@
                 android:layout_height="match_parent"
                 android:layout_centerHorizontal="true"
                 android:divider="#E6E6E6"
-
+                android:layout_marginTop="@dimen/ten_dip"
 
                 android:dividerHeight="@dimen/five_dip" />
 

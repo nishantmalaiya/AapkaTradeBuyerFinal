@@ -77,7 +77,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:maxLines="1"
-                    android:text=""
+                    android:text="Groceries"
                     android:textColor="@color/item_details_color"
                     android:layout_below="@+id/tvProductName"
                     android:textSize="@dimen/textsize_medium"
@@ -90,7 +90,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:maxLines="1"
-                    android:text="Groceries"
+                    android:text="Gurgoan, Haryana"
                     android:textColor="@color/item_details_color"
                     android:layout_below="@+id/tvProductCategoryname"
                     android:textSize="@dimen/textsize_medium"
@@ -114,7 +114,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-
             android:layout_marginRight="10dp"
             >
 
@@ -136,7 +135,6 @@
                 android:textSize="@dimen/textsize_small"
                 android:layout_below="@+id/product_location_icon"
                 />
-
 
 
         </RelativeLayout>
