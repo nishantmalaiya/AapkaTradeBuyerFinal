@@ -183,7 +183,7 @@ public class AndroidUtils {
     public static void showToast(Context context, String message){
         View v = ((Activity)context).getLayoutInflater().inflate(R.layout.my_toast, (ViewGroup) (((Activity) context).findViewById(R.id.myToast)), false);
         LinearLayout myToastLinearLayout = (LinearLayout) v.findViewById(R.id.myToast);
-        setGradientColor(myToastLinearLayout, GradientDrawable.RECTANGLE, ContextCompat.getColor(context, R.color.toast_start_color), ContextCompat.getColor(context, R.color.toast_end_color), GradientDrawable.Orientation.TOP_BOTTOM, 50);
+        setGradientColor(myToastLinearLayout, GradientDrawable.RECTANGLE, ContextCompat.getColor(context, R.color.toast_end_color), ContextCompat.getColor(context, R.color.toast_start_color), GradientDrawable.Orientation.TOP_BOTTOM, 50);
         TextView textView = (TextView) v.findViewById(R.id.msg);
         textView.setText(message);
         Toast toast = new Toast(context);
