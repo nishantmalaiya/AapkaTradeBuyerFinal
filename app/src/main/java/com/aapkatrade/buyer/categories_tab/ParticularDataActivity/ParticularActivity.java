@@ -134,7 +134,8 @@ public class ParticularActivity extends AppCompatActivity {
                             } else {
                                 JsonArray jsonArray = jsonObject.getAsJsonArray("result");
 
-                                for (int i = 0; i < jsonArray.size(); i++) {
+                                for (int i = 0; i < jsonArray.size(); i++)
+                                {
                                     JsonObject jsonObject2 = (JsonObject) jsonArray.get(i);
 
                                     String shopId = jsonObject2.get("id").getAsString();
@@ -151,9 +152,11 @@ public class ParticularActivity extends AppCompatActivity {
 
                                     String distance = jsonObject2.get("distance").getAsString();
 
+                                    String category_name = jsonObject2.get("category_name").getAsString();
+
                                     System.out.println("distance-------------"+distance);
 
-                                    shopListDatas.add(new CategoriesListData(shopId, shopName, shopImage, shopLocation, distance));
+                                    shopListDatas.add(new CategoriesListData(shopId, shopName, shopImage, shopLocation, distance,category_name));
 
                                 }
                                 categoriesListAdapter = new CategoriesListAdapter(ParticularActivity.this, shopListDatas);

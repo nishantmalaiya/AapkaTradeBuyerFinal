@@ -61,6 +61,7 @@ public class CategoriesListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         homeHolder.tvProductName.setText(itemList.get(position).shopName);
 
+        homeHolder.tvProductCategoryname.setText(itemList.get(position).shopCategory);
 
         if (Tabletsize.isTablet(context)) {
             String product_imageurl = itemList.get(position).shopImage.replace("small", "large");
