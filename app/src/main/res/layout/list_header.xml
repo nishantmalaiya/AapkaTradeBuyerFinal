@@ -3,23 +3,24 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:id="@+id/cardview_list_container"
     android:layout_margin="@dimen/ten_dip"
-    android:layout_height="wrap_content">
+    android:layout_height="@dimen/fifty_dip">
 
 
     <RelativeLayout
         android:layout_width="match_parent"
 
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:gravity="left"
+
             android:id="@+id/list_home_icon"
 
             android:background="@drawable/left_curve_green"
 
             android:layout_alignParentLeft="true"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 <ImageView
     android:layout_width="@dimen/twenty_dip"
     android:src="@drawable/ic_arrow_list"
@@ -44,7 +45,7 @@
             android:background="@drawable/right_curve_green"
             android:layout_alignParentRight="true"
             android:gravity="right"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
 <TextView
     android:layout_width="wrap_content"
