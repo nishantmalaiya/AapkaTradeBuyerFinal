@@ -14,7 +14,7 @@ import android.widget.RelativeLayout;
 
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.Tabletsize;
-import com.aapkatrade.buyer.general.customimageview.ZoomableImageView;
+import com.aapkatrade.buyer.uicomponent.customimageview.ZoomableImageView;
 import com.koushikdutta.ion.Ion;
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.aapkatrade.buyer.general.customimageview;
+package com.aapkatrade.buyer.uicomponent.customimageview;
 
 import android.annotation.TargetApi;
 import android.content.Context;
