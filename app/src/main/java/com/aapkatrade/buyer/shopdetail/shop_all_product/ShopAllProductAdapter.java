@@ -69,7 +69,7 @@ public class ShopAllProductAdapter extends RecyclerView.Adapter<ShopAllProductHo
         AndroidUtils.showErrorLog(context, "___________PRODUCT ID---3--------->"+itemList.get(position).productId);
 
         holder.tvProductName.setText(itemList.get(position).productName);
-        holder.tvProductPrice.setText(context.getResources().getText(R.string.Rs)+itemList.get(position).productPrice);
+        holder.tvProductPrice.setText(context.getResources().getText(R.string.rupay_text)+itemList.get(position).productPrice);
 
         System.out.println("itemlist------------"+itemList.get(position).productImage);
 

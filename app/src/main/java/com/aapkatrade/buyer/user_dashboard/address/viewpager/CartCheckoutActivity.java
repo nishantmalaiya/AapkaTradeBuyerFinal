@@ -130,9 +130,9 @@ public class CartCheckoutActivity extends AppCompatActivity {
 
         tvPriceItems = (TextView) findViewById(R.id.tvPriceItems);
 
-        tvPriceItems.setText(getApplicationContext().getResources().getText(R.string.Rs) + "4251");
+        tvPriceItems.setText(getApplicationContext().getResources().getText(R.string.rupay_text) + "4251");
 
-        tvAmountPayable.setText(getApplicationContext().getResources().getText(R.string.Rs) + "4251");
+        tvAmountPayable.setText(getApplicationContext().getResources().getText(R.string.rupay_text) + "4251");
 
         AndroidUtils.setImageColor(locationImageView, context, R.color.green);
 
@@ -221,9 +221,9 @@ public class CartCheckoutActivity extends AppCompatActivity {
                             String total_amount = jsonObject.get("total_amount").getAsString();
 
                             tvPriceItemsHeading.setText("Price (" + cart_count + " item)");
-                            tvPriceItems.setText(getApplicationContext().getResources().getText(R.string.Rs) + total_amount);
-                            tvAmountPayable.setText(getApplicationContext().getResources().getText(R.string.Rs) + total_amount);
-                            // tvLastPayableAmount.setText(getApplicationContext().getResources().getText(R.string.Rs)+total_amount);
+                            tvPriceItems.setText(getApplicationContext().getResources().getText(R.string.rupay_text) + total_amount);
+                            tvAmountPayable.setText(getApplicationContext().getResources().getText(R.string.rupay_text) + total_amount);
+                            // tvLastPayableAmount.setText(getApplicationContext().getResources().getText(R.string.rupay_text)+total_amount);
 
                             JsonArray jsonProductList = jsonObject.getAsJsonArray("items");
                             if (jsonProductList != null && jsonProductList.size() > 0) {
@@ -286,7 +286,7 @@ public class CartCheckoutActivity extends AppCompatActivity {
                             Intent payment = new Intent(CartCheckoutActivity.this, PaymentActivity.class);
                             payment.putExtra("order_number", order_number);
                             payment.putExtra("userid", userid);
-                            payment.putExtra("price", tvAmountPayable.getText().toString().replace(getApplicationContext().getResources().getText(R.string.Rs), "").trim());
+                            payment.putExtra("price", tvAmountPayable.getText().toString().replace(getApplicationContext().getResources().getText(R.string.rupay_text), "").trim());
                             startActivity(payment);
 
 
