@@ -17,6 +17,7 @@
     <dimen name="five_dip">6dp</dimen>
     <dimen name="textsize_medium">16sp</dimen>
     <dimen name="ten_dip">11dp</dimen>
+    <dimen name="minus_ten_dip">-11dp</dimen>
     <dimen name="three_dip">3dp</dimen>
 
     <dimen name="thirty_five_dip">39dp</dimen>

@@ -8,45 +8,18 @@
     android:background="@color/white"
     tools:context="com.aapkatrade.buyer.privacypolicy.PrivacyPolicyActivity">
 
-    <include layout="@layout/toolbar_layout" />
+    <include layout="@layout/toolbar_layout"
+        />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <LinearLayout
-            android:id="@+id/leftBarLayout"
-            android:layout_width="@dimen/fifteen_dip"
-            android:layout_height="match_parent"
-            android:layout_alignParentStart="true"
-            android:layout_marginBottom="@dimen/ten_dip"
-            android:layout_marginTop="@dimen/ten_dip"
-            android:orientation="vertical"
-            tools:ignore="RtlCompat">
-
-            <View
-                android:id="@+id/leftBarTopView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
-
-            <View
-                android:id="@+id/leftBarBottomView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
-
-
-        </LinearLayout>
-
-
-        <LinearLayout
             android:id="@+id/policyContentMainLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="@dimen/ten_dip"
-            android:layout_toEndOf="@+id/leftBarLayout"
-            android:layout_toStartOf="@+id/rightBarLayout"
             android:orientation="vertical"
             android:animateLayoutChanges="true"
             tools:ignore="RtlCompat">
@@ -93,51 +66,16 @@
                         android:textIsSelectable="true"
                         android:textSize="@dimen/textsize_medium" />
 
-
-
                 </android.support.v4.widget.NestedScrollView>
 
                 <TextView
                     android:id="@+id/tvReadMore"
-                    android:layout_width="match_parent"
+                    android:layout_width="@dimen/fourty_dip"
                     android:layout_height="@dimen/fourty_dip"
                     android:layout_alignParentBottom="true"
-                    android:gravity="end"
-                    android:text="@string/readMore"
-                    android:textStyle="bold"
-                    android:layout_weight="1"
-                    android:textColor="@color/green"
-                    android:textSize="@dimen/twenty_dip" />
+                    android:layout_alignParentEnd="true" />
 
             </RelativeLayout>
-
-
-
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/rightBarLayout"
-            android:layout_width="@dimen/fifteen_dip"
-            android:layout_height="match_parent"
-            android:layout_alignParentEnd="true"
-            android:layout_marginBottom="@dimen/ten_dip"
-            android:layout_marginTop="@dimen/ten_dip"
-            android:orientation="vertical"
-            tools:ignore="RtlCompat">
-
-            <View
-                android:id="@+id/rightBarTopView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
-
-            <View
-                android:id="@+id/rightBarBottomView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
 
         </LinearLayout>
 
