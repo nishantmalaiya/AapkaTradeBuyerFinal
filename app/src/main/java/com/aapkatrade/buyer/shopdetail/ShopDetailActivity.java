@@ -11,7 +11,6 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.LinearLayoutManager;
@@ -32,14 +31,10 @@ import android.widget.Toast;
 
 import com.aapkatrade.buyer.Home.CommomAdapter;
 import com.aapkatrade.buyer.Home.CommomData;
-import com.aapkatrade.buyer.Home.DashboardFragment;
 import com.aapkatrade.buyer.Home.HomeActivity;
-import com.aapkatrade.buyer.Home.aboutus.AboutUsFragment;
 import com.aapkatrade.buyer.Home.cart.MyCartActivity;
 import com.aapkatrade.buyer.R;
-import com.aapkatrade.buyer.contact_us.ContactUsFragment;
 import com.aapkatrade.buyer.dialogs.ServiceEnquiry;
-import com.aapkatrade.buyer.dialogs.track_order.Track_order_dialog;
 import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.CheckPermission;
 import com.aapkatrade.buyer.general.LocationManagerCheck;
@@ -55,9 +50,7 @@ import com.aapkatrade.buyer.shopdetail.opening_closing_days.OpenCloseShopData;
 import com.aapkatrade.buyer.shopdetail.reviewlist.ReviewListAdapter;
 import com.aapkatrade.buyer.shopdetail.reviewlist.ReviewListData;
 import com.aapkatrade.buyer.shopdetail.shop_all_product.ShopAllProductActivity;
-import com.aapkatrade.buyer.user_dashboard.UserDashboardFragment;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
-import com.aurelhubert.ahbottomnavigation.AHBottomNavigationAdapter;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -109,7 +102,7 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
     private ArrayList<CommomData> productlist = new ArrayList<>();
     private String product_name;
     private DroppyMenuPopup droppyMenu;
-    private AppSharedPreference app_sharedpreference;
+    private AppSharedPreference appSharedPreference;
     private RecyclerView reviewList, openShopList, productRecyclerView;
     private LinearLayoutManager mLayoutManager, mLayoutManagerShoplist, llmanagerProductList;
     private ReviewListAdapter reviewListAdapter;
@@ -131,7 +124,7 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
 
         setContentView(R.layout.activity_shop_detail);
 
-        app_sharedpreference = new AppSharedPreference(ShopDetailActivity.this);
+        appSharedPreference = new AppSharedPreference(ShopDetailActivity.this);
 
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
@@ -254,6 +247,10 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
 
                             tvShopAddress.setText(address);
                             tvPhone.setText(phone);
+                            if(Validation.isEmptyStr(mobile)){
+                                tvMobile.setVisibility(View.GONE);
+                                findViewById(R.id.img_mobile).setVisibility(View.GONE);
+                            }
                             tvMobile.setText(mobile);
                             /*
                             ===================================== Shop Opening Closing Days ========================================
@@ -288,6 +285,9 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
                             }
 
                             tvshopName.setText(product_name);
+                            if(Validation.isEmptyStr(description)){
+                                findViewById(R.id.descriptionLayout).setVisibility(View.GONE);
+                            }
                             tvDiscription.setText(description);
                             setUpViewPager();
 
@@ -401,7 +401,7 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
 
 
     private void initView() {
-        context = ShopDetailActivity.this;
+        AndroidUtils.showToast(context, "Hi This is my Toast");
         shopProductsLayout = (RelativeLayout) findViewById(R.id.shop_products_relative_layout);
         progress_handler = new ProgressBarHandler(this);
 
@@ -439,16 +439,16 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
             @Override
             public void onClick(View v) {
 
-//                if (app_sharedpreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString(), "not").contains("not")) {
-//                    startActivity(new Intent(ShopDetailActivity.this, LoginActivity.class));
-//                } else {
-//                    Intent rate_us = new Intent(ShopDetailActivity.this, RateUsActivity.class);
-//                    rate_us.putExtra("product_id", product_id);
-//                    rate_us.putExtra("product_name", tvshopName.getText().toString());
-//                    rate_us.putExtra("product_price", "");
-//                    rate_us.putExtra("product_image", imageList.get(0));
-//                    startActivity(rate_us);
-//                }
+                if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString(), "not").contains("not")) {
+                    startActivity(new Intent(ShopDetailActivity.this, LoginActivity.class));
+                } else {
+                    Intent rate_us = new Intent(ShopDetailActivity.this, RateUsActivity.class);
+                    rate_us.putExtra("product_id", product_id);
+                    rate_us.putExtra("product_name", tvshopName.getText().toString());
+                    rate_us.putExtra("product_price", "");
+                    rate_us.putExtra("product_image", imageList.get(0));
+                    startActivity(rate_us);
+                }
             }
         });
 
@@ -579,7 +579,7 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
 
         tvCartCount = (TextView) badgeLayout.findViewById(R.id.tvCartCount);
 
-        tvCartCount.setText(String.valueOf(app_sharedpreference.getSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), 0)));
+        tvCartCount.setText(String.valueOf(appSharedPreference.getSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), 0)));
 
         badgeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -599,7 +599,7 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
         switch (id) {
             case R.id.cart_total_item:
 
-                if (app_sharedpreference.getSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), 0) == 0) {
+                if (appSharedPreference.getSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), 0) == 0) {
                     Toast.makeText(getApplicationContext(), "My Cart have no items please add items in cart", Toast.LENGTH_SHORT).show();
                 } else {
                     Intent intent = new Intent(ShopDetailActivity.this, MyCartActivity.class);
@@ -642,7 +642,7 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
 
             shopDetailActivity = 2;
         } else {
-            tvCartCount.setText(String.valueOf(app_sharedpreference.getSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), 0)));
+            tvCartCount.setText(String.valueOf(appSharedPreference.getSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), 0)));
         }
 
     }

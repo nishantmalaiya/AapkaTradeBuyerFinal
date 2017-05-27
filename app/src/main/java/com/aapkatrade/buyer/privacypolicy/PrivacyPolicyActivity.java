@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatImageView;
@@ -31,7 +32,6 @@ public class PrivacyPolicyActivity extends AppCompatActivity {
     private TextView tvPolicy, tvReadMore;
     private RelativeLayout expandableRelativeLayout;
     private LinearLayout policyContentMainLayout;
-    private View leftBarTopView, leftBarBottomView, rightBarTopView, rightBarBottomView;
     private LinearLayout policyHeaderLayout;
 
 
@@ -67,21 +67,13 @@ public class PrivacyPolicyActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        leftBarTopView = findViewById(R.id.leftBarTopView);
-        leftBarBottomView = findViewById(R.id.leftBarBottomView);
-        rightBarTopView = findViewById(R.id.rightBarTopView);
-        rightBarBottomView = findViewById(R.id.rightBarBottomView);
-        AndroidUtils.setBackgroundSolid(leftBarTopView, context, R.color.purple_2, 0, GradientDrawable.RECTANGLE);
-        AndroidUtils.setBackgroundSolid(leftBarBottomView, context, R.color.grey_2, 0, GradientDrawable.RECTANGLE);
-        AndroidUtils.setBackgroundSolid(rightBarTopView, context, R.color.red_light, 0, GradientDrawable.RECTANGLE);
-        AndroidUtils.setBackgroundSolid(rightBarBottomView, context, R.color.grey_2, 0, GradientDrawable.RECTANGLE);
-
         policyContentMainLayout = (LinearLayout) findViewById(R.id.policyContentMainLayout);
         AndroidUtils.setBackgroundSolid(policyContentMainLayout, context, android.R.color.transparent, 10, GradientDrawable.RECTANGLE);
         tvPolicy = (TextView) findViewById(R.id.tvTermsAndConditions);
         tvPolicy.setText("");
         policyHeaderLayout = (LinearLayout) findViewById(R.id.policyHeaderLayout);
         tvReadMore = (TextView) findViewById(R.id.tvReadMore);
+        tvReadMore.setBackground(AndroidUtils.setImageColor(context, R.drawable.ic_arrow, R.color.green));
         tvReadMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,8 +85,6 @@ public class PrivacyPolicyActivity extends AppCompatActivity {
                         policyContentMainLayout.removeView(tvReadMore);
                     }
                 });
-                AndroidUtils.setBackgroundSolid(leftBarTopView, context, R.color.grey_2, 0, GradientDrawable.RECTANGLE);
-                AndroidUtils.setBackgroundSolid(rightBarTopView, context, R.color.grey_2, 0, GradientDrawable.RECTANGLE);
                 tvReadMore.setVisibility(View.GONE);
             }
         });

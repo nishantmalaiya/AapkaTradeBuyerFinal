@@ -244,14 +244,14 @@ public class CustomQuantityCheckout extends DialogFragment
                                    // HomeActivity.tvCartCount.setText(String.valueOf(appSharedPreference.getSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), 0)));
 
                                     CartCheckoutActivity.tvPriceItemsHeading.setText("Price (" + cart_count + " items)");
-                                    CartCheckoutActivity.tvPriceItems.setText(context.getResources().getText(R.string.Rs) + total_amount);
-                                    CartCheckoutActivity.tvAmountPayable.setText(context.getResources().getText(R.string.Rs) + total_amount);
+                                    CartCheckoutActivity.tvPriceItems.setText(context.getResources().getText(R.string.rupay_text) + total_amount);
+                                    CartCheckoutActivity.tvAmountPayable.setText(context.getResources().getText(R.string.rupay_text) + total_amount);
 
 
                                     textView_qty.setText(etManualQuantity.getText().toString().trim());
                                     double cart_price = Double.valueOf(price) *Integer.valueOf(etManualQuantity.getText().toString().trim());
                                     System.out.println("cart_price dailog----------"+cart_price);
-                                    tvsubtotal.setText(context.getResources().getText(R.string.Rs)+String.valueOf(cart_price));
+                                    tvsubtotal.setText(context.getResources().getText(R.string.rupay_text)+String.valueOf(cart_price));
                                     commonInterface.getData(Integer.parseInt(etManualQuantity.getText().toString().trim()));
 
                                     //notifyDataSetChanged();
