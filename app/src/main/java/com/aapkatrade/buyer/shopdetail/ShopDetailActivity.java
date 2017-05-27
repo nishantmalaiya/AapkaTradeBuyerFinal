@@ -95,7 +95,7 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
     private String productlocation, categoryName;
     private LinearLayout linearLayoutQuantity;
     private EditText firstName, quantity, price, mobile, email, etEndDate, etStatDate, description, editText;
-    private TextView tvServiceBuy, textViewQuantity, tvRatingAverage, tvTotal_rating_review, tvShopAddress, tvMobile, tvPhone;
+    private TextView tvServiceBuy, textViewQuantity, tvRatingAverage, tvTotal_rating_review, tvShopAddress, tvMobile, tvPhone,listfootername,tv_list_quantity;
     private Dialog dialog;
     private Context context;
     private ArrayList<CommomData> productlist = new ArrayList<>();
@@ -409,7 +409,8 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
         AndroidUtils.showToast(context, "This is my Toast");
         shopProductsLayout = (RelativeLayout) findViewById(R.id.shop_products_relative_layout);
         progress_handler = new ProgressBarHandler(this);
-
+        listfootername=(TextView) findViewById(R.id.listfootername);
+        tv_list_quantity=(TextView)findViewById(R.id.tv_list_quantity);
         imageList = new ArrayList<>();
 
         relativeRateReview = (RelativeLayout) findViewById(R.id.relativeRateReview);
