@@ -61,15 +61,11 @@ public class ServiceEnquiry extends DialogFragment {
                              Bundle savedInstanceState) {
         viewgrp = container;
         v = inflater.inflate(R.layout.fragment_service_enquiry, container, false);
+        //noinspection ConstantConditions
         getDialog().getWindow().setBackgroundDrawableResource(R.drawable.rounded_dialog);
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-
-
-
         progressDialogHandler =new ProgressDialogHandler(getActivity());
         initView(v);
-
-
         return v;
     }
 

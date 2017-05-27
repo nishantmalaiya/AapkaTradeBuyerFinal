@@ -99,9 +99,9 @@ public class CartCheckOutAdapter extends RecyclerView.Adapter<CartHolder> implem
 
         holder.tvProductName.setText(itemList.get(position).productName);
 
-        holder.tvProductPrice.setText(context.getResources().getText(R.string.Rs)+itemList.get(position).price);
+        holder.tvProductPrice.setText(context.getResources().getText(R.string.rupay_text)+itemList.get(position).price);
 
-        holder.tvProductSubtotalPrice.setText(context.getResources().getText(R.string.Rs)+itemList.get(position).subtotal_price);
+        holder.tvProductSubtotalPrice.setText(context.getResources().getText(R.string.rupay_text)+itemList.get(position).subtotal_price);
 
         System.out.println("itemlist-------------"+itemList.get(position).product_image);
 
@@ -144,7 +144,7 @@ public class CartCheckOutAdapter extends RecyclerView.Adapter<CartHolder> implem
                         //holder.textView64.setText(itemList.get(position).quantity);
                         cart_price = Double.valueOf(itemList.get(position).price) *1;
                         /// itemList.set(position, new CartData(itemList.get(position).id,itemList.get(position).productName,"1",cart_price,itemList.get(position).product_image,itemList.get(position).product_id));
-                        //holder.tvProductSubtotalPrice.setText(context.getResources().getText(R.string.Rs)+String.valueOf(cart_price));
+                        //holder.tvProductSubtotalPrice.setText(context.getResources().getText(R.string.rupay_text)+String.valueOf(cart_price));
                         place_order.add(position,new CartData(itemList.get(position).id,itemList.get(position).productName,"1",String.valueOf(cart_price),itemList.get(position).product_image,itemList.get(position).product_id,itemList.get(position).subtotal_price));
                         //callWebServiceUpdateCart(itemList.get(position).id,position,"1");
 
@@ -152,7 +152,7 @@ public class CartCheckOutAdapter extends RecyclerView.Adapter<CartHolder> implem
 
                       /*  if (callWebServiceUpdateCart(itemList.get(position).id,position,"1",itemList.get(position).product_id,holder,cart_price))
                         {
-                            holder.tvProductSubtotalPrice.setText(context.getResources().getText(R.string.Rs)+String.valueOf(cart_price));
+                            holder.tvProductSubtotalPrice.setText(context.getResources().getText(R.string.rupay_text)+String.valueOf(cart_price));
                             holder.textView64.setText(itemList.get(position).quantity);
                         }*/
                         break;
@@ -161,7 +161,7 @@ public class CartCheckOutAdapter extends RecyclerView.Adapter<CartHolder> implem
                         //holder.textView64.setText(itemList.get(position).quantity);
                         cart_price = Double.valueOf(itemList.get(position).price) *2;
                         System.out.println("cart_price----------"+cart_price);
-                        //holder.tvProductSubtotalPrice.setText(context.getResources().getText(R.string.Rs)+String.valueOf(cart_price));
+                        //holder.tvProductSubtotalPrice.setText(context.getResources().getText(R.string.rupay_text)+String.valueOf(cart_price));
                         place_order.add(position,new CartData(itemList.get(position).id,itemList.get(position).productName,"2",String.valueOf(cart_price),itemList.get(position).product_image,itemList.get(position).product_id,itemList.get(position).subtotal_price));
                         //callWebServiceUpdateCart(itemList.get(position).id,position,"2");
 
@@ -170,7 +170,7 @@ public class CartCheckOutAdapter extends RecyclerView.Adapter<CartHolder> implem
 
                         /* if (callWebServiceUpdateCart(itemList.get(position).id,position,"2",itemList.get(position).product_id))
                         {
-                            holder.tvProductSubtotalPrice.setText(context.getResources().getText(R.string.Rs)+String.valueOf(cart_price));
+                            holder.tvProductSubtotalPrice.setText(context.getResources().getText(R.string.rupay_text)+String.valueOf(cart_price));
                             holder.textView64.setText(itemList.get(position).quantity);
                         }*/
 
@@ -179,7 +179,7 @@ public class CartCheckOutAdapter extends RecyclerView.Adapter<CartHolder> implem
                         itemList.get(position).setQuantity("3");
                         //holder.textView64.setText(itemList.get(position).quantity);
                         cart_price = Double.valueOf(itemList.get(position).price) *3;
-                        //holder.tvProductSubtotalPrice.setText(context.getResources().getText(R.string.Rs)+String.valueOf(cart_price));
+                        //holder.tvProductSubtotalPrice.setText(context.getResources().getText(R.string.rupay_text)+String.valueOf(cart_price));
                         place_order.add(position,new CartData(itemList.get(position).id,itemList.get(position).productName,"3",String.valueOf(cart_price),itemList.get(position).product_image,itemList.get(position).product_id,itemList.get(position).subtotal_price));
                         //callWebServiceUpdateCart(itemList.get(position).id,position,"3");
 
@@ -187,7 +187,7 @@ public class CartCheckOutAdapter extends RecyclerView.Adapter<CartHolder> implem
 
                        /*  if (callWebServiceUpdateCart(itemList.get(position).id,position,"3",itemList.get(position).product_id))
                         {
-                            holder.tvProductSubtotalPrice.setText(context.getResources().getText(R.string.Rs)+String.valueOf(cart_price));
+                            holder.tvProductSubtotalPrice.setText(context.getResources().getText(R.string.rupay_text)+String.valueOf(cart_price));
                             holder.textView64.setText(itemList.get(position).quantity);
                         }*/
 
@@ -198,7 +198,7 @@ public class CartCheckOutAdapter extends RecyclerView.Adapter<CartHolder> implem
                         itemList.get(position).setQuantity("4");
                         //holder.textView64.setText(itemList.get(position).quantity);
                         cart_price = Double.valueOf(itemList.get(position).price) *4;
-                        //holder.tvProductSubtotalPrice.setText(context.getResources().getText(R.string.Rs)+String.valueOf(cart_price));
+                        //holder.tvProductSubtotalPrice.setText(context.getResources().getText(R.string.rupay_text)+String.valueOf(cart_price));
                         place_order.add(position,new CartData(itemList.get(position).id,itemList.get(position).productName,"4",String.valueOf(cart_price),itemList.get(position).product_image,itemList.get(position).product_id,itemList.get(position).subtotal_price));
                         //callWebServiceUpdateCart(itemList.get(position).id,position,"4");
 
@@ -206,7 +206,7 @@ public class CartCheckOutAdapter extends RecyclerView.Adapter<CartHolder> implem
 
                        /* if (callWebServiceUpdateCart(itemList.get(position).id,position,"4",itemList.get(position).product_id))
                         {
-                            holder.tvProductSubtotalPrice.setText(context.getResources().getText(R.string.Rs)+String.valueOf(cart_price));
+                            holder.tvProductSubtotalPrice.setText(context.getResources().getText(R.string.rupay_text)+String.valueOf(cart_price));
                             holder.textView64.setText(itemList.get(position).quantity);
                         }*/
                         break;
@@ -214,7 +214,7 @@ public class CartCheckOutAdapter extends RecyclerView.Adapter<CartHolder> implem
                         itemList.get(position).setQuantity("5");
                         //holder.textView64.setText(itemList.get(position).quantity);
                         cart_price = Double.valueOf(itemList.get(position).price) *5;
-                        //holder.tvProductSubtotalPrice.setText(context.getResources().getText(R.string.Rs)+String.valueOf(cart_price));
+                        //holder.tvProductSubtotalPrice.setText(context.getResources().getText(R.string.rupay_text)+String.valueOf(cart_price));
                         place_order.add(position,new CartData(itemList.get(position).id,itemList.get(position).productName,"5",String.valueOf(cart_price),itemList.get(position).product_image,itemList.get(position).product_id,itemList.get(position).subtotal_price));
                         //callWebServiceUpdateCart(itemList.get(position).id,position,"5");
 
@@ -222,7 +222,7 @@ public class CartCheckOutAdapter extends RecyclerView.Adapter<CartHolder> implem
 
                        /* if (callWebServiceUpdateCart(itemList.get(position).id,position,"5",itemList.get(position).product_id))
                         {
-                            holder.tvProductSubtotalPrice.setText(context.getResources().getText(R.string.Rs)+String.valueOf(cart_price));
+                            holder.tvProductSubtotalPrice.setText(context.getResources().getText(R.string.rupay_text)+String.valueOf(cart_price));
                             holder.textView64.setText(itemList.get(position).quantity);
                         }*/
 
@@ -339,9 +339,9 @@ public class CartCheckOutAdapter extends RecyclerView.Adapter<CartHolder> implem
                                 appSharedPreference.setSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), Integer.valueOf(cart_count));
 
                                 CartCheckoutActivity.tvPriceItemsHeading.setText("Price (" + cart_count + " items)");
-                                CartCheckoutActivity.tvPriceItems.setText(context.getResources().getText(R.string.Rs) + total_amount);
-                                CartCheckoutActivity.tvAmountPayable.setText(context.getResources().getText(R.string.Rs) + total_amount);
-                                // CartCheckoutActivity.tvLastPayableAmount.setText(context.getResources().getText(R.string.Rs)+total_amount);
+                                CartCheckoutActivity.tvPriceItems.setText(context.getResources().getText(R.string.rupay_text) + total_amount);
+                                CartCheckoutActivity.tvAmountPayable.setText(context.getResources().getText(R.string.rupay_text) + total_amount);
+                                // CartCheckoutActivity.tvLastPayableAmount.setText(context.getResources().getText(R.string.rupay_text)+total_amount);
 
                                 place_order.remove(position);
                                 itemList.remove(position);
@@ -437,13 +437,13 @@ public class CartCheckOutAdapter extends RecyclerView.Adapter<CartHolder> implem
                                     appSharedPreference.setSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), Integer.valueOf(cart_count));
 
                                     CartCheckoutActivity.tvPriceItemsHeading.setText("Price (" + cart_count + " item)");
-                                    CartCheckoutActivity.tvPriceItems.setText(context.getResources().getText(R.string.Rs) + total_amount);
-                                    CartCheckoutActivity.tvAmountPayable.setText(context.getResources().getText(R.string.Rs) + total_amount);
-                                    //CartCheckoutActivity.tvLastPayableAmount.setText(context.getResources().getText(R.string.Rs)+total_amount);
+                                    CartCheckoutActivity.tvPriceItems.setText(context.getResources().getText(R.string.rupay_text) + total_amount);
+                                    CartCheckoutActivity.tvAmountPayable.setText(context.getResources().getText(R.string.rupay_text) + total_amount);
+                                    //CartCheckoutActivity.tvLastPayableAmount.setText(context.getResources().getText(R.string.rupay_text)+total_amount);
 
                                     System.out.println("cart updated " + result.toString());
 
-                                    cartHolder.tvProductSubtotalPrice.setText(context.getResources().getText(R.string.Rs)+String.valueOf(cart_price));
+                                    cartHolder.tvProductSubtotalPrice.setText(context.getResources().getText(R.string.rupay_text)+String.valueOf(cart_price));
                                     cartHolder.textView64.setText(itemList.get(position).quantity);
 
                                     //notifyDataSetChanged();

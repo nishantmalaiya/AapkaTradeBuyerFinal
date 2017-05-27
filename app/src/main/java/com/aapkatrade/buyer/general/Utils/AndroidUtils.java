@@ -8,14 +8,20 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.aapkatrade.buyer.Home.navigation.entity.CategoryHome;
+import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.Validation;
 
 import java.util.ArrayList;
@@ -141,8 +147,7 @@ public class AndroidUtils {
 
     public static Drawable setImageColor(Context context, int imageDrawable, int color) {
         Drawable mDrawable = ContextCompat.getDrawable(context, imageDrawable);
-        mDrawable.setColorFilter(ContextCompat.getColor(context, color), PorterDuff.Mode.MULTIPLY);
-
+        mDrawable.setColorFilter(ContextCompat.getColor(context, color), PorterDuff.Mode.SRC_ATOP);
         return mDrawable;
 
     }
@@ -169,11 +174,23 @@ public class AndroidUtils {
     }
 
     public static void setGradientColor(View layout, int viewShape, int startColor, int endColor, GradientDrawable.Orientation orientation, int cornerRadius) {
-        GradientDrawable gradient = new GradientDrawable(orientation, new int[]{startColor, endColor});
+        GradientDrawable gradient = new GradientDrawable(orientation, new int[]{startColor,endColor});
         gradient.setShape(viewShape);
         gradient.setCornerRadius(cornerRadius);
         layout.setBackground(gradient);
     }
 
+    public static void showToast(Context context, String message){
+        View v = ((Activity)context).getLayoutInflater().inflate(R.layout.my_toast, (ViewGroup) (((Activity) context).findViewById(R.id.myToast)), false);
+        LinearLayout myToastLinearLayout = (LinearLayout) v.findViewById(R.id.myToast);
+        setGradientColor(myToastLinearLayout, GradientDrawable.RECTANGLE, ContextCompat.getColor(context, R.color.toast_start_color), ContextCompat.getColor(context, R.color.toast_end_color), GradientDrawable.Orientation.TOP_BOTTOM, 50);
+        TextView textView = (TextView) v.findViewById(R.id.msg);
+        textView.setText(message);
+        Toast toast = new Toast(context);
+        toast.setDuration(Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER_HORIZONTAL,0,0);
+        toast.setView(v);
+        toast.show();
+    }
 
 }

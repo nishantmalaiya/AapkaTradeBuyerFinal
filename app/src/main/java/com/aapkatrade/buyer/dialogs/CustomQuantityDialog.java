@@ -224,16 +224,16 @@ public class CustomQuantityDialog extends DialogFragment {
                                     HomeActivity.tvCartCount.setText(String.valueOf(appSharedPreference.getSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), 0)));
 
                                     MyCartActivity.tvPriceItemsHeading.setText("Price (" + cart_count + " items)");
-                                    MyCartActivity.tvPriceItems.setText(context.getResources().getText(R.string.Rs) + total_amount);
-                                    MyCartActivity.tvAmountPayable.setText(context.getResources().getText(R.string.Rs) + total_amount);
-                                    MyCartActivity.tvLastPayableAmount.setText(context.getResources().getText(R.string.Rs) + total_amount);
+                                    MyCartActivity.tvPriceItems.setText(context.getResources().getText(R.string.rupay_text) + total_amount);
+                                    MyCartActivity.tvAmountPayable.setText(context.getResources().getText(R.string.rupay_text) + total_amount);
+                                    MyCartActivity.tvLastPayableAmount.setText(context.getResources().getText(R.string.rupay_text) + total_amount);
 
                                     System.out.println("cart updated " + result.toString());
 
                                     textView_qty.setText(etManualQuantity.getText().toString().trim());
                                     double cart_price = Double.valueOf(price) * Integer.valueOf(etManualQuantity.getText().toString().trim());
                                     System.out.println("cart_price dailog----------" + cart_price);
-                                    tvsubtotal.setText(context.getResources().getText(R.string.Rs) + String.valueOf(cart_price));
+                                    tvsubtotal.setText(context.getResources().getText(R.string.rupay_text) + String.valueOf(cart_price));
                                     commonInterface.getData(Integer.parseInt(etManualQuantity.getText().toString().trim()));
 
                                     //notifyDataSetChanged();

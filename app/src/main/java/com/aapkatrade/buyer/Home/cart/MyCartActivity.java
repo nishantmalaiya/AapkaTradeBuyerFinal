@@ -229,10 +229,10 @@ public class MyCartActivity extends AppCompatActivity {
                             String cart_count = jsonObject.get("total_qty").getAsString();
                             String total_amount = jsonObject.get("total_amount").getAsString();
 
-                            tvPriceItemsHeading.setText("Price (" + cart_count + " items)");
-                            tvPriceItems.setText(getApplicationContext().getResources().getText(R.string.Rs) + total_amount);
-                            tvAmountPayable.setText(getApplicationContext().getResources().getText(R.string.Rs) + total_amount);
-                            tvLastPayableAmount.setText(getApplicationContext().getResources().getText(R.string.Rs) + total_amount);
+                            tvPriceItemsHeading.setText(new StringBuilder("Price ( ").append(cart_count).append(" Items )"));
+                            tvPriceItems.setText(new StringBuilder(context.getResources().getText(R.string.rupay_text)).append(" ").append(total_amount));
+                            tvAmountPayable.setText(new StringBuilder(context.getString(R.string.rupay_text)).append(" ").append(total_amount));
+                            tvLastPayableAmount.setText(new StringBuilder(context.getString(R.string.rupay_text)).append(" ").append(total_amount));
 
                             JsonArray jsonProductList = jsonObject.getAsJsonArray("items");
 

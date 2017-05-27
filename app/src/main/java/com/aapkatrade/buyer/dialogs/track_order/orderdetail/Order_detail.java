@@ -19,6 +19,7 @@ import com.aapkatrade.buyer.dialogs.track_order.CommonHolderOrderListAdapter;
 import com.aapkatrade.buyer.Home.HomeActivity;
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
+import com.aapkatrade.buyer.general.Validation;
 import com.aapkatrade.buyer.shopdetail.ShopViewPagerAdapter;
 
 import org.json.JSONArray;
@@ -126,7 +127,6 @@ public class Order_detail extends AppCompatActivity {
                 tvAmountPaid.setText(AmoutPaid);
 
                 tvAddress.setText(Address);
-
 
                 tvMobile.setText(PhoneNumber);
 
