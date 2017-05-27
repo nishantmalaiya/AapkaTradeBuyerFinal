@@ -3,18 +3,22 @@ package com.aapkatrade.buyer.shopdetail;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,10 +32,14 @@ import android.widget.Toast;
 
 import com.aapkatrade.buyer.Home.CommomAdapter;
 import com.aapkatrade.buyer.Home.CommomData;
+import com.aapkatrade.buyer.Home.DashboardFragment;
 import com.aapkatrade.buyer.Home.HomeActivity;
+import com.aapkatrade.buyer.Home.aboutus.AboutUsFragment;
 import com.aapkatrade.buyer.Home.cart.MyCartActivity;
 import com.aapkatrade.buyer.R;
+import com.aapkatrade.buyer.contact_us.ContactUsFragment;
 import com.aapkatrade.buyer.dialogs.ServiceEnquiry;
+import com.aapkatrade.buyer.dialogs.track_order.Track_order_dialog;
 import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.CheckPermission;
 import com.aapkatrade.buyer.general.LocationManagerCheck;
@@ -47,6 +55,10 @@ import com.aapkatrade.buyer.shopdetail.opening_closing_days.OpenCloseShopData;
 import com.aapkatrade.buyer.shopdetail.reviewlist.ReviewListAdapter;
 import com.aapkatrade.buyer.shopdetail.reviewlist.ReviewListData;
 import com.aapkatrade.buyer.shopdetail.shop_all_product.ShopAllProductActivity;
+import com.aapkatrade.buyer.user_dashboard.UserDashboardFragment;
+import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
+import com.aurelhubert.ahbottomnavigation.AHBottomNavigationAdapter;
+import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
@@ -80,8 +92,8 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
     private CircleIndicator circleIndicator;
     private ImageView[] dots;
     private Timer banner_timer = new Timer();
-    private RelativeLayout relativeBuyNow, RelativeProductDetail, relativeRateReview;
-    private LinearLayout linearProductDetail;
+    private RelativeLayout relativeBuyNow, relativeRateReview;
+    private LinearLayout linearProductDetail, RelativeProductDetail;
     private TextView tvshopName, tvProPrice, tvCrossPrice, tvDiscription, tvSpecification, tvQuatity;
     private ProgressBarHandler progress_handler;
     private String product_id, product_location;
@@ -108,6 +120,8 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
     private String shopId;
     public static TextView tvCartCount;
     private int shopDetailActivity = 1;
+    private AHBottomNavigation bottomNavigationShop;
+    private CoordinatorLayout coordinatorLayout;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -225,7 +239,7 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
                                 for (int i = 0; i < jsonProductList.size(); i++) {
                                     JsonObject jsonproduct = (JsonObject) jsonProductList.get(i);
                                     String product_id = jsonproduct.get("id").getAsString();
-                                    AndroidUtils.showErrorLog(context, "___________PRODUCT ID---22--------->"+product_id);
+                                    AndroidUtils.showErrorLog(context, "___________PRODUCT ID---22--------->" + product_id);
                                     String product_name = jsonproduct.get("name").getAsString();
                                     String productShortDescription = jsonproduct.get("short_des").getAsString();
                                     String price = jsonproduct.get("price").getAsString();
@@ -252,12 +266,12 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
                                 for (int i = 0; i < openCloseDayArray.size(); i++) {
                                     JsonObject jsonObjectDays = (JsonObject) openCloseDayArray.get(i);
                                     OpenCloseShopData openCloseShopData = new OpenCloseShopData(jsonObjectDays.get("days").getAsString().substring(0, 3), jsonObjectDays.get("open_time") == null ? "" : jsonObjectDays.get("open_time").getAsString(), jsonObjectDays.get("close_time") == null ? "" : jsonObjectDays.get("close_time").getAsString());
-                                    if (jsonObjectDays.get("days").getAsString().toLowerCase().contains("mon")  && jsonObjectDays.get("days").getAsString().toLowerCase().contains("fri")) {
-                                            for (int j = 0; j < 5; j++) {
-                                                String[] daysName = {"Mon", "Tue", "Wed", "Thu", "Fri"};
-                                                OpenCloseShopData openCloseShopData1 = new OpenCloseShopData(daysName[j], openCloseShopData.openingTime, openCloseShopData.closingTime);
-                                                openCloseDayArrayList.add(openCloseShopData1);
-                                            }
+                                    if (jsonObjectDays.get("days").getAsString().toLowerCase().contains("mon") && jsonObjectDays.get("days").getAsString().toLowerCase().contains("fri")) {
+                                        for (int j = 0; j < 5; j++) {
+                                            String[] daysName = {"Mon", "Tue", "Wed", "Thu", "Fri"};
+                                            OpenCloseShopData openCloseShopData1 = new OpenCloseShopData(daysName[j], openCloseShopData.openingTime, openCloseShopData.closingTime);
+                                            openCloseDayArrayList.add(openCloseShopData1);
+                                        }
                                     } else {
                                         openCloseDayArrayList.add(openCloseShopData);
 
@@ -297,8 +311,8 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
     }
 
     private void removeUnavailedDays(ArrayList<OpenCloseShopData> openCloseDayArrayList) {
-        for (int i = 0; i < openCloseDayArrayList.size(); i++){
-            if(Validation.isEmptyStr(openCloseDayArrayList.get(i).openingTime) || Validation.isEmptyStr(openCloseDayArrayList.get(i).closingTime)){
+        for (int i = 0; i < openCloseDayArrayList.size(); i++) {
+            if (Validation.isEmptyStr(openCloseDayArrayList.get(i).openingTime) || Validation.isEmptyStr(openCloseDayArrayList.get(i).closingTime)) {
                 openCloseDayArrayList.remove(i);
                 i--;
             }
@@ -392,7 +406,7 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
         progress_handler = new ProgressBarHandler(this);
 
         imageList = new ArrayList<>();
-
+        setup_bottomNavigation();
         relativeRateReview = (RelativeLayout) findViewById(R.id.relativeRateReview);
         openingClosingRelativeLayout = (RelativeLayout) findViewById(R.id.opening_closing_relative_layout);
         relativeLayoutlViewAllProducts = (RelativeLayout) findViewById(R.id.rl_viewall_products);
@@ -471,7 +485,7 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
             }
         });
 
-        RelativeProductDetail = (RelativeLayout) findViewById(R.id.RelativeProductDetail);
+        RelativeProductDetail = (LinearLayout) findViewById(R.id.RelativeProductDetail);
         linearProductDetail = (LinearLayout) findViewById(R.id.linearProductDetail);
         tvshopName = (TextView) findViewById(R.id.tvShopName);
 
@@ -585,12 +599,9 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
         switch (id) {
             case R.id.cart_total_item:
 
-                if(app_sharedpreference.getSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), 0)==0)
-                {
-                    Toast.makeText(getApplicationContext(),"My Cart have no items please add items in cart",Toast.LENGTH_SHORT).show();
-                }
-                else
-                {
+                if (app_sharedpreference.getSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), 0) == 0) {
+                    Toast.makeText(getApplicationContext(), "My Cart have no items please add items in cart", Toast.LENGTH_SHORT).show();
+                } else {
                     Intent intent = new Intent(ShopDetailActivity.this, MyCartActivity.class);
                     startActivity(intent);
                 }
@@ -636,4 +647,67 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
 
     }
 
+    private void setup_bottomNavigation() {
+        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordination_home_activity);
+        bottomNavigationShop = (AHBottomNavigation) findViewById(R.id.bottom_navigation_shopdetail);
+
+
+        AHBottomNavigationItem item1 = new AHBottomNavigationItem(R.string.service_enquiry, R.drawable.img_trasparent, R.color.color_voilet);
+
+
+        bottomNavigationShop.setOnNavigationPositionListener(new AHBottomNavigation.OnNavigationPositionListener() {
+            @Override
+            public void onPositionChange(int y) {
+                Log.d("DemoActivity", "BottomNavigation Position: " + y);
+            }
+        });
+        bottomNavigationShop.addItem(item1);
+
+        bottomNavigationShop.setDefaultBackgroundColor(getResources().getColor(R.color.color_voilet));
+        bottomNavigationShop.setBehaviorTranslationEnabled(true);
+        bottomNavigationShop.setSelectedBackgroundVisible(false);
+        bottomNavigationShop.setAccentColor(getResources().getColor(R.color.color_voilet));
+        bottomNavigationShop.setInactiveColor(Color.parseColor("#000000"));
+        bottomNavigationShop.setForceTint(false);
+        bottomNavigationShop.removeAllViews();
+        LayoutInflater vi = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//        View bottomNavigationService = vi.inflate(R.layout.bottom_navigation, null);
+//        bottomNavigationShop.addView(bottomNavigationService);
+        bottomNavigationShop.setTranslucentNavigationEnabled(false);
+        bottomNavigationShop.setTitleState(AHBottomNavigation.TitleState.ALWAYS_SHOW);
+
+
+        bottomNavigationShop.setColored(true);
+        bottomNavigationShop.setCurrentItem(0);
+
+        bottomNavigationShop.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
+            @Override
+            public boolean onTabSelected(int position, boolean wasSelected) {
+
+                switch (position) {
+                    case 0:
+
+
+                        ServiceEnquiry serviceEnquiry = new ServiceEnquiry(product_id, context);
+
+
+                        FragmentManager fm = getSupportFragmentManager();
+                        serviceEnquiry.show(fm, "enquiry");
+
+                        break;
+
+
+                }
+                // Do something cool here...
+                return true;
+            }
+        });
+        bottomNavigationShop.setOnNavigationPositionListener(new AHBottomNavigation.OnNavigationPositionListener() {
+            @Override
+            public void onPositionChange(int y) {
+                // Manage the new y position
+            }
+        });
+
+    }
 }

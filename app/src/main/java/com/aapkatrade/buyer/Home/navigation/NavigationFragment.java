@@ -1,9 +1,11 @@
 package com.aapkatrade.buyer.Home.navigation;
 
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -66,13 +68,14 @@ public class NavigationFragment extends Fragment {
     private TextView textViewName, emailid;
     private NavigationAdapter category_adapter;
     public ArrayList<CategoryHome> listDataHeader = new ArrayList<>();
-    private RelativeLayout rlprofilepic, rlLogout, rlPolicy, rlTerms;
+    private RelativeLayout rlprofilepic, rlLogout, rlPolicy, rlTerms, rlInvite;
     private View rlMainContent;
     private ProgressBarHandler progressBarHandler;
     private RecyclerView navigationRecycleview;
     private LinearLayoutManager navigationLinearLayoutManager;
     private ImageView navigationClose;
     public static CircleImageView profilePic;
+
 
     public NavigationFragment() {
     }
@@ -107,6 +110,29 @@ public class NavigationFragment extends Fragment {
 
                     //showOrHideBottomNavigation(true);
                 }
+
+            }
+        });
+
+        rlInvite = (RelativeLayout) view.findViewById(R.id.rl_invite);
+
+        rlInvite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent share = new Intent(Intent.ACTION_SEND);
+                share.setType("text/plain");
+               // Uri screenshotUri = Uri.parse("android.resource://"+getActivity().getPackageName()+"/" + R.drawable.ic_app_icon);
+                String strShareMessage = "\nLet me recommend you this application\n\n";
+                strShareMessage = strShareMessage + "https://play.google.com/store/apps/details?id=" + getActivity().getPackageName();
+               // share.setType("image");
+              //  share.putExtra(Intent.EXTRA_STREAM, screenshotUri);
+                share.putExtra(Intent.EXTRA_TEXT, strShareMessage);
+
+
+                startActivity(Intent.createChooser(share, "Share using"));
+
+
+
 
             }
         });

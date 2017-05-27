@@ -45,7 +45,6 @@ public class ShopAllProductAdapter extends RecyclerView.Adapter<ShopAllProductHo
     AppSharedPreference appSharedPreference;
 
 
-
     public ShopAllProductAdapter(Context context, List<ShopAllProductData> itemList)
     {
         this.itemList = itemList;
@@ -53,16 +52,13 @@ public class ShopAllProductAdapter extends RecyclerView.Adapter<ShopAllProductHo
         inflater = LayoutInflater.from(context);
         appSharedPreference = new AppSharedPreference(context);
         progressBarHandler = new ProgressBarHandler(context);
-
     }
-
 
     @Override
     public ShopAllProductHolder onCreateViewHolder(ViewGroup parent, int viewType)
     {
         return new ShopAllProductHolder(inflater.inflate(R.layout.row_shop_service_list, parent, false));
     }
-
 
 
     @Override

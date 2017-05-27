@@ -12,6 +12,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -52,7 +53,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Locale;
 
-public class Search extends AppCompatActivity implements Adapter_callback_interface {
+public class Search extends AppCompatActivity implements Adapter_callback_interface
+{
 
     AutoCompleteTextView autocomplete_textview_state, autocomplete_textview_product;
     CustomAutocompleteAdapter categoryadapter;
@@ -66,6 +68,7 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
     Adapter_callback_interface callback_interface;
     ArrayList<String> state_names = new ArrayList<>();
     ArrayList<String> SearchSuggestionList = new ArrayList<>();
+    ArrayList<String> categoriesList = new ArrayList<>();
     ArrayList<String> DistanceList = new ArrayList<>();
     ArrayList<CommomData> search_productlist = new ArrayList<>();
     ArrayList<common_category_search> common_category_searchlist = new ArrayList<>();
@@ -90,6 +93,8 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
     String selected_categoryid;
     ViewPager viewpager_state;
     AppCompatImageView voice_search;
+    private LinearLayoutManager linearLayoutManager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,7 +124,8 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
     }
 
 
-    private void setuptoolbar() {
+    private void setuptoolbar()
+    {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         ImageView imgvew_home_icon = (ImageView) findViewById(R.id.imgvew_home_icon);
         imgvew_home_icon.setOnClickListener(new View.OnClickListener() {
@@ -141,7 +147,8 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
 
     }
 
-    private void initview() {
+    private void initview()
+    {
         voice_search = (AppCompatImageView) findViewById(R.id.voice_input);
         voice_search.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -171,15 +178,13 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
 
                 String text = s.toString();
 
-                if (text.length() > 0) {
-                    if (state_list_spinner.getSelectedItemPosition() != 0) {
-
-
+                if (text.length() > 0)
+                {
+                    if (state_list_spinner.getSelectedItemPosition() != 0)
+                    {
                         String product_search_url = (getResources().getString(R.string.webservice_base_url)) + "/search_suggesion";
 
-
                         call_search_suggest_webservice_product(product_search_url, text, state_list_spinner.getSelectedItem().toString());
-
 
                         autocomplete_textview_product.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
@@ -207,24 +212,20 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
         });
 
 
-        autocomplete_textview_product.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        autocomplete_textview_product.setOnEditorActionListener(new TextView.OnEditorActionListener()
+        {
             @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-
-
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-
-
-                    if (autocomplete_textview_product.getText().length() != 0) {
-
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event)
+            {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH)
+                {
+                    if (autocomplete_textview_product.getText().length() != 0)
+                    {
                         call_search_webservice(state_list_spinner.getSelectedItem().toString(), autocomplete_textview_product.getText().toString());
                         autocomplete_textview_product.setHint("");
                         AppConfig.hideKeyboard(Search.this);
 
-
                     }
-
-
                     return true;
                 }
                 return false;
@@ -236,22 +237,21 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
 
     }
 
-    private void setup_search_Recyclewview() {
-
+    private void setup_search_Recyclewview()
+    {
         recyclerView_search = (RecyclerView) findViewById(R.id.recycleview_search);
-        gridLayoutManager = new GridLayoutManager(c, 2);
-        recyclerView_search.setLayoutManager(gridLayoutManager);
-        commomAdapter = new CommomAdapter(Search.this, search_productlist, "grid", "latestupdate");
+        linearLayoutManager = new LinearLayoutManager(Search.this, LinearLayoutManager.VERTICAL, false);
+        recyclerView_search.setLayoutManager(linearLayoutManager);
+        commomAdapter = new CommomAdapter(Search.this, search_productlist, "search_list", "list");
         recyclerView_search.setAdapter(commomAdapter);
 
     }
 
 
-    private void setup_state_spinner() {
-
+    private void setup_state_spinner()
+    {
         state_list_spinner = (Spinner) findViewById(R.id.spin_select_state);
         stateList = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.state_list)));
-
 
         ArrayAdapter spinnerArrayAdapter = new ArrayAdapter(c, R.layout.white_textcolor_spinner, stateList);
         spinnerArrayAdapter.setDropDownViewResource(R.layout.white_textcolor_spinner);
@@ -450,9 +450,9 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
     }
 
 
-    private void call_search_suggest_webservice_product(String product_search_url, String product_search_text, String location_text) {
+    private void call_search_suggest_webservice_product(String product_search_url, String product_search_text, String location_text)
+    {
         final Context context = Search.this;
-
 
         Ion.with(Search.this)
                 .load(product_search_url)
@@ -461,10 +461,7 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
                 .setBodyParameter("name", product_search_text.trim())
                 .setBodyParameter("lat", latitude)
                 .setBodyParameter("long", longitude)
-
                 .setBodyParameter("location", state_list_spinner.getSelectedItem().toString())
-
-
                 .asJsonObject()
                 .setCallback(new FutureCallback<JsonObject>() {
                     @Override
@@ -475,6 +472,7 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
                             System.out.println("result Search______" + result.toString());
                             AndroidUtils.showErrorLog(context, result.toString());
                             SearchSuggestionList.clear();
+                            categoriesList.clear();
 
                             DistanceList = new ArrayList<String>();
                             JsonObject jsonObject = result.getAsJsonObject();
@@ -492,21 +490,27 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
                                     Log.e("data2", result.toString());
 
                                     JsonArray jsonarray_result = jsonObject.getAsJsonArray("result");
-                                    for (int l = 0; l < jsonarray_result.size(); l++) {
+
+                                    for (int l = 0; l < jsonarray_result.size(); l++)
+                                    {
 
                                         JsonObject jsonObject_result = (JsonObject) jsonarray_result.get(l);
                                         String productname = jsonObject_result.get("name").getAsString();
                                         String distance = jsonObject_result.get("distance").getAsString();
+                                        String category_name = jsonObject_result.get("category_name").getAsString();
                                         SearchSuggestionList.add(productname);
                                         DistanceList.add(String.valueOf(distance));
+                                        categoriesList.add(category_name);
                                     }
+
+
                                 }
 
 
-                                if (error.contains("false")) {
+                                if (error.contains("false"))
+                                {
 
-
-                                    product_autocompleteadapter = new Webservice_search_autocompleteadapter(c, SearchSuggestionList, DistanceList);
+                                    product_autocompleteadapter = new Webservice_search_autocompleteadapter(c, SearchSuggestionList, DistanceList,categoriesList);
 
                                     if (SearchSuggestionList.size() != 0)
                                         autocomplete_textview_product.setAdapter(product_autocompleteadapter);
@@ -643,16 +647,17 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
         }
     }
 
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
-            case SPEECH_RECOGNITION_CODE: {
-                if (resultCode == RESULT_OK && null != data) {
-                    ArrayList<String> result = data
-                            .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+            case SPEECH_RECOGNITION_CODE:
+                {
+                if (resultCode == RESULT_OK && null != data)
+                {
+                    ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                     String text = result.get(0);
                     autocomplete_textview_product.setText(text);
-
                 }
                 break;
             }
