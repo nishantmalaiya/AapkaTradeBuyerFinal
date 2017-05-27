@@ -95,7 +95,7 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
     private String productlocation, categoryName;
     private LinearLayout linearLayoutQuantity;
     private EditText firstName, quantity, price, mobile, email, etEndDate, etStatDate, description, editText;
-    private TextView tvServiceBuy, textViewQuantity, tvRatingAverage, tvTotal_rating_review, tvShopAddress, tvMobile, tvPhone,listfootername,tv_list_quantity;
+    private TextView tvServiceBuy, textViewQuantity, tvRatingAverage, tvTotal_rating_review, tvShopAddress, tvMobile, tvPhone, listfootername, tv_list_quantity;
     private Dialog dialog;
     private Context context;
     private ArrayList<CommomData> productlist = new ArrayList<>();
@@ -325,35 +325,12 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
     }
 
 
-    private void setUiPageViewController() {
-        dotsCount = viewpageradapter.getCount();
-        dots = new ImageView[dotsCount];
-
-        for (int i = 0; i < dotsCount; i++) {
-            dots[i] = new ImageView(getApplicationContext());
-            dots[i].setImageDrawable(ContextCompat.getDrawable(context, R.drawable.nonselected_item));
-
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
-            );
-
-            params.setMargins(4, 0, 4, 0);
-
-            viewpagerindicator.addView(dots[i], params);
-        }
-
-        dots[0].setImageDrawable(ContextCompat.getDrawable(context, R.drawable.selecteditem_dot));
-
-    }
-
-
     private void setUpViewPager() {
 
         viewpageradapter = new ShopViewPagerAdapter(ShopDetailActivity.this, imageList);
         vp.setAdapter(viewpageradapter);
         vp.setCurrentItem(currentPage);
-        setUiPageViewController();
+
 
         final Handler handler = new Handler();
 
@@ -376,41 +353,16 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
         }, 0, 3000);
 
 
-        vp.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-
-
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                for (int i = 0; i < dotsCount; i++) {
-                    dots[i].setImageDrawable(ContextCompat.getDrawable(context, R.drawable.nonselected_item));
-                }
-
-                dots[position].setImageDrawable(ContextCompat.getDrawable(context, R.drawable.selecteditem_dot));
-
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-
-
-        });
         circleIndicator.setViewPager(vp);
     }
 
 
     private void initView() {
-        AndroidUtils.showToast(context, "This is my Toast");
+        //AndroidUtils.showToast(context, "This is my Toast");
         shopProductsLayout = (RelativeLayout) findViewById(R.id.shop_products_relative_layout);
         progress_handler = new ProgressBarHandler(this);
-        listfootername=(TextView) findViewById(R.id.listfootername);
-        tv_list_quantity=(TextView)findViewById(R.id.tv_list_quantity);
+        listfootername = (TextView) findViewById(R.id.listfootername);
+        tv_list_quantity = (TextView) findViewById(R.id.tv_list_quantity);
         imageList = new ArrayList<>();
 
         relativeRateReview = (RelativeLayout) findViewById(R.id.relativeRateReview);
