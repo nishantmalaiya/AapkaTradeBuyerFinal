@@ -96,8 +96,11 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
     private LinearLayoutManager linearLayoutManager;
 
 
+
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
@@ -161,9 +164,7 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
         autocomplete_textview_product.setThreshold(1);
         setup_state_spinner();
 
-
         setup_search_Recyclewview();
-
 
         coordinate_search = (CoordinatorLayout) findViewById(R.id.coordinate_search);
 
@@ -174,7 +175,8 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
             }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            public void onTextChanged(CharSequence s, int start, int before, int count)
+            {
 
                 String text = s.toString();
 
@@ -212,8 +214,7 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
         });
 
 
-        autocomplete_textview_product.setOnEditorActionListener(new TextView.OnEditorActionListener()
-        {
+        autocomplete_textview_product.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event)
             {
@@ -242,7 +243,7 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
         recyclerView_search = (RecyclerView) findViewById(R.id.recycleview_search);
         linearLayoutManager = new LinearLayoutManager(Search.this, LinearLayoutManager.VERTICAL, false);
         recyclerView_search.setLayoutManager(linearLayoutManager);
-        commomAdapter = new CommomAdapter(Search.this, search_productlist, "search_list", "list");
+        commomAdapter = new CommomAdapter(Search.this, search_productlist, "search_list", "search_list_update");
         recyclerView_search.setAdapter(commomAdapter);
 
     }
@@ -261,11 +262,10 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
     }
 
 
-    private void call_state_webservice(String a) {
-
+    private void call_state_webservice(String a)
+    {
         progressBarHandler.show();
         Log.e("statelist_state", stateList.toString() + "" + c);
-
 
         for (int i = 0; i < stateList.size(); i++) {
 
@@ -278,12 +278,10 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
         Log.e("current_state_index2", current_state_index + "");
         state_list_spinner.setSelection(current_state_index);
         progressBarHandler.hide();
-
-
     }
 
-    private void call_search_webservice(String location_text, final String product_name1) {
-
+    private void call_search_webservice(String location_text, final String product_name1)
+    {
 
         String search_url = (getResources().getString(R.string.webservice_base_url)) + "/search";
         progressBarHandler.show();
@@ -322,13 +320,12 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
 
     }
 
-    public void set_webservice_data(JsonObject result, String type) {
-
+    public void set_webservice_data(JsonObject result, String type)
+    {
 
         Log.e("Arvind_data", result.toString());
 
         search_productlist.clear();
-
 
         JsonObject jsonObject = result.getAsJsonObject();
 
@@ -358,8 +355,8 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
 
             Log.e("data_jsonarray", jsonarray_result.toString());
 
-
-            for (int l = 0; l < jsonarray_result.size(); l++) {
+            for (int l = 0; l < jsonarray_result.size(); l++)
+            {
 
                 JsonObject jsonObject_result = (JsonObject) jsonarray_result.get(l);
                 String productname = jsonObject_result.get("name").getAsString();
@@ -369,16 +366,19 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
                 String productlocation = jsonObject_result.get("city_name").getAsString() + "," + jsonObject_result.get("state_name").getAsString() + "," +
                         jsonObject_result.get("country_name").getAsString();
 
-                search_productlist.add(new CommomData(productid, productname, product_prize, imageurl, productlocation));
+                String category_name = jsonObject_result.get("category_name").getAsString();
 
+                String distance = jsonObject_result.get("distance").getAsString();
 
-            }
+                String shop_location = jsonObject_result.get("state_name").getAsString() + "," + jsonObject_result.get("country_name").getAsString();
 
+                search_productlist.add(new CommomData(productid, productname, product_prize, imageurl, productlocation,category_name,distance,shop_location));
 
-            commomAdapter = new CommomAdapter(Search.this, search_productlist, "grid", "latestupdate");
+              }
+
+            commomAdapter = new CommomAdapter(Search.this, search_productlist, "search_list", "search_list");
             recyclerView_search.setAdapter(commomAdapter);
             //commomAdapter.notifyDataSetChanged();
-
 
             JsonArray jsonarray_category = jsonObject.getAsJsonArray("category");
 
@@ -416,21 +416,22 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
 
                     common_state_searchlist.add(common_state_search);
 
-
                 }
 
             }
 
             searchResults_state_Adapter = new SearchStateAdapter(Search.this, common_state_searchlist);
+
             Log.e("state_data", common_state_searchlist.toString());
 
             searchResults_state_Adapter.notifyDataSetChanged();
 
-
             JsonArray jsonarray_cities = jsonObject.getAsJsonArray("cities");
 
-            if (jsonarray_cities != null) {
-                for (int l = 0; l < jsonarray_cities.size(); l++) {
+            if (jsonarray_cities != null)
+            {
+                for (int l = 0; l < jsonarray_cities.size(); l++)
+                {
 
                     JsonObject jsonObject_result = (JsonObject) jsonarray_cities.get(l);
                     String city_id = jsonObject_result.get("city_id").getAsString();
@@ -438,7 +439,6 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
                     String countprod = jsonObject_result.get("countprod").getAsString();
 
                     common_city_searchlist.add(new common_city_search(city_id, ctyname, countprod));
-
 
                 }
 
@@ -506,17 +506,13 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
 
                                 }
 
-
                                 if (error.contains("false"))
                                 {
-
                                     product_autocompleteadapter = new Webservice_search_autocompleteadapter(c, SearchSuggestionList, DistanceList,categoriesList);
 
                                     if (SearchSuggestionList.size() != 0)
                                         autocomplete_textview_product.setAdapter(product_autocompleteadapter);
                                     product_autocompleteadapter.notifyDataSetChanged();
-//
-
 
                                 }
 
@@ -570,7 +566,6 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
     @Override
     public void onBackPressed() {
         if (class_name.contains("homeactivity"))
-
         {
             Intent goto_home = new Intent(Search.this, HomeActivity.class);
             startActivity(goto_home);
@@ -650,9 +645,10 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
     public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
+        switch (requestCode)
+        {
             case SPEECH_RECOGNITION_CODE:
-                {
+             {
                 if (resultCode == RESULT_OK && null != data)
                 {
                     ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);

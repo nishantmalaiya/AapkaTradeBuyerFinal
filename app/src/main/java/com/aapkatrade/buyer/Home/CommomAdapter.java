@@ -1,9 +1,12 @@
 package com.aapkatrade.buyer.Home;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
+import android.location.Location;
 import android.os.Handler;
+import android.os.Looper;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
@@ -20,10 +23,13 @@ import com.aapkatrade.buyer.categories_tab.CategoriesListHolder;
 import com.aapkatrade.buyer.dialogs.track_order.orderdetail.CommonHolder_listProduct;
 import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.AppConfig;
+import com.aapkatrade.buyer.general.CheckPermission;
+import com.aapkatrade.buyer.general.LocationManagerCheck;
 import com.aapkatrade.buyer.general.Tabletsize;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
+import com.aapkatrade.buyer.map.GoogleMapActivity;
 import com.aapkatrade.buyer.shopdetail.ShopDetailActivity;
 import com.aapkatrade.buyer.shopdetail.productdetail.ProductDetailActivity;
 import com.google.gson.JsonObject;
@@ -39,7 +45,7 @@ import java.util.ArrayList;
 public class CommomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 {
 
-    private Context context;
+    public Context context;
     private ArrayList<CommomData> commomDatas;
     private String arrangementtype, categorytype;
     private View v;
@@ -48,6 +54,7 @@ public class CommomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private final int SPLASH_DISPLAY_LENGTH = 3000;
     private AppSharedPreference appSharedPreference;
     private ProgressBarHandler progressBarHandler;
+
 
 
     public CommomAdapter(Context context, ArrayList<CommomData> commomDatas, String arrangementtype, String categorytype)
@@ -61,6 +68,8 @@ public class CommomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         appSharedPreference = new AppSharedPreference(context);
         progressBarHandler = new ProgressBarHandler(context);
+
+        System.out.println("search_list----------"+arrangementtype);
 
     }
 
@@ -80,10 +89,11 @@ public class CommomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             v = inflater.inflate(R.layout.row_dashboard, parent, false);
             viewHolder2 = new CommonHolder_grid(v);
             return viewHolder2;
-
         }
         else if (arrangementtype == "search_list")
         {
+
+            System.out.println("search_list-------------");
             v = inflater.inflate(R.layout.product_list_item2, parent, false);
             categoriesListHolder = new CategoriesListHolder(v);
             return categoriesListHolder;
@@ -173,7 +183,117 @@ public class CommomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             });
             holder.tvProductName.setText(commomDatas.get(position).name);
 
-        } else if (arrangementtype == "list_product") {
+        }
+        else if (arrangementtype == "search_list")
+        {
+
+            final CategoriesListHolder homeHolder = new CategoriesListHolder(v);
+
+            homeHolder.tvProductName.setText(commomDatas.get(position).name);
+
+            //System.out.println("tvProductCategoryname----------"+commomDatas.get(position).categoryName);
+
+            homeHolder.tvProductCategoryname.setText(commomDatas.get(position).categoryName);
+
+            homeHolder.tvProductDestination.setText(commomDatas.get(position).product_location);
+
+            homeHolder.distance.setText(commomDatas.get(position).distance);
+
+            if (Tabletsize.isTablet(context)) {
+                String product_imageurl = commomDatas.get(position).imageurl.replace("small", "large");
+
+                Ion.with(homeHolder.productimage)
+                        .error(ContextCompat.getDrawable(context, R.drawable.ic_applogo1))
+                        .placeholder(ContextCompat.getDrawable(context, R.drawable.ic_applogo1))
+                        .load(product_imageurl);
+                Log.e("image_large", "image_large"+product_imageurl);
+
+            } else if (Tabletsize.isMedium(context)) {
+                String product_imageurl = commomDatas.get(position).imageurl == null ? "" : commomDatas.get(position).imageurl.replace("small", "medium");
+
+                Ion.with(homeHolder.productimage)
+                        .error(ContextCompat.getDrawable(context, R.drawable.ic_applogo1))
+                        .placeholder(ContextCompat.getDrawable(context, R.drawable.ic_applogo1))
+                        .load(product_imageurl);
+                Log.e("image_medium", "image_medium" + product_imageurl);
+
+            } else if (Tabletsize.isSmall(context)) {
+                String product_imageurl = commomDatas.get(position).imageurl.replace("small", "medium");
+
+                Ion.with(homeHolder.productimage)
+                        .error(ContextCompat.getDrawable(context, R.drawable.ic_applogo1))
+                        .placeholder(ContextCompat.getDrawable(context, R.drawable.ic_applogo1))
+                        .load(product_imageurl);
+
+                Log.e("image_small", "image_small");
+            }
+
+
+            Picasso.with(context).load(commomDatas.get(position).imageurl)
+                    .placeholder(R.drawable.default_noimage)
+                    .error(R.drawable.default_noimage)
+                    .into(homeHolder.productimage);
+
+
+            homeHolder.relativeLayout1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    AndroidUtils.showErrorLog(context, "product_id", commomDatas.get(position).id);
+                    Intent intent = new Intent(context, ShopDetailActivity.class);
+                    intent.putExtra("product_id", commomDatas.get(position).id);
+                    intent.putExtra("product_location", commomDatas.get(position).product_location);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
+
+
+                }
+            });
+
+
+            homeHolder.linearlayoutMap.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+
+                    boolean permission_status = CheckPermission.checkPermissions((Activity) context);
+
+
+                    if (permission_status)
+                    {
+
+                        LocationManagerCheck locationManagerCheck = new LocationManagerCheck(context);
+                        Location location = null;
+                        if (locationManagerCheck.isLocationServiceAvailable())
+                        {
+
+                            if (Looper.myLooper() == null)
+                            {
+                                Looper.prepare();
+
+                            }
+                            Log.e("time_taken 1", (System.currentTimeMillis() / 1000) + "");
+                            progressBarHandler.show();
+                            Intent intent = new Intent(context, GoogleMapActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            intent.putExtra("product_location", commomDatas.get(position).shop_location);
+                            context.startActivity(intent);
+
+                            progressBarHandler.hide();
+                            Log.e("time_taken 2", (System.currentTimeMillis() / 1000) + "");
+
+                        } else {
+                            locationManagerCheck.createLocationServiceError((Activity) context);
+                        }
+
+                    }
+
+                }
+            });
+
+
+        }
+        else if (arrangementtype == "list_product") {
 
 
             final CommonHolder_listProduct viewHolder_listProduct = new CommonHolder_listProduct(v);

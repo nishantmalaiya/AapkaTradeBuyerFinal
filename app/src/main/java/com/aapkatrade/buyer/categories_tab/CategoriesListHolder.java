@@ -16,10 +16,13 @@ public class CategoriesListHolder extends RecyclerView.ViewHolder
 {
 
     View view;
-
-    RelativeLayout relativeLayout1, linearlayoutMap;
-    TextView tvProductName, tvProductCategoryname,distance,tvProductDestination;
-    ImageView productimage;
+    public RelativeLayout relativeLayout1;
+    public RelativeLayout linearlayoutMap;
+    public TextView tvProductName;
+    public TextView tvProductCategoryname;
+    public TextView distance;
+    public TextView tvProductDestination;
+    public ImageView productimage;
 
 
 
