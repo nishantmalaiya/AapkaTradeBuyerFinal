@@ -16,6 +16,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -156,7 +157,6 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
         coordinatorLayout.setVisibility(View.INVISIBLE);
 
         home_ads = (ImageView) v.findViewById(R.id.home_ads);
-//        home_ads.setImageResource(R.drawable.ic_home_ads2);
 
 
         circleIndicator = (CircleIndicator) view.findViewById(R.id.indicator_custom);
@@ -542,15 +542,15 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
     @Override
     public void onDetach() {
         super.onDetach();
-        if (banner_timer != null)
-            banner_timer.cancel();
+//        if (banner_timer != null)
+//            banner_timer.cancel();
     }
 
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (banner_timer != null)
-            banner_timer.cancel();
+//        if (banner_timer != null)
+//            banner_timer.cancel();
     }
 }

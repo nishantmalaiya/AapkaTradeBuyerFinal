@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <com.aapkatrade.buyer.general.customimageview.ZoomableImageView
+    <com.aapkatrade.buyer.uicomponent.customimageview.ZoomableImageView
         android:id="@+id/action_infolinks_splash"
 
         android:layout_width="fill_parent"

@@ -1,4 +1,4 @@
-package com.aapkatrade.buyer.general;
+package com.aapkatrade.buyer.uicomponent;
 
 import android.content.Context;
 import android.graphics.Matrix;

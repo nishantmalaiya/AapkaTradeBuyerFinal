@@ -1,4 +1,4 @@
-package com.aapkatrade.buyer.general.customimageview;
+package com.aapkatrade.buyer.uicomponent.customimageview;
 
 import android.content.Context;
 import android.graphics.Bitmap;

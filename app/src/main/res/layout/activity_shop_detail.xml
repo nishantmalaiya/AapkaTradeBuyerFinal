@@ -1,25 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/RelativeProductDetail"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/grey_light"
-    android:fitsSystemWindows="true">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:weightSum="15">
-
-        <LinearLayout
-            android:id="@+id/RelativeProductDetail"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="15"
-            android:orientation="vertical"
-            tools:context="com.aapkatrade.buyer.shopdetail.ShopDetailActivity">
+    android:orientation="vertical"
+    tools:context="com.aapkatrade.buyer.shopdetail.ShopDetailActivity">
 
             <include layout="@layout/toolbar_layout" />
 
@@ -30,7 +18,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/grey_light"
-                android:fitsSystemWindows="true">
+               >
 
                 <android.support.v4.widget.NestedScrollView
                     android:id="@+id/scrollView"
@@ -977,46 +965,29 @@
                     </LinearLayout>
                 </android.support.v4.widget.NestedScrollView>
 
-                <com.aurelhubert.ahbottomnavigation.AHBottomNavigation
-                    android:id="@+id/bottom_navigation_shopdetail"
+
+                <RelativeLayout
+                    android:id="@+id/relativeService_enquiry"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_gravity="bottom"
-                    app:layout_anchor="@null"
+                    android:background="@color/color_voilet"
 
-                    app:selectedBackgroundVisible="false"
 
-                    />
+                    app:layout_behavior="com.aapkatrade.buyer.general.BottomNavigationBehavior">
+
+                    <Button
+                        android:id="@+id/btnService_enquiry"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/color_voilet"
+                        android:text="@string/service_enquiry"
+                        android:textColor="@color/white" />
+
+
+                </RelativeLayout>
             </android.support.design.widget.CoordinatorLayout>
         </LinearLayout>
 
 
-        <RelativeLayout
-            android:id="@+id/relativeService_enquiry"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1.5"
-            android:background="@color/orange"
-            android:padding="@dimen/fifteen_dip"
-            android:visibility="gone">
-
-            <TextView
-                android:id="@+id/tvServiceBuy"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:gravity="center_horizontal|center_vertical"
-                android:text="@string/service_enquiry"
-                android:textColor="@color/white"
-                android:textSize="@dimen/textsize_medium"
-                android:textStyle="bold" />
-
-        </RelativeLayout>
-
-
-    </LinearLayout>
-
-
-</android.support.design.widget.CoordinatorLayout>
