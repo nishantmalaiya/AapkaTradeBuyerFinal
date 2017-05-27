@@ -78,16 +78,7 @@
                                     app:ci_margin="3dp"
                                     app:ci_width="8dp" />
 
-                                <LinearLayout
-                                    android:id="@+id/viewpagerindicator"
-                                    android:layout_width="40dp"
-                                    android:layout_height="@dimen/twenty_dip"
-                                    android:layout_alignParentBottom="true"
-                                    android:layout_centerHorizontal="true"
-                                    android:layout_marginBottom="@dimen/ten_dip"
-                                    android:orientation="horizontal">
 
-                                </LinearLayout>
                             </RelativeLayout>
                         </android.support.v7.widget.CardView>
 
