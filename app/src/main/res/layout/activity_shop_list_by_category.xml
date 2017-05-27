@@ -9,6 +9,14 @@
     <include
         layout="@layout/toolbar_layout" />
 
+
+
+
+    <include
+        layout="@layout/list_header" />
+
+
+
     <include
         layout="@layout/fragment_categories_shop" />
 
