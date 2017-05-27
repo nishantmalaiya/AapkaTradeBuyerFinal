@@ -406,7 +406,7 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
 
 
     private void initView() {
-        context = ShopDetailActivity.this;
+        AndroidUtils.showToast(context, "This is my Toast");
         shopProductsLayout = (RelativeLayout) findViewById(R.id.shop_products_relative_layout);
         progress_handler = new ProgressBarHandler(this);
 
