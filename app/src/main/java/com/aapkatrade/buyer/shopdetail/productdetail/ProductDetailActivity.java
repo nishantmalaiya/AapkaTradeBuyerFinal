@@ -706,7 +706,8 @@ public class ProductDetailActivity extends AppCompatActivity
 
 
     @Override
-    public void onResume() {
+    public void onResume()
+    {
         super.onResume();
 
         if (productDetailActivity == 1) {

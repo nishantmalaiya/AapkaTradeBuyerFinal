@@ -88,10 +88,10 @@ public class ParticularActivity extends AppCompatActivity {
 
         mRecyclerView.setHasFixedSize(true);
 
-        StikkyHeaderBuilder.stickTo(mRecyclerView)
+       /* StikkyHeaderBuilder.stickTo(mRecyclerView)
                 .setHeader(R.id.header_simple, view)
                 .minHeightHeaderDim(R.dimen.min_header_height)
-                .build();
+                .build();*/
 
         get_web_data();
 
