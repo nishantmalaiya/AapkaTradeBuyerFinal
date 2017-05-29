@@ -636,9 +636,7 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
         try {
             startActivityForResult(intent, SPEECH_RECOGNITION_CODE);
         } catch (ActivityNotFoundException a) {
-            Toast.makeText(Search.this,
-                    "Sorry! Speech recognition is not supported in this device.",
-                    Toast.LENGTH_SHORT).show();
+            AndroidUtils.showToast(Search.this, "Sorry! Speech recognition is not supported in this device.");
         }
     }
 

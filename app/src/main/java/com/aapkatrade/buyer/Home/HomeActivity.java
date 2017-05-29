@@ -222,12 +222,9 @@ public class HomeActivity extends AppCompatActivity {
 
                 // Toast.makeText(getApplicationContext(), "Hi", Toast.LENGTH_SHORT).show();
 
-                if(appSharedPreference.getSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), 0)==0)
-                {
-                    Toast.makeText(getApplicationContext(),"My Cart have no items please add items in cart",Toast.LENGTH_SHORT).show();
-                }
-                else
-                {
+                if (appSharedPreference.getSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), 0) == 0) {
+                    AndroidUtils.showToast(context, "My Cart have no items please add items in cart.");
+                } else {
                     Intent intent = new Intent(HomeActivity.this, MyCartActivity.class);
                     startActivity(intent);
                 }
@@ -535,7 +532,7 @@ public class HomeActivity extends AppCompatActivity {
                     ArrayList<String> result = data
                             .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                     String text = result.get(0);
-                    Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
+                    AndroidUtils.showToast(context, text);
                 }
                 break;
             }
@@ -553,8 +550,7 @@ public class HomeActivity extends AppCompatActivity {
             }
 
             this.doubleBackToExitPressedOnce = true;
-            Toast.makeText(this, "Press again to quit.", Toast.LENGTH_SHORT).show();
-
+            AndroidUtils.showToast(context, "Press again to quit.");
             new Handler().postDelayed(new Runnable() {
 
                 @Override
@@ -571,8 +567,7 @@ public class HomeActivity extends AppCompatActivity {
             }
 
             this.doubleBackToExitPressedOnce = true;
-            //   AndroidUtils.showSnackBar(linearlayout_home,"Please click BACK again to exit"));
-            Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+            AndroidUtils.showToast(context, "Please click BACK again to exit");
 
             new Handler().postDelayed(new Runnable() {
 
@@ -594,7 +589,7 @@ public class HomeActivity extends AppCompatActivity {
             try {
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse((googlePlay ? "http://play.google.com/store/apps/details?id=" : "http://www.amazon.com/gp/mas/dl/android?p=") + getPackageName())));
             } catch (ActivityNotFoundException e2) {
-                Toast.makeText(HomeActivity.this, "You don't have any app that can open this link", Toast.LENGTH_SHORT).show();
+                AndroidUtils.showToast(context, "You don't have any app that can open this link.");
             }
         }
     }
@@ -628,7 +623,7 @@ public class HomeActivity extends AppCompatActivity {
         }
 
         if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString(), "notlogin") != null) {
-            if(NavigationFragment.profilePic!=null && Validation.isNonEmptyStr(appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_PIC.toString(), ""))) {
+            if (NavigationFragment.profilePic != null && Validation.isNonEmptyStr(appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_PIC.toString(), ""))) {
                 Picasso.with(context).load(appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_PIC.toString(), ""))
                         .error(R.drawable.ic_profile_user)
                         .into(NavigationFragment.profilePic);

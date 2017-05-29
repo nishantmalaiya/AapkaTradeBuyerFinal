@@ -85,11 +85,11 @@ public class CustomQuantityDialog extends DialogFragment {
                     etManualQuantity.setError("Please Enter Number");
                 } else {
                     if (Integer.parseInt(etManualQuantity.getText().toString().trim()) > 0) {
-                        if(context instanceof ProductDetailActivity){
+                        if (context instanceof ProductDetailActivity) {
                             commonInterface.getData(etManualQuantity.getText().toString().trim());
                         }
 
-                        if(CartAdapter.itemList!=null && CartAdapter.itemList.get(pos)!=null) {
+                        if (CartAdapter.itemList != null && CartAdapter.itemList.size() >= pos) {
                             callwebserviceUpdateCart(CartAdapter.itemList.get(pos).id, 1, etManualQuantity.getText().toString(), CartAdapter.itemList.get(pos).product_id);
                         }
 
@@ -190,8 +190,7 @@ public class CustomQuantityDialog extends DialogFragment {
                     public void onCompleted(Exception e, JsonObject result) {
 
 
-
-                      if (result != null) {
+                        if (result != null) {
                             String error_message = result.get("error").getAsString();
 
                             if (error_message.equals("false")) {
@@ -199,20 +198,13 @@ public class CustomQuantityDialog extends DialogFragment {
 
                                 if (message.equals("Product quantity exceeded")) {
                                     progressDialogHandler.hide();
-                                    Toast.makeText(context, " Product quantity exceeded", Toast.LENGTH_SHORT).show();
-
+                                    AndroidUtils.showToast(context, "Product quantity exceeded.");
                                 } else if (message.equals("Failed to update cart")) {
-
                                     progressDialogHandler.hide();
-                                    Toast.makeText(context, "Failed to update cart", Toast.LENGTH_SHORT).show();
-
-
+                                    AndroidUtils.showToast(context, "Failed to update cart.");
                                 } else if (message.equals("Invalid Device ID!")) {
-
                                     progressDialogHandler.hide();
-                                    Toast.makeText(context, "Invalid Device ID!", Toast.LENGTH_SHORT).show();
-
-
+                                    AndroidUtils.showToast(context, "Invalid Device ID!");
                                 } else {
                                     JsonObject jsonresult = result.getAsJsonObject("result");
 
@@ -243,15 +235,11 @@ public class CustomQuantityDialog extends DialogFragment {
 
                             } else {
                                 progressDialogHandler.hide();
-                                Toast.makeText(context, "Server is not responding please try ", Toast.LENGTH_SHORT).show();
-
-
+                                AndroidUtils.showToast(context, "Server is not responding. Please try again.");
                             }
                         } else {
                             progressDialogHandler.hide();
-                            Toast.makeText(context, "Server is not responding please try ", Toast.LENGTH_SHORT).show();
-
-
+                            AndroidUtils.showToast(context, "Server is not responding. Please try again.");
                         }
 
 
@@ -260,7 +248,6 @@ public class CustomQuantityDialog extends DialogFragment {
 
 
     }
-
 
 
 }

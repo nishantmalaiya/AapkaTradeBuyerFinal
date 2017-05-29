@@ -561,7 +561,7 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
             case R.id.cart_total_item:
 
                 if (appSharedPreference.getSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), 0) == 0) {
-                    Toast.makeText(getApplicationContext(), "My Cart have no items please add items in cart", Toast.LENGTH_SHORT).show();
+                    AndroidUtils.showToast(context, "My Cart have no items please add items in cart");
                 } else {
                     Intent intent = new Intent(ShopDetailActivity.this, MyCartActivity.class);
                     startActivity(intent);

@@ -584,18 +584,17 @@ public class CommomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                 if (message.equals("This Item Already Exist....."))
                                 {
                                     progressBarHandler.hide();
-                                    Toast.makeText(context, "This Item Already Exist in Cart", Toast.LENGTH_SHORT).show();
+                                    AndroidUtils.showToast(context, "This Item Already Exist in Cart");
                                 }
-                                else if (message.equals("Product Quantity exceeded"))
+                                else if (message.equals("Product Quantity exceeded."))
                                 {
 
                                     progressBarHandler.hide();
-                                    Toast.makeText(context, "Product Quantity exceeded", Toast.LENGTH_SHORT).show();
-
+                                    AndroidUtils.showToast(context,"Product Quantity exceeded");
                                 }
                                 else
                                 {
-                                    Toast.makeText(context, "Product Successfully Added on Cart", Toast.LENGTH_SHORT).show();
+                                    AndroidUtils.showToast(context,"Product Successfully Added on Cart.");
                                     String cart_count = jsonObject.get("total_qty").getAsString();
 
                                     appSharedPreference.setSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), Integer.valueOf(cart_count));
@@ -608,7 +607,7 @@ public class CommomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             else
                             {
                                  progressBarHandler.hide();
-                                 Toast.makeText(context, "Server is not responding please try again", Toast.LENGTH_SHORT).show();
+                                AndroidUtils.showToast(context,"Server is not responding. Please try again.");
                             }
 
                         }
@@ -616,7 +615,7 @@ public class CommomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         {
 
                             progressBarHandler.hide();
-                            Toast.makeText(context, "Server is not responding please try again", Toast.LENGTH_SHORT).show();
+                            AndroidUtils.showToast(context,"Server is not responding. Please try again.");
                         }
 
                     }

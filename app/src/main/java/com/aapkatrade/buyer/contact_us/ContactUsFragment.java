@@ -60,42 +60,30 @@ public class ContactUsFragment extends Fragment {
 
                                         } else {
 
-                                            Toast.makeText(getActivity(), "Please Enter Query", Toast.LENGTH_SHORT).show();
+                                            AndroidUtils.showToast(getContext(), "Please Enter Query");
                                         }
 
                                     } else {
-                                        Toast.makeText(getActivity(), "Please Enter Valid Email Address", Toast.LENGTH_SHORT).show();
-
-
+                                        AndroidUtils.showToast(getContext(), "Please Enter Valid Email Address");
                                     }
                                 } else {
-
-                                    Toast.makeText(getActivity(), "Please Enter Email Address", Toast.LENGTH_SHORT).show();
-
-
+                                    AndroidUtils.showToast(getContext(), "Please Enter Email Address");
                                 }
 
                             } else {
-
-                                Toast.makeText(getActivity(), "Please Enter 10 digit Mobile Number", Toast.LENGTH_SHORT).show();
-
+                                AndroidUtils.showToast(getContext(), "Please Enter 10 digit Mobile Number");
                             }
 
                         } else {
-                            Toast.makeText(getActivity(), "Please Enter Mobile Number", Toast.LENGTH_SHORT).show();
-
+                            AndroidUtils.showToast(getContext(), "Please Enter Mobile Number");
                         }
 
                     } else {
-
-                        Toast.makeText(getActivity(), "Please Enter User Name", Toast.LENGTH_SHORT).show();
-
+                        AndroidUtils.showToast(getContext(), "Please Enter User Name");
                     }
 
                 } else {
-
-                    Toast.makeText(getActivity(), "Please Enter Subject", Toast.LENGTH_SHORT).show();
-
+                    AndroidUtils.showToast(getContext(), "Please Enter Subject");
                 }
 
             }
