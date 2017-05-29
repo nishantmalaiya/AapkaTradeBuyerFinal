@@ -172,8 +172,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
 
     private void showMessage(String s) {
-
-        Toast.makeText(context, s, Toast.LENGTH_SHORT).show();
+        AndroidUtils.showToast(context, s);
     }
 
 

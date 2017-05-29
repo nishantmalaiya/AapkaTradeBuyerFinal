@@ -315,7 +315,7 @@ public class GoogleMapActivity extends AppCompatActivity implements OnMapReadyCa
 
 
     private void showMessage(String s) {
-        Toast.makeText(context, s, Toast.LENGTH_SHORT).show();
+        AndroidUtils.showToast(context, s);
     }
 
 

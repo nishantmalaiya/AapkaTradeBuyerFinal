@@ -222,7 +222,7 @@ public class PaymentActivity extends AppCompatActivity implements TabLayout.OnTa
                             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
                                 // TODO Auto-generated method stub
                                 System.out.println(">>>>>>>>>>>>>>onReceivedError>>>>>>>>>>>>>>>>>>");
-                                Toast.makeText(PaymentActivity.this, "Oh no! " + description, Toast.LENGTH_SHORT).show();
+                                AndroidUtils.showToast(context, "Oh no!");
                             }
 
                             @Override

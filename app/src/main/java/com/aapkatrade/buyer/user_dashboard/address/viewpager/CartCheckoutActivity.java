@@ -292,7 +292,7 @@ public class CartCheckoutActivity extends AppCompatActivity {
 
                         } else {
                             progressBarHandler.hide();
-                            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                            AndroidUtils.showToast(context, message );
 
                         }
 

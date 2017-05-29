@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 import com.aapkatrade.buyer.R;
+import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.user_dashboard.address.AddressViewPagerAdapter;
 
 import java.util.ArrayList;
@@ -34,7 +35,7 @@ public class CartCheckoutFragment extends Fragment {
         vp=(ViewPager)view.findViewById(R.id.cartCheckOutViewPager);
         relativeLayout = (RelativeLayout) view.findViewById(R.id.cartViewPagerContainer);
         viewpagerindicator = (LinearLayout) view.findViewById(R.id.viewpager_indicator);
-        Toast.makeText(getContext(), "new fragment", Toast.LENGTH_SHORT).show();
+        AndroidUtils.showToast(getContext(), "Server is not responding. Please try again.");
         setupviewpager();
         view.findViewById(R.id.radioButtonContainer).setVisibility(View.GONE);
 

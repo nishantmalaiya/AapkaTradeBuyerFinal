@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
@@ -21,8 +22,7 @@ import java.util.List;
  * Created by PPC16 on 4/8/2017.
  */
 
-public class ReviewListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
-{
+public class ReviewListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final LayoutInflater inflater;
     private List<ReviewListData> itemList;
@@ -32,8 +32,7 @@ public class ReviewListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private ProgressBarHandler progress_handler;
 
 
-    public ReviewListAdapter(Context context, List<ReviewListData> itemList)
-    {
+    public ReviewListAdapter(Context context, List<ReviewListData> itemList) {
         this.itemList = itemList;
         this.context = context;
         inflater = LayoutInflater.from(context);
@@ -44,26 +43,24 @@ public class ReviewListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
-    {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.row_review_list, parent, false);
 
         viewHolder = new ReviewListHolder(view);
 
-        AndroidUtils.setImageColor(viewHolder.imgStar,context,R.color.white);
+        AndroidUtils.setImageColor(viewHolder.imgStar, context, R.color.white);
 
-        System.out.println("data-----------"+itemList);
+        System.out.println("data-----------" + itemList);
 
         return viewHolder;
     }
 
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position)
-    {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         final ReviewListHolder homeHolder = (ReviewListHolder) holder;
 
-        Log.e("size----------",String.valueOf(itemList.size()));
+        Log.e("size----------", String.valueOf(itemList.size()));
 
         homeHolder.title.setText(itemList.get(position).title);
 
@@ -76,13 +73,10 @@ public class ReviewListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         SimpleDateFormat form = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         java.util.Date date = null;
 
-        try
-        {
+        try {
             date = form.parse(itemList.get(position).created_date);
 
-        }
-        catch (ParseException e)
-        {
+        } catch (ParseException e) {
 
             e.printStackTrace();
         }
@@ -93,25 +87,20 @@ public class ReviewListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         homeHolder.deliver_date.setText(newDateStr);
 
 
-
-
     }
 
-    private void showMessage(String s)
-    {
-        Toast.makeText(context, s, Toast.LENGTH_SHORT).show();
+    private void showMessage(String s) {
+        AndroidUtils.showToast(context, s);
     }
 
 
     @Override
-    public int getItemCount()
-    {
+    public int getItemCount() {
         return itemList.size();
         //return itemList.size();
     }
 
-    public String getCurrentTimeStamp()
-    {
+    public String getCurrentTimeStamp() {
         return new SimpleDateFormat("dd MMM yyyy HH:mm").format(new Date());
     }
 

@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.dialogs.CancelOrderDialog;
 import com.aapkatrade.buyer.general.AppSharedPreference;
+import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.squareup.picasso.Picasso;
 
@@ -85,8 +86,7 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
 
     private void showMessage(String s) {
-
-        Toast.makeText(context, s, Toast.LENGTH_SHORT).show();
+        AndroidUtils.showToast(context, s);
     }
 
 
