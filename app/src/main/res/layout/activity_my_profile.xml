@@ -120,7 +120,7 @@ android:padding="@dimen/two_dip"
         <Button
             android:id="@+id/btnSave"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/sixty_dip"
             android:layout_alignParentRight="true"
             android:background="@drawable/button_orange_back"
             android:gravity="center"

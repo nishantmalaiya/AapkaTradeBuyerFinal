@@ -31,15 +31,19 @@
         android:layout_height="0dp"
         android:layout_alignParentBottom="true"
         android:layout_weight="1.5"
-        android:background="@color/orange"
-        android:padding="10dp">
+
+     >
 
         <TextView
             android:id="@+id/tvSave"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
+            android:layout_height="@dimen/sixty_dip"
+
             android:text="@string/save_and_next"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/orange_background"
+            android:gravity="center"
             android:textColor="@color/white"
             android:textSize="@dimen/textsize_medium" />
 
