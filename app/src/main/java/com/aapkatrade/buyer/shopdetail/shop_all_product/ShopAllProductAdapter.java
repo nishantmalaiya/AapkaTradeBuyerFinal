@@ -217,37 +217,30 @@ public class ShopAllProductAdapter extends RecyclerView.Adapter<ShopAllProductHo
                             if (message.equals("This Item Already Exist....."))
                             {
                                 progressBarHandler.hide();
-                                Toast.makeText(context, "This Item Already Exist in Cart", Toast.LENGTH_SHORT).show();
-
+                                AndroidUtils.showToast(context, "This Item Already Exist in Cart.");
                             }
                             else if (message.equals("Product Quantity exceeded")){
 
                                 progressBarHandler.hide();
-                                Toast.makeText(context, "Product is not Available in Stock", Toast.LENGTH_SHORT).show();
-
+                                AndroidUtils.showToast(context, "Product is not Available in Stock.");
                             }
                             else
                             {
-
-                                Toast.makeText(context, "Product Successfully Added on Cart", Toast.LENGTH_SHORT).show();
+                                AndroidUtils.showToast(context, "Product Successfully Added on Cart.");
                                 String cart_count = jsonObject.get("total_qty").getAsString();
                                 appSharedPreference.setSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), Integer.valueOf(cart_count));
 
                                 //int j = appSharedPreference.getSharedPrefInt("cart_count",0);
                                 ShopAllProductActivity.tvCartCount.setText(String.valueOf(appSharedPreference.getSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), 0)));
                                 progressBarHandler.hide();
-
-
-
                             }
-
 
                         }
                         else
                         {
 
                             progressBarHandler.hide();
-                            Toast.makeText(context,"Server is not responding please try again",Toast.LENGTH_SHORT).show();
+                            AndroidUtils.showToast(context, "Server is not responding. Please try again.");
                         }
 
                     }

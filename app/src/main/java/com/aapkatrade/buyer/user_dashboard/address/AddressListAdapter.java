@@ -15,6 +15,7 @@ import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.aapkatrade.buyer.R;
+import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.user_dashboard.address.add_address.AddAddressActivity;
 
 import java.text.SimpleDateFormat;
@@ -113,7 +114,7 @@ public class AddressListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
     private void showMessage(String s) {
-        Toast.makeText(context, s, Toast.LENGTH_SHORT).show();
+        AndroidUtils.showToast(context, s);
     }
 
 

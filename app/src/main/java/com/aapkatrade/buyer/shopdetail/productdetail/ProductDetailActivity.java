@@ -57,8 +57,7 @@ import java.util.TimerTask;
 
 import me.relex.circleindicator.CircleIndicator;
 
-public class ProductDetailActivity extends AppCompatActivity
-{
+public class ProductDetailActivity extends AppCompatActivity {
     private int productDetailActivity = 1;
     private Context context;
     private ProgressBarHandler progressBarHandler;
@@ -99,7 +98,7 @@ public class ProductDetailActivity extends AppCompatActivity
         }
         setUpToolBar();
         initView();
-        AndroidUtils.showErrorLog(context, "___________PRODUCT ID------------>"+productId);
+        AndroidUtils.showErrorLog(context, "___________PRODUCT ID------------>" + productId);
         getProductDetailData(productId);
 
 
@@ -117,7 +116,6 @@ public class ProductDetailActivity extends AppCompatActivity
                     rate_us.putExtra("product_image", imageUrlArrayList.get(0));
                     startActivity(rate_us);
                 }
-            
 
 
             }
@@ -172,20 +170,18 @@ public class ProductDetailActivity extends AppCompatActivity
 
         buyNow.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
 
-                callwebservice__add_tocart_buy(productId,"",tvProductName.getText().toString(),singleUnitPrice,tvQuantity.getText().toString());
+                callwebservice__add_tocart_buy(productId, "", tvProductName.getText().toString(), singleUnitPrice, tvQuantity.getText().toString());
 
             }
         });
 
         addToCart.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
 
-                callwebservice__add_tocart(productId,"",tvProductName.getText().toString(),singleUnitPrice,tvQuantity.getText().toString());
+                callwebservice__add_tocart(productId, "", tvProductName.getText().toString(), singleUnitPrice, tvQuantity.getText().toString());
 
 
             }
@@ -232,7 +228,7 @@ public class ProductDetailActivity extends AppCompatActivity
         CustomQuantityDialog.commonInterface = new CommonInterface() {
             @Override
             public Object getData(Object object) {
-                if(object!=null){
+                if (object != null) {
                     String qty = (String) object;
                     tvQuantity.setText(qty);
                     setPaidAmount(qty);
@@ -243,8 +239,8 @@ public class ProductDetailActivity extends AppCompatActivity
 
     }
 
-    private void setPaidAmount(String qty){
-        if(Validation.isNumber(qty) && Validation.isNumber(singleUnitPrice)) {
+    private void setPaidAmount(String qty) {
+        if (Validation.isNumber(qty) && Validation.isNumber(singleUnitPrice)) {
             String tvAmountPaid = String.valueOf(Integer.parseInt(qty) * Integer.parseInt(singleUnitPrice));
             tvAmountPaidValue.setText((new StringBuilder(getString(R.string.rupay_text)).append(" ").append(tvAmountPaid)).toString());
         }
@@ -261,7 +257,7 @@ public class ProductDetailActivity extends AppCompatActivity
                     @Override
                     public void onCompleted(Exception e, JsonObject result) {
 
-                        System.out.println("product_detail------------"+result);
+                        System.out.println("product_detail------------" + result);
 
                         progressBarHandler.hide();
                         if (result == null) {
@@ -306,7 +302,6 @@ public class ProductDetailActivity extends AppCompatActivity
                                     reviewRecyclerView.setAdapter(reviewListAdapter);
 
 
-
                                 }
                             } else {
                                 AndroidUtils.showErrorLog(context, " getProductDetailData webservice error is true.");
@@ -329,7 +324,7 @@ public class ProductDetailActivity extends AppCompatActivity
 
     private void loadProductDetailWithData(JsonObject resultJsonObject) {
         tvProductName.setText(resultJsonObject.get("name").getAsString());
-        singleUnitPrice =  resultJsonObject.get("price").getAsString();
+        singleUnitPrice = resultJsonObject.get("price").getAsString();
         tvProductPrice.setText(new StringBuilder(getString(R.string.rupay_text)).append(" ").append(resultJsonObject.get("price").getAsString()));
         tvDiscountValue.setText(resultJsonObject.get("discount").getAsString());
         tvUnitValue.setText(resultJsonObject.get("unit_name").getAsString());
@@ -445,8 +440,6 @@ public class ProductDetailActivity extends AppCompatActivity
     }
 
 
-
-
     private void setuptoolbar() {
         ImageView homeIcon = (ImageView) findViewById(R.id.iconHome);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -502,22 +495,19 @@ public class ProductDetailActivity extends AppCompatActivity
     }
 
 
-
-    private void callwebservice__add_tocart(String product_id, String device_id, String product_name,String price, String qty)
-    {
+    private void callwebservice__add_tocart(String product_id, String device_id, String product_name, String price, String qty) {
         progressBarHandler.show();
-        System.out.println("price-----------------------"+price);
+        System.out.println("price-----------------------" + price);
 
         String login_url = context.getResources().getString(R.string.webservice_base_url) + "/add_cart";
 
         String android_id = AppConfig.getCurrentDeviceId(context);
 
-        System.out.println("devece_id------------"+android_id);
+        System.out.println("devece_id------------" + android_id);
 
         String user_id = appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), "notlogin");
-        if (user_id.equals("notlogin"))
-        {
-            user_id="";
+        if (user_id.equals("notlogin")) {
+            user_id = "";
         }
 
         Ion.with(context)
@@ -527,56 +517,41 @@ public class ProductDetailActivity extends AppCompatActivity
                 .setBodyParameter("user_id", user_id)
                 .setBodyParameter("product_id", product_id)
                 .setBodyParameter("device_id", android_id)
-                .setBodyParameter("name",product_name)
-                .setBodyParameter("price",price)
-                .setBodyParameter("quantity",qty)
+                .setBodyParameter("name", product_name)
+                .setBodyParameter("price", price)
+                .setBodyParameter("quantity", qty)
                 .asJsonObject()
-                .setCallback(new FutureCallback<JsonObject>()
-                {
+                .setCallback(new FutureCallback<JsonObject>() {
                     @Override
-                    public void onCompleted(Exception e, JsonObject result)
-                    {
+                    public void onCompleted(Exception e, JsonObject result) {
 
-                        if (result!=null)
-                        {
+                        if (result != null) {
                             System.out.println("result--------------" + result);
                             String message = result.get("message").getAsString();
                             JsonObject jsonObject = result.getAsJsonObject("result");
 
-                            if (message.equals("This Item Already Exist....."))
-                            {
+                            if (message.equals("This Item Already Exist.....")) {
                                 progressBarHandler.hide();
-                                Toast.makeText(context, "This Item Already Exist in Cart", Toast.LENGTH_SHORT).show();
+                                AndroidUtils.showToast(context, "This Item Already Exist in Cart.");
 
-                            }
-                            else if (message.equals("Product Quantity exceeded")){
+                            } else if (message.equals("Product Quantity exceeded")) {
 
                                 progressBarHandler.hide();
-                                Toast.makeText(context, "Product is not Available in Stock", Toast.LENGTH_SHORT).show();
-
-                            }
-                            else
-                            {
-
-                                Toast.makeText(context, "Product Successfully Added on Cart", Toast.LENGTH_SHORT).show();
+                                AndroidUtils.showToast(context, "Product is not Available in Stock.");
+                            } else {
+                                AndroidUtils.showToast(context, "Product Successfully Added on Cart");
                                 String cart_count = jsonObject.get("total_qty").getAsString();
                                 appSharedPreference.setSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), Integer.valueOf(cart_count));
-
-                                //int j = appSharedPreference.getSharedPrefInt("cart_count",0);
                                 ProductDetailActivity.tvCartCount.setText(String.valueOf(appSharedPreference.getSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), 0)));
                                 progressBarHandler.hide();
-
-
-
                             }
 
 
-                        }
-                        else
-                        {
+                        } else {
 
                             progressBarHandler.hide();
-                            Toast.makeText(context,"Server is not responding please try again",Toast.LENGTH_SHORT).show();
+                            AndroidUtils.showToast(context, "Server is not responding. Please try again.");
+                            Toast.makeText(context, "", Toast.LENGTH_SHORT).show();
                         }
 
                     }
@@ -585,22 +560,19 @@ public class ProductDetailActivity extends AppCompatActivity
     }
 
 
-
-    private void callwebservice__add_tocart_buy(String product_id, String device_id, String product_name,String price, String qty)
-    {
+    private void callwebservice__add_tocart_buy(String product_id, String device_id, String product_name, String price, String qty) {
         progressBarHandler.show();
-        System.out.println("price-----------------------"+price);
+        System.out.println("price-----------------------" + price);
 
         String login_url = context.getResources().getString(R.string.webservice_base_url) + "/add_cart";
 
         String android_id = AppConfig.getCurrentDeviceId(context);
 
-        System.out.println("devece_id------------"+android_id);
+        System.out.println("devece_id------------" + android_id);
 
         String user_id = appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), "notlogin");
-        if (user_id.equals("notlogin"))
-        {
-            user_id="";
+        if (user_id.equals("notlogin")) {
+            user_id = "";
         }
 
         Ion.with(context)
@@ -610,38 +582,27 @@ public class ProductDetailActivity extends AppCompatActivity
                 .setBodyParameter("user_id", user_id)
                 .setBodyParameter("product_id", product_id)
                 .setBodyParameter("device_id", android_id)
-                .setBodyParameter("name",product_name)
-                .setBodyParameter("price",price)
-                .setBodyParameter("quantity",qty)
+                .setBodyParameter("name", product_name)
+                .setBodyParameter("price", price)
+                .setBodyParameter("quantity", qty)
                 .asJsonObject()
-                .setCallback(new FutureCallback<JsonObject>()
-                {
+                .setCallback(new FutureCallback<JsonObject>() {
                     @Override
-                    public void onCompleted(Exception e, JsonObject result)
-                    {
+                    public void onCompleted(Exception e, JsonObject result) {
 
-                        if (result!=null)
-                        {
+                        if (result != null) {
                             System.out.println("result--------------" + result);
                             String message = result.get("message").getAsString();
                             JsonObject jsonObject = result.getAsJsonObject("result");
 
-                            if (message.equals("This Item Already Exist....."))
-                            {
+                            if (message.equals("This Item Already Exist.....")) {
                                 progressBarHandler.hide();
-                                Toast.makeText(context, "This Item Already Exist in Cart", Toast.LENGTH_SHORT).show();
-
-                            }
-                            else if (message.equals("Product Quantity exceeded")){
-
+                                AndroidUtils.showToast(context, "This Item Already Exist in Cart.");
+                            } else if (message.equals("Product Quantity exceeded")) {
                                 progressBarHandler.hide();
-                                Toast.makeText(context, "Product is not Available in Stock", Toast.LENGTH_SHORT).show();
-
-                            }
-                            else
-                            {
-
-                                Toast.makeText(context, "Product Successfully Added on Cart", Toast.LENGTH_SHORT).show();
+                                AndroidUtils.showToast(context, "Product is not Available in Stock.");
+                            } else {
+                                AndroidUtils.showToast(context, "Product Successfully Added on Cart");
                                 String cart_count = jsonObject.get("total_qty").getAsString();
                                 appSharedPreference.setSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), Integer.valueOf(cart_count));
 
@@ -656,23 +617,19 @@ public class ProductDetailActivity extends AppCompatActivity
                                 progressBarHandler.hide();
 
 
-
                             }
 
 
-                        }
-                        else
-                        {
+                        } else {
 
                             progressBarHandler.hide();
-                            Toast.makeText(context,"Server is not responding please try again",Toast.LENGTH_SHORT).show();
+                            AndroidUtils.showToast(context, "Server is not responding. Please try again.");
                         }
 
                     }
                 });
 
     }
-
 
 
     @Override
@@ -682,12 +639,9 @@ public class ProductDetailActivity extends AppCompatActivity
             case R.id.cart_total_item:
 
 
-                if(appSharedPreference.getSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), 0)==0)
-                {
-                    Toast.makeText(getApplicationContext(),"My Cart have no items please add items in cart",Toast.LENGTH_SHORT).show();
-                }
-                else
-                {
+                if (appSharedPreference.getSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), 0) == 0) {
+                    AndroidUtils.showToast(context, "My Cart have no items please add items in cart");
+                } else {
                     Intent intent = new Intent(ProductDetailActivity.this, MyCartActivity.class);
                     startActivity(intent);
                 }
@@ -702,7 +656,6 @@ public class ProductDetailActivity extends AppCompatActivity
         }
         return super.onOptionsItemSelected(item);
     }
-
 
 
     @Override

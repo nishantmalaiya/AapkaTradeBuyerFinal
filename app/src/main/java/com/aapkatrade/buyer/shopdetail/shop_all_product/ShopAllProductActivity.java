@@ -31,8 +31,7 @@ import com.koushikdutta.ion.Ion;
 import java.util.ArrayList;
 
 
-public class ShopAllProductActivity extends AppCompatActivity
-{
+public class ShopAllProductActivity extends AppCompatActivity {
     private int shopAllActivity = 1;
     private ArrayList<ShopAllProductData> shopAllProductDatas = new ArrayList<>();
     private RecyclerView mRecyclerView;
@@ -146,12 +145,9 @@ public class ShopAllProductActivity extends AppCompatActivity
             case R.id.cart_total_item:
 
 
-                if(appSharedPreference.getSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), 0)==0)
-                {
-                    Toast.makeText(getApplicationContext(),"My Cart have no items please add items in cart",Toast.LENGTH_SHORT).show();
-                }
-                else
-                {
+                if (appSharedPreference.getSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), 0) == 0) {
+                    AndroidUtils.showToast(context, "My Cart have no items please add items in cart");
+                } else {
                     Intent intent = new Intent(ShopAllProductActivity.this, MyCartActivity.class);
                     startActivity(intent);
                 }
@@ -178,8 +174,7 @@ public class ShopAllProductActivity extends AppCompatActivity
                 .asJsonObject()
                 .setCallback(new FutureCallback<JsonObject>() {
                     @Override
-                    public void onCompleted(Exception e, JsonObject result)
-                    {
+                    public void onCompleted(Exception e, JsonObject result) {
                         progressBarHandler.hide();
                         if (result != null) {
                             AndroidUtils.showErrorLog(context, "-jsonObject------------" + result.toString());

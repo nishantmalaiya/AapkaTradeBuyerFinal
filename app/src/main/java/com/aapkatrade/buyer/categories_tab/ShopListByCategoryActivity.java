@@ -40,8 +40,9 @@ import java.util.ArrayList;
 import it.carlom.stikkyheader.core.StikkyHeaderBuilder;
 
 
-public class ShopListByCategoryActivity extends AppCompatActivity
-{
+
+
+public class ShopListByCategoryActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
     private CategoriesListAdapter categoriesListAdapter;
@@ -52,7 +53,7 @@ public class ShopListByCategoryActivity extends AppCompatActivity
     private AppSharedPreference appSharedPreference;
     private ArrayList<State> productAvailableStateList = new ArrayList<>();
     private Context context;
-    private TextView toolbarRightText;
+    private TextView toolbarRightText,listfootername,tv_list_quantity;
     private ArrayMap<String, ArrayList<FilterObject>> filterHashMap = null;
     private ViewGroup view;
     private LinearLayoutManager linearLayoutManager;
@@ -106,10 +107,11 @@ public class ShopListByCategoryActivity extends AppCompatActivity
         progress_handler = new ProgressBarHandler(this);
         layout_container = (FrameLayout) view.findViewById(R.id.layout_container);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
+        listfootername=(TextView)view.findViewById(R.id.listfootername);
+        tv_list_quantity=(TextView)view.findViewById(R.id.tv_list_quantity);
     }
 
-    private void getShopListData(final String pageNumber)
-    {
+    private void getShopListData(final String pageNumber) {
         State state = new State("-1", "Select State", "0");
         productAvailableStateList.add(state);
         AndroidUtils.showErrorLog(context, shopArrayListByCategory.size() + "^^^^^^^^^");
@@ -117,8 +119,7 @@ public class ShopListByCategoryActivity extends AppCompatActivity
         Log.e(AndroidUtils.getTag(context), "called categorylist webservice for category_id : " + category_id + "**" + latitude + "*****" + longitude);
 
 
-        if (!(FilterDialog.filterString != null && FilterDialog.filterString.length() > 0))
-        {
+        if (!(FilterDialog.filterString != null && FilterDialog.filterString.length() > 0)) {
             progress_handler.show();
 
             AndroidUtils.showErrorLog(context, "shoplist by NOOOOOOOOOOOOOOO filter" + getResources().getString(R.string.webservice_base_url) + "/shoplist");
@@ -142,18 +143,16 @@ public class ShopListByCategoryActivity extends AppCompatActivity
                             if (result == null) {
                                 layout_container.setVisibility(View.INVISIBLE);
                                 progress_handler.hide();
-                            }
-                            else
-                             {
+                            } else {
 
                                 Log.e(AndroidUtils.getTag(context), result.toString());
-                                if (result.get("error").getAsString().contains("false"))
-                                {
-                                    if (Integer.parseInt(result.get("total_result").getAsString()) > 1)
-                                    {
+                                if (result.get("error").getAsString().contains("false")) {
+
+                                    int totalresult=Integer.parseInt(result.get("total_result").getAsString());
+                                    if (totalresult > 1) {
                                         //toolbarRightText.setVisibility(View.VISIBLE);
 
-                                        Log.e("data----------1","sachin1");
+                                        tv_list_quantity.setText(totalresult+"");
 
                                         JsonArray statesArray1 = result.get("filter").getAsJsonArray();
                                         for (int i = 0; i < statesArray1.size(); i++) {
@@ -167,12 +166,11 @@ public class ShopListByCategoryActivity extends AppCompatActivity
                                         AndroidUtils.showErrorLog(context, "message_data " + message_data);
                                         Log.e("message_product_list", result.toString());
 
-                                        if (message_data.equals("No record found"))
-                                        {
+                                        if (message_data.equals("No record found")) {
                                             layout_container.setVisibility(View.INVISIBLE);
                                             progress_handler.hide();
 
-                                            Log.e("data----------1","No record found");
+                                            Log.e("data----------1", "No record found");
 
                                         } else {
                                             JsonArray resultJsonArray = result.getAsJsonArray("result");
@@ -197,17 +195,13 @@ public class ShopListByCategoryActivity extends AppCompatActivity
 
                                         }
 
-                                    }
-                                    else
-                                        {
-                                            Log.e("data----------1","No record found list");
+                                    } else {
+                                        Log.e("data----------1", "No record found list");
                                         layout_container.setVisibility(View.INVISIBLE);
                                         progress_handler.hide();
                                     }
-                                }
-                                else
-                                {
-                                    Log.e("data----------1","No record found list");
+                                } else {
+                                    Log.e("data----------1", "No record found list");
                                     layout_container.setVisibility(View.INVISIBLE);
                                     progress_handler.hide();
                                 }
@@ -265,12 +259,10 @@ public class ShopListByCategoryActivity extends AppCompatActivity
                             } else {
 
                                 Log.e(AndroidUtils.getTag(context), result.toString());
-                                if (result.get("error").getAsString().contains("false"))
-                                {
-                                    if (Integer.parseInt(result.get("total_result").getAsString()) > 1)
-                                    {
+                                if (result.get("error").getAsString().contains("false")) {
+                                    if (Integer.parseInt(result.get("total_result").getAsString()) > 1) {
 
-                                        Log.e("data----------2","sachin2");
+                                        Log.e("data----------2", "sachin2");
                                         toolbarRightText.setVisibility(View.VISIBLE);
 
                                         JsonArray statesArray1 = result.get("filter").getAsJsonArray();
@@ -311,17 +303,14 @@ public class ShopListByCategoryActivity extends AppCompatActivity
 
                                         }
 
-                                    }
-                                    else {
+                                    } else {
 
                                         layout_container.setVisibility(View.INVISIBLE);
                                         progress_handler.hide();
                                     }
 
-                                }
-                                else
-                                {
-                                    Log.e("data----------1","No record found list");
+                                } else {
+                                    Log.e("data----------1", "No record found list");
                                     layout_container.setVisibility(View.INVISIBLE);
                                     progress_handler.hide();
                                 }
@@ -369,19 +358,16 @@ public class ShopListByCategoryActivity extends AppCompatActivity
                             AndroidUtils.showErrorLog(context, latitude + longitude + category_id + "resul_data" + result + pageNumber + "sachin tendulkar2");
 
 
-                            if (result == null)
-                            {
+                            if (result == null) {
                                 layout_container.setVisibility(View.INVISIBLE);
                                 progress_handler.hide();
                             } else {
 
                                 Log.e(AndroidUtils.getTag(context), result.toString());
-                                if (result.get("error").getAsString().contains("false"))
-                                {
-                                    if (Integer.parseInt(result.get("total_result").getAsString()) > 1)
-                                    {
+                                if (result.get("error").getAsString().contains("false")) {
+                                    if (Integer.parseInt(result.get("total_result").getAsString()) > 1) {
                                         //toolbarRightText.setVisibility(View.VISIBLE);
-                                        Log.e("data----------3","sachin3");
+                                        Log.e("data----------3", "sachin3");
 
                                         JsonArray statesArray1 = result.get("filter").getAsJsonArray();
                                         for (int i = 0; i < statesArray1.size(); i++) {
@@ -421,16 +407,13 @@ public class ShopListByCategoryActivity extends AppCompatActivity
 
                                         }
 
-                                    }
-                                    else {
+                                    } else {
 
                                         layout_container.setVisibility(View.INVISIBLE);
                                         progress_handler.hide();
                                     }
-                                }
-                                else
-                                {
-                                    Log.e("data----------1","No record found list");
+                                } else {
+                                    Log.e("data----------1", "No record found list");
                                     layout_container.setVisibility(View.INVISIBLE);
                                     progress_handler.hide();
                                 }
@@ -490,12 +473,10 @@ public class ShopListByCategoryActivity extends AppCompatActivity
                             } else {
 
                                 Log.e(AndroidUtils.getTag(context), result.toString());
-                                if (result.get("error").getAsString().contains("false"))
-                                {
-                                    if (Integer.parseInt(result.get("total_result").getAsString()) > 1)
-                                    {
+                                if (result.get("error").getAsString().contains("false")) {
+                                    if (Integer.parseInt(result.get("total_result").getAsString()) > 1) {
 
-                                        Log.e("data----------4","sachin4");
+                                        Log.e("data----------4", "sachin4");
                                         toolbarRightText.setVisibility(View.VISIBLE);
 
                                         JsonArray statesArray1 = result.get("filter").getAsJsonArray();
@@ -536,16 +517,13 @@ public class ShopListByCategoryActivity extends AppCompatActivity
 
                                         }
 
-                                    }
-                                    else {
+                                    } else {
 
                                         layout_container.setVisibility(View.INVISIBLE);
                                         progress_handler.hide();
                                     }
-                                }
-                                else
-                                {
-                                    Log.e("data----------1","No record found list");
+                                } else {
+                                    Log.e("data----------1", "No record found list");
                                     layout_container.setVisibility(View.INVISIBLE);
                                     progress_handler.hide();
                                 }
@@ -572,15 +550,15 @@ public class ShopListByCategoryActivity extends AppCompatActivity
             String shopImage = jsonObject2.get("image_url").getAsString();
             String distance = jsonObject2.get("distance").getAsString();
             String category_name = jsonObject2.get("category_name").getAsString();
+
             String shopLocation = /*jsonObject2.get("city_name").getAsString() + "," +*/ jsonObject2.get("state_name").getAsString() + "," + jsonObject2.get("country_name").getAsString();
 
             Log.e("shop_list", shopImage);
-            shopArrayListByCategory.add(new CategoriesListData(shopId, shopName, shopImage, shopLocation, distance,category_name));
+            shopArrayListByCategory.add(new CategoriesListData(shopId, shopName, shopImage, shopLocation, distance, category_name));
 
             AndroidUtils.showErrorLog(context, "shopArrayListByCategory : " + shopArrayListByCategory.get(i).shopImage);
         }
-
-
+        listfootername.setText(shopArrayListByCategory.get(0).shopCategory);
 
     }
 
@@ -647,7 +625,7 @@ public class ShopListByCategoryActivity extends AppCompatActivity
             case R.id.cart_total_item:
 
                 if (appSharedPreference.getSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), 0) == 0) {
-                    Toast.makeText(getApplicationContext(), "My Cart have no items please add items in cart", Toast.LENGTH_SHORT).show();
+                    AndroidUtils.showToast(context, "My Cart have no items please add items in cart");
                 } else {
                     Intent intent = new Intent(ShopListByCategoryActivity.this, MyCartActivity.class);
                     startActivity(intent);

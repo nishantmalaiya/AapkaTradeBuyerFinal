@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.aapkatrade.buyer.Home.HomeActivity;
 import com.aapkatrade.buyer.R;
@@ -45,6 +46,7 @@ public class ParticularActivity extends AppCompatActivity {
     String url,latitude = "0.0", longitude = "0.0";
     Mylocation mylocation;
     private Context context;
+    TextView listfootername,tv_list_quantity;
 
 
     @Override
@@ -85,13 +87,11 @@ public class ParticularActivity extends AppCompatActivity {
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
-
+        listfootername=(TextView)view.findViewById(R.id.listfootername);
+        tv_list_quantity=(TextView)view.findViewById(R.id.tv_list_quantity);
         mRecyclerView.setHasFixedSize(true);
 
-       /* StikkyHeaderBuilder.stickTo(mRecyclerView)
-                .setHeader(R.id.header_simple, view)
-                .minHeightHeaderDim(R.dimen.min_header_height)
-                .build();*/
+
 
         get_web_data();
 
@@ -133,6 +133,7 @@ public class ParticularActivity extends AppCompatActivity {
 
                             } else {
                                 JsonArray jsonArray = jsonObject.getAsJsonArray("result");
+                                tv_list_quantity.setText(jsonArray.size()+"");
 
                                 for (int i = 0; i < jsonArray.size(); i++)
                                 {
@@ -162,6 +163,7 @@ public class ParticularActivity extends AppCompatActivity {
                                 categoriesListAdapter = new CategoriesListAdapter(ParticularActivity.this, shopListDatas);
                                 myRecyclerViewEffect = new MyRecyclerViewEffect(ParticularActivity.this);
                                 mRecyclerView.setAdapter(categoriesListAdapter);
+                                listfootername.setText(shopListDatas.get(0).shopCategory);
 
                             }
 ////                                categoriesListAdapter = new CategoriesListAdapter(ParticularActivity.this, productListDatas);

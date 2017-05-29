@@ -87,6 +87,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal|center_vertical"
                             android:layout_marginLeft="@dimen/ten_dip"
+                            android:layout_marginRight="@dimen/ten_dip"
                             android:layout_weight="2"
                             android:gravity="left|center_vertical"
                             android:text="@string/product_name"
@@ -100,6 +101,7 @@
                             android:layout_height="@dimen/fifty_dip"
                             android:layout_gravity="center_horizontal|center_vertical"
                             android:layout_weight="1"
+                            android:minWidth="@dimen/hundred_dip"
                             android:background="@color/orange"
                             android:gravity="center_horizontal|center_vertical"
                             android:text="@string/rupay"
@@ -357,11 +359,12 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/ten_dip"
-                        android:gravity="left|center_vertical"
+                        android:layout_marginStart="@dimen/ten_dip"
+                        android:gravity="start|center_vertical"
                         android:text="@string/check_availability_and_delivery"
                         android:textColor="@color/text_color_product_detail"
-                        android:textSize="@dimen/textsize_medium" />
+                        android:textSize="@dimen/textsize_medium"
+                        tools:ignore="RtlCompat" />
 
 
                     <LinearLayout
@@ -369,11 +372,12 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginBottom="@dimen/ten_dip"
-                        android:layout_marginLeft="@dimen/ten_dip"
+                        android:layout_marginStart="@dimen/ten_dip"
                         android:layout_marginTop="@dimen/ten_dip"
                         android:gravity="center_vertical"
                         android:orientation="horizontal"
-                        android:weightSum="3">
+                        android:weightSum="3"
+                        tools:ignore="RtlCompat">
 
 
                             <EditText
