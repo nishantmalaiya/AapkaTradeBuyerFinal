@@ -40,8 +40,6 @@ import java.util.ArrayList;
 import it.carlom.stikkyheader.core.StikkyHeaderBuilder;
 
 
-
-
 public class ShopListByCategoryActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
@@ -53,7 +51,7 @@ public class ShopListByCategoryActivity extends AppCompatActivity {
     private AppSharedPreference appSharedPreference;
     private ArrayList<State> productAvailableStateList = new ArrayList<>();
     private Context context;
-    private TextView toolbarRightText,listfootername,tv_list_quantity;
+    private TextView toolbarRightText, listfootername, tv_list_quantity;
     private ArrayMap<String, ArrayList<FilterObject>> filterHashMap = null;
     private ViewGroup view;
     private LinearLayoutManager linearLayoutManager;
@@ -107,8 +105,8 @@ public class ShopListByCategoryActivity extends AppCompatActivity {
         progress_handler = new ProgressBarHandler(this);
         layout_container = (FrameLayout) view.findViewById(R.id.layout_container);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
-        listfootername=(TextView)view.findViewById(R.id.listfootername);
-        tv_list_quantity=(TextView)view.findViewById(R.id.tv_list_quantity);
+        listfootername = (TextView) view.findViewById(R.id.listfootername);
+        tv_list_quantity = (TextView) view.findViewById(R.id.tv_list_quantity);
     }
 
     private void getShopListData(final String pageNumber) {
@@ -148,11 +146,11 @@ public class ShopListByCategoryActivity extends AppCompatActivity {
                                 Log.e(AndroidUtils.getTag(context), result.toString());
                                 if (result.get("error").getAsString().contains("false")) {
 
-                                    int totalresult=Integer.parseInt(result.get("total_result").getAsString());
+                                    int totalresult = Integer.parseInt(result.get("total_result").getAsString());
                                     if (totalresult > 1) {
                                         //toolbarRightText.setVisibility(View.VISIBLE);
 
-                                        tv_list_quantity.setText(totalresult+"");
+                                        tv_list_quantity.setText(totalresult + "");
 
                                         JsonArray statesArray1 = result.get("filter").getAsJsonArray();
                                         for (int i = 0; i < statesArray1.size(); i++) {
@@ -231,21 +229,6 @@ public class ShopListByCategoryActivity extends AppCompatActivity {
                     .setBodyParameter("page", pageNumber)
                     .setBodyParameter("lat", latitude)
                     .setBodyParameter("long", longitude)
-
-//                    .asString()
-//                    .setCallback(new FutureCallback<String>() {
-//                        @Override
-//                        public void onCompleted(Exception e, String result) {
-//                             if(result == null){
-//                                AndroidUtils.showErrorLog(context, "++++++++++++++++"+e.toString()+"___________");
-//
-//                            }else {AndroidUtils.showErrorLog(context, "shoplist by filter daaaaaaaaaata is "+result);
-//
-//
-//                             }
-//                        }
-//                    });
-
                     .asJsonObject()
                     .setCallback(new FutureCallback<JsonObject>() {
                         @Override
@@ -260,8 +243,11 @@ public class ShopListByCategoryActivity extends AppCompatActivity {
 
                                 Log.e(AndroidUtils.getTag(context), result.toString());
                                 if (result.get("error").getAsString().contains("false")) {
-                                    if (Integer.parseInt(result.get("total_result").getAsString()) > 1) {
+                                    int totalresult = Integer.parseInt(result.get("total_result").getAsString());
+                                    if (totalresult > 1) {
 
+
+                                        tv_list_quantity.setText(totalresult + "");
                                         Log.e("data----------2", "sachin2");
                                         toolbarRightText.setVisibility(View.VISIBLE);
 

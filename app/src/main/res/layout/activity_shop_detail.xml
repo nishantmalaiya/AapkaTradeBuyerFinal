@@ -971,7 +971,7 @@
                     <Button
                         android:id="@+id/btnService_enquiry"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/fifty_five_dip"
+                        android:layout_height="@dimen/sixty_dip"
                         android:background="@color/color_voilet"
                         android:text="@string/service_enquiry"
                         android:textColor="@color/white" />

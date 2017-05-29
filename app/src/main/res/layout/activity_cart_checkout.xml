@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:background="@color/grey_more_light2"
-    android:weightSum="15"
-    >
+    android:orientation="vertical"
+    android:weightSum="15">
 
     <LinearLayout
         android:id="@+id/linearLayout_toolbar"
@@ -16,8 +14,7 @@
         android:layout_weight="13.5"
         android:orientation="vertical">
 
-        <include
-            layout="@layout/toolbar_layout" />
+        <include layout="@layout/toolbar_layout" />
 
 
         <android.support.v4.widget.NestedScrollView
@@ -25,8 +22,8 @@
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
             android:layout_above="@+id/relativePayment"
-            android:layout_marginBottom="@dimen/ten_dip"
             android:layout_below="@+id/linearLayout_toolbar"
+            android:layout_marginBottom="@dimen/ten_dip"
             android:background="#F1F5F8">
 
             <LinearLayout
@@ -42,39 +39,33 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:visibility="invisible"
-                    >
+                    android:visibility="invisible">
 
 
-                    <android.support.v7.widget.CardView
-                        xmlns:android="http://schemas.android.com/apk/res/android"
+                    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
                         xmlns:app="http://schemas.android.com/apk/res-auto"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:cardCornerRadius="5dp"
-                        app:cardMaxElevation="8dp"
                         android:layout_margin="@dimen/ten_dip"
-                        >
+                        app:cardCornerRadius="5dp"
+                        app:cardMaxElevation="8dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            >
+                            android:orientation="vertical">
 
                             <LinearLayout
                                 android:id="@+id/linearAddress"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:orientation="vertical"
-                                >
+                                android:orientation="vertical">
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:orientation="vertical"
-                                    android:padding="10dp"
-                                    >
+                                    android:padding="10dp">
 
 
                                     <LinearLayout
@@ -107,8 +98,7 @@
                                     <LinearLayout
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginTop="5dp"
-                                        >
+                                        android:layout_marginTop="5dp">
 
                                         <TextView
                                             android:id="@+id/addressLine3"
@@ -123,8 +113,7 @@
                                     <LinearLayout
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginTop="5dp"
-                                        >
+                                        android:layout_marginTop="5dp">
 
                                         <TextView
                                             android:id="@+id/addressPhone"
@@ -163,8 +152,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/ten_dip"
-                    android:visibility="invisible"
-                    >
+                    android:visibility="invisible">
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -281,27 +269,31 @@
     </LinearLayout>
 
 
-
-
     <RelativeLayout
         android:id="@+id/relativePayment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@drawable/orange_back"
-        android:layout_gravity="center_horizontal|center_vertical"
-        android:gravity="center_vertical|center_horizontal"
-        android:padding="10dp"
+
+        android:layout_gravity="center_horizontal|bottom"
         android:layout_weight="1.5"
-        >
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/button_orange_back"
-            android:text="@string/proceed_to_checkout"
-            android:textColor="@color/white"
-            android:textSize="@dimen/textsize_medium" />
+        android:gravity="bottom|center_horizontal">
 
-</RelativeLayout>
-    </LinearLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/sixty_dip"
+            android:background="@drawable/orange_back">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/button_orange_back"
+                android:text="@string/proceed_to_checkout"
+                android:textColor="@color/white"
+                android:textSize="@dimen/textsize_medium" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+</LinearLayout>
