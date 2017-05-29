@@ -91,10 +91,7 @@ public class ParticularActivity extends AppCompatActivity {
         tv_list_quantity=(TextView)view.findViewById(R.id.tv_list_quantity);
         mRecyclerView.setHasFixedSize(true);
 
-//        StikkyHeaderBuilder.stickTo(mRecyclerView)
-//                .setHeader(R.id.header_simple, view)
-//                .minHeightHeaderDim(R.dimen.min_header_height)
-//                .build();
+
 
         get_web_data();
 

@@ -30,7 +30,8 @@ import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
 @SuppressLint("ValidFragment")
-public class CustomQuantityDialog extends DialogFragment {
+public class CustomQuantityDialog extends DialogFragment
+{
 
     EditText etManualQuantity;
     TextView okTv, CancelTv, tvsubtotal, textView_qty;
@@ -39,7 +40,6 @@ public class CustomQuantityDialog extends DialogFragment {
     int pos;
     String price;
     ProgressDialogHandler progressDialogHandler;
-
     AppSharedPreference appSharedPreference;
 
 
@@ -83,17 +83,18 @@ public class CustomQuantityDialog extends DialogFragment {
 
                 if (etManualQuantity.getText().toString().trim().equals("")) {
                     etManualQuantity.setError("Please Enter Number");
-                } else {
+
+                }
+                  else {
                     if (Integer.parseInt(etManualQuantity.getText().toString().trim()) > 0) {
                         if (context instanceof ProductDetailActivity) {
+
                             commonInterface.getData(etManualQuantity.getText().toString().trim());
                         }
 
                         if (CartAdapter.itemList != null && CartAdapter.itemList.size() >= pos) {
                             callwebserviceUpdateCart(CartAdapter.itemList.get(pos).id, 1, etManualQuantity.getText().toString(), CartAdapter.itemList.get(pos).product_id);
                         }
-
-
 
                        /* if (callwebserviceUpdateCart(CartAdapter.itemList.get(pos).id,1,etManualQuantity.getText().toString(),CartAdapter.itemList.get(pos).product_id))
                         {
@@ -108,6 +109,7 @@ public class CustomQuantityDialog extends DialogFragment {
                         {
                            System.out.println("call webservice is not ");
                         }*/
+
                         dismiss();
                     } else {
 
@@ -190,7 +192,9 @@ public class CustomQuantityDialog extends DialogFragment {
                     public void onCompleted(Exception e, JsonObject result) {
 
 
+
                         if (result != null) {
+
                             String error_message = result.get("error").getAsString();
 
                             if (error_message.equals("false")) {
@@ -201,7 +205,9 @@ public class CustomQuantityDialog extends DialogFragment {
                                     AndroidUtils.showToast(context, "Product quantity exceeded.");
                                 } else if (message.equals("Failed to update cart")) {
                                     progressDialogHandler.hide();
+
                                     AndroidUtils.showToast(context, "Failed to update cart.");
+
                                 } else if (message.equals("Invalid Device ID!")) {
                                     progressDialogHandler.hide();
                                     AndroidUtils.showToast(context, "Invalid Device ID!");
@@ -211,9 +217,11 @@ public class CustomQuantityDialog extends DialogFragment {
                                     String total_amount = jsonresult.get("total_amount").getAsString();
                                     String cart_count = jsonresult.get("total_qty").getAsString();
 
+                                    System.out.println("cart_count--------------"+cart_count);
+
                                     appSharedPreference.setSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), Integer.valueOf(cart_count));
 
-                                    HomeActivity.tvCartCount.setText(String.valueOf(appSharedPreference.getSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), 0)));
+                                    //HomeActivity.tvCartCount.setText(String.valueOf(appSharedPreference.getSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), 0)));
 
                                     MyCartActivity.tvPriceItemsHeading.setText("Price (" + cart_count + " items)");
                                     MyCartActivity.tvPriceItems.setText(context.getResources().getText(R.string.rupay_text) + total_amount);
@@ -226,7 +234,10 @@ public class CustomQuantityDialog extends DialogFragment {
                                     double cart_price = Double.valueOf(price) * Integer.valueOf(etManualQuantity.getText().toString().trim());
                                     System.out.println("cart_price dailog----------" + cart_price);
                                     tvsubtotal.setText(context.getResources().getText(R.string.rupay_text) + String.valueOf(cart_price));
-                                    commonInterface.getData(Integer.parseInt(etManualQuantity.getText().toString().trim()));
+
+                                    System.out.println("etManualQuantity.getText()---------"+etManualQuantity.getText());
+
+                                    //commonInterface.getData(Integer.parseInt(etManualQuantity.getText().toString().trim()));
 
                                     //notifyDataSetChanged();
                                     progressDialogHandler.hide();

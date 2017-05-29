@@ -25,10 +25,9 @@
         android:fontFamily="sans-serif"
         android:text=""
         android:gravity="center"
-        android:paddingLeft="2dp"
         android:layout_marginLeft="6dp"
         android:layout_marginStart="6dp"
-        android:textColor="@android:color/white"
+        android:textColor="@android:color/black"
         android:textSize="10dp"
         android:textStyle="bold" />
 
