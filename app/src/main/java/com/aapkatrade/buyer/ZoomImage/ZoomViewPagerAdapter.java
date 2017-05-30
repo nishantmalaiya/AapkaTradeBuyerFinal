@@ -24,34 +24,28 @@ import java.util.ArrayList;
  */
 
 
+public class ZoomViewPagerAdapter extends PagerAdapter implements GestureDetector.OnDoubleTapListener {
 
-
-public class ZoomViewPagerAdapter extends PagerAdapter implements GestureDetector.OnDoubleTapListener
-{
-
-     Context mContext;
+    Context mContext;
     ArrayList<String> imageurl = new ArrayList<>();
 
 
-    public ZoomViewPagerAdapter(Context mContext, ArrayList<String>productImage_url)
-    {
+    public ZoomViewPagerAdapter(Context mContext, ArrayList<String> productImage_url) {
 
-        this. imageurl=productImage_url;
-        this.mContext=mContext;
+        this.imageurl = productImage_url;
+        this.mContext = mContext;
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
     }
 
 
-    public int getCount()
-    {
+    public int getCount() {
 
         return imageurl.size();
 
     }
 
-    public boolean isViewFromObject(View view, Object object)
-    {
+    public boolean isViewFromObject(View view, Object object) {
         return view == object;
     }
 
@@ -61,43 +55,16 @@ public class ZoomViewPagerAdapter extends PagerAdapter implements GestureDetecto
         final ZoomableImageView imageView = (ZoomableImageView) itemView.findViewById(R.id.action_infolinks_splash);
 
         System.out.println("position============" + position);
-        if(Tabletsize.isTablet(mContext))
-        {
-            String product_imageurl=imageurl.get(position).replace("small","large");
 
-            Ion.with(imageView)
-                    .error(ContextCompat.getDrawable(mContext, R.drawable.ic_applogo1))
-                    .placeholder(ContextCompat.getDrawable(mContext, R.drawable.ic_applogo1))
-                    .load(product_imageurl);
-            imageView.setMaxZoom(4f);
-            Log.e("image_large","image_large");
+        String product_imageurl = imageurl.get(position);
 
-        }
-        else if(Tabletsize.isMedium(mContext))
-        {
-            String product_imageurl=imageurl.get(position).replace("small","medium");
+        Ion.with(imageView)
+                .error(ContextCompat.getDrawable(mContext, R.drawable.ic_applogo1))
+                .placeholder(ContextCompat.getDrawable(mContext, R.drawable.ic_applogo1))
+                .load(product_imageurl);
+        imageView.setMaxZoom(4f);
+        Log.e("image_large", "image_large");
 
-            Ion.with(imageView)
-                    .error(ContextCompat.getDrawable(mContext, R.drawable.ic_applogo1))
-                    .placeholder(ContextCompat.getDrawable(mContext, R.drawable.ic_applogo1))
-                    .load(product_imageurl);
-            Log.e("image_medium","image_medium");
-            imageView.setMaxZoom(4f);
-
-        }
-        else if(Tabletsize.isSmall(mContext))
-        {
-
-
-            Ion.with(imageView)
-                    .error(ContextCompat.getDrawable(mContext, R.drawable.ic_applogo1))
-                    .placeholder(ContextCompat.getDrawable(mContext, R.drawable.ic_applogo1))
-                    .load(imageurl.get(position));
-            imageView.setMaxZoom(4f);
-
-
-            Log.e("image_small","image_small");
-        }
 
         container.addView(itemView);
         return itemView;

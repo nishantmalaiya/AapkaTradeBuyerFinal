@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_data_not_found"
+    android:layout_width="match_parent"
+
+    android:layout_height="match_parent"
+    android:layout_centerVertical="true"
+    android:orientation="vertical"
+    android:gravity="center_vertical"
+
+>
+
+
+    <ImageView
+        android:id="@+id/img_not_listing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/not_listing_found" />
+
+
+    <TextView
+        android:id="@+id/tv_product_listing_not_found"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_below="@+id/img_not_listing"
+        android:layout_marginTop="@dimen/fifty_dip"
+        android:layout_marginStart="@dimen/fifty_dip"
+        android:layout_marginEnd="@dimen/fifty_dip"
+        android:text="@string/product_listing_not_found"
+        android:textAlignment="center"
+        android:textColor="#03456d"
+        android:textSize="@dimen/textsize_medium"
+        tools:ignore="RtlCompat" />
+
+
+    <RelativeLayout
+        android:id="@+id/rl_tryagain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_product_listing_not_found"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/fifty_dip"
+        android:background="#f96e38"
+        android:gravity="center_vertical"
+        android:padding="@dimen/ten_dip">
+
+
+        <ImageView
+            android:id="@+id/img_tryagain"
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+
+            android:layout_margin="@dimen/five_dip"
+            android:src="@drawable/ic_refresh" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/ten_dip"
+            android:layout_toRightOf="@+id/img_tryagain"
+            android:text="@string/tryagain"
+            android:textColor="@color/white"
+            android:textSize="@dimen/textsize_medium" />
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

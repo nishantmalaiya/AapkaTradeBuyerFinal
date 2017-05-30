@@ -255,5 +255,6 @@
     <string name="company_name">AAPKA TRADE</string>
     <string name="tryagain">Try Again</string>
     <string name="wecome_buyer">Welcome Buyer</string>
+    <string name="product_listing_not_found" > Shops  of this Category will be updated soon! </string>
 
 </resources>

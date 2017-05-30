@@ -24,16 +24,15 @@ public class ZoomImageDialog extends AppCompatActivity {
     private Bitmap bitmap;
     private SubsamplingScaleImageView imageView;
     Context context;
-    ArrayList<String> imageurl=new ArrayList<>();
+    ArrayList<String> imageurl = new ArrayList<>();
     ZoomViewPagerAdapter zoomViewPagerAdapter;
     ViewPager viewpager_custom;
     private int dotsCount;
     Timer banner_timer = new Timer();
     int currentPage = 0;
     CircleIndicator circleIndicator;
+
     public ZoomImageDialog() {
-
-
 
 
     }
@@ -44,19 +43,15 @@ public class ZoomImageDialog extends AppCompatActivity {
 //    }
 
 
-
-
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.zoom_image_dialog_layout);
-       // goto_zoom_imageview.putStringArrayListExtra("imageurl",imageurl);
-        imageurl= getIntent().getStringArrayListExtra("imageUrlArrayList");
-        if(imageurl!=null)
-        AndroidUtils.showErrorLog(context,imageurl.toString());
+        // goto_zoom_imageview.putStringArrayListExtra("imageurl",imageurl);
+        imageurl = getIntent().getStringArrayListExtra("imageUrlArrayList");
+        if (imageurl != null)
+            AndroidUtils.showErrorLog(context, imageurl.toString());
         initView();
 
         setupviewpager(imageurl);
@@ -67,23 +62,22 @@ public class ZoomImageDialog extends AppCompatActivity {
     private void setupviewpager(ArrayList<String> imageIdList) {
 
 
-
-        zoomViewPagerAdapter  = new ZoomViewPagerAdapter(this, imageIdList);
+        zoomViewPagerAdapter = new ZoomViewPagerAdapter(this, imageIdList);
         viewpager_custom.setAdapter(zoomViewPagerAdapter);
 
         //viewpager_custom.setCurrentItem(currentPage);
-            //setUiPageViewController();
+        //setUiPageViewController();
 
-            final Handler handler = new Handler();
+        final Handler handler = new Handler();
 
-            final Runnable update = new Runnable() {
-                public void run() {
-                    if (currentPage == zoomViewPagerAdapter.getCount() - 1) {
-                        currentPage = 0;
-                    }
-                    viewpager_custom.setCurrentItem(currentPage++, true);
+        final Runnable update = new Runnable() {
+            public void run() {
+                if (currentPage == zoomViewPagerAdapter.getCount() - 1) {
+                    currentPage = 0;
                 }
-            };
+                viewpager_custom.setCurrentItem(currentPage++, true);
+            }
+        };
 
 
 //            banner_timer.schedule(new TimerTask() {
@@ -100,14 +94,13 @@ public class ZoomImageDialog extends AppCompatActivity {
 
 
     private void initView() {
-        viewpager_custom=(ViewPager)findViewById(R.id.viewpager_zoom) ;
-        circleIndicator=(CircleIndicator)findViewById(R.id.indicator_custom) ;
+        viewpager_custom = (ViewPager) findViewById(R.id.viewpager_zoom);
+        circleIndicator = (CircleIndicator) findViewById(R.id.indicator_custom);
 
 
 //       ZoomableImageView mImageView = (ZoomableImageView)findViewById(R.id.action_infolinks_splash);
 //        mImageView.setMaxZoom(3f);
 //        mImageView.setImageBitmap(bitmap);
-
 
 
     }
@@ -134,8 +127,6 @@ public class ZoomImageDialog extends AppCompatActivity {
 //
 //
 //    }
-
-
 
 
 }

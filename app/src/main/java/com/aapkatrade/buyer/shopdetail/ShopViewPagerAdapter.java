@@ -2,9 +2,11 @@ package com.aapkatrade.buyer.shopdetail;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.percent.PercentRelativeLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v7.app.AppCompatDelegate;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,7 +29,7 @@ import java.util.ArrayList;
 
 public class ShopViewPagerAdapter extends PagerAdapter {
 
-    private Context context;
+    public Context context;
     private ArrayList<String> imageUrlArrayList = new ArrayList<>();
 
 
@@ -52,36 +54,19 @@ public class ShopViewPagerAdapter extends PagerAdapter {
         View itemView = LayoutInflater.from(context).inflate(R.layout.viewpager_product_detail, container, false);
         final ImageView imageView = (ImageView) itemView.findViewById(R.id.img_viewpager_detail);
 
+
         AndroidUtils.showErrorLog(context, "position============" + position);
-        if (Tabletsize.isTablet(context)) {
-            String product_imageurl = imageUrlArrayList.get(position).replace("small", "large");
 
-            Ion.with(imageView)
-                    .error(ContextCompat.getDrawable(context, R.drawable.ic_applogo1))
-                    .placeholder(ContextCompat.getDrawable(context, R.drawable.ic_applogo1))
-                    .load(product_imageurl);
-            Log.e("image_large", "image_large");
+        String product_imageurl = imageUrlArrayList.get(position);
 
-        } else if (Tabletsize.isMedium(context)) {
-            String product_imageurl = imageUrlArrayList.get(position).replace("small", "medium");
+        Ion.with(imageView)
+                .error(ContextCompat.getDrawable(context, R.drawable.ic_applogo1))
+                .placeholder(ContextCompat.getDrawable(context, R.drawable.ic_applogo1))
+                .load(product_imageurl);
 
-            Ion.with(imageView)
-                    .error(ContextCompat.getDrawable(context, R.drawable.ic_applogo1))
-                    .placeholder(ContextCompat.getDrawable(context, R.drawable.ic_applogo1))
-                    .load(product_imageurl);
-
-            Log.e("image_medium", "image_medium");
-
-        } else if (Tabletsize.isSmall(context)) {
+        //AndroidUtils.setBackgroundStroke(imageView, context, R.color.green, 20, 5);
 
 
-            Ion.with(imageView)
-                    .error(ContextCompat.getDrawable(context, R.drawable.ic_applogo1))
-                    .placeholder(ContextCompat.getDrawable(context, R.drawable.ic_applogo1))
-                    .load(imageUrlArrayList.get(position));
-
-            Log.e("image_small", "image_small");
-        }
         container.addView(itemView);
 
         imageView.setOnClickListener(new View.OnClickListener() {
@@ -97,6 +82,6 @@ public class ShopViewPagerAdapter extends PagerAdapter {
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
-        container.removeView((LinearLayout) object);
+        container.removeView((CardView) object);
     }
 }

@@ -16,7 +16,7 @@
 
         <RelativeLayout
             android:id="@+id/list_home_icon"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/fifty_dip"
 
             android:layout_height="match_parent"
 

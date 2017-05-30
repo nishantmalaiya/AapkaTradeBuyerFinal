@@ -3,6 +3,7 @@ package com.aapkatrade.buyer.shopdetail;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
@@ -50,6 +51,8 @@ import com.aapkatrade.buyer.shopdetail.reviewlist.ReviewListAdapter;
 import com.aapkatrade.buyer.shopdetail.reviewlist.ReviewListData;
 import com.aapkatrade.buyer.shopdetail.shop_all_product.ShopAllProductActivity;
 import com.aapkatrade.buyer.uicomponent.bottomnavigationview.CustomBottomNavigationView;
+import com.aapkatrade.buyer.welcome.GradientParameters;
+import com.gigamole.infinitecycleviewpager.HorizontalInfiniteCycleViewPager;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
@@ -68,7 +71,7 @@ import me.relex.circleindicator.CircleIndicator;
 public class ShopDetailActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
     private LinearLayout viewpagerindicator, linearlayoutShare, linearlayoutLocation;
-    private RelativeLayout shopProductsLayout, openingClosingRelativeLayout, relativeLayoutlViewAllProducts;
+    private RelativeLayout shopProductsLayout, openingClosingRelativeLayout, relativeLayoutlViewAllProducts, viewpager_container_shopdetail;
     private Spinner spinner;
     private int max = 10;
     private ArrayList<String> imageList;
@@ -77,7 +80,7 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
     private ServiceEnquiry serviceEnquiry;
     private String date;
     private StackedHorizontalProgressBar progressbarFive, progressbarFour, progressbarThree, progressbarTwo, progressbarOne;
-    private ViewPager vp;
+    private HorizontalInfiniteCycleViewPager vp;
     private ShopViewPagerAdapter viewpageradapter;
     private int dotsCount;
     private CircleIndicator circleIndicator;
@@ -368,6 +371,10 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
         relativeRateReview = (RelativeLayout) findViewById(R.id.relativeRateReview);
         openingClosingRelativeLayout = (RelativeLayout) findViewById(R.id.opening_closing_relative_layout);
         relativeLayoutlViewAllProducts = (RelativeLayout) findViewById(R.id.rl_viewall_products);
+        viewpager_container_shopdetail = (RelativeLayout) findViewById(R.id.viewpager_container_shopdetail);
+
+//        AndroidUtils.setGradientColor(viewpager_container_shopdetail, android.graphics.drawable.GradientDrawable.RECTANGLE, ContextCompat.getColor(context, R.color.black), ContextCompat.getColor(context, R.color.white), android.graphics.drawable.GradientDrawable.Orientation.TOP_BOTTOM, 0);
+
         linearlayoutShare = (LinearLayout) findViewById(R.id.linearlayoutShare);
 
         linearlayoutLocation = (LinearLayout) findViewById(R.id.linearlayoutLocation);
@@ -455,7 +462,7 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
         relativeBuyNow = (RelativeLayout) findViewById(R.id.relativeService_enquiry);
         btnServiceEnquiry = (Button) findViewById(R.id.btnService_enquiry);
 
-        vp = (ViewPager) findViewById(R.id.viewpager_custom);
+        vp = (HorizontalInfiniteCycleViewPager) findViewById(R.id.viewpager_custom);
         viewpagerindicator = (LinearLayout) findViewById(R.id.viewpagerindicator);
 
         progressbarFive = (StackedHorizontalProgressBar) findViewById(R.id.progressbarFive);
