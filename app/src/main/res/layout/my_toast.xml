@@ -8,6 +8,7 @@
     android:layout_marginRight="@dimen/ten_dip"
     android:orientation="vertical"
     android:paddingLeft="@dimen/twenty_dip"
+    android:background="@drawable/bg_toast"
     android:paddingRight="@dimen/twenty_dip"
     android:paddingTop="@dimen/ten_dip"
     android:paddingBottom="@dimen/ten_dip">

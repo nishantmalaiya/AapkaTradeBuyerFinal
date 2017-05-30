@@ -175,15 +175,19 @@ public class FilterDialog extends Dialog {
 
 
     private void decodeData(ArrayMap<String, ArrayList<FilterObject>> filterHashMap) {
-        for (String key : filterHashMap.keySet()) {
-            filterNameArrayList.add(key);
-            AndroidUtils.showErrorLog(context, "Main decoded     " + key);
-            filterValueArrayList = filterHashMap.get(key);
-            for (int i = 0; i < filterValueArrayList.size(); i++) {
-                AndroidUtils.showErrorLog(context, " decoded Key : " + filterValueArrayList.get(i).name.key + " decoded Value : " + filterValueArrayList.get(i).name.value);
+        if(filterHashMap!=null) {
+            for (String key : filterHashMap.keySet()) {
+                filterNameArrayList.add(key);
+                AndroidUtils.showErrorLog(context, "Main decoded     " + key);
+                filterValueArrayList = filterHashMap.get(key);
+                for (int i = 0; i < filterValueArrayList.size(); i++) {
+                    AndroidUtils.showErrorLog(context, " decoded Key : " + filterValueArrayList.get(i).name.key + " decoded Value : " + filterValueArrayList.get(i).name.value);
+                }
             }
+            AndroidUtils.showErrorLog(context, "Size decoded" + filterHashMap.size());
+        }else {
+            AndroidUtils.showErrorLog(context, "Size decoded null found");
         }
-        AndroidUtils.showErrorLog(context, "Size decoded" + filterHashMap.size());
     }
 
     private void setUpColumn1Adapter() {

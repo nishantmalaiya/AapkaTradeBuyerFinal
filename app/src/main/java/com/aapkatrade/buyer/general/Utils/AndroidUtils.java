@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.aapkatrade.buyer.Home.navigation.entity.CategoryHome;
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.Validation;
+import com.aapkatrade.buyer.uicomponent.CustomSnackBar;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -36,7 +37,7 @@ public class AndroidUtils {
     public static String BaseUrl = "https://aapkatrade.com";
 
     public static void showSnackBar(ViewGroup layout, String message) {
-        if (layout != null) {
+        /*if (layout != null) {
             Snackbar snackbar = Snackbar
                     .make(layout, message, Snackbar.LENGTH_SHORT)
                     .setAction("", new View.OnClickListener() {
@@ -45,7 +46,17 @@ public class AndroidUtils {
                         }
                     });
             snackbar.show();
-        }
+        }*/
+
+
+        CustomSnackBar snackbar = CustomSnackBar.Builder(layout.getContext())
+                .layout(R.layout.my_toast)
+                .background(R.color.green)
+                .duration(CustomSnackBar.LENGTH.SHORT)
+                .swipe(true)
+                .build(layout);
+        snackbar.setText(message);
+        snackbar.show();
     }
 
 
