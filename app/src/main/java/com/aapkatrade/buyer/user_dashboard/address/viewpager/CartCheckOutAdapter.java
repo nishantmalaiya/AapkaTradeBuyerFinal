@@ -403,8 +403,6 @@ public class CartCheckOutAdapter extends RecyclerView.Adapter<CartHolder> implem
 
                                     cartHolder.tvProductSubtotalPrice.setText(context.getResources().getText(R.string.rupay_text) + String.valueOf(cart_price));
                                     cartHolder.textView64.setText(itemList.get(position).quantity);
-
-                                    //notifyDataSetChanged();
                                     progressBarHandler.hide();
 
 

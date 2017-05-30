@@ -1,5 +1,6 @@
 package com.aapkatrade.buyer.user_dashboard.order_list;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -95,8 +96,9 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         return orderListDatas.size();
     }
 
+    @SuppressLint("SimpleDateFormat")
     public String getCurrentTimeStamp() {
-        return new SimpleDateFormat("dd MMM yyyy HH:mm").format(new Date());
+        return new SimpleDateFormat("DD MMM YYYY HH:MM").format(new Date());
     }
 
 
