@@ -1,5 +1,6 @@
 package com.aapkatrade.buyer.shopdetail;
 
+import android.support.percent.PercentRelativeLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -16,14 +17,13 @@ public class ShopViewPagerHolder extends RecyclerView.ViewHolder {
 
     View view;
     ImageView imageView;
-    LinearLayout linearlayout;
+    PercentRelativeLayout relativeLayout;
 
-    public ShopViewPagerHolder(View itemView)
-    {
+    public ShopViewPagerHolder(View itemView) {
 
         super(itemView);
 
-        linearlayout = (LinearLayout) itemView.findViewById(R.id.linearlayout);
+        relativeLayout = (PercentRelativeLayout) itemView.findViewById(R.id.relativelayout);
 
         imageView = (ImageView) itemView.findViewById(R.id.img_pager_item);
 

@@ -2,9 +2,12 @@ package com.aapkatrade.buyer.categories_tab;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.util.ArrayMap;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -15,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -58,6 +62,9 @@ public class ShopListByCategoryActivity extends AppCompatActivity {
     private int page = 1;
     public static TextView tvCartCount;
     private int categoryListActivity = 1;
+    CardView cardview_list_container;
+
+    RelativeLayout rl_tryagain, ll_data_not_found;
 
 
     @Override
@@ -102,6 +109,15 @@ public class ShopListByCategoryActivity extends AppCompatActivity {
 
     private void initView() {
         view = (ViewGroup) findViewById(android.R.id.content);
+        cardview_list_container = (CardView) view.findViewById(R.id.cardview_list_container);
+        ll_data_not_found = (RelativeLayout) view.findViewById(R.id.ll_data_not_found);
+
+        AndroidUtils.setGradientColor(ll_data_not_found, android.graphics.drawable.GradientDrawable.RECTANGLE, ContextCompat.getColor(context, R.color.datanotfound_gradient_bottom), ContextCompat.getColor(context, R.color.datanotfound_gradient_top), android.graphics.drawable.GradientDrawable.Orientation.TOP_BOTTOM, 0);
+
+        rl_tryagain = (RelativeLayout) view.findViewById(R.id.rl_tryagain);
+
+        AndroidUtils.setBackgroundSolid(rl_tryagain, context, R.color.listing_not_found_color, 15, GradientDrawable.RECTANGLE);
+
         progress_handler = new ProgressBarHandler(this);
         layout_container = (FrameLayout) view.findViewById(R.id.layout_container);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
@@ -140,6 +156,7 @@ public class ShopListByCategoryActivity extends AppCompatActivity {
 
                             if (result == null) {
                                 layout_container.setVisibility(View.INVISIBLE);
+
                                 progress_handler.hide();
                             } else {
 
@@ -195,12 +212,16 @@ public class ShopListByCategoryActivity extends AppCompatActivity {
 
                                     } else {
                                         Log.e("data----------1", "No record found list");
-                                        layout_container.setVisibility(View.INVISIBLE);
+                                        layout_container.setVisibility(View.GONE);
+                                        findViewById(R.id.filter) .setVisibility(View.GONE);
                                         progress_handler.hide();
                                     }
                                 } else {
                                     Log.e("data----------1", "No record found list");
-                                    layout_container.setVisibility(View.INVISIBLE);
+                                    layout_container.setVisibility(View.GONE);
+                                    cardview_list_container.setVisibility(View.GONE);
+
+                                    ll_data_not_found.setVisibility(View.VISIBLE);
                                     progress_handler.hide();
                                 }
                             }
@@ -292,6 +313,9 @@ public class ShopListByCategoryActivity extends AppCompatActivity {
                                     } else {
 
                                         layout_container.setVisibility(View.INVISIBLE);
+                                        cardview_list_container.setVisibility(View.GONE);
+                                        ll_data_not_found.setVisibility(View.VISIBLE);
+                                        findViewById(R.id.filter) .setVisibility(View.GONE);
                                         progress_handler.hide();
                                     }
 
@@ -394,8 +418,10 @@ public class ShopListByCategoryActivity extends AppCompatActivity {
                                         }
 
                                     } else {
-
+                                        cardview_list_container.setVisibility(View.GONE);
+                                        ll_data_not_found.setVisibility(View.VISIBLE);
                                         layout_container.setVisibility(View.INVISIBLE);
+                                        findViewById(R.id.filter) .setVisibility(View.GONE);
                                         progress_handler.hide();
                                     }
                                 } else {
@@ -505,7 +531,9 @@ public class ShopListByCategoryActivity extends AppCompatActivity {
 
                                     } else {
 
-                                        layout_container.setVisibility(View.INVISIBLE);
+                                        cardview_list_container.setVisibility(View.GONE);
+                                        ll_data_not_found.setVisibility(View.VISIBLE);
+                                        layout_container.setVisibility(View.GONE);
                                         progress_handler.hide();
                                     }
                                 } else {
@@ -561,6 +589,7 @@ public class ShopListByCategoryActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
         toolbarRightText = (TextView) findViewById(R.id.toolbarRightText);
         toolbarRightText.setVisibility(View.GONE);
         //toolbarRightText.setBackground(ContextCompat.getDrawable(context, R.drawable.ic_filter));

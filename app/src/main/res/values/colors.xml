@@ -6,6 +6,9 @@
     <color name="hint_color">#606060</color>
     <color name="color_voilet">#FF6600</color>
     <color name="green">#63BEAC</color>
+
+    <color name="listing_not_found_color">#f96e38</color>
+
     <color name="green_transparent">#0063BEAC</color>
     <color name="green_transparent2">#E6069f81</color>
     <color name="toast_start_color">#16b696</color>
@@ -21,6 +24,7 @@
     <color name="sienna">#A0522D</color>
     <color name="orange">#FF6600</color>
     <color name="white">#FFFFFF</color>
+
     <color name="screen_back">#F8EEE5</color>
     <color name="black">#000000</color>
     <color name="blue_gradient">#415673</color>
@@ -100,6 +104,12 @@
 
     <color name="Welcome_screen5_gradient_TopColor">#b2470c</color>
     <color name="Welcome_screen5_gradient_BottomColor">#ff782e</color>
+    <color name="shopdetail_viewpager_startcolor">#9b57fb</color>
+    <color name="shopdetail_viewpager_endcolor">#4459df</color>
+
+
+    <color name="datanotfound_gradient_top">#96f1e5</color>
+    <color name="datanotfound_gradient_bottom">#26a997</color>
 
 
 </resources>
