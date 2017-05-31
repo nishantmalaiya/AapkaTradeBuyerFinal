@@ -86,13 +86,14 @@ public class CustomQuantityDialog extends DialogFragment
 
                 }
                   else {
-                    if (Integer.parseInt(etManualQuantity.getText().toString().trim()) > 0) {
+                    if (Integer.parseInt(etManualQuantity.getText().toString().trim()) > 0)
+                    {
                         if (context instanceof ProductDetailActivity) {
 
                             commonInterface.getData(etManualQuantity.getText().toString().trim());
                         }
 
-                        if (CartAdapter.itemList != null && CartAdapter.itemList.size() >= pos) {
+                        else if (CartAdapter.itemList != null && CartAdapter.itemList.size() >= pos) {
                             callwebserviceUpdateCart(CartAdapter.itemList.get(pos).id, 1, etManualQuantity.getText().toString(), CartAdapter.itemList.get(pos).product_id);
                         }
 
