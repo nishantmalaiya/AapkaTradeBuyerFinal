@@ -7,7 +7,7 @@
     android:layout_gravity="center_vertical|center_horizontal"
     app:cardBackgroundColor="@color/grey_light3"
     app:cardCornerRadius="@dimen/fifteen_dip"
-    tools:context="com.aapkatrade.buyer.dialogs.track_order.Track_order_dialog">
+    tools:context="com.aapkatrade.buyer.dialogs.track_order.TrackOrderDialog">
 
 
     <android.support.v4.widget.NestedScrollView

@@ -30,7 +30,7 @@ import com.koushikdutta.ion.Ion;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Track_order_dialog extends DialogFragment {
+public class TrackOrderDialog extends DialogFragment {
     ImageView dialog_close;
     EditText tracking_id;
     Button validate_order_id;
@@ -40,7 +40,7 @@ public class Track_order_dialog extends DialogFragment {
 
     TextToSpeech t1;
 
-    public Track_order_dialog() {
+    public TrackOrderDialog() {
         // Required empty public constructor
     }
 
@@ -109,7 +109,7 @@ public class Track_order_dialog extends DialogFragment {
 
 
                         Intent go_to_activity_otp_verify = new Intent(getActivity(), ActivityOTPVerify.class);
-                        go_to_activity_otp_verify.putExtra("class_name", "Track_order_dialog");
+                        go_to_activity_otp_verify.putExtra("class_name", "TrackOrderDialog");
                         go_to_activity_otp_verify.putExtra("otp_id", otp_id);
                         startActivity(go_to_activity_otp_verify);
 
