@@ -25,6 +25,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AbsoluteLayout;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -87,7 +88,7 @@ public class HomeActivity extends AppCompatActivity {
     private FrameLayout redCircle;
     public static TextView tvCartCount;
     int home_activity = 1;
-
+ImageView logoWord;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -197,6 +198,10 @@ public class HomeActivity extends AppCompatActivity {
         ImageView home_link = (ImageView) toolbar.findViewById(R.id.iconHome);
         AndroidUtils.setImageColor(home_link, context, R.color.white);
         home_link.setVisibility(View.GONE);
+
+        logoWord=(ImageView)toolbar.findViewById(R.id.logoWord);
+
+
     }
 
     private void replaceFragment(Fragment newFragment, String tag) {

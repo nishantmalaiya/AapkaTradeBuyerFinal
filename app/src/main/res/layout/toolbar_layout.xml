@@ -47,7 +47,7 @@
             android:layout_height="@dimen/twenty_five_dip"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/ten_dip"
-            android:layout_toRightOf="@+id/iconHome"
+
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
             android:src="@drawable/home_logo"
