@@ -20,7 +20,6 @@ import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -32,8 +31,8 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.aapkatrade.buyer.dialogs.track_order.TrackOrderDialog;
 import com.aapkatrade.buyer.general.Validation;
 import com.aapkatrade.buyer.login.LoginDashboard;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
@@ -43,7 +42,6 @@ import com.aapkatrade.buyer.Home.cart.MyCartActivity;
 import com.aapkatrade.buyer.Home.navigation.NavigationFragment;
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.contact_us.ContactUsFragment;
-import com.aapkatrade.buyer.dialogs.track_order.Track_order_dialog;
 import com.aapkatrade.buyer.general.AppConfig;
 import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.CheckPermission;
@@ -402,8 +400,8 @@ ImageView logoWord;
                     case 2:
 
                         FragmentManager fm = getSupportFragmentManager();
-                        Track_order_dialog track_order_dialog = new Track_order_dialog();
-                        track_order_dialog.show(fm, "Track Order");
+                        TrackOrderDialog track_orderDialog = new TrackOrderDialog();
+                        track_orderDialog.show(fm, "Track Order");
 
 
 //                        Intent i =new Intent(HomeActivity.this, Order_detail.class);

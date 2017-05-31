@@ -183,7 +183,7 @@ public class ActivityOTPVerify extends AppCompatActivity {
 
                 if (editText1.getText().length() != 0)
                 {
-                    if (class_name.contains("Track_order_dialog"))
+                    if (class_name.contains("TrackOrderDialog"))
                     {
                         String otp = editText1.getText().toString().trim() + editText2.getText().toString().trim() + editText3.getText().toString().trim() + editText4.getText().toString().trim();
 
@@ -445,7 +445,7 @@ public class ActivityOTPVerify extends AppCompatActivity {
 
 
                         }
-                        else if (class_name.contains("Track_order_dialog"))
+                        else if (class_name.contains("TrackOrderDialog"))
                         {
                             appSharedPreference.setSharedPref(SharedPreferenceConstants.USER_ID.toString(), jsonObject.get("user_id").getAsString());
                             Intent intent = new Intent(ActivityOTPVerify.this, HomeActivity.class);

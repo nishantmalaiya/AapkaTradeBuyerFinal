@@ -6,7 +6,7 @@
     app:cardBackgroundColor="@color/green"
     app:cardCornerRadius="@dimen/ten_dip"
 
-    tools:context="com.aapkatrade.buyer.dialogs.track_order.Track_order_dialog">
+    tools:context="com.aapkatrade.buyer.dialogs.track_order.TrackOrderDialog">
 
 
     <RelativeLayout
