@@ -256,5 +256,10 @@
     <string name="tryagain">Try Again</string>
     <string name="wecome_buyer">Welcome Buyer</string>
     <string name="product_listing_not_found" > Shops  of this Category will be updated soon! </string>
+    <string name="seller">Seller</string>
+    <string name="businessassociate">Business Associate</string>
+    <string name="loginregisterfooter" translatable="false">Please Click one for Login/Register</string>
+    <string name="title_activity_logindashboard" translatable="false">logindashboard</string>
+    <string name="splash_footer_text">YAHA SAB MILTA HAI</string>
 
 </resources>
