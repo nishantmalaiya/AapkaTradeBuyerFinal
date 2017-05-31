@@ -34,6 +34,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.aapkatrade.buyer.general.Validation;
+import com.aapkatrade.buyer.login.LoginDashboard;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.aapkatrade.buyer.Home.aboutus.AboutUsFragment;
@@ -235,7 +236,7 @@ public class HomeActivity extends AppCompatActivity {
 
                 if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), "notlogin").equals("notlogin")) {
 
-                    Intent i = new Intent(HomeActivity.this, LoginActivity.class);
+                    Intent i = new Intent(HomeActivity.this, LoginDashboard.class);
                     startActivity(i);
                     overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left);
                     break;

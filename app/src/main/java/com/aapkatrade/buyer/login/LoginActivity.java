@@ -39,6 +39,7 @@ public class LoginActivity extends AppCompatActivity {
     private CoordinatorLayout coordinatorLayout;
     private Context context;
     private ProgressBarHandler progressBarHandler;
+    String usertype;
 
 
     @Override
@@ -49,6 +50,10 @@ public class LoginActivity extends AppCompatActivity {
 
 
         context = LoginActivity.this;
+        Intent intent = getIntent();
+
+        Bundle b = intent.getExtras();
+        usertype = b.getString("user_login");
         appSharedpreference = new AppSharedPreference(context);
         progressBarHandler = new ProgressBarHandler(context);
         setUpToolBar();
@@ -161,29 +166,22 @@ public class LoginActivity extends AppCompatActivity {
                     public void onCompleted(Exception e, JsonObject result) {
 
                         progressBarHandler.hide();
-                        if (result != null)
-                        {
+                        if (result != null) {
 
-                            System.out.println("result--------------"+result.toString());
+                            System.out.println("result--------------" + result.toString());
 
                             String error = result.get("error").getAsString();
 
-                            if (error.contains("true"))
-                            {
+                            if (error.contains("true")) {
                                 String message = result.get("message").getAsString();
                                 showMessage(message);
 
-                            }
-                            else {
+                            } else {
 
                                 showMessage(getResources().getString(R.string.welcome_buyer));
                                 Log.e("webservice_returndata", result.toString());
 
                                 saveDataInSharedPreference(result);
-
-
-
-
 
 
                             }
@@ -194,8 +192,7 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
-    private void saveDataInSharedPreference(JsonObject webservice_returndata)
-    {
+    private void saveDataInSharedPreference(JsonObject webservice_returndata) {
 
         JsonObject jsonObject = webservice_returndata.getAsJsonObject("all_info");
         Log.e("hi", jsonObject.toString());
@@ -229,8 +226,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-    private void initView()
-    {
+    private void initView() {
         forgotPassword = (TextView) findViewById(R.id.tv_forgotpassword);
         loginText = (TextView) findViewById(R.id.tv_login);
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinator_layout);
@@ -246,16 +242,17 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(forgotPasswordActivity);
             }
         });
+
+
+        loginText.setText(usertype);
     }
 
-    public void showMessage(String message)
-    {
+    public void showMessage(String message) {
         AndroidUtils.showSnackBar(coordinatorLayout, message);
     }
 
 
-    private void callwebserviceUpdateCart()
-    {
+    private void callwebserviceUpdateCart() {
         progressBarHandler.show();
 
         String login_url = context.getResources().getString(R.string.webservice_base_url) + "/update_cart_user";

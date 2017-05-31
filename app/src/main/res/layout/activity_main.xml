@@ -39,7 +39,7 @@
                 android:layout_below="@+id/tv_aapkatrade"
                 android:layout_centerHorizontal="true"
                 android:gravity="center_horizontal"
-                android:text="yaha par sab kucch milta hai"
+                android:text="@string/splash_footer_text"
                 android:textColor="@color/black"
                 android:textSize="@dimen/textsize_medium" />
 
