@@ -41,16 +41,17 @@
             tools:ignore="RtlHardcoded"
             android:contentDescription="@string/type_image" />
 
-        <ImageView
+        <android.support.v7.widget.AppCompatImageView
             android:id="@+id/logoWord"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/twenty_five_dip"
+            android:layout_width="@dimen/one_hundred_twenty_dip"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/ten_dip"
-
             android:adjustViewBounds="true"
+            android:paddingTop="@dimen/five_dip"
+            android:paddingBottom="@dimen/five_dip"
             android:scaleType="fitCenter"
-            android:src="@drawable/home_logo"
+            app:srcCompat="@drawable/ic_app_logo"
             tools:ignore="RtlHardcoded"
             android:contentDescription="@string/type_image" />
 
@@ -76,6 +77,7 @@
             android:textSize="@dimen/textsize_medium"
             android:visibility="gone"
             tools:ignore="RtlHardcoded" />
+
 
         <RelativeLayout
             android:id="@+id/cart_container"
