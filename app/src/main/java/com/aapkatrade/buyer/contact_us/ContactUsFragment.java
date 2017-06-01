@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.aapkatrade.buyer.R;
+import com.aapkatrade.buyer.general.AppConfig;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Validation;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
@@ -111,25 +112,34 @@ public class ContactUsFragment extends Fragment {
     private void callContactUsWebService(String subject, String username, String mobile, String email, String query) {
         progress_handler.show();
         Ion.with(getActivity())
-                .load(getResources().getString(R.string.webservice_base_url) + "/contact")
+                .load(getResources().getString(R.string.webservice_base_url) + "/contact_us")
                 .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                 .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
-                .setBodyParameter("name", username)
+                .setBodyParameter("user_name", username)
                 .setBodyParameter("email", email)
-                .setBodyParameter("mobile", mobile)
+                .setBodyParameter("mobile_num", mobile)
                 .setBodyParameter("message", query)
                 .setBodyParameter("subject", subject)
+                .setBodyParameter("device_id", AppConfig.getCurrentDeviceId(getActivity()))
                 .asJsonObject()
                 .setCallback(new FutureCallback<JsonObject>() {
 
                     @Override
                     public void onCompleted(Exception e, JsonObject result) {
                         if (result == null) {
+
                             progress_handler.hide();
                         } else {
                             JsonObject jsonObject = result.getAsJsonObject();
-                            String message = jsonObject.get("message").getAsString();
-                            Log.e("message", message);
+
+
+                            if(jsonObject.get("error").getAsString().contains("false"))
+                            {
+                                String message = jsonObject.get("message").getAsString();
+                                AndroidUtils.showToast(getActivity(),message);
+
+                            }
+                            Log.e("message", jsonObject.toString());
 
                             etSubject.setText("");
                             etUserName.setText("");
