@@ -118,6 +118,13 @@ public class ShopListByCategoryActivity extends AppCompatActivity {
 
         AndroidUtils.setBackgroundSolid(rl_tryagain, context, R.color.listing_not_found_color, 15, GradientDrawable.RECTANGLE);
 
+        rl_tryagain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getShopListData("0");
+            }
+        });
+
         progress_handler = new ProgressBarHandler(this);
         layout_container = (FrameLayout) view.findViewById(R.id.layout_container);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
@@ -214,6 +221,7 @@ public class ShopListByCategoryActivity extends AppCompatActivity {
                                         Log.e("data----------1", "No record found list");
                                         layout_container.setVisibility(View.GONE);
                                         findViewById(R.id.filter) .setVisibility(View.GONE);
+                                        cardview_list_container.setVisibility(View.GONE);
                                         progress_handler.hide();
                                     }
                                 } else {

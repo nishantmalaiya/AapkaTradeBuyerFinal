@@ -48,6 +48,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private TextView tvSave, tv_agreement;
     private LinearLayout registrationLayout;
     private ArrayList<String> stateList = new ArrayList<>();
+    private ArrayList<String> stateIds = new ArrayList<>();
     private ArrayList<City> cityList = new ArrayList<>();
 
     private String stateID = "", cityID = "";
@@ -90,10 +91,9 @@ public class RegistrationActivity extends AppCompatActivity {
 
     }
 
-    private void callWebServiceForBuyerRegistration()
-    {
+    private void callWebServiceForBuyerRegistration() {
 
-        Log.e("country_id",formBuyerData.getCountryId()+formBuyerData.getStateId());
+        Log.e("country_id", formBuyerData.getCountryId() + formBuyerData.getStateId());
 
         Log.e("reach", " Buyer Data--------->\n" + formBuyerData.toString());
 
@@ -159,6 +159,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
     private void getState() {
         stateList = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.state_list)));
+        stateIds = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.state_ids)));
         CustomSpinnerAdapter spinnerArrayAdapter = new CustomSpinnerAdapter(context, stateList);
         spState.setAdapter(spinnerArrayAdapter);
         spState.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -170,7 +171,8 @@ public class RegistrationActivity extends AppCompatActivity {
                     stateID = String.valueOf(position);
                     findViewById(R.id.input_layout_city).setVisibility(View.VISIBLE);
                     findViewById(R.id.view1).setVisibility(View.VISIBLE);
-                    getCity(String.valueOf(position));
+
+                    getCity(String.valueOf(stateIds.get(position)));
 
                 }
             }
@@ -312,8 +314,7 @@ public class RegistrationActivity extends AppCompatActivity {
         Log.e("reach", "validateFiledsCalled");
 
 
-        if (formBuyerData != null)
-        {
+        if (formBuyerData != null) {
             if (Validation.isEmptyStr(formBuyerData.getFirstName())) {
                 putError(0);
                 isAllFieldSet++;

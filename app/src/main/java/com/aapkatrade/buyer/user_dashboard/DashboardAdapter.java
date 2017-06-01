@@ -12,6 +12,7 @@ import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.login.LoginActivity;
 
+import com.aapkatrade.buyer.login.LoginDashboard;
 import com.aapkatrade.buyer.user_dashboard.changepassword.ChangePassword;
 
 import com.aapkatrade.buyer.user_dashboard.my_profile.MyProfileActivity;
@@ -75,7 +76,7 @@ public class DashboardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
                 if (itemList.get(position).dashboard_name.equals("My Profile")) {
                     if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString(), "notlogin").equals("notlogin")) {
-                        Intent i = new Intent(context, LoginActivity.class);
+                        Intent i = new Intent(context, LoginDashboard.class);
                         context.startActivity(i);
 
 
@@ -87,7 +88,7 @@ public class DashboardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
                 } else if (itemList.get(position).dashboard_name.equals("Change Password")) {
                     if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), "notlogin").equals("notlogin")) {
-                        Intent i = new Intent(context, LoginActivity.class);
+                        Intent i = new Intent(context, LoginDashboard.class);
                         context.startActivity(i);
 
 
@@ -100,7 +101,7 @@ public class DashboardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
                 } else if (itemList.get(position).dashboard_name.equals("Order")) {
                     if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), "notlogin").equals("notlogin")) {
-                        Intent i = new Intent(context, LoginActivity.class);
+                        Intent i = new Intent(context, LoginDashboard.class);
                         context.startActivity(i);
 
 

@@ -419,7 +419,7 @@ ImageView logoWord;
 
                         // startActivity(new Intent(HomeActivity.this, LoginActivity.class));
                         if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString(), "not").contains("not")) {
-                            startActivity(new Intent(HomeActivity.this, LoginActivity.class));
+                            startActivity(new Intent(HomeActivity.this, LoginDashboard.class));
                         } else {
                             Log.e("hiiii", appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString(), "not"));
                             String tagName_dashboardFragment = userDashboardFragment.getClass().getName();

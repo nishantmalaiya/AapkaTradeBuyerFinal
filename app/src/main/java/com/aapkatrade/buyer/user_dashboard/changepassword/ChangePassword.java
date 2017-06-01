@@ -87,11 +87,11 @@ public class ChangePassword extends AppCompatActivity {
                                 String message = jsonObject.get("message").getAsString();
                                 AndroidUtils.showErrorLog(context, "data_change_password", result.toString());
                                 showMessage(message);
-                                if(message.equalsIgnoreCase("Please enter correct current password")){
+                                if (message.equalsIgnoreCase("Please enter correct current password")) {
                                     etOldPassword.setError(message);
-                                } else if(message.equalsIgnoreCase("New password and confirm password does not match")){
+                                } else if (message.equalsIgnoreCase("New password and confirm password does not match")) {
                                     etConfirmPassword.setError(message);
-                                } else if(message.equalsIgnoreCase("Updated succesfully")){
+                                } else if (message.equalsIgnoreCase("Updated succesfully")) {
                                     AndroidUtils.showToast(context, message);
                                     Intent intent = new Intent(ChangePassword.this, HomeActivity.class);
                                     intent.putExtra("callerActivity", ChangePassword.class.getName());
@@ -122,15 +122,15 @@ public class ChangePassword extends AppCompatActivity {
             public void onClick(View v) {
 
                 if (Validation.isNonEmptyStr(etOldPassword.getText().toString())) {
-                        if (Validation.isNonEmptyStr(etConfirmPassword.getText().toString())) {
-                            if (etNewPassword.getText().toString().equals(etConfirmPassword.getText().toString())) {
-                                callChangePasswordWebService();
-                            } else {
-                                showMessage("Old and confirm password does not match");
-                            }
+                    if (Validation.isNonEmptyStr(etConfirmPassword.getText().toString())) {
+                        if (etNewPassword.getText().toString().equals(etConfirmPassword.getText().toString())) {
+                            callChangePasswordWebService();
                         } else {
-                            showMessage("Please Enter Confirm Password");
+                            showMessage("Old and confirm password does not match");
                         }
+                    } else {
+                        showMessage("Please Enter Confirm Password");
+                    }
                 } else {
                     showMessage("Please Enter Old Password");
                 }

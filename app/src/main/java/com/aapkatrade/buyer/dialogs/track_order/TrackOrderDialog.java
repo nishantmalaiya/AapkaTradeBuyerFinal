@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.aapkatrade.buyer.R;
+import com.aapkatrade.buyer.general.AppConfig;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Validation;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
@@ -72,7 +73,8 @@ public class TrackOrderDialog extends DialogFragment {
                 if (Validation.validateEdittext(tracking_id)) {
                     call_Validate_order_webservice();
                 } else {
-                    AndroidUtils.showSnackBar(container, "!Enter correct Order id");
+                    AndroidUtils.showToast(getActivity(),"!Blank  Order id");
+
                 }
 
             }
@@ -93,8 +95,8 @@ public class TrackOrderDialog extends DialogFragment {
                 .load(track_order_url)
                 .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                 .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
-                .setBodyParameter("ORDER_ID", "AT210417060350")
-                .setBodyParameter("client_id", "12")
+                .setBodyParameter("ORDER_ID",tracking_id.getText().toString())
+                .setBodyParameter("client_id", AppConfig.getCurrentDeviceId(getActivity()))
                 .asJsonObject().setCallback(new FutureCallback<JsonObject>() {
             @Override
             public void onCompleted(Exception e, JsonObject result) {
@@ -117,8 +119,11 @@ public class TrackOrderDialog extends DialogFragment {
                         Log.e("otp_id", getActivity().getClass().getName());
 
 
+
                     } else {
                         progressDialogHandler.hide();
+                        String message = result.get("message").getAsString();
+                        AndroidUtils.showToast(getActivity(),message);
                     }
 
 
