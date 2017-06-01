@@ -36,6 +36,7 @@ import com.aapkatrade.buyer.general.Validation;
 import com.aapkatrade.buyer.general.interfaces.TaskCompleteReminder;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
 import com.aapkatrade.buyer.login.LoginActivity;
+import com.aapkatrade.buyer.login.LoginDashboard;
 import com.aapkatrade.buyer.privacypolicy.PrivacyPolicyActivity;
 import com.aapkatrade.buyer.termandcondition.TermsAndConditionActivity;
 import com.aapkatrade.buyer.user_dashboard.my_profile.MyProfileActivity;
@@ -103,7 +104,7 @@ public class NavigationFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (appSharedpreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString(), "not").contains("not")) {
-                    startActivity(new Intent(getActivity(), LoginActivity.class));
+                    startActivity(new Intent(getActivity(), LoginDashboard.class));
                 } else {
                     Log.e("hiiii", appSharedpreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString(), "not"));
                     startActivity(new Intent(getActivity(), MyProfileActivity.class));

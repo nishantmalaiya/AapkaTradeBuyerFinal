@@ -43,6 +43,7 @@ import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.Validation;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
 import com.aapkatrade.buyer.login.LoginActivity;
+import com.aapkatrade.buyer.login.LoginDashboard;
 import com.aapkatrade.buyer.map.GoogleMapActivity;
 import com.aapkatrade.buyer.rateus.RateUsActivity;
 import com.aapkatrade.buyer.shopdetail.opening_closing_days.OpenCloseDaysRecyclerAdapter;
@@ -405,7 +406,7 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
             public void onClick(View v) {
 
                 if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString(), "not").contains("not")) {
-                    startActivity(new Intent(ShopDetailActivity.this, LoginActivity.class));
+                    startActivity(new Intent(ShopDetailActivity.this, LoginDashboard.class));
                 } else {
                     Intent rate_us = new Intent(ShopDetailActivity.this, RateUsActivity.class);
                     rate_us.putExtra("product_id", product_id);

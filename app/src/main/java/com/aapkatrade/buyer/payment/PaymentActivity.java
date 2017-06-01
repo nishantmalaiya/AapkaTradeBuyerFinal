@@ -35,6 +35,7 @@ import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
+import com.aapkatrade.buyer.general.Validation;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
@@ -50,8 +51,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class PaymentActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener
-{
+public class PaymentActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -68,9 +68,9 @@ public class PaymentActivity extends AppCompatActivity implements TabLayout.OnTa
     String url;
     Handler mHandler = new Handler();
     JSONObject json;
-    ArrayList<String>  paymeny_data = new ArrayList<>();
+    ArrayList<String> paymeny_data = new ArrayList<>();
 
-
+    List<String> vpc_AuthorizeId = new ArrayList<>();
     private int[] tabIcons = {
 
             R.drawable.new_order_wht,
@@ -159,13 +159,11 @@ public class PaymentActivity extends AppCompatActivity implements TabLayout.OnTa
 
                                     params = new HashMap<>();
                                     String[] urlParts = urlx.split("\\?");
-                                    if (urlParts.length > 1)
-                                    {
+                                    if (urlParts.length > 1) {
                                         String query = urlParts[1];
                                         System.out.println("query---------" + query);
 
-                                        for (String param : query.split("&"))
-                                        {
+                                        for (String param : query.split("&")) {
                                             String pair[] = param.split("=");
 
                                             String key = null;
@@ -173,8 +171,7 @@ public class PaymentActivity extends AppCompatActivity implements TabLayout.OnTa
                                                 key = URLDecoder.decode(pair[0], "UTF-8");
 
                                                 String value = "";
-                                                if (pair.length > 1)
-                                                {
+                                                if (pair.length > 1) {
                                                     value = URLDecoder.decode(pair[1], "UTF-8");
 
                                                     paymeny_data.add(value);
@@ -182,11 +179,9 @@ public class PaymentActivity extends AppCompatActivity implements TabLayout.OnTa
                                                     System.out.println("value_data---------" + value);
 
 
-
                                                 }
                                                 values = params.get(key);
-                                                if (values == null)
-                                                {
+                                                if (values == null) {
                                                     values = new ArrayList<>();
                                                     params.put(key, values);
                                                 }
@@ -241,8 +236,7 @@ public class PaymentActivity extends AppCompatActivity implements TabLayout.OnTa
                 });
     }
 
-    private void setUpToolBar()
-    {
+    private void setUpToolBar() {
         ImageView homeIcon = (ImageView) findViewById(R.id.iconHome);
         AppCompatImageView back_imagview = (AppCompatImageView) findViewById(R.id.back_imagview);
 
@@ -374,7 +368,6 @@ public class PaymentActivity extends AppCompatActivity implements TabLayout.OnTa
     }
 
 
-
     private class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
@@ -405,79 +398,94 @@ public class PaymentActivity extends AppCompatActivity implements TabLayout.OnTa
     }
 
 
-    private void callWebServiceMakePayment(List<String> data)
-    {
+    private void callWebServiceMakePayment(List<String> data) {
 
         progressBarHandler.show();
 
         List<String> order_id = params.get("vpc_MerchTxnRef");
         List<String> transaction_no = params.get("vpc_TransactionNo");
         List<String> batch_no = params.get("vpc_BatchNo");
-        List<String> vpc_AuthorizeId = params.get("vpc_AuthorizeId");
+
+        if (params.get("vpc_AuthorizeId") == null) {
+
+
+            vpc_AuthorizeId.add("");
+        } else {
+            vpc_AuthorizeId = params.get("vpc_AuthorizeId");
+        }
+
         List<String> vpc_Card = params.get("vpc_Card");
         List<String> vpc_Message = params.get("vpc_Message");
-      final  List<String> vpc_ReceiptNo = params.get("vpc_ReceiptNo");
-      final  List<String> vpc_TransactionNo = params.get("vpc_TransactionNo");
-      final  List<String> vpc_Amount = params.get("vpc_Amount");
+        final List<String> vpc_ReceiptNo = params.get("vpc_ReceiptNo");
+        final List<String> vpc_TransactionNo = params.get("vpc_TransactionNo");
+        final List<String> vpc_Amount = params.get("vpc_Amount");
+
 
         //  System.out.println("data-----------data" + params.toString());
 
-        System.out.println("order_id--"+order_id.toString()+"transaction_no--"+transaction_no.toString()+"batch_no--"+batch_no.toString()+"vpc_AuthorizeId--"+vpc_AuthorizeId.toString()+"vpc_Card--"+vpc_Card.toString()+"vpc_Message--"+vpc_Message.toString()+"vpc_ReceiptNo--"+vpc_ReceiptNo.toString()+"vpc_TransactionNo--"+vpc_TransactionNo.toString());
+//        System.out.println("order_id--"+order_id.toString()+"transaction_no--"+transaction_no.toString()+"batch_no--"+batch_no.toString()+"vpc_AuthorizeId--"+vpc_AuthorizeId.toString()+"vpc_Card--"+vpc_Card.toString()+"vpc_Message--"+vpc_Message.toString()+"vpc_ReceiptNo--"+vpc_ReceiptNo.toString()+"vpc_TransactionNo--"+vpc_TransactionNo.toString());
 
         String login_url = context.getResources().getString(R.string.webservice_base_url) + "/make_payment";
 
 
-        System.out.println("login_url--------------"+login_url);
+        System.out.println("login_url--------------" + login_url);
         Ion.with(context)
                 .load(login_url)
                 .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                 .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                 //.setBodyParameter("data_n", params.toString())
-                .setBodyParameter("vpc_BatchNo",batch_no.get(0))
-                .setBodyParameter("order_id",order_id.get(0))
-                .setBodyParameter("vpc_AuthorizeId",vpc_AuthorizeId.get(0))
-                .setBodyParameter("vpc_Card",vpc_Card.get(0))
-                .setBodyParameter("vpc_Message",vpc_Message.get(0))
-                .setBodyParameter("vpc_ReceiptNo",vpc_ReceiptNo.get(0))
-                .setBodyParameter("vpc_TransactionNo",vpc_TransactionNo.get(0))
+                .setBodyParameter("vpc_BatchNo", batch_no.get(0))
+                .setBodyParameter("order_id", order_id.get(0))
+                .setBodyParameter("vpc_AuthorizeId", vpc_AuthorizeId.get(0))
+                .setBodyParameter("vpc_Card", vpc_Card.get(0))
+                .setBodyParameter("vpc_Message", vpc_Message.get(0))
+                .setBodyParameter("vpc_ReceiptNo", vpc_ReceiptNo.get(0))
+                .setBodyParameter("vpc_TransactionNo", vpc_TransactionNo.get(0))
                 .asJsonObject()
                 .setCallback(new FutureCallback<JsonObject>() {
                     @Override
-                    public void onCompleted(Exception e, JsonObject result)
-                    {
+                    public void onCompleted(Exception e, JsonObject result) {
                         //  AndroidUtils.showErrorLog(context,result,"dghdfghsaf dawbnedvhaewnbedvsab dsadduyf");
 
                         progressBarHandler.hide();
 
-                       if (result.get("error").getAsString().contains("false"))
-                        {
-
-                            String amount = vpc_Amount.toString().replace("[","");
-                            amount = amount.replace("]","");
-
-                            String transaction_no = vpc_TransactionNo.toString().replace("[","");
-                            transaction_no = transaction_no.replace("]","");
-
-                            String receipt_no = vpc_ReceiptNo.toString().replace("[","");
-                            receipt_no = receipt_no.replace("]","");
-
+                        if (result.get("error").getAsString().contains("false")) {
+                            String payment_status;
                             JsonObject jsonObject = result.getAsJsonObject("result");
-                            String cart_count = jsonObject.get("cart_item").getAsString();
-                            appSharedPreference.setSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), Integer.valueOf(cart_count));
+if(result.get("payment_status").getAsString().contains("false")) {
+    payment_status = "false";
 
-                            System.out.println("amount----------"+amount);
+    appSharedPreference.setSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), 0);
+}
+else{
+    payment_status = "true";
+    String cart_count = jsonObject.get("cart_item").getAsString();
+    appSharedPreference.setSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), Integer.valueOf(cart_count));
+}
+                            AndroidUtils.showErrorLog(context, result.toString());
+
+                            String amount = vpc_Amount.toString().replace("[", "");
+                            amount = amount.replace("]", "");
+
+                            String transaction_no = vpc_TransactionNo.toString().replace("[", "");
+                            transaction_no = transaction_no.replace("]", "");
+
+                            String receipt_no = vpc_ReceiptNo.toString().replace("[", "");
+                            receipt_no = receipt_no.replace("]", "");
+
+
+
+                            System.out.println("amount----------" + amount);
 
                             Intent intent = new Intent(context, PaymentCompletionActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-                            intent.putExtra("isSuccess", "true");
-                            intent.putExtra("vpc_Amount",amount);
+                            intent.putExtra("isSuccess", payment_status);
+                            intent.putExtra("vpc_Amount", amount);
                             intent.putExtra("vpc_TransactionNo", transaction_no);
                             intent.putExtra("vpc_ReceiptNo", receipt_no);
                             startActivity(intent);
-                        }
-                        else
-                        {
+                        } else {
                             Intent intent = new Intent(context, PaymentCompletionActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             intent.putExtra("isSuccess", "false");
@@ -516,19 +524,19 @@ public class PaymentActivity extends AppCompatActivity implements TabLayout.OnTa
         new AlertDialog.Builder(this)
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setTitle("Transaction Cancel?")
-                        .setMessage("Are you sure you want to cancel this transaction?")
-                                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        finish();
-                                        Intent intent = new Intent(context, HomeActivity.class);
-                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                        startActivity(intent);
-                                    }
+                .setMessage("Are you sure you want to cancel this transaction?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                        Intent intent = new Intent(context, HomeActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                    }
 
-                                })
-                                .setNegativeButton("No", null)
-                                .show();
+                })
+                .setNegativeButton("No", null)
+                .show();
 
     }
 }

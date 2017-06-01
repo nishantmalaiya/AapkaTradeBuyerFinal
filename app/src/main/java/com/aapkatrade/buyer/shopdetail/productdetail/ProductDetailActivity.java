@@ -37,6 +37,7 @@ import com.aapkatrade.buyer.general.Validation;
 import com.aapkatrade.buyer.general.interfaces.CommonInterface;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
 import com.aapkatrade.buyer.login.LoginActivity;
+import com.aapkatrade.buyer.login.LoginDashboard;
 import com.aapkatrade.buyer.rateus.RateUsActivity;
 import com.aapkatrade.buyer.shopdetail.ShopViewPagerAdapter;
 import com.aapkatrade.buyer.shopdetail.reviewlist.ReviewListAdapter;
@@ -107,7 +108,7 @@ public class ProductDetailActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString(), "not").contains("not")) {
-                    startActivity(new Intent(context, LoginActivity.class));
+                    startActivity(new Intent(context, LoginDashboard.class));
                 } else {
                     Intent rate_us = new Intent(context, RateUsActivity.class);
                     rate_us.putExtra("product_id", productId);
