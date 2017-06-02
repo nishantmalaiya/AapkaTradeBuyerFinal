@@ -153,8 +153,11 @@ public class UserDashboardFragment extends Fragment {
                             dashboardDatas.add(new DashboardData("", "Change Password", R.drawable.ic_chngpswd, R.drawable.circle_purple, false, ""));
                             dashboardDatas.add(new DashboardData("", "Order", R.drawable.ic_lstprdct, R.drawable.circle_sienna, true, order_quantity));
 
-
-                            tvUserType.setText("Welcome Buyer");
+if( appSharedPreference.getSharedPref((SharedPreferenceConstants.USER_TYPE.toString()))=="1")
+{  tvUserType.setText("Welcome Buyer");}
+                            else if(appSharedPreference.getSharedPref((SharedPreferenceConstants.USER_TYPE.toString()))=="2"){
+    tvUserType.setText("Welcome Seller");
+}
                             dashboardlist.setLayoutManager(layoutManager);
                             dashboardAdapter = new DashboardAdapter(getContext(), dashboardDatas);
                             dashboardlist.setAdapter(dashboardAdapter);

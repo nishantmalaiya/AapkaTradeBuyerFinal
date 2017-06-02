@@ -96,8 +96,7 @@ public class ActivityOTPVerify extends AppCompatActivity {
     }
 
 
-    private void setUpToolBar()
-    {
+    private void setUpToolBar() {
 
 
         ImageView homeIcon = (ImageView) findViewById(R.id.iconHome);
@@ -127,7 +126,6 @@ public class ActivityOTPVerify extends AppCompatActivity {
             getSupportActionBar().setElevation(0);
         }
         //Log.e("class_name",class_name);
-
 
 
     }
@@ -181,18 +179,14 @@ public class ActivityOTPVerify extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (editText1.getText().length() != 0)
-                {
-                    if (class_name.contains("TrackOrderDialog"))
-                    {
+                if (editText1.getText().length() != 0) {
+                    if (class_name.contains("TrackOrderDialog")) {
                         String otp = editText1.getText().toString().trim() + editText2.getText().toString().trim() + editText3.getText().toString().trim() + editText4.getText().toString().trim();
 
                         call_verifyotp_track_order(otp);
 
                         AndroidUtils.showErrorLog(context, "working 1");
-                    }
-                    else
-                    {
+                    } else {
 
                         AndroidUtils.showErrorLog(context, "working 2");
                         String otp = editText1.getText().toString().trim() + editText2.getText().toString().trim() + editText3.getText().toString().trim() + editText4.getText().toString().trim();
@@ -200,9 +194,7 @@ public class ActivityOTPVerify extends AppCompatActivity {
                         Log.e("otp ", otp);
                         callVerifyotpWebservice(otp);
                     }
-                }
-                else
-                 {
+                } else {
 
                     Log.e("otp null", "*****");
 
@@ -397,12 +389,12 @@ public class ActivityOTPVerify extends AppCompatActivity {
 
                     String error = jsonObject.get("error").getAsString();
                     String message = jsonObject.get("message").getAsString();
-                    if (error.equals("false"))
-                    {
+                    if (error.equals("false")) {
                         showMessage(message);
 
-                        if (class_name.contains("RegistrationActivity"))
-                        {
+                        if (class_name.contains("RegistrationActivity")) {
+                            String user_type = jsonObject.get("user_type").getAsString();
+
                             JsonArray jsonElements = jsonObject.get("all_info").getAsJsonArray();
                             JsonObject jsonObject1 = jsonElements.get(0).getAsJsonObject();
                             AndroidUtils.showErrorLog(context, "USERNAME***&&--->>" + jsonObject1.get("name").getAsString());
@@ -421,18 +413,14 @@ public class ActivityOTPVerify extends AppCompatActivity {
                             appSharedPreference.setSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS_CITY.toString(), jsonObject1.get("sh_city").getAsString());
                             appSharedPreference.setSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS_LANDMARK.toString(), jsonObject1.get("sh_landmark").getAsString());
                             appSharedPreference.setSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS_PINCODE.toString(), jsonObject1.get("sh_pincode").getAsString());
-
+                            appSharedPreference.setSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), user_type);
 
                             Intent intent = new Intent(context, HomeActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(intent);
 
 
-
-
-                        }
-                        else if (class_name.contains("ForgotPassword"))
-                        {
+                        } else if (class_name.contains("ForgotPassword")) {
                             appSharedPreference.setSharedPref(SharedPreferenceConstants.USER_ID.toString(), jsonObject.get("user_id").getAsString());
 
                             Intent intent = new Intent(ActivityOTPVerify.this, ForgotPassword.class);
@@ -442,18 +430,36 @@ public class ActivityOTPVerify extends AppCompatActivity {
                             startActivity(intent);
 
 
-
-
-                        }
-                        else if (class_name.contains("TrackOrderDialog"))
-                        {
+                        } else if (class_name.contains("TrackOrderDialog")) {
                             appSharedPreference.setSharedPref(SharedPreferenceConstants.USER_ID.toString(), jsonObject.get("user_id").getAsString());
                             Intent intent = new Intent(ActivityOTPVerify.this, HomeActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(intent);
+                        } else if (class_name.contains("SellerRegisterActivity")) {
+                            String user_type = jsonObject.get("user_type").getAsString();
+
+
+                            JsonArray jsonElements = jsonObject.get("all_info").getAsJsonArray();
+                            JsonObject jsonObject1 = jsonElements.get(0).getAsJsonObject();
+                            AndroidUtils.showErrorLog(context, "USERNAME***&&--->>" + jsonObject1.get("name").getAsString());
+
+
+                            appSharedPreference.setSharedPref(SharedPreferenceConstants.USER_ID.toString(), jsonObject.get("user_id").getAsString());
+                            appSharedPreference.setSharedPref(SharedPreferenceConstants.USER_NAME.toString(), jsonObject1.get("name").getAsString());
+                            appSharedPreference.setSharedPref(SharedPreferenceConstants.FIRST_NAME.toString(), jsonObject1.get("name").getAsString());
+                            appSharedPreference.setSharedPref(SharedPreferenceConstants.LAST_NAME.toString(), jsonObject1.get("lastname").getAsString());
+                            appSharedPreference.setSharedPref(SharedPreferenceConstants.EMAIL_ID.toString(), jsonObject1.get("email").getAsString());
+                            appSharedPreference.setSharedPref(SharedPreferenceConstants.MOBILE.toString(), jsonObject1.get("mobile").getAsString());
+                            appSharedPreference.setSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), user_type);
+
+
+                            Intent intent = new Intent(context, HomeActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(intent);
                         } else {
                             appSharedPreference.setSharedPref(SharedPreferenceConstants.USER_ID.toString(), jsonObject.get("user_id").getAsString());
                             callwebserviceUpdateCartSimple();
+
                         }
                     } else {
                         showMessage(message);
@@ -530,7 +536,6 @@ public class ActivityOTPVerify extends AppCompatActivity {
         if (user_id.equals("notlogin")) {
             user_id = "";
         }
-
 
 
         Ion.with(context)

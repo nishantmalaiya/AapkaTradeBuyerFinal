@@ -17,17 +17,21 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.aapkatrade.buyer.Home.HomeActivity;
-import com.aapkatrade.buyer.Home.registration.RegistrationActivity;
+import com.aapkatrade.buyer.Home.buyerregistration.RegistrationActivity;
 import com.aapkatrade.buyer.R;
+import com.aapkatrade.buyer.associate.RegistrationBusinessAssociateActivity;
 import com.aapkatrade.buyer.general.AppConfig;
 import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Validation;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
+//import com.aapkatrade.buyer.seller.SellerRegisterActivity;
+import com.aapkatrade.buyer.seller.SellerRegisterActivity;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
+
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -64,8 +68,22 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent registerUserActivity = new Intent(context, RegistrationActivity.class);
-                startActivity(registerUserActivity);
+
+                if (usertype.contains("SELLER")) {
+
+                    Intent registerUserActivity = new Intent(context, SellerRegisterActivity.class);
+                    startActivity(registerUserActivity);
+                } else if (usertype.contains("BUSINESS")) {
+                    Intent registerUserActivity = new Intent(context, RegistrationBusinessAssociateActivity.class);
+                    startActivity(registerUserActivity);
+                } else {
+
+
+                    Intent registerUserActivity = new Intent(context, RegistrationActivity.class);
+                    startActivity(registerUserActivity);
+
+                }
+
 
             }
 

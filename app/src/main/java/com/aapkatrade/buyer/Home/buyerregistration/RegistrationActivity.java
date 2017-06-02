@@ -1,4 +1,4 @@
-package com.aapkatrade.buyer.Home.registration;
+package com.aapkatrade.buyer.Home.buyerregistration;
 
 import android.content.Context;
 import android.content.Intent;
@@ -18,9 +18,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.aapkatrade.buyer.Home.HomeActivity;
-import com.aapkatrade.buyer.Home.registration.entity.BuyerRegistration;
-import com.aapkatrade.buyer.Home.registration.entity.City;
-import com.aapkatrade.buyer.Home.registration.spinner_adapter.SpCityAdapter;
+import com.aapkatrade.buyer.Home.buyerregistration.entity.BuyerRegistration;
+import com.aapkatrade.buyer.Home.buyerregistration.entity.City;
+import com.aapkatrade.buyer.Home.buyerregistration.spinner_adapter.SpCityAdapter;
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.AppConfig;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
