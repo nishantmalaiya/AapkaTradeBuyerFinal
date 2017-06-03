@@ -26,8 +26,8 @@ import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Validation;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
-//import com.aapkatrade.buyer.seller.SellerRegisterActivity;
-import com.aapkatrade.buyer.seller.SellerRegisterActivity;
+//import com.aapkatrade.buyer.seller.SellerRegistrationActivity;
+import com.aapkatrade.buyer.seller.SellerRegistrationActivity;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
@@ -71,7 +71,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 if (usertype.contains("SELLER")) {
 
-                    Intent registerUserActivity = new Intent(context, SellerRegisterActivity.class);
+                    Intent registerUserActivity = new Intent(context, SellerRegistrationActivity.class);
                     startActivity(registerUserActivity);
                 } else if (usertype.contains("BUSINESS")) {
                     Intent registerUserActivity = new Intent(context, RegistrationBusinessAssociateActivity.class);

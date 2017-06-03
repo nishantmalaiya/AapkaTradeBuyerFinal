@@ -2,6 +2,7 @@ package com.aapkatrade.buyer.login;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -48,7 +49,7 @@ public class LoginDashboard extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (app_sharedpreference.sharedPreferences != null)
-                    app_sharedpreference.setSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), "com/aapkatrade/buyer/seller");
+                    app_sharedpreference.setSharedPref(SharedPreferenceConstants.USER_TYPE.toString(),SharedPreferenceConstants.USER_TYPE_SELLER.toString());
 
                 Intent i = new Intent(LoginDashboard.this, LoginActivity.class);
                 i.putExtra("user_login", "SELLER LOGIN");
@@ -61,7 +62,7 @@ public class LoginDashboard extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (app_sharedpreference.sharedPreferences != null)
-                    app_sharedpreference.setSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), "buyer");
+                    app_sharedpreference.setSharedPref(SharedPreferenceConstants.USER_TYPE.toString(),SharedPreferenceConstants.USER_TYPE_BUYER.toString());
                 Intent i = new Intent(LoginDashboard.this, LoginActivity.class);
                 i.putExtra("user_login", "BUYER LOGIN");
                 startActivity(i);
@@ -74,7 +75,7 @@ public class LoginDashboard extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (app_sharedpreference.sharedPreferences != null)
-                    app_sharedpreference.setSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), "com/aapkatrade/buyer/associate");
+                    app_sharedpreference.setSharedPref(SharedPreferenceConstants.USER_TYPE.toString(),SharedPreferenceConstants.USER_TYPE_ASSOCIATE.toString());
                 Intent i = new Intent(LoginDashboard.this, LoginActivity.class);
                 i.putExtra("user_login", "BUSINESS ASSOCIATE LOGIN");
                 startActivity(i);

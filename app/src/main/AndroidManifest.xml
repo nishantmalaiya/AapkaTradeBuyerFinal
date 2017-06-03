@@ -120,7 +120,7 @@
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".seller.SellerRegisterActivity"></activity>
+        <activity android:name=".seller.SellerRegistrationActivity"></activity>
     </application>
 
 </manifest>
