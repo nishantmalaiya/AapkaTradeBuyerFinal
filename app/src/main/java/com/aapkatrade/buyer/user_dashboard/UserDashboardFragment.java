@@ -114,7 +114,7 @@ public class UserDashboardFragment extends Fragment {
 
                 String user_detail_webserviceurl = (getResources().getString(R.string.webservice_base_url)) + "/userdata";
 
-                userdata_webservice(user_detail_webserviceurl, getActivity().getResources().getString(R.string.usertype), userid);
+                userdata_webservice(user_detail_webserviceurl,  appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), SharedPreferenceConstants.USER_TYPE.toString()), userid);
             } else {
                 Log.e("null_sharedPreferences", "sharedPreferences");
             }
@@ -148,16 +148,32 @@ public class UserDashboardFragment extends Fragment {
                             progressBarHandler.hide();
                             Log.e("result_myProfile", "result_myProfile is not null ");
                             String order_quantity = result.get("order").getAsString();
-                            appSharedPreference.setSharedPref(SharedPreferenceConstants.ORDER_QUANTITY.toString(), order_quantity);
-                            dashboardDatas.add(new DashboardData("", "My Profile", R.drawable.ic_myprofile, R.drawable.circle_teal, false, ""));
-                            dashboardDatas.add(new DashboardData("", "Change Password", R.drawable.ic_chngpswd, R.drawable.circle_purple, false, ""));
-                            dashboardDatas.add(new DashboardData("", "Order", R.drawable.ic_lstprdct, R.drawable.circle_sienna, true, order_quantity));
 
-if( appSharedPreference.getSharedPref((SharedPreferenceConstants.USER_TYPE.toString()))=="1")
-{  tvUserType.setText("Welcome Buyer");}
-                            else if(appSharedPreference.getSharedPref((SharedPreferenceConstants.USER_TYPE.toString()))=="2"){
-    tvUserType.setText("Welcome Seller");
-}
+
+                            if (appSharedPreference.getSharedPref((SharedPreferenceConstants.USER_TYPE.toString())).equals(SharedPreferenceConstants.USER_TYPE_BUYER.toString())) {
+                                tvUserType.setText("Welcome Buyer");
+                                appSharedPreference.setSharedPref(SharedPreferenceConstants.ORDER_QUANTITY.toString(), order_quantity);
+                                dashboardDatas.add(new DashboardData("", "My Profile", R.drawable.ic_myprofile, R.drawable.circle_teal, false, ""));
+                                dashboardDatas.add(new DashboardData("", "Change Password", R.drawable.ic_chngpswd, R.drawable.circle_purple, false, ""));
+                                dashboardDatas.add(new DashboardData("", "Order", R.drawable.ic_lstprdct, R.drawable.circle_sienna, true, order_quantity));
+
+
+
+                            } else if (appSharedPreference.getSharedPref((SharedPreferenceConstants.USER_TYPE.toString())).equals(SharedPreferenceConstants.USER_TYPE_SELLER.toString())) {
+                                tvUserType.setText("Welcome Seller");
+
+                                appSharedPreference.setSharedPref(SharedPreferenceConstants.ORDER_QUANTITY.toString(), order_quantity);
+                                dashboardDatas.add(new DashboardData("", "My Profile", R.drawable.ic_myprofile, R.drawable.circle_teal, false, ""));
+
+
+
+
+
+                                dashboardDatas.add(new DashboardData("", "Change Password", R.drawable.ic_chngpswd, R.drawable.circle_purple, false, ""));
+                                dashboardDatas.add(new DashboardData("", "Order", R.drawable.ic_lstprdct, R.drawable.circle_sienna, true, order_quantity));
+
+
+                            }
                             dashboardlist.setLayoutManager(layoutManager);
                             dashboardAdapter = new DashboardAdapter(getContext(), dashboardDatas);
                             dashboardlist.setAdapter(dashboardAdapter);
@@ -176,7 +192,7 @@ if( appSharedPreference.getSharedPref((SharedPreferenceConstants.USER_TYPE.toStr
             String Username = appSharedPreference.getSharedPref(SharedPreferenceConstants.FIRST_NAME.toString(), "not");
             String Emailid = appSharedPreference.getSharedPref(SharedPreferenceConstants.EMAIL_ID.toString(), "not");
 
-            if(Validation.isNonEmptyStr(appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_PIC.toString(), ""))) {
+            if (Validation.isNonEmptyStr(appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_PIC.toString(), ""))) {
                 Picasso.with(getActivity()).load(appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_PIC.toString(), ""))
                         .error(R.drawable.ic_profile_user)
                         .into(imageviewpp);

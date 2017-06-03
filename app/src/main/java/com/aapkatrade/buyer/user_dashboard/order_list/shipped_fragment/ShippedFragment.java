@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
@@ -20,11 +21,11 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
+
 import java.util.ArrayList;
 
 
-public class ShippedFragment extends Fragment
-{
+public class ShippedFragment extends Fragment {
 
     private ArrayList<OrderListData> orderListDatas = new ArrayList<>();
     private RecyclerView order_list;
@@ -37,8 +38,7 @@ public class ShippedFragment extends Fragment
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-    {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_shipped, container, false);
 
@@ -46,20 +46,19 @@ public class ShippedFragment extends Fragment
 
         appSharedPreference = new AppSharedPreference(getActivity());
 
-        user_id = appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(),"");
-        user_type = appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), "1");
+        user_id = appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), "");
+        user_type = appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), SharedPreferenceConstants.USER_TYPE_BUYER.toString());
 
         setup_layout(view);
 
-       // get_web_data();
+        // get_web_data();
 
         return view;
 
     }
 
 
-    private void setup_layout(View view)
-    {
+    private void setup_layout(View view) {
 
 
         layout_container = (LinearLayout) view.findViewById(R.id.layout_container);
@@ -74,24 +73,21 @@ public class ShippedFragment extends Fragment
     }
 
 
-    private void get_web_data()
-    {
+    private void get_web_data() {
         orderListDatas.clear();
         progress_handler.show();
-        Log.e("hi1234", user_id+"##cancel##"+AndroidUtils.getUserType(user_type)+"@@@@"+user_type);
+        Log.e("hi1234", user_id + "##cancel##" + AndroidUtils.getUserType(user_type) + "@@@@" + user_type);
 
         Ion.with(getActivity())
-                .load(getResources().getString(R.string.webservice_base_url)+"/seller_order_list")
+                .load(getResources().getString(R.string.webservice_base_url) + "/seller_order_list")
                 .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                 .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
-                .setBodyParameter("buyer_id",user_id)
+                .setBodyParameter("buyer_id", user_id)
                 .setBodyParameter("type", "2")
                 .asJsonObject()
-                .setCallback(new FutureCallback<JsonObject>()
-                {
+                .setCallback(new FutureCallback<JsonObject>() {
                     @Override
-                    public void onCompleted(Exception e, JsonObject result)
-                    {
+                    public void onCompleted(Exception e, JsonObject result) {
                         if (result == null) {
                             progress_handler.hide();
                             layout_container.setVisibility(View.INVISIBLE);
@@ -118,13 +114,13 @@ public class ShippedFragment extends Fragment
                                     String product_qty = jsonObject2.get("product_qty").getAsString();
                                     String image_url = jsonObject2.get("image_url").getAsString();
 
-  String orderid = jsonObject2.get("ORDER_ID").getAsString();
+                                    String orderid = jsonObject2.get("ORDER_ID").getAsString();
 
 
                                     String created_at = jsonObject2.get("created_at").getAsString();
 
 
-                                    orderListDatas.add(new OrderListData(orderid,product_name, product_price, product_qty, created_at, image_url));
+                                    orderListDatas.add(new OrderListData(orderid, product_name, product_price, product_qty, created_at, image_url));
 
 
                                 }
@@ -137,7 +133,6 @@ public class ShippedFragment extends Fragment
                             }
                         }
                     }
-
 
 
                 });

@@ -36,10 +36,8 @@ import com.aapkatrade.buyer.Home.buyerregistration.entity.BuyerRegistration;
 import com.aapkatrade.buyer.Home.buyerregistration.entity.City;
 import com.aapkatrade.buyer.Home.buyerregistration.entity.Country;
 import com.aapkatrade.buyer.Home.buyerregistration.entity.SellerRegistration;
-import com.aapkatrade.buyer.Home.buyerregistration.entity.State;
 import com.aapkatrade.buyer.Home.buyerregistration.spinner_adapter.SpBussinessAdapter;
 import com.aapkatrade.buyer.Home.buyerregistration.spinner_adapter.SpCityAdapter;
-import com.aapkatrade.buyer.Home.buyerregistration.spinner_adapter.SpStateAdapter;
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.AppConfig;
 import com.aapkatrade.buyer.general.AppSharedPreference;
@@ -72,7 +70,7 @@ import java.util.regex.Pattern;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class SellerRegisterActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener {
+public class SellerRegistrationActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener {
 
     private static SellerRegistration formSellerData = new SellerRegistration();
     private static BuyerRegistration formBuyerData = new BuyerRegistration();
@@ -80,7 +78,8 @@ public class SellerRegisterActivity extends AppCompatActivity implements TimePic
     private LinearLayout uploadCard;
     private Spinner spBussinessCategory, spState, spCity;
     private String[] spBussinessName = {"Please Select Business Type", "Licence", "Personal"};
-    private EditText etProductName, etFirstName, etLastName, etDOB, etEmail, etMobileNo, etAddress, etPassword, etReenterPassword, et_tin_number, et_tan_number, etReferenceNo;
+    private EditText etProductName, etFirstName, etLastName, etDOB, etEmail, etMobileNo, etAddress, etPassword, etReenterPassword, et_tin_number,
+            et_tan_number, etReferenceNo;
     private TextView tvSave, uploadMsg, tv_agreement;
     private LinearLayout registrationLayout;
     private ArrayList<Country> countryList = new ArrayList<>();
@@ -110,7 +109,7 @@ public class SellerRegisterActivity extends AppCompatActivity implements TimePic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seller_register);
-        context = SellerRegisterActivity.this;
+        context = SellerRegistrationActivity.this;
         app_sharedpreference = new AppSharedPreference(context);
         //isAddVendorCall = app_sharedpreference.getSharedPref("isAddVendorCall");
         setUpToolBar();
@@ -167,7 +166,7 @@ public class SellerRegisterActivity extends AppCompatActivity implements TimePic
 
                 Calendar now = Calendar.getInstance();
                 DatePickerDialog dpd = DatePickerDialog.newInstance(
-                        SellerRegisterActivity.this,
+                        SellerRegistrationActivity.this,
                         now.get(Calendar.YEAR),
                         now.get(Calendar.MONTH),
                         now.get(Calendar.DAY_OF_MONTH)
@@ -244,7 +243,7 @@ public class SellerRegisterActivity extends AppCompatActivity implements TimePic
                 } else {
                     progressBarHandler.show();
 
-                    Ion.with(SellerRegisterActivity.this)
+                    Ion.with(SellerRegistrationActivity.this)
                             .load(URL)
                             .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3").progress(new ProgressCallback() {
                         @Override
@@ -289,7 +288,7 @@ AndroidUtils.showErrorLog(context,"work1 response"+result);
                                             Log.e("registration_seller", "done");
                                             AndroidUtils.showSnackBar(registrationLayout, result.get("message").getAsString());
 
-                                            Intent call_to_startactivity = new Intent(SellerRegisterActivity.this, ActivityOTPVerify.class);
+                                            Intent call_to_startactivity = new Intent(SellerRegistrationActivity.this, ActivityOTPVerify.class);
                                             call_to_startactivity.putExtra("class_name", context.getClass().getName());
                                             startActivity(call_to_startactivity);
 
@@ -312,7 +311,7 @@ AndroidUtils.showErrorLog(context,"work1 response"+result);
                 Log.e("work2", "work2");
                 progressBarHandler.show();
 
-                Ion.with(SellerRegisterActivity.this)
+                Ion.with(SellerRegistrationActivity.this)
                         .load(URL)
                         .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3").progress(new ProgressCallback() {
                     @Override
@@ -354,7 +353,7 @@ AndroidUtils.showErrorLog(context,"work1 response"+result);
                                     if (result.get("error").getAsString().equals("false")) {
                                         AndroidUtils.showSnackBar(registrationLayout, result.get("message").getAsString());
                                         Log.e("registration_seller", "done");
-                                        Intent call_to_startactivity = new Intent(SellerRegisterActivity.this, ActivityOTPVerify.class);
+                                        Intent call_to_startactivity = new Intent(SellerRegistrationActivity.this, ActivityOTPVerify.class);
                                         call_to_startactivity.putExtra("class_name", context.getClass().getName());
                                         startActivity(call_to_startactivity);
                                     } else {
@@ -408,55 +407,6 @@ AndroidUtils.showErrorLog(context,"work1 response"+result);
         return cursor.getString(idx);
     }
 
-
-    private void callWebServiceForBuyerRegistration() {
-        Log.e("reach", " Buyer Data--------->\n" + formBuyerData.toString());
-        progressBarHandler.show();
-        Ion.with(context)
-                .load(getResources().getString(R.string.webservice_base_url) + "/buyerregister")
-                .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
-                .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
-                .setBodyParameter("type", "1")
-                .setBodyParameter("country_id", formBuyerData.getCountryId())
-                .setBodyParameter("state_id", formBuyerData.getStateId())
-                .setBodyParameter("city_id", formBuyerData.getCityId())
-                .setBodyParameter("address", formBuyerData.getAddress())
-                .setBodyParameter("name", formBuyerData.getFirstName())
-                .setBodyParameter("lastname", formBuyerData.getLastName())
-                .setBodyParameter("email", formBuyerData.getEmail())
-                .setBodyParameter("mobile", formBuyerData.getMobile())
-                .setBodyParameter("password", formBuyerData.getPassword())
-                .setBodyParameter("client_id", formBuyerData.getClientId())
-                .asJsonObject()
-                .setCallback(new FutureCallback<JsonObject>() {
-                    @Override
-                    public void onCompleted(Exception e, JsonObject result) {
-                        if (result != null) {
-
-                            if (result.get("error").getAsString().equals("false")) {
-                                Log.e("registration_buyer", result.toString());
-                                AndroidUtils.showSnackBar(registrationLayout, result.get("message").getAsString());
-
-                                progressBarHandler.hide();
-                                Intent call_to_startactivity = new Intent(context, ActivityOTPVerify.class);
-                                call_to_startactivity.putExtra("class_name", context.getClass().getName());
-                                startActivity(new Intent(context, ActivityOTPVerify.class));
-                            } else {
-
-                                progressBarHandler.hide();
-                                AndroidUtils.showSnackBar(registrationLayout, result.get("message").getAsString());
-
-
-                            }
-                        } else {
-
-                            Log.e("result_seller_error", e.toString());
-                            showmessage(e.toString());
-                        }
-                    }
-
-                });
-    }
 
 
     private void setUpBusinessCategory() {

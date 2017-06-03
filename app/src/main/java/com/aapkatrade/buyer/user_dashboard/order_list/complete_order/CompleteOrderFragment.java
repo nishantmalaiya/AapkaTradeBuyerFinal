@@ -50,7 +50,7 @@ public class CompleteOrderFragment extends Fragment
         appSharedPreference = new AppSharedPreference(getActivity());
 
         user_id = appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(),"");
-        user_type = appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), "1");
+        user_type = appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), SharedPreferenceConstants.USER_TYPE_BUYER.toString());
 
         setup_layout(view);
 

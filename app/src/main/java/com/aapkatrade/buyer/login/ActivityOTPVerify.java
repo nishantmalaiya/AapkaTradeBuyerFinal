@@ -435,7 +435,7 @@ public class ActivityOTPVerify extends AppCompatActivity {
                             Intent intent = new Intent(ActivityOTPVerify.this, HomeActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(intent);
-                        } else if (class_name.contains("SellerRegisterActivity")) {
+                        } else if (class_name.contains("SellerRegistrationActivity")) {
                             String user_type = jsonObject.get("user_type").getAsString();
 
 

@@ -38,6 +38,8 @@ public class OrderActivity extends AppCompatActivity {
     private String user_id;
     private Context context;
 
+    String UserType;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +101,29 @@ public class OrderActivity extends AppCompatActivity {
 
 
     private void get_web_data() {
+
+        UserType=appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), SharedPreferenceConstants.USER_TYPE_BUYER.toString());
+
+        if(UserType.equals(SharedPreferenceConstants.USER_TYPE_BUYER.toString()))
+
+
+        {
+            UserType=appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), SharedPreferenceConstants.USER_TYPE_BUYER.toString());
+
+        }
+        else if(UserType.equals(SharedPreferenceConstants.USER_TYPE_SELLER.toString()))
+
+
+        {
+            UserType=appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), SharedPreferenceConstants.USER_TYPE_SELLER.toString());
+
+        }
+
+        else if(UserType.equals(SharedPreferenceConstants.USER_TYPE_ASSOCIATE.toString()))
+        {
+
+            UserType=appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), SharedPreferenceConstants.USER_TYPE_ASSOCIATE.toString());
+        }
         orderListDatas.clear();
         progress_handler.show();
 
@@ -108,8 +133,8 @@ public class OrderActivity extends AppCompatActivity {
                 .load(getResources().getString(R.string.webservice_base_url) + "/buyer_order_details")
                 .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                 .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
-                .setBodyParameter("buyer_id", appSharedPreference.getSharedPref("userid", user_id))
-                .setBodyParameter("type", appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), "1"))
+                .setBodyParameter("buyer_id",appSharedPreference.getSharedPref("userid", user_id))
+                .setBodyParameter("type", UserType)
 
 
                 .asJsonObject()
