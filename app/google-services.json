@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "541567129617",
+    "firebase_url": "https://aapkatrade-8e58c.firebaseio.com",
+    "project_id": "aapkatrade-8e58c",
+    "storage_bucket": "aapkatrade-8e58c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:541567129617:android:5471bb5644bd1b40",
+        "android_client_info": {
+          "package_name": "com.aapkatrade.buyer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "541567129617-vitk1v9opfpd9tph2bcm975nf1oach1v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBlRZ-ctThcHCXdJMxMQiCh0_g5Ap71gvQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
