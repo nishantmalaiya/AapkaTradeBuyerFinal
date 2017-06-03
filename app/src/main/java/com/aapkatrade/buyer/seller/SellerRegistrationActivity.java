@@ -43,6 +43,7 @@ import com.aapkatrade.buyer.general.AppConfig;
 import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.ImageUtils;
+import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.Utils.adapter.CustomSpinnerAdapter;
 import com.aapkatrade.buyer.general.Validation;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
@@ -73,7 +74,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class SellerRegistrationActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener {
 
     private static SellerRegistration formSellerData = new SellerRegistration();
-    private static BuyerRegistration formBuyerData = new BuyerRegistration();
     private int isAllFieldSet = 0;
     private LinearLayout uploadCard;
     private Spinner spBussinessCategory, spState, spCity;
@@ -87,7 +87,6 @@ public class SellerRegistrationActivity extends AppCompatActivity implements Tim
     private ArrayList<String> stateIds = new ArrayList<>();
     private ArrayList<City> cityList = new ArrayList<>();
     private LinearLayout businessDetails, uploadView, uploadPDFView;
-    private static final int reqCode = 33;
     private File compIncorpFile = new File(""), docFile = new File("");
     private boolean isReqCode = false, isCompIncorp = false;
     private ImageView uploadImage, uploadPDFButton, openCalander, cancelImage, cancelFile;
@@ -200,23 +199,20 @@ public class SellerRegistrationActivity extends AppCompatActivity implements Tim
     }
 
     private void saveUserTypeInSharedPreferences() {
+        uploadView.setVisibility(View.GONE);
+        spBussinessCategoryLayout.setVisibility(View.GONE);
+        etProductName.setVisibility(View.GONE);
+        dobLayout.setVisibility(View.GONE);
+        uploadCard.setVisibility(View.GONE);
+        relativeCompanyListheader.setVisibility(View.GONE);
+        businessDetailsCard.setVisibility(View.GONE);
         if (app_sharedpreference != null) {
-            if (app_sharedpreference.getSharedPref("usertype", "0").equals("1") || isAddVendorCall.equals("true")) {
+            if (app_sharedpreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), "0").equals(SharedPreferenceConstants.USER_TYPE_SELLER.toString()) || isAddVendorCall.equals("true")) {
                 etAddress.setVisibility(View.GONE);
 //                findViewById(R.id.height1).setVisibility(View.GONE);
                 Log.e("user", "user");
             }
-            if (app_sharedpreference.getSharedPref("usertype", "0").equals("2")) {
-                Log.e("user2", "user2");
-                uploadView.setVisibility(View.GONE);
-                spBussinessCategoryLayout.setVisibility(View.GONE);
-                etProductName.setVisibility(View.GONE);
-                dobLayout.setVisibility(View.GONE);
-                uploadCard.setVisibility(View.GONE);
-                relativeCompanyListheader.setVisibility(View.GONE);
-                businessDetailsCard.setVisibility(View.GONE);
 
-            }
         } else {
             Log.e("user3", "user3");
         }
@@ -641,7 +637,7 @@ AndroidUtils.showErrorLog(context,"work1 response"+result);
     private void validateFields(String userType) {
         isAllFieldSet = 0;
         Log.e("reach", "validateFiledsCalled");
-        if (userType.equals("1") || isAddVendorCall.equals("true")) {
+        if (isAddVendorCall.equals("true")) {
             if (formSellerData != null) {
 
                 Log.e("reach", formSellerData.toString() + "            DATAAAAAAAAA");
@@ -697,55 +693,6 @@ AndroidUtils.showErrorLog(context,"work1 response"+result);
 
             }
             Log.d("error", "error Null");
-        }
-        if (userType.equals("2")) {
-            Log.e("reach", "BuyerValidate Called");
-            if (formBuyerData != null) {
-                if (Validation.isEmptyStr(formBuyerData.getFirstName())) {
-                    putError(0);
-                    isAllFieldSet++;
-                } else if (Validation.isEmptyStr(formBuyerData.getLastName())) {
-                    putError(1);
-                    isAllFieldSet++;
-                } else if (!Validation.isValidNumber(formBuyerData.getMobile(), Validation.getNumberPrefix(formBuyerData.getMobile()))) {
-                    putError(3);
-                    isAllFieldSet++;
-                } else if (!(Validation.isNonEmptyStr(formBuyerData.getCountryId()) &&
-                        Integer.parseInt(formBuyerData.getCountryId()) > 0)) {
-                    showmessage("Please Select Country");
-                    isAllFieldSet++;
-                } else if (!(Validation.isNonEmptyStr(formBuyerData.getStateId()) &&
-                        Integer.parseInt(formBuyerData.getStateId()) > 0)) {
-                    showmessage("Please Select State");
-                    isAllFieldSet++;
-                } else if (!(Validation.isEmptyStr(formBuyerData.getCityId()) ||
-                        Integer.parseInt(formBuyerData.getCityId()) > 0)) {
-                    showmessage("Please Select City");
-                    isAllFieldSet++;
-                } else if (Validation.isEmptyStr(formBuyerData.getAddress())) {
-                    putError(9);
-                    isAllFieldSet++;
-                } else if (!Validation.isValidEmail(formBuyerData.getEmail())) {
-                    putError(2);
-                    isAllFieldSet++;
-                } else if (!Validation.isEmptyStr(formBuyerData.getUserName())) {
-                    putError(10);
-                    isAllFieldSet++;
-                } else if (!Validation.isValidPassword(formBuyerData.getPassword())) {
-                    putError(4);
-                    isAllFieldSet++;
-                } else if (!Validation.isValidPassword(formBuyerData.getConfirmPassword())) {
-                    putError(15);
-                    isAllFieldSet++;
-                } else if (!Validation.isPasswordMatching(formBuyerData.getPassword(), formBuyerData.getConfirmPassword())) {
-                    putError(5);
-                    isAllFieldSet++;
-                } else if (!agreement_check.isChecked()) {
-                    putError(16);
-                }
-
-
-            }
         }
 
 
