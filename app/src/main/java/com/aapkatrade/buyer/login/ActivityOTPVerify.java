@@ -60,7 +60,7 @@ public class ActivityOTPVerify extends AppCompatActivity {
         setContentView(R.layout.activity_otpverify);
         class_name = getIntent().getStringExtra("class_name");
         otp_id = getIntent().getStringExtra("otp_id");
-        if (class_name.contains("RegistrationActivity")) {
+        if (class_name.contains("BuyerRegistrationActivity")) {
             etEmail = getIntent().getStringExtra("email");
             etFirstName = getIntent().getStringExtra("name");
             etPassword = getIntent().getStringExtra("password");
@@ -392,7 +392,7 @@ public class ActivityOTPVerify extends AppCompatActivity {
                     if (error.equals("false")) {
                         showMessage(message);
 
-                        if (class_name.contains("RegistrationActivity")) {
+                        if (class_name.contains("BuyerRegistrationActivity")) {
                             String user_type = jsonObject.get("user_type").getAsString();
 
                             JsonArray jsonElements = jsonObject.get("all_info").getAsJsonArray();

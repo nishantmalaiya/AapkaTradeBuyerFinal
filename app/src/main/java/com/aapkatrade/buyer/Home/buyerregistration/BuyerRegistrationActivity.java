@@ -39,7 +39,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 
-public class RegistrationActivity extends AppCompatActivity {
+public class BuyerRegistrationActivity extends AppCompatActivity {
 
     private static BuyerRegistration formBuyerData = new BuyerRegistration();
     private int isAllFieldSet = 0;
@@ -62,7 +62,7 @@ public class RegistrationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
 
-        context = RegistrationActivity.this;
+        context = BuyerRegistrationActivity.this;
 
 
         setUpToolBar();
@@ -98,7 +98,7 @@ public class RegistrationActivity extends AppCompatActivity {
         Log.e("reach", " Buyer Data--------->\n" + formBuyerData.toString());
 
         progressBarHandler.show();
-        Ion.with(RegistrationActivity.this)
+        Ion.with(BuyerRegistrationActivity.this)
                 .load(getResources().getString(R.string.webservice_base_url) + "/buyerregister")
                 .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                 .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
@@ -126,7 +126,7 @@ public class RegistrationActivity extends AppCompatActivity {
                                 AndroidUtils.showSnackBar(registrationLayout, result.get("message").getAsString());
 
                                 progressBarHandler.hide();
-                                Intent call_to_startactivity = new Intent(RegistrationActivity.this, ActivityOTPVerify.class);
+                                Intent call_to_startactivity = new Intent(BuyerRegistrationActivity.this, ActivityOTPVerify.class);
                                 call_to_startactivity.putExtra("email", etEmail.getText().toString());
                                 call_to_startactivity.putExtra("name", etFirstName.getText().toString());
                                 call_to_startactivity.putExtra("password", etPassword.getText().toString());
@@ -418,7 +418,7 @@ public class RegistrationActivity extends AppCompatActivity {
         formBuyerData.setMobile(etMobileNo.getText().toString());
         formBuyerData.setPassword(etPassword.getText().toString());
         formBuyerData.setConfirmPassword(etReenterPassword.getText().toString());
-        formBuyerData.setClientId(AppConfig.getCurrentDeviceId(RegistrationActivity.this));
+        formBuyerData.setClientId(AppConfig.getCurrentDeviceId(BuyerRegistrationActivity.this));
     }
 
 

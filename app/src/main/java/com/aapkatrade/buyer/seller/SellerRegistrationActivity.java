@@ -289,7 +289,7 @@ AndroidUtils.showErrorLog(context,"work1 response"+result);
                                             AndroidUtils.showSnackBar(registrationLayout, result.get("message").getAsString());
 
                                             Intent call_to_startactivity = new Intent(SellerRegistrationActivity.this, ActivityOTPVerify.class);
-                                            call_to_startactivity.putExtra("class_name", context.getClass().getName());
+                                            call_to_startactivity.putExtra("class_name","SellerRegistrationActivity");
                                             startActivity(call_to_startactivity);
 
 
@@ -354,7 +354,7 @@ AndroidUtils.showErrorLog(context,"work1 response"+result);
                                         AndroidUtils.showSnackBar(registrationLayout, result.get("message").getAsString());
                                         Log.e("registration_seller", "done");
                                         Intent call_to_startactivity = new Intent(SellerRegistrationActivity.this, ActivityOTPVerify.class);
-                                        call_to_startactivity.putExtra("class_name", context.getClass().getName());
+                                        call_to_startactivity.putExtra("class_name","SellerRegistrationActivity");
                                         startActivity(call_to_startactivity);
                                     } else {
 

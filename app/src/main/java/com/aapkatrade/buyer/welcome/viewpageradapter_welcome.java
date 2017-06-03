@@ -52,6 +52,7 @@ public class viewpageradapter_welcome extends PagerAdapter {
         View itemView = LayoutInflater.from(mContext).inflate(layouts[position], container, false);
 
         ImageView imageView = (ImageView) itemView.findViewById(R.id.img_pager_item);
+        ImageView welcome_app_logo=(ImageView)itemView.findViewById(R.id.welcome_app_logo) ;
 
         GradientParameters gradientParameters = gradientParametersArrayList.get(position);
 
@@ -61,6 +62,16 @@ public class viewpageradapter_welcome extends PagerAdapter {
         tvSlideHeader.setText(slider_header[position]);
         TextView tvSlideFooter = (TextView) itemView.findViewById(R.id.tvSlidefooter);
         tvSlideFooter.setText(slider_footer[position]);
+        if(position==0)
+        {
+
+            welcome_app_logo.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+
+            welcome_app_logo.setVisibility(View.GONE);
+        }
 
 
         AndroidUtils.setGradientColor(itemView, gradientParameters.viewShape, gradientParameters.startColor, gradientParameters.endColor, gradientParameters.orientation, gradientParameters.cornerRadius);

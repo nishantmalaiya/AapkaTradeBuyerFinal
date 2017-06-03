@@ -67,7 +67,7 @@
             android:name=".shopdetail.ShopDetailActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Home.buyerregistration.RegistrationActivity"
+            android:name=".Home.buyerregistration.BuyerRegistrationActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".categories_tab.ParticularDataActivity.ParticularActivity" />
         <activity android:name=".login.ActivityOTPVerify" />
