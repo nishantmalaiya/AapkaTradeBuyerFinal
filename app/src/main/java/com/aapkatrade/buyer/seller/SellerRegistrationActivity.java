@@ -143,14 +143,12 @@ public class SellerRegistrationActivity extends AppCompatActivity implements Tim
                      */
 
 
-                        Log.e("reach", "reach2");
-                        setSellerFormData();
-                        validateFields(String.valueOf(1));
-                        if (isAllFieldSet == 0) {
-                            callWebServiceForSellerRegistration();
-                        }
-
-
+                    Log.e("reach", "reach2");
+                    setSellerFormData();
+                    validateFields(String.valueOf(1));
+                    if (isAllFieldSet == 0) {
+                        callWebServiceForSellerRegistration();
+                    }
 
 
                 }
@@ -220,7 +218,7 @@ public class SellerRegistrationActivity extends AppCompatActivity implements Tim
 
 
     private void callWebServiceForSellerRegistration() {
-        String URL =  getResources().getString(R.string.webservice_base_url) + "/sellerregister";
+        String URL = getResources().getString(R.string.webservice_base_url) + "/sellerregister";
 
         if (docFile.getAbsolutePath().equals("/")) {
             Log.e("reach", "NUL_______DOCCCCCCCLICENCE");
@@ -268,24 +266,25 @@ public class SellerRegistrationActivity extends AppCompatActivity implements Tim
                             .setMultipartParameter("tin_number", "521651")
                             .setMultipartParameter("tan_number", "13546848")
                             .setMultipartParameter("tc", "fdssd")
+                            .setMultipartParameter("platform", "Android")
+                            .setMultipartParameter("device_id", AppConfig.getCurrentDeviceId(context))
                             .asJsonObject()
                             .setCallback(new FutureCallback<JsonObject>() {
                                 @Override
                                 public void onCompleted(Exception e, JsonObject result) {
                                     progressBarHandler.hide();
-AndroidUtils.showErrorLog(context,"work1 response"+result);
+                                    AndroidUtils.showErrorLog(context, "work1 response" + result);
 
                                     if (result != null) {
                                         Log.e("registration_seller", result.toString());
                                         if (result.get("error").getAsString().equals("false")) {
 
 
-
                                             Log.e("registration_seller", "done");
                                             AndroidUtils.showSnackBar(registrationLayout, result.get("message").getAsString());
 
                                             Intent call_to_startactivity = new Intent(SellerRegistrationActivity.this, ActivityOTPVerify.class);
-                                            call_to_startactivity.putExtra("class_name","SellerRegistrationActivity");
+                                            call_to_startactivity.putExtra("class_name", "SellerRegistrationActivity");
                                             startActivity(call_to_startactivity);
 
 
@@ -336,12 +335,13 @@ AndroidUtils.showErrorLog(context,"work1 response"+result);
                         .setMultipartParameter("tin_number", "521651")
                         .setMultipartParameter("tan_number", "13546848")
                         .setMultipartParameter("tc", "fdssd")
+                        .setMultipartParameter("platform", "Android")
+                        .setMultipartParameter("device_id", AppConfig.getCurrentDeviceId(context))
                         .asJsonObject()
                         .setCallback(new FutureCallback<JsonObject>() {
                             @Override
                             public void onCompleted(Exception e, JsonObject result) {
                                 progressBarHandler.hide();
-
 
 
                                 if (result != null) {
@@ -350,7 +350,7 @@ AndroidUtils.showErrorLog(context,"work1 response"+result);
                                         AndroidUtils.showSnackBar(registrationLayout, result.get("message").getAsString());
                                         Log.e("registration_seller", "done");
                                         Intent call_to_startactivity = new Intent(SellerRegistrationActivity.this, ActivityOTPVerify.class);
-                                        call_to_startactivity.putExtra("class_name","SellerRegistrationActivity");
+                                        call_to_startactivity.putExtra("class_name", "SellerRegistrationActivity");
                                         startActivity(call_to_startactivity);
                                     } else {
 
@@ -402,7 +402,6 @@ AndroidUtils.showErrorLog(context,"work1 response"+result);
         }
         return cursor.getString(idx);
     }
-
 
 
     private void setUpBusinessCategory() {
@@ -465,7 +464,7 @@ AndroidUtils.showErrorLog(context,"work1 response"+result);
                 if (position > 0) {
                     stateID = String.valueOf(position);
                     findViewById(R.id.input_layout_city).setVisibility(View.VISIBLE);
-                  //  findViewById(R.id.view1).setVisibility(View.VISIBLE);
+                    //  findViewById(R.id.view1).setVisibility(View.VISIBLE);
 
                     getCity(String.valueOf(stateIds.get(position)));
 
@@ -915,9 +914,6 @@ AndroidUtils.showErrorLog(context,"work1 response"+result);
         formSellerData.setStateId(stateID == null ? "" : stateID);
         formSellerData.setCityId(cityID == null ? "" : cityID);
     }
-
-
-
 
 
     @Override
