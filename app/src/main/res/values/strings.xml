@@ -37,7 +37,6 @@
     <string name="tab_5" translatable="false">Contact Us</string>
 
 
-
     <string name="welcomeguest" translatable="false">Welcome Guest</string>
     <string name="nointernetconnection" translatable="false">No Internet connection found.</string>
     <string name="nointernetconnection2" translatable="false">Check your connection.</string>
@@ -200,6 +199,7 @@
     <string name="b">Bharat</string>
     <string name="readMore">......Read More</string>
     <string name="buyer">Buyer</string>
+
     <string name="privacy_policy">Privacy Policy</string>
     <string name="trackorder_title">TRACK </string>
 
@@ -222,6 +222,12 @@
     <string name="message">Message</string>
     <string name="receipt">Receipt</string>
     <string name="done">Done</string>
+    <string name="one" translatable="false">1</string>
+    <string name="two" translatable="false">2</string>
+    <string name="three" translatable="false">3</string>
+    <string name="personalInfo" translatable="false">Personal Information</string>
+    <string name="bankDetails" translatable="false">Bank Details</string>
+    <string name="professionalDetails" translatable="false">Professional Details</string>
     <string name="cancel_order">Cancel Order</string>
     <string name="payment_unsuccess">Payment Unsuccess</string>
     <string name="cancelingRequest">Cancellation Request</string>
@@ -255,11 +261,18 @@
     <string name="company_name">AAPKA TRADE</string>
     <string name="tryagain">Try Again</string>
     <string name="wecome_buyer">Welcome Buyer</string>
-    <string name="product_listing_not_found" > Shops  of this Category will be updated soon! </string>
+    <string name="product_listing_not_found"> Shops  of this Category will be updated soon! </string>
     <string name="seller">Seller</string>
     <string name="businessassociate">Business Associate</string>
     <string name="loginregisterfooter" translatable="false">Please Click one for Login/Register</string>
     <string name="title_activity_logindashboard" translatable="false">logindashboard</string>
     <string name="splash_footer_text">YAHA SAB MILTA HAI</string>
+    <string name="bussiness_details">Bussiness Details</string>
+    <string name="uploadPDFFile">Company Incorporation</string>
+    <string name="company_name_heading">Company Name*</string>
+    <string name="tin_number">TIN Number</string>
+    <string name="tan_number">TAN Number</string>
+    <string name="shop_name">Shop Name*</string>
+    <string name="personal_doc">Personal Document(Pan Card,Aadhar Card,Election ID)</string>
 
 </resources>

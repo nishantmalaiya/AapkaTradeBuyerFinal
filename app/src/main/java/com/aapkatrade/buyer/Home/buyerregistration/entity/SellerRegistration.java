@@ -1,4 +1,4 @@
-package com.aapkatrade.buyer.Home.registration.entity;
+package com.aapkatrade.buyer.Home.buyerregistration.entity;
 
 /**
  * Created by PPC09 on 25-Jan-17.

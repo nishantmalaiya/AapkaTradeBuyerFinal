@@ -1,4 +1,4 @@
-package com.aapkatrade.buyer.Home.registration.spinner_adapter;
+package com.aapkatrade.buyer.Home.buyerregistration.spinner_adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,26 +7,30 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.aapkatrade.buyer.Home.buyerregistration.entity.Country;
 import com.aapkatrade.buyer.R;
+
+import java.util.ArrayList;
 
 /**
  * Created by PPC16 on 16-Jan-17.
  */
 
-public class SpBussinessAdapter extends BaseAdapter {
+public class SpCountrysAdapter extends BaseAdapter {
     Context context;
-    String[] categoriesNames;
+    ArrayList<Country> categoriesNames;
     LayoutInflater inflter;
 
-    public SpBussinessAdapter(Context applicationContext, String[] categoriesNames) {
+    public SpCountrysAdapter(Context applicationContext, ArrayList<Country> categoriesNames) {
         this.context = applicationContext;
+
         this.categoriesNames = categoriesNames;
         inflter = (LayoutInflater.from(applicationContext));
     }
 
     @Override
     public int getCount() {
-        return categoriesNames.length;
+        return categoriesNames.size();
     }
 
     @Override
@@ -45,7 +49,7 @@ public class SpBussinessAdapter extends BaseAdapter {
     public View getView(int i, View view, ViewGroup viewGroup) {
         view = inflter.inflate(R.layout.row_spinner, null);
         TextView names = (TextView) view.findViewById(R.id.tvSpCategory);
-        names.setText(categoriesNames[i]);
+        names.setText(categoriesNames.get(i).countryName);
         return view;
     }
 }

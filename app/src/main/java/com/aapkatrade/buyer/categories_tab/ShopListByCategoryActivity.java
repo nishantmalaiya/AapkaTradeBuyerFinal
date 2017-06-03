@@ -18,21 +18,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.aapkatrade.buyer.Home.HomeActivity;
 import com.aapkatrade.buyer.Home.cart.MyCartActivity;
-import com.aapkatrade.buyer.Home.registration.entity.State;
+import com.aapkatrade.buyer.Home.buyerregistration.entity.State;
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.filter.FilterDialog;
 import com.aapkatrade.buyer.filter.entity.FilterObject;
 import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
-import com.aapkatrade.buyer.general.Validation;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -40,8 +37,6 @@ import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
 import java.util.ArrayList;
-
-import it.carlom.stikkyheader.core.StikkyHeaderBuilder;
 
 
 public class ShopListByCategoryActivity extends AppCompatActivity {
