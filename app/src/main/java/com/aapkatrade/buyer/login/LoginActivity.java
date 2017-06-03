@@ -33,7 +33,6 @@ import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
 
-
 public class LoginActivity extends AppCompatActivity {
 
     private TextView loginText, forgotPassword;
@@ -148,9 +147,23 @@ public class LoginActivity extends AppCompatActivity {
 
 
                     if (Validation.validateEdittext(password)) {
-                        String login_url = getResources().getString(R.string.webservice_base_url) + "/buyerlogin";
+                        String login_url = "";
 
-                        callLoginWebService(login_url, input_email, input_password);
+                        if (usertype.contains("SELLER")) {
+
+
+                            callLoginWebService(getResources().getString(R.string.webservice_base_url) + "/sellerlogin", input_email, input_password);
+                            callLoginWebService(login_url, input_email, input_password);
+                        } else if (usertype.contains("BUYER")) {
+
+                            callLoginWebService(getResources().getString(R.string.webservice_base_url) + "/buyerlogin", input_email, input_password);
+                            callLoginWebService(login_url, input_email, input_password);
+
+                        } else if (usertype.contains("BUSINESS ASSOCIATE LOGIN")) {
+                            callLoginWebService(getResources().getString(R.string.webservice_base_url) + "/associatelogin", input_email, input_password);
+                            callLoginWebService(login_url, input_email, input_password);
+                        }
+
 
                     } else {
                         showMessage(getResources().getString(R.string.password_validing_text));
@@ -173,11 +186,13 @@ public class LoginActivity extends AppCompatActivity {
 
         progressBarHandler.show();
         Ion.with(context)
-                .load(new StringBuilder(getString(R.string.webservice_base_url)).append("/").append("buyerlogin").toString())
+                .load(login_url)
                 .setHeader("Authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                 .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                 .setBodyParameter("email", input_username)
                 .setBodyParameter("password", input_password)
+                .setBodyParameter("platform", "Android")
+                .setBodyParameter("device_id", AppConfig.getCurrentDeviceId(context))
                 .asJsonObject()
                 .setCallback(new FutureCallback<JsonObject>() {
                     @Override
@@ -212,6 +227,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void saveDataInSharedPreference(JsonObject webservice_returndata) {
 
+
         JsonObject jsonObject = webservice_returndata.getAsJsonObject("all_info");
         Log.e("hi", jsonObject.toString());
 
@@ -228,17 +244,31 @@ public class LoginActivity extends AppCompatActivity {
         appSharedpreference.setSharedPref(SharedPreferenceConstants.DEVICE_ID.toString(), jsonObject.get("device_id").getAsString());
         appSharedpreference.setSharedPref(SharedPreferenceConstants.UPDATED_AT.toString(), jsonObject.get("updated_at").getAsString());
         appSharedpreference.setSharedPref(SharedPreferenceConstants.STATUS.toString(), jsonObject.get("status").getAsString());
-        appSharedpreference.setSharedPref(SharedPreferenceConstants.ORDER_LIST_COUNT.toString(), webservice_returndata.get("order").getAsString());
-        appSharedpreference.setSharedPref(SharedPreferenceConstants.CREATED_AT.toString(), webservice_returndata.get("createdAt").getAsString());
-        appSharedpreference.setSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS.toString(), jsonObject.get("sh_address").getAsString());
-        appSharedpreference.setSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS_PHONE.toString(), jsonObject.get("sh_phone").getAsString());
-        appSharedpreference.setSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS_NAME.toString(), jsonObject.get("sh_name").getAsString());
-        appSharedpreference.setSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS_STATE.toString(), jsonObject.get("sh_state").getAsString());
-        appSharedpreference.setSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS_CITY.toString(), jsonObject.get("sh_city").getAsString());
-        appSharedpreference.setSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS_LANDMARK.toString(), jsonObject.get("sh_landmark").getAsString());
-        appSharedpreference.setSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS_PINCODE.toString(), jsonObject.get("sh_pincode").getAsString());
-        appSharedpreference.setSharedPref(SharedPreferenceConstants.PROFILE_PIC.toString(), jsonObject.get("profile_pic").getAsString());
 
+        appSharedpreference.setSharedPref(SharedPreferenceConstants.CREATED_AT.toString(), webservice_returndata.get("createdAt").getAsString());
+
+
+        if (usertype.contains("BUYER")) {
+
+            appSharedpreference.setSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS.toString(), jsonObject.get("sh_address").getAsString());
+            appSharedpreference.setSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS_PHONE.toString(), jsonObject.get("sh_phone").getAsString());
+            appSharedpreference.setSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS_NAME.toString(), jsonObject.get("sh_name").getAsString());
+            appSharedpreference.setSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS_STATE.toString(), jsonObject.get("sh_state").getAsString());
+            appSharedpreference.setSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS_CITY.toString(), jsonObject.get("sh_city").getAsString());
+            appSharedpreference.setSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS_LANDMARK.toString(), jsonObject.get("sh_landmark").getAsString());
+            appSharedpreference.setSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS_PINCODE.toString(), jsonObject.get("sh_pincode").getAsString());
+            appSharedpreference.setSharedPref(SharedPreferenceConstants.PROFILE_PIC.toString(), jsonObject.get("profile_pic").getAsString());
+
+            appSharedpreference.setSharedPref(SharedPreferenceConstants.PROFILE_PIC.toString(), jsonObject.get("profile_pic").getAsString());
+            appSharedpreference.setSharedPref(SharedPreferenceConstants.ORDER_LIST_COUNT.toString(), webservice_returndata.get("order").getAsString());
+        } else if (usertype.contains("SELLER")) {
+            appSharedpreference.setSharedPref(SharedPreferenceConstants.PROFILE_PIC.toString(), jsonObject.get("profile_pic").getAsString());
+            appSharedpreference.setSharedPref(SharedPreferenceConstants.ORDER_LIST_COUNT.toString(), webservice_returndata.get("order").getAsString());
+            appSharedpreference.setSharedPref(SharedPreferenceConstants.SHOP_LIST_COUNT.toString(), webservice_returndata.get("shops").getAsString());
+            appSharedpreference.setSharedPref(SharedPreferenceConstants.ENQUIRY_LIST_COUNT.toString(), webservice_returndata.get("enquiries").getAsString());
+
+
+        }
 
         callwebserviceUpdateCart();
     }
@@ -289,6 +319,7 @@ public class LoginActivity extends AppCompatActivity {
                 .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                 .setBodyParameter("user_id", user_id)
                 .setBodyParameter("device_id", AppConfig.getCurrentDeviceId(context))
+                .setBodyParameter("platform", "Android")
                 .asJsonObject()
                 .setCallback(new FutureCallback<JsonObject>() {
                     @Override
