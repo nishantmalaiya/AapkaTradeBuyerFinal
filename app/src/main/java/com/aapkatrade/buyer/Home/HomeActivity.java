@@ -86,14 +86,15 @@ public class HomeActivity extends AppCompatActivity {
     private FrameLayout redCircle;
     public static TextView tvCartCount;
     int home_activity = 1;
-ImageView logoWord;
+    ImageView logoWord;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         rl_main_content = (RelativeLayout) findViewById(R.id.rl_main_content);
-
 
         progressBarHandler = new ProgressBarHandler(this);
 
@@ -187,8 +188,8 @@ ImageView logoWord;
     }
 
 
-    private void setupToolBar() {
-
+    private void setupToolBar()
+    {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -198,8 +199,6 @@ ImageView logoWord;
         home_link.setVisibility(View.GONE);
 
         logoWord=(ImageView)toolbar.findViewById(R.id.logoWord);
-
-
     }
 
     private void replaceFragment(Fragment newFragment, String tag) {
@@ -258,8 +257,8 @@ ImageView logoWord;
     }
 
     @Override
-    public void onBackPressed() {
-
+    public void onBackPressed()
+    {
         FragmentManager fm = getSupportFragmentManager();
         DashboardFragment dashboardFragment = (DashboardFragment) fm.findFragmentByTag(homeFragment.getClass().getName());
         ContactUsFragment showcontactUsFragment = (ContactUsFragment) fm.findFragmentByTag(contactUsFragment.getClass().getName());
@@ -267,15 +266,15 @@ ImageView logoWord;
 
         UserDashboardFragment showuserdashboardfragment = (UserDashboardFragment) fm.findFragmentByTag(userDashboardFragment.getClass().getName());
 
-
-        if (dashboardFragment != null && dashboardFragment.isVisible()) {
+        if (dashboardFragment != null && dashboardFragment.isVisible())
+        {
 
             double_back_pressed("finish");
             //finish();
 
-
             Log.e("myfragment_visible", "myfragment visible");
-        } else if (showcontactUsFragment != null && showcontactUsFragment.isVisible()) {
+        } else if (showcontactUsFragment != null && showcontactUsFragment.isVisible())
+        {
             double_back_pressed("finish");
             // finish();
             Log.e("contact us visible", "contact us visible");
@@ -472,8 +471,8 @@ ImageView logoWord;
                         showOrHideBottomNavigation(false);
                     }
 
-                    if (oldScrollY == scrollY) {
-
+                    if (oldScrollY == scrollY)
+                    {
                         showOrHideBottomNavigation(true);
 
                     }
@@ -618,7 +617,6 @@ ImageView logoWord;
             });
         }
 
-
         if (home_activity == 1) {
 
             home_activity = 2;
@@ -633,6 +631,9 @@ ImageView logoWord;
                         .into(NavigationFragment.profilePic);
             }
         }
+
+
+
     }
 
 

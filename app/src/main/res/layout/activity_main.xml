@@ -151,10 +151,7 @@
             <ImageView
                 android:id="@+id/left_panel"
                 android:layout_width="70dp"
-
                 android:layout_height="70dp"
-
-
                 android:layout_alignParentRight="true"
                 android:src="@drawable/ic_left_prt" />
 

@@ -17,6 +17,7 @@
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CLEAR_APP_CACHE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <permission
         android:name="com.aapkatrade.buyer.permission.MAPS_RECEIVE"
@@ -46,8 +47,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-
         <activity
             android:name=".login.LoginDashboard"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -105,7 +104,6 @@
         <activity
             android:name=".Home.cart.MyCartActivity"
             android:label="@string/title_activity_my_cart" />
-
         <activity android:name=".shopdetail.productdetail.ProductDetailActivity" />
         <activity android:name=".dialogs.track_order.orderdetail.Order_detail" />
         <activity android:name=".dialogs.track_order.singleproductdetail.SingleproductDetail" />
@@ -120,7 +118,27 @@
         <service
             android:name=".service.GpsLocationService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
+
+        <service android:name=".MyFirebaseMessagingService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+
+
+        <service android:name=".MyFirebaseInstanceIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+
+        <activity
+            android:name=".Home.FcmActivity"
+            android:label="@string/title_activity_fcm"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>
