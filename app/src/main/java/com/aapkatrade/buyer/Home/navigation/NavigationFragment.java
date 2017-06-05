@@ -122,17 +122,15 @@ public class NavigationFragment extends Fragment {
             public void onClick(View v) {
                 Intent share = new Intent(Intent.ACTION_SEND);
                 share.setType("text/plain");
-               // Uri screenshotUri = Uri.parse("android.resource://"+getActivity().getPackageName()+"/" + R.drawable.ic_app_icon);
+                // Uri screenshotUri = Uri.parse("android.resource://"+getActivity().getPackageName()+"/" + R.drawable.ic_app_icon);
                 String strShareMessage = "\nLet me recommend you this application\n\n";
                 strShareMessage = strShareMessage + "https://play.google.com/store/apps/details?id=" + getActivity().getPackageName();
-               // share.setType("image");
-              //  share.putExtra(Intent.EXTRA_STREAM, screenshotUri);
+                // share.setType("image");
+                //  share.putExtra(Intent.EXTRA_STREAM, screenshotUri);
                 share.putExtra(Intent.EXTRA_TEXT, strShareMessage);
 
 
                 startActivity(Intent.createChooser(share, "Share using"));
-
-
 
 
             }

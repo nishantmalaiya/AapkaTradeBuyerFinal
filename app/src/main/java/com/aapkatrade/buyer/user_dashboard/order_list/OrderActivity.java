@@ -38,6 +38,8 @@ public class OrderActivity extends AppCompatActivity {
     private String user_id;
     private Context context;
 
+    String UserType;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +101,25 @@ public class OrderActivity extends AppCompatActivity {
 
 
     private void get_web_data() {
+
+        UserType = appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), SharedPreferenceConstants.USER_TYPE_BUYER.toString());
+
+        if (UserType.equals(SharedPreferenceConstants.USER_TYPE_BUYER.toString()))
+
+
+        {
+            UserType = appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), SharedPreferenceConstants.USER_TYPE_BUYER.toString());
+
+        } else if (UserType.equals(SharedPreferenceConstants.USER_TYPE_SELLER.toString()))
+
+
+        {
+            UserType = appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), SharedPreferenceConstants.USER_TYPE_SELLER.toString());
+
+        } else if (UserType.equals(SharedPreferenceConstants.USER_TYPE_ASSOCIATE.toString())) {
+
+            UserType = appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), SharedPreferenceConstants.USER_TYPE_ASSOCIATE.toString());
+        }
         orderListDatas.clear();
         progress_handler.show();
 
@@ -109,7 +130,7 @@ public class OrderActivity extends AppCompatActivity {
                 .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                 .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                 .setBodyParameter("buyer_id", appSharedPreference.getSharedPref("userid", user_id))
-                .setBodyParameter("type", appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), "1"))
+                .setBodyParameter("type", UserType)
 
 
                 .asJsonObject()
@@ -133,8 +154,7 @@ public class OrderActivity extends AppCompatActivity {
                                 JsonObject jsonObject_result = result.getAsJsonObject("result");
 
 
-                            System.out.println("message_data==================" + result.get("message").getAsString());
-
+                                System.out.println("message_data==================" + result.get("message").getAsString());
 
 
                                 JsonArray orders = jsonObject_result.getAsJsonArray("orders");
@@ -191,71 +211,10 @@ public class OrderActivity extends AppCompatActivity {
 
                             }
 
-//                            JsonObject jsonObject = result.getAsJsonObject();
 //
-//
-//                            String message = jsonObject.get("message").toString().substring(0, jsonObject.get("message").toString().length());
-//
-//                            String message_data = message.replace("\"", "");
-//
-//                            System.out.println("message_data" + message_data);
-//
-//                            if (message_data.equals("No record found")) {
-//                                progress_handler.hide();
-//                                layout_container.setVisibility(View.INVISIBLE);
-//
-//                            } else {
-//
-//                                JsonObject jsonObject1 = jsonObject.getAsJsonObject("result");
-//
-//                                System.out.println("jsonOblect-------------" + jsonObject1.toString());
-//
-//                                JsonArray jsonArray = jsonObject1.getAsJsonArray("list");
-//
-//                                for (int i = 0; i < jsonArray.size(); i++) {
-//                                    JsonObject jsonObject2 = (JsonObject) jsonArray.get(i);
-//
-//                                    String order_id = jsonObject2.get("id").getAsString();
-//
-//                                    String product_name = jsonObject2.get("product_name").getAsString();
-//
-//                                    String product_price = jsonObject2.get("product_price").getAsString();
-//
-//                                    String product_qty = jsonObject2.get("product_qty").getAsString();
-//
-//                                    String address = jsonObject2.get("address").getAsString();
-//
-//                                    String email = jsonObject2.get("email").getAsString();
-//
-//                                    String buyersmobile = jsonObject2.get("buyersmobile").getAsString();
-//
-//                                    String buyersname = jsonObject2.get("buyersname").getAsString();
-//
-//                                    String company_name = jsonObject2.get("cname").getAsString();
-//
-//                                    String status = jsonObject2.get("status").getAsString();
-//
-//                                    String created_at = jsonObject2.get("created_at").getAsString();
-//
-//                                    String product_image = jsonObject2.get("image_url").getAsString();
-//
-//                                    orderListDatas.add(new OrderListData(order_id, product_name, product_price, product_qty, address, email, buyersmobile, buyersname, company_name, status, created_at, product_image));
-//
-//
-//                                }
-//
-//                                orderListAdapter = new OrderListAdapter(getApplicationContext(), orderListDatas);
-//
-//                                order_list.setAdapter(orderListAdapter);
-//
-//                                orderListAdapter.notifyDataSetChanged();
-//
-//                                progress_handler.hide();
 
                         }
 
-                        //   layout_container.setVisibility(View.VISIBLE);
-                        //}
 
                     }
                 });

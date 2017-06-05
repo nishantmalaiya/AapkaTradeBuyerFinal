@@ -1,4 +1,4 @@
-package com.aapkatrade.buyer.Home.registration.spinner_adapter;
+package com.aapkatrade.buyer.Home.buyerregistration.spinner_adapter;
 
 import android.content.Context;
 import android.util.Log;
@@ -9,7 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
-import com.aapkatrade.buyer.Home.registration.entity.City;
+import com.aapkatrade.buyer.Home.buyerregistration.entity.City;
 import com.aapkatrade.buyer.R;
 
 import java.util.ArrayList;

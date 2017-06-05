@@ -48,7 +48,7 @@ public class CancelOrderFragment extends Fragment {
 
         user_id = appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), "");
 
-        user_type = appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), "1");
+        user_type = appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), SharedPreferenceConstants.USER_TYPE_BUYER.toString());
 
         setup_layout(view);
 
@@ -78,7 +78,7 @@ public class CancelOrderFragment extends Fragment {
                 .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                 .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                 .setBodyParameter("buyer_id", user_id)
-                .setBodyParameter("type", "1")
+                .setBodyParameter("type", appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), SharedPreferenceConstants.USER_TYPE_BUYER.toString()))
 
                 .asJsonObject()
                 .setCallback(new FutureCallback<JsonObject>() {

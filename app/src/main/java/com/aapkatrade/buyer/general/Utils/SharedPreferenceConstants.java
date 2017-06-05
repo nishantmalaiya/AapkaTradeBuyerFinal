@@ -1,5 +1,7 @@
 package com.aapkatrade.buyer.general.Utils;
 
+import com.aapkatrade.buyer.R;
+
 /**
  * Created by PPC15 on 12-05-2017.
  */
@@ -25,6 +27,9 @@ public enum SharedPreferenceConstants {
     REGISTERED_MOBILE("REGISTERED_MOBILE"),
     ACCOUNT_NO("ACCOUNT_NO"),
     USER_TYPE("USER_TYPE"),
+    USER_TYPE_BUYER("1"),
+    USER_TYPE_SELLER("2"),
+    USER_TYPE_ASSOCIATE("3"),
     LANGUAGE("LANGUAGE"),
     EMAIL_ID("EMAIL_ID"),
     IS_FIRST_TIME("IS_FIRST_TIME"),
@@ -36,7 +41,7 @@ public enum SharedPreferenceConstants {
     DEVICE_ID("DEVICE_ID"),
     UPDATED_AT("UPDATED_AT"),
     STATUS("STATUS"),
-    ORDER("ORDER"),
+    ORDER_LIST_COUNT("ORDER_LIST_COUNT"),
     CREATED_AT("CREATED_AT"),
     EMAIL_SMALL("email"),
     PASSWORD_SMALL("password"),
@@ -50,7 +55,9 @@ public enum SharedPreferenceConstants {
     SHIPPING_ADDRESS_CITY("SHIPPING_ADDRESS_CITY"),
     SHIPPING_ADDRESS_LANDMARK("SHIPPING_ADDRESS_LANDMARK"),
     SHIPPING_ADDRESS_PINCODE("SHIPPING_ADDRESS_PINCODE"),
-    SHIPPING_ADDRESS("SHIPPING_ADDRESS");
+    SHIPPING_ADDRESS("SHIPPING_ADDRESS"),
+    SHOP_LIST_COUNT("0"),
+    ENQUIRY_LIST_COUNT("0");
 
 
     private final String text;

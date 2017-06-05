@@ -118,11 +118,11 @@
 
 
     <string-array name="welcomeSliderHeaders">
-        <item>Welcome To  AapkaTrade</item>
-        <item>The Company\'s Mission is Anybody Can Do The Business</item>
-        <item>Aapkatrade for Buyers</item>
+        <item>Welcome To </item>
+        <item>The Company\'s mission is :\'Anybody Can Do The Business\'</item>
+        <item>Aapkatrade for Buyers We are providing products and services , no matter how small or big, from all over India.</item>
         <item>You Can Shop all Your Needs</item>
-        <item>We Focus on Rural Areas</item>
+        <item>We target small and medium business owners , irrespective of their location and let them realize that they too can do business.</item>
 
 
     </string-array>

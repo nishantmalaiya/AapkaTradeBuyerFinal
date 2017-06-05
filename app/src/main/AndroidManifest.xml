@@ -47,6 +47,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".login.LoginDashboard"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -67,7 +68,7 @@
             android:name=".shopdetail.ShopDetailActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Home.registration.RegistrationActivity"
+            android:name=".Home.buyerregistration.BuyerRegistrationActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".categories_tab.ParticularDataActivity.ParticularActivity" />
         <activity android:name=".login.ActivityOTPVerify" />
@@ -120,6 +121,7 @@
             android:enabled="true"
             android:exported="true" />
 
+
         <service android:name=".MyFirebaseMessagingService"
             android:enabled="true"
             android:exported="true">
@@ -139,6 +141,9 @@
             android:name=".Home.FcmActivity"
             android:label="@string/title_activity_fcm"
             android:theme="@style/AppTheme"></activity>
+
+        <activity android:name=".seller.SellerRegistrationActivity"></activity>
+
     </application>
 
 </manifest>

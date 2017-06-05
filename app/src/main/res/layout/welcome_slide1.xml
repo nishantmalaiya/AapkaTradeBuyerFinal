@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_screen1">
@@ -8,52 +9,69 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
-        android:weightSum="3"
+        android:orientation="vertical"
 
-        android:orientation="vertical">
+        android:weightSum="3">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:gravity="center_horizontal|center_vertical">
+
+            <TextView
+                android:id="@+id/tvSlideHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+android:gravity="center"
+                android:text="@string/slide_1_title"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/twenty_dip" />
+
+            <ImageView
+                android:layout_width="@dimen/hundred_dip"
+                android:layout_height="wrap_content"
+                android:id="@+id/welcome_app_logo"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="@dimen/ten_dip"
+                app:srcCompat="@drawable/ic_app_logo"
+
+                android:layout_toRightOf="@+id/tvSlideHeader"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/img_pager_item"
+                android:layout_width="wrap_content"
+
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:scaleType="fitCenter"
+
+                android:src="@drawable/img_welcome_slide1" />
+
+        </RelativeLayout>
 
         <TextView
-            android:id="@+id/tvSlideHeader"
-            android:layout_width="match_parent"
-            android:layout_weight="1"
-            android:layout_height="0dp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/fourty_dip"
-            android:gravity="center_horizontal|center_vertical"
-            android:text="@string/slide_1_title"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/twenty_dip"
-             />
 
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_weight="1"
-    android:layout_height="0dp">
-        <ImageView
-            android:id="@+id/img_pager_item"
-            android:layout_width="wrap_content"
-
-            android:layout_height="wrap_content"
-android:scaleType="fitCenter"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-
-            android:src="@drawable/img_welcome_slide1" />
-
-</RelativeLayout>
-        <TextView
-
-            android:layout_width="match_parent"
-            android:layout_weight="1"
-            android:layout_height="0dp"
             android:id="@+id/tvSlidefooter"
-
-
-
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:layout_marginLeft="@dimen/fourty_dip"
+
+
             android:layout_marginRight="@dimen/fourty_dip"
-            android:gravity="center_horizontal"
             android:layout_marginTop="@dimen/hundred_dip"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
             android:text="@string/slide_1_description"
             android:textAlignment="center"
             android:textColor="@android:color/white"
