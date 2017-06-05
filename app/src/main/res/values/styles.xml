@@ -90,6 +90,7 @@
         <item name="android:textColorLink">@color/grey</item>
 
     </style>
+
     <style name="myedittextWhite" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimaryDark">@color/green</item>
         <item name="colorAccent">@color/green</item>

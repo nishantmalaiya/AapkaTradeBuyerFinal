@@ -17,6 +17,7 @@
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CLEAR_APP_CACHE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <permission
         android:name="com.aapkatrade.buyer.permission.MAPS_RECEIVE"
@@ -120,7 +121,29 @@
             android:enabled="true"
             android:exported="true" />
 
+
+        <service android:name=".MyFirebaseMessagingService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+
+
+        <service android:name=".MyFirebaseInstanceIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+
+        <activity
+            android:name=".Home.FcmActivity"
+            android:label="@string/title_activity_fcm"
+            android:theme="@style/AppTheme"></activity>
+
         <activity android:name=".seller.SellerRegistrationActivity"></activity>
+
     </application>
 
 </manifest>

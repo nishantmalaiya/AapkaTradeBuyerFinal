@@ -2,7 +2,6 @@ apply plugin: 'com.android.application'
 
 android {
 
-
     lintOptions {
         checkReleaseBuilds false
     }
@@ -12,6 +11,7 @@ android {
 
     defaultConfig {
         applicationId "com.aapkatrade.buyer"
+        multiDexEnabled true
         minSdkVersion 16
         targetSdkVersion 25
         versionCode 3
@@ -28,7 +28,6 @@ android {
 
         }
     }
-
 
     repositories {
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
@@ -47,22 +46,18 @@ android {
 }
 
 dependencies {
-
-
-    compile('com.github.florent37:androidparallax:1.0.1@aar')
-            {
-                transitive = true
-            }
-
+    compile('com.github.florent37:androidparallax:1.0.1@aar') {
+        transitive = true
+    }
     //noinspection GradleCompatible
-
-
     compile 'com.mikepenz:actionitembadge:3.2.6@aar'
     //noinspection GradleCompatible
-
-
+    compile 'com.mikepenz:actionitembadge:3.2.6@aar'
+    //noinspection GradleCompatible
     compile 'com.shehabic.droppy:Droppy:0.5.1@aar'
+
     compile 'com.google.android.gms:play-services-places:10.2.6'
+    compile 'com.shehabic.droppy:Droppy:0.5.1@aar'
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'com.iarcuschin:simpleratingbar:0.1.5'
     compile 'com.android.support:appcompat-v7:25.3.1'
