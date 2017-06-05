@@ -275,6 +275,12 @@
     <string name="tan_number">TAN Number</string>
     <string name="shop_name">Shop Name*</string>
     <string name="personal_doc">Personal Document(Pan Card,Aadhar Card,Election ID)</string>
+    <string name="beneficiary_name">Beneficiary Name*</string>
+    <string name="beneficiary_ifsc">Beneficiary IFSC*</string>
+    <string name="beneficiary_account">Beneficiary Account*</string>
+    <string name="beneficiary_bank_name">Beneficiary Bank Name</string>
+    <string name="beneficiary_address">Beneficiary Address</string>
+    <string name="state">State</string>
 
 
 </resources>

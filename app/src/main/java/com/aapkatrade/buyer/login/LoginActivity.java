@@ -144,27 +144,15 @@ public class LoginActivity extends AppCompatActivity {
 
 
                 if (Validation.isValidEmail(input_email) || Validation.isValidNumber(input_email, Validation.getNumberPrefix(input_email))) {
-
-
                     if (Validation.validateEdittext(password)) {
                         String login_url = "";
-
                         if (usertype.contains("SELLER")) {
-
-
                             callLoginWebService(getResources().getString(R.string.webservice_base_url) + "/sellerlogin", input_email, input_password);
-                            callLoginWebService(login_url, input_email, input_password);
                         } else if (usertype.contains("BUYER")) {
-
                             callLoginWebService(getResources().getString(R.string.webservice_base_url) + "/buyerlogin", input_email, input_password);
-                            callLoginWebService(login_url, input_email, input_password);
-
                         } else if (usertype.contains("BUSINESS ASSOCIATE LOGIN")) {
                             callLoginWebService(getResources().getString(R.string.webservice_base_url) + "/associatelogin", input_email, input_password);
-                            callLoginWebService(login_url, input_email, input_password);
                         }
-
-
                     } else {
                         showMessage(getResources().getString(R.string.password_validing_text));
                         password.setError(getResources().getString(R.string.password_validing_text));
