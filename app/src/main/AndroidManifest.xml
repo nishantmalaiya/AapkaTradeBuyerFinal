@@ -55,6 +55,9 @@
             android:screenOrientation="portrait"
             android:theme="@style/FullscreenTheme"
             android:windowSoftInputMode="stateHidden" />
+
+        <activity android:name=".seller.selleruser_dashboard.service_enquirylist.ServiceEnquiryActivity" />
+
         <activity
             android:name=".login.LoginActivity"
             android:screenOrientation="portrait" />

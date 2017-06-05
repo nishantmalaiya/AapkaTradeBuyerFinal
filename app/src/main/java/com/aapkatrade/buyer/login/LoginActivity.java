@@ -153,15 +153,15 @@ public class LoginActivity extends AppCompatActivity {
 
 
                             callLoginWebService(getResources().getString(R.string.webservice_base_url) + "/sellerlogin", input_email, input_password);
-                            callLoginWebService(login_url, input_email, input_password);
+
                         } else if (usertype.contains("BUYER")) {
 
                             callLoginWebService(getResources().getString(R.string.webservice_base_url) + "/buyerlogin", input_email, input_password);
-                            callLoginWebService(login_url, input_email, input_password);
+
 
                         } else if (usertype.contains("BUSINESS ASSOCIATE LOGIN")) {
                             callLoginWebService(getResources().getString(R.string.webservice_base_url) + "/associatelogin", input_email, input_password);
-                            callLoginWebService(login_url, input_email, input_password);
+
                         }
 
 
@@ -182,7 +182,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void callLoginWebService(String login_url, String input_username, String input_password) {
 
-        AndroidUtils.showErrorLog(context, "Login : " + input_username + "  Password : " + input_password, "*************   " + login_url);
+        AndroidUtils.showErrorLog(context, "Login : " + input_username + "  Password : " + input_password, "*************   " + login_url + "***deviceid" + AppConfig.getCurrentDeviceId(context));
 
         progressBarHandler.show();
         Ion.with(context)
@@ -210,8 +210,9 @@ public class LoginActivity extends AppCompatActivity {
                                 showMessage(message);
 
                             } else {
+                                String message = result.get("message").getAsString();
 
-                                showMessage(getResources().getString(R.string.welcome_buyer));
+                                showMessage(message);
                                 Log.e("webservice_returndata", result.toString());
 
                                 saveDataInSharedPreference(result);
