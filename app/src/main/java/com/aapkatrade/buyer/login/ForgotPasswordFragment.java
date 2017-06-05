@@ -1,5 +1,6 @@
 package com.aapkatrade.buyer.login;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
@@ -15,8 +16,10 @@ import android.widget.TextView;
 
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.AppConfig;
+import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.CallWebService;
 import com.aapkatrade.buyer.general.Change_Font;
+import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.interfaces.TaskCompleteReminder;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Validation;
@@ -44,6 +47,8 @@ public class ForgotPasswordFragment extends Fragment implements View.OnClickList
     private EditText et_email_forgot, et_mobile_no;
     private Button btn_send_otp;
     private FrameLayout forgot_password_container;
+    AppSharedPreference appSharedPreference;
+    Context c;
 
 
     public ForgotPasswordFragment() {
@@ -65,9 +70,12 @@ public class ForgotPasswordFragment extends Fragment implements View.OnClickList
     }
 
     private void initView(View v) {
+        c = getActivity();
 
         progressBarHandler = new ProgressBarHandler(getActivity());
         forgot_password_container = (FrameLayout) v.findViewById(R.id.forgot_password_container);
+        appSharedPreference = new AppSharedPreference(c);
+
 
         tv_forgot_password = (TextView) v.findViewById(R.id.tv_forgot_password);
         tv_forgot_password_description = (TextView) v.findViewById(R.id.tv_forgot_password_description);
@@ -100,14 +108,47 @@ public class ForgotPasswordFragment extends Fragment implements View.OnClickList
     }
 
     private void Validatefields() {
+        String userType;
+
         //et_email_forgot.getText().toString() != null ? "" : et_email_forgot.getText().toString()
         if (Validation.isValidEmail(et_email_forgot.getText().toString())) {
-            call_forgotpasswod_webservice();
-            AndroidUtils.showErrorLog(getActivity(), "EmailAddress", et_email_forgot.getText().toString());
+
+            if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString()).equals(SharedPreferenceConstants.USER_TYPE_BUYER)) {
+
+                userType = "buyer";
+                call_forgotpasswod_webservice(userType);
+                AndroidUtils.showErrorLog(getActivity(), "EmailAddress", et_email_forgot.getText().toString());
+
+            } else if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString()).equals(SharedPreferenceConstants.USER_TYPE_SELLER)) {
+                userType = "seller";
+                call_forgotpasswod_webservice(userType);
+                AndroidUtils.showErrorLog(getActivity(), "EmailAddress", et_email_forgot.getText().toString());
+            } else {
+                userType = "associate";
+                call_forgotpasswod_webservice(userType);
+                AndroidUtils.showErrorLog(getActivity(), "EmailAddress", et_email_forgot.getText().toString());
+
+
+            }
 
         } else if (Validation.isValidNumber(et_mobile_no.getText().toString(), Validation.getNumberPrefix(et_mobile_no.getText().toString()))) {
-            AndroidUtils.showErrorLog(getActivity(), "phoneNo", et_mobile_no.getText().toString());
-            call_forgotpasswod_webservice();
+            if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString()).equals(SharedPreferenceConstants.USER_TYPE_BUYER)) {
+
+                userType = "buyer";
+                call_forgotpasswod_webservice(userType);
+                AndroidUtils.showErrorLog(getActivity(), "EmailAddress", et_email_forgot.getText().toString());
+
+            } else if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString()).equals(SharedPreferenceConstants.USER_TYPE_SELLER)) {
+                userType = "seller";
+                call_forgotpasswod_webservice(userType);
+                AndroidUtils.showErrorLog(getActivity(), "EmailAddress", et_email_forgot.getText().toString());
+            } else {
+                userType = "associate";
+                call_forgotpasswod_webservice(userType);
+                AndroidUtils.showErrorLog(getActivity(), "EmailAddress", et_email_forgot.getText().toString());
+
+
+            }
 
 
         } else {
@@ -118,7 +159,7 @@ public class ForgotPasswordFragment extends Fragment implements View.OnClickList
     }
 
 
-    private void call_forgotpasswod_webservice() {
+    private void call_forgotpasswod_webservice(String usertype) {
         progressBarHandler.show();
 
 
@@ -126,7 +167,9 @@ public class ForgotPasswordFragment extends Fragment implements View.OnClickList
 
         HashMap<String, String> webservice_body_parameter = new HashMap<>();
         webservice_body_parameter.put("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3");
-        webservice_body_parameter.put("type", getString(R.string.user_type));
+
+
+        webservice_body_parameter.put("type", usertype);
         webservice_body_parameter.put("email", et_email_forgot.getText().toString().trim());
         webservice_body_parameter.put("mobile", et_mobile_no.getText().toString().trim());
         webservice_body_parameter.put("client_id", AppConfig.getCurrentDeviceId(getActivity()));

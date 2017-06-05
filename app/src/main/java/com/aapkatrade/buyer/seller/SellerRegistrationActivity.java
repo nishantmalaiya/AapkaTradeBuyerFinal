@@ -417,7 +417,7 @@ public class SellerRegistrationActivity extends AppCompatActivity implements Tim
 
                 busiType = String.valueOf(position);
                 if (position == 0) {
-                    uploadCard.setVisibility(View.GONE);
+
                     findViewById(R.id.input_layout_tin_number).setVisibility(View.GONE);
                     findViewById(R.id.input_layout_tan_number).setVisibility(View.GONE);
                 }

@@ -48,7 +48,7 @@
     <string name="address" translatable="false">Address</string>
     <string name="address1" translatable="false">Address*</string>
 
-    <string name="user_type">buyer</string>
+
     <string name="google_api" translatable="false">AIzaSyDEC-Z8NKvcLAbB4vKdNa2ByUcXfOX_Tao</string>
     <string name="forgot_your_password" translatable="false">Forgot your Password?</string>
     <string name="forgot_your_password_instruction1" translatable="false">Enter your Email/Mobile number below to receive OTP</string>
