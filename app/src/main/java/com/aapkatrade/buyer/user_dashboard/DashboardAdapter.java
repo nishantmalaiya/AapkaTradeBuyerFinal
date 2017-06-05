@@ -13,6 +13,7 @@ import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.login.LoginActivity;
 
 import com.aapkatrade.buyer.login.LoginDashboard;
+import com.aapkatrade.buyer.seller.activity.userdashboard.bankdetails.BankDetailsActivity;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.service_enquirylist.ServiceEnquiryActivity;
 import com.aapkatrade.buyer.user_dashboard.changepassword.ChangePassword;
 
@@ -131,6 +132,20 @@ public class DashboardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
 
                     //    Associate Agreement
+                }
+
+                if (itemList.get(position).dashboard_name.equals("Bank Details")) {
+                    if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString(), "notlogin").equals("notlogin")) {
+                        Intent i = new Intent(context, LoginDashboard.class);
+                        context.startActivity(i);
+
+
+                    } else {
+                        Intent bankDetails = new Intent(context, BankDetailsActivity.class);
+                        context.startActivity(bankDetails);
+
+                    }
+
                 }
 
 
