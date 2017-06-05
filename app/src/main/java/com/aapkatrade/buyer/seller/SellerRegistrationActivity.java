@@ -198,7 +198,7 @@ public class SellerRegistrationActivity extends AppCompatActivity implements Tim
 
     private void saveUserTypeInSharedPreferences() {
         uploadView.setVisibility(View.GONE);
-        spBussinessCategoryLayout.setVisibility(View.GONE);
+//        spBussinessCategoryLayout.setVisibility(View.GONE);
         etProductName.setVisibility(View.GONE);
         dobLayout.setVisibility(View.GONE);
         uploadCard.setVisibility(View.GONE);
