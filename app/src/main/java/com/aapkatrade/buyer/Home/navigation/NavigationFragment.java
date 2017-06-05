@@ -66,7 +66,7 @@ public class NavigationFragment extends Fragment {
     private List<String> categoryids;
     private List<String> categoryname;
     private Context context;
-    private TextView textViewName, emailid;
+    private TextView textViewName, emailid, tv_user_heading;
     private NavigationAdapter category_adapter;
     public ArrayList<CategoryHome> listDataHeader = new ArrayList<>();
     private RelativeLayout rlprofilepic, rlLogout, rlPolicy, rlTerms, rlInvite;
@@ -76,6 +76,8 @@ public class NavigationFragment extends Fragment {
     private LinearLayoutManager navigationLinearLayoutManager;
     private ImageView navigationClose;
     public static CircleImageView profilePic;
+
+    String usertype;
 
 
     public NavigationFragment() {
@@ -98,7 +100,7 @@ public class NavigationFragment extends Fragment {
 
     private void initView(View view) {
 
-
+        tv_user_heading = (TextView) view.findViewById(R.id.welcome_guest);
         rlprofilepic = (RelativeLayout) view.findViewById(R.id.navigation_profile);
         rlprofilepic.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -192,14 +194,21 @@ public class NavigationFragment extends Fragment {
         if (appSharedpreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString(), "not") != null) {
             String userName = appSharedpreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString(), "not");
             String emailId = appSharedpreference.getSharedPref(SharedPreferenceConstants.EMAIL_ID.toString(), "not");
+            if (appSharedpreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), "").contains("1")) {
+                usertype = "Buyer";
+            } else if (appSharedpreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), "").contains("2")) {
+                usertype = "Seller";
+            } else if (appSharedpreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), "").contains("3")) {
+                usertype = "Associate";
+            }
 
 
             if (userName.contains("not")) {
                 rlLogout.setVisibility(View.GONE);
-                setData(getString(R.string.welcomeguest), "");
+                setData(getString(R.string.welcomeguest), "", "");
             } else {
                 rlLogout.setVisibility(View.VISIBLE);
-                setData(userName, emailId);
+                setData(userName, emailId, usertype);
 
                 String a = appSharedpreference.getSharedPref(SharedPreferenceConstants.PROFILE_PIC.toString());
 
@@ -284,9 +293,10 @@ public class NavigationFragment extends Fragment {
     }
 
 
-    public void setData(String username, String email) {
+    public void setData(String username, String email, String usertypeheading) {
         textViewName.setText(username);
         emailid.setText(email);
+        tv_user_heading.setText("Welcome "+usertypeheading);
     }
 
     private void prepareListData() {
@@ -369,7 +379,7 @@ public class NavigationFragment extends Fragment {
             String emailId = appSharedpreference.getSharedPref(SharedPreferenceConstants.EMAIL_ID.toString(), "notlogin");
 
             if (userName.contains("notlogin")) {
-                setData(getString(R.string.welcomeguest), "");
+                setData(getString(R.string.welcomeguest), "", "");
 
                 rlLogout.setVisibility(View.GONE);
 
@@ -377,7 +387,7 @@ public class NavigationFragment extends Fragment {
             } else {
                 rlLogout.setVisibility(View.VISIBLE);
 
-                setData(userName, emailId);
+                setData(userName, emailId, usertype);
             }
         } else {
             Log.e("Shared_pref1", "null");

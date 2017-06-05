@@ -14,6 +14,7 @@ import com.aapkatrade.buyer.login.LoginActivity;
 
 import com.aapkatrade.buyer.login.LoginDashboard;
 import com.aapkatrade.buyer.seller.activity.userdashboard.bankdetails.BankDetailsActivity;
+import com.aapkatrade.buyer.seller.selleruser_dashboard.service_enquirylist.ServiceEnquiryActivity;
 import com.aapkatrade.buyer.user_dashboard.changepassword.ChangePassword;
 
 import com.aapkatrade.buyer.user_dashboard.my_profile.MyProfileActivity;
@@ -98,6 +99,16 @@ public class DashboardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         Intent change_password = new Intent(context, ChangePassword.class);
                         context.startActivity(change_password);
 
+                    }
+
+                } else if (itemList.get(position).dashboard_name.equals("Enquiry Management")) {
+                    if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), "notlogin").equals("notlogin")) {
+                        Intent i = new Intent(context, LoginDashboard.class);
+                        context.startActivity(i);
+
+                    } else {
+                        Intent service_enquiry_list = new Intent(context, ServiceEnquiryActivity.class);
+                        context.startActivity(service_enquiry_list);
                     }
 
                 } else if (itemList.get(position).dashboard_name.equals("Order")) {
