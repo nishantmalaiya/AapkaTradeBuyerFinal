@@ -4,6 +4,7 @@
     <string name="my_profile_heading" translatable="false">My Profile</string>
     <string name="my_profile_detail_heading" translatable="false">Hello,<font color="#0000FF"> Arvind </font> - To Update your account information.</string>
     <string name="save" translatable="false">Save</string>
+    <string name="save_caps" translatable="false">SAVE</string>
     <string name="submit" translatable="false">SUBMIT</string>
     <string name="aapka_data" translatable="false">AAPKA <font color='white'>TRADE</font></string>
     <string name="login" translatable="false">LOGIN</string>
@@ -281,6 +282,7 @@
     <string name="beneficiary_bank_name">Beneficiary Bank Name</string>
     <string name="beneficiary_address">Beneficiary Address</string>
     <string name="state">State</string>
+    <string name="edit">EDIT</string>
 
 
 </resources>
