@@ -149,27 +149,21 @@ public class LoginActivity extends AppCompatActivity
 
 
                 if (Validation.isValidEmail(input_email) || Validation.isValidNumber(input_email, Validation.getNumberPrefix(input_email))) {
-
-
                     if (Validation.validateEdittext(password)) {
                         String login_url = "";
-
                         if (usertype.contains("SELLER")) {
-
-
                             callLoginWebService(getResources().getString(R.string.webservice_base_url) + "/sellerlogin", input_email, input_password);
-                            callLoginWebService(login_url, input_email, input_password);
-                        } else if (usertype.contains("BUYER")) {
 
+                        } else if (usertype.contains("BUYER")) {
                             callLoginWebService(getResources().getString(R.string.webservice_base_url) + "/buyerlogin", input_email, input_password);
-                            callLoginWebService(login_url, input_email, input_password);
 
                         } else if (usertype.contains("BUSINESS ASSOCIATE LOGIN")) {
                             callLoginWebService(getResources().getString(R.string.webservice_base_url) + "/associatelogin", input_email, input_password);
-                            callLoginWebService(login_url, input_email, input_password);
+
+                        } else if (usertype.contains("BUSINESS ASSOCIATE LOGIN")) {
+                            callLoginWebService(getResources().getString(R.string.webservice_base_url) + "/associatelogin", input_email, input_password);
+
                         }
-
-
                     } else {
                         showMessage(getResources().getString(R.string.password_validing_text));
                         password.setError(getResources().getString(R.string.password_validing_text));
@@ -187,7 +181,7 @@ public class LoginActivity extends AppCompatActivity
 
     private void callLoginWebService(String login_url, String input_username, String input_password) {
 
-        AndroidUtils.showErrorLog(context, "Login : " + input_username + "  Password : " + input_password, "*************   " + login_url);
+        AndroidUtils.showErrorLog(context, "Login : " + input_username + "  Password : " + input_password, "*************   " + login_url + "***deviceid" + AppConfig.getCurrentDeviceId(context));
 
         progressBarHandler.show();
         Ion.with(context)
@@ -216,10 +210,13 @@ public class LoginActivity extends AppCompatActivity
                             {
                                 String message = result.get("message").getAsString();
                                 showMessage(message);
-                            }
-                            else
-                            {
-                                showMessage(getResources().getString(R.string.welcome_buyer));
+
+
+                            } else {
+                                String message = result.get("message").getAsString();
+
+                                showMessage(message);
+
                                 Log.e("webservice_returndata", result.toString());
                                 saveDataInSharedPreference(result);
                             }
@@ -267,7 +264,7 @@ public class LoginActivity extends AppCompatActivity
             appSharedpreference.setSharedPref(SharedPreferenceConstants.PROFILE_PIC.toString(), jsonObject.get("profile_pic").getAsString());
             appSharedpreference.setSharedPref(SharedPreferenceConstants.ORDER_LIST_COUNT.toString(), webservice_returndata.get("order").getAsString());
         } else if (usertype.contains("SELLER")) {
-            appSharedpreference.setSharedPref(SharedPreferenceConstants.PROFILE_PIC.toString(), jsonObject.get("profile_pic").getAsString());
+            appSharedpreference.setSharedPref(SharedPreferenceConstants.PROFILE_PIC.toString(), jsonObject.get("profile_pick").getAsString());
             appSharedpreference.setSharedPref(SharedPreferenceConstants.ORDER_LIST_COUNT.toString(), webservice_returndata.get("order").getAsString());
             appSharedpreference.setSharedPref(SharedPreferenceConstants.SHOP_LIST_COUNT.toString(), webservice_returndata.get("shops").getAsString());
             appSharedpreference.setSharedPref(SharedPreferenceConstants.ENQUIRY_LIST_COUNT.toString(), webservice_returndata.get("enquiries").getAsString());

@@ -13,6 +13,8 @@ import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.login.LoginActivity;
 
 import com.aapkatrade.buyer.login.LoginDashboard;
+import com.aapkatrade.buyer.seller.activity.userdashboard.bankdetails.BankDetailsActivity;
+import com.aapkatrade.buyer.seller.selleruser_dashboard.service_enquirylist.ServiceEnquiryActivity;
 import com.aapkatrade.buyer.user_dashboard.changepassword.ChangePassword;
 
 import com.aapkatrade.buyer.user_dashboard.my_profile.MyProfileActivity;
@@ -99,6 +101,16 @@ public class DashboardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
                     }
 
+                } else if (itemList.get(position).dashboard_name.equals("Enquiry Management")) {
+                    if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), "notlogin").equals("notlogin")) {
+                        Intent i = new Intent(context, LoginDashboard.class);
+                        context.startActivity(i);
+
+                    } else {
+                        Intent service_enquiry_list = new Intent(context, ServiceEnquiryActivity.class);
+                        context.startActivity(service_enquiry_list);
+                    }
+
                 } else if (itemList.get(position).dashboard_name.equals("Order")) {
                     if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), "notlogin").equals("notlogin")) {
                         Intent i = new Intent(context, LoginDashboard.class);
@@ -120,6 +132,20 @@ public class DashboardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
 
                     //    Associate Agreement
+                }
+
+                if (itemList.get(position).dashboard_name.equals("Bank Details")) {
+                    if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString(), "notlogin").equals("notlogin")) {
+                        Intent i = new Intent(context, LoginDashboard.class);
+                        context.startActivity(i);
+
+
+                    } else {
+                        Intent bankDetails = new Intent(context, BankDetailsActivity.class);
+                        context.startActivity(bankDetails);
+
+                    }
+
                 }
 
 
