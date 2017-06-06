@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -32,9 +34,9 @@ public class BankDetailsActivity extends AppCompatActivity {
     private AppSharedPreference appSharedPreference;
     private ProgressBarHandler progressBarHandler;
     private ArrayList<String> stateList = new ArrayList<>();
-    private ArrayList<String> stateIds = new ArrayList<>();
     private Spinner spState;
-    private String stateID = "", userId= "";
+    private ImageView editDetailsIcon;
+    private String stateID = "", userId = "", ifscCode = "", beneficiaryName = "", beneficiaryAccount = "", stateName = "", beneficiaryBankName = "", beneficiaryAddress = "";
     private EditText etBeneficiaryName, etBeneficiaryIFSC, etBeneficiaryAccount, etBeneficiaryBankName, etBeneficiaryAddress;
 
 
@@ -46,14 +48,75 @@ public class BankDetailsActivity extends AppCompatActivity {
         setUpToolBar();
         initView();
         userId = appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString());
-        if(Validation.isNonEmptyStr(userId)){
+        loadInitSpinner();
+        if (Validation.isNonEmptyStr(userId)) {
             AndroidUtils.showErrorLog(context, "userId:::if:::", userId);
             callBankDetailWebService();
-        }else {
+        } else {
             AndroidUtils.showErrorLog(context, "userId else::::::", userId);
         }
-        loadInitSpinner();
 
+        etBeneficiaryIFSC.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String ifscCode = s.toString();
+                if(Validation.isNonEmptyStr(ifscCode))
+                hitIFSCWebService(ifscCode);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+    }
+
+    private void hitIFSCWebService(String ifscCode) {
+        progressBarHandler.show();
+        Ion.with(context)
+                .load(getString(R.string.webservice_base_url) + "/check_ifsc")
+                .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                .setBodyParameter("ifsc_code", ifscCode)
+                .asJsonObject()
+                .setCallback(new FutureCallback<JsonObject>() {
+                    @Override
+                    public void onCompleted(Exception e, JsonObject result) {
+                        progressBarHandler.hide();
+                        if (result != null) {
+                            AndroidUtils.showErrorLog(context, "result::::::", result.toString());
+                            if (result.get("error").getAsString().contains("false")) {
+                                if (Validation.containsIgnoreCase(result.get("status").getAsString(), "success")) {
+                                    JsonObject jsonObject = result.get("data").getAsJsonObject();
+                                    stateName = jsonObject.get("STATE").getAsString();
+                                    beneficiaryBankName = jsonObject.get("BANK").getAsString();
+                                    beneficiaryAddress = jsonObject.get("ADDRESS").getAsString();
+
+                                    etBeneficiaryBankName.setText(beneficiaryBankName);
+                                    etBeneficiaryAddress.setText(beneficiaryAddress);
+                                    AndroidUtils.showErrorLog(context, "   "+stateName);
+                                    if(Validation.isNonEmptyStr(stateName)) {
+                                        for (int j = 0; j < stateList.size(); j++) {
+                                            if (stateList.get(j).equalsIgnoreCase(stateName)) {
+                                                AndroidUtils.showErrorLog(context, stateName, "      state name   ");
+                                                spState.setSelection(j);
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    AndroidUtils.showErrorLog(context, "result::::::NULL");
+                                }
+                            }
+                        }
+
+                    }
+                });
     }
 
     private void callBankDetailWebService() {
@@ -68,22 +131,43 @@ public class BankDetailsActivity extends AppCompatActivity {
                     @Override
                     public void onCompleted(Exception e, JsonObject result) {
                         progressBarHandler.hide();
-                        if(result!=null){
+                        if (result != null) {
                             AndroidUtils.showErrorLog(context, "result::::::", result.toString());
-                            if(result.get("error").getAsString().equalsIgnoreCase("false")){
-                                if(result.get("message").getAsString().equalsIgnoreCase("Success")){
+                            if (result.get("error").getAsString().equalsIgnoreCase("false")) {
+                                if (result.get("message").getAsString().equalsIgnoreCase("Success")) {
                                     JsonArray jsonArray = result.get("result").getAsJsonArray();
-                                    if (jsonArray!=null && jsonArray.size()>0){
-//                                        for (JsonObject jsonObject : jsonArray){
-//
-//                                        }
+                                    if (jsonArray != null && jsonArray.size() > 0) {
+                                        for (int i = 0; i < jsonArray.size(); i++) {
+                                            JsonObject jsonObject = jsonArray.get(i).getAsJsonObject();
+                                            ifscCode = jsonObject.get("beneficiaryCode").getAsString();
+                                            beneficiaryName = jsonObject.get("beneficiaryName").getAsString();
+                                            beneficiaryAccount = jsonObject.get("beneficiaryAccount").getAsString();
+                                            stateName = jsonObject.get("statename").getAsString();
+                                            beneficiaryBankName = jsonObject.get("beneficiaryBankName").getAsString();
+                                            beneficiaryAddress = jsonObject.get("beneficiaryAddress").getAsString();
+
+                                            etBeneficiaryIFSC.setText(ifscCode);
+                                            etBeneficiaryName.setText(beneficiaryName);
+                                            etBeneficiaryAccount.setText(beneficiaryAccount);
+                                            etBeneficiaryBankName.setText(beneficiaryBankName);
+                                            etBeneficiaryAddress.setText(beneficiaryAddress);
+                                            AndroidUtils.showErrorLog(context, "   "+stateName);
+                                            if(Validation.isNonEmptyStr(stateName)) {
+                                                for (int j = 0; j < stateList.size(); j++) {
+                                                    if (stateList.get(j).equalsIgnoreCase(stateName)) {
+                                                        AndroidUtils.showErrorLog(context, stateName, "      state name");
+                                                        spState.setSelection(j);
+                                                    }
+                                                }
+                                            }
+                                        }
                                     }
 
-                                }else {
+                                } else {
                                     AndroidUtils.showErrorLog(context, "error::::::TRUE");
                                 }
 
-                            }else {
+                            } else {
                                 AndroidUtils.showErrorLog(context, "error::::::TRUE");
                             }
 
@@ -107,6 +191,8 @@ public class BankDetailsActivity extends AppCompatActivity {
         etBeneficiaryAccount = (EditText) findViewById(R.id.etBeneficiaryAccount);
         etBeneficiaryBankName = (EditText) findViewById(R.id.etBeneficiaryBankName);
         etBeneficiaryAddress = (EditText) findViewById(R.id.etBeneficiaryAddress);
+        editDetailsIcon = (ImageView) findViewById(R.id.editDetailsIcon);
+        AndroidUtils.setImageColor(editDetailsIcon, context, R.color.white);
     }
 
     private void setUpToolBar() {
@@ -132,9 +218,7 @@ public class BankDetailsActivity extends AppCompatActivity {
 
     private void getState() {
         stateList = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.state_list)));
-        stateIds = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.state_ids)));
-        CustomSpinnerAdapter spinnerArrayAdapter = new CustomSpinnerAdapter(context, stateList);
-        spState.setAdapter(spinnerArrayAdapter);
+        spState.setAdapter(new CustomSpinnerAdapter(context, stateList));
         spState.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
