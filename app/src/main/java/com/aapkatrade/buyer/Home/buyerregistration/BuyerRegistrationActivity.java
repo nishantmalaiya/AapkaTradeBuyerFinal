@@ -29,6 +29,7 @@ import com.aapkatrade.buyer.general.Validation;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
 import com.aapkatrade.buyer.login.ActivityOTPVerify;
 
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
@@ -38,9 +39,8 @@ import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-
-public class BuyerRegistrationActivity extends AppCompatActivity {
-
+public class BuyerRegistrationActivity extends AppCompatActivity
+{
     private static BuyerRegistration formBuyerData = new BuyerRegistration();
     private int isAllFieldSet = 0;
     private Spinner spState, spCity;
@@ -50,19 +50,24 @@ public class BuyerRegistrationActivity extends AppCompatActivity {
     private ArrayList<String> stateList = new ArrayList<>();
     private ArrayList<String> stateIds = new ArrayList<>();
     private ArrayList<City> cityList = new ArrayList<>();
-
     private String stateID = "", cityID = "";
     private DatePickerDialog datePickerDialog;
     private ProgressBarHandler progressBarHandler;
     private Context context;
     private CheckBox agreement_check;
+    String refreshedToken;
 
 
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
 
         context = BuyerRegistrationActivity.this;
+
+         refreshedToken = FirebaseInstanceId.getInstance().getToken();
+
+        System.out.println("refreshedToken2----------------"+refreshedToken);
 
 
         setUpToolBar();
@@ -71,29 +76,25 @@ public class BuyerRegistrationActivity extends AppCompatActivity {
 
         getState();
 
-        tvSave.setOnClickListener(new View.OnClickListener() {
+        tvSave.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
-
-
+            public void onClick(View v)
+            {
                 Log.e("reach", "reach3");
                 getBuyerFormData();
                 validateFields();
                 if (isAllFieldSet == 0) {
                     callWebServiceForBuyerRegistration();
-
                 }
             }
-
-
         });
 
 
     }
 
-    private void callWebServiceForBuyerRegistration() {
-
-        Log.e("country_id", formBuyerData.getCountryId() + formBuyerData.getStateId());
+    private void callWebServiceForBuyerRegistration()
+    {
 
         Log.e("reach", " Buyer Data--------->\n" + formBuyerData.toString());
 
@@ -115,6 +116,7 @@ public class BuyerRegistrationActivity extends AppCompatActivity {
                 .setBodyParameter("mobile", formBuyerData.getMobile())
                 .setBodyParameter("password", formBuyerData.getPassword())
                 .setBodyParameter("client_id", formBuyerData.getClientId())
+                .setBodyParameter("token",refreshedToken)
                 .asJsonObject()
                 .setCallback(new FutureCallback<JsonObject>() {
                     @Override
@@ -274,7 +276,8 @@ public class BuyerRegistrationActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void initView() {
+    private void initView()
+    {
         progressBarHandler = new ProgressBarHandler(this);
         registrationLayout = (LinearLayout) findViewById(R.id.registrationLayout);
         spState = (Spinner) findViewById(R.id.spStateCategory);
@@ -355,7 +358,8 @@ public class BuyerRegistrationActivity extends AppCompatActivity {
         }
     }
 
-    private void putError(int id) {
+    private void putError(int id)
+    {
         Log.e("reach", "       )))))))))" + id);
         switch (id) {
             case 0:
