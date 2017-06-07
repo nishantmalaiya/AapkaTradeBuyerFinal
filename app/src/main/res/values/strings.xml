@@ -283,6 +283,8 @@
     <string name="beneficiary_address">Beneficiary Address</string>
     <string name="state">State</string>
     <string name="edit">EDIT</string>
+    <string name="bussiness_associate_details">Business Associate Details</string>
+    <string name="service_enquiry_list_heading">Service Enquiry</string>
 
 
 </resources>

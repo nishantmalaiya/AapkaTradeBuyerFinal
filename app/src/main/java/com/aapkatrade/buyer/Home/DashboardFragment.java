@@ -281,7 +281,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener
                     public void onCompleted(Exception e, JsonObject result)
                     {
 
-                        String error = result.get("").getAsString();
+                        /*String error = result.get("error").getAsString();
 
                         if (error.equals("false"))
                         {
@@ -290,7 +290,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener
                         else
                         {
 
-                        }
+                        }*/
 
                     }
                 });
