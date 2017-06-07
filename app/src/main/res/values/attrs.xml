@@ -9,4 +9,12 @@
         <attr name="metaButtonBarButtonStyle" format="reference" />
     </declare-styleable>
 
+
+    <declare-styleable name="CustomCardviewHeader">
+        <attr name="titleText" format="string" localization="suggested" />
+        <attr name="rightSrc" format="reference" localization="suggested" />
+        <attr name="leftSrc" format="reference" localization="suggested" />
+    </declare-styleable>
+
+
 </resources>
