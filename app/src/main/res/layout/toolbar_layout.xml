@@ -6,7 +6,6 @@
     android:layout_height="wrap_content"
     android:background="@color/green"
     app:contentInsetLeft="0dp"
-
     app:contentInsetStart="0dp"
     app:contentInsetStartWithNavigation="0dp"
     android:elevation="4dp"
