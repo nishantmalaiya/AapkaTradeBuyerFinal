@@ -60,8 +60,7 @@ import me.relex.circleindicator.CircleIndicator;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class DashboardFragment extends Fragment implements View.OnClickListener
-{
+public class DashboardFragment extends Fragment implements View.OnClickListener {
 
     Context context;
     int currentPage = 0;
@@ -99,7 +98,6 @@ public class DashboardFragment extends Fragment implements View.OnClickListener
     private String AddressAsync, currentLatitude, currentLongitude, stateName;
     AppSharedPreference appSharedPreference;
     String user_id;
-
 
 
     public DashboardFragment() {
@@ -197,13 +195,10 @@ public class DashboardFragment extends Fragment implements View.OnClickListener
 
         String user_id = appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), "notlogin");
 
-        if (user_id.equals("notlogin"))
-        {
+        if (user_id.equals("notlogin")) {
 
 
-        }
-        else
-        {
+        } else {
             update_token();
 
         }
@@ -265,8 +260,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener
         });
     }
 
-    private void update_token()
-    {
+    private void update_token() {
         Ion.with(getActivity())
                 .load(getResources().getString(R.string.webservice_base_url) + "/update_token")
                 .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
@@ -275,11 +269,9 @@ public class DashboardFragment extends Fragment implements View.OnClickListener
                 .setBodyParameter("type", appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), "0"))
                 .setBodyParameter("token", AppConfig.getCurrentDeviceId(context))
                 .asJsonObject()
-                .setCallback(new FutureCallback<JsonObject>()
-                {
+                .setCallback(new FutureCallback<JsonObject>() {
                     @Override
-                    public void onCompleted(Exception e, JsonObject result)
-                    {
+                    public void onCompleted(Exception e, JsonObject result) {
 
                         /*String error = result.get("error").getAsString();
 
@@ -297,8 +289,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener
 
     }
 
-    public void get_home_data()
-    {
+    public void get_home_data() {
         progress_handler.show();
 
         coordinatorLayout.setVisibility(View.INVISIBLE);
