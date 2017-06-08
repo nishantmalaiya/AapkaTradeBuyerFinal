@@ -142,29 +142,6 @@ public class SellerRegistrationActivity extends AppCompatActivity implements Tim
                 if (app_sharedpreference.sharedPreferences != null) {
 
 
-//                    Log.e("hi", "-->stepnumber" + stepNumber);
-//                    Log.e("hi", "-->step1FieldsSet" + step1FieldsSet);
-//                    Log.e("hi", "-->step2FieldsSet" + step2FieldsSet);
-//                    Log.e("hi", "-->step3FieldsSet" + step3FieldsSet);
-//                    setBusinessFormData(stepNumber);
-//                    validateFields(stepNumber);
-//
-//                    Log.e("hi", "-->stepnumber" + stepNumber);
-//                    Log.e("hi", "-->step1FieldsSet" + step1FieldsSet);
-//                    Log.e("hi", "-->step2FieldsSet" + step2FieldsSet);
-//                    Log.e("hi", "-->step3FieldsSet" + step3FieldsSet);
-//                    if (stepNumber == 3 && step1FieldsSet == 0 && step2FieldsSet == 0 && step3FieldsSet == 0) {
-//                        callWebServiceForRegistration();
-//                    } else {
-//                        if (stepNumber == 2 || stepNumber == 3) {
-//                            if (step1FieldsSet == 0 && stepNumber == 2) {
-//                                setStepLayout(2);
-//                            } else if (step1FieldsSet == 0 && step2FieldsSet == 0) {
-//                                setStepLayout(3);
-//                            }
-//                        }
-//                    }
-
                     Log.e("reach", "reach1");
                     /*
                     Seller Registration
@@ -173,7 +150,7 @@ public class SellerRegistrationActivity extends AppCompatActivity implements Tim
 
                     Log.e("reach", "reach2");
                     setSellerFormData();
-                    validateFields(String.valueOf(1));
+                    validateFields();
                     if (isAllFieldSet == 0) {
                         callWebServiceForSellerRegistration();
                     }
@@ -780,73 +757,70 @@ public class SellerRegistrationActivity extends AppCompatActivity implements Tim
 
     }
 
-    private void validateFields(String userType) {
+    private void validateFields() {
         isAllFieldSet = 0;
         Log.e("reach", "validateFiledsCalled");
-        if (isAddVendorCall.equals("true")) {
-            if (formSellerData != null) {
+        if (formSellerData != null) {
 
-                Log.e("reach", formSellerData.toString() + "            DATAAAAAAAAA");
+            Log.e("reach", formSellerData.toString() + "            DATAAAAAAAAA");
 
-                if (docFile.getAbsolutePath().equals("/")) {
-                    putError(17);
-                    isAllFieldSet++;
-
-
-                }
-               else if (Validation.isEmptyStr(formSellerData.getFirstName())) {
-                    putError(0);
-                    isAllFieldSet++;
-                } else if (Validation.isEmptyStr(formSellerData.getLastName())) {
-                    putError(1);
-                    isAllFieldSet++;
-                } else if (!Validation.isValidNumber(formSellerData.getMobile(), Validation.getNumberPrefix(formSellerData.getMobile()))) {
-                    putError(3);
-                    isAllFieldSet++;
-                } else if (Validation.isEmptyStr(formSellerData.getBusinessType())
-                        || formSellerData.getBusinessType().equals("0")) {
-                    showmessage("Please Select Business Category");
-                    isAllFieldSet++;
-                } else if (Validation.isEmptyStr(etProductName.getText().toString())) {
-                    putError(12);
-                    isAllFieldSet++;
-                } else if (formSellerData.getBusinessType().equals("1") && Validation.isEmptyStr(et_tin_number.getText().toString())) {
-                    putError(13);
-                    isAllFieldSet++;
-                } else if (formSellerData.getBusinessType().equals("1") && Validation.isEmptyStr(et_tan_number.getText().toString())) {
-                    putError(14);
-                    isAllFieldSet++;
-                } else if (!(Validation.isNonEmptyStr(formSellerData.getStateId()) &&
-                        Integer.parseInt(formSellerData.getStateId()) > 0)) {
-                    showmessage("Please Select State");
-                    isAllFieldSet++;
-                } else if (!(Validation.isNonEmptyStr(formSellerData.getCityId()) &&
-                        Integer.parseInt(formSellerData.getCityId()) > 0)) {
-                    showmessage("Please Select City");
-                    isAllFieldSet++;
-                } else if (!Validation.isValidDOB(formSellerData.getDOB())) {
-                    putError(6);
-                    isAllFieldSet++;
-                } else if (!Validation.isValidEmail(formSellerData.getEmail())) {
-                    putError(2);
-                    isAllFieldSet++;
-                } else if (!Validation.isValidPassword(formSellerData.getPassword())) {
-                    putError(4);
-                    isAllFieldSet++;
-                } else if (!Validation.isValidPassword(formSellerData.getConfirmPassword())) {
-                    putError(4);
-                    isAllFieldSet++;
-                } else if (!Validation.isPasswordMatching(formSellerData.getPassword(), formSellerData.getConfirmPassword())) {
-                    putError(5);
-                    isAllFieldSet++;
-                } else if (!agreement_check.isChecked()) {
-                    putError(16);
-                }
+            if (docFile.getAbsolutePath().equals("/")) {
+                putError(17);
+                isAllFieldSet++;
 
 
+            } else if (Validation.isEmptyStr(formSellerData.getFirstName())) {
+                putError(0);
+                isAllFieldSet++;
+            } else if (Validation.isEmptyStr(formSellerData.getLastName())) {
+                putError(1);
+                isAllFieldSet++;
+            } else if (!Validation.isValidNumber(formSellerData.getMobile(), Validation.getNumberPrefix(formSellerData.getMobile()))) {
+                putError(3);
+                isAllFieldSet++;
+            } else if (Validation.isEmptyStr(formSellerData.getBusinessType())
+                    || formSellerData.getBusinessType().equals("0")) {
+                showmessage("Please Select Business Category");
+                isAllFieldSet++;
+            } else if (Validation.isEmptyStr(etProductName.getText().toString())) {
+                putError(12);
+                isAllFieldSet++;
+            } else if (formSellerData.getBusinessType().equals("1") && Validation.isEmptyStr(et_tin_number.getText().toString())) {
+                putError(13);
+                isAllFieldSet++;
+            } else if (formSellerData.getBusinessType().equals("1") && Validation.isEmptyStr(et_tan_number.getText().toString())) {
+                putError(14);
+                isAllFieldSet++;
+            } else if (!(Validation.isNonEmptyStr(formSellerData.getStateId()) &&
+                    Integer.parseInt(formSellerData.getStateId()) > 0)) {
+                showmessage("Please Select State");
+                isAllFieldSet++;
+            } else if (!(Validation.isNonEmptyStr(formSellerData.getCityId()) &&
+                    Integer.parseInt(formSellerData.getCityId()) > 0)) {
+                showmessage("Please Select City");
+                isAllFieldSet++;
+            } else if (!Validation.isValidDOB(formSellerData.getDOB())) {
+                putError(6);
+                isAllFieldSet++;
+            } else if (!Validation.isValidEmail(formSellerData.getEmail())) {
+                putError(2);
+                isAllFieldSet++;
+            } else if (!Validation.isValidPassword(formSellerData.getPassword())) {
+                putError(4);
+                isAllFieldSet++;
+            } else if (!Validation.isValidPassword(formSellerData.getConfirmPassword())) {
+                putError(4);
+                isAllFieldSet++;
+            } else if (!Validation.isPasswordMatching(formSellerData.getPassword(), formSellerData.getConfirmPassword())) {
+                putError(5);
+                isAllFieldSet++;
+            } else if (!agreement_check.isChecked()) {
+                putError(16);
             }
-            Log.d("error", "error Null");
+
+
         }
+        Log.e("error", "error Null" + isAllFieldSet);
 
 
     }
