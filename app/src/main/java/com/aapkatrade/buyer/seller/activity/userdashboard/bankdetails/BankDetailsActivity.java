@@ -9,8 +9,10 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
 import com.aapkatrade.buyer.Home.HomeActivity;
@@ -38,7 +40,8 @@ public class BankDetailsActivity extends AppCompatActivity {
     private ImageView editDetailsIcon;
     private String stateID = "", userId = "", ifscCode = "", beneficiaryName = "", beneficiaryAccount = "", stateName = "", beneficiaryBankName = "", beneficiaryAddress = "";
     private EditText etBeneficiaryName, etBeneficiaryIFSC, etBeneficiaryAccount, etBeneficiaryBankName, etBeneficiaryAddress;
-
+    private RelativeLayout coordinateMyprofile;
+    private Button saveButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +51,7 @@ public class BankDetailsActivity extends AppCompatActivity {
         setUpToolBar();
         initView();
         userId = appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString());
+        saveButton.setVisibility(View.GONE);
         loadInitSpinner();
         if (Validation.isNonEmptyStr(userId)) {
             AndroidUtils.showErrorLog(context, "userId:::if:::", userId);
@@ -65,13 +69,48 @@ public class BankDetailsActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String ifscCode = s.toString();
-                if(Validation.isNonEmptyStr(ifscCode))
-                hitIFSCWebService(ifscCode);
+                if (Validation.isNonEmptyStr(ifscCode))
+                    hitIFSCWebService(ifscCode);
             }
 
             @Override
             public void afterTextChanged(Editable s) {
 
+            }
+        });
+
+        editDetailsIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                enableViews();
+            }
+        });
+        findViewById(R.id.btnSave).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AndroidUtils.showErrorLog(context, "Clicked Save ");
+
+                if (isAllValidateFields()) {
+                    callUpdateBankDetailWebService();
+                } else {
+                    AndroidUtils.showSnackBar(coordinateMyprofile, "Invalid Data");
+                    AndroidUtils.showErrorLog(context, "Invalid Data");
+
+                }
+            }
+        });
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AndroidUtils.showErrorLog(context, "Clicked Save ");
+
+                if(isAllValidateFields()){
+                    callUpdateBankDetailWebService();
+                } else {
+                    AndroidUtils.showSnackBar(coordinateMyprofile, "Invalid Data");
+                    AndroidUtils.showErrorLog(context, "Invalid Data");
+
+                }
             }
         });
 
@@ -100,8 +139,8 @@ public class BankDetailsActivity extends AppCompatActivity {
 
                                     etBeneficiaryBankName.setText(beneficiaryBankName);
                                     etBeneficiaryAddress.setText(beneficiaryAddress);
-                                    AndroidUtils.showErrorLog(context, "   "+stateName);
-                                    if(Validation.isNonEmptyStr(stateName)) {
+                                    AndroidUtils.showErrorLog(context, "   " + stateName);
+                                    if (Validation.isNonEmptyStr(stateName)) {
                                         for (int j = 0; j < stateList.size(); j++) {
                                             if (stateList.get(j).equalsIgnoreCase(stateName)) {
                                                 AndroidUtils.showErrorLog(context, stateName, "      state name   ");
@@ -151,8 +190,8 @@ public class BankDetailsActivity extends AppCompatActivity {
                                             etBeneficiaryAccount.setText(beneficiaryAccount);
                                             etBeneficiaryBankName.setText(beneficiaryBankName);
                                             etBeneficiaryAddress.setText(beneficiaryAddress);
-                                            AndroidUtils.showErrorLog(context, "   "+stateName);
-                                            if(Validation.isNonEmptyStr(stateName)) {
+                                            AndroidUtils.showErrorLog(context, "   " + stateName);
+                                            if (Validation.isNonEmptyStr(stateName)) {
                                                 for (int j = 0; j < stateList.size(); j++) {
                                                     if (stateList.get(j).equalsIgnoreCase(stateName)) {
                                                         AndroidUtils.showErrorLog(context, stateName, "      state name");
@@ -160,6 +199,7 @@ public class BankDetailsActivity extends AppCompatActivity {
                                                     }
                                                 }
                                             }
+                                            disableViews();
                                         }
                                     }
 
@@ -178,6 +218,82 @@ public class BankDetailsActivity extends AppCompatActivity {
                 });
     }
 
+    private boolean isAllValidateFields() {
+        boolean isAllValidate = true;
+
+        if (Validation.isEmptyStr(userId)) {
+            isAllValidate = false;
+            AndroidUtils.showToast(context, "Invalid User.");
+        } else if (Validation.isEmptyStr(etBeneficiaryIFSC.getText().toString())) {
+            isAllValidate = false;
+            etBeneficiaryIFSC.setError("Please Enter Valid IFSC Code.");
+            AndroidUtils.showSnackBar(coordinateMyprofile, "Please Enter Valid IFSC Code.");
+        } else if (Validation.isEmptyStr(etBeneficiaryAccount.getText().toString())) {
+            isAllValidate = false;
+            etBeneficiaryAccount.setError("Please Enter Valid Account No.");
+            AndroidUtils.showSnackBar(coordinateMyprofile, "Please Enter Valid Account No.");
+        } else if (Validation.isEmptyStr(etBeneficiaryBankName.getText().toString())) {
+            isAllValidate = false;
+            etBeneficiaryBankName.setError("Please Enter Valid Bank Name.");
+            AndroidUtils.showSnackBar(coordinateMyprofile, "Please Enter Valid Bank Name.");
+        } else if (Validation.isEmptyStr(stateID)) {
+            isAllValidate = false;
+            etBeneficiaryBankName.setError("Please Select State.");
+            AndroidUtils.showSnackBar(coordinateMyprofile, "Please Select State.");
+        } else if (Validation.isEmptyStr(etBeneficiaryAddress.getText().toString())) {
+            isAllValidate = false;
+            etBeneficiaryAddress.setError("Please Enter Address.");
+            AndroidUtils.showSnackBar(coordinateMyprofile, "Please Enter Address.");
+        } else if (Validation.isEmptyStr(etBeneficiaryName.getText().toString())) {
+            isAllValidate = false;
+            etBeneficiaryName.setError("Please Enter Name.");
+            AndroidUtils.showSnackBar(coordinateMyprofile, "Please Enter Name.");
+        }
+
+        return isAllValidate;
+    }
+
+    private void callUpdateBankDetailWebService() {
+        progressBarHandler.show();
+        Ion.with(context)
+                .load(getString(R.string.webservice_base_url) + "/bankdetails")
+                .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                .setBodyParameter("user_id", userId)
+                .setBodyParameter("user_type ", SharedPreferenceConstants.USER_TYPE_SELLER.toString())
+                .setBodyParameter("beneficiaryCode", etBeneficiaryIFSC.getText().toString())
+                .setBodyParameter("beneficiaryAccount ", etBeneficiaryAccount.getText().toString())
+                .setBodyParameter("beneficiaryBankName ", etBeneficiaryBankName.getText().toString())
+                .setBodyParameter("state_id ", stateID)
+                .setBodyParameter("beneficiaryAddress ", etBeneficiaryAddress.getText().toString())
+                .setBodyParameter("beneficiaryName ", etBeneficiaryName.getText().toString())
+                .asJsonObject()
+                .setCallback(new FutureCallback<JsonObject>() {
+                    @Override
+                    public void onCompleted(Exception e, JsonObject result) {
+                        progressBarHandler.hide();
+                        if (result != null) {
+                            AndroidUtils.showErrorLog(context, "result::::::", result.toString());
+                            if (result.get("error").getAsString().equalsIgnoreCase("false")) {
+                                if (result.get("message").getAsString().equalsIgnoreCase("Success")) {
+                                    disableViews();
+                                    AndroidUtils.showSnackBar(coordinateMyprofile, "Your bank details updated successfully.");
+                                } else {
+                                    AndroidUtils.showErrorLog(context, "message:::::: Not Success");
+                                }
+
+                            } else {
+                                AndroidUtils.showErrorLog(context, "error::::::TRUE");
+                            }
+
+                        } else {
+                            AndroidUtils.showErrorLog(context, "result::::::NULL");
+                        }
+                    }
+                });
+    }
+
+
     private void loadInitSpinner() {
         getState();
     }
@@ -185,6 +301,7 @@ public class BankDetailsActivity extends AppCompatActivity {
     private void initView() {
         progressBarHandler = new ProgressBarHandler(context);
         appSharedPreference = new AppSharedPreference(context);
+        coordinateMyprofile = (RelativeLayout) findViewById(R.id.coordinate_myprofile);
         spState = (Spinner) findViewById(R.id.spStateCategory);
         etBeneficiaryName = (EditText) findViewById(R.id.etBeneficiaryName);
         etBeneficiaryIFSC = (EditText) findViewById(R.id.etBeneficiaryIFSC);
@@ -192,6 +309,7 @@ public class BankDetailsActivity extends AppCompatActivity {
         etBeneficiaryBankName = (EditText) findViewById(R.id.etBeneficiaryBankName);
         etBeneficiaryAddress = (EditText) findViewById(R.id.etBeneficiaryAddress);
         editDetailsIcon = (ImageView) findViewById(R.id.editDetailsIcon);
+        saveButton = (Button) findViewById(R.id.btnSave);
         AndroidUtils.setImageColor(editDetailsIcon, context, R.color.white);
     }
 
@@ -233,5 +351,26 @@ public class BankDetailsActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+
+    private void enableViews() {
+        etBeneficiaryAddress.setEnabled(true);
+        etBeneficiaryIFSC.setEnabled(true);
+        etBeneficiaryBankName.setEnabled(true);
+        etBeneficiaryName.setEnabled(true);
+        etBeneficiaryAccount.setEnabled(true);
+        spState.setEnabled(true);
+        saveButton.setVisibility(View.VISIBLE);
+    }
+
+    private void disableViews() {
+        etBeneficiaryAddress.setEnabled(false);
+        etBeneficiaryIFSC.setEnabled(false);
+        etBeneficiaryBankName.setEnabled(false);
+        etBeneficiaryName.setEnabled(false);
+        etBeneficiaryAccount.setEnabled(false);
+        spState.setEnabled(false);
+        saveButton.setVisibility(View.GONE);
     }
 }
