@@ -105,4 +105,14 @@ public class Validation {
         return isNonEmptyStr(s) && TextUtils.isDigitsOnly(s);
     }
 
+    public static boolean containsIgnoreCase(String containerString, String containingString){
+        if(containerString == containingString) return true;
+        if(isNonEmptyStr(containerString) && isNonEmptyStr(containingString)){
+            if(containerString.toLowerCase().contains(containingString.toLowerCase())){
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

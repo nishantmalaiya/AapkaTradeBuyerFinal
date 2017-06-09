@@ -33,7 +33,8 @@ import com.aapkatrade.buyer.service.GpsLocationService;
 import com.aapkatrade.buyer.welcome.WelcomeActivity;
 import com.google.firebase.messaging.FirebaseMessaging;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity
+{
 
     private final int SPLASH_DISPLAY_LENGTH = 3000;
     private ConnetivityCheck connetivityCheck;
@@ -48,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
     private AppSharedPreference appSharedpreference;
     private GpsLocationService gps;
     BroadcastReceiver mRegistrationBroadcastReceiver;
-
 
 
     @Override
@@ -79,8 +79,6 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Push notification: " + message, Toast.LENGTH_LONG).show();
 
                     //txtMessage.setText(message);.
-
-
                 }
             }
         };
@@ -170,8 +168,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
@@ -238,7 +234,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onPause() {
+    protected void onPause()
+    {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mRegistrationBroadcastReceiver);
         super.onPause();
     }

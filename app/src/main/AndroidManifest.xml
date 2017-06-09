@@ -138,8 +138,13 @@
             android:name=".Home.FcmActivity"
             android:label="@string/title_activity_fcm"
             android:theme="@style/AppTheme" />
+
         <activity android:name=".seller.registration.SellerRegistrationActivity" />
         <activity android:name=".seller.selleruser_dashboard.billpayment.BillPaymentActivity"></activity>
+
+       
+        <activity android:name=".seller.activity.userdashboard.bankdetails.BankDetailsActivity"></activity>
+
     </application>
 
 </manifest>

@@ -77,7 +77,6 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
     private ArrayList<String> imageIdList;
     private ImageView[] dots;
     GpsLocationService gps;
-
     Button btn_tryagain;
     public static SearchView searchView;
     ImageView home_ads;
@@ -98,6 +97,8 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
     private GeoCoderAddress geoCoderAddressAsync;
     private String AddressAsync, currentLatitude, currentLongitude, stateName;
     AppSharedPreference appSharedPreference;
+    String user_id;
+
 
     public DashboardFragment() {
         // Required empty public constructor
@@ -192,8 +193,18 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
         view_all_latest_update = (RelativeLayout) view.findViewById(R.id.rl_viewall_latest_update);
         view_all_latest_update.setOnClickListener(this);
 
+        String user_id = appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), "notlogin");
+
+        if (user_id.equals("notlogin")) {
+
+
+        } else {
+            update_token();
+
+        }
 
         get_home_data();
+
         btn_tryagain = (Button) view.findViewById(R.id.btn_tryagain);
 
         rl_searchview_dashboard = (RelativeLayout) v.findViewById(R.id.rl_searchview);
@@ -247,6 +258,35 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
 
 
         });
+    }
+
+    private void update_token() {
+        Ion.with(getActivity())
+                .load(getResources().getString(R.string.webservice_base_url) + "/update_token")
+                .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                .setBodyParameter("user_id", user_id)
+                .setBodyParameter("type", appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), "0"))
+                .setBodyParameter("token", AppConfig.getCurrentDeviceId(context))
+                .asJsonObject()
+                .setCallback(new FutureCallback<JsonObject>() {
+                    @Override
+                    public void onCompleted(Exception e, JsonObject result) {
+
+                        /*String error = result.get("error").getAsString();
+
+                        if (error.equals("false"))
+                        {
+
+                        }
+                        else
+                        {
+
+                        }*/
+
+                    }
+                });
+
     }
 
     public void get_home_data() {

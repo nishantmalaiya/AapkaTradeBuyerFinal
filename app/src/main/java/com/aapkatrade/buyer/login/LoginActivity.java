@@ -26,14 +26,21 @@ import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Validation;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
+
 //import com.aapkatrade.buyer.seller.registration.SellerRegistrationActivity;
 import com.aapkatrade.buyer.seller.registration.SellerRegistrationActivity;
+
+//import com.aapkatrade.buyer.seller.SellerRegistrationActivity;
+import com.aapkatrade.buyer.seller.SellerRegistrationActivity;
+import com.google.firebase.iid.FirebaseInstanceId;
+
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity
+{
 
     private TextView loginText, forgotPassword;
     private EditText etEmail, password;
@@ -42,17 +49,21 @@ public class LoginActivity extends AppCompatActivity {
     private CoordinatorLayout coordinatorLayout;
     private Context context;
     private ProgressBarHandler progressBarHandler;
-    String usertype;
+    String usertype,refreshedToken;
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
 
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_login);
 
+        refreshedToken = FirebaseInstanceId.getInstance().getToken();
 
         context = LoginActivity.this;
+
         Intent intent = getIntent();
 
         Bundle b = intent.getExtras();
@@ -67,7 +78,6 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-
                 if (usertype.contains("SELLER")) {
 
                     Intent registerUserActivity = new Intent(context, SellerRegistrationActivity.class);
@@ -75,13 +85,13 @@ public class LoginActivity extends AppCompatActivity {
                 } else if (usertype.contains("BUSINESS")) {
                     Intent registerUserActivity = new Intent(context, RegistrationBusinessAssociateActivity.class);
                     startActivity(registerUserActivity);
-                } else {
-
-
+                }
+                else
+                {
                     Intent registerUserActivity = new Intent(context, BuyerRegistrationActivity.class);
                     startActivity(registerUserActivity);
-
                 }
+
 
 
             }
@@ -144,27 +154,21 @@ public class LoginActivity extends AppCompatActivity {
 
 
                 if (Validation.isValidEmail(input_email) || Validation.isValidNumber(input_email, Validation.getNumberPrefix(input_email))) {
-
-
                     if (Validation.validateEdittext(password)) {
                         String login_url = "";
-
                         if (usertype.contains("SELLER")) {
-
-
                             callLoginWebService(getResources().getString(R.string.webservice_base_url) + "/sellerlogin", input_email, input_password);
 
                         } else if (usertype.contains("BUYER")) {
-
                             callLoginWebService(getResources().getString(R.string.webservice_base_url) + "/buyerlogin", input_email, input_password);
 
+                        } else if (usertype.contains("BUSINESS ASSOCIATE LOGIN")) {
+                            callLoginWebService(getResources().getString(R.string.webservice_base_url) + "/associatelogin", input_email, input_password);
 
                         } else if (usertype.contains("BUSINESS ASSOCIATE LOGIN")) {
                             callLoginWebService(getResources().getString(R.string.webservice_base_url) + "/associatelogin", input_email, input_password);
 
                         }
-
-
                     } else {
                         showMessage(getResources().getString(R.string.password_validing_text));
                         password.setError(getResources().getString(R.string.password_validing_text));
@@ -192,6 +196,7 @@ public class LoginActivity extends AppCompatActivity {
                 .setBodyParameter("email", input_username)
                 .setBodyParameter("password", input_password)
                 .setBodyParameter("platform", "Android")
+                .setBodyParameter("token",refreshedToken)
                 .setBodyParameter("device_id", AppConfig.getCurrentDeviceId(context))
                 .asJsonObject()
                 .setCallback(new FutureCallback<JsonObject>() {
@@ -199,25 +204,26 @@ public class LoginActivity extends AppCompatActivity {
                     public void onCompleted(Exception e, JsonObject result) {
 
                         progressBarHandler.hide();
-                        if (result != null) {
+                        if (result != null)
+                        {
 
                             System.out.println("result--------------" + result.toString());
 
                             String error = result.get("error").getAsString();
 
-                            if (error.contains("true")) {
+                            if (error.contains("true"))
+                            {
                                 String message = result.get("message").getAsString();
                                 showMessage(message);
+
 
                             } else {
                                 String message = result.get("message").getAsString();
 
                                 showMessage(message);
+
                                 Log.e("webservice_returndata", result.toString());
-
                                 saveDataInSharedPreference(result);
-
-
                             }
                         }
 

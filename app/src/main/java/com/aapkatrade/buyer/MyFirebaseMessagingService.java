@@ -1,18 +1,29 @@
 package com.aapkatrade.buyer;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.aapkatrade.buyer.Home.HomeActivity;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * Created by PPC16 on 6/3/2017.
+ */
+
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
+
 
     private static final String TAG = MyFirebaseMessagingService.class.getSimpleName();
 
@@ -20,12 +31,20 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-        Log.e(TAG, "From: " + remoteMessage.getFrom());
+
 
         if (remoteMessage == null)
             return;
 
-        // Check if message contains a notification payload.
+        System.out.println("remoteMessage-----------------"+remoteMessage);
+
+        Log.e(TAG, "From: " + remoteMessage.getFrom());
+
+        RemoteMessage.Notification notification = remoteMessage.getNotification();
+
+        showNotification(notification.getTitle(), notification.getBody(), "");
+
+       /* // Check if message contains a notification payload.
         if (remoteMessage.getNotification() != null) {
             Log.e(TAG, "Notification Body: " + remoteMessage.getNotification().getBody());
             handleNotification(remoteMessage.getNotification().getBody());
@@ -41,7 +60,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             } catch (Exception e) {
                 Log.e(TAG, "Exception: " + e.getMessage());
             }
-        }
+        }*/
     }
 
     private void handleNotification(String message) {
@@ -121,9 +140,77 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     /**
      * Showing notification with text and image
      */
-    private void showNotificationMessageWithBigImage(Context context, String title, String message, String timeStamp, Intent intent, String imageUrl) {
+    private void showNotificationMessageWithBigImage(Context context, String title, String message, String timeStamp, Intent intent, String imageUrl)
+    {
         notificationUtils = new NotificationUtils(context);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         notificationUtils.showNotificationMessage(title, message, timeStamp, intent, imageUrl);
+    }
+
+
+    private void showNotification(String title, String body, String imageUrl)
+    {
+
+        System.out.println("title-----------"+title+"body------"+body);
+
+        if (title == null) {
+            title = getApplicationContext().getString(R.string.app_name);
+        }
+        if (body == null) {
+            body = "";
+        }
+
+        NotificationCompat.Builder mBuilder=null;
+
+        mBuilder = new NotificationCompat.Builder(this)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle(title)
+                .setContentText(body);
+
+
+
+     /*   if (imageUrl == null) {
+            mBuilder = new NotificationCompat.Builder(this)
+                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setContentTitle(title)
+                    .setContentText(body);
+        }
+        else
+        {
+            Bitmap bmp = getImage(imageUrl);
+            mBuilder = new NotificationCompat.Builder(this)
+                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setContentTitle(title)
+                    .setStyle(new NotificationCompat.BigPictureStyle()
+                            .bigPicture(bmp)
+                            .setSummaryText(body)
+                    )
+                    .setContentText(body);
+        }*/
+
+        // Creates an explicit intent for an Activity in your app
+        Intent resultIntent = new Intent(this, HomeActivity.class);
+
+        // The stack builder object will contain an artificial back stack for the
+        // started Activity.
+        // This ensures that navigating backward from the Activity leads out of
+        // your application to the Home screen.
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        // Adds the back stack for the Intent (but not the Intent itself)
+        // stackBuilder.addParentStack(ResultActivity.class);
+        // Adds the Intent that starts the Activity to the top of the stack
+        stackBuilder.addNextIntent(resultIntent);
+        PendingIntent resultPendingIntent =
+                stackBuilder.getPendingIntent(0,
+                        PendingIntent.FLAG_UPDATE_CURRENT
+                );
+        mBuilder.setContentIntent(resultPendingIntent);
+        NotificationManager mNotificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        // mId allows you to update the notification later on.
+        mNotificationManager.notify(1, mBuilder.build());
+
+
+
     }
 }
