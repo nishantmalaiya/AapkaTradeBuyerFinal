@@ -18,7 +18,6 @@ import com.aapkatrade.buyer.seller.selleruser_dashboard.serviceenquiryList.Servi
 
 import com.aapkatrade.buyer.seller.activity.userdashboard.bankdetails.BankDetailsActivity;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.CompanyShopManagement;
-import com.aapkatrade.buyer.seller.selleruser_dashboard.service_enquirylist.ServiceEnquiryActivity;
 
 import com.aapkatrade.buyer.user_dashboard.changepassword.ChangePassword;
 
