@@ -27,13 +27,15 @@ import com.aapkatrade.buyer.Home.HomeActivity;
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
+import com.aapkatrade.buyer.uicomponent.ExpandableTextView;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
 public class TermsAndConditionActivity extends AppCompatActivity {
     private Context context;
-    private TextView tvTermsAndConditions, tvReadMore;
+    private TextView  tvReadMore;
+    ExpandableTextView tvTermsAndConditions;
     private RelativeLayout expandableRelativeLayout;
     private LinearLayout policyContentMainLayout;
     private LinearLayout policyHeaderLayout;
@@ -74,7 +76,7 @@ public class TermsAndConditionActivity extends AppCompatActivity {
     private void initView() {
         policyContentMainLayout = (LinearLayout) findViewById(R.id.policyContentMainLayout);
         AndroidUtils.setBackgroundSolid(policyContentMainLayout, context, android.R.color.transparent, 10, GradientDrawable.RECTANGLE);
-        tvTermsAndConditions = (TextView) findViewById(R.id.tvTermsAndConditions);
+        tvTermsAndConditions = (ExpandableTextView) findViewById(R.id.tvTermsAndConditions);
         tvTermsAndConditions.setText("");
         policyHeaderLayout = (LinearLayout) findViewById(R.id.policyHeaderLayout);
         tvReadMore = (TextView) findViewById(R.id.tvReadMore);

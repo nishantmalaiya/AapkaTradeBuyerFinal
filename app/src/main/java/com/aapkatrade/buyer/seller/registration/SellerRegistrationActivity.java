@@ -1,4 +1,4 @@
-package com.aapkatrade.buyer.seller;
+package com.aapkatrade.buyer.seller.registration;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -17,6 +17,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -32,7 +34,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.aapkatrade.buyer.Home.HomeActivity;
-import com.aapkatrade.buyer.Home.buyerregistration.entity.BuyerRegistration;
 import com.aapkatrade.buyer.Home.buyerregistration.entity.City;
 import com.aapkatrade.buyer.Home.buyerregistration.entity.Country;
 import com.aapkatrade.buyer.Home.buyerregistration.entity.SellerRegistration;
@@ -48,6 +49,7 @@ import com.aapkatrade.buyer.general.Utils.adapter.CustomSpinnerAdapter;
 import com.aapkatrade.buyer.general.Validation;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
 import com.aapkatrade.buyer.login.ActivityOTPVerify;
+import com.aapkatrade.buyer.uicomponent.customcardview.CustomCardviewHeader;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
@@ -75,13 +77,13 @@ public class SellerRegistrationActivity extends AppCompatActivity implements Tim
 
     private static SellerRegistration formSellerData = new SellerRegistration();
     private int isAllFieldSet = 0;
-    private LinearLayout uploadCard;
+    private LinearLayout uploadCard, ll_content_seller_registration;
     private Spinner spBussinessCategory, spState, spCity;
     private String[] spBussinessName = {"Please Select Business Type", "Licence", "Personal"};
     private EditText etProductName, etFirstName, etLastName, etDOB, etEmail, etMobileNo, etAddress, etPassword, etReenterPassword, et_tin_number,
             et_tan_number, etReferenceNo;
-    private TextView tvSave, uploadMsg, tv_agreement;
-    private LinearLayout registrationLayout;
+    private TextView tvSave, uploadMsg, tv_agreement, tvListFootername;
+    private LinearLayout registrationLayout, llSellerBusinessDetailContainer, llSellerPersonalDetailContainer, llSellerUserDetailContainer;
     private ArrayList<Country> countryList = new ArrayList<>();
     private ArrayList<String> stateList = new ArrayList<>();
     private ArrayList<String> stateIds = new ArrayList<>();
@@ -102,7 +104,8 @@ public class SellerRegistrationActivity extends AppCompatActivity implements Tim
     private RelativeLayout relativeCompanyListheader;
     private Context context;
     private CheckBox agreement_check;
-
+    com.aapkatrade.buyer.uicomponent.customcardview.CustomCardviewHeader customCardviewHeader_business_detail, customCardviewHeader_personal_detail, customCardviewHeader_newUser;
+    private ImageView collapseoropenim_business, collapseoropenim_personal, collapseoropenim_user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,6 +140,7 @@ public class SellerRegistrationActivity extends AppCompatActivity implements Tim
                 Log.e("reach", "reach");
                 if (app_sharedpreference.sharedPreferences != null) {
 
+
                     Log.e("reach", "reach1");
                     /*
                     Seller Registration
@@ -145,7 +149,7 @@ public class SellerRegistrationActivity extends AppCompatActivity implements Tim
 
                     Log.e("reach", "reach2");
                     setSellerFormData();
-                    validateFields(String.valueOf(1));
+                    validateFields();
                     if (isAllFieldSet == 0) {
                         callWebServiceForSellerRegistration();
                     }
@@ -199,11 +203,11 @@ public class SellerRegistrationActivity extends AppCompatActivity implements Tim
     private void saveUserTypeInSharedPreferences() {
         uploadView.setVisibility(View.GONE);
 //        spBussinessCategoryLayout.setVisibility(View.GONE);
-        etProductName.setVisibility(View.GONE);
+        //  etProductName.setVisibility(View.GONE);
         dobLayout.setVisibility(View.GONE);
         uploadCard.setVisibility(View.GONE);
-        relativeCompanyListheader.setVisibility(View.GONE);
-        businessDetailsCard.setVisibility(View.GONE);
+        // relativeCompanyListheader.setVisibility(View.GONE);
+        //  businessDetailsCard.setVisibility(View.GONE);
         if (app_sharedpreference != null) {
             if (app_sharedpreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), "0").equals(SharedPreferenceConstants.USER_TYPE_SELLER.toString()) || isAddVendorCall.equals("true")) {
                 etAddress.setVisibility(View.GONE);
@@ -223,6 +227,7 @@ public class SellerRegistrationActivity extends AppCompatActivity implements Tim
         if (docFile.getAbsolutePath().equals("/")) {
             Log.e("reach", "NUL_______DOCCCCCCCLICENCE");
             showmessage("Please Upload Company Document");
+
 
         } else {
             if (formSellerData.getBusinessType().contains("1"))
@@ -434,7 +439,8 @@ public class SellerRegistrationActivity extends AppCompatActivity implements Tim
                     uploadCard.setVisibility(View.VISIBLE);
                     uploadView.setVisibility(View.VISIBLE);
                     uploadPDFView.setVisibility(View.VISIBLE);
-                    ((TextInputLayout) findViewById(R.id.input_layout_shop_name)).setHint(getString(R.string.company_name_heading));
+
+
                     findViewById(R.id.input_layout_tin_number).setVisibility(View.VISIBLE);
                     findViewById(R.id.input_layout_tan_number).setVisibility(View.VISIBLE);
                     uploadMsg.setText(getString(R.string.comp_doc));
@@ -571,7 +577,7 @@ public class SellerRegistrationActivity extends AppCompatActivity implements Tim
     }
 
     private void initView() {
-
+        ll_content_seller_registration = (LinearLayout) findViewById(R.id.ll_content_seller_registration);
         businessDetailsCard = (CardView) findViewById(R.id.businessDetailsCard);
         et_tin_number = (EditText) findViewById(R.id.et_tin_number);
         et_tan_number = (EditText) findViewById(R.id.et_tan_number);
@@ -613,6 +619,8 @@ public class SellerRegistrationActivity extends AppCompatActivity implements Tim
         business_id = app_sharedpreference.getSharedPref("business_id") == null ? "" : app_sharedpreference.getSharedPref("business_id");
         agreement_check = (CheckBox) findViewById(R.id.agreement_check);
         tv_agreement = (TextView) findViewById(R.id.tv_agreement);
+        tvListFootername = (TextView) findViewById(R.id.listfootername);
+        tvListFootername.setText(getResources().getString(R.string.sellerregistration));
         tv_agreement.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -630,69 +638,185 @@ public class SellerRegistrationActivity extends AppCompatActivity implements Tim
         SpCityAdapter spCityAdapter = new SpCityAdapter(context, cityList);
         spCity.setAdapter(spCityAdapter);
 
+        AndroidUtils.setGradientColor(ll_content_seller_registration, android.graphics.drawable.GradientDrawable.RECTANGLE, ContextCompat.getColor(context, R.color.datanotfound_gradient_bottom), ContextCompat.getColor(context, R.color.datanotfound_gradient_top), android.graphics.drawable.GradientDrawable.Orientation.TOP_BOTTOM, 0);
 
-    }
 
-    private void validateFields(String userType) {
-        isAllFieldSet = 0;
-        Log.e("reach", "validateFiledsCalled");
-        if (isAddVendorCall.equals("true")) {
-            if (formSellerData != null) {
+        //// Business Detail
 
-                Log.e("reach", formSellerData.toString() + "            DATAAAAAAAAA");
-                if (Validation.isEmptyStr(formSellerData.getFirstName())) {
-                    putError(0);
-                    isAllFieldSet++;
-                } else if (Validation.isEmptyStr(formSellerData.getLastName())) {
-                    putError(1);
-                    isAllFieldSet++;
-                } else if (!Validation.isValidNumber(formSellerData.getMobile(), Validation.getNumberPrefix(formSellerData.getMobile()))) {
-                    putError(3);
-                    isAllFieldSet++;
-                } else if (Validation.isEmptyStr(formSellerData.getBusinessType())
-                        || formSellerData.getBusinessType().equals("0")) {
-                    showmessage("Please Select Business Category");
-                    isAllFieldSet++;
-                } else if (Validation.isEmptyStr(etProductName.getText().toString())) {
-                    putError(12);
-                    isAllFieldSet++;
-                } else if (formSellerData.getBusinessType().equals("1") && Validation.isEmptyStr(et_tin_number.getText().toString())) {
-                    putError(13);
-                    isAllFieldSet++;
-                } else if (formSellerData.getBusinessType().equals("1") && Validation.isEmptyStr(et_tan_number.getText().toString())) {
-                    putError(14);
-                    isAllFieldSet++;
-                } else if (!(Validation.isNonEmptyStr(formSellerData.getStateId()) &&
-                        Integer.parseInt(formSellerData.getStateId()) > 0)) {
-                    showmessage("Please Select State");
-                    isAllFieldSet++;
-                } else if (!(Validation.isNonEmptyStr(formSellerData.getCityId()) &&
-                        Integer.parseInt(formSellerData.getCityId()) > 0)) {
-                    showmessage("Please Select City");
-                    isAllFieldSet++;
-                } else if (!Validation.isValidDOB(formSellerData.getDOB())) {
-                    putError(6);
-                    isAllFieldSet++;
-                } else if (!Validation.isValidEmail(formSellerData.getEmail())) {
-                    putError(2);
-                    isAllFieldSet++;
-                } else if (!Validation.isValidPassword(formSellerData.getPassword())) {
-                    putError(4);
-                    isAllFieldSet++;
-                } else if (!Validation.isValidPassword(formSellerData.getConfirmPassword())) {
-                    putError(4);
-                    isAllFieldSet++;
-                } else if (!Validation.isPasswordMatching(formSellerData.getPassword(), formSellerData.getConfirmPassword())) {
-                    putError(5);
-                    isAllFieldSet++;
-                } else if (!agreement_check.isChecked()) {
-                    putError(16);
+        customCardviewHeader_business_detail = (CustomCardviewHeader) findViewById(R.id.customCardviewBusinessDetails);
+
+        collapseoropenim_business = (ImageView) customCardviewHeader_business_detail.findViewById(R.id.cardview_header_icon_right);
+        llSellerBusinessDetailContainer = (LinearLayout) findViewById(R.id.llSellerBusinessDetailContainer);
+
+        collapseoropenim_business.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (llSellerBusinessDetailContainer.getVisibility() == View.VISIBLE) {
+                    collapseoropenim_business.setImageDrawable(ContextCompat.getDrawable(SellerRegistrationActivity.this, R.drawable.ic_down));
+                    llSellerBusinessDetailContainer.setVisibility(View.GONE);
+                } else {
+
+                    llSellerBusinessDetailContainer.setVisibility(View.VISIBLE);
+                    collapseoropenim_business.setImageDrawable(ContextCompat.getDrawable(SellerRegistrationActivity.this, R.drawable.ic_up_arrow));
                 }
+
+            }
+        });
+
+
+/////////////// personal Detail
+
+        customCardviewHeader_personal_detail = (CustomCardviewHeader) findViewById(R.id.customCardviewPersonalDetails);
+        collapseoropenim_personal = (ImageView) customCardviewHeader_personal_detail.findViewById(R.id.cardview_header_icon_right);
+
+        llSellerPersonalDetailContainer = (LinearLayout) findViewById(R.id.llSellerPersonalDetailContainer);
+
+        collapseoropenim_personal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (llSellerPersonalDetailContainer.getVisibility() == View.VISIBLE) {
+                    collapseoropenim_personal.setImageDrawable(ContextCompat.getDrawable(SellerRegistrationActivity.this, R.drawable.ic_down));
+                    llSellerPersonalDetailContainer.setVisibility(View.GONE);
+                } else {
+
+                    llSellerPersonalDetailContainer.setVisibility(View.VISIBLE);
+                    collapseoropenim_personal.setImageDrawable(ContextCompat.getDrawable(SellerRegistrationActivity.this, R.drawable.ic_up_arrow));
+                }
+
+            }
+        });
+
+        ((EditText) findViewById(R.id.etFirstName)).addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                if (llSellerBusinessDetailContainer.getVisibility() == View.VISIBLE)
+
+                    llSellerBusinessDetailContainer.setVisibility(View.GONE);
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
 
 
             }
-            Log.d("error", "error Null");
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        ((EditText) findViewById(R.id.etEmail)).addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                if (llSellerBusinessDetailContainer.getVisibility() == View.VISIBLE)
+
+                    llSellerBusinessDetailContainer.setVisibility(View.GONE);
+                llSellerPersonalDetailContainer.setVisibility(View.GONE);
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+
+/////////////// User Detail
+
+        customCardviewHeader_newUser = (CustomCardviewHeader) findViewById(R.id.customCardviewHeader_newUser);
+
+        collapseoropenim_user = (ImageView) customCardviewHeader_newUser.findViewById(R.id.cardview_header_icon_right);
+
+        llSellerUserDetailContainer = (LinearLayout) findViewById(R.id.llSellerUserDetailContainer);
+
+        collapseoropenim_user.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (llSellerUserDetailContainer.getVisibility() == View.VISIBLE) {
+                    collapseoropenim_user.setImageDrawable(ContextCompat.getDrawable(SellerRegistrationActivity.this, R.drawable.ic_down));
+                    llSellerUserDetailContainer.setVisibility(View.GONE);
+                } else {
+
+                    llSellerUserDetailContainer.setVisibility(View.VISIBLE);
+                    collapseoropenim_user.setImageDrawable(ContextCompat.getDrawable(SellerRegistrationActivity.this, R.drawable.ic_up_arrow));
+                }
+
+            }
+        });
+
+
+    }
+
+    private void validateFields() {
+        isAllFieldSet = 0;
+        Log.e("reach", "validateFiledsCalled");
+        if (formSellerData != null) {
+
+            Log.e("reach", formSellerData.toString() + "            DATAAAAAAAAA");
+
+            if (docFile.getAbsolutePath().equals("/")) {
+                putError(17);
+                isAllFieldSet++;
+
+
+            } else if (Validation.isEmptyStr(formSellerData.getFirstName())) {
+                putError(0);
+                isAllFieldSet++;
+            } else if (Validation.isEmptyStr(formSellerData.getLastName())) {
+                putError(1);
+                isAllFieldSet++;
+            } else if (!Validation.isValidNumber(formSellerData.getMobile(), Validation.getNumberPrefix(formSellerData.getMobile()))) {
+                putError(3);
+                isAllFieldSet++;
+            } else if (Validation.isEmptyStr(formSellerData.getBusinessType())
+                    || formSellerData.getBusinessType().equals("0")) {
+                showmessage("Please Select Business Category");
+                isAllFieldSet++;
+            } else if (Validation.isEmptyStr(etProductName.getText().toString())) {
+                putError(12);
+                isAllFieldSet++;
+            } else if (formSellerData.getBusinessType().equals("1") && Validation.isEmptyStr(et_tin_number.getText().toString())) {
+                putError(13);
+                isAllFieldSet++;
+            } else if (formSellerData.getBusinessType().equals("1") && Validation.isEmptyStr(et_tan_number.getText().toString())) {
+                putError(14);
+                isAllFieldSet++;
+            } else if (!(Validation.isNonEmptyStr(formSellerData.getStateId()) &&
+                    Integer.parseInt(formSellerData.getStateId()) > 0)) {
+                showmessage("Please Select State");
+                isAllFieldSet++;
+            } else if (!(Validation.isNonEmptyStr(formSellerData.getCityId()) &&
+                    Integer.parseInt(formSellerData.getCityId()) > 0)) {
+                showmessage("Please Select City");
+                isAllFieldSet++;
+
+            } else if (!Validation.isValidEmail(formSellerData.getEmail())) {
+                putError(2);
+                isAllFieldSet++;
+            } else if (!Validation.isValidPassword(formSellerData.getPassword())) {
+                putError(4);
+                isAllFieldSet++;
+            } else if (!Validation.isValidPassword(formSellerData.getConfirmPassword())) {
+                putError(4);
+                isAllFieldSet++;
+            } else if (!Validation.isPasswordMatching(formSellerData.getPassword(), formSellerData.getConfirmPassword())) {
+                putError(5);
+                isAllFieldSet++;
+            } else if (!agreement_check.isChecked()) {
+                putError(16);
+            }
+
+
         }
+        Log.e("error", "error Null" + isAllFieldSet);
 
 
     }
@@ -703,35 +827,53 @@ public class SellerRegistrationActivity extends AppCompatActivity implements Tim
             case 0:
                 etFirstName.setError("First Name Can't be empty");
                 showmessage("First Name Can't be empty");
+                if (llSellerPersonalDetailContainer.getVisibility() == View.GONE) {
+                    llSellerPersonalDetailContainer.setVisibility(View.VISIBLE);
+                }
+
+
                 break;
             case 1:
                 etLastName.setError("Last Name Can't be empty");
                 showmessage("Last Name Can't be empty");
+                if (llSellerPersonalDetailContainer.getVisibility() == View.GONE) {
+                    llSellerPersonalDetailContainer.setVisibility(View.VISIBLE);
+                }
                 break;
             case 2:
                 etEmail.setError("Please Enter Valid Email");
                 showmessage("Please Enter Valid Email");
+                if (llSellerPersonalDetailContainer.getVisibility() == View.GONE) {
+                    llSellerPersonalDetailContainer.setVisibility(View.VISIBLE);
+                }
                 break;
             case 3:
                 etMobileNo.setError("Please Enter Valid Mobile Number");
                 showmessage("Please Enter Valid Mobile Number");
+                if (llSellerPersonalDetailContainer.getVisibility() == View.GONE) {
+                    llSellerPersonalDetailContainer.setVisibility(View.VISIBLE);
+                }
                 break;
+
             case 4:
                 etPassword.setError(getResources().getString(R.string.password_validing_text));
                 showmessage(getResources().getString(R.string.password_validing_text));
+                if (llSellerUserDetailContainer.getVisibility() == View.GONE) {
+                    llSellerUserDetailContainer.setVisibility(View.VISIBLE);
+                }
                 break;
             case 5:
                 etReenterPassword.setError("Password did not match");
                 showmessage("Password did not match");
+                if (llSellerUserDetailContainer.getVisibility() == View.GONE) {
+                    llSellerUserDetailContainer.setVisibility(View.VISIBLE);
+                }
                 break;
-            case 6:
-//                etDOB.setError("Please Select Date");
-                showmessage("Please Select Date");
-                break;
-            case 9:
-                etAddress.setError("Address Can't be empty");
-                showmessage("Address Can't be empty");
-                break;
+//            case 6:
+////                etDOB.setError("Please Select Date");
+//                showmessage("Please Select Date");
+//                break;
+
             case 10:
                 showmessage("Please Enter Valid UserName");
                 break;
@@ -739,26 +881,51 @@ public class SellerRegistrationActivity extends AppCompatActivity implements Tim
                 if (formSellerData.getBusinessType().equals("1")) {
                     etProductName.setError("Please Enter Shop Name");
                     showmessage("Please Enter Shop Name");
+                    if (llSellerPersonalDetailContainer.getVisibility() == View.GONE) {
+                        llSellerPersonalDetailContainer.setVisibility(View.VISIBLE);
+                    }
                 } else if (formSellerData.getBusinessType().equals("2")) {
                     etProductName.setError("Please Enter Company Name");
                     showmessage("Please Enter Company Name");
+                    if (llSellerPersonalDetailContainer.getVisibility() == View.GONE) {
+                        llSellerPersonalDetailContainer.setVisibility(View.VISIBLE);
+                    }
                 }
                 break;
             case 13:
                 et_tin_number.setError("Tin Number Can't be empty");
                 showmessage("Tin Number Can't be empty");
+                if (llSellerPersonalDetailContainer.getVisibility() == View.GONE) {
+                    llSellerPersonalDetailContainer.setVisibility(View.VISIBLE);
+                }
                 break;
             case 14:
                 et_tan_number.setError("Tan Number Can't be empty");
                 showmessage("Tan Number Can't be empty");
+                if (llSellerPersonalDetailContainer.getVisibility() == View.GONE) {
+                    llSellerPersonalDetailContainer.setVisibility(View.VISIBLE);
+                }
                 break;
             case 15:
                 etReenterPassword.setError(getResources().getString(R.string.password_validing_text));
                 showmessage(getResources().getString(R.string.password_validing_text));
+                if (llSellerUserDetailContainer.getVisibility() == View.GONE) {
+                    llSellerUserDetailContainer.setVisibility(View.VISIBLE);
+                }
                 break;
             case 16:
                 showmessage("Please Check the Agreement");
+                if (llSellerUserDetailContainer.getVisibility() == View.GONE) {
+                    llSellerUserDetailContainer.setVisibility(View.VISIBLE);
+                }
                 break;
+            case 17:
+                showmessage("Please Upload Company Document");
+                if (llSellerUserDetailContainer.getVisibility() == View.GONE) {
+                    llSellerUserDetailContainer.setVisibility(View.VISIBLE);
+                }
+                break;
+
 
             default:
                 break;

@@ -7,8 +7,8 @@
     android:layout_marginLeft="@dimen/ten_dip"
     android:layout_marginRight="@dimen/ten_dip"
     android:layout_marginTop="@dimen/ten_dip"
-    app:cardCornerRadius="@dimen/five_dip"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    app:cardCornerRadius="@dimen/five_dip">
 
 
     <RelativeLayout
@@ -44,7 +44,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/fifteen_dip"
             android:layout_toRightOf="@+id/list_home_icon"
-            android:text="categoryname"
+
             android:textStyle="bold" />
 
         <RelativeLayout
