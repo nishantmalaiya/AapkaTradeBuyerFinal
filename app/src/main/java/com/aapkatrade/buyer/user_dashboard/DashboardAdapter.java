@@ -16,7 +16,7 @@ import com.aapkatrade.buyer.login.LoginDashboard;
 
 import com.aapkatrade.buyer.seller.selleruser_dashboard.serviceenquiryList.ServiceEnquiryActivity;
 
-import com.aapkatrade.buyer.seller.activity.userdashboard.bankdetails.BankDetailsActivity;
+import com.aapkatrade.buyer.seller.selleruser_dashboard.bankdetails.BankDetailsActivity;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.CompanyShopManagement;
 
 import com.aapkatrade.buyer.user_dashboard.changepassword.ChangePassword;

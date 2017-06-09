@@ -47,26 +47,6 @@ public class BillPaymentActivity extends AppCompatActivity {
         tickImageView = (ImageView) findViewById(R.id.tickImageView);
 
 
-        circleTile2Layout = (LinearLayout) findViewById(R.id.circleTile2Layout);
-        circleImageView1 = (ImageView) circleTile1Layout.findViewById(R.id.circleImageView);
-        circleImageView2 = (ImageView) circleTile2Layout.findViewById(R.id.circleImageView);
-
-        circleImageView1.setImageResource(R.drawable.ic_transaction);
-        tvHeaderTransaction = (TextView) circleTile1Layout.findViewById(R.id.tvHeader);
-        tvSubHeaderTransaction = (TextView) circleTile1Layout.findViewById(R.id.tvSubHeader);
-        tvHeaderTransaction.setText("Transaction ID");
-        tvSubHeaderTransaction.setText("APKTRADE23548464");
-
-        circleImageView2.setImageResource(R.drawable.ic_amount_paid2);
-        tvHeaderAmountPaid = (TextView) circleTile2Layout.findViewById(R.id.tvHeader);
-        tvSubHeaderAmountPaid = (TextView) circleTile2Layout.findViewById(R.id.tvSubHeader);
-        ((TextView) circleTile2Layout.findViewById(R.id.tvHeader)).setText("Amount Paid");
-        ((TextView) circleTile2Layout.findViewById(R.id.tvSubHeader)).setText("APKTRADE23548464");
-        tvDone = (TextView) findViewById(R.id.tvDone);
-        paymentCompletionRootLayout = (LinearLayout) findViewById(R.id.paymentCompletionRootLayout);
-
-        tvReceiptNo = (TextView) findViewById(R.id.tvReceiptNo);
-        rlDoneLayout = (RelativeLayout) findViewById(R.id.rlDoneLayout);
         AndroidUtils.setBackgroundSolid(rlDoneLayout, context, R.color.golden_text, 10, GradientDrawable.RECTANGLE);
     }
 

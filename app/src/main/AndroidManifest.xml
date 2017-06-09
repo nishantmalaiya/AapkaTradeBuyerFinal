@@ -141,7 +141,7 @@
             android:label="@string/title_activity_fcm"
             android:theme="@style/AppTheme" />
         <activity android:name=".seller.SellerRegistrationActivity" />
-        <activity android:name=".seller.activity.userdashboard.bankdetails.BankDetailsActivity" />
+        <activity android:name=".seller.selleruser_dashboard.bankdetails.BankDetailsActivity" />
         <activity
             android:name=".seller.selleruser_dashboard.companyshopmgt.CompanyShopManagement"
             android:label="@string/title_activity_company_shop_management"

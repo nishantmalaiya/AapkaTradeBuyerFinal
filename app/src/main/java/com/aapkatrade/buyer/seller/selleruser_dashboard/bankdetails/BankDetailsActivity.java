@@ -1,4 +1,4 @@
-package com.aapkatrade.buyer.seller.activity.userdashboard.bankdetails;
+package com.aapkatrade.buyer.seller.selleruser_dashboard.bankdetails;
 
 import android.content.Context;
 import android.content.Intent;
