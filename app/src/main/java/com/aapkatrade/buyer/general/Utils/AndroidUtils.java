@@ -37,18 +37,6 @@ public class AndroidUtils {
     public static String BaseUrl = "https://aapkatrade.com";
 
     public static void showSnackBar(ViewGroup layout, String message) {
-        /*if (layout != null) {
-            Snackbar snackbar = Snackbar
-                    .make(layout, message, Snackbar.LENGTH_SHORT)
-                    .setAction("", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                        }
-                    });
-            snackbar.show();
-        }*/
-
-
         CustomSnackBar snackbar = CustomSnackBar.Builder(layout.getContext())
                 .layout(R.layout.my_toast)
                 .background(R.color.green)
