@@ -20,8 +20,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="@dimen/ten_dip"
-            android:orientation="vertical"
             android:animateLayoutChanges="true"
+            android:orientation="vertical"
             tools:ignore="RtlCompat">
 
 
@@ -44,27 +44,45 @@
             </LinearLayout>
 
 
-
             <RelativeLayout
                 android:id="@+id/policyContentLayout"
                 android:layout_width="match_parent"
                 android:layout_height="fill_parent"
-                android:padding="@dimen/ten_dip"
-                android:orientation="vertical"
                 android:background="@color/red_light"
-                >
+                android:orientation="vertical"
+                android:padding="@dimen/ten_dip">
 
                 <android.support.v4.widget.NestedScrollView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <TextView
+                    <com.aapkatrade.buyer.uicomponent.ExpandableTextView
                         android:id="@+id/tvTermsAndConditions"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textColor="@color/white"
                         android:textIsSelectable="true"
-                        android:textSize="@dimen/textsize_medium" />
+                       app:maxCollapsedLines="4"
+                        android:textSize="@dimen/textsize_medium" >
+                        <TextView
+                            android:id="@id/expandable_text"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginTop="8dp"
+                            android:fontFamily="sans-serif-light"
+                            android:textColor="#666666"
+                            android:textSize="16sp" />
+
+                        <ImageButton
+                            android:id="@id/expand_collapse"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end|bottom"
+                            android:background="@android:color/transparent"
+                            android:padding="16dp" />
+                    </com.aapkatrade.buyer.uicomponent.ExpandableTextView>
 
                 </android.support.v4.widget.NestedScrollView>
 

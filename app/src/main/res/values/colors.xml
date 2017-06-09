@@ -23,6 +23,7 @@
     <color name="slate_gray">#708090</color>
     <color name="sienna">#A0522D</color>
     <color name="orange">#FF6600</color>
+    <color name="grey_cardview_header_background">#FFFFFF</color>
     <color name="white">#FFFFFF</color>
 
     <color name="screen_back">#F8EEE5</color>

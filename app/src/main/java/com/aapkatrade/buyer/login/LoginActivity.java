@@ -26,9 +26,14 @@ import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Validation;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
+
+//import com.aapkatrade.buyer.seller.registration.SellerRegistrationActivity;
+import com.aapkatrade.buyer.seller.registration.SellerRegistrationActivity;
+
 //import com.aapkatrade.buyer.seller.SellerRegistrationActivity;
 import com.aapkatrade.buyer.seller.SellerRegistrationActivity;
 import com.google.firebase.iid.FirebaseInstanceId;
+
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
