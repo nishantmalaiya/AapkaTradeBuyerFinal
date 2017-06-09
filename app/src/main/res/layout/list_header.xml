@@ -62,7 +62,6 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/ten_dip"
 
-
                 android:textColor="@color/white" />
         </RelativeLayout>
 
