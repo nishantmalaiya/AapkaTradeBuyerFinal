@@ -1,4 +1,4 @@
-package com.aapkatrade.buyer.seller;
+package com.aapkatrade.buyer.seller.registration;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -34,7 +34,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.aapkatrade.buyer.Home.HomeActivity;
-import com.aapkatrade.buyer.Home.buyerregistration.entity.BuyerRegistration;
 import com.aapkatrade.buyer.Home.buyerregistration.entity.City;
 import com.aapkatrade.buyer.Home.buyerregistration.entity.Country;
 import com.aapkatrade.buyer.Home.buyerregistration.entity.SellerRegistration;
@@ -204,7 +203,7 @@ public class SellerRegistrationActivity extends AppCompatActivity implements Tim
     private void saveUserTypeInSharedPreferences() {
         uploadView.setVisibility(View.GONE);
 //        spBussinessCategoryLayout.setVisibility(View.GONE);
-        etProductName.setVisibility(View.GONE);
+        //  etProductName.setVisibility(View.GONE);
         dobLayout.setVisibility(View.GONE);
         uploadCard.setVisibility(View.GONE);
         // relativeCompanyListheader.setVisibility(View.GONE);
@@ -228,9 +227,7 @@ public class SellerRegistrationActivity extends AppCompatActivity implements Tim
         if (docFile.getAbsolutePath().equals("/")) {
             Log.e("reach", "NUL_______DOCCCCCCCLICENCE");
             showmessage("Please Upload Company Document");
-            if (llSellerBusinessDetailContainer.getVisibility() == View.GONE) {
-                llSellerBusinessDetailContainer.setVisibility(View.VISIBLE);
-            }
+
 
         } else {
             if (formSellerData.getBusinessType().contains("1"))
@@ -442,7 +439,8 @@ public class SellerRegistrationActivity extends AppCompatActivity implements Tim
                     uploadCard.setVisibility(View.VISIBLE);
                     uploadView.setVisibility(View.VISIBLE);
                     uploadPDFView.setVisibility(View.VISIBLE);
-                    ((TextInputLayout) findViewById(R.id.input_layout_shop_name)).setHint(getString(R.string.company_name_heading));
+
+
                     findViewById(R.id.input_layout_tin_number).setVisibility(View.VISIBLE);
                     findViewById(R.id.input_layout_tan_number).setVisibility(View.VISIBLE);
                     uploadMsg.setText(getString(R.string.comp_doc));
@@ -799,9 +797,7 @@ public class SellerRegistrationActivity extends AppCompatActivity implements Tim
                     Integer.parseInt(formSellerData.getCityId()) > 0)) {
                 showmessage("Please Select City");
                 isAllFieldSet++;
-            } else if (!Validation.isValidDOB(formSellerData.getDOB())) {
-                putError(6);
-                isAllFieldSet++;
+
             } else if (!Validation.isValidEmail(formSellerData.getEmail())) {
                 putError(2);
                 isAllFieldSet++;
@@ -831,8 +827,8 @@ public class SellerRegistrationActivity extends AppCompatActivity implements Tim
             case 0:
                 etFirstName.setError("First Name Can't be empty");
                 showmessage("First Name Can't be empty");
-                if (llSellerBusinessDetailContainer.getVisibility() == View.GONE) {
-                    llSellerBusinessDetailContainer.setVisibility(View.VISIBLE);
+                if (llSellerPersonalDetailContainer.getVisibility() == View.GONE) {
+                    llSellerPersonalDetailContainer.setVisibility(View.VISIBLE);
                 }
 
 
@@ -840,22 +836,22 @@ public class SellerRegistrationActivity extends AppCompatActivity implements Tim
             case 1:
                 etLastName.setError("Last Name Can't be empty");
                 showmessage("Last Name Can't be empty");
-                if (llSellerBusinessDetailContainer.getVisibility() == View.GONE) {
-                    llSellerBusinessDetailContainer.setVisibility(View.VISIBLE);
+                if (llSellerPersonalDetailContainer.getVisibility() == View.GONE) {
+                    llSellerPersonalDetailContainer.setVisibility(View.VISIBLE);
                 }
                 break;
             case 2:
                 etEmail.setError("Please Enter Valid Email");
                 showmessage("Please Enter Valid Email");
-                if (llSellerBusinessDetailContainer.getVisibility() == View.GONE) {
-                    llSellerBusinessDetailContainer.setVisibility(View.VISIBLE);
+                if (llSellerPersonalDetailContainer.getVisibility() == View.GONE) {
+                    llSellerPersonalDetailContainer.setVisibility(View.VISIBLE);
                 }
                 break;
             case 3:
                 etMobileNo.setError("Please Enter Valid Mobile Number");
                 showmessage("Please Enter Valid Mobile Number");
-                if (llSellerBusinessDetailContainer.getVisibility() == View.GONE) {
-                    llSellerBusinessDetailContainer.setVisibility(View.VISIBLE);
+                if (llSellerPersonalDetailContainer.getVisibility() == View.GONE) {
+                    llSellerPersonalDetailContainer.setVisibility(View.VISIBLE);
                 }
                 break;
 
@@ -873,14 +869,11 @@ public class SellerRegistrationActivity extends AppCompatActivity implements Tim
                     llSellerUserDetailContainer.setVisibility(View.VISIBLE);
                 }
                 break;
-            case 6:
-//                etDOB.setError("Please Select Date");
-                showmessage("Please Select Date");
-                break;
-            case 9:
-                etAddress.setError("Address Can't be empty");
-                showmessage("Address Can't be empty");
-                break;
+//            case 6:
+////                etDOB.setError("Please Select Date");
+//                showmessage("Please Select Date");
+//                break;
+
             case 10:
                 showmessage("Please Enter Valid UserName");
                 break;
@@ -927,7 +920,7 @@ public class SellerRegistrationActivity extends AppCompatActivity implements Tim
                 }
                 break;
             case 17:
-                showmessage("Please Check the Agreement");
+                showmessage("Please Upload Company Document");
                 if (llSellerUserDetailContainer.getVisibility() == View.GONE) {
                     llSellerUserDetailContainer.setVisibility(View.VISIBLE);
                 }

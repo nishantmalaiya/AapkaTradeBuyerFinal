@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_gravity="center_horizontal|center_vertical"
+
     android:gravity="center_horizontal|center_vertical"
     android:orientation="vertical">
 
@@ -13,7 +13,7 @@
         android:layout_width="@dimen/hundred_dip"
         android:background="@drawable/circle_white"
         android:padding="@dimen/ten_dip"
-     android:gravity="center_vertical|center_horizontal"
+        android:gravity="center_horizontal"
         android:layout_height="@dimen/hundred_dip">
 
         <ImageView
@@ -32,11 +32,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|center_vertical"
-        android:layout_marginLeft="@dimen/twenty_dip"
-        android:layout_marginRight="@dimen/twenty_dip"
-        android:layout_marginTop="@dimen/twenty_dip"
+
         android:gravity="center_horizontal|center_vertical"
-        android:text="@string/payment_success"
+        android:text="@string/pos"
         android:textAllCaps="true"
         android:textColor="@color/white"
         android:textSize="@dimen/twenty_dip"
@@ -46,18 +44,6 @@
         tools:ignore="SpUsage" />
 
 
-    <TextView
-        android:id="@+id/tvSubHeader"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal|center_vertical"
-        android:layout_marginLeft="@dimen/twenty_dip"
-        android:layout_marginRight="@dimen/twenty_dip"
-        android:layout_marginTop="@dimen/fifteen_dip"
-        android:gravity="center_horizontal|center_vertical"
-        android:text="@string/message"
-        android:textAllCaps="true"
-        android:textColor="@color/white"
-        android:textSize="@dimen/textsize_medium" />
+
 
 </LinearLayout>
