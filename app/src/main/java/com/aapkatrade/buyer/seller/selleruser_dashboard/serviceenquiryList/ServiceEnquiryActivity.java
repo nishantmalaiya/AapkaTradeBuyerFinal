@@ -140,7 +140,7 @@ public class ServiceEnquiryActivity extends AppCompatActivity implements SwipeRe
         app_sharedpreference = new AppSharedPreference(ServiceEnquiryActivity.this);
 
 
-        recyclerViewcompanylist.setOnScrollListener(new RecyclerView.OnScrollListener() {
+        recyclerViewcompanylist.addOnScrollListener(new RecyclerView.OnScrollListener() {
 
             public void onScrollStateChanged(RecyclerView view, int scrollState) {
 

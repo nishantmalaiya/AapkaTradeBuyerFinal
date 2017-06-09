@@ -24,9 +24,6 @@ public class FilterColumn1RecyclerAdapter extends RecyclerView.Adapter<FilterCol
         public Object getData(Object object) {
             return null;
         }
-
-
-
     };
 
     public FilterColumn1RecyclerAdapter(Context context, ArrayList<String> filterNameList) {
