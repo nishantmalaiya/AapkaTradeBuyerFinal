@@ -1,4 +1,4 @@
-package com.aapkatrade.buyer.seller.selleruser_dashboard.service_enquirylist;
+package com.aapkatrade.buyer.seller.selleruser_dashboard.serviceenquiryList;
 
 import android.content.Context;
 import android.content.Intent;

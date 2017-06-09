@@ -60,8 +60,7 @@ import me.relex.circleindicator.CircleIndicator;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class DashboardFragment extends Fragment implements View.OnClickListener
-{
+public class DashboardFragment extends Fragment implements View.OnClickListener {
 
     Context context;
     int currentPage = 0;
@@ -194,16 +193,12 @@ public class DashboardFragment extends Fragment implements View.OnClickListener
 
         String user_id_data = appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), "notlogin");
 
-        if (user_id_data.equals("notlogin"))
-        {
-            System.out.println("user_id_update-------------"+user_id_data);
 
-        }
-        else
-        {
+        if (user_id.equals("notlogin")) {
 
-            System.out.println("update------------"+user_id_data);
 
+        } else {
+          
            update_token(user_id_data);
         }
 
@@ -276,13 +271,15 @@ public class DashboardFragment extends Fragment implements View.OnClickListener
                 .setBodyParameter("type", appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), "0"))
                 .setBodyParameter("token", AppConfig.getCurrentDeviceId(context))
                 .asJsonObject()
-                .setCallback(new FutureCallback<JsonObject>()
-                {
+                .setCallback(new FutureCallback<JsonObject>() {
                     @Override
-                    public void onCompleted(Exception e, JsonObject result)
-                    {
+                    public void onCompleted(Exception e, JsonObject result) {
+
 
                        /* String error = result.get("error").getAsString();
+
+                        /*String error = result.get("error").getAsString();
+
 
                         if (error.equals("false"))
                         {
@@ -299,8 +296,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener
 
     }
 
-    public void get_home_data()
-    {
+    public void get_home_data() {
         progress_handler.show();
 
         coordinatorLayout.setVisibility(View.INVISIBLE);

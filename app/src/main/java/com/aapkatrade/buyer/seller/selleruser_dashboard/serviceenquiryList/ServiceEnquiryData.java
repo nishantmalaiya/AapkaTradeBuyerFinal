@@ -1,4 +1,4 @@
-package com.aapkatrade.buyer.seller.selleruser_dashboard.service_enquirylist;
+package com.aapkatrade.buyer.seller.selleruser_dashboard.serviceenquiryList;
 
 /**
  * Created by PPC16 on 10-Mar-17.

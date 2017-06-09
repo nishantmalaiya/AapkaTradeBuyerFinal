@@ -55,8 +55,8 @@
             android:screenOrientation="portrait"
             android:theme="@style/FullscreenTheme"
             android:windowSoftInputMode="stateHidden" />
-
         <activity android:name=".seller.selleruser_dashboard.service_enquirylist.ServiceEnquiryActivity" />
+        <activity android:name=".seller.selleruser_dashboard.service_enquirylist.serviceenquiry.ServiceEnquiryActivity" />
 
         <activity
             android:name=".login.LoginActivity"
@@ -144,6 +144,7 @@
 
         <activity android:name=".seller.SellerRegistrationActivity" />
 
+
         <activity android:name=".seller.activity.userdashboard.bankdetails.BankDetailsActivity"></activity>
 
         <activity
@@ -153,6 +154,18 @@
         <activity
             android:name="com.afollestad.materialcamera.CaptureActivity2"
             android:theme="@style/MaterialCamera.CaptureActivity" />
+
+        <activity android:name=".seller.selleruser_dashboard.bankdetails.BankDetailsActivity" />
+        <activity
+            android:name=".seller.selleruser_dashboard.companyshopmgt.CompanyShopManagement"
+            android:label="@string/title_activity_company_shop_management"
+            android:theme="@style/AppTheme"></activity>
+
+
+        <activity android:name=".seller.registration.SellerRegistrationActivity" />
+        <activity android:name=".seller.selleruser_dashboard.billpayment.BillPaymentActivity"></activity>
+
+      
 
     </application>
 

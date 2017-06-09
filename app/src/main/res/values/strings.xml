@@ -4,6 +4,7 @@
     <string name="my_profile_heading" translatable="false">My Profile</string>
     <string name="my_profile_detail_heading" translatable="false">Hello,<font color="#0000FF"> Arvind </font> - To Update your account information.</string>
     <string name="save" translatable="false">Save</string>
+    <string name="save_caps" translatable="false">SAVE</string>
     <string name="submit" translatable="false">SUBMIT</string>
     <string name="aapka_data" translatable="false">AAPKA <font color='white'>TRADE</font></string>
     <string name="login" translatable="false">LOGIN</string>
@@ -17,7 +18,7 @@
     <string name="pleaseWait">Wait !</string>
     <string name="webpage_being_loaded">Data is loading &#8230;&#8230;&#8230;</string>
 
-    <string name="comp_doc" translatable="false">Company Document</string>
+    <string name="comp_doc" translatable="false">Company Document (pdf/image)</string>
     <string name="drawer_open" translatable="false">draweropen</string>
     <string name="drawer_close" translatable="false">drawerclose</string>
     <string name="language" translatable="false">language</string>
@@ -269,20 +270,28 @@
     <string name="splash_footer_text">YAHA SAB MILTA HAI</string>
     <string name="title_activity_fcm">FcmActivity</string>
     <string name="bussiness_details">Bussiness Details</string>
-    <string name="uploadPDFFile">Company Incorporation</string>
+    <string name="uploadPDFFile">Company Incorporation (*pdf)</string>
     <string name="company_name_heading">Company Name*</string>
     <string name="tin_number">TIN Number</string>
     <string name="tan_number">TAN Number</string>
     <string name="shop_name">Shop Name*</string>
     <string name="personal_doc">Personal Document(Pan Card,Aadhar Card,Election ID)</string>
+
+    <string name="sellerregistration">SELLER REGISTRATION</string>
+    <string name="billpayment">BILL PAYMENT</string>
+    <string name="paybill">PAY BILL</string>
+    <string name="pos">Pos</string>
+
     <string name="beneficiary_name">Beneficiary Name*</string>
     <string name="beneficiary_ifsc">Beneficiary IFSC*</string>
     <string name="beneficiary_account">Beneficiary Account*</string>
     <string name="beneficiary_bank_name">Beneficiary Bank Name</string>
     <string name="beneficiary_address">Beneficiary Address</string>
     <string name="state">State</string>
-    <string name="service_enquiry_list_heading">Enquiry Service List</string>
-    <string name="bussiness_associate_details"><![CDATA[<string name=\"bussiness_associate_details\">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.\\n\\n Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum</string>     <string name=\"business_associate_heading\">Business Associate and Term &amp; Conditions</string>]]></string>
+    <string name="edit">EDIT</string>
+    <string name="bussiness_associate_details">Business Associate Details</string>
+    <string name="service_enquiry_list_heading">Service Enquiry</string>
+    <string name="title_activity_company_shop_management">CompanyShopManagement</string>
 
 
 

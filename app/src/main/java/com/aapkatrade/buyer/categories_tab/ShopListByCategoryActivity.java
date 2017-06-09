@@ -31,6 +31,7 @@ import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
+import com.aapkatrade.buyer.uicomponent.customcardview.CustomCardviewHeader;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
@@ -61,6 +62,7 @@ public class ShopListByCategoryActivity extends AppCompatActivity {
 
     RelativeLayout rl_tryagain, ll_data_not_found;
 
+    com.aapkatrade.buyer.uicomponent.customcardview.CustomCardviewHeader customCardviewHeader_business_detail,customCardviewHeader_personal_detail,customCardviewHeader_newUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,6 +108,9 @@ public class ShopListByCategoryActivity extends AppCompatActivity {
         view = (ViewGroup) findViewById(android.R.id.content);
         cardview_list_container = (CardView) view.findViewById(R.id.cardview_list_container);
         ll_data_not_found = (RelativeLayout) view.findViewById(R.id.ll_data_not_found);
+
+
+
 
         AndroidUtils.setGradientColor(ll_data_not_found, android.graphics.drawable.GradientDrawable.RECTANGLE, ContextCompat.getColor(context, R.color.datanotfound_gradient_bottom), ContextCompat.getColor(context, R.color.datanotfound_gradient_top), android.graphics.drawable.GradientDrawable.Orientation.TOP_BOTTOM, 0);
 

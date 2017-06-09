@@ -1,4 +1,4 @@
-package com.aapkatrade.buyer.seller.selleruser_dashboard.service_enquirylist;
+package com.aapkatrade.buyer.seller.selleruser_dashboard.serviceenquiryList;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
