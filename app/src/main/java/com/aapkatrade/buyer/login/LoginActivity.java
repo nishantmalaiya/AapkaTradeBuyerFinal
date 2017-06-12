@@ -32,9 +32,7 @@ import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
-
-public class LoginActivity extends AppCompatActivity
-{
+public class LoginActivity extends AppCompatActivity {
 
     private TextView loginText, forgotPassword;
     private EditText etEmail, password;
@@ -43,12 +41,13 @@ public class LoginActivity extends AppCompatActivity
     private CoordinatorLayout coordinatorLayout;
     private Context context;
     private ProgressBarHandler progressBarHandler;
-    String usertype,refreshedToken;
+    String usertype, refreshedToken;
+
+
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
 
@@ -79,13 +78,10 @@ public class LoginActivity extends AppCompatActivity
                 } else if (usertype.contains("BUSINESS")) {
                     Intent registerUserActivity = new Intent(context, RegistrationBusinessAssociateActivity.class);
                     startActivity(registerUserActivity);
-                }
-                else
-                {
+                } else {
                     Intent registerUserActivity = new Intent(context, BuyerRegistrationActivity.class);
                     startActivity(registerUserActivity);
                 }
-
 
 
             }
@@ -190,7 +186,7 @@ public class LoginActivity extends AppCompatActivity
                 .setBodyParameter("email", input_username)
                 .setBodyParameter("password", input_password)
                 .setBodyParameter("platform", "Android")
-                .setBodyParameter("token",refreshedToken)
+                .setBodyParameter("token", refreshedToken)
                 .setBodyParameter("device_id", AppConfig.getCurrentDeviceId(context))
                 .asJsonObject()
                 .setCallback(new FutureCallback<JsonObject>() {
@@ -198,15 +194,13 @@ public class LoginActivity extends AppCompatActivity
                     public void onCompleted(Exception e, JsonObject result) {
 
                         progressBarHandler.hide();
-                        if (result != null)
-                        {
+                        if (result != null) {
 
                             System.out.println("result--------------" + result.toString());
 
                             String error = result.get("error").getAsString();
 
-                            if (error.contains("true"))
-                            {
+                            if (error.contains("true")) {
                                 String message = result.get("message").getAsString();
                                 showMessage(message);
 
@@ -228,6 +222,8 @@ public class LoginActivity extends AppCompatActivity
 
     private void saveDataInSharedPreference(JsonObject webservice_returndata) {
 
+
+        appSharedpreference.setSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), webservice_returndata.get("user_type").getAsString());
 
         JsonObject jsonObject = webservice_returndata.getAsJsonObject("all_info");
         Log.e("hi_login_response", jsonObject.toString());
@@ -262,12 +258,13 @@ public class LoginActivity extends AppCompatActivity
 
             appSharedpreference.setSharedPref(SharedPreferenceConstants.PROFILE_PIC.toString(), jsonObject.get("profile_pic").getAsString());
             appSharedpreference.setSharedPref(SharedPreferenceConstants.ORDER_LIST_COUNT.toString(), webservice_returndata.get("order").getAsString());
-        } else if (usertype.contains("SELLER")) {
+        } else if (usertype.contains("SELLER"))
+        {
             appSharedpreference.setSharedPref(SharedPreferenceConstants.PROFILE_PIC.toString(), jsonObject.get("profile_pick").getAsString());
             appSharedpreference.setSharedPref(SharedPreferenceConstants.ORDER_LIST_COUNT.toString(), webservice_returndata.get("order").getAsString());
             appSharedpreference.setSharedPref(SharedPreferenceConstants.SHOP_LIST_COUNT.toString(), webservice_returndata.get("shops").getAsString());
             appSharedpreference.setSharedPref(SharedPreferenceConstants.ENQUIRY_LIST_COUNT.toString(), webservice_returndata.get("enquiries").getAsString());
-
+            appSharedpreference.setSharedPref(SharedPreferenceConstants.PROFILE_VIDEO.toString(), webservice_returndata.get("profile_video").getAsString());
 
         }
 
