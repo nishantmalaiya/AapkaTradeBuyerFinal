@@ -44,6 +44,8 @@ public class LoginActivity extends AppCompatActivity {
     String usertype, refreshedToken;
 
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -221,6 +223,8 @@ public class LoginActivity extends AppCompatActivity {
     private void saveDataInSharedPreference(JsonObject webservice_returndata) {
 
 
+        appSharedpreference.setSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), webservice_returndata.get("user_type").getAsString());
+
         JsonObject jsonObject = webservice_returndata.getAsJsonObject("all_info");
         Log.e("hi", jsonObject.toString());
 
@@ -254,12 +258,13 @@ public class LoginActivity extends AppCompatActivity {
 
             appSharedpreference.setSharedPref(SharedPreferenceConstants.PROFILE_PIC.toString(), jsonObject.get("profile_pic").getAsString());
             appSharedpreference.setSharedPref(SharedPreferenceConstants.ORDER_LIST_COUNT.toString(), webservice_returndata.get("order").getAsString());
-        } else if (usertype.contains("SELLER")) {
+        } else if (usertype.contains("SELLER"))
+        {
             appSharedpreference.setSharedPref(SharedPreferenceConstants.PROFILE_PIC.toString(), jsonObject.get("profile_pick").getAsString());
             appSharedpreference.setSharedPref(SharedPreferenceConstants.ORDER_LIST_COUNT.toString(), webservice_returndata.get("order").getAsString());
             appSharedpreference.setSharedPref(SharedPreferenceConstants.SHOP_LIST_COUNT.toString(), webservice_returndata.get("shops").getAsString());
             appSharedpreference.setSharedPref(SharedPreferenceConstants.ENQUIRY_LIST_COUNT.toString(), webservice_returndata.get("enquiries").getAsString());
-
+            appSharedpreference.setSharedPref(SharedPreferenceConstants.PROFILE_VIDEO.toString(), webservice_returndata.get("profile_video").getAsString());
 
         }
 
