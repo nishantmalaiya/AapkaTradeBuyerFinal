@@ -166,7 +166,7 @@ public class ParticularActivity extends AppCompatActivity {
                                 listfootername.setText(shopListDatas.get(0).shopCategory);
 
                             }
-////                                categoriesListAdapter = new CategoriesListAdapter(ParticularActivity.this, productListDatas);
+////                                categoriesListAdapter = new BillPaymentAdapter(ParticularActivity.this, productListDatas);
 ////                                myRecyclerViewEffect = new MyRecyclerViewEffect(ParticularActivity.this);
 ////                                mRecyclerView.setAdapter(categoriesListAdapter);
 //

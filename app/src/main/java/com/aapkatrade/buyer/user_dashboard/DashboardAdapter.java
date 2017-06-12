@@ -14,6 +14,7 @@ import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.login.LoginDashboard;
 
 
+import com.aapkatrade.buyer.seller.selleruser_dashboard.billpayment.BillPaymentActivity;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.serviceenquiryList.ServiceEnquiryActivity;
 
 import com.aapkatrade.buyer.seller.selleruser_dashboard.bankdetails.BankDetailsActivity;
@@ -92,7 +93,8 @@ public class DashboardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
                     }
 
-                } else if (itemList.get(position).dashboard_name.equals("Change Password")) {
+                }
+                else if (itemList.get(position).dashboard_name.equals("Change Password")) {
                     if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), "notlogin").equals("notlogin")) {
                         Intent i = new Intent(context, LoginDashboard.class);
                         context.startActivity(i);
@@ -105,7 +107,28 @@ public class DashboardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
                     }
 
-                } else if (itemList.get(position).dashboard_name.equals("Enquiry Management")) {
+                }
+
+                else if (itemList.get(position).dashboard_name.equals("Bill Payment")) {
+                    if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), "notlogin").equals("notlogin")) {
+                        Intent i = new Intent(context, LoginDashboard.class);
+                        context.startActivity(i);
+
+
+                    } else {
+
+                        Intent change_password = new Intent(context, BillPaymentActivity.class);
+                        context.startActivity(change_password);
+
+                    }
+
+                }
+
+
+
+
+
+                else if (itemList.get(position).dashboard_name.equals("Enquiry Management")) {
                     if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), "notlogin").equals("notlogin")) {
                         Intent i = new Intent(context, LoginDashboard.class);
                         context.startActivity(i);
