@@ -8,20 +8,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aapkatrade.buyer.Home.HomeActivity;
 import com.aapkatrade.buyer.R;
+import com.aapkatrade.buyer.categories_tab.CategoriesListAdapter;
+import com.aapkatrade.buyer.categories_tab.ShopListByCategoryActivity;
 import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
-import com.aapkatrade.buyer.general.Validation;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
-import com.aapkatrade.buyer.seller.selleruser_dashboard.serviceenquiryList.ServiceEnquiryActivity;
-import com.aapkatrade.buyer.seller.selleruser_dashboard.serviceenquiryList.ServiceEnquiryAdapter;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
@@ -29,13 +27,15 @@ import com.koushikdutta.ion.Ion;
 
 import java.util.LinkedList;
 
-public class CompanyShopManagement extends AppCompatActivity {
+public class CompanyShopManagementActivity extends AppCompatActivity {
     private Context context;
     private AppSharedPreference appSharedPreference;
     private ProgressBarHandler progressBarHandler;
     private String userId;
     private TextView listFooterName;
+    private LinearLayoutManager linearLayoutManager;
     private RecyclerView recyclerViewCompanyShop;
+    private CompanyShopListAdapter companyShopListAdapter;
     private LinkedList<CompanyShopData> companyShopLinkedList = new LinkedList<>();
     private int page = 0;
     private LinearLayoutManager mLayoutManager;
@@ -45,7 +45,7 @@ public class CompanyShopManagement extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_company_shop_management);
-        context = CompanyShopManagement.this;
+        context = CompanyShopManagementActivity.this;
         setUpToolBar();
         initView();
         callCompanyShopListWebService(page);
@@ -58,6 +58,23 @@ public class CompanyShopManagement extends AppCompatActivity {
             public void onClick(View view) {
 
             }
+        });
+
+
+        recyclerViewCompanyShop.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int totalItemCount = linearLayoutManager.getItemCount();
+                int lastVisibleItemCount = linearLayoutManager.findLastVisibleItemPosition();
+                if (totalItemCount > 0) {
+                    if ((totalItemCount - 1) == lastVisibleItemCount) {
+                        page = page + 1;
+                        callCompanyShopListWebService(++page);
+                    }
+                }
+            }
+
         });
     }
 
@@ -83,12 +100,19 @@ public class CompanyShopManagement extends AppCompatActivity {
                                     if (jsonArray != null && jsonArray.size() > 0) {
                                         for (int i = 0; i < jsonArray.size(); i++) {
                                             JsonObject jsonObject = jsonArray.get(i).getAsJsonObject();
-                                            companyShopLinkedList.add(new CompanyShopData(jsonObject.get("companyId").getAsString(), jsonObject.get("name").getAsString(), jsonObject.get("address").getAsString(), jsonObject.get("description").getAsString(), jsonObject.get("created").getAsString()));
+                                            CompanyShopData companyShopData = new CompanyShopData(jsonObject.get("companyId").getAsString(), jsonObject.get("name").getAsString(), jsonObject.get("address").getAsString(), jsonObject.get("description").getAsString(), jsonObject.get("created").getAsString(), jsonObject.get("product_count").getAsString());
+                                            if(!companyShopLinkedList.contains(companyShopData)){
+                                                companyShopLinkedList.add(companyShopData);
+                                            }
                                         }
-                                        AndroidUtils.showErrorLog(context, companyShopLinkedList.size(),"**********");
-                                        RecyclerView.LayoutManager myLayoutManager = new LinearLayoutManager(context);
-                                        recyclerViewCompanyShop.setLayoutManager(myLayoutManager);
-                                        recyclerViewCompanyShop.setAdapter(new CompanyShopListAdapter(context, companyShopLinkedList));
+                                        AndroidUtils.showErrorLog(context, companyShopLinkedList.size(), "**********");
+                                        if (companyShopListAdapter == null) {
+                                            companyShopListAdapter = new CompanyShopListAdapter(context, companyShopLinkedList);
+                                            recyclerViewCompanyShop.setLayoutManager(linearLayoutManager);
+                                            recyclerViewCompanyShop.setAdapter(companyShopListAdapter);
+                                        } else {
+                                            companyShopListAdapter.notifyDataSetChanged();
+                                        }
                                     }
 
                                 } else {
@@ -110,6 +134,7 @@ public class CompanyShopManagement extends AppCompatActivity {
     private void initView() {
         progressBarHandler = new ProgressBarHandler(context);
         appSharedPreference = new AppSharedPreference(context);
+        linearLayoutManager = new LinearLayoutManager(context);
         userId = appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString());
         listFooterName = (TextView) findViewById(R.id.listfootername);
         recyclerViewCompanyShop = (RecyclerView) findViewById(R.id.recyclerview);

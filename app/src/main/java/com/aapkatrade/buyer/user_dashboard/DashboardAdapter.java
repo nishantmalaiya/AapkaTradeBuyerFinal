@@ -17,7 +17,7 @@ import com.aapkatrade.buyer.login.LoginDashboard;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.serviceenquiryList.ServiceEnquiryActivity;
 
 import com.aapkatrade.buyer.seller.activity.userdashboard.bankdetails.BankDetailsActivity;
-import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.CompanyShopManagement;
+import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.CompanyShopManagementActivity;
 
 import com.aapkatrade.buyer.user_dashboard.changepassword.ChangePassword;
 
@@ -155,7 +155,7 @@ public class DashboardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
 
                     } else {
-                        Intent bankDetails = new Intent(context, CompanyShopManagement.class);
+                        Intent bankDetails = new Intent(context, CompanyShopManagementActivity.class);
                         context.startActivity(bankDetails);
 
                     }

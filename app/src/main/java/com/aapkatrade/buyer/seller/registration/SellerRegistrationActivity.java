@@ -104,7 +104,7 @@ public class SellerRegistrationActivity extends AppCompatActivity implements Tim
     private RelativeLayout relativeCompanyListheader;
     private Context context;
     private CheckBox agreement_check;
-    com.aapkatrade.buyer.uicomponent.customcardview.CustomCardviewHeader customCardviewHeader_business_detail, customCardviewHeader_personal_detail, customCardviewHeader_newUser;
+    CustomCardviewHeader customCardviewHeader_business_detail, customCardviewHeader_personal_detail, customCardviewHeader_newUser;
     private ImageView collapseoropenim_business, collapseoropenim_personal, collapseoropenim_user;
 
     @Override

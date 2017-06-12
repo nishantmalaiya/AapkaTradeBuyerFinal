@@ -38,6 +38,7 @@ public class CompanyShopListAdapter extends RecyclerView.Adapter<CompanyShopData
         this.companyShopLinkedList = companyShopLinkedList;
         appSharedpreference = new AppSharedPreference(context);
         progressHandler = new ProgressBarHandler(context);
+        AndroidUtils.showErrorLog(context, " The size of list is  ", companyShopLinkedList.size());
 
     }
 
@@ -50,16 +51,11 @@ public class CompanyShopListAdapter extends RecyclerView.Adapter<CompanyShopData
 
     @Override
     public void onBindViewHolder(CompanyShopDataHolder holder, int position) {
-//        Iterator<CompanyShopData> itr=companyShopLinkedList.iterator();
-//        while(itr.hasNext()){
-//            AndroidUtils.showErrorLog(context,"************", itr.next());
-//        }
         StringBuilder stringBuilder = new StringBuilder(companyShopLinkedList.get(position).getName());
-        stringBuilder.append("<br>").append("<font color=\"#7dbd00\">").append(companyShopLinkedList.get(position).getCreated()).append("</font>").append("<br>").append("Products : ").append(companyShopLinkedList.get(position).getAddress());
+        stringBuilder.append("<br>").append("<font color=\"#7dbd00\"><i>").append(companyShopLinkedList.get(position).getCreated()).append("</i></font>").append("<br>").append("Products : ").append(companyShopLinkedList.get(position).getProductCount());
         String tvData = stringBuilder.toString();
         AndroidUtils.showErrorLog(context,position+"---->  ", tvData);
         holder.tvCompanyShop.setText(Html.fromHtml(tvData));
-//        holder.tvCompanyShop.setText("Hi List Data");
         holder.rlAddProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

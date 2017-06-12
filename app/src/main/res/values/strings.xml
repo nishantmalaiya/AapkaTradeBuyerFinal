@@ -293,6 +293,7 @@
     <string name="service_enquiry_list_heading">Service Enquiry</string>
     <string name="title_activity_company_shop_management">Company Shop Management</string>
     <string name="addProduct">Add Product</string>
+    <string name="edit_text">Edit</string>
 
 
 </resources>
