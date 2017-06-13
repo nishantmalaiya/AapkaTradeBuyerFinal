@@ -23,7 +23,7 @@ import com.aapkatrade.buyer.location.GeoCoderAddress;
 
 public class GpsLocationService extends Service implements LocationListener {
 
-    private final Context mContext;
+    private Context mContext;
 
     // flag for GPS status
     boolean isGPSEnabled = false;
@@ -48,6 +48,12 @@ public class GpsLocationService extends Service implements LocationListener {
     protected LocationManager locationManager;
     private GeoCoderAddress geoCoderAddressAsync;
     AppSharedPreference appSharedpreference;
+
+    public  GpsLocationService(){
+
+    }
+
+
     public GpsLocationService(Context context) {
         this.mContext = context;
         appSharedpreference= new AppSharedPreference(mContext);

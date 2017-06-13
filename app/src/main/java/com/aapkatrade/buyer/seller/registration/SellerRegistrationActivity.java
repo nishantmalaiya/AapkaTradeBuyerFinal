@@ -33,12 +33,12 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.aapkatrade.buyer.Home.HomeActivity;
-import com.aapkatrade.buyer.Home.buyerregistration.entity.City;
-import com.aapkatrade.buyer.Home.buyerregistration.entity.Country;
-import com.aapkatrade.buyer.Home.buyerregistration.entity.SellerRegistration;
-import com.aapkatrade.buyer.Home.buyerregistration.spinner_adapter.SpBussinessAdapter;
-import com.aapkatrade.buyer.Home.buyerregistration.spinner_adapter.SpCityAdapter;
+import com.aapkatrade.buyer.home.HomeActivity;
+import com.aapkatrade.buyer.home.buyerregistration.entity.City;
+import com.aapkatrade.buyer.home.buyerregistration.entity.Country;
+import com.aapkatrade.buyer.home.buyerregistration.entity.SellerRegistration;
+import com.aapkatrade.buyer.home.buyerregistration.spinner_adapter.SpBussinessAdapter;
+import com.aapkatrade.buyer.home.buyerregistration.spinner_adapter.SpCityAdapter;
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.AppConfig;
 import com.aapkatrade.buyer.general.AppSharedPreference;

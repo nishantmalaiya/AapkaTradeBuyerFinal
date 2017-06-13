@@ -12,13 +12,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.aapkatrade.buyer.Home.HomeActivity;
+import com.aapkatrade.buyer.home.HomeActivity;
 import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.ConnectivityNotFound;
 import com.aapkatrade.buyer.general.ConnetivityCheck;

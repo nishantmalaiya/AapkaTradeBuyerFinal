@@ -16,8 +16,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.aapkatrade.buyer.Home.HomeActivity;
-import com.aapkatrade.buyer.Home.buyerregistration.BuyerRegistrationActivity;
+import com.aapkatrade.buyer.home.HomeActivity;
+import com.aapkatrade.buyer.home.buyerregistration.BuyerRegistrationActivity;
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.associate.RegistrationBusinessAssociateActivity;
 import com.aapkatrade.buyer.general.AppConfig;
@@ -151,9 +151,6 @@ public class LoginActivity extends AppCompatActivity {
 
                         } else if (usertype.contains("BUYER")) {
                             callLoginWebService(getResources().getString(R.string.webservice_base_url) + "/buyerlogin", input_email, input_password);
-
-                        } else if (usertype.contains("BUSINESS ASSOCIATE LOGIN")) {
-                            callLoginWebService(getResources().getString(R.string.webservice_base_url) + "/associatelogin", input_email, input_password);
 
                         } else if (usertype.contains("BUSINESS ASSOCIATE LOGIN")) {
                             callLoginWebService(getResources().getString(R.string.webservice_base_url) + "/associatelogin", input_email, input_password);

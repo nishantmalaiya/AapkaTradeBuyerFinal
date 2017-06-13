@@ -31,12 +31,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 
-import com.aapkatrade.buyer.Home.HomeActivity;
-import com.aapkatrade.buyer.Home.buyerregistration.entity.BusinessAssociateRegistration;
-import com.aapkatrade.buyer.Home.buyerregistration.entity.City;
-import com.aapkatrade.buyer.Home.buyerregistration.entity.State;
-import com.aapkatrade.buyer.Home.buyerregistration.spinner_adapter.SpCityAdapter;
-import com.aapkatrade.buyer.Home.buyerregistration.spinner_adapter.SpStateAdapter;
+import com.aapkatrade.buyer.home.HomeActivity;
+import com.aapkatrade.buyer.home.buyerregistration.entity.BusinessAssociateRegistration;
+import com.aapkatrade.buyer.home.buyerregistration.entity.City;
+import com.aapkatrade.buyer.home.buyerregistration.entity.State;
+import com.aapkatrade.buyer.home.buyerregistration.spinner_adapter.SpCityAdapter;
+import com.aapkatrade.buyer.home.buyerregistration.spinner_adapter.SpStateAdapter;
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.AppConfig;
 import com.aapkatrade.buyer.general.AppSharedPreference;

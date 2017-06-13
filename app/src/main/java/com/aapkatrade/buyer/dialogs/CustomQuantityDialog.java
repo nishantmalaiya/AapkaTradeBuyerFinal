@@ -12,11 +12,9 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.aapkatrade.buyer.Home.HomeActivity;
-import com.aapkatrade.buyer.Home.cart.CartAdapter;
-import com.aapkatrade.buyer.Home.cart.MyCartActivity;
+import com.aapkatrade.buyer.home.cart.CartAdapter;
+import com.aapkatrade.buyer.home.cart.MyCartActivity;
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.AppConfig;
 import com.aapkatrade.buyer.general.AppSharedPreference;

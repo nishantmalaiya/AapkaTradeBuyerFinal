@@ -8,8 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.aapkatrade.buyer.Home.CommomAdapter;
-import com.aapkatrade.buyer.Home.CommomData;
+import com.aapkatrade.buyer.home.CommonAdapter;
+import com.aapkatrade.buyer.home.CommonData;
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.interfaces.Adapter_callback_interface;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
@@ -33,9 +33,9 @@ public class SearchcategoryAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     Adapter_callback_interface callback_interface;
     ArrayList<common_category_search> common_category_searchlist;
     String type,state,selected_location,search_product;
-    CommomAdapter commomAdapter;
+    CommonAdapter commonAdapter;
 
-    ArrayList<CommomData> search_productlist = new ArrayList<>();
+    ArrayList<CommonData> search_productlist = new ArrayList<>();
     ProgressBarHandler progressBarHandler;
 
     //constructor method

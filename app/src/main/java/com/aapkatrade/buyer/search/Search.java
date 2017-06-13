@@ -29,11 +29,10 @@ import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.aapkatrade.buyer.Home.CommomAdapter;
-import com.aapkatrade.buyer.Home.CommomData;
-import com.aapkatrade.buyer.Home.HomeActivity;
+import com.aapkatrade.buyer.home.CommonAdapter;
+import com.aapkatrade.buyer.home.CommonData;
+import com.aapkatrade.buyer.home.HomeActivity;
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.categories_tab.ShopListByCategoryActivity;
 import com.aapkatrade.buyer.filter.entity.FilterObject;
@@ -61,7 +60,7 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
     Context c;
     GridLayoutManager gridLayoutManager;
     public static RecyclerView recyclerView_search, state_names_recycler, category_names_recycler;
-    CommomAdapter commomAdapter;
+    CommonAdapter commonAdapter;
     Spinner state_list_spinner;
     RecyclerView.LayoutManager mLayoutManager_state, mLayoutManager_category;
     common_state_search common_state_search;
@@ -70,7 +69,7 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
     ArrayList<String> SearchSuggestionList = new ArrayList<>();
     ArrayList<String> categoriesList = new ArrayList<>();
     ArrayList<String> DistanceList = new ArrayList<>();
-    ArrayList<CommomData> search_productlist = new ArrayList<>();
+    ArrayList<CommonData> search_productlist = new ArrayList<>();
     ArrayList<common_category_search> common_category_searchlist = new ArrayList<>();
     ArrayList<common_state_search> common_state_searchlist = new ArrayList<>();
     ArrayList<common_city_search> common_city_searchlist = new ArrayList<>();
@@ -243,8 +242,8 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
         recyclerView_search = (RecyclerView) findViewById(R.id.recycleview_search);
         linearLayoutManager = new LinearLayoutManager(Search.this, LinearLayoutManager.VERTICAL, false);
         recyclerView_search.setLayoutManager(linearLayoutManager);
-        commomAdapter = new CommomAdapter(Search.this, search_productlist, "search_list", "search_list_update");
-        recyclerView_search.setAdapter(commomAdapter);
+        commonAdapter = new CommonAdapter(Search.this, search_productlist, "search_list", "search_list_update");
+        recyclerView_search.setAdapter(commonAdapter);
 
     }
 
@@ -372,13 +371,13 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
 
                 String shop_location = jsonObject_result.get("state_name").getAsString() + "," + jsonObject_result.get("country_name").getAsString();
 
-                search_productlist.add(new CommomData(productid, productname, product_prize, imageurl, productlocation,category_name,distance,shop_location));
+                search_productlist.add(new CommonData(productid, productname, product_prize, imageurl, productlocation,category_name,distance,shop_location));
 
               }
 
-            commomAdapter = new CommomAdapter(Search.this, search_productlist, "search_list", "search_list");
-            recyclerView_search.setAdapter(commomAdapter);
-            //commomAdapter.notifyDataSetChanged();
+            commonAdapter = new CommonAdapter(Search.this, search_productlist, "search_list", "search_list");
+            recyclerView_search.setAdapter(commonAdapter);
+            //commonAdapter.notifyDataSetChanged();
 
             JsonArray jsonarray_category = jsonObject.getAsJsonArray("category");
 
