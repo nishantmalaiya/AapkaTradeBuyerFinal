@@ -14,12 +14,11 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.aapkatrade.buyer.Home.CommomData;
+import com.aapkatrade.buyer.home.CommonData;
 import com.aapkatrade.buyer.dialogs.track_order.CommonHolderOrderListAdapter;
-import com.aapkatrade.buyer.Home.HomeActivity;
+import com.aapkatrade.buyer.home.HomeActivity;
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
-import com.aapkatrade.buyer.general.Validation;
 import com.aapkatrade.buyer.shopdetail.ShopViewPagerAdapter;
 
 import org.json.JSONArray;
@@ -37,7 +36,7 @@ public class Order_detail extends AppCompatActivity {
     RecyclerView recyclerProductList;
     private ArrayList<String> imageUrlArrayList = new ArrayList<>();
     private String class_name, json_response;
-    ArrayList<CommomData> commomDatas_products = new ArrayList<>();
+    ArrayList<CommonData> commonDatas_products = new ArrayList<>();
     ViewPager view_pager_products;
     private ShopViewPagerAdapter viewPagerAdapter;
     ArrayList<CommomDataTrackingList> commomDatas_order = new ArrayList<>();

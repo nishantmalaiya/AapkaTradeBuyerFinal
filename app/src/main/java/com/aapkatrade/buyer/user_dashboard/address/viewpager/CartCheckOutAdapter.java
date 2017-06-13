@@ -14,8 +14,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.aapkatrade.buyer.Home.cart.CartData;
-import com.aapkatrade.buyer.Home.cart.CartHolder;
+import com.aapkatrade.buyer.home.cart.CartData;
+import com.aapkatrade.buyer.home.cart.CartHolder;
 import com.aapkatrade.buyer.R;
 
 import com.aapkatrade.buyer.dialogs.CustomQuantityCheckout;

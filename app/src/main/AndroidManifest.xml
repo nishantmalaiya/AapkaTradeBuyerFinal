@@ -55,24 +55,23 @@
             android:screenOrientation="portrait"
             android:theme="@style/FullscreenTheme"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".seller.selleruser_dashboard.service_enquirylist.ServiceEnquiryActivity" />
-        <activity android:name=".seller.selleruser_dashboard.service_enquirylist.serviceenquiry.ServiceEnquiryActivity" />
+        <activity android:name=".seller.selleruser_dashboard.serviceenquiryList.ServiceEnquiryActivity" />
         <activity
             android:name=".login.LoginActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".user_dashboard.my_profile.MyProfileActivity" />
         <activity android:name=".user_dashboard.changepassword.ChangePassword" />
         <activity
-            android:name=".Home.HomeActivity"
+            android:name=".home.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".shopdetail.ShopDetailActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Home.buyerregistration.BuyerRegistrationActivity"
+            android:name=".home$buyerregistration.BuyerRegistrationActivity"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".categories_tab.ParticularDataActivity.ParticularActivity" />
+        <activity android:name=".categories_tab.particular_data.ParticularActivity" />
         <activity android:name=".login.ActivityOTPVerify" />
         <activity android:name=".general.ConnectivityNotFound" />
         <activity android:name=".user_dashboard.order_list.OrderActivity" />
@@ -105,7 +104,7 @@
         <activity android:name=".rateus.RateUsActivity" />
         <activity android:name=".shopdetail.shop_all_product.ShopAllProductActivity" />
         <activity
-            android:name=".Home.cart.MyCartActivity"
+            android:name=".home.cart.MyCartActivity"
             android:label="@string/title_activity_my_cart" />
         <activity android:name=".shopdetail.productdetail.ProductDetailActivity" />
         <activity android:name=".dialogs.track_order.orderdetail.Order_detail" />
@@ -137,31 +136,30 @@
         </service>
 
         <activity
-            android:name=".Home.FcmActivity"
+            android:name=".home.FcmActivity"
             android:label="@string/title_activity_fcm"
             android:theme="@style/AppTheme" />
-        <activity android:name=".seller.SellerRegistrationActivity" />
-        <activity android:name=".seller.activity.userdashboard.bankdetails.BankDetailsActivity" />
+        <activity android:name=".seller.registration.SellerRegistrationActivity" />
+        <activity android:name=".seller.selleruser_dashboard.bankdetails.BankDetailsActivity" />
         <activity
             android:name="com.afollestad.materialcamera.CaptureActivity"
             android:theme="@style/MaterialCamera.CaptureActivity" />
         <activity
             android:name="com.afollestad.materialcamera.CaptureActivity2"
             android:theme="@style/MaterialCamera.CaptureActivity" />
-        <activity android:name=".seller.selleruser_dashboard.bankdetails.BankDetailsActivity" />
-        <activity
+
             android:name=".seller.selleruser_dashboard.companyshopmgt.CompanyShopManagementActivity"
             android:label="@string/title_activity_company_shop_management"
             android:theme="@style/AppTheme" />
-        <activity android:name=".seller.registration.SellerRegistrationActivity" />
         <activity android:name=".seller.selleruser_dashboard.billpayment.BillPaymentActivity" />
         <activity
             android:name=".seller.selleruser_dashboard.companyshopmgt.addcompanyshop.AddCompanyShopActivity"
             android:label="@string/title_activity_add_company_shop"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
+        <activity
             android:name=".videoplay.VideoPalyActivity"
             android:configChanges="orientation|screenSize"
-            ></activity>
+            />
     </application>
 
 </manifest>

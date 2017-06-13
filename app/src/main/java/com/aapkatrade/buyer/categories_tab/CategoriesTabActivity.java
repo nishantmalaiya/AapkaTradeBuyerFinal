@@ -15,7 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.aapkatrade.buyer.Home.navigation.NavigationFragment;
+import com.aapkatrade.buyer.home.navigation.NavigationFragment;
 import com.aapkatrade.buyer.R;
 
 import java.util.ArrayList;

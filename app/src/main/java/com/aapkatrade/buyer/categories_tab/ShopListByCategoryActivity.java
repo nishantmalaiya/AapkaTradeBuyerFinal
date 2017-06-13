@@ -21,9 +21,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.aapkatrade.buyer.Home.HomeActivity;
-import com.aapkatrade.buyer.Home.cart.MyCartActivity;
-import com.aapkatrade.buyer.Home.buyerregistration.entity.State;
+import com.aapkatrade.buyer.home.HomeActivity;
+import com.aapkatrade.buyer.home.cart.MyCartActivity;
+import com.aapkatrade.buyer.home.buyerregistration.entity.State;
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.filter.FilterDialog;
 import com.aapkatrade.buyer.filter.entity.FilterObject;
