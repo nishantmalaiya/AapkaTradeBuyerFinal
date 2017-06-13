@@ -109,7 +109,7 @@
                     android:layout_toRightOf="@+id/editIcon"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
-                    android:text="@string/edit"
+                    android:text="@string/edit_text"
                     android:textColor="@color/text_color_product_detail"
                     android:textSize="@dimen/textsize_medium" />
 

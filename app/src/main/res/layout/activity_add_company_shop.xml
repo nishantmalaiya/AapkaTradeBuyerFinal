@@ -10,6 +10,7 @@
         android:id="@+id/mainLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/sixty_dip"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -26,23 +27,32 @@
             android:layout_width="match_parent"
             android:layout_height="fill_parent">
 
-            <include layout="@layout/content_company_shop_management" />
+            <include layout="@layout/content_add_company_shop" />
 
         </RelativeLayout>
 
 
     </LinearLayout>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
+
+    <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_margin="@dimen/fab_margin"
-        android:scaleType="center"
-        app:srcCompat="@drawable/ic_shop"
-        tools:ignore="RtlCompat" />
+        android:layout_height="match_parent"
+        android:gravity="bottom">
+
+        <Button
+            android:id="@+id/btnSave"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/sixty_dip"
+            android:background="@drawable/button_orange_back"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="@string/add_company_shop"
+            android:textAllCaps="false"
+            android:textColor="@color/white" />
+
+
+    </RelativeLayout>
 
 
 

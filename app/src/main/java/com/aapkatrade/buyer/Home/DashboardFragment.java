@@ -197,6 +197,8 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
         {
             System.out.println("user_id_update-------------"+user_id_data);
 
+        if (!(user_id!=null && user_id.equals("notlogin"))) {
+           update_token(user_id_data);
         }
         else
         {

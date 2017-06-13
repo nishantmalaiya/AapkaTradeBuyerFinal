@@ -31,7 +31,6 @@ import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
-import com.aapkatrade.buyer.uicomponent.customcardview.CustomCardviewHeader;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
@@ -62,7 +61,7 @@ public class ShopListByCategoryActivity extends AppCompatActivity {
 
     RelativeLayout rl_tryagain, ll_data_not_found;
 
-    com.aapkatrade.buyer.uicomponent.customcardview.CustomCardviewHeader customCardviewHeader_business_detail,customCardviewHeader_personal_detail,customCardviewHeader_newUser;
+    com.aapkatrade.buyer.uicomponent.customcardview.CustomCardViewHeader customCardViewHeader_business_detail, customCardViewHeader_personal_detail, customCardViewHeader_newUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

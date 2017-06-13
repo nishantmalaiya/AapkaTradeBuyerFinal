@@ -150,12 +150,15 @@
             android:theme="@style/MaterialCamera.CaptureActivity" />
         <activity android:name=".seller.selleruser_dashboard.bankdetails.BankDetailsActivity" />
         <activity
-            android:name=".seller.selleruser_dashboard.companyshopmgt.CompanyShopManagement"
+            android:name=".seller.selleruser_dashboard.companyshopmgt.CompanyShopManagementActivity"
             android:label="@string/title_activity_company_shop_management"
             android:theme="@style/AppTheme" />
         <activity android:name=".seller.registration.SellerRegistrationActivity" />
         <activity android:name=".seller.selleruser_dashboard.billpayment.BillPaymentActivity" />
         <activity
+            android:name=".seller.selleruser_dashboard.companyshopmgt.addcompanyshop.AddCompanyShopActivity"
+            android:label="@string/title_activity_add_company_shop"
+            android:theme="@style/AppTheme"></activity>
             android:name=".videoplay.VideoPalyActivity"
             android:configChanges="orientation|screenSize"
             ></activity>
