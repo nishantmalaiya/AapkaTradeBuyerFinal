@@ -57,7 +57,6 @@
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".seller.selleruser_dashboard.service_enquirylist.ServiceEnquiryActivity" />
         <activity android:name=".seller.selleruser_dashboard.service_enquirylist.serviceenquiry.ServiceEnquiryActivity" />
-
         <activity
             android:name=".login.LoginActivity"
             android:screenOrientation="portrait" />
@@ -141,32 +140,25 @@
             android:name=".Home.FcmActivity"
             android:label="@string/title_activity_fcm"
             android:theme="@style/AppTheme" />
-
         <activity android:name=".seller.SellerRegistrationActivity" />
-
-
-        <activity android:name=".seller.activity.userdashboard.bankdetails.BankDetailsActivity"></activity>
-
+        <activity android:name=".seller.activity.userdashboard.bankdetails.BankDetailsActivity" />
         <activity
             android:name="com.afollestad.materialcamera.CaptureActivity"
             android:theme="@style/MaterialCamera.CaptureActivity" />
-
         <activity
             android:name="com.afollestad.materialcamera.CaptureActivity2"
             android:theme="@style/MaterialCamera.CaptureActivity" />
-
         <activity android:name=".seller.selleruser_dashboard.bankdetails.BankDetailsActivity" />
         <activity
             android:name=".seller.selleruser_dashboard.companyshopmgt.CompanyShopManagement"
             android:label="@string/title_activity_company_shop_management"
-            android:theme="@style/AppTheme"></activity>
-
-
+            android:theme="@style/AppTheme" />
         <activity android:name=".seller.registration.SellerRegistrationActivity" />
-        <activity android:name=".seller.selleruser_dashboard.billpayment.BillPaymentActivity"></activity>
-
-      
-
+        <activity android:name=".seller.selleruser_dashboard.billpayment.BillPaymentActivity" />
+        <activity
+            android:name=".videoplay.VideoPalyActivity"
+            android:configChanges="orientation|screenSize"
+            ></activity>
     </application>
 
 </manifest>

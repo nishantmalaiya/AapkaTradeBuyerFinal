@@ -20,6 +20,7 @@ import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.Validation;
 import com.aapkatrade.buyer.user_dashboard.changepassword.ChangePassword;
+import com.aapkatrade.buyer.videoplay.VideoPalyActivity;
 import com.squareup.picasso.Picasso;
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -35,7 +36,6 @@ public class ProfilePreviewActivity extends AppCompatActivity
     String usertype;
     int profile_preview_activity;
     RelativeLayout relativeLayoutProfile;
-
 
 
     @Override
@@ -62,8 +62,6 @@ public class ProfilePreviewActivity extends AppCompatActivity
 
         imageViewProfileVideo = (ImageView)  findViewById(R.id.imageViewProfileVideo);
 
-        linearLayoutProfileVideo = (LinearLayout) findViewById(R.id.linearLayoutProfileVideo);
-
         userimage = (CircleImageView) findViewById(R.id.imageviewpp);
 
         btnEdit = (ImageView) findViewById(R.id.btnEdit);
@@ -71,6 +69,17 @@ public class ProfilePreviewActivity extends AppCompatActivity
         linearLayoutLagout = (LinearLayout) findViewById(R.id.linearLayoutLogout);
 
         linearLayoutResetpassword = (LinearLayout) findViewById(R.id.linearLayoutResetpassword);
+
+        imageViewProfileVideo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(ProfilePreviewActivity.this, VideoPalyActivity.class);
+                intent.putExtra("video_url", appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_VIDEO.toString(), "").toString());
+                startActivity(intent);
+
+            }
+        });
 
         btnEdit.setOnClickListener(new View.OnClickListener() {
 
@@ -97,12 +106,6 @@ public class ProfilePreviewActivity extends AppCompatActivity
             }
         });
 
-        linearLayoutProfileVideo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
 
 
         linearLayoutResetpassword.setOnClickListener(new View.OnClickListener() {
@@ -131,18 +134,25 @@ public class ProfilePreviewActivity extends AppCompatActivity
 
             if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), "").contains("1")) {
                 usertype = "Buyer";
-            } else if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), "").contains("2"))
+            }
+            else if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), "").contains("2"))
             {
 
-                Picasso.with(context)
-                        .load(appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_VIDEO.toString(), ""))
-                        .error(R.drawable.navigation_profile_bg)
-                        .placeholder(R.drawable.navigation_profile_bg)
-                        .error(R.drawable.navigation_profile_bg)
-                        .into(imageViewProfileVideo);
+                if(appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_VIDEO_THUMBNAIL.toString(), "").toString().equals(""))
+                {
 
+                    Log.e("shared-----","");
+                }
+                else
+                    {
+                    Picasso.with(context)
+                            .load(appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_VIDEO_THUMBNAIL.toString(), ""))
+                            .error(R.drawable.navigation_profile_bg)
+                            .placeholder(R.drawable.navigation_profile_bg)
+                            .error(R.drawable.navigation_profile_bg)
+                            .into(imageViewProfileVideo);
+                }
                 usertype = "Seller";
-
 
             } else if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), "").contains("3")) {
                 usertype = "Associate";
@@ -284,12 +294,30 @@ public class ProfilePreviewActivity extends AppCompatActivity
 
                 tvEmail.setText(Emailid);
 
+                if (usertype.equals("Seller"))
+                {
+                    if(appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_VIDEO_THUMBNAIL.toString(), "").toString().equals(""))
+                    {
+                        Log.e("shared-----","");
+                    }
+                    else
+                    {
+                        Picasso.with(context)
+                                .load(appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_VIDEO_THUMBNAIL.toString(), ""))
+                                .error(R.drawable.navigation_profile_bg)
+                                .placeholder(R.drawable.navigation_profile_bg)
+                                .error(R.drawable.navigation_profile_bg)
+                                .into(imageViewProfileVideo);
+                    }
+                }
+
                 Log.e("user_image2", user_image);
                 tvUserType.setText(usertype);
                 AndroidUtils.showErrorLog(context, "Image URL onCreate" , appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_PIC.toString(), ""));
 
 
-                if (Validation.isNonEmptyStr(appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_PIC.toString(), ""))){
+                if (Validation.isNonEmptyStr(appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_PIC.toString(), "")))
+                {
 
                     Picasso.with(context).load(appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_PIC.toString(), ""))
                             .error(R.drawable.ic_profile_user)
