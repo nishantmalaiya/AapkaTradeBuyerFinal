@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
 
 
     <include layout="@layout/list_header" />
@@ -52,10 +51,12 @@
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
+
                     android:layout_height="wrap_content"
-                    android:hint="@string/primary_email"
+                    android:hint="Last Name"
                     android:textColorHint="@color/green"
-                    >
+                    tools:ignore="HardcodedText">
+
 
                     <EditText
                         android:id="@+id/et_primary_email"
@@ -63,18 +64,24 @@
                         android:layout_height="@dimen/fifty_dip"
                         android:layout_marginLeft="30dp"
                         android:layout_marginRight="30dp"
+
+
                         android:layout_marginTop="10dp"
-                        android:inputType="textEmailAddress"
+                        android:inputType="text"
                         android:maxLines="1"
                         android:padding="10dp"
                         android:textColorHint="@color/hint_color"
                         android:textSize="@dimen/textsize" />
+
                 </android.support.design.widget.TextInputLayout>
+
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
+
                     android:layout_height="wrap_content"
-                    android:hint="@string/secondary_email"
-                    android:textColorHint="@color/green" >
+                    android:hint="Email"
+                    android:textColorHint="@color/green"
+                    tools:ignore="HardcodedText">
 
                     <EditText
                         android:id="@+id/et_secondary_email"
@@ -82,7 +89,10 @@
                         android:layout_height="@dimen/fifty_dip"
                         android:layout_marginLeft="30dp"
                         android:layout_marginRight="30dp"
+
+
                         android:layout_marginTop="10dp"
+                        android:editable="false"
                         android:inputType="textEmailAddress"
                         android:maxLines="1"
                         android:padding="10dp"
@@ -90,36 +100,36 @@
                         android:textSize="@dimen/textsize" />
                 </android.support.design.widget.TextInputLayout>
 
-
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
+
                     android:layout_height="wrap_content"
-                    android:hint="@string/address1"
+                    android:hint="Mobile"
                     android:textColorHint="@color/green"
                     tools:ignore="HardcodedText">
-
 
                     <EditText
                         android:id="@+id/et_address"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/fifty_dip"
-                        android:layout_marginBottom="10dp"
                         android:layout_marginLeft="30dp"
                         android:layout_marginRight="30dp"
+
+
                         android:layout_marginTop="10dp"
-                        android:inputType="text"
+                        android:editable="false"
+                        android:inputType="number"
                         android:maxLines="1"
                         android:padding="10dp"
                         android:textColorHint="@color/hint_color"
                         android:textSize="@dimen/textsize" />
                 </android.support.design.widget.TextInputLayout>
 
-
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
 
                     android:layout_height="wrap_content"
-                    android:hint="Description"
+                    android:hint="Address"
                     android:textColorHint="@color/green"
                     tools:ignore="HardcodedText">
 
@@ -140,7 +150,6 @@
                         android:textColorHint="@color/hint_color"
                         android:textSize="@dimen/textsize" />
                 </android.support.design.widget.TextInputLayout>
-
 
                 <RelativeLayout
                     android:layout_width="match_parent"
