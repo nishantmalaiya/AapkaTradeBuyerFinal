@@ -56,7 +56,6 @@
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".seller.selleruser_dashboard.service_enquirylist.ServiceEnquiryActivity" />
         <activity android:name=".seller.selleruser_dashboard.service_enquirylist.serviceenquiry.ServiceEnquiryActivity" />
-
         <activity
             android:name=".login.LoginActivity"
             android:screenOrientation="portrait" />
@@ -145,14 +144,10 @@
         <activity
             android:name=".seller.selleruser_dashboard.companyshopmgt.CompanyShopManagement"
             android:label="@string/title_activity_company_shop_management"
-            android:theme="@style/AppTheme"></activity>
-
-
+            android:theme="@style/AppTheme" />
         <activity android:name=".seller.registration.SellerRegistrationActivity" />
-        <activity android:name=".seller.selleruser_dashboard.billpayment.BillPaymentActivity"></activity>
-
-       
-
+        <activity android:name=".seller.selleruser_dashboard.billpayment.BillPaymentActivity" />
+        <activity android:name=".seller.selleruser_dashboard.billhistory.BillHistory"></activity>
     </application>
 
 </manifest>

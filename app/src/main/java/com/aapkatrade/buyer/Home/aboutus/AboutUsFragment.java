@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
+import com.aapkatrade.buyer.uicomponent.ExpandableTextView;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
@@ -24,10 +25,11 @@ import com.koushikdutta.ion.Ion;
 
 public class AboutUsFragment extends Fragment {
     private Context context;
-    private TextView tvTermsAndConditions, tvReadMore;
+    private TextView tvReadMore;
     private RelativeLayout expandableRelativeLayout;
     private LinearLayout policyContentMainLayout;
     private LinearLayout policyHeaderLayout;
+    ExpandableTextView tvTermsAndConditions;
 
 
     @Override
@@ -68,7 +70,7 @@ public class AboutUsFragment extends Fragment {
     private void initView(View view) {
         policyContentMainLayout = (LinearLayout) view.findViewById(R.id.policyContentMainLayout);
         AndroidUtils.setBackgroundSolid(policyContentMainLayout, context, android.R.color.transparent, 10, GradientDrawable.RECTANGLE);
-        tvTermsAndConditions = (TextView) view.findViewById(R.id.tvTermsAndConditions);
+        tvTermsAndConditions = (ExpandableTextView) view.findViewById(R.id.tvTermsAndConditions);
         tvTermsAndConditions.setText("");
         policyHeaderLayout = (LinearLayout) view.findViewById(R.id.policyHeaderLayout);
         tvReadMore = (TextView) view.findViewById(R.id.tvReadMore);

@@ -14,6 +14,7 @@ import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.login.LoginDashboard;
 
 
+import com.aapkatrade.buyer.seller.selleruser_dashboard.billhistory.BillHistory;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.billpayment.BillPaymentActivity;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.serviceenquiryList.ServiceEnquiryActivity;
 
@@ -93,8 +94,7 @@ public class DashboardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
                     }
 
-                }
-                else if (itemList.get(position).dashboard_name.equals("Change Password")) {
+                } else if (itemList.get(position).dashboard_name.equals("Change Password")) {
                     if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), "notlogin").equals("notlogin")) {
                         Intent i = new Intent(context, LoginDashboard.class);
                         context.startActivity(i);
@@ -107,9 +107,7 @@ public class DashboardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
                     }
 
-                }
-
-                else if (itemList.get(position).dashboard_name.equals("Bill Payment")) {
+                } else if (itemList.get(position).dashboard_name.equals("Bill Payment")) {
                     if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), "notlogin").equals("notlogin")) {
                         Intent i = new Intent(context, LoginDashboard.class);
                         context.startActivity(i);
@@ -122,13 +120,7 @@ public class DashboardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
                     }
 
-                }
-
-
-
-
-
-                else if (itemList.get(position).dashboard_name.equals("Enquiry Management")) {
+                } else if (itemList.get(position).dashboard_name.equals("Enquiry Management")) {
                     if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), "notlogin").equals("notlogin")) {
                         Intent i = new Intent(context, LoginDashboard.class);
                         context.startActivity(i);
@@ -180,6 +172,19 @@ public class DashboardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     } else {
                         Intent bankDetails = new Intent(context, CompanyShopManagement.class);
                         context.startActivity(bankDetails);
+
+                    }
+
+                }
+                else if (itemList.get(position).dashboard_name.equals("Bill History")) {
+                    if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString(), "notlogin").equals("notlogin")) {
+                        Intent i = new Intent(context, LoginDashboard.class);
+                        context.startActivity(i);
+
+
+                    } else {
+                        Intent billhistory = new Intent(context, BillHistory.class);
+                        context.startActivity(billhistory);
 
                     }
 

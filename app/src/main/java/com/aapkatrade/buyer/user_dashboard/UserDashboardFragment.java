@@ -172,8 +172,9 @@ public class UserDashboardFragment extends Fragment {
                                 dashboardDatas.add(new DashboardData("", "Bank Details", R.drawable.ic_add_company, R.drawable.circle_cherry_red, false, ""));
 
                                 dashboardDatas.add(new DashboardData("", "Sales Transaction", R.drawable.ic_chngpswd, R.drawable.circle_purple, false, ""));
-                                dashboardDatas.add(new DashboardData("", "Bill Payment", R.drawable.ic_chngpswd, R.drawable.circle_purple, false, ""));
+                                dashboardDatas.add(new DashboardData("", "Bill Payment", R.drawable.ic_lstprdct, R.drawable.circle_purple, false, ""));
                                 dashboardDatas.add(new DashboardData("", "Change Password", R.drawable.ic_chngpswd, R.drawable.circle_purple, false, ""));
+                                dashboardDatas.add(new DashboardData("", "Bill History", R.drawable.ic_lstprdct, R.drawable.circle_purple, false, ""));
 
 
                             }
