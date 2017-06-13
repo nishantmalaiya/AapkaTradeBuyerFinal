@@ -159,6 +159,9 @@
             android:name=".seller.selleruser_dashboard.companyshopmgt.addcompanyshop.AddCompanyShopActivity"
             android:label="@string/title_activity_add_company_shop"
             android:theme="@style/AppTheme"></activity>
+            android:name=".videoplay.VideoPalyActivity"
+            android:configChanges="orientation|screenSize"
+            ></activity>
     </application>
 
 </manifest>

@@ -226,7 +226,7 @@ public class LoginActivity extends AppCompatActivity {
         appSharedpreference.setSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), webservice_returndata.get("user_type").getAsString());
 
         JsonObject jsonObject = webservice_returndata.getAsJsonObject("all_info");
-        Log.e("hi", jsonObject.toString());
+        Log.e("hi_login_response", jsonObject.toString());
 
         appSharedpreference.setSharedPref(SharedPreferenceConstants.USER_ID.toString(), webservice_returndata.get("user_id").getAsString());
         appSharedpreference.setSharedPref(SharedPreferenceConstants.FIRST_NAME.toString(), jsonObject.get("name").getAsString());
@@ -264,7 +264,8 @@ public class LoginActivity extends AppCompatActivity {
             appSharedpreference.setSharedPref(SharedPreferenceConstants.ORDER_LIST_COUNT.toString(), webservice_returndata.get("order").getAsString());
             appSharedpreference.setSharedPref(SharedPreferenceConstants.SHOP_LIST_COUNT.toString(), webservice_returndata.get("shops").getAsString());
             appSharedpreference.setSharedPref(SharedPreferenceConstants.ENQUIRY_LIST_COUNT.toString(), webservice_returndata.get("enquiries").getAsString());
-            appSharedpreference.setSharedPref(SharedPreferenceConstants.PROFILE_VIDEO.toString(), webservice_returndata.get("profile_video").getAsString());
+            appSharedpreference.setSharedPref(SharedPreferenceConstants.PROFILE_VIDEO.toString(), jsonObject.get("profile_video").getAsString());
+            appSharedpreference.setSharedPref(SharedPreferenceConstants.PROFILE_VIDEO_THUMBNAIL.toString(), jsonObject.get("video_thumbnail").getAsString());
 
         }
 

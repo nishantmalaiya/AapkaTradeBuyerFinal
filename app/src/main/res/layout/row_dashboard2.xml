@@ -41,7 +41,7 @@
             android:id="@+id/tvDashboard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sachin Tendulkar"
+
             android:layout_centerVertical="true"
             android:textColor="@color/black"
             android:textSize="16sp"
