@@ -194,11 +194,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
         String user_id_data = appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), "notlogin");
 
 
-        if (user_id.equals("notlogin")) {
-
-
-        } else {
-          
+        if (!(user_id!=null && user_id.equals("notlogin"))) {
            update_token(user_id_data);
         }
 

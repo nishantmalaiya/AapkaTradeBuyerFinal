@@ -1,6 +1,8 @@
 package com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -38,8 +40,7 @@ public class CompanyShopListAdapter extends RecyclerView.Adapter<CompanyShopData
         this.companyShopLinkedList = companyShopLinkedList;
         appSharedpreference = new AppSharedPreference(context);
         progressHandler = new ProgressBarHandler(context);
-        AndroidUtils.showErrorLog(context, " The size of list is  ", companyShopLinkedList.size());
-
+//        AndroidUtils.showErrorLog(context, " The size of list is  ", companyShopLinkedList.size());
     }
 
 
@@ -49,13 +50,19 @@ public class CompanyShopListAdapter extends RecyclerView.Adapter<CompanyShopData
         return new CompanyShopDataHolder(LayoutInflater.from(context).inflate(R.layout.row_company_shop_mgt, parent, false));
     }
 
+    @SuppressLint("NewApi")
     @Override
     public void onBindViewHolder(CompanyShopDataHolder holder, int position) {
         StringBuilder stringBuilder = new StringBuilder(companyShopLinkedList.get(position).getName());
         stringBuilder.append("<br>").append("<font color=\"#7dbd00\"><i>").append(companyShopLinkedList.get(position).getCreated()).append("</i></font>").append("<br>").append("Products : ").append(companyShopLinkedList.get(position).getProductCount());
         String tvData = stringBuilder.toString();
         AndroidUtils.showErrorLog(context,position+"---->  ", tvData);
-        holder.tvCompanyShop.setText(Html.fromHtml(tvData));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            holder.tvCompanyShop.setText(Html.fromHtml(tvData, Html.FROM_HTML_MODE_LEGACY));
+        } else {
+            //noinspection deprecation
+            holder.tvCompanyShop.setText(Html.fromHtml(tvData));
+        }
         holder.rlAddProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

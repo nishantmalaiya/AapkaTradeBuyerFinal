@@ -49,7 +49,7 @@ import com.aapkatrade.buyer.general.Utils.adapter.CustomSpinnerAdapter;
 import com.aapkatrade.buyer.general.Validation;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
 import com.aapkatrade.buyer.login.ActivityOTPVerify;
-import com.aapkatrade.buyer.uicomponent.customcardview.CustomCardviewHeader;
+import com.aapkatrade.buyer.uicomponent.customcardview.CustomCardViewHeader;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
@@ -104,7 +104,7 @@ public class SellerRegistrationActivity extends AppCompatActivity implements Tim
     private RelativeLayout relativeCompanyListheader;
     private Context context;
     private CheckBox agreement_check;
-    CustomCardviewHeader customCardviewHeader_business_detail, customCardviewHeader_personal_detail, customCardviewHeader_newUser;
+    CustomCardViewHeader customCardViewHeader_business_detail, customCardViewHeader_personal_detail, customCardViewHeader_newUser;
     private ImageView collapseoropenim_business, collapseoropenim_personal, collapseoropenim_user;
 
     @Override
@@ -643,9 +643,9 @@ public class SellerRegistrationActivity extends AppCompatActivity implements Tim
 
         //// Business Detail
 
-        customCardviewHeader_business_detail = (CustomCardviewHeader) findViewById(R.id.customCardviewBusinessDetails);
+        customCardViewHeader_business_detail = (CustomCardViewHeader) findViewById(R.id.customCardviewBusinessDetails);
 
-        collapseoropenim_business = (ImageView) customCardviewHeader_business_detail.findViewById(R.id.cardview_header_icon_right);
+        collapseoropenim_business = (ImageView) customCardViewHeader_business_detail.findViewById(R.id.cardview_header_icon_right);
         llSellerBusinessDetailContainer = (LinearLayout) findViewById(R.id.llSellerBusinessDetailContainer);
 
         collapseoropenim_business.setOnClickListener(new View.OnClickListener() {
@@ -666,8 +666,8 @@ public class SellerRegistrationActivity extends AppCompatActivity implements Tim
 
 /////////////// personal Detail
 
-        customCardviewHeader_personal_detail = (CustomCardviewHeader) findViewById(R.id.customCardviewPersonalDetails);
-        collapseoropenim_personal = (ImageView) customCardviewHeader_personal_detail.findViewById(R.id.cardview_header_icon_right);
+        customCardViewHeader_personal_detail = (CustomCardViewHeader) findViewById(R.id.customCardviewPersonalDetails);
+        collapseoropenim_personal = (ImageView) customCardViewHeader_personal_detail.findViewById(R.id.cardview_header_icon_right);
 
         llSellerPersonalDetailContainer = (LinearLayout) findViewById(R.id.llSellerPersonalDetailContainer);
 
@@ -731,9 +731,9 @@ public class SellerRegistrationActivity extends AppCompatActivity implements Tim
 
 /////////////// User Detail
 
-        customCardviewHeader_newUser = (CustomCardviewHeader) findViewById(R.id.customCardviewHeader_newUser);
+        customCardViewHeader_newUser = (CustomCardViewHeader) findViewById(R.id.customCardviewHeader_newUser);
 
-        collapseoropenim_user = (ImageView) customCardviewHeader_newUser.findViewById(R.id.cardview_header_icon_right);
+        collapseoropenim_user = (ImageView) customCardViewHeader_newUser.findViewById(R.id.cardview_header_icon_right);
 
         llSellerUserDetailContainer = (LinearLayout) findViewById(R.id.llSellerUserDetailContainer);
 
