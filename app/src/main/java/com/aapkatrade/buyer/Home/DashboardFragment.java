@@ -193,13 +193,17 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
 
         String user_id_data = appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), "notlogin");
 
+        if (user_id_data.equals("notlogin"))
+        {
+            System.out.println("user_id_update-------------"+user_id_data);
 
-        if (user_id.equals("notlogin")) {
+        }
+        else
+        {
 
+            System.out.println("update------------"+user_id_data);
 
-        } else {
-          
-           update_token(user_id_data);
+            update_token(user_id_data);
         }
 
         get_home_data();
@@ -296,7 +300,8 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
 
     }
 
-    public void get_home_data() {
+    public void get_home_data()
+    {
         progress_handler.show();
 
         coordinatorLayout.setVisibility(View.INVISIBLE);
@@ -306,7 +311,6 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
         if (user_id.equals("notlogin")) {
             user_id = "";
         }
-
 
         System.out.println("dsahgdadh-------------" + user_id + AppConfig.getCurrentDeviceId(context));
 
