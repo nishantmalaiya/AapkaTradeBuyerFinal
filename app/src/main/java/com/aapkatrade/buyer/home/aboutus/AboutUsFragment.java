@@ -25,15 +25,13 @@ import com.koushikdutta.ion.Ion;
 
 public class AboutUsFragment extends Fragment {
     private Context context;
-<<<<<<< HEAD:app/src/main/java/com/aapkatrade/buyer/Home/aboutus/AboutUsFragment.java
-=======
+
     private ExpandableTextView tvTermsAndConditions;
->>>>>>> remotes/origin/master:app/src/main/java/com/aapkatrade/buyer/home/aboutus/AboutUsFragment.java
+
     private TextView tvReadMore;
     private RelativeLayout expandableRelativeLayout;
     private LinearLayout policyContentMainLayout;
     private LinearLayout policyHeaderLayout;
-    ExpandableTextView tvTermsAndConditions;
 
 
     @Override
@@ -53,7 +51,7 @@ public class AboutUsFragment extends Fragment {
         final ProgressBarHandler progressBarHandler = new ProgressBarHandler(context);
         progressBarHandler.show();
         Ion.with(context)
-                .load(getString(R.string.webservice_base_url)+"/about_us")
+                .load(getString(R.string.webservice_base_url) + "/about_us")
                 .setHeader("Authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                 .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                 .asJsonObject()
@@ -61,8 +59,8 @@ public class AboutUsFragment extends Fragment {
                     @Override
                     public void onCompleted(Exception e, JsonObject result) {
                         progressBarHandler.hide();
-                        if(result!=null){
-                            AndroidUtils.showErrorLog(context, "if**********"+result.toString()/*, Html.fromHtml(result.get("result").getAsString())*/);
+                        if (result != null) {
+                            AndroidUtils.showErrorLog(context, "if**********" + result.toString()/*, Html.fromHtml(result.get("result").getAsString())*/);
                             tvTermsAndConditions.setText(Html.fromHtml(result.get("result").getAsString()));
                         } else {
                             AndroidUtils.showErrorLog(context, "Else**********");
@@ -94,5 +92,5 @@ public class AboutUsFragment extends Fragment {
             }
         });
     }
-   
+
 }
