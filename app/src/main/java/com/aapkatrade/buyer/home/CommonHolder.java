@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.aapkatrade.buyer.R;
 
 
@@ -19,12 +20,10 @@ public class CommonHolder extends RecyclerView.ViewHolder {
     TextView tvProductName;
 
 
-    public CommonHolder(View itemView)
-    {
+    public CommonHolder(View itemView) {
         super(itemView);
-        cardview= (CardView) itemView.findViewById(R.id.cardview);
-        cimageview=(ImageView)itemView.findViewById(R.id.img_product_image_list) ;
-
+        cardview = (CardView) itemView.findViewById(R.id.cardview);
+        cimageview = (ImageView) itemView.findViewById(R.id.img_product_image_list);
         tvProductName = (TextView) itemView.findViewById(R.id.tvProductName);
     }
 }
