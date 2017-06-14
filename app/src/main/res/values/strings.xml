@@ -1,117 +1,117 @@
 <resources>
-    <string name="app_name" translatable="false">AapkaTrade Buyer</string>
+    <string name="app_name" >AapkaTrade Buyer</string>
 
-    <string name="my_profile_heading" translatable="false">My Profile</string>
-    <string name="my_profile_detail_heading" translatable="false">Hello,<font color="#0000FF"> Arvind </font> - To Update your account information.</string>
-    <string name="save" translatable="false">Save</string>
-    <string name="save_caps" translatable="false">SAVE</string>
-    <string name="submit" translatable="false">SUBMIT</string>
-    <string name="aapka_data" translatable="false">AAPKA <font color='white'>TRADE</font></string>
-    <string name="login" translatable="false">LOGIN</string>
-    <string name="change_password_heading" translatable="false">Change Password</string>
-    <string name="email_or_mobile" translatable="false">Email/Mobile</string>
+    <string name="my_profile_heading" >My Profile</string>
+    <string name="my_profile_detail_heading" >Hello,<font color="#0000FF"> Arvind </font> - To Update your account information.</string>
+    <string name="save" >Save</string>
+    <string name="save_caps" >SAVE</string>
+    <string name="submit" >SUBMIT</string>
+    <string name="aapka_data" >AAPKA <font color='white'>TRADE</font></string>
+    <string name="login" >LOGIN</string>
+    <string name="change_password_heading" >Change Password</string>
+    <string name="email_or_mobile" >Email/Mobile</string>
     <string name="write_and_review">Write And Review</string>
 
 
-    <string name="forgotpassword" translatable="false">Forget Password?</string>
-    <string name="new_user" translatable="false">New User?</string>
+    <string name="forgotpassword" >Forget Password?</string>
+    <string name="new_user" >New User?</string>
     <string name="pleaseWait">Wait !</string>
     <string name="webpage_being_loaded">Data is loading &#8230;&#8230;&#8230;</string>
 
-    <string name="comp_doc" translatable="false">Company Document (pdf/image)</string>
-    <string name="drawer_open" translatable="false">draweropen</string>
-    <string name="drawer_close" translatable="false">drawerclose</string>
-    <string name="language" translatable="false">language</string>
-    <string name="cart" translatable="false">cart</string>
-    <string name="product" translatable="false">PRODUCTS:</string>
-    <string name="qty" translatable="false">QTY:</string>
+    <string name="comp_doc" >Company Document (pdf/image)</string>
+    <string name="drawer_open" >draweropen</string>
+    <string name="drawer_close" >drawerclose</string>
+    <string name="language" >language</string>
+    <string name="cart" >cart</string>
+    <string name="product" >PRODUCTS:</string>
+    <string name="qty" >QTY:</string>
 
-    <string name="qty_def" translatable="false">05</string>
+    <string name="qty_def" >05</string>
 
-    <string name="product_name" translatable="false">Product Name</string>
+    <string name="product_name" >Product Name</string>
 
-    <string name="category" translatable="false">Category</string>
-    <string name="tab_1" translatable="false">Home</string>
-    <string name="tab_2" translatable="false">About Us</string>
-    <string name="tab_3" translatable="false">Track Order</string>
-    <string name="tab_4" translatable="false">Account</string>
-    <string name="tab_5" translatable="false">Contact Us</string>
-
-
-    <string name="welcomeguest" translatable="false">Welcome Guest</string>
-    <string name="nointernetconnection" translatable="false">No Internet connection found.</string>
-    <string name="nointernetconnection2" translatable="false">Check your connection.</string>
-    <string name="retry" translatable="false">RETRY</string>
-    <string name="viewall" translatable="false">View All</string>
-    <string name="latest_deals" translatable="false">LATEST POST</string>
-    <string name="english" translatable="false">English</string>
-    <string name="hindi" translatable="false">Hindi</string>
-    <string name="address" translatable="false">Address</string>
-    <string name="address1" translatable="false">Address *</string>
+    <string name="category" >Category</string>
+    <string name="tab_1" >Home</string>
+    <string name="tab_2" >About Us</string>
+    <string name="tab_3" >Track Order</string>
+    <string name="tab_4" >Account</string>
+    <string name="tab_5" >Contact Us</string>
 
 
-    <string name="google_api" translatable="false">AIzaSyDEC-Z8NKvcLAbB4vKdNa2ByUcXfOX_Tao</string>
-    <string name="forgot_your_password" translatable="false">Forgot your Password?</string>
-    <string name="forgot_your_password_instruction1" translatable="false">Enter your Email/Mobile number below to receive OTP</string>
-    <string name="email" translatable="false">Email</string>
-    <string name="emailId" translatable="false">Email ID*</string>
-    <string name="or" translatable="false">OR</string>
-    <string name="mobile_no" translatable="false">mobile no</string>
-    <string name="send_otp" translatable="false">SEND OTP</string>
-    <string name="otp_data_1" translatable="false">Make sure your information is</string>
-    <string name="otp_data_2" translatable="false">correct before continuing</string>
-    <string name="verify" translatable="false">VERIFY</string>
-    <string name="otp_not_recived" translatable="false">OTP Not Received?</string>
+    <string name="welcomeguest" >Welcome Guest</string>
+    <string name="nointernetconnection" >No Internet connection found.</string>
+    <string name="nointernetconnection2" >Check your connection.</string>
+    <string name="retry" >RETRY</string>
+    <string name="viewall" >View All</string>
+    <string name="latest_deals" >LATEST POST</string>
+    <string name="english" >English</string>
+    <string name="hindi" >Hindi</string>
+    <string name="address" >Address</string>
+    <string name="address1" >Address *</string>
 
-    <string name="address_line1" translatable="false">3rd Floor, Tower B, JMD Megapolis</string>
-    <string name="address_line2" translatable="false">Sohna Road, Sector 48</string>
-    <string name="address_line3" translatable="false">Gurugram, Haryana 122001</string>
-    <string name="item_price" translatable="false">18,941</string>
-    <string name="item_subtotal_price" translatable="false">19,689</string>
-    <string name="product_detail" translatable="false">Product Detail:</string>
-    <string name="express_delivery" translatable="false">Express Delivery:   99</string>
-    <string name="delivery_date" translatable="false">Delivery date: 19 Jan to 20 Jan</string>
-    <string name="subtotal" translatable="false">Subtotal:</string>
 
-    <string name="webservice_base_url" translatable="false">http://staging.aapkatrade.com/slim</string>
-    <string name="logout" translatable="false">Logout</string>
-    <string name="latest_update" translatable="false">LATEST UPDATE</string>
-    <string name="first_name" translatable="false">First Name*</string>
-    <string name="last_name" translatable="false">Last Name*</string>
-    <string name="father_name" translatable="false">Father Name*</string>
-    <string name="password1" translatable="false">Password*</string>
-    <string name="confirm_password1" translatable="false">Confirm Password*</string>
-    <string name="mobile" translatable="false">Mobile*</string>
-    <string name="date_of_birth" translatable="false">Date Of Birth*</string>
-    <string name="pincode" translatable="false">Pincode</string>
-    <string name="accept_t_and_c" translatable="false">Accept Terms and Conditions</string>
-    <string name="save_and_next" translatable="false">Save &amp; Next</string>
+    <string name="google_api" >AIzaSyDEC-Z8NKvcLAbB4vKdNa2ByUcXfOX_Tao</string>
+    <string name="forgot_your_password" >Forgot your Password?</string>
+    <string name="forgot_your_password_instruction1" >Enter your Email/Mobile number below to receive OTP</string>
+    <string name="email" >Email</string>
+    <string name="emailId" >Email ID*</string>
+    <string name="or" >OR</string>
+    <string name="mobile_no" >mobile no</string>
+    <string name="send_otp" >SEND OTP</string>
+    <string name="otp_data_1" >Make sure your information is</string>
+    <string name="otp_data_2" >correct before continuing</string>
+    <string name="verify" >VERIFY</string>
+    <string name="otp_not_recived" >OTP Not Received?</string>
 
-    <string name="search_data" translatable="false">What?e.g. Dairy</string>
-    <string name="aacount_no" translatable="false">Account No.*</string>
-    <string name="branch_code" translatable="false">Branch Code*</string>
-    <string name="branch_name" translatable="false">Branch Name</string>
-    <string name="ifsc_code" translatable="false">IFSC Code*</string>
-    <string name="micr_code" translatable="false">MICR Code*</string>
-    <string name="account_holder_name" translatable="false">Account Holder Name*</string>
-    <string name="registered_mobile" translatable="false">Registered Mobile*</string>
-    <string name="new_user_signup" translatable="false">New User Signup</string>
-    <string name="description_heading" translatable="false">Description</string>
-    <string name="description" translatable="false">Department Stores, Chocolate Retailers, Soft Drink Retailers,Grocery Stores, Beverage Dealers, General Stores, Deparmental Stores Home Delivery</string>
-    <string name="review_heading" translatable="false">Ratings &amp; Review</string>
-    <string name="selected_place" translatable="false">Selected Place</string>
-    <string name="personalDetails" translatable="false">Personal Details</string>
-    <string name="terms" translatable="false">Terms &amp; Conditions</string>white
-    <string name="invite" translatable="false">Invite &amp; Share</string>
-    <string name="action_settings" translatable="false">Settings</string>
+    <string name="address_line1" >3rd Floor, Tower B, JMD Megapolis</string>
+    <string name="address_line2" >Sohna Road, Sector 48</string>
+    <string name="address_line3" >Gurugram, Haryana 122001</string>
+    <string name="item_price" >18,941</string>
+    <string name="item_subtotal_price" >19,689</string>
+    <string name="product_detail" >Product Detail:</string>
+    <string name="express_delivery" >Express Delivery:   99</string>
+    <string name="delivery_date" >Delivery date: 19 Jan to 20 Jan</string>
+    <string name="subtotal" >Subtotal:</string>
 
-    <string name="your_location" translatable="false">Enter your Location</string>
-    <string name="ref_number" translatable="false">Reference Number</string>
-    <string name="location_hint" translatable="false">Enter your State Name</string>
-    <string name="oldPassword" translatable="false">Old Password</string>
-    <string name="newPassword" translatable="false">New Password</string>
-    <string name="confirmNewPassword" translatable="false">Confirm New Password</string>
-    <string name="title_activity_bank_management" translatable="false">BankManagementActivity</string>
+    <string name="webservice_base_url" >http://staging.aapkatrade.com/slim</string>
+    <string name="logout" >Logout</string>
+    <string name="latest_update" >LATEST UPDATE</string>
+    <string name="first_name" >First Name*</string>
+    <string name="last_name" >Last Name*</string>
+    <string name="father_name" >Father Name*</string>
+    <string name="password1" >Password*</string>
+    <string name="confirm_password1" >Confirm Password*</string>
+    <string name="mobile" >Mobile*</string>
+    <string name="date_of_birth" >Date Of Birth*</string>
+    <string name="pincode" >Pincode</string>
+    <string name="accept_t_and_c" >Accept Terms and Conditions</string>
+    <string name="save_and_next" >Save &amp; Next</string>
+
+    <string name="search_data" >What?e.g. Dairy</string>
+    <string name="aacount_no" >Account No.*</string>
+    <string name="branch_code" >Branch Code*</string>
+    <string name="branch_name" >Branch Name</string>
+    <string name="ifsc_code" >IFSC Code*</string>
+    <string name="micr_code" >MICR Code*</string>
+    <string name="account_holder_name" >Account Holder Name*</string>
+    <string name="registered_mobile" >Registered Mobile*</string>
+    <string name="new_user_signup" >New User Signup</string>
+    <string name="description_heading" >Description</string>
+    <string name="description" >Department Stores, Chocolate Retailers, Soft Drink Retailers,Grocery Stores, Beverage Dealers, General Stores, Deparmental Stores Home Delivery</string>
+    <string name="review_heading" >Ratings &amp; Review</string>
+    <string name="selected_place" >Selected Place</string>
+    <string name="personalDetails" >Personal Details</string>
+    <string name="terms" >Terms &amp; Conditions</string>white
+    <string name="invite" >Invite &amp; Share</string>
+    <string name="action_settings" >Settings</string>
+
+    <string name="your_location" >Enter your Location</string>
+    <string name="ref_number" >Reference Number</string>
+    <string name="location_hint" >Enter your State Name</string>
+    <string name="oldPassword" >Old Password</string>
+    <string name="newPassword" >New Password</string>
+    <string name="confirmNewPassword" >Confirm New Password</string>
+    <string name="title_activity_bank_management" >BankManagementActivity</string>
 
     <string name="title_activity_payout">PayoutActivity</string>
     <string name="select_state">your state</string>
@@ -223,12 +223,12 @@
     <string name="message">Message</string>
     <string name="receipt">Receipt</string>
     <string name="done">Done</string>
-    <string name="one" translatable="false">1</string>
-    <string name="two" translatable="false">2</string>
-    <string name="three" translatable="false">3</string>
-    <string name="personalInfo" translatable="false">Personal Information</string>
-    <string name="bankDetails" translatable="false">Bank Details</string>
-    <string name="professionalDetails" translatable="false">Professional Details</string>
+    <string name="one" >1</string>
+    <string name="two" >2</string>
+    <string name="three" >3</string>
+    <string name="personalInfo" >Personal Information</string>
+    <string name="bankDetails" >Bank Details</string>
+    <string name="professionalDetails" >Professional Details</string>
     <string name="cancel_order">Cancel Order</string>
     <string name="payment_unsuccess">Payment Unsuccess</string>
     <string name="cancelingRequest">Cancellation Request</string>
@@ -244,7 +244,7 @@
     <string name="got_it"> Thanks Got it</string>
     <string name="tap_anywhere">Tap anywhere  to dismiss</string>
 
-    <string name="asset_statements" translatable="false">[{\n  \"relation\": [\"delegate_permission/common.handle_all_urls\"],\n  \"target\": {\n    \"namespace\": \"web\",\n    \"site\": \"https://www.aapkatrade.com\",\n  }\n}]</string>
+    <string name="asset_statements" >[{\n  \"relation\": [\"delegate_permission/common.handle_all_urls\"],\n  \"target\": {\n    \"namespace\": \"web\",\n    \"site\": \"https://www.aapkatrade.com\",\n  }\n}]</string>
     <string name="slide_1_title">Welcome to</string>
     <string name="slide_1_description">AapkaTrade is India\'s uniques business platform where everybody can do the business</string>
     <string name="next">Next</string>
@@ -265,8 +265,8 @@
     <string name="product_listing_not_found"> Shops  of this Category will be updated soon! </string>
     <string name="seller">Seller</string>
     <string name="businessassociate">Business Associate</string>
-    <string name="loginregisterfooter" translatable="false">Please Click one for Login/Register</string>
-    <string name="title_activity_logindashboard" translatable="false">logindashboard</string>
+    <string name="loginregisterfooter" >Please Click one for Login/Register</string>
+    <string name="title_activity_logindashboard" >logindashboard</string>
     <string name="splash_footer_text">YAHA SAB MILTA HAI</string>
     <string name="title_activity_fcm">FcmActivity</string>
     <string name="bussiness_details">Bussiness Details</string>
