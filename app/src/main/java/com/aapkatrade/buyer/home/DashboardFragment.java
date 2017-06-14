@@ -103,10 +103,8 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-    {
-        if (view == null)
-        {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        if (view == null) {
             view = inflater.inflate(R.layout.fragment_dashboard_new, container, false);
             appSharedPreference = new AppSharedPreference(getActivity());
             initializeview(view, container);
@@ -115,12 +113,11 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
     }
 
 
-    private void setupviewpager(ArrayList<String> imageIdList)
-    {
+    private void setupviewpager(ArrayList<String> imageIdList) {
         viewpageradapter = new viewpageradapter_home(getActivity(), imageIdList);
         vp.setAdapter(viewpageradapter);
         vp.setCurrentItem(currentPage);
-        setUiPageViewController();
+
 
         final Handler handler = new Handler();
 
@@ -188,22 +185,13 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
         view_all_latest_update = (RelativeLayout) view.findViewById(R.id.rl_viewall_latest_update);
         view_all_latest_update.setOnClickListener(this);
 
-        String user_id_data = appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), "notlogin");
+        user_id = appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), "notlogin");
 
-        if (user_id_data.equals("notlogin"))
-        {
-            System.out.println("user_id_update-------------"+user_id_data);
 
-        if (!(user_id!=null && user_id.equals("notlogin"))) {
-           update_token(user_id_data);
+        if (!(user_id != null && user_id.equals("notlogin"))) {
+            update_token(user_id);
         }
-        else
-        {
 
-            System.out.println("update------------"+user_id_data);
-
-            update_token(user_id_data);
-        }
 
         get_home_data();
 
@@ -260,10 +248,11 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
 
 
         });
-    }}
 
-    private void update_token(String id)
-    {
+
+    }
+
+    private void update_token(String id) {
 
 
         Ion.with(getActivity())
@@ -279,28 +268,12 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
                     public void onCompleted(Exception e, JsonObject result) {
 
 
-                       /* String error = result.get("error").getAsString();
-
-                        /*String error = result.get("error").getAsString();
-
-
-                        if (error.equals("false"))
-                        {
-
-
-                        }
-                        else
-                        {
-
-                        }*/
-
                     }
                 });
 
     }
 
-    public void get_home_data()
-    {
+    public void get_home_data() {
         progress_handler.show();
 
         coordinatorLayout.setVisibility(View.INVISIBLE);
@@ -311,7 +284,6 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
             user_id = "";
         }
 
-        System.out.println("dsahgdadh-------------" + user_id + AppConfig.getCurrentDeviceId(context));
 
         Ion.with(getActivity())
                 .load(getResources().getString(R.string.webservice_base_url) + "/home")
@@ -346,8 +318,6 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
 
                             }
 
-
-                            Log.e("cart_count---------", String.valueOf(appSharedPreference.getSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), 0)));
 
                             JsonArray jsonarray_top_banner = jsonResult.getAsJsonArray("top_banner");
                             imageIdList = new ArrayList<>();
@@ -443,29 +413,6 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
     }
 
 
-    private void setUiPageViewController() {
-
-//        dotsCount = viewpageradapter.getCount();
-//        dots = new ImageView[dotsCount];
-//
-//        for (int i = 0; i < dotsCount; i++) {
-//            dots[i] = new ImageView(getActivity());
-//            dots[i].setImageDrawable(getResources().getDrawable(R.drawable.nonselected_item));
-//
-//            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-//                    LinearLayout.LayoutParams.WRAP_CONTENT,
-//                    LinearLayout.LayoutParams.WRAP_CONTENT
-//            );
-//
-//            params.setMargins(4, 0, 4, 0);
-//
-//            viewpagerindicator.addView(dots[i], params);
-//        }
-//
-//        dots[0].setImageDrawable(getResources().getDrawable(R.drawable.selecteditem_dot));
-    }
-
-
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -524,8 +471,6 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
                 AndroidUtils.showErrorLog(context, "error in permission");
             }
 
-        } else {
-
         }
     }
 
@@ -558,18 +503,6 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
             }
 
 
-
-           /* Intent go_to_product_listactivity = new Intent(getActivity(), ParticularActivity.class);
-            go_to_product_listactivity.putExtra("url", getResources().getString(R.string.webservice_base_url) + "/latestupdate");
-            startActivity(go_to_product_listactivity);
-            ((AppCompatActivity) context).overridePendingTransition(R.anim.enter, R.anim.exit);
-
-            */
-
-
-        } else {
-
-
         }
     }
 
@@ -589,18 +522,5 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
 
     }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-//        if (banner_timer != null)
-//            banner_timer.cancel();
-    }
 
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-//        if (banner_timer != null)
-//            banner_timer.cancel();
-    }
 }

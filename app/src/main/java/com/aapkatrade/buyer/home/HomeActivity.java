@@ -55,8 +55,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class HomeActivity extends AppCompatActivity
-{
+public class HomeActivity extends AppCompatActivity {
 
     private NavigationFragment drawer;
     private Toolbar toolbar;
@@ -88,12 +87,19 @@ public class HomeActivity extends AppCompatActivity
     ImageView logoWord;
 
 
-
-
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        preInit();
+
+        setContentView(R.layout.activity_homeactivity);
+        initView();
+
+
+    }
+
+    private void initView() {
 
         rl_main_content = (RelativeLayout) findViewById(R.id.rl_main_content);
 
@@ -103,6 +109,28 @@ public class HomeActivity extends AppCompatActivity
 
         appSharedPreference = new AppSharedPreference(HomeActivity.this);
 
+        //prefs = getSharedPreferences(shared_pref_name, Activity.MODE_PRIVATE);
+        context = this;
+        rlTutorial = (RelativeLayout) findViewById(R.id.rlFirstTime);
+        //  permissions  granted.
+        setupToolBar();
+        //setupNavigation();
+        setupNavigationCustom();
+        setupDashFragment();
+        Intent iin = getIntent();
+        Bundle b = iin.getExtras();
+        setup_bottomNavigation();
+        AppConfig.deleteCache(HomeActivity.this);
+
+        if (permission_status && (rl_main_content.getVisibility() == View.GONE)) {
+
+            rl_main_content.setVisibility(View.VISIBLE);
+
+
+        }
+    }
+
+    private void preInit() {
         AppConfig.set_defaultfont(HomeActivity.this);
 
         aboutUsFragment = new AboutUsFragment();
@@ -112,51 +140,6 @@ public class HomeActivity extends AppCompatActivity
         userDashboardFragment = new UserDashboardFragment();
 
         permission_status = CheckPermission.checkPermissions(HomeActivity.this);
-
-        if (permission_status)
-        {
-            setContentView(R.layout.activity_homeactivity);
-            //prefs = getSharedPreferences(shared_pref_name, Activity.MODE_PRIVATE);
-            context = this;
-            rlTutorial = (RelativeLayout) findViewById(R.id.rlFirstTime);
-            //  permissions  granted.
-            setupToolBar();
-            //setupNavigation();
-            setupNavigationCustom();
-            setupDashFragment();
-            Intent iin = getIntent();
-            Bundle b = iin.getExtras();
-            setup_bottomNavigation();
-            AppConfig.deleteCache(HomeActivity.this);
-
-
-        }
-        else
-        {
-            setContentView(R.layout.activity_homeactivity);
-            //prefs = getSharedPreferences(shared_pref_name, Activity.MODE_PRIVATE);
-            context = this;
-            rlTutorial = (RelativeLayout) findViewById(R.id.rlFirstTime);
-            rl_main_content = (RelativeLayout) findViewById(R.id.rl_main_content);
-            //  permissions  granted.
-            setupToolBar();
-            //setupNavigation();
-            setupNavigationCustom();
-            setupDashFragment();
-            Intent iin = getIntent();
-            Bundle b = iin.getExtras();
-            setup_bottomNavigation();
-            checked_wifispeed();
-            AppConfig.deleteCache(HomeActivity.this);
-
-        }
-
-
-    }
-
-    private void checked_wifispeed() {
-        int a = ConnetivityCheck.get_wifi_speed(this);
-        Log.e("a", a + "");
     }
 
 
@@ -190,8 +173,7 @@ public class HomeActivity extends AppCompatActivity
     }
 
 
-    private void setupToolBar()
-    {
+    private void setupToolBar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -200,7 +182,7 @@ public class HomeActivity extends AppCompatActivity
         AndroidUtils.setImageColor(home_link, context, R.color.white);
         home_link.setVisibility(View.GONE);
 
-        logoWord=(ImageView)toolbar.findViewById(R.id.logoWord);
+        logoWord = (ImageView) toolbar.findViewById(R.id.logoWord);
     }
 
     private void replaceFragment(Fragment newFragment, String tag) {
@@ -259,8 +241,7 @@ public class HomeActivity extends AppCompatActivity
     }
 
     @Override
-    public void onBackPressed()
-    {
+    public void onBackPressed() {
         FragmentManager fm = getSupportFragmentManager();
         DashboardFragment dashboardFragment = (DashboardFragment) fm.findFragmentByTag(homeFragment.getClass().getName());
         ContactUsFragment showcontactUsFragment = (ContactUsFragment) fm.findFragmentByTag(contactUsFragment.getClass().getName());
@@ -268,15 +249,13 @@ public class HomeActivity extends AppCompatActivity
 
         UserDashboardFragment showuserdashboardfragment = (UserDashboardFragment) fm.findFragmentByTag(userDashboardFragment.getClass().getName());
 
-        if (dashboardFragment != null && dashboardFragment.isVisible())
-        {
+        if (dashboardFragment != null && dashboardFragment.isVisible()) {
 
             double_back_pressed("finish");
             //finish();
 
             Log.e("myfragment_visible", "myfragment visible");
-        } else if (showcontactUsFragment != null && showcontactUsFragment.isVisible())
-        {
+        } else if (showcontactUsFragment != null && showcontactUsFragment.isVisible()) {
             double_back_pressed("finish");
             // finish();
             Log.e("contact us visible", "contact us visible");
@@ -294,25 +273,6 @@ public class HomeActivity extends AppCompatActivity
             double_back_pressed("onbackpressed");
             // super.onBackPressed();
         }
-
-    }
-
-
-    public void loadLocale() {
-
-        String language = appSharedPreference.getSharedPref(SharedPreferenceConstants.LANGUAGE.toString(), "");
-        AppConfig.setLocaleFa(HomeActivity.this, language);
-        Log.e("language", language);
-        // changeLang(language);
-    }
-
-    public void saveLocale(String lang) {
-        String langPref = "Language";
-        appSharedPreference.setSharedPref(SharedPreferenceConstants.LANGUAGE.toString(), lang);
-        Log.e("language_pref", langPref + "****" + lang);
-        Intent intent = getIntent();
-        finish();
-        startActivity(intent);
 
     }
 
@@ -382,7 +342,7 @@ public class HomeActivity extends AppCompatActivity
                         }
                         String tagName = homeFragment.getClass().getName();
                         replaceFragment(homeFragment, tagName);
-                        // showOrHideBottomNavigation(true);
+
 
                         break;
                     case 1:
@@ -394,7 +354,7 @@ public class HomeActivity extends AppCompatActivity
                         }
                         String aboutUsFragment_tagName = aboutUsFragment.getClass().getName();
                         replaceFragment(aboutUsFragment, aboutUsFragment_tagName);
-                        // showOrHideBottomNavigation(true);
+
                         break;
 
 
@@ -403,13 +363,6 @@ public class HomeActivity extends AppCompatActivity
                         FragmentManager fm = getSupportFragmentManager();
                         TrackOrderDialog track_orderDialog = new TrackOrderDialog();
                         track_orderDialog.show(fm, "Track Order");
-
-
-//                        Intent i =new Intent(HomeActivity.this, Order_detail.class);
-//                       i.putExtra("class_name", "");
-//                       i.putExtra("result","");
-//                        startActivity(i);
-                        //goToMyApp(true);
 
 
                         break;
@@ -445,89 +398,10 @@ public class HomeActivity extends AppCompatActivity
                 return true;
             }
         });
-        bottomNavigation.setOnNavigationPositionListener(new AHBottomNavigation.OnNavigationPositionListener() {
-            @Override
-            public void onPositionChange(int y) {
-                // Manage the new y position
-            }
-        });
-
-    }
-
-
-    @TargetApi(Build.VERSION_CODES.M)
-    private void setup_scrollview(final NestedScrollView scrollView) {
-        if (Build.VERSION.SDK_INT >= 23) {
-            // Marshmallow+
-
-            scrollView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
-                @Override
-                public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                    int pos = scrollView.getChildCount() - 1;
-                    if (oldScrollY < scrollY) {
-
-                        showOrHideBottomNavigation(true);
-//                    setForceTitleHide(true);
-//                    setForceTitleHide(true);
-                    } else {
-                        showOrHideBottomNavigation(false);
-                    }
-
-                    if (oldScrollY == scrollY)
-                    {
-                        showOrHideBottomNavigation(true);
-
-                    }
-
-                }
-            });
-        } else {
-
-            scrollView.setOnTouchListener(new View.OnTouchListener() {
-                float height;
-
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-
-                    int action = event.getAction();
-                    float height2 = event.getY();
-                    if (action == MotionEvent.ACTION_DOWN) {
-                        height = height2;
-                    } else if (action == MotionEvent.ACTION_UP) {
-                        if (this.height > height2) {
-                            Log.e("up", "Scrolled up");
-                            showOrHideBottomNavigation(false);
-                        } else if (this.height < height2) {
-                            Log.e("down", "Scrolled down");
-                            showOrHideBottomNavigation(true);
-                        }
-                    }
-                    return false;
-                }
-
-            });
-
-
-            // Pre-Marshmallow
-        }
 
 
     }
 
-    private void setForceTitleHide(boolean forceTitleHide) {
-        AHBottomNavigation.TitleState state = forceTitleHide ? AHBottomNavigation.TitleState.ALWAYS_HIDE : AHBottomNavigation.TitleState.ALWAYS_SHOW;
-        bottomNavigation.setTitleState(state);
-    }
-
-
-    public void showOrHideBottomNavigation(boolean show) {
-        if (show) {
-            bottomNavigation.restoreBottomNavigation(true);
-        } else {
-            bottomNavigation.hideBottomNavigation(true);
-        }
-
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -586,23 +460,9 @@ public class HomeActivity extends AppCompatActivity
 
     }
 
-    public void goToMyApp(boolean googlePlay) {
-        //true if Google Play, false if Amazone Store
-        try {
-            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse((googlePlay ? "market://details?id=" : "amzn://apps/android?p=") + getPackageName())));
-        } catch (ActivityNotFoundException e1) {
-            try {
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse((googlePlay ? "http://play.google.com/store/apps/details?id=" : "http://www.amazon.com/gp/mas/dl/android?p=") + getPackageName())));
-            } catch (ActivityNotFoundException e2) {
-                AndroidUtils.showToast(context, "You don't have any app that can open this link.");
-            }
-        }
-    }
-
 
     @Override
-    public void onResume()
-    {
+    public void onResume() {
         super.onResume();
         AndroidUtils.showErrorLog(context, "testing", appSharedPreference.getSharedPrefInt(SharedPreferenceConstants.IS_FIRST_TIME.toString()));
         if (appSharedPreference.getSharedPrefInt(SharedPreferenceConstants.IS_FIRST_TIME.toString()) == 1) {
@@ -623,16 +483,12 @@ public class HomeActivity extends AppCompatActivity
         if (home_activity == 1) {
 
             home_activity = 2;
-        }
-        else
-        {
+        } else {
             tvCartCount.setText(String.valueOf(appSharedPreference.getSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), 0)));
         }
 
-        if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString(), "notlogin") != null)
-        {
-            if (NavigationFragment.profilePic != null && Validation.isNonEmptyStr(appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_PIC.toString(), "")))
-            {
+        if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString(), "notlogin") != null) {
+            if (NavigationFragment.profilePic != null && Validation.isNonEmptyStr(appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_PIC.toString(), ""))) {
                 Picasso.with(context).load(appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_PIC.toString(), ""))
                         .error(R.drawable.ic_profile_user)
                         .into(NavigationFragment.profilePic);
