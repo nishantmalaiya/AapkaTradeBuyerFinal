@@ -71,7 +71,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
     ArrayList<CommomData> commomDatas_latestpost = new ArrayList<>();
     ArrayList<CommomData> commomDatas_latestupdate = new ArrayList<>();
     private CommomAdapter commomAdapter_latestpost, commomAdapter_latestproduct;
-    //  public latestproductadapter latestproductadapter;
+    //public latestproductadapter latestproductadapter;
     ProgressBarHandler progress_handler;
     private int dotsCount;
     private ArrayList<String> imageIdList;
@@ -106,20 +106,20 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if (view == null) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
+        if (view == null)
+        {
             view = inflater.inflate(R.layout.fragment_dashboard_new, container, false);
             appSharedPreference = new AppSharedPreference(getActivity());
             initializeview(view, container);
         }
-
-
         return view;
     }
 
 
-    private void setupviewpager(ArrayList<String> imageIdList) {
-
+    private void setupviewpager(ArrayList<String> imageIdList)
+    {
         viewpageradapter = new viewpageradapter_home(getActivity(), imageIdList);
         vp.setAdapter(viewpageradapter);
         vp.setCurrentItem(currentPage);
@@ -135,7 +135,6 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
                 vp.setCurrentItem(currentPage++, true);
             }
         };
-
 
         banner_timer.schedule(new TimerTask() {
 
@@ -182,7 +181,6 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
             gridLayoutManager = new GridLayoutManager(context, 2);
         }
 
-
         recyclerlatestupdate.setLayoutManager(gridLayoutManager);
         recyclerlatestupdate.setHasFixedSize(true);
 
@@ -193,14 +191,15 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
         view_all_latest_update = (RelativeLayout) view.findViewById(R.id.rl_viewall_latest_update);
         view_all_latest_update.setOnClickListener(this);
 
-        String user_id = appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), "notlogin");
+        String user_id_data = appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), "notlogin");
+
 
         if (user_id.equals("notlogin")) {
 
 
         } else {
-            update_token();
-
+          
+           update_token(user_id_data);
         }
 
         get_home_data();
@@ -260,12 +259,15 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
         });
     }
 
-    private void update_token() {
+    private void update_token(String id)
+    {
+
+
         Ion.with(getActivity())
                 .load(getResources().getString(R.string.webservice_base_url) + "/update_token")
                 .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                 .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
-                .setBodyParameter("user_id", user_id)
+                .setBodyParameter("user_id", id)
                 .setBodyParameter("type", appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), "0"))
                 .setBodyParameter("token", AppConfig.getCurrentDeviceId(context))
                 .asJsonObject()
@@ -273,10 +275,15 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
                     @Override
                     public void onCompleted(Exception e, JsonObject result) {
 
+
+                       /* String error = result.get("error").getAsString();
+
                         /*String error = result.get("error").getAsString();
+
 
                         if (error.equals("false"))
                         {
+
 
                         }
                         else

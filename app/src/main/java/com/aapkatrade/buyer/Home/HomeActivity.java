@@ -603,7 +603,8 @@ public class HomeActivity extends AppCompatActivity
 
 
     @Override
-    public void onResume() {
+    public void onResume()
+    {
         super.onResume();
         AndroidUtils.showErrorLog(context, "testing", appSharedPreference.getSharedPrefInt(SharedPreferenceConstants.IS_FIRST_TIME.toString()));
         if (appSharedPreference.getSharedPrefInt(SharedPreferenceConstants.IS_FIRST_TIME.toString()) == 1) {
@@ -624,20 +625,21 @@ public class HomeActivity extends AppCompatActivity
         if (home_activity == 1) {
 
             home_activity = 2;
-        } else {
+        }
+        else
+        {
             tvCartCount.setText(String.valueOf(appSharedPreference.getSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), 0)));
         }
 
-        if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString(), "notlogin") != null) {
-            if (NavigationFragment.profilePic != null && Validation.isNonEmptyStr(appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_PIC.toString(), ""))) {
+        if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString(), "notlogin") != null)
+        {
+            if (NavigationFragment.profilePic != null && Validation.isNonEmptyStr(appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_PIC.toString(), "")))
+            {
                 Picasso.with(context).load(appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_PIC.toString(), ""))
                         .error(R.drawable.ic_profile_user)
                         .into(NavigationFragment.profilePic);
             }
         }
-
-
-
     }
 
 

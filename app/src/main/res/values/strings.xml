@@ -291,7 +291,8 @@
     <string name="edit">EDIT</string>
     <string name="bussiness_associate_details">Business Associate Details</string>
     <string name="service_enquiry_list_heading">Service Enquiry</string>
-    <string name="title_activity_company_shop_management">CompanyShopManagement</string>
+
+   
     <string name="pos_machine">POS Machine</string>
     <string name="mpos_machine">MPOS Machine</string>
     <string name="payment">PAYMENT</string>
@@ -300,6 +301,10 @@
     <string name="startdate">Start Date</string>
     <string name="enddate">End Date</string>
     <string name="search">Search</string>
+
+    <string name="title_activity_company_shop_management">Company Shop Management</string>
+    <string name="addProduct">Add Product</string>
+
 
 
 </resources>
