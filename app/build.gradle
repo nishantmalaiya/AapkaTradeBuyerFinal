@@ -51,7 +51,6 @@ dependencies {
         transitive = true
     }
     //noinspection GradleCompatible
-
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'com.shehabic.droppy:Droppy:0.5.1@aar'
     compile 'com.mikepenz:actionitembadge:3.2.6@aar'
@@ -101,5 +100,6 @@ dependencies {
     compile 'com.android.support:percent:25.3.1'
     compile 'com.google.firebase:firebase-messaging:10.2.6'
     compile 'com.github.rtoshiro.fullscreenvideoview:fullscreenvideoview:1.1.2'
+    compile project(':payUMoneysdk')
 }
 apply plugin: 'com.google.gms.google-services'
