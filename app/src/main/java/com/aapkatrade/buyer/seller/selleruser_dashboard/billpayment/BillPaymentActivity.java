@@ -2,37 +2,29 @@ package com.aapkatrade.buyer.seller.selleruser_dashboard.billpayment;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.GradientDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.aapkatrade.buyer.Home.HomeActivity;
+import com.aapkatrade.buyer.home.HomeActivity;
 import com.aapkatrade.buyer.R;
-import com.aapkatrade.buyer.categories_tab.CategoriesListAdapter;
-import com.aapkatrade.buyer.categories_tab.ShopListByCategoryActivity;
 import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.interfaces.CommonInterface;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
-import com.aapkatrade.buyer.payment.PaymentCompletionActivity;
-import com.aapkatrade.buyer.seller.registration.SellerRegistrationActivity;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
-import com.koushikdutta.ion.ProgressCallback;
 
 import java.util.ArrayList;
 

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F1F5F8"
-    tools:context="com.aapkatrade.buyer.Home.DashboardFragment">
+    tools:context="com.aapkatrade.buyer.home.DashboardFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"

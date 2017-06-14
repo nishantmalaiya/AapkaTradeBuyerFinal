@@ -7,7 +7,7 @@
     <RelativeLayout
         android:id="@+id/relativeLayoutProfile"
         android:layout_width="match_parent"
-        android:layout_height="180dp"
+        android:layout_height="@dimen/two_hundred_dip"
         android:background="@drawable/navigation_profile_bg">
 
        <ImageView

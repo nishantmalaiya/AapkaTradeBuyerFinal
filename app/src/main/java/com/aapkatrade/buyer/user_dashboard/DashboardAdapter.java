@@ -14,12 +14,15 @@ import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.login.LoginDashboard;
 
 
+
 import com.aapkatrade.buyer.seller.selleruser_dashboard.billhistory.BillHistory;
+
+import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.CompanyShopManagementActivity;
+
 import com.aapkatrade.buyer.seller.selleruser_dashboard.billpayment.BillPaymentActivity;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.serviceenquiryList.ServiceEnquiryActivity;
 
 import com.aapkatrade.buyer.seller.selleruser_dashboard.bankdetails.BankDetailsActivity;
-import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.CompanyShopManagement;
 
 import com.aapkatrade.buyer.user_dashboard.changepassword.ChangePassword;
 
@@ -170,7 +173,7 @@ public class DashboardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
 
                     } else {
-                        Intent bankDetails = new Intent(context, CompanyShopManagement.class);
+                        Intent bankDetails = new Intent(context, CompanyShopManagementActivity.class);
                         context.startActivity(bankDetails);
 
                     }

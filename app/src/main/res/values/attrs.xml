@@ -10,7 +10,7 @@
     </declare-styleable>
 
 
-    <declare-styleable name="CustomCardviewHeader">
+    <declare-styleable name="CustomCardViewHeader">
         <attr name="titleText" format="string" localization="suggested" />
         <attr name="rightSrc" format="reference" localization="suggested" />
         <attr name="leftSrc" format="reference" localization="suggested" />

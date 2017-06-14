@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.aapkatrade.buyer.Home.navigation.entity.CategoryHome;
+import com.aapkatrade.buyer.home.navigation.entity.CategoryHome;
 import com.aapkatrade.buyer.R;
 
 

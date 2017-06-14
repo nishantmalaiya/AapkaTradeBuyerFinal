@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.aapkatrade.buyer.Home.FcmActivity"
+    tools:context="com.aapkatrade.buyer.home.FcmActivity"
     tools:showIn="@layout/activity_fcm">
 
 </android.support.constraint.ConstraintLayout>

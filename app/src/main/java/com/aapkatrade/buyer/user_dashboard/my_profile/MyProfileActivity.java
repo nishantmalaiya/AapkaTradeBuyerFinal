@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.MediaMetadataRetriever;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Build;
@@ -31,16 +32,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.aapkatrade.buyer.Home.HomeActivity;
+import com.aapkatrade.buyer.home.HomeActivity;
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.Validation;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
+import com.aapkatrade.buyer.videoplay.VideoPalyActivity;
 import com.afollestad.materialcamera.MaterialCamera;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -109,6 +110,18 @@ public class MyProfileActivity extends AppCompatActivity
 
         imageViewProfile = (ImageView) findViewById(R.id.imageViewProfile);
 
+        imageViewProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(MyProfileActivity.this, VideoPalyActivity.class);
+                intent.putExtra("video_url", app_sharedpreference.getSharedPref(SharedPreferenceConstants.PROFILE_VIDEO.toString(), "").toString());
+                startActivity(intent);
+
+            }
+        });
+
+
         tvMyProfileDetailHeading = (TextView) findViewById(R.id.tvMyProfileDetailHeading);
 
         userImageView = (CircleImageView) findViewById(R.id.user_imageview);
@@ -138,10 +151,38 @@ public class MyProfileActivity extends AppCompatActivity
 
         etMobileNo.setKeyListener(null);
 
+        if (app_sharedpreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), "").contains("2"))
+        {
+
+            if(app_sharedpreference.getSharedPref(SharedPreferenceConstants.PROFILE_VIDEO_THUMBNAIL.toString(), "").toString().equals(""))
+            {
+
+                Log.e("shared-----","");
+            }
+            else
+            {
+                Picasso.with(context)
+                        .load(app_sharedpreference.getSharedPref(SharedPreferenceConstants.PROFILE_VIDEO_THUMBNAIL.toString(), ""))
+                        .error(R.drawable.navigation_profile_bg)
+                        .placeholder(R.drawable.navigation_profile_bg)
+                        .error(R.drawable.navigation_profile_bg)
+                        .into(imageViewProfile);
+            }
+
+        }
+
         userImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showEditVideoPopup();
+
+                if (usertype.equals("2")){
+                    showEditVideoPopup();
+                }
+                else
+                {
+                    picPhoto();
+
+                }
 
             }
         });
@@ -190,6 +231,8 @@ public class MyProfileActivity extends AppCompatActivity
         mobile = app_sharedpreference.getSharedPref(SharedPreferenceConstants.MOBILE.toString(), "");
         address = app_sharedpreference.getSharedPref(SharedPreferenceConstants.ADDRESS.toString(), "");
         usertype = app_sharedpreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), "");
+
+        Log.e("usertype",usertype);
 
     }
 
@@ -435,7 +478,7 @@ public class MyProfileActivity extends AppCompatActivity
 
                     userImageView.setVisibility(View.VISIBLE);
 
-                    userImageView.setImageBitmap(imageForPreview);
+                   // userImageView.setImageBitmap(imageForPreview);
                     File imagefile = getFile(imageForPreview);
 
                     call_myprofile_webservice(imagefile);
@@ -495,7 +538,7 @@ public class MyProfileActivity extends AppCompatActivity
 
                     userImageView.setVisibility(View.VISIBLE);
 
-                    userImageView.setImageBitmap(imageForPreview);
+                    //userImageView.setImageBitmap(imageForPreview);
                     File imagefile = getFile(imageForPreview);
 
                     call_myprofile_webservice(imagefile);
@@ -521,9 +564,35 @@ public class MyProfileActivity extends AppCompatActivity
                     //Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
                     Bitmap thumb = ThumbnailUtils.createVideoThumbnail(file.getAbsolutePath(), MediaStore.Video.Thumbnails.MINI_KIND);
 
-                    File videofile = getFile(thumb);
+                    File videothumbnail = getFile(thumb);
 
-                    edit_profilevideo_webservice(videofile);
+                    MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+                    //use one of overloaded setDataSource() functions to set your data source
+                    retriever.setDataSource(context, Uri.fromFile(file));
+                    String time = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
+                    long timeInMillisec = Long.parseLong(time );
+
+                    System.out.println("timeInMillisec-------"+timeInMillisec);
+
+                    retriever.release();
+
+                    if (timeInMillisec >=120000)
+                    {
+
+                        AndroidUtils.showToast(context,"Video timing should be between 30 to 120 second only");
+
+                    }
+                    else if (timeInMillisec <= 30000){
+
+
+                        AndroidUtils.showToast(context,"Video timing should be between 30 to 120 second only");
+                    }
+                    else
+                    {
+
+                        edit_profilevideo_webservice(file,videothumbnail);
+
+                    }
 
                 }
                 else if (data != null)
@@ -607,12 +676,39 @@ public class MyProfileActivity extends AppCompatActivity
 
                // imageViewProfile.setImageBitmap(thumb);
 
-                File videofile = getFile(thumb);
+                File video_thumbnail = getFile(thumb);
 
-                edit_profilevideo_webservice(videofile);
+                final File file = new File(selectedImagePath);
+
+                MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+                //use one of overloaded setDataSource() functions to set your data source
+                retriever.setDataSource(context, Uri.fromFile(file));
+                String time = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
+                long timeInMillisec = Long.parseLong(time );
+
+                System.out.println("timeInMillisec-------"+timeInMillisec);
+
+                retriever.release();
+
+               // edit_profilevideo_webservice(file,video_thumbnail);
+
+               if (timeInMillisec >=120000)
+                {
+                    AndroidUtils.showToast(context,"Video timing should be between 30 to 120 second only");
+
+                }
+                else if (timeInMillisec <= 30000)
+                {
+
+                    AndroidUtils.showToast(context,"Video timing should be between 30 to 120 second only");
+                }
+                else
+                {
+                    edit_profilevideo_webservice(file,video_thumbnail);
+                }
 
 
-             /*   if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
+                 /*   if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
                 {
 
                     System.out.println("android----------------"+selectedImage);
@@ -682,30 +778,31 @@ public class MyProfileActivity extends AppCompatActivity
 
     }
 
-    private void edit_profilevideo_webservice(File videofile)
+    private void edit_profilevideo_webservice(File videofile,File video_thumnail)
     {
 
         p_handler.show();
 
         String url = getResources().getString(R.string.webservice_base_url) + "/seller_video_update";
 
-        System.out.println("shared----------------------"+app_sharedpreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), ""));
-
+        System.out.println("shared----------------------"+videofile);
 
         Ion.with(MyProfileActivity.this)
                 .load(url)
                 .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
-                .setMultipartFile("profile_video", "application/image", videofile)
+                .setMultipartFile("video_thumbnail", "application/image", video_thumnail)
+                .setMultipartFile("profile_video", "application/video", videofile)
                 .setMultipartParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                 .setMultipartParameter("user_id", app_sharedpreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), ""))
-                .asJsonObject().setCallback(new FutureCallback<JsonObject>() {
+                .asJsonObject()
+                .setCallback(new FutureCallback<JsonObject>() {
             @Override
             public void onCompleted(Exception e, JsonObject result)
             {
 
                 System.out.println("result------------------------------"+result);
 
-                if (result != null)
+                 if (result != null)
                 {
                     if (result.get("error").getAsString().contains("false"))
                     {
@@ -713,12 +810,13 @@ public class MyProfileActivity extends AppCompatActivity
                         String profile_video = jsonObject_result.get("profile_video").getAsString();
 
                         app_sharedpreference.setSharedPref(SharedPreferenceConstants.PROFILE_VIDEO.toString(), profile_video);
+                        app_sharedpreference.setSharedPref(SharedPreferenceConstants.PROFILE_VIDEO_THUMBNAIL.toString(), jsonObject_result.get("video_thumbnail").getAsString());
                         String a = app_sharedpreference.getSharedPref(SharedPreferenceConstants.PROFILE_VIDEO.toString());
 
-                        System.out.println("a------------------------------"+a);
+                        System.out.println("a------------------------------"+profile_video);
 
                         Picasso.with(context)
-                                .load(a)
+                                .load(jsonObject_result.get("video_thumbnail").getAsString())
                                 .error(R.drawable.banner)
                                 .placeholder(R.drawable.default_noimage)
                                 .error(R.drawable.default_noimage)
@@ -726,7 +824,6 @@ public class MyProfileActivity extends AppCompatActivity
                         p_handler.hide();
 
                     }
-
                 }
                 else
                 {
@@ -734,6 +831,7 @@ public class MyProfileActivity extends AppCompatActivity
                     AndroidUtils.showErrorLog(context, "hello2", e.toString());
                     p_handler.hide();
                 }
+
             }
         });
 
@@ -759,6 +857,8 @@ public class MyProfileActivity extends AppCompatActivity
 
     private void call_myprofile_webservice(File imagefile)
     {
+
+        p_handler.show();
 
         String url = getResources().getString(R.string.webservice_base_url) + "/profilepic_update";
 
@@ -797,11 +897,14 @@ public class MyProfileActivity extends AppCompatActivity
                                 .error(R.drawable.default_noimage)
                                 .into(userImageView);
 
+                        p_handler.hide();
                     }
 
                 } else {
 
                     AndroidUtils.showErrorLog(context, "hello2", e.toString());
+
+                    p_handler.hide();
 
                 }
             }
@@ -919,13 +1022,13 @@ public class MyProfileActivity extends AppCompatActivity
                             .saveDir(saveDir)
                             .showPortraitWarning(true)
                             .allowRetry(true)
-                            .countdownMinutes(0.25f)
+                            .countdownMinutes(1.25f)
                             .countdownImmediately(false)
                             .videoFrameRate(24)                                // Sets a custom frame rate (FPS) for video recording.
-                            .qualityProfile(MaterialCamera.QUALITY_LOW)       // Sets a quality profile, manually setting bit rates or frame rates with other settings will overwrite individual quality profile settings
+                            .qualityProfile(MaterialCamera.QUALITY_HIGH)       // Sets a quality profile, manually setting bit rates or frame rates with other settings will overwrite individual quality profile settings
                             .videoPreferredHeight(240)                         // Sets a preferred height for the recorded video output.
                             .videoPreferredAspect(4f / 3f)                     // Sets a preferred aspect ratio for the recorded video output.
-                            .maxAllowedFileSize(1024 * 1024 * 2)
+                            //.maxAllowedFileSize(1024 * 1024 * 2)
                             .defaultToFrontFacing(true);
 
                     // .labelConfirm(R.string.mcam_use_video);
@@ -949,7 +1052,6 @@ public class MyProfileActivity extends AppCompatActivity
                 video_dailog.dismiss();
             }
         });
-
 
 
 

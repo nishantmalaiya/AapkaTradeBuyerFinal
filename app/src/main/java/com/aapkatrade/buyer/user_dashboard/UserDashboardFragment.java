@@ -28,8 +28,8 @@ import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class UserDashboardFragment extends Fragment {
-
+public class UserDashboardFragment extends Fragment
+{
 
     private RecyclerView dashboardlist;
     private DashboardAdapter dashboardAdapter;
@@ -41,26 +41,53 @@ public class UserDashboardFragment extends Fragment {
     private RecyclerView.LayoutManager layoutManager;
     private CircleImageView imageviewpp;
     private String user_image;
+    ImageView imageViewProfileVideo;
+
 
     public UserDashboardFragment() {
 
     }
 
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
         View v = inflater.inflate(R.layout.activity_dashboard, container, false);
         appSharedPreference = new AppSharedPreference(getActivity());
         progressBarHandler = new ProgressBarHandler(getActivity());
         tvUserType = (TextView) v.findViewById(R.id.tvUserType);
+
+        imageViewProfileVideo = (ImageView) v.findViewById(R.id.imageViewProfileVideo);
+
+        if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), "").contains("2"))
+        {
+            if(appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_VIDEO_THUMBNAIL.toString(), "").toString().equals(""))
+            {
+
+                Log.e("shared-----","");
+            }
+            else
+            {
+                Picasso.with(getActivity())
+                        .load(appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_VIDEO_THUMBNAIL.toString(), ""))
+                        .error(R.drawable.navigation_profile_bg)
+                        .placeholder(R.drawable.navigation_profile_bg)
+                        .error(R.drawable.navigation_profile_bg)
+                        .into(imageViewProfileVideo);
+            }
+        }
+
         setup_layout(v);
+
         dashboardlist = (RecyclerView) v.findViewById(R.id.dashboardlist);
+
         layoutManager = new LinearLayoutManager(getActivity());
         setup_data();
         dashboardlist.setNestedScrollingEnabled(false);
         return v;
     }
 
-    private void setup_layout(View v) {
+    private void setup_layout(View v)
+    {
         imageviewpp = (CircleImageView) v.findViewById(R.id.imageviewpp);
 
         String a = appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_PIC.toString(), "demo");
@@ -75,8 +102,6 @@ public class UserDashboardFragment extends Fragment {
                     .error(R.drawable.default_noimage)
                     .into(imageviewpp);
         }
-
-
         textViewName = (TextView) v.findViewById(R.id.textViewName);
         tvMobile = (TextView) v.findViewById(R.id.tvMobile);
         tvEmail = (TextView) v.findViewById(R.id.tvEmail);
@@ -89,7 +114,8 @@ public class UserDashboardFragment extends Fragment {
             }
         });
 
-        if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString(), "not") != null) {
+        if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString(), "not") != null)
+        {
             String Username = appSharedPreference.getSharedPref(SharedPreferenceConstants.FIRST_NAME.toString(), "not");
             String Emailid = appSharedPreference.getSharedPref(SharedPreferenceConstants.EMAIL_ID.toString(), "not");
             if (Username.contains("not")) {

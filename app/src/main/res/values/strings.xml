@@ -47,7 +47,7 @@
     <string name="english" translatable="false">English</string>
     <string name="hindi" translatable="false">Hindi</string>
     <string name="address" translatable="false">Address</string>
-    <string name="address1" translatable="false">Address*</string>
+    <string name="address1" translatable="false">Address *</string>
 
 
     <string name="google_api" translatable="false">AIzaSyDEC-Z8NKvcLAbB4vKdNa2ByUcXfOX_Tao</string>
@@ -304,7 +304,12 @@
 
     <string name="title_activity_company_shop_management">Company Shop Management</string>
     <string name="addProduct">Add Product</string>
-
+    <string name="edit_text">Edit</string>
+    <string name="title_activity_add_company_shop">AddCompanyShopActivity</string>
+    <string name="add_company_shop">Add Company / Shop</string>
+    <string name="company_shop">Company / Shop Name</string>
+    <string name="primary_email">Company / Shop</string>
+    <string name="secondary_email">Company / Shop</string>
 
 
 </resources>

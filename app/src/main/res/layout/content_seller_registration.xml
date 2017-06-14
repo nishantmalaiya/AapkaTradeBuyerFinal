@@ -43,7 +43,7 @@
 
                     android:orientation="vertical">
 
-                    <com.aapkatrade.buyer.uicomponent.customcardview.CustomCardviewHeader
+                    <com.aapkatrade.buyer.uicomponent.customcardview.CustomCardViewHeader
                         android:id="@+id/customCardviewBusinessDetails"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -51,7 +51,7 @@
                         app:rightSrc="@drawable/ic_down"
                         app:titleText="@string/bussiness_details">
 
-                    </com.aapkatrade.buyer.uicomponent.customcardview.CustomCardviewHeader>
+                    </com.aapkatrade.buyer.uicomponent.customcardview.CustomCardViewHeader>
 
 
                     <LinearLayout
@@ -224,7 +224,7 @@
 
                     android:orientation="vertical">
 
-                    <com.aapkatrade.buyer.uicomponent.customcardview.CustomCardviewHeader
+                    <com.aapkatrade.buyer.uicomponent.customcardview.CustomCardViewHeader
                         android:id="@+id/customCardviewPersonalDetails"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -513,13 +513,13 @@ android:id="@+id/llSellerPersonalDetailContainer"
 
                     android:orientation="vertical">
 
-                    <com.aapkatrade.buyer.uicomponent.customcardview.CustomCardviewHeader
+                    <com.aapkatrade.buyer.uicomponent.customcardview.CustomCardViewHeader
                         android:id="@+id/customCardviewHeader_newUser"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:leftSrc="@drawable/ic_business_img"
                         app:rightSrc="@drawable/ic_down"
-                        app:titleText="@string/new_user_signup"></com.aapkatrade.buyer.uicomponent.customcardview.CustomCardviewHeader>
+                        app:titleText="@string/new_user_signup"></com.aapkatrade.buyer.uicomponent.customcardview.CustomCardViewHeader>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

@@ -21,7 +21,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.aapkatrade.buyer.Home.HomeActivity;
+import com.aapkatrade.buyer.home.HomeActivity;
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.dialogs.track_order.orderdetail.Order_detail;
 import com.aapkatrade.buyer.general.AppSharedPreference;
@@ -353,7 +353,8 @@ public class ActivityOTPVerify extends AppCompatActivity {
 
     }
 
-    private void callVerifyotpWebservice(String otp) {
+    private void callVerifyotpWebservice(String otp)
+    {
         progressBarHandler.show();
         String getCurrentDeviceId = AppConfig.getCurrentDeviceId(ActivityOTPVerify.this);
         HashMap<String, String> webservice_body_parameter = new HashMap<>();
@@ -392,7 +393,8 @@ public class ActivityOTPVerify extends AppCompatActivity {
                     if (error.equals("false")) {
                         showMessage(message);
 
-                        if (class_name.contains("BuyerRegistrationActivity")) {
+                        if (class_name.contains("BuyerRegistrationActivity"))
+                        {
                             String user_type = jsonObject.get("user_type").getAsString();
 
                             JsonArray jsonElements = jsonObject.get("all_info").getAsJsonArray();
@@ -450,12 +452,15 @@ public class ActivityOTPVerify extends AppCompatActivity {
                             appSharedPreference.setSharedPref(SharedPreferenceConstants.LAST_NAME.toString(), jsonObject1.get("lastname").getAsString());
                             appSharedPreference.setSharedPref(SharedPreferenceConstants.EMAIL_ID.toString(), jsonObject1.get("email").getAsString());
                             appSharedPreference.setSharedPref(SharedPreferenceConstants.MOBILE.toString(), jsonObject1.get("mobile").getAsString());
+                            appSharedPreference.setSharedPref(SharedPreferenceConstants.PROFILE_VIDEO.toString(), jsonObject1.get("profile_video").getAsString());
+                            appSharedPreference.setSharedPref(SharedPreferenceConstants.PROFILE_VIDEO_THUMBNAIL.toString(), jsonObject1.get("video_thumbnail").getAsString());
                             appSharedPreference.setSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), user_type);
-
 
                             Intent intent = new Intent(context, HomeActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(intent);
+
+
                         } else {
                             appSharedPreference.setSharedPref(SharedPreferenceConstants.USER_ID.toString(), jsonObject.get("user_id").getAsString());
                             callwebserviceUpdateCartSimple();
@@ -476,10 +481,8 @@ public class ActivityOTPVerify extends AppCompatActivity {
         webservice_body_parameter.put("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3");
         webservice_body_parameter.put("client_id", "564735473442373");
 
-
         HashMap<String, String> webservice_header_type = new HashMap<>();
         webservice_header_type.put("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3");
-
 
         String otp_url = getResources().getString(R.string.webservice_base_url) + "/resend_otp";
         CallWebService.resend_otp(ActivityOTPVerify.this, otp_url, "resend_otp", webservice_body_parameter, webservice_header_type);
@@ -488,7 +491,7 @@ public class ActivityOTPVerify extends AppCompatActivity {
             @Override
             public void Taskcomplete(JsonObject webservice_returndata) {
 
-//                Log.e("data2", webservice_returndata.toString());
+                //Log.e("data2", webservice_returndata.toString());
 
                 if (webservice_returndata != null) {
                     Log.e("webservice_returndata", webservice_returndata.toString());

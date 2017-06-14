@@ -16,8 +16,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.aapkatrade.buyer.Home.HomeActivity;
-import com.aapkatrade.buyer.Home.buyerregistration.BuyerRegistrationActivity;
+import com.aapkatrade.buyer.home.HomeActivity;
+import com.aapkatrade.buyer.home.buyerregistration.BuyerRegistrationActivity;
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.associate.RegistrationBusinessAssociateActivity;
 import com.aapkatrade.buyer.general.AppConfig;
@@ -155,9 +155,6 @@ public class LoginActivity extends AppCompatActivity {
                         } else if (usertype.contains("BUSINESS ASSOCIATE LOGIN")) {
                             callLoginWebService(getResources().getString(R.string.webservice_base_url) + "/associatelogin", input_email, input_password);
 
-                        } else if (usertype.contains("BUSINESS ASSOCIATE LOGIN")) {
-                            callLoginWebService(getResources().getString(R.string.webservice_base_url) + "/associatelogin", input_email, input_password);
-
                         }
                     } else {
                         showMessage(getResources().getString(R.string.password_validing_text));
@@ -264,7 +261,8 @@ public class LoginActivity extends AppCompatActivity {
             appSharedpreference.setSharedPref(SharedPreferenceConstants.ORDER_LIST_COUNT.toString(), webservice_returndata.get("order").getAsString());
             appSharedpreference.setSharedPref(SharedPreferenceConstants.SHOP_LIST_COUNT.toString(), webservice_returndata.get("shops").getAsString());
             appSharedpreference.setSharedPref(SharedPreferenceConstants.ENQUIRY_LIST_COUNT.toString(), webservice_returndata.get("enquiries").getAsString());
-            appSharedpreference.setSharedPref(SharedPreferenceConstants.PROFILE_VIDEO.toString(), webservice_returndata.get("profile_video").getAsString());
+            appSharedpreference.setSharedPref(SharedPreferenceConstants.PROFILE_VIDEO.toString(), jsonObject.get("profile_video").getAsString());
+            appSharedpreference.setSharedPref(SharedPreferenceConstants.PROFILE_VIDEO_THUMBNAIL.toString(), jsonObject.get("video_thumbnail").getAsString());
 
         }
 
