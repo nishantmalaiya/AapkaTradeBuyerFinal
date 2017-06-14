@@ -4,7 +4,9 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -25,15 +27,11 @@ import com.koushikdutta.ion.Ion;
 
 public class AboutUsFragment extends Fragment {
     private Context context;
-<<<<<<< HEAD:app/src/main/java/com/aapkatrade/buyer/Home/aboutus/AboutUsFragment.java
-=======
     private ExpandableTextView tvTermsAndConditions;
->>>>>>> remotes/origin/master:app/src/main/java/com/aapkatrade/buyer/home/aboutus/AboutUsFragment.java
     private TextView tvReadMore;
     private RelativeLayout expandableRelativeLayout;
     private LinearLayout policyContentMainLayout;
     private LinearLayout policyHeaderLayout;
-    ExpandableTextView tvTermsAndConditions;
 
 
     @Override
@@ -78,8 +76,11 @@ public class AboutUsFragment extends Fragment {
         tvTermsAndConditions.setText("");
         policyHeaderLayout = (LinearLayout) view.findViewById(R.id.policyHeaderLayout);
         tvReadMore = (TextView) view.findViewById(R.id.tvReadMore);
-        tvReadMore.setBackground(AndroidUtils.setImageColor(context, R.drawable.ic_arrow, R.color.green));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            tvReadMore.setBackground(AndroidUtils.setImageColor(context, R.drawable.ic_arrow, R.color.green));
+        }
         tvReadMore.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB_MR1)
             @Override
             public void onClick(View v) {
                 policyHeaderLayout.animate().alpha(0.0f).setDuration(2000).setListener(new AnimatorListenerAdapter() {

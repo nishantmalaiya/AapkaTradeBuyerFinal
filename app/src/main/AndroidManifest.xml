@@ -145,13 +145,11 @@
             android:name="com.afollestad.materialcamera.CaptureActivity"
             android:theme="@style/MaterialCamera.CaptureActivity" />
         <activity
-            android:name="com.afollestad.materialcamera.CaptureActivity2"
-            android:theme="@style/MaterialCamera.CaptureActivity" />
-
             android:name=".seller.selleruser_dashboard.companyshopmgt.CompanyShopManagementActivity"
+             />/>
+        <activity android:name=".seller.selleruser_dashboard.billpayment.BillPaymentActivity"
             android:label="@string/title_activity_company_shop_management"
-            android:theme="@style/AppTheme" />
-        <activity android:name=".seller.selleruser_dashboard.billpayment.BillPaymentActivity" />
+            android:theme="@style/AppTheme"  />
         <activity
             android:name=".seller.selleruser_dashboard.companyshopmgt.addcompanyshop.AddCompanyShopActivity"
             android:label="@string/title_activity_add_company_shop"
