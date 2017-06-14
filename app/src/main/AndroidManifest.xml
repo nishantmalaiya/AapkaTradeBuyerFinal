@@ -144,19 +144,21 @@
         <activity
             android:name="com.afollestad.materialcamera.CaptureActivity"
             android:theme="@style/MaterialCamera.CaptureActivity" />
+        <activity android:name=".seller.selleruser_dashboard.companyshopmgt.CompanyShopManagementActivity" />
+        />
         <activity
-            android:name=".seller.selleruser_dashboard.companyshopmgt.CompanyShopManagementActivity"
-             />/>
-        <activity android:name=".seller.selleruser_dashboard.billpayment.BillPaymentActivity"
+            android:name=".seller.selleruser_dashboard.billpayment.BillPaymentActivity"
             android:label="@string/title_activity_company_shop_management"
-            android:theme="@style/AppTheme"  />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".seller.selleruser_dashboard.companyshopmgt.addcompanyshop.AddCompanyShopActivity"
             android:label="@string/title_activity_add_company_shop"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".videoplay.VideoPalyActivity"
-            android:configChanges="orientation|screenSize"
+            android:configChanges="orientation|screenSize" />
+        <activity
+            android:name=".seller.selleruser_dashboard.billhistory.BillHistory"
             />
     </application>
 
