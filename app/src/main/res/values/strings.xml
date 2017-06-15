@@ -270,6 +270,7 @@
     <string name="splash_footer_text">YAHA SAB MILTA HAI</string>
     <string name="title_activity_fcm">FcmActivity</string>
     <string name="bussiness_details">Bussiness Details</string>
+    <string name="product_images">Product Images</string>
     <string name="uploadPDFFile">Company Incorporation (*pdf)</string>
     <string name="company_name_heading">Company Name*</string>
     <string name="tin_number">TIN Number</string>

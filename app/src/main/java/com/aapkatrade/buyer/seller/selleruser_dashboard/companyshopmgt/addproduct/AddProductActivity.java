@@ -10,17 +10,16 @@ import android.view.View;
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.uicomponent.daystile.DaysTileView;
 
-public class AddProductActivity extends AppCompatActivity {
-    private DaysTileView daysTileView;
+public class AddProductActivity extends AppCompatActivity
+{
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_product);
-        daysTileView = (DaysTileView) findViewById(R.id.daysTileView);
-        daysTileView.setBackgroundColor(R.color.green);
-        daysTileView.setDayName("Sunday");
+
     }
 
 }

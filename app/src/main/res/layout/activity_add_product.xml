@@ -1,67 +1,149 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_content_seller_registration"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.CompanyShopManagementActivity">
+    android:background="@color/green_shad"
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/mainLayout"
+
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="@dimen/sixty_dip"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <RelativeLayout
-            android:id="@+id/toolbar_relative_layout"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:descendantFocusability="beforeDescendants"
+            android:focusableInTouchMode="true"
+            android:orientation="vertical">
 
-            <include layout="@layout/toolbar_layout" />
+            <include layout="@layout/list_header" />
 
-        </RelativeLayout>
-
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="fill_parent">
-
-            <com.aapkatrade.buyer.uicomponent.daystile.DaysTileView
-                android:id="@+id/daysTileView"
+            <android.support.v7.widget.CardView
+                android:id="@+id/businessDetailsCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:minHeight="@dimen/three_hundred_dip"
-                >
+                android:layout_marginLeft="@dimen/ten_dip"
+                android:layout_marginRight="@dimen/ten_dip"
+                android:layout_marginTop="@dimen/ten_dip"
+                android:padding="@dimen/twenty_dip">
+
+                <LinearLayout
+                    android:id="@+id/businessDetails"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
 
 
-            </com.aapkatrade.buyer.uicomponent.daystile.DaysTileView>
+                    android:orientation="vertical">
 
-        </RelativeLayout>
+                    <com.aapkatrade.buyer.uicomponent.customcardview.CustomCardViewHeader
+                        android:id="@+id/customCardviewBusinessDetails"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:leftSrc="@drawable/ic_business_img"
+                        app:rightSrc="@drawable/ic_down"
+                        app:titleText="@string/product_images">
 
-
-    </LinearLayout>
-
-
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:gravity="bottom">
-
-        <Button
-            android:id="@+id/btnSave"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/sixty_dip"
-            android:background="@drawable/button_orange_back"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:text="@string/add_company_shop"
-            android:textAllCaps="false"
-            android:textColor="@color/white" />
+                    </com.aapkatrade.buyer.uicomponent.customcardview.CustomCardViewHeader>
 
 
-    </RelativeLayout>
+                    <LinearLayout
+                        android:id="@+id/llSellerBusinessDetailContainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        tools:ignore="UselessParent">
+
+                        <RelativeLayout
+                            android:id="@+id/uploadCard"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+
+                            <RelativeLayout
+                                android:layout_width="@dimen/one_hundred_twenty_dip"
+                                android:layout_height="@dimen/one_hundred_twenty_dip"
+                                android:background="@drawable/dotted"
+                                android:layout_margin="@dimen/fifteen_dip"
+
+                                >
+
+                                <ImageView
+                                    android:layout_width="@dimen/seventy_dip"
+                                    android:layout_height="@dimen/seventy_dip"
+                                    android:src="@drawable/ic_shop_plus"
+                                    android:layout_centerVertical="true"
+                                    android:layout_centerHorizontal="true"
+                                    />
+
+                            </RelativeLayout>
+
+
+                        </RelativeLayout>
 
 
 
-</RelativeLayout>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/productDetailsCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/ten_dip"
+                android:layout_marginRight="@dimen/ten_dip"
+                android:layout_marginTop="@dimen/ten_dip"
+                android:padding="@dimen/twenty_dip">
+
+                <LinearLayout
+                    android:id="@+id/productDetails"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+
+                    android:orientation="vertical">
+
+                    <com.aapkatrade.buyer.uicomponent.customcardview.CustomCardViewHeader
+                        android:id="@+id/customCardviewproductDetails"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:leftSrc="@drawable/ic_business_img"
+                        app:rightSrc="@drawable/ic_down"
+                        app:titleText="@string/product_images">
+
+                    </com.aapkatrade.buyer.uicomponent.customcardview.CustomCardViewHeader>
+
+
+                    <LinearLayout
+                        android:id="@+id/llSellerProductDetailContainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        tools:ignore="UselessParent">
+
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+
+        </LinearLayout>
+
+
+    </android.support.v4.widget.NestedScrollView>
+
+
+</LinearLayout>
