@@ -49,7 +49,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Map;
 
-public class CartCheckoutActivity extends AppCompatActivity {
+public class CartCheckoutActivity extends AppCompatActivity
+{
 
     RelativeLayout relativePayment;
     AppSharedPreference app_sharedpreference;
@@ -161,15 +162,15 @@ public class CartCheckoutActivity extends AppCompatActivity {
 
         cartList("0");
 
-
-        relativePayment.setOnClickListener(new View.OnClickListener() {
+       relativePayment.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-               /* String userid = app_sharedpreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), "");
-                callwebservice__save_order(userid);
-*/
-                makePayment();
+            public void onClick(View v)
+            {
 
+             /*   String userid = app_sharedpreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), "");
+                callwebservice__save_order(userid);
+            */
+                makePayment();
 
             }
         });
