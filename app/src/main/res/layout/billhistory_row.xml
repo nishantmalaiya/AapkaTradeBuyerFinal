@@ -1,36 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
 
-
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:id="@+id/tv_billhistories"
-        android:layout_margin="@dimen/ten_dip"
-        android:layout_height="wrap_content" />
-
-    <View
-        android:layout_width="match_parent"
-        android:background="@color/grey"
-        android:layout_height="@dimen/two_dip">
-
-    </View>
-<RelativeLayout
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_margin="@dimen/ten_dip"
-    android:layout_height="wrap_content">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:text="COMPLETE"
-        android:layout_height="wrap_content" />
-    <TextView
-        android:layout_width="wrap_content"
-        android:id="@+id/billhistoryamount"
-        android:layout_alignParentRight="true"
-android:textColor="@color/color_voilet"
-        android:layout_height="wrap_content" />
-</RelativeLayout>
-</LinearLayout>
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:id="@+id/tv_billhistories"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/ten_dip" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/two_dip"
+            android:background="@color/grey">
+
+        </View>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/ten_dip">
+
+            <TextView
+                android:id="@+id/tvPaymentStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:text="COMPLETE" />
+
+            <TextView
+                android:id="@+id/billhistoryamount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+
+                android:textColor="@color/color_voilet" />
+        </RelativeLayout>
+    </LinearLayout>
+</android.support.v7.widget.CardView>
