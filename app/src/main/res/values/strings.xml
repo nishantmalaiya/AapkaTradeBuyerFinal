@@ -1,117 +1,117 @@
 <resources>
-    <string name="app_name" >AapkaTrade Buyer</string>
+    <string name="app_name">AapkaTrade Buyer</string>
 
-    <string name="my_profile_heading" >My Profile</string>
-    <string name="my_profile_detail_heading" >Hello,<font color="#0000FF"> Arvind </font> - To Update your account information.</string>
-    <string name="save" >Save</string>
-    <string name="save_caps" >SAVE</string>
-    <string name="submit" >SUBMIT</string>
-    <string name="aapka_data" >AAPKA <font color='white'>TRADE</font></string>
-    <string name="login" >LOGIN</string>
-    <string name="change_password_heading" >Change Password</string>
-    <string name="email_or_mobile" >Email/Mobile</string>
+    <string name="my_profile_heading">My Profile</string>
+    <string name="my_profile_detail_heading">Hello,<font color="#0000FF"> Arvind </font> - To Update your account information.</string>
+    <string name="save">Save</string>
+    <string name="save_caps">SAVE</string>
+    <string name="submit">SUBMIT</string>
+    <string name="aapka_data">AAPKA <font color='white'>TRADE</font></string>
+    <string name="login">LOGIN</string>
+    <string name="change_password_heading">Change Password</string>
+    <string name="email_or_mobile">Email/Mobile</string>
     <string name="write_and_review">Write And Review</string>
 
 
-    <string name="forgotpassword" >Forget Password?</string>
-    <string name="new_user" >New User?</string>
+    <string name="forgotpassword">Forget Password?</string>
+    <string name="new_user">New User?</string>
     <string name="pleaseWait">Wait !</string>
     <string name="webpage_being_loaded">Data is loading &#8230;&#8230;&#8230;</string>
 
-    <string name="comp_doc" >Company Document (pdf/image)</string>
-    <string name="drawer_open" >draweropen</string>
-    <string name="drawer_close" >drawerclose</string>
-    <string name="language" >language</string>
-    <string name="cart" >cart</string>
-    <string name="product" >PRODUCTS:</string>
-    <string name="qty" >QTY:</string>
+    <string name="comp_doc">Company Document (pdf/image)</string>
+    <string name="drawer_open">draweropen</string>
+    <string name="drawer_close">drawerclose</string>
+    <string name="language">language</string>
+    <string name="cart">cart</string>
+    <string name="product">PRODUCTS:</string>
+    <string name="qty">QTY:</string>
 
-    <string name="qty_def" >05</string>
+    <string name="qty_def">05</string>
 
-    <string name="product_name" >Product Name</string>
+    <string name="product_name">Product Name</string>
 
-    <string name="category" >Category</string>
-    <string name="tab_1" >Home</string>
-    <string name="tab_2" >About Us</string>
-    <string name="tab_3" >Track Order</string>
-    <string name="tab_4" >Account</string>
-    <string name="tab_5" >Contact Us</string>
-
-
-    <string name="welcomeguest" >Welcome Guest</string>
-    <string name="nointernetconnection" >No Internet connection found.</string>
-    <string name="nointernetconnection2" >Check your connection.</string>
-    <string name="retry" >RETRY</string>
-    <string name="viewall" >View All</string>
-    <string name="latest_deals" >LATEST POST</string>
-    <string name="english" >English</string>
-    <string name="hindi" >Hindi</string>
-    <string name="address" >Address</string>
-    <string name="address1" >Address *</string>
+    <string name="category">Category</string>
+    <string name="tab_1">Home</string>
+    <string name="tab_2">About Us</string>
+    <string name="tab_3">Track Order</string>
+    <string name="tab_4">Account</string>
+    <string name="tab_5">Contact Us</string>
 
 
-    <string name="google_api" >AIzaSyDEC-Z8NKvcLAbB4vKdNa2ByUcXfOX_Tao</string>
-    <string name="forgot_your_password" >Forgot your Password?</string>
-    <string name="forgot_your_password_instruction1" >Enter your Email/Mobile number below to receive OTP</string>
-    <string name="email" >Email</string>
-    <string name="emailId" >Email ID*</string>
-    <string name="or" >OR</string>
-    <string name="mobile_no" >mobile no</string>
-    <string name="send_otp" >SEND OTP</string>
-    <string name="otp_data_1" >Make sure your information is</string>
-    <string name="otp_data_2" >correct before continuing</string>
-    <string name="verify" >VERIFY</string>
-    <string name="otp_not_recived" >OTP Not Received?</string>
+    <string name="welcomeguest">Welcome Guest</string>
+    <string name="nointernetconnection">No Internet connection found.</string>
+    <string name="nointernetconnection2">Check your connection.</string>
+    <string name="retry">RETRY</string>
+    <string name="viewall">View All</string>
+    <string name="latest_deals">LATEST POST</string>
+    <string name="english">English</string>
+    <string name="hindi">Hindi</string>
+    <string name="address">Address</string>
+    <string name="address1">Address *</string>
 
-    <string name="address_line1" >3rd Floor, Tower B, JMD Megapolis</string>
-    <string name="address_line2" >Sohna Road, Sector 48</string>
-    <string name="address_line3" >Gurugram, Haryana 122001</string>
-    <string name="item_price" >18,941</string>
-    <string name="item_subtotal_price" >19,689</string>
-    <string name="product_detail" >Product Detail:</string>
-    <string name="express_delivery" >Express Delivery:   99</string>
-    <string name="delivery_date" >Delivery date: 19 Jan to 20 Jan</string>
-    <string name="subtotal" >Subtotal:</string>
 
-    <string name="webservice_base_url" >http://staging.aapkatrade.com/slim</string>
-    <string name="logout" >Logout</string>
-    <string name="latest_update" >LATEST UPDATE</string>
-    <string name="first_name" >First Name*</string>
-    <string name="last_name" >Last Name*</string>
-    <string name="father_name" >Father Name*</string>
-    <string name="password1" >Password*</string>
-    <string name="confirm_password1" >Confirm Password*</string>
-    <string name="mobile" >Mobile*</string>
-    <string name="date_of_birth" >Date Of Birth*</string>
-    <string name="pincode" >Pincode</string>
-    <string name="accept_t_and_c" >Accept Terms and Conditions</string>
-    <string name="save_and_next" >Save &amp; Next</string>
+    <string name="google_api">AIzaSyDEC-Z8NKvcLAbB4vKdNa2ByUcXfOX_Tao</string>
+    <string name="forgot_your_password">Forgot your Password?</string>
+    <string name="forgot_your_password_instruction1">Enter your Email/Mobile number below to receive OTP</string>
+    <string name="email">Email</string>
+    <string name="emailId">Email ID*</string>
+    <string name="or">OR</string>
+    <string name="mobile_no">mobile no</string>
+    <string name="send_otp">SEND OTP</string>
+    <string name="otp_data_1">Make sure your information is</string>
+    <string name="otp_data_2">correct before continuing</string>
+    <string name="verify">VERIFY</string>
+    <string name="otp_not_recived">OTP Not Received?</string>
 
-    <string name="search_data" >What?e.g. Dairy</string>
-    <string name="aacount_no" >Account No.*</string>
-    <string name="branch_code" >Branch Code*</string>
-    <string name="branch_name" >Branch Name</string>
-    <string name="ifsc_code" >IFSC Code*</string>
-    <string name="micr_code" >MICR Code*</string>
-    <string name="account_holder_name" >Account Holder Name*</string>
-    <string name="registered_mobile" >Registered Mobile*</string>
-    <string name="new_user_signup" >New User Signup</string>
-    <string name="description_heading" >Description</string>
-    <string name="description" >Department Stores, Chocolate Retailers, Soft Drink Retailers,Grocery Stores, Beverage Dealers, General Stores, Deparmental Stores Home Delivery</string>
-    <string name="review_heading" >Ratings &amp; Review</string>
-    <string name="selected_place" >Selected Place</string>
-    <string name="personalDetails" >Personal Details</string>
-    <string name="terms" >Terms &amp; Conditions</string>white
-    <string name="invite" >Invite &amp; Share</string>
-    <string name="action_settings" >Settings</string>
+    <string name="address_line1">3rd Floor, Tower B, JMD Megapolis</string>
+    <string name="address_line2">Sohna Road, Sector 48</string>
+    <string name="address_line3">Gurugram, Haryana 122001</string>
+    <string name="item_price">18,941</string>
+    <string name="item_subtotal_price">19,689</string>
+    <string name="product_detail">Product Detail:</string>
+    <string name="express_delivery">Express Delivery:   99</string>
+    <string name="delivery_date">Delivery date: 19 Jan to 20 Jan</string>
+    <string name="subtotal">Subtotal:</string>
 
-    <string name="your_location" >Enter your Location</string>
-    <string name="ref_number" >Reference Number</string>
-    <string name="location_hint" >Enter your State Name</string>
-    <string name="oldPassword" >Old Password</string>
-    <string name="newPassword" >New Password</string>
-    <string name="confirmNewPassword" >Confirm New Password</string>
-    <string name="title_activity_bank_management" >BankManagementActivity</string>
+    <string name="webservice_base_url">http://staging.aapkatrade.com/slim</string>
+    <string name="logout">Logout</string>
+    <string name="latest_update">LATEST UPDATE</string>
+    <string name="first_name">First Name*</string>
+    <string name="last_name">Last Name*</string>
+    <string name="father_name">Father Name*</string>
+    <string name="password1">Password*</string>
+    <string name="confirm_password1">Confirm Password*</string>
+    <string name="mobile">Mobile*</string>
+    <string name="date_of_birth">Date Of Birth*</string>
+    <string name="pincode">Pincode</string>
+    <string name="accept_t_and_c">Accept Terms and Conditions</string>
+    <string name="save_and_next">Save &amp; Next</string>
+
+    <string name="search_data">What?e.g. Dairy</string>
+    <string name="aacount_no">Account No.*</string>
+    <string name="branch_code">Branch Code*</string>
+    <string name="branch_name">Branch Name</string>
+    <string name="ifsc_code">IFSC Code*</string>
+    <string name="micr_code">MICR Code*</string>
+    <string name="account_holder_name">Account Holder Name*</string>
+    <string name="registered_mobile">Registered Mobile*</string>
+    <string name="new_user_signup">New User Signup</string>
+    <string name="description_heading">Description</string>
+    <string name="description">Department Stores, Chocolate Retailers, Soft Drink Retailers,Grocery Stores, Beverage Dealers, General Stores, Deparmental Stores Home Delivery</string>
+    <string name="review_heading">Ratings &amp; Review</string>
+    <string name="selected_place">Selected Place</string>
+    <string name="personalDetails">Personal Details</string>
+    <string name="terms">Terms &amp; Conditions</string>white
+    <string name="invite">Invite &amp; Share</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="your_location">Enter your Location</string>
+    <string name="ref_number">Reference Number</string>
+    <string name="location_hint">Enter your State Name</string>
+    <string name="oldPassword">Old Password</string>
+    <string name="newPassword">New Password</string>
+    <string name="confirmNewPassword">Confirm New Password</string>
+    <string name="title_activity_bank_management">BankManagementActivity</string>
 
     <string name="title_activity_payout">PayoutActivity</string>
     <string name="select_state">your state</string>
@@ -223,12 +223,12 @@
     <string name="message">Message</string>
     <string name="receipt">Receipt</string>
     <string name="done">Done</string>
-    <string name="one" >1</string>
-    <string name="two" >2</string>
-    <string name="three" >3</string>
-    <string name="personalInfo" >Personal Information</string>
-    <string name="bankDetails" >Bank Details</string>
-    <string name="professionalDetails" >Professional Details</string>
+    <string name="one">1</string>
+    <string name="two">2</string>
+    <string name="three">3</string>
+    <string name="personalInfo">Personal Information</string>
+    <string name="bankDetails">Bank Details</string>
+    <string name="professionalDetails">Professional Details</string>
     <string name="cancel_order">Cancel Order</string>
     <string name="payment_unsuccess">Payment Unsuccess</string>
     <string name="cancelingRequest">Cancellation Request</string>
@@ -244,7 +244,7 @@
     <string name="got_it"> Thanks Got it</string>
     <string name="tap_anywhere">Tap anywhere  to dismiss</string>
 
-    <string name="asset_statements" >[{\n  \"relation\": [\"delegate_permission/common.handle_all_urls\"],\n  \"target\": {\n    \"namespace\": \"web\",\n    \"site\": \"https://www.aapkatrade.com\",\n  }\n}]</string>
+    <string name="asset_statements">[{\n  \"relation\": [\"delegate_permission/common.handle_all_urls\"],\n  \"target\": {\n    \"namespace\": \"web\",\n    \"site\": \"https://www.aapkatrade.com\",\n  }\n}]</string>
     <string name="slide_1_title">Welcome to</string>
     <string name="slide_1_description">AapkaTrade is India\'s uniques business platform where everybody can do the business</string>
     <string name="next">Next</string>
@@ -265,8 +265,8 @@
     <string name="product_listing_not_found"> Shops  of this Category will be updated soon! </string>
     <string name="seller">Seller</string>
     <string name="businessassociate">Business Associate</string>
-    <string name="loginregisterfooter" >Please Click one for Login/Register</string>
-    <string name="title_activity_logindashboard" >logindashboard</string>
+    <string name="loginregisterfooter">Please Click one for Login/Register</string>
+    <string name="title_activity_logindashboard">logindashboard</string>
     <string name="splash_footer_text">YAHA SAB MILTA HAI</string>
     <string name="title_activity_fcm">FcmActivity</string>
     <string name="bussiness_details">Bussiness Details</string>
@@ -292,7 +292,7 @@
     <string name="bussiness_associate_details">Business Associate Details</string>
     <string name="service_enquiry_list_heading">Service Enquiry</string>
 
-   
+
     <string name="pos_machine">POS Machine</string>
     <string name="mpos_machine">MPOS Machine</string>
     <string name="payment">PAYMENT</string>
@@ -310,6 +310,7 @@
     <string name="company_shop">Company / Shop Name</string>
     <string name="primary_email">Company / Shop</string>
     <string name="secondary_email">Company / Shop</string>
+    <string name="title_activity_add_product">AddProductActivity</string>
 
 
 </resources>

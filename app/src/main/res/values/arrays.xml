@@ -44,49 +44,80 @@
     </string-array>
 
 
+    <string-array name="opening_timing_list">
+        <item>05:00 AM</item>
+        <item>06:00 AM</item>
+        <item>07:00 AM</item>
+        <item>08:00 AM</item>
+        <item>09:00 AM</item>
+        <item>10:00 AM</item>
+        <item>11:00 AM</item>
+        <item>11:30 AM</item>
+        <item>Closed</item>
+        <item>24 Hours</item>
+    </string-array>
+
+    <string-array name="closing_timing_list">
+        <item>12:00 PM</item>
+        <item>01:00 PM</item>
+        <item>02:00 PM</item>
+        <item>03:00 PM</item>
+        <item>04:00 PM</item>
+        <item>05:00 PM</item>
+        <item>06:00 PM</item>
+        <item>07:00 PM</item>
+        <item>08:00 PM</item>
+        <item>09:00 PM</item>
+        <item>10:00 PM</item>
+        <item>11:00 PM</item>
+        <item>11:30 PM</item>
+        <item>12:00 AM</item>
+        <item>01:00 AM</item>
+        <item>Closed</item>
+        <item>Open</item>
+    </string-array>
+
+
     <string-array name="state_ids">
 
 
-            <item>-1</item>
-            <item>1</item>
-            <item>2</item>
-            <item>3</item>
-            <item>4</item>
-            <item>5</item>
-            <item>6</item>
-            <item>7</item>
-            <item>8</item>
-            <item>9</item>
-            <item>10</item>
-            <item>11</item>
-            <item>12</item>
-            <item>13</item>
-            <item>14</item>
-            <item>15</item>
-            <item>16</item>
-            <item>17</item>
-            <item>19</item>
-            <item>20</item>
-            <item>21</item>
-            <item>22</item>
-            <item>23</item>
-            <item>24</item>
-            <item>25</item>
-            <item>26</item>
-            <item>29</item>
-            <item>31</item>
-            <item>32</item>
-            <item>33</item>
-            <item>34</item>
-            <item>35</item>
-            <item>36</item>
-            <item>37</item>
-            <item>38</item>
-            <item>39</item>
-            <item>41</item>
-
-
-
+        <item>-1</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+        <item>17</item>
+        <item>19</item>
+        <item>20</item>
+        <item>21</item>
+        <item>22</item>
+        <item>23</item>
+        <item>24</item>
+        <item>25</item>
+        <item>26</item>
+        <item>29</item>
+        <item>31</item>
+        <item>32</item>
+        <item>33</item>
+        <item>34</item>
+        <item>35</item>
+        <item>36</item>
+        <item>37</item>
+        <item>38</item>
+        <item>39</item>
+        <item>41</item>
 
 
     </string-array>
@@ -137,7 +168,7 @@
 
 
     </string-array>
-    <string-array name="serviceenquiry" >
+    <string-array name="serviceenquiry">
 
         <item>Service Enquiry</item>
     </string-array>
