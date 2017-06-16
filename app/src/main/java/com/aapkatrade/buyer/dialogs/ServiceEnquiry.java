@@ -64,7 +64,7 @@ public class ServiceEnquiry extends DialogFragment {
         //noinspection ConstantConditions
         getDialog().getWindow().setBackgroundDrawableResource(R.drawable.rounded_dialog);
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-        progressDialogHandler =new ProgressDialogHandler(getActivity());
+        progressDialogHandler = new ProgressDialogHandler(getActivity());
         initView(v);
         return v;
     }
@@ -170,8 +170,7 @@ public class ServiceEnquiry extends DialogFragment {
 
                             progressDialogHandler.hide();
                             dismiss();
-                        }
-                        else {
+                        } else {
                             progressDialogHandler.hide();
 
                         }

@@ -25,7 +25,7 @@
             android:minHeight="?attr/actionBarSize"
             android:titleTextColor="@color/white"
             app:layout_collapseMode="pin"
-            tools:targetApi="m" />
+            tools:targetApi="O" />
 
 
     </android.support.design.widget.AppBarLayout>

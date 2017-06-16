@@ -160,6 +160,11 @@
         <activity
             android:name=".seller.selleruser_dashboard.billhistory.BillHistory"
             />
+
+        <activity
+            android:name=".seller.selleruser_dashboard.salestransaction.SalesTransaction"
+            />
+
     </application>
 
 </manifest>

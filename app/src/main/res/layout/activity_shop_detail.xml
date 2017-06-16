@@ -137,6 +137,7 @@
                         android:layout_marginLeft="@dimen/ten_dip"
                         android:layout_marginRight="@dimen/ten_dip"
                         android:layout_marginTop="@dimen/fifty_dip"
+                        app:cardBackgroundColor="@color/white"
                         android:background="@color/grey_light"
 
                         >
@@ -352,6 +353,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/ten_dip"
                         android:layout_marginRight="@dimen/ten_dip"
+                        app:cardBackgroundColor="@color/white"
                         android:layout_marginTop="@dimen/fourty_dip"
                         android:layout_weight="8"
                         android:background="@color/grey_light">
@@ -413,6 +415,7 @@
                     android:layout_marginLeft="@dimen/ten_dip"
                     android:layout_marginRight="@dimen/ten_dip"
                     android:layout_marginTop="@dimen/ten_dip"
+                    app:cardBackgroundColor="@color/white"
                     android:visibility="gone">
 
 
@@ -574,6 +577,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/ten_dip"
+                        app:cardBackgroundColor="@color/white"
                         android:layout_marginRight="@dimen/ten_dip"
                         android:layout_marginTop="@dimen/fourty_dip">
 
@@ -670,6 +674,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/ten_dip"
                         android:layout_marginLeft="@dimen/ten_dip"
+                        app:cardBackgroundColor="@color/white"
                         android:layout_marginRight="@dimen/ten_dip"
                         android:layout_marginTop="@dimen/fifty_dip">
 
