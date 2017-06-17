@@ -29,6 +29,7 @@ import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
 
 import com.aapkatrade.buyer.payment.PaymentActivity;
+import com.aapkatrade.buyer.payment.PaymentCompletionActivity;
 import com.android.volley.AuthFailureError;
 import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
@@ -47,6 +48,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class CartCheckoutActivity extends AppCompatActivity
@@ -69,6 +71,8 @@ public class CartCheckoutActivity extends AppCompatActivity
     int page = 1;
     LinearLayoutManager linearLayoutManager;
     public static final String TAG = "PayUMoneySDK Sample";
+    String order_number,phone_number;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +87,8 @@ public class CartCheckoutActivity extends AppCompatActivity
         progressBarHandler = new ProgressBarHandler(context);
 
         app_sharedpreference = new AppSharedPreference(getApplicationContext());
+
+
 
 
         initView();
@@ -167,10 +173,10 @@ public class CartCheckoutActivity extends AppCompatActivity
             public void onClick(View v)
             {
 
-             /*   String userid = app_sharedpreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), "");
+                String userid = app_sharedpreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), "");
                 callwebservice__save_order(userid);
-            */
-                makePayment();
+
+               //     makePayment();
 
             }
         });
@@ -207,7 +213,8 @@ public class CartCheckoutActivity extends AppCompatActivity
     }
 
 
-    private void cartList(String pageNumber) {
+    private void cartList(String pageNumber)
+    {
 
         progressBarHandler.show();
 
@@ -215,7 +222,6 @@ public class CartCheckoutActivity extends AppCompatActivity
         if (user_id.equals("notlogin")) {
             user_id = "";
         }
-
 
         Ion.with(CartCheckoutActivity.this)
                 .load(getResources().getString(R.string.webservice_base_url) + "/list_cart")
@@ -293,26 +299,25 @@ public class CartCheckoutActivity extends AppCompatActivity
                     @Override
                     public void onCompleted(Exception e, JsonObject result) {
                         //  AndroidUtils.showErrorLog(context,result,"dghdfghsaf dawbnedvhaewnbedvsab dsadduyf");
-                        System.out.println("result-----------" + result.toString());
+                       // System.out.println("result-----------" + result.toString());
 
                         String message = result.get("message").getAsString();
-                        if (message.equals("Order Saved Successfully!")) {
+                        if (message.equals("Order Saved Successfully!"))
+                        {
+
                             JsonObject jsonObject = result.getAsJsonObject("result");
-                            String order_number = jsonObject.get("tracking_no").getAsString();
+                            order_number = jsonObject.get("tracking_no").getAsString();
                             progressBarHandler.hide();
-                            Intent payment = new Intent(CartCheckoutActivity.this, PaymentActivity.class);
-                            payment.putExtra("order_number", order_number);
-                            payment.putExtra("userid", userid);
-                            payment.putExtra("price", tvAmountPayable.getText().toString().replace(getApplicationContext().getResources().getText(R.string.rupay_text), "").trim());
-                            startActivity(payment);
+                            makePayment();
 
 
-                        } else {
+                        }
+                        else
+                        {
                             progressBarHandler.hide();
                             AndroidUtils.showToast(context, message );
 
                         }
-
 
                     }
                 });
@@ -335,7 +340,8 @@ public class CartCheckoutActivity extends AppCompatActivity
     }
 
 
-    public void makePayment() {
+    public void makePayment()
+    {
 
         String phone = "8882434664";
         String productName = "product_name";
@@ -355,8 +361,7 @@ public class CartCheckoutActivity extends AppCompatActivity
 
         PayUmoneySdkInitilizer.PaymentParam.Builder builder = new PayUmoneySdkInitilizer.PaymentParam.Builder();
 
-
-        builder.setAmount(getAmount())
+        builder.setAmount(Double.valueOf(tvAmountPayable.getText().toString().replace(getApplicationContext().getResources().getText(R.string.rupay_text),"")))
                 .setTnxId(txnId)
                 .setPhone(phone)
                 .setProductName(productName)
@@ -375,21 +380,19 @@ public class CartCheckoutActivity extends AppCompatActivity
 
         PayUmoneySdkInitilizer.PaymentParam paymentParam = builder.build();
 
-//             server side call required to calculate hash with the help of <salt>
-//             <salt> is already shared along with merchant <key>
-     /*        serverCalculatedHash =sha512(key|txnid|amount|productinfo|firstname|email|udf1|udf2|udf3|udf4|udf5|<salt>)
-
+          // server side call required to calculate hash with the help of <salt>
+         //  <salt> is already shared along with merchant <key>
+         /*        serverCalculatedHash =sha512(key|txnid|amount|productinfo|firstname|email|udf1|udf2|udf3|udf4|udf5|<salt>)
              (e.g.)
-
              sha512(FCstqb|0nf7|10.0|product_name|piyush|piyush.jain@payu.in||||||MBgjYaFG)
-
              9f1ce50ba8995e970a23c33e665a990e648df8de3baf64a33e19815acd402275617a16041e421cfa10b7532369f5f12725c7fcf69e8d10da64c59087008590fc
-*/
-
+        */
         // Recommended
+
+
         calculateServerSideHashAndInitiatePayment(paymentParam);
 
-//        testing purpose
+       // testing purpose
 
        /* String salt = "";
         String serverCalculatedHash=hashCal(key+"|"+txnId+"|"+getAmount()+"|"+productName+"|"
@@ -399,14 +402,12 @@ public class CartCheckoutActivity extends AppCompatActivity
 
         PayUmoneySdkInitilizer.startPaymentActivityForResult(MyActivity.this, paymentParam);*/
 
+
+
     }
 
-
-
-
-
-    private void calculateServerSideHashAndInitiatePayment(final PayUmoneySdkInitilizer.PaymentParam paymentParam) {
-
+    private void calculateServerSideHashAndInitiatePayment(final PayUmoneySdkInitilizer.PaymentParam paymentParam)
+    {
         // Replace your server side hash generator API URL
         String url = "https://test.payumoney.com/payment/op/calculateHashForTest";
 
@@ -464,13 +465,17 @@ public class CartCheckoutActivity extends AppCompatActivity
             }
         };
         Volley.newRequestQueue(this).add(jsonObjectRequest);
+
+
+
+
     }
 
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if (requestCode == PayUmoneySdkInitilizer.PAYU_SDK_PAYMENT_REQUEST_CODE) {
-
+        if (requestCode == PayUmoneySdkInitilizer.PAYU_SDK_PAYMENT_REQUEST_CODE)
+        {
             /*if(data != null && data.hasExtra("result")){
               String responsePayUmoney = data.getStringExtra("result");
                 if(SdkHelper.checkForValidString(responsePayUmoney))
@@ -478,23 +483,30 @@ public class CartCheckoutActivity extends AppCompatActivity
             } else {
                 showDialogMessage("Unable to get Status of Payment");
             }*/
-
-
-            if (resultCode == RESULT_OK) {
+            if (resultCode == RESULT_OK)
+            {
                 Log.i(TAG, "Success - Payment ID : " + data.getStringExtra(SdkConstants.PAYMENT_ID));
                 String paymentId = data.getStringExtra(SdkConstants.PAYMENT_ID);
-                showDialogMessage("Payment Success Id : " + paymentId);
-            } else if (resultCode == RESULT_CANCELED) {
+               // showDialogMessage("Payment Success Id : " + paymentId);
+                callWebServiceMakePayment(paymentId,"true");
+
+            } else if (resultCode == RESULT_CANCELED)
+            {
                 Log.i(TAG, "failure");
-                showDialogMessage("cancelled");
-            } else if (resultCode == PayUmoneySdkInitilizer.RESULT_FAILED) {
+                //String paymentId = data.getStringExtra(SdkConstants.PAYMENT_ID);
+               // callWebServiceMakePayment(paymentId,"false");
+                showDialogMessage("Payment Cancelled");
+
+            }
+            else if (resultCode == PayUmoneySdkInitilizer.RESULT_FAILED)
+            {
                 Log.i("app_activity", "failure");
 
                 if (data != null) {
                     if (data.getStringExtra(SdkConstants.RESULT).equals("cancel")) {
 
                     } else {
-                        showDialogMessage("failure");
+                        showDialogMessage("Payment failure");
                     }
                 }
                 //Write your code if there's no result
@@ -505,18 +517,85 @@ public class CartCheckoutActivity extends AppCompatActivity
         }
     }
 
-    private void showDialogMessage(String message) {
+    private void showDialogMessage(String message)
+    {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(TAG);
+        builder.setTitle("Aapka Trade");
         builder.setMessage(message);
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+
                 dialog.dismiss();
             }
         });
         builder.show();
 
+    }
+
+
+    private void callWebServiceMakePayment(String transactionId, String status)
+    {
+
+        progressBarHandler.show();
+
+        String login_url = context.getResources().getString(R.string.webservice_base_url) + "/make_payment";
+
+        System.out.println("order_number--------------" + order_number+status+transactionId+"fgdfgb----");
+
+        Ion.with(context)
+                .load(login_url)
+                .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                //.setBodyParameter("data_n", params.toString())
+                .setBodyParameter("order_id", order_number)
+                .setBodyParameter("transactionid", transactionId)
+                .setBodyParameter("status", status)
+                .asJsonObject()
+                .setCallback(new FutureCallback<JsonObject>() {
+                    @Override
+                    public void onCompleted(Exception e, JsonObject result) {
+                        //  AndroidUtils.showErrorLog(context,result,"dghdfghsaf dawbnedvhaewnbedvsab dsadduyf");
+                        progressBarHandler.hide();
+
+                        System.out.println("result--------------" + result);
+                        if (result.get("error").getAsString().contains("false"))
+                        {
+                            String payment_status;
+                            JsonObject jsonObject = result.getAsJsonObject("result");
+
+                            if(result.get("payment_status").getAsString().contains("false"))
+                            {
+                                payment_status = "false";
+                                app_sharedpreference.setSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), 0);
+                            }
+                            else
+                            {
+                                payment_status = "true";
+                                String cart_count = jsonObject.get("cart_item").getAsString();
+                                app_sharedpreference.setSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), Integer.valueOf(cart_count));
+                            }
+
+                            AndroidUtils.showErrorLog(context, result.toString());
+
+                            Intent intent = new Intent(context, PaymentCompletionActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            intent.putExtra("isSuccess", payment_status);
+                            intent.putExtra("vpc_Amount", jsonObject.get("amount").getAsString());
+                            intent.putExtra("vpc_TransactionNo", jsonObject.get("transactionID").getAsString());
+                            intent.putExtra("vpc_ReceiptNo", jsonObject.get("order_id").getAsString());
+                            startActivity(intent);
+
+
+                        } else {
+                            Intent intent = new Intent(context, PaymentCompletionActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            intent.putExtra("isSuccess", "false");
+                            startActivity(intent);
+                        }
+                        //Toast.makeText(getApplicationContext(),result.toString(),Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
 
