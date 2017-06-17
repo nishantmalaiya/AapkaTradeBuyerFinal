@@ -23,21 +23,40 @@
         </RelativeLayout>
 
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="fill_parent">
+            android:layout_height="fill_parent"
+            android:orientation="horizontal"
+            android:weightSum="3"
+            >
 
             <com.aapkatrade.buyer.uicomponent.daystile.DaysTileView
                 android:id="@+id/daysTileView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:minHeight="@dimen/three_hundred_dip"
-                >
+                />
 
 
-            </com.aapkatrade.buyer.uicomponent.daystile.DaysTileView>
+            <com.aapkatrade.buyer.uicomponent.daystile.DaysTileView
+                android:id="@+id/daysTileView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:minHeight="@dimen/three_hundred_dip"
+                />
 
-        </RelativeLayout>
+            <com.aapkatrade.buyer.uicomponent.daystile.DaysTileView
+                android:id="@+id/daysTileView3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:minHeight="@dimen/three_hundred_dip"
+                />
+
+
+        </LinearLayout>
 
 
     </LinearLayout>

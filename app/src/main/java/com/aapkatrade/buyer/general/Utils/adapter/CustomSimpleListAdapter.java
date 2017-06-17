@@ -11,8 +11,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.aapkatrade.buyer.home.navigation.entity.CategoryHome;
 import com.aapkatrade.buyer.R;
+import com.aapkatrade.buyer.home.navigation.entity.Category;
+import com.aapkatrade.buyer.home.navigation.entity.SubCategory;
 
 
 import java.util.ArrayList;
@@ -52,13 +53,13 @@ public class CustomSimpleListAdapter extends BaseAdapter {
         view = inflter.inflate(R.layout.row_spinner, null);
         TextView names = (TextView) view.findViewById(R.id.tvSpCategory);
 
-        if(categoriesNames.get(i) instanceof String) {
+        if (categoriesNames.get(i) instanceof String) {
             names.setText((CharSequence) categoriesNames.get(i));
-        }
-        else if(categoriesNames.get(i) instanceof CategoryHome){
-            names.setText(((CategoryHome) categoriesNames.get(i)).getCategoryName());
-        }
-        else {
+        } else if (categoriesNames.get(i) instanceof Category) {
+            names.setText(((Category) categoriesNames.get(i)).getCategoryName());
+        } else if (categoriesNames.get(i) instanceof SubCategory) {
+            names.setText(((SubCategory) categoriesNames.get(i)).subCategoryName);
+        } else {
             names.setText(categoriesNames.get(i).toString());
         }
         return view;

@@ -1,29 +1,34 @@
 package com.aapkatrade.buyer.home.navigation.entity;
 
+
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Validation;
+
+import java.util.ArrayList;
 
 /**
  * Created by PPC09 on 20-Jan-17.
  */
 
-public class CategoryHome {
+public class Category
+{
     private String categoryId;
     private String categoryName;
     private String categoryIconName;
     private String categoryIconPath;
-    private String basePath = AndroidUtils.BaseUrl + "/public/appicon/";
+    private ArrayList<SubCategory> subCategoryList;
+    private String basePath = AndroidUtils.BaseUrl+"/public/appicon/";
     private String iconExtention = ".png";
-
-    public CategoryHome(String categoryId, String categoryName, String categoryIconName) {
+    public Category(String categoryId, String categoryName, String categoryIconName, ArrayList<SubCategory> subCategoryList) {
         this.categoryId = categoryId;
         this.categoryName = categoryName;
         this.categoryIconName = categoryIconName;
+        this.subCategoryList=subCategoryList;
         setCategoryIconPath(createIconPath(categoryName));
     }
 
-    private String createIconPath(String iconName) {
-        return Validation.isNonEmptyStr(iconName) ? basePath + iconName.replaceAll(" |/|&", "") + iconExtention : "";
+    private String createIconPath(String iconName){
+        return Validation.isNonEmptyStr(iconName)? basePath+iconName.replaceAll(" |/|&","")+iconExtention: "";
     }
 
     public String getCategoryId() {
@@ -46,17 +51,22 @@ public class CategoryHome {
         this.categoryIconPath = categoryIconPath;
     }
 
+    public ArrayList<SubCategory> getSubCategoryList() {
+        return this.subCategoryList;
+    }
+
+
 
     @Override
     public String toString() {
-        return "CategoryHome{" +
+        return "Category{" +
                 "categoryId='" + categoryId + '\'' +
                 ", categoryName='" + categoryName + '\'' +
                 ", categoryIconName='" + categoryIconName + '\'' +
                 ", categoryIconPath='" + categoryIconPath + '\'' +
+                ", subCategoryList=" + subCategoryList +
                 ", basePath='" + basePath + '\'' +
                 ", iconExtention='" + iconExtention + '\'' +
                 '}';
     }
-
 }

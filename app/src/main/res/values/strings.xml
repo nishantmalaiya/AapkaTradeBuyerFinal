@@ -83,7 +83,7 @@
     <string name="confirm_password1">Confirm Password*</string>
     <string name="mobile">Mobile*</string>
     <string name="date_of_birth">Date Of Birth*</string>
-    <string name="pincode">Pincode</string>
+    <string name="pincode">Pincode *</string>
     <string name="accept_t_and_c">Accept Terms and Conditions</string>
     <string name="save_and_next">Save &amp; Next</string>
 
@@ -307,10 +307,17 @@
     <string name="edit_text">Edit</string>
     <string name="title_activity_add_company_shop">AddCompanyShopActivity</string>
     <string name="add_company_shop">Add Company / Shop</string>
-    <string name="company_shop">Company / Shop Name</string>
+    <string name="company_shop">Company / Shop Name *</string>
     <string name="primary_email">Company / Shop</string>
     <string name="secondary_email">Company / Shop</string>
     <string name="title_activity_add_product">AddProductActivity</string>
+    <string name="area_location">Area / Location *</string>
+    <string name="phone_no">Phone Number</string>
+    <string name="web_url">Web URL</string>
+    <string name="fb_url">Facebook URL</string>
+    <string name="twitter_url">Twitter URL</string>
+    <string name="youtube_url">Youtube URL</string>
+    <string name="google_plus_url">Google+ URL</string>
 
 
 </resources>

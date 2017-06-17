@@ -24,7 +24,6 @@ public class CustomSpinnerAdapter extends BaseAdapter {
 
     public CustomSpinnerAdapter(Context applicationContext, ArrayList Names,ArrayList id) {
         this.context = applicationContext;
-
         this.Names = Names;
         this.id=id;
         inflter = (LayoutInflater.from(applicationContext));
@@ -32,9 +31,7 @@ public class CustomSpinnerAdapter extends BaseAdapter {
 
     public CustomSpinnerAdapter(Context applicationContext, ArrayList Names) {
         this.context = applicationContext;
-
         this.Names = Names;
-
         inflter = (LayoutInflater.from(applicationContext));
     }
 

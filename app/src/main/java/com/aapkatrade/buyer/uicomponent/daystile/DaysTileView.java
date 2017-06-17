@@ -11,6 +11,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -35,6 +36,7 @@ public class DaysTileView extends RelativeLayout {
     private Spinner spOpenTime, spCloseTime;
     private String openTime, closeTime;
     private ArrayList<String> openTimingList, closeTimingList;
+    private ImageView imgOpenTimeSpinner, imgCloseTimeSpinner;
 
     public DaysTileView(Context context) {
         super(context);
@@ -81,7 +83,9 @@ public class DaysTileView extends RelativeLayout {
         input_layout_open_time = (TextInputLayout) view.findViewById(R.id.input_layout_open_time);
         input_layout_close_time = (TextInputLayout) view.findViewById(R.id.input_layout_close_time);
         spOpenTime = (Spinner) view.findViewById(R.id.spOpenTime);
-        spCloseTime = (Spinner) view.findViewById(R.id.spCloseTime); ;
+        spCloseTime = (Spinner) view.findViewById(R.id.spCloseTime);
+        imgOpenTimeSpinner = (ImageView) findViewById(R.id.imgOpenTimeSpinner);
+        imgCloseTimeSpinner = (ImageView) findViewById(R.id.imgCloseTimeSpinner);
     }
 
     protected int layoutId() {
@@ -169,7 +173,7 @@ public class DaysTileView extends RelativeLayout {
     }
 
     public String getClosingTime(){
-        return openTime == null ? "" : openTime;
+        return closeTime == null ? "" : closeTime;
     }
 
 
