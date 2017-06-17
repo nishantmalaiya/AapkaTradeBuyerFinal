@@ -82,6 +82,7 @@
                 android:layout_marginTop="@dimen/thirty_dip"
                 android:gravity="center_horizontal|center_vertical"
                 android:text="@string/receipt"
+                android:visibility="invisible"
                 android:textAllCaps="true"
                 android:textColor="@color/golden_text"
                 android:textSize="@dimen/textsize_large" />
