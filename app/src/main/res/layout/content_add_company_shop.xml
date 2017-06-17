@@ -202,7 +202,7 @@
                 android:layout_marginTop="@dimen/ten_dip"
                 android:textColorHint="@color/hint_color">
 
-                <TextView
+                <EditText
                     android:id="@+id/tv_area_location"
                     style="@style/myedittext"
                     android:layout_width="match_parent"
@@ -469,7 +469,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/five_dip"
                         android:layout_marginRight="@dimen/five_dip"
-                        android:hint="@string/phone_no"
+                        android:hint="@string/emailId"
                         android:inputType="textEmailAddress"
                         android:paddingLeft="@dimen/ten_dip"
                         android:textColorHint="@color/green"

@@ -9,6 +9,7 @@ import android.support.v7.widget.AppCompatImageView;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -42,13 +43,13 @@ public class AddCompanyShopActivity extends AppCompatActivity {
     private Context context;
     private AppSharedPreference appSharedPreference;
     private ProgressBarHandler progressBarHandler;
-    private String userId, stateID, cityID, categoryID, subCategoryID;
-    private Spinner spState, spCity, spCategory, spSubCategory;
+    private String userId, stateID, cityID, categoryID, subCategoryID, serviceType;
+    private Spinner spState, spCity, spCategory, spSubCategory, spServiceType;
     private ArrayList<String> stateList, stateIds;
     private ArrayList<City> cityList = new ArrayList<>();
     public ArrayList<Category> listDataHeader = new ArrayList<>();
     private ArrayList<SubCategory> listDataChild = new ArrayList<>();
-    private TextView tvAreaLocation;
+    private EditText tvAreaLocation;
 
 
     @Override
@@ -60,9 +61,8 @@ public class AddCompanyShopActivity extends AppCompatActivity {
         initView();
         getState();
         getCategory();
-
+        getServiceType();
         clickevents();
-
     }
 
     private void clickevents() {
@@ -83,9 +83,10 @@ public class AddCompanyShopActivity extends AppCompatActivity {
         spCity = (Spinner) findViewById(R.id.spCity);
         spCategory = (Spinner) findViewById(R.id.spCategory);
         spSubCategory = (Spinner) findViewById(R.id.spSubCategory);
-
-        tvAreaLocation = (TextView) findViewById(R.id.tv_area_location);
-
+        spServiceType = (Spinner) findViewById(R.id.spServiceType);
+        tvAreaLocation = (EditText) findViewById(R.id.tv_area_location);
+        findViewById(R.id.input_layout_sub_category).setVisibility(View.GONE);
+        findViewById(R.id.input_layout_city).setVisibility(View.GONE);
     }
 
 
@@ -128,6 +129,7 @@ public class AddCompanyShopActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 AndroidUtils.showErrorLog(context, "State Id is ::::::::" + position);
                 if (position > 0) {
+                    findViewById(R.id.input_layout_city).setVisibility(View.VISIBLE);
                     stateID = String.valueOf(position);
                     getCity(stateIds.get(position));
                 }
@@ -190,6 +192,28 @@ public class AddCompanyShopActivity extends AppCompatActivity {
                 });
     }
 
+
+    private void getServiceType() {
+        final ArrayList<String> arrayList = new ArrayList<>();
+        arrayList.add("Please Select Service Type");
+        arrayList.add("Multiple/Group Product");
+        arrayList.add("Only Services");
+        spServiceType.setAdapter(new CustomSimpleListAdapter(context, arrayList));
+        spServiceType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position > 0) {
+                    serviceType = arrayList.get(position);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+
     private void setCategoryAdapter() {
         Log.e("data", this.listDataHeader.toString());
         CustomSimpleListAdapter categoriesAdapter = new CustomSimpleListAdapter(context, this.listDataHeader);
@@ -203,6 +227,7 @@ public class AddCompanyShopActivity extends AppCompatActivity {
                     listDataChild = new ArrayList<>();
                     listDataChild = listDataHeader.get(position).getSubCategoryList();
                     if (listDataChild.size() > 0) {
+                        findViewById(R.id.input_layout_sub_category).setVisibility(View.VISIBLE);
                         CustomSimpleListAdapter adapter = new CustomSimpleListAdapter(context, listDataChild);
                         spSubCategory.setAdapter(adapter);
                         spSubCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -219,6 +244,8 @@ public class AddCompanyShopActivity extends AppCompatActivity {
                             }
                         });
                     } else {
+                        findViewById(R.id.input_layout_sub_category).setVisibility(View.GONE);
+                        subCategoryID = "";
                         listDataChild = new ArrayList<>();
                         listDataChild.add(new SubCategory("0", "No SubCategory Found"));
                         CustomSimpleListAdapter adapter = new CustomSimpleListAdapter(context, listDataChild);
@@ -255,7 +282,7 @@ public class AddCompanyShopActivity extends AppCompatActivity {
 
                         if (result != null) {
                             JsonArray jsonResultArray = result.getAsJsonArray("result");
-
+                            cityList.clear();
                             City cityEntity_init = new City("-1", "Please Select City");
                             cityList.add(cityEntity_init);
 

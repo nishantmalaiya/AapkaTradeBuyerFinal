@@ -26,7 +26,6 @@ public class CustomSimpleListAdapter extends BaseAdapter {
 
     public CustomSimpleListAdapter(Context applicationContext, ArrayList categoriesNames) {
         this.context = applicationContext;
-
         this.categoriesNames = categoriesNames;
         inflter = (LayoutInflater.from(applicationContext));
     }
