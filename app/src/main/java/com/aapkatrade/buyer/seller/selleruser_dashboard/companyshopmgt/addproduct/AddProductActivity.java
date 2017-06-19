@@ -26,8 +26,6 @@ import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.uicomponent.daystile.DaysTileView;
 
-public class AddProductActivity extends AppCompatActivity {
-    private DaysTileView daysTileView, daysTileView2, daysTileView3;
 import com.aapkatrade.buyer.general.Utils.ImageUtils;
 import com.aapkatrade.buyer.home.HomeActivity;
 import com.aapkatrade.buyer.location.GeoCoderAddress;
@@ -40,6 +38,7 @@ import java.util.List;
 
 public class AddProductActivity extends AppCompatActivity
 {
+
     Context context;
     private TextView btnUpload;
     private int count = -1;
@@ -71,27 +70,27 @@ public class AddProductActivity extends AppCompatActivity
 
         setContentView(R.layout.activity_add_product);
 
-        daysTileView = (DaysTileView) findViewById(R.id.daysTileView);
-        daysTileView.setBackgroundColor(R.color.green);
-        daysTileView.setDayName("Mon - Fri");
+//        daysTileView = (DaysTileView) findViewById(R.id.daysTileView);
+//        daysTileView.setBackgroundColor(R.color.green);
+//        daysTileView.setDayName("Mon - Fri");
 
-        daysTileView2 = (DaysTileView) findViewById(R.id.daysTileView2);
-        daysTileView2.setBackgroundColor(R.color.md_material_blue_600);
-        daysTileView2.setDayName("Saturday");
+//        daysTileView2 = (DaysTileView) findViewById(R.id.daysTileView2);
+//        daysTileView2.setBackgroundColor(R.color.md_material_blue_600);
+//        daysTileView2.setDayName("Saturday");
 
-        daysTileView3 = (DaysTileView) findViewById(R.id.daysTileView3);
-        daysTileView3.setBackgroundColor(R.color.red);
-        daysTileView3.setDayName("Sunday");
+//        daysTileView3 = (DaysTileView) findViewById(R.id.daysTileView3);
+//        daystileview3.setbackgroundcolor(r.color.red);
+//        daystileview3.setDayName("Sunday");
 
 
-        findViewById(R.id.btnSave).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AndroidUtils.showToast(AddProductActivity.this, daysTileView.getOpeningTime()+"   "+daysTileView.getClosingTime());
-                AndroidUtils.showToast(AddProductActivity.this, daysTileView2.getOpeningTime()+"   "+daysTileView2.getClosingTime());
-
-            }
-        });
+//        findViewById(R.id.btnSave).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                AndroidUtils.showToast(AddProductActivity.this, daysTileView.getOpeningTime()+"   "+daysTileView.getClosingTime());
+//                AndroidUtils.showToast(AddProductActivity.this, daysTileView2.getOpeningTime()+"   "+daysTileView2.getClosingTime());
+//
+//            }
+//        });
 
         context = AddProductActivity.this;
 
@@ -215,7 +214,7 @@ public class AddProductActivity extends AppCompatActivity
         super.onActivityResult(requestCode, resultCode, data);
 
         multiple_images = new ArrayList<>();
-        Log.e("hi", "requestCode : " + requestCode + "result code : " + resultCode);
+        AndroidUtils.showErrorLog(context, "hi", "requestCode : " + requestCode + "result code : " + resultCode);
         try {
             if (requestCode == 11) {
                 if (data.getClipData() != null) {
@@ -230,21 +229,19 @@ public class AddProductActivity extends AppCompatActivity
                         multiple_images.add(bitmap);
 
 
-                        Log.e("doc", "***START.****** ");
+                        AndroidUtils.showErrorLog(context, "doc", "***START.****** ");
                         if (ImageUtils.sizeOf(bitmap) > 2048) {
-                            Log.e("doc", "if doc file path 1");
-
-                            docFile = getFile(ImageUtils.resize(bitmap, bitmap.getHeight() / 2, bitmap.getWidth() / 2));
-                            Log.e("doc", "if doc file path" + docFile.getAbsolutePath());
+                            AndroidUtils.showErrorLog(context, "doc", "if doc file path 1");
+                            docFile = ImageUtils.getFile(context, ImageUtils.resize(bitmap, bitmap.getHeight() / 2, bitmap.getWidth() / 2));
+                            AndroidUtils.showErrorLog(context, "doc", "if doc file path" + docFile.getAbsolutePath());
                         } else {
-
-                            Log.e("doc", " else doc file path 1");
-                            docFile = getFile(bitmap);
-                            Log.e("doc", " else doc file path" + docFile.getAbsolutePath());
+                            AndroidUtils.showErrorLog(context, "doc", " else doc file path 1");
+                            docFile = ImageUtils.getFile(context, bitmap);
+                            AndroidUtils.showErrorLog(context, "doc", " else doc file path" + docFile.getAbsolutePath());
                         }
 
                         productImagesDatas.add(new ProductImagesData(docFile.getAbsolutePath(), ""));
-                        Log.e("docfile", docFile.getAbsolutePath());
+                        AndroidUtils.showErrorLog(context, "docfile", docFile.getAbsolutePath());
 
 
                         adapter.notifyDataSetChanged();
@@ -262,13 +259,13 @@ public class AddProductActivity extends AppCompatActivity
                     try {
                         InputStream inputStream = getContentResolver().openInputStream(data.getData());
                         Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-                        Uri tempUri = getImageUri(AddProductActivity.this, bitmap);
+                        Uri tempUri = ImageUtils.getImageUri(context, bitmap);
 
                         // CALL THIS METHOD TO GET THE ACTUAL PATH
-                        File finalFile = new File(getRealPathFromURI(tempUri));
+                        File finalFile = new File(ImageUtils.getRealPathFromURI(context, tempUri));
 
                         productImagesDatas.add(new ProductImagesData(finalFile.getAbsolutePath(), ""));
-                        Log.e("docfile", finalFile.getAbsolutePath());
+                        AndroidUtils.showErrorLog(context, "docfile", finalFile.getAbsolutePath());
 
                         adapter.notifyDataSetChanged();
                         if (productImagesDatas.size() > 0) {
@@ -285,17 +282,17 @@ public class AddProductActivity extends AppCompatActivity
             }
             if (requestCode == 10) {
 
-                Log.e("docfile10", "Sachin sdnsdfjsd fsdjfsd fnmsdabf");
+                AndroidUtils.showErrorLog(context, "docfile10", "Sachin sdnsdfjsd fsdjfsd fnmsdabf");
 
                 Bitmap photo = (Bitmap) data.getExtras().get("data");
 
-                Uri tempUri = getImageUri(AddProductActivity.this, photo);
+                Uri tempUri = ImageUtils.getImageUri(AddProductActivity.this, photo);
 
                 // CALL THIS METHOD TO GET THE ACTUAL PATH
-                File finalFile = new File(getRealPathFromURI(tempUri));
+                File finalFile = new File(ImageUtils.getRealPathFromURI(context, tempUri));
 
                 productImagesDatas.add(new ProductImagesData(finalFile.getAbsolutePath(), ""));
-                Log.e("docfile", finalFile.getAbsolutePath());
+                AndroidUtils.showErrorLog(context, "docfile", finalFile.getAbsolutePath());
 
                 adapter.notifyDataSetChanged();
                 recyclerView.setVisibility(View.VISIBLE);
@@ -306,43 +303,13 @@ public class AddProductActivity extends AppCompatActivity
 
 
         } catch (Exception e) {
-            Log.e("Exception", e.toString());
+            AndroidUtils.showErrorLog(context, "Exception", e.toString());
         }
 
     }
 
 
-    private File getFile(Bitmap photo) {
-        Uri tempUri = null;
-        if (photo != null) {
-            tempUri = getImageUri(AddProductActivity.this, photo);
-        }
-        File finalFile = new File(getRealPathFromURI(tempUri));
-        Log.e("data", getRealPathFromURI(tempUri));
 
-        return finalFile;
-    }
-
-    public Uri getImageUri(Context inContext, Bitmap inImage) {
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
-        return Uri.parse(path);
-    }
-
-
-    public String getRealPathFromURI(Uri uri)
-    {
-        Cursor cursor = null;
-        int idx = 0;
-        if (uri != null) {
-            cursor = AddProductActivity.this.getContentResolver().query(uri, null, null, null, null);
-            assert cursor != null;
-            cursor.moveToFirst();
-            idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
-        }
-        return cursor.getString(idx);
-    }
 
 
 
