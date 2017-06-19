@@ -19,9 +19,7 @@
             android:id="@+id/generalDetails"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
-
-            android:orientation="vertical">
+            android:orientation="vertical" >
 
             <com.aapkatrade.buyer.uicomponent.customcardview.CustomCardViewHeader
                 android:id="@+id/generalDetailsHeader"
@@ -35,18 +33,61 @@
 
 
             <LinearLayout
-                android:id="@+id/llGeneralInfoContainer"
+                android:id="@+id/llSellerBusinessDetailContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 tools:ignore="UselessParent">
 
-                <include
-                    android:id="@+id/doc"
-                    layout="@layout/upload_image_layout" />
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <RelativeLayout
+                        android:id="@+id/uploadCard"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/recycler"
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/one_hundred_twenty_dip"
+                            android:layout_marginBottom="@dimen/fifteen_dip"
+                            android:layout_marginRight="@dimen/fifteen_dip"
+                            android:layout_marginTop="@dimen/fifteen_dip"
+                            android:orientation="horizontal"
+                            android:visibility="gone">
+
+                        </android.support.v7.widget.RecyclerView>
+
+
+                        <RelativeLayout
+                            android:id="@+id/relativeImage"
+                            android:layout_width="@dimen/one_hundred_five_dip"
+                            android:layout_height="@dimen/one_hundred_five_dip"
+                            android:layout_marginBottom="@dimen/fifteen_dip"
+                            android:layout_marginRight="@dimen/fifteen_dip"
+                            android:layout_marginTop="@dimen/fifteen_dip"
+                            android:layout_toRightOf="@+id/recycler"
+                            android:background="@drawable/dotted">
+
+                            <ImageView
+                                android:layout_width="@dimen/fifty_dip"
+                                android:layout_height="@dimen/fifty_dip"
+                                android:layout_centerHorizontal="true"
+                                android:layout_centerVertical="true"
+                                android:src="@drawable/ic_shop_plus" />
+
+                        </RelativeLayout>
+
+                    </RelativeLayout>
+
+
+                </HorizontalScrollView>
+
 
             </LinearLayout>
-
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/input_layout_company_shop_name"
@@ -210,8 +251,8 @@
                     android:layout_marginLeft="@dimen/five_dip"
                     android:layout_marginRight="@dimen/five_dip"
                     android:hint="@string/area_location"
-                    android:inputType="number"
                     android:paddingLeft="@dimen/ten_dip"
+                    android:editable="false"
                     android:textColorHint="@color/green"
                     android:theme="@style/myedittext" />
 
