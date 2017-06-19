@@ -2,21 +2,32 @@ package com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.addcompa
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.provider.Telephony;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatImageView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
+import com.aapkatrade.buyer.general.Utils.ImageUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.Utils.adapter.CustomSimpleListAdapter;
 import com.aapkatrade.buyer.general.Utils.adapter.CustomSpinnerAdapter;
@@ -26,6 +37,9 @@ import com.aapkatrade.buyer.home.buyerregistration.entity.City;
 import com.aapkatrade.buyer.home.buyerregistration.spinner_adapter.SpCityAdapter;
 import com.aapkatrade.buyer.home.navigation.entity.Category;
 import com.aapkatrade.buyer.home.navigation.entity.SubCategory;
+import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.addproduct.AddProductActivity;
+import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.addproduct.ProductImagesAdapter;
+import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.addproduct.ProductImagesData;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.common.api.Status;
@@ -36,8 +50,12 @@ import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class AddCompanyShopActivity extends AppCompatActivity {
     private Context context;
@@ -50,6 +68,17 @@ public class AddCompanyShopActivity extends AppCompatActivity {
     public ArrayList<Category> listDataHeader = new ArrayList<>();
     private ArrayList<SubCategory> listDataChild = new ArrayList<>();
     private EditText tvAreaLocation;
+    File docFile = new File("");
+    public ArrayList<ProductImagesData> productImagesDatas = new ArrayList<>();
+    LinearLayoutManager layoutManager;
+    RecyclerView recyclerView;
+    ProductImagesAdapter adapter;
+    Bitmap imageForPreview;
+    int values_count = 0;
+    ArrayList<Bitmap> multiple_images;
+    RelativeLayout rl_layout1_saveandcontinue_container;
+    List<Telephony.Mms.Part> files_image = new ArrayList();
+    RelativeLayout relativeImage;
 
 
     @Override
@@ -63,6 +92,13 @@ public class AddCompanyShopActivity extends AppCompatActivity {
         getCategory();
         getServiceType();
         clickevents();
+        relativeImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                picPhoto();
+            }
+        });
+        setupRecyclerView();
     }
 
     private void clickevents() {
@@ -87,6 +123,8 @@ public class AddCompanyShopActivity extends AppCompatActivity {
         tvAreaLocation = (EditText) findViewById(R.id.tv_area_location);
         findViewById(R.id.input_layout_sub_category).setVisibility(View.GONE);
         findViewById(R.id.input_layout_city).setVisibility(View.GONE);
+
+        relativeImage = (RelativeLayout) findViewById(R.id.relativeImage);
     }
 
 
@@ -362,6 +400,50 @@ public class AddCompanyShopActivity extends AppCompatActivity {
     }
 
 
+    private void setupRecyclerView() {
+        recyclerView = (RecyclerView) findViewById(R.id.recycler);
+        adapter = new ProductImagesAdapter(context, productImagesDatas);
+        layoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setVisibility(View.INVISIBLE);
+        recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+    }
+
+
+    void picPhoto()
+    {
+        String str[] = new String[]{"Camera", "Gallery"};
+        new AlertDialog.Builder(this).setItems(str,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        performImgPicAction(which);
+                    }
+                }).show();
+
+    }
+
+    void performImgPicAction(int which) {
+        Intent in;
+        if (which == 1) {
+            in = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            in.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+            in.setAction(Intent.ACTION_GET_CONTENT);
+            startActivityForResult(Intent.createChooser(in, "Select Multiple Picture From Gallery"), 11);
+        } else {
+
+            in = new Intent();
+            in.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
+            startActivityForResult(Intent.createChooser(in, "Capture Image from Camera"), 10);
+        }
+
+
+    }
+
+
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 1) {
@@ -377,7 +459,102 @@ public class AddCompanyShopActivity extends AppCompatActivity {
                 progressBarHandler.hide();
             }
         }
+
+
+        multiple_images = new ArrayList<>();
+        AndroidUtils.showErrorLog(context, "hi", "requestCode : " + requestCode + "result code : " + resultCode);
+        try {
+            if (requestCode == 11) {
+                if (data.getClipData() != null) {
+
+                    data.getClipData().getItemCount();
+
+                    for (int k = 0; k < 4; k++) {
+
+                        Uri selectedImage = data.getClipData().getItemAt(k).getUri();
+
+                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
+                        multiple_images.add(bitmap);
+
+
+                        AndroidUtils.showErrorLog(context, "doc", "***START.****** ");
+                        if (ImageUtils.sizeOf(bitmap) > 2048) {
+                            AndroidUtils.showErrorLog(context, "doc", "if doc file path 1");
+                            docFile = ImageUtils.getFile(context, ImageUtils.resize(bitmap, bitmap.getHeight() / 2, bitmap.getWidth() / 2));
+                            AndroidUtils.showErrorLog(context, "doc", "if doc file path" + docFile.getAbsolutePath());
+                        } else {
+                            AndroidUtils.showErrorLog(context, "doc", " else doc file path 1");
+                            docFile = ImageUtils.getFile(context, bitmap);
+                            AndroidUtils.showErrorLog(context, "doc", " else doc file path" + docFile.getAbsolutePath());
+                        }
+
+                        productImagesDatas.add(new ProductImagesData(docFile.getAbsolutePath(), ""));
+                        AndroidUtils.showErrorLog(context, "docfile", docFile.getAbsolutePath());
+
+
+                        adapter.notifyDataSetChanged();
+                        if (productImagesDatas.size() > 0) {
+                            recyclerView.setVisibility(View.VISIBLE);
+
+                        }
+
+
+                    }
+
+                } else {
+
+
+                    try {
+                        InputStream inputStream = getContentResolver().openInputStream(data.getData());
+                        Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                        Uri tempUri = ImageUtils.getImageUri(context, bitmap);
+
+                        // CALL THIS METHOD TO GET THE ACTUAL PATH
+                        File finalFile = new File(ImageUtils.getRealPathFromURI(context, tempUri));
+
+                        productImagesDatas.add(new ProductImagesData(finalFile.getAbsolutePath(), ""));
+                        AndroidUtils.showErrorLog(context, "docfile", finalFile.getAbsolutePath());
+
+                        adapter.notifyDataSetChanged();
+                        if (productImagesDatas.size() > 0) {
+                            recyclerView.setVisibility(View.VISIBLE);
+
+                        }
+
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+
+
+                }
+            }
+            if (requestCode == 10) {
+
+                AndroidUtils.showErrorLog(context, "docfile10", "Sachin sdnsdfjsd fsdjfsd fnmsdabf");
+
+                Bitmap photo = (Bitmap) data.getExtras().get("data");
+
+                Uri tempUri = ImageUtils.getImageUri(context, photo);
+
+                // CALL THIS METHOD TO GET THE ACTUAL PATH
+                File finalFile = new File(ImageUtils.getRealPathFromURI(context, tempUri));
+
+                productImagesDatas.add(new ProductImagesData(finalFile.getAbsolutePath(), ""));
+                AndroidUtils.showErrorLog(context, "docfile", finalFile.getAbsolutePath());
+
+                adapter.notifyDataSetChanged();
+                recyclerView.setVisibility(View.VISIBLE);
+
+            }
+
+
+
+
+        } catch (Exception e) {
+            AndroidUtils.showErrorLog(context, "Exception", e.toString());
+        }
     }
+
 
 
 }

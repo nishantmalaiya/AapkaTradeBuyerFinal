@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ll_content_seller_registration"
@@ -20,8 +19,9 @@
         android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/toolbarLayout"
-        >
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -46,32 +46,30 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                   <RelativeLayout
-                       android:layout_width="match_parent"
-                       android:layout_height="wrap_content"
-                       android:background="@color/green"
-                       >
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/green">
 
-                       <ImageView
-                           android:id="@+id/cardview_header_icon_left"
-                           android:layout_width="@dimen/thirty_dip"
-                           android:padding="@dimen/five_dip"
-                           android:layout_height="@dimen/thirty_dip"
-                           android:layout_margin="@dimen/ten_dip"
-                           android:src="@drawable/ic_edit_white" />
+                        <ImageView
+                            android:id="@+id/cardview_header_icon_left"
+                            android:layout_width="@dimen/thirty_dip"
+                            android:layout_height="@dimen/thirty_dip"
+                            android:layout_margin="@dimen/ten_dip"
+                            android:padding="@dimen/five_dip"
+                            android:src="@drawable/ic_edit_white" />
 
-                       <TextView
-                           android:layout_width="wrap_content"
-                           android:layout_height="wrap_content"
-                           android:text="@string/product_images"
-                           android:layout_toRightOf="@+id/cardview_header_icon_left"
-                           android:layout_centerVertical="true"
-                           android:textSize="@dimen/textsize_medium"
-                           android:textColor="@color/white"
-                           />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toRightOf="@+id/cardview_header_icon_left"
+                            android:text="@string/product_images"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/textsize_medium" />
 
 
-                   </RelativeLayout>
+                    </RelativeLayout>
 
                     <LinearLayout
                         android:id="@+id/llSellerBusinessDetailContainer"
@@ -82,8 +80,7 @@
 
                         <HorizontalScrollView
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            >
+                            android:layout_height="wrap_content">
 
                             <RelativeLayout
                                 android:id="@+id/uploadCard"
@@ -95,12 +92,11 @@
                                     android:id="@+id/recycler"
                                     android:layout_width="wrap_content"
                                     android:layout_height="@dimen/one_hundred_twenty_dip"
-                                    android:orientation="horizontal"
                                     android:layout_marginBottom="@dimen/fifteen_dip"
-                                    android:layout_marginTop="@dimen/fifteen_dip"
                                     android:layout_marginRight="@dimen/fifteen_dip"
-                                    android:visibility="gone"
-                                    >
+                                    android:layout_marginTop="@dimen/fifteen_dip"
+                                    android:orientation="horizontal"
+                                    android:visibility="gone">
 
                                 </android.support.v7.widget.RecyclerView>
 
@@ -109,20 +105,18 @@
                                     android:id="@+id/relativeImage"
                                     android:layout_width="@dimen/one_hundred_five_dip"
                                     android:layout_height="@dimen/one_hundred_five_dip"
-                                    android:background="@drawable/dotted"
                                     android:layout_marginBottom="@dimen/fifteen_dip"
-                                    android:layout_marginTop="@dimen/fifteen_dip"
                                     android:layout_marginRight="@dimen/fifteen_dip"
+                                    android:layout_marginTop="@dimen/fifteen_dip"
                                     android:layout_toRightOf="@+id/recycler"
-                                    >
+                                    android:background="@drawable/dotted">
 
                                     <ImageView
                                         android:layout_width="@dimen/fifty_dip"
                                         android:layout_height="@dimen/fifty_dip"
-                                        android:src="@drawable/ic_shop_plus"
-                                        android:layout_centerVertical="true"
                                         android:layout_centerHorizontal="true"
-                                        />
+                                        android:layout_centerVertical="true"
+                                        android:src="@drawable/ic_shop_plus" />
 
                                 </RelativeLayout>
 
@@ -130,7 +124,6 @@
 
 
                         </HorizontalScrollView>
-
 
 
                     </LinearLayout>
@@ -144,10 +137,10 @@
                 android:id="@+id/productDetailsCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/twenty_five_dip"
                 android:layout_marginLeft="@dimen/ten_dip"
                 android:layout_marginRight="@dimen/ten_dip"
                 android:layout_marginTop="@dimen/ten_dip"
-                android:layout_marginBottom="@dimen/twenty_five_dip"
                 android:padding="@dimen/twenty_dip">
 
                 <LinearLayout
@@ -161,37 +154,34 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@color/green"
-                        >
+                        android:background="@color/green">
 
                         <ImageView
                             android:id="@+id/cardview_header_icon_left2"
                             android:layout_width="@dimen/thirty_dip"
-                            android:padding="@dimen/five_dip"
                             android:layout_height="@dimen/thirty_dip"
                             android:layout_margin="@dimen/ten_dip"
+                            android:padding="@dimen/five_dip"
                             android:src="@drawable/ic_edit_white" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/product_detail"
-                            android:layout_toRightOf="@+id/cardview_header_icon_left2"
                             android:layout_centerVertical="true"
-                            android:textSize="@dimen/textsize_medium"
+                            android:layout_toRightOf="@+id/cardview_header_icon_left2"
+                            android:text="@string/product_detail"
                             android:textColor="@color/white"
-                            />
+                            android:textSize="@dimen/textsize_medium" />
 
 
                     </RelativeLayout>
+
                     <LinearLayout
                         android:id="@+id/llSellerProductDetailContainer"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         tools:ignore="UselessParent">
-
-
 
 
                         <android.support.design.widget.TextInputLayout
@@ -314,9 +304,6 @@
                         </android.support.design.widget.TextInputLayout>
 
 
-
-
-
                         <android.support.design.widget.TextInputLayout
                             android:id="@+id/input_layout_description"
                             android:layout_width="match_parent"
@@ -350,9 +337,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_gravity="center_vertical"
+                            android:layout_marginBottom="@dimen/ten_dip"
                             android:layout_marginLeft="@dimen/twenty_dip"
                             android:layout_marginRight="@dimen/twenty_dip"
-                            android:layout_marginBottom="@dimen/ten_dip"
                             android:layout_marginTop="@dimen/ten_dip"
                             android:gravity="center_vertical"
                             android:textColorHint="@color/hint_color">
@@ -391,8 +378,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:visibility="visible"
-        >
+        android:visibility="visible">
 
         <LinearLayout
             android:id="@+id/linearBottomLayout"
@@ -417,8 +403,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Payable Amount"
-                    android:textStyle="bold"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/tvLastPayableAmount"

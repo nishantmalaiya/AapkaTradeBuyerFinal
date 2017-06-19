@@ -34,6 +34,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.aapkatrade.buyer.general.Utils.ImageUtils;
 import com.aapkatrade.buyer.home.HomeActivity;
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.AppSharedPreference;
@@ -61,15 +63,14 @@ import java.io.IOException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class MyProfileActivity extends AppCompatActivity
-{
+public class MyProfileActivity extends AppCompatActivity {
     private AppSharedPreference app_sharedpreference;
-    private EditText etFName,etLName, etEmail, etMobileNo, etAddress;
+    private EditText etFName, etLName, etEmail, etMobileNo, etAddress;
     private ProgressBarHandler p_handler;
     private TextView tvMyProfileDetailHeading;
     private CoordinatorLayout coordinatorlayout_myprofile;
     private Context context;
-    private String fname, lname, email, mobile, address, user_image,usertype;
+    private String fname, lname, email, mobile, address, user_image, usertype;
     private CircleImageView userImageView;
     private Button btnSave;
     private Bitmap imageForPreview;
@@ -78,15 +79,14 @@ public class MyProfileActivity extends AppCompatActivity
     private final static int PERMISSION_RQ = 84;
     private static final int REQUEST_TAKE_GALLERY_VIDEO = 111;
     public static String videopath;
-    public static  String selectedImagePath;
-    private final static int SELECT_VIDEO_REQUEST=100;
+    public static String selectedImagePath;
+    private final static int SELECT_VIDEO_REQUEST = 100;
     String source_video_folder = null;
     ImageView imageViewProfile;
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_profile);
         context = MyProfileActivity.this;
@@ -96,8 +96,7 @@ public class MyProfileActivity extends AppCompatActivity
 
     }
 
-    private void initView()
-    {
+    private void initView() {
         app_sharedpreference = new AppSharedPreference(context);
 
         p_handler = new ProgressBarHandler(context);
@@ -151,16 +150,12 @@ public class MyProfileActivity extends AppCompatActivity
 
         etMobileNo.setKeyListener(null);
 
-        if (app_sharedpreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), "").contains("2"))
-        {
+        if (app_sharedpreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), "").contains("2")) {
 
-            if(app_sharedpreference.getSharedPref(SharedPreferenceConstants.PROFILE_VIDEO_THUMBNAIL.toString(), "").toString().equals(""))
-            {
+            if (app_sharedpreference.getSharedPref(SharedPreferenceConstants.PROFILE_VIDEO_THUMBNAIL.toString(), "").toString().equals("")) {
 
-                Log.e("shared-----","");
-            }
-            else
-            {
+                Log.e("shared-----", "");
+            } else {
                 Picasso.with(context)
                         .load(app_sharedpreference.getSharedPref(SharedPreferenceConstants.PROFILE_VIDEO_THUMBNAIL.toString(), ""))
                         .error(R.drawable.navigation_profile_bg)
@@ -175,11 +170,9 @@ public class MyProfileActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
 
-                if (usertype.equals("2")){
+                if (usertype.equals("2")) {
                     showEditVideoPopup();
-                }
-                else
-                {
+                } else {
                     picPhoto();
 
                 }
@@ -189,8 +182,7 @@ public class MyProfileActivity extends AppCompatActivity
 
         String imageUrl = app_sharedpreference.getSharedPref(SharedPreferenceConstants.PROFILE_PIC.toString());
 
-        if (Validation.isNonEmptyStr(imageUrl))
-        {
+        if (Validation.isNonEmptyStr(imageUrl)) {
             Picasso.with(context)
                     .load(imageUrl)
                     .error(R.drawable.banner)
@@ -222,8 +214,7 @@ public class MyProfileActivity extends AppCompatActivity
         });
     }
 
-    private void getshared_pref_data()
-    {
+    private void getshared_pref_data() {
         user_image = app_sharedpreference.getSharedPref(SharedPreferenceConstants.PROFILE_PIC.toString(), "");
         fname = app_sharedpreference.getSharedPref(SharedPreferenceConstants.FIRST_NAME.toString(), "");
         lname = app_sharedpreference.getSharedPref(SharedPreferenceConstants.LAST_NAME.toString(), "");
@@ -232,12 +223,11 @@ public class MyProfileActivity extends AppCompatActivity
         address = app_sharedpreference.getSharedPref(SharedPreferenceConstants.ADDRESS.toString(), "");
         usertype = app_sharedpreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), "");
 
-        Log.e("usertype",usertype);
+        Log.e("usertype", usertype);
 
     }
 
-    private void edit_profile_webservice()
-    {
+    private void edit_profile_webservice() {
         p_handler.show();
 
         Ion.with(MyProfileActivity.this)
@@ -249,8 +239,8 @@ public class MyProfileActivity extends AppCompatActivity
                 .setBodyParameter("mobile", etMobileNo.getText().toString())
                 .setBodyParameter("email", etEmail.getText().toString())
                 .setBodyParameter("address", etAddress.getText().toString())
-                .setBodyParameter("user_id",  app_sharedpreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), ""))
-                .setBodyParameter("user_type",app_sharedpreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), ""))
+                .setBodyParameter("user_id", app_sharedpreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), ""))
+                .setBodyParameter("user_type", app_sharedpreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), ""))
                 .asJsonObject()
                 .setCallback(new FutureCallback<JsonObject>() {
                     @Override
@@ -318,13 +308,11 @@ public class MyProfileActivity extends AppCompatActivity
 
     }
 
-    private void showMessage(String message)
-    {
+    private void showMessage(String message) {
         AndroidUtils.showSnackBar(coordinatorlayout_myprofile, message);
     }
 
-    private void setUpToolBar()
-    {
+    private void setUpToolBar() {
         ImageView homeIcon = (ImageView) findViewById(R.id.iconHome);
         AndroidUtils.setImageColor(homeIcon, context, R.color.white);
         AppCompatImageView back_imagview = (AppCompatImageView) findViewById(R.id.back_imagview);
@@ -366,10 +354,8 @@ public class MyProfileActivity extends AppCompatActivity
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch (item.getItemId())
-        {
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
                 break;
@@ -379,58 +365,30 @@ public class MyProfileActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-
-    public void save_shared_pref(String user_id, String user_name, String email_id, String lname, String dob, String address, String mobile, String order_quantity, String product_quantity, String company_quantity, String vendor_quantity, String network_quantity)
-    {
-        app_sharedpreference.setSharedPref("userid", user_id);
-        app_sharedpreference.setSharedPref("username", user_name);
-        app_sharedpreference.setSharedPref("emailid", email_id);
-        app_sharedpreference.setSharedPref("lname", lname);
-        app_sharedpreference.setSharedPref("address", address);
-        app_sharedpreference.setSharedPref("mobile", mobile);
-    }
-
-
-    void picPhoto()
-    {
+    void picPhoto() {
         String str[] = new String[]{"Camera", "Gallery"};
         new AlertDialog.Builder(this).setItems(str,
-                new DialogInterface.OnClickListener()
-                {
+                new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which)
-                    {
-                        performImgPicAction(which);
-
+                    public void onClick(DialogInterface dialog, int which) {
                         Intent in;
                         if (which == 1) {
                             in = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                        }
-                        else
-                        {
-                            which =2;
+                        } else {
+                            which = 2;
                             in = new Intent();
                             in.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
                         }
                         startActivityForResult(Intent.createChooser(in, "Select profile picture"), which);
-
                     }
                 }).show();
     }
 
-    void performImgPicAction(int which)
-    {
-
-    }
-
-
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        switch (requestCode)
-        {
+        switch (requestCode) {
             case 1:
 
                 try {
@@ -478,8 +436,8 @@ public class MyProfileActivity extends AppCompatActivity
 
                     userImageView.setVisibility(View.VISIBLE);
 
-                   // userImageView.setImageBitmap(imageForPreview);
-                    File imagefile = getFile(imageForPreview);
+                    // userImageView.setImageBitmap(imageForPreview);
+                    File imagefile = ImageUtils.getFile(context, imageForPreview);
 
                     call_myprofile_webservice(imagefile);
 
@@ -539,7 +497,7 @@ public class MyProfileActivity extends AppCompatActivity
                     userImageView.setVisibility(View.VISIBLE);
 
                     //userImageView.setImageBitmap(imageForPreview);
-                    File imagefile = getFile(imageForPreview);
+                    File imagefile = ImageUtils.getFile(context, imageForPreview);
 
                     call_myprofile_webservice(imagefile);
 
@@ -551,55 +509,46 @@ public class MyProfileActivity extends AppCompatActivity
                 break;
 
 
-
             case CAMERA_RQ:
 
                 System.out.println("Saved Video =================");
 
-                if (resultCode == RESULT_OK)
-                {
+                if (resultCode == RESULT_OK) {
                     final File file = new File(data.getData().getPath());
 
                     //Toast.makeText(this, String.format("Saved to: %s, size: %s", file.getAbsolutePath(), fileSize(file)), Toast.LENGTH_LONG).show();
                     //Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
                     Bitmap thumb = ThumbnailUtils.createVideoThumbnail(file.getAbsolutePath(), MediaStore.Video.Thumbnails.MINI_KIND);
 
-                    File videothumbnail = getFile(thumb);
+                    File videothumbnail = ImageUtils.getFile(context, thumb);
 
                     MediaMetadataRetriever retriever = new MediaMetadataRetriever();
                     //use one of overloaded setDataSource() functions to set your data source
                     retriever.setDataSource(context, Uri.fromFile(file));
                     String time = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
-                    long timeInMillisec = Long.parseLong(time );
+                    long timeInMillisec = Long.parseLong(time);
 
-                    System.out.println("timeInMillisec-------"+timeInMillisec);
+                    System.out.println("timeInMillisec-------" + timeInMillisec);
 
                     retriever.release();
 
-                    if (timeInMillisec >=120000)
-                    {
+                    if (timeInMillisec >= 120000) {
 
-                        AndroidUtils.showToast(context,"Video timing should be between 30 to 120 second only");
+                        AndroidUtils.showToast(context, "Video timing should be between 30 to 120 second only");
 
-                    }
-                    else if (timeInMillisec <= 30000){
+                    } else if (timeInMillisec <= 30000) {
 
 
-                        AndroidUtils.showToast(context,"Video timing should be between 30 to 120 second only");
-                    }
-                    else
-                    {
+                        AndroidUtils.showToast(context, "Video timing should be between 30 to 120 second only");
+                    } else {
 
-                        edit_profilevideo_webservice(file,videothumbnail);
+                        edit_profilevideo_webservice(file, videothumbnail);
 
                     }
 
-                }
-                else if (data != null)
-                {
+                } else if (data != null) {
                     Exception e = (Exception) data.getSerializableExtra(MaterialCamera.ERROR_EXTRA);
-                    if (e != null)
-                    {
+                    if (e != null) {
                         e.printStackTrace();
                         Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
                     }
@@ -607,153 +556,45 @@ public class MyProfileActivity extends AppCompatActivity
                 break;
             case SELECT_VIDEO_REQUEST:
 
-                if(requestCode == SELECT_VIDEO_REQUEST && resultCode == RESULT_OK)
-                {
-                    if(data.getData()!=null)
-                    {
+                if (resultCode == RESULT_OK) {
+                    if (data.getData() != null) {
 
                         Uri selectedImage = data.getData();
-                        String[] filePathColumn = { MediaStore.Video.Media.DATA };
+                        String[] filePathColumn = {MediaStore.Video.Media.DATA};
                         Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
 
-                        int   columnindex = cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DATA);
+                        int columnindex = cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DATA);
 
                         cursor.moveToFirst();
                         String file_path = cursor.getString(columnindex);
 
-                        videopath= cursor.getString(columnindex);
-                        File oldfile=new File(videopath);
-
-                       /* if (GeneralUtils.checkIfFileExistAndNotEmpty(file_path)) {
-                            new Video_compressor(this).execute();
-                        }
-                        else {
-                            Toast.makeText(getApplicationContext(), file_path + " not found", Toast.LENGTH_LONG).show();
-                        }*/
-
-
-                        File newFile=new File(source_video_folder);
+                        videopath = cursor.getString(columnindex);
+                        File oldfile = new File(videopath);
+                        File newFile = new File(source_video_folder);
                         try {
-                            copyFile(oldfile,newFile);
+                            ImageUtils.copyFile(oldfile, newFile);
                         } catch (IOException e) {
-                            Log.e("IOException",e.toString());
+                            Log.e("IOException", e.toString());
                         }
-                        // videofile=savevideo(videopath);
-                        Log.e(getClass().getName(), "file_path"+file_path);
-                        Uri   fileUri = Uri.parse("file://" + file_path);
+                        Log.e(getClass().getName(), "file_path" + file_path);
+                        Uri fileUri = Uri.parse("file://" + file_path);
 
-                        Toast.makeText(getApplicationContext(), fileUri.toString() , Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), fileUri.toString(), Toast.LENGTH_LONG).show();
 
                         cursor.close();
 
-                    }
-                    else
-                    {
-                        Toast.makeText(getApplicationContext(), "Failed to select video" , Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Failed to select video", Toast.LENGTH_LONG).show();
                     }
                 }
                 break;
 
 
-        case REQUEST_TAKE_GALLERY_VIDEO:
+            case REQUEST_TAKE_GALLERY_VIDEO:
 
-        if (resultCode == RESULT_OK)
-        {
-            if (requestCode == REQUEST_TAKE_GALLERY_VIDEO)
-            {
-                Uri selectedImage = data.getData();
+                if (resultCode == RESULT_OK) {
+                    Uri selectedImage = data.getData();
 
-                System.out.println("selectedImage----------------" + selectedImage);
-
-                String filemanagerstring = selectedImage.getPath();
-
-                // MEDIA GALLERY
-                selectedImagePath = getPath(selectedImage);
-
-                System.out.println("selectedImagePath----------------" + selectedImagePath);
-
-                Bitmap thumb = ThumbnailUtils.createVideoThumbnail(selectedImagePath, MediaStore.Video.Thumbnails.MINI_KIND);
-
-               // imageViewProfile.setImageBitmap(thumb);
-
-                File video_thumbnail = getFile(thumb);
-
-                final File file = new File(selectedImagePath);
-
-                MediaMetadataRetriever retriever = new MediaMetadataRetriever();
-                //use one of overloaded setDataSource() functions to set your data source
-                retriever.setDataSource(context, Uri.fromFile(file));
-                String time = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
-                long timeInMillisec = Long.parseLong(time );
-
-                System.out.println("timeInMillisec-------"+timeInMillisec);
-
-                retriever.release();
-
-               // edit_profilevideo_webservice(file,video_thumbnail);
-
-               if (timeInMillisec >=120000)
-                {
-                    AndroidUtils.showToast(context,"Video timing should be between 30 to 120 second only");
-
-                }
-                else if (timeInMillisec <= 30000)
-                {
-
-                    AndroidUtils.showToast(context,"Video timing should be between 30 to 120 second only");
-                }
-                else
-                {
-                    edit_profilevideo_webservice(file,video_thumbnail);
-                }
-
-
-                 /*   if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
-                {
-
-                    System.out.println("android----------------"+selectedImage);
-
-                    String wholeID = DocumentsContract.getDocumentId(selectedImage);
-
-                    String id = wholeID.split(":")[0];
-
-                    String[] column = { MediaStore.Video.Media.DATA };
-                    String sel = MediaStore.Video.Media._ID + "=?";
-
-                    Cursor cursor = context.getContentResolver().
-                            query(MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
-                                    column, sel, new String[]{ id }, null);
-
-                    int columnIndex = cursor.getColumnIndex(column[0]);
-
-                    System.out.println("columnIndex---------------"+columnIndex);
-
-                    cursor.moveToFirst();
-
-                        String  filePath = cursor.getString(columnIndex);
-                        videopath= cursor.getString(columnIndex);
-
-                        System.out.println("videopath---------------"+filePath);
-
-                        //videofile=savevideo(videopath);
-                       *//* Log.e("filePath", filePath);
-                        if (GeneralUtils.checkIfFileExistAndNotEmpty(filePath)) {
-                            new Video_compressor(this).execute();
-                        }
-                        else {
-                            Toast.makeText(getApplicationContext(), filePath + " not found", Toast.LENGTH_LONG).show();
-                        }*//*
-
-                        Bitmap thumb = ThumbnailUtils.createVideoThumbnail(filePath, MediaStore.Video.Thumbnails.MINI_KIND);
-
-                        chooseVideo.setImageBitmap(thumb);
-
-
-
-                    cursor.close();
-                }
-                else
-                {
                     System.out.println("selectedImage----------------" + selectedImage);
 
                     String filemanagerstring = selectedImage.getPath();
@@ -765,27 +606,51 @@ public class MyProfileActivity extends AppCompatActivity
 
                     Bitmap thumb = ThumbnailUtils.createVideoThumbnail(selectedImagePath, MediaStore.Video.Thumbnails.MINI_KIND);
 
-                    chooseVideo.setImageBitmap(thumb);
-                }*/
-            }
+                    // imageViewProfile.setImageBitmap(thumb);
+
+                    File video_thumbnail = ImageUtils.getFile(context, thumb);
+                    File file = null;
+                    if(Validation.isNonEmptyStr(selectedImagePath)) {
+                        file = new File(selectedImagePath);
+                    }
+
+                    MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+                    //use one of overloaded setDataSource() functions to set your data source
+                    if(file!=null)
+                    retriever.setDataSource(context, Uri.fromFile(file));
+                    String time = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
+                    long timeInMillisec = Long.parseLong(time);
+
+                    System.out.println("timeInMillisec-------" + timeInMillisec);
+
+                    retriever.release();
+
+                    // edit_profilevideo_webservice(file,video_thumbnail);
+
+                    if (timeInMillisec >= 120000) {
+                        AndroidUtils.showToast(context, "Video timing should be between 30 to 120 second only");
+
+                    } else if (timeInMillisec <= 30000) {
+
+                        AndroidUtils.showToast(context, "Video timing should be between 30 to 120 second only");
+                    } else {
+                        edit_profilevideo_webservice(file, video_thumbnail);
+                    }
+                }
+                break;
 
         }
-        break;
 
-        }
-
-        super.onActivityResult(requestCode, resultCode, data);
 
     }
 
-    private void edit_profilevideo_webservice(File videofile,File video_thumnail)
-    {
+    private void edit_profilevideo_webservice(File videofile, File video_thumnail) {
 
         p_handler.show();
 
         String url = getResources().getString(R.string.webservice_base_url) + "/seller_video_update";
 
-        System.out.println("shared----------------------"+videofile);
+        System.out.println("shared----------------------" + videofile);
 
         Ion.with(MyProfileActivity.this)
                 .load(url)
@@ -796,73 +661,62 @@ public class MyProfileActivity extends AppCompatActivity
                 .setMultipartParameter("user_id", app_sharedpreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), ""))
                 .asJsonObject()
                 .setCallback(new FutureCallback<JsonObject>() {
-            @Override
-            public void onCompleted(Exception e, JsonObject result)
-            {
+                    @Override
+                    public void onCompleted(Exception e, JsonObject result) {
 
-                System.out.println("result------------------------------"+result);
+                        System.out.println("result------------------------------" + result);
 
-                 if (result != null)
-                {
-                    if (result.get("error").getAsString().contains("false"))
-                    {
-                        JsonObject jsonObject_result = result.getAsJsonObject("result");
-                        String profile_video = jsonObject_result.get("profile_video").getAsString();
+                        if (result != null) {
+                            if (result.get("error").getAsString().contains("false")) {
+                                JsonObject jsonObject_result = result.getAsJsonObject("result");
+                                String profile_video = jsonObject_result.get("profile_video").getAsString();
 
-                        app_sharedpreference.setSharedPref(SharedPreferenceConstants.PROFILE_VIDEO.toString(), profile_video);
-                        app_sharedpreference.setSharedPref(SharedPreferenceConstants.PROFILE_VIDEO_THUMBNAIL.toString(), jsonObject_result.get("video_thumbnail").getAsString());
-                        String a = app_sharedpreference.getSharedPref(SharedPreferenceConstants.PROFILE_VIDEO.toString());
+                                app_sharedpreference.setSharedPref(SharedPreferenceConstants.PROFILE_VIDEO.toString(), profile_video);
+                                app_sharedpreference.setSharedPref(SharedPreferenceConstants.PROFILE_VIDEO_THUMBNAIL.toString(), jsonObject_result.get("video_thumbnail").getAsString());
+                                String a = app_sharedpreference.getSharedPref(SharedPreferenceConstants.PROFILE_VIDEO.toString());
 
-                        System.out.println("a------------------------------"+profile_video);
+                                System.out.println("a------------------------------" + profile_video);
 
-                        Picasso.with(context)
-                                .load(jsonObject_result.get("video_thumbnail").getAsString())
-                                .error(R.drawable.banner)
-                                .placeholder(R.drawable.default_noimage)
-                                .error(R.drawable.default_noimage)
-                                .into(imageViewProfile);
-                        p_handler.hide();
+                                Picasso.with(context)
+                                        .load(jsonObject_result.get("video_thumbnail").getAsString())
+                                        .error(R.drawable.banner)
+                                        .placeholder(R.drawable.default_noimage)
+                                        .error(R.drawable.default_noimage)
+                                        .into(imageViewProfile);
+                                p_handler.hide();
+
+                            }
+                        } else {
+
+                            AndroidUtils.showErrorLog(context, "hello2", e.toString());
+                            p_handler.hide();
+                        }
 
                     }
-                }
-                else
-                {
-
-                    AndroidUtils.showErrorLog(context, "hello2", e.toString());
-                    p_handler.hide();
-                }
-
-            }
-        });
+                });
 
     }
 
-    public String getPath(Uri uri)
-    {
-        String[] projection = { MediaStore.Video.Media.DATA };
-        Cursor cursor =  getContentResolver().query(uri, projection, null, null, null);
-        if (cursor != null)
-        {
-            // HERE YOU WILL GET A NULLPOINTER IF CURSOR IS NULL
-            // THIS CAN BE, IF YOU USED OI FILE MANAGER FOR PICKING THE MEDIA
+    public String getPath(Uri uri) {
+        Cursor cursor = getContentResolver().query(uri, new String[]{MediaStore.Video.Media.DATA}, null, null, null);
+        if (cursor != null) {
             int column_index = cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DATA);
             cursor.moveToFirst();
-            return cursor.getString(column_index);
-
+            String path = cursor.getString(column_index);
+            cursor.close();
+            return path;
         }
-        else
-            return null;
+        return null;
     }
 
 
-    private void call_myprofile_webservice(File imagefile)
-    {
+    private void call_myprofile_webservice(File imagefile) {
 
         p_handler.show();
 
         String url = getResources().getString(R.string.webservice_base_url) + "/profilepic_update";
 
-        System.out.println("imagefile------------------------------"+imagefile+app_sharedpreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), "")+"user_type--"+ app_sharedpreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), ""));
+        System.out.println("imagefile------------------------------" + imagefile + app_sharedpreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), "") + "user_type--" + app_sharedpreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), ""));
 
         Ion.with(MyProfileActivity.this)
                 .load(url)
@@ -873,22 +727,19 @@ public class MyProfileActivity extends AppCompatActivity
                 .setMultipartParameter("user_id", app_sharedpreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), ""))
                 .asJsonObject().setCallback(new FutureCallback<JsonObject>() {
             @Override
-            public void onCompleted(Exception e, JsonObject result)
-            {
+            public void onCompleted(Exception e, JsonObject result) {
 
-                System.out.println("result------------------------------"+result);
+                System.out.println("result------------------------------" + result);
 
-                if (result != null)
-                {
-                    if (result.get("error").getAsString().contains("false"))
-                    {
+                if (result != null) {
+                    if (result.get("error").getAsString().contains("false")) {
                         JsonObject jsonObject_result = result.getAsJsonObject("result");
                         String profile_pic = jsonObject_result.get("profile_pic").getAsString();
 
                         app_sharedpreference.setSharedPref(SharedPreferenceConstants.PROFILE_PIC.toString(), profile_pic);
                         String a = app_sharedpreference.getSharedPref(SharedPreferenceConstants.PROFILE_PIC.toString());
 
-                        System.out.println("a------------------------------"+a);
+                        System.out.println("a------------------------------" + a);
 
                         Picasso.with(context)
                                 .load(a)
@@ -913,60 +764,8 @@ public class MyProfileActivity extends AppCompatActivity
 
     }
 
-    private File getFile(Bitmap photo)
-    {
-        Uri tempUri = null;
-        if (photo != null) {
-            tempUri = getImageUri(MyProfileActivity.this, photo);
-        }
-        File finalFile = new File(getRealPathFromURI(tempUri));
-        Log.e("data", getRealPathFromURI(tempUri));
 
-        return finalFile;
-    }
-
-    public Uri getImageUri(Context inContext, Bitmap inImage)
-    {
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
-        return Uri.parse(path);
-    }
-
-
-    public String getRealPathFromURI(Uri uri)
-    {
-        Cursor cursor = null;
-        int idx = 0;
-        if (uri != null) {
-            cursor = MyProfileActivity.this.getContentResolver().query(uri, null, null, null, null);
-            assert cursor != null;
-            cursor.moveToFirst();
-            idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
-        }
-        return cursor.getString(idx);
-    }
-
-
-    public static String copyFile(File src, File dst) throws IOException
-    {
-        FileInputStream var2 = new FileInputStream(src);
-        FileOutputStream var3 = new FileOutputStream(dst);
-        byte[] var4 = new byte[1024];
-
-        int var5;
-        while((var5 = var2.read(var4)) > 0) {
-            var3.write(var4, 0, var5);
-        }
-        var2.close();
-        var3.close();
-        return dst.getAbsolutePath();
-    }
-
-
-
-    private  void showEditVideoPopup()
-    {
+    private void showEditVideoPopup() {
         boolean wrapInScrollView = true;
 
         video_dailog = new MaterialDialog.Builder(context)
@@ -982,22 +781,18 @@ public class MyProfileActivity extends AppCompatActivity
                 .show();
         video_dailog.findViewById(R.id.linearLayoutGalary).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
 
                 if (ContextCompat.checkSelfPermission(MyProfileActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                     // Request permission to save videos in external storage
                     ActivityCompat.requestPermissions(MyProfileActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_RQ);
-                }
-                else
-                {
-                    try
-                    {
+                } else {
+                    try {
                         Intent intent = new Intent();
                         intent.setType("video/*");
                         intent.setAction(Intent.ACTION_GET_CONTENT);
-                        startActivityForResult(Intent.createChooser(intent,"Select Video"),REQUEST_TAKE_GALLERY_VIDEO);
-                    }catch (Exception ex){
+                        startActivityForResult(Intent.createChooser(intent, "Select Video"), REQUEST_TAKE_GALLERY_VIDEO);
+                    } catch (Exception ex) {
                         //showMessage("Grant permission first");
                     }
                     video_dailog.dismiss();
@@ -1007,11 +802,9 @@ public class MyProfileActivity extends AppCompatActivity
             }
         });
 
-        video_dailog.findViewById(R.id.linearLayoutTakeVideo).setOnClickListener(new View.OnClickListener()
-        {
+        video_dailog.findViewById(R.id.linearLayoutTakeVideo).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 try {
                     // code buggy code
                     File saveDir = null;
@@ -1043,16 +836,13 @@ public class MyProfileActivity extends AppCompatActivity
         });
 
 
-        video_dailog.findViewById(R.id.linearLayoutPicture).setOnClickListener(new View.OnClickListener()
-        {
+        video_dailog.findViewById(R.id.linearLayoutPicture).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 picPhoto();
                 video_dailog.dismiss();
             }
         });
-
 
 
     }
