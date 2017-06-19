@@ -450,16 +450,15 @@ public class PaymentActivity extends AppCompatActivity implements TabLayout.OnTa
                         if (result.get("error").getAsString().contains("false")) {
                             String payment_status;
                             JsonObject jsonObject = result.getAsJsonObject("result");
-if(result.get("payment_status").getAsString().contains("false")) {
-    payment_status = "false";
+                            if (result.get("payment_status").getAsString().contains("false")) {
+                                payment_status = "false";
 
-    appSharedPreference.setSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), 0);
-}
-else{
-    payment_status = "true";
-    String cart_count = jsonObject.get("cart_item").getAsString();
-    appSharedPreference.setSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), Integer.valueOf(cart_count));
-}
+                                appSharedPreference.setSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), 0);
+                            } else {
+                                payment_status = "true";
+                                String cart_count = jsonObject.get("cart_item").getAsString();
+                                appSharedPreference.setSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), Integer.valueOf(cart_count));
+                            }
                             AndroidUtils.showErrorLog(context, result.toString());
 
                             String amount = vpc_Amount.toString().replace("[", "");
@@ -470,7 +469,6 @@ else{
 
                             String receipt_no = vpc_ReceiptNo.toString().replace("[", "");
                             receipt_no = receipt_no.replace("]", "");
-
 
 
                             System.out.println("amount----------" + amount);

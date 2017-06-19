@@ -25,7 +25,7 @@
     <color name="orange">#FF6600</color>
     <color name="grey_cardview_header_background">#FFFFFF</color>
     <color name="white">#ffffff</color>
-
+    <color name="transparent">#00000000</color>
     <color name="screen_back">#F8EEE5</color>
     <color name="black">#000000</color>
     <color name="blue_gradient">#415673</color>
@@ -50,7 +50,7 @@
     <color name="green_light">#7dbd00</color>
     <color name="item_details_color">#585858</color>
     <color name="green_gradient2">#1C7B67</color>
-    <color name="transparent">#40d1cece</color>
+
     <color name="filter_col1_bg">#f9f9f9</color>
     <color name="selected_filter_col1_bg">#f9f0ea</color>
 
