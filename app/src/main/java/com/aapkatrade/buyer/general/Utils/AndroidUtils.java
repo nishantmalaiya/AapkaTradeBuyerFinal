@@ -18,9 +18,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.aapkatrade.buyer.home.navigation.entity.CategoryHome;
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.Validation;
+import com.aapkatrade.buyer.home.navigation.entity.Category;
 import com.aapkatrade.buyer.uicomponent.CustomSnackBar;
 
 import java.util.ArrayList;
@@ -159,7 +159,7 @@ public class AndroidUtils {
     }
 
 
-    public static void sortArrayList(ArrayList<CategoryHome> arrayList) {
+    public static void sortArrayList(ArrayList<Category> arrayList) {
 
     }
 

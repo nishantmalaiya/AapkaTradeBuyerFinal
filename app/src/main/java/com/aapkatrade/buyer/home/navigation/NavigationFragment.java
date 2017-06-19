@@ -24,7 +24,6 @@ import android.widget.TextView;
 
 import com.aapkatrade.buyer.home.HomeActivity;
 import com.aapkatrade.buyer.home.navigation.adapter.NavigationAdapter;
-import com.aapkatrade.buyer.home.navigation.entity.CategoryHome;
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.CallWebService;
@@ -33,12 +32,16 @@ import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.Validation;
 import com.aapkatrade.buyer.general.interfaces.TaskCompleteReminder;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
+import com.aapkatrade.buyer.home.navigation.entity.Category;
+import com.aapkatrade.buyer.home.navigation.entity.SubCategory;
 import com.aapkatrade.buyer.login.LoginDashboard;
 import com.aapkatrade.buyer.privacypolicy.PrivacyPolicyActivity;
 import com.aapkatrade.buyer.termandcondition.TermsAndConditionActivity;
 import com.aapkatrade.buyer.user_dashboard.my_profile.MyProfileActivity;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Ion;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -65,7 +68,7 @@ public class NavigationFragment extends Fragment {
     private Context context;
     private TextView textViewName, emailid, tv_user_heading;
     private NavigationAdapter category_adapter;
-    public ArrayList<CategoryHome> listDataHeader = new ArrayList<>();
+    public ArrayList<Category> listDataHeader = new ArrayList<>();
     private RelativeLayout rlprofilepic, rlLogout, rlPolicy, rlTerms, rlInvite;
     private View rlMainContent;
     private ProgressBarHandler progressBarHandler;
@@ -293,7 +296,7 @@ public class NavigationFragment extends Fragment {
     public void setData(String username, String email, String usertypeheading) {
         textViewName.setText(username);
         emailid.setText(email);
-        tv_user_heading.setText("Welcome "+usertypeheading);
+        tv_user_heading.setText("Welcome " + usertypeheading);
     }
 
     private void prepareListData() {
@@ -301,53 +304,40 @@ public class NavigationFragment extends Fragment {
     }
 
     private void getCategory() {
+        listDataHeader.clear();
+        progressBarHandler.show();
+        Log.e("data", "getCategory Entered");
+        Ion.with(context)
+                .load("http://aapkatrade.com/slim/dropdown")
+                .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                .setBodyParameter("type", "category")
 
-        HashMap<String, String> webservice_body_parameter = new HashMap<>();
-        webservice_body_parameter.put("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3");
-        webservice_body_parameter.put("type", "category");
+                .asJsonObject()
+                .setCallback(new FutureCallback<JsonObject>() {
+                    @Override
+                    public void onCompleted(Exception e, JsonObject data) {
+                        progressBarHandler.hide();
+                        if (data != null) {
+                            JsonObject jsonObject = data.getAsJsonObject();
+                            JsonArray jsonResultArray = jsonObject.getAsJsonArray("result");
 
-        HashMap<String, String> webservice_header_type = new HashMap<>();
-        webservice_header_type.put("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3");
-        CallWebService.getcountrystatedata(context, "category", getResources().getString(R.string.webservice_base_url) + "/dropdown", webservice_body_parameter, webservice_header_type);
+                            listDataHeader = new ArrayList<>();
 
-        CallWebService.taskCompleteReminder = new TaskCompleteReminder() {
+                            listDataHeader.add(new Category("-1", "Please Select Category", "", null));
+                            for (int i = 0; i < jsonResultArray.size(); i++) {
+                                JsonObject jsonObject1 = (JsonObject) jsonResultArray.get(i);
 
-            @Override
-            public void Taskcomplete(JsonObject data) {
+                                Category Category = new Category(jsonObject1.get("id").getAsString(), jsonObject1.get("name").getAsString(), jsonObject1.get("icon").getAsString(), null);
+                                listDataHeader.add(Category);
+                                Log.e("data", Category.toString());
 
-                if (data != null) {
-                    Log.e("data", data.toString());
-                    JsonObject jsonObject = data.getAsJsonObject();
-                    JsonArray jsonResultArray = jsonObject.getAsJsonArray("result");
-
-                    for (int i = 0; i < jsonResultArray.size(); i++) {
-
-                        JsonObject jsonObject1 = (JsonObject) jsonResultArray.get(i);
-                        CategoryHome categoryHome = new CategoryHome(jsonObject1.get("id").getAsString(), jsonObject1.get("name").getAsString(), jsonObject1.get("icon").getAsString());
-
-                        listDataHeader.add(categoryHome);
-
-                        Log.e("listDataHeader_cate", categoryHome.toString() + "----------------->" + categoryHome.getCategoryId() + "----------------->" + categoryHome.getCategoryName());
-                    }
-
-                    if (listDataHeader != null) {
-                        Collections.sort(listDataHeader, new Comparator<CategoryHome>() {
-                            @Override
-                            public int compare(CategoryHome o1, CategoryHome o2) {
-                                return o1.getCategoryName().compareToIgnoreCase(o2.getCategoryName());
                             }
-                        });
+                        }
+
                     }
-                }
-                setRecycleviewAdapter();
-
-
-            }
-
-
-        };
-
-
+                });
+        setRecycleviewAdapter();
     }
 
     private void setRecycleviewAdapter() {

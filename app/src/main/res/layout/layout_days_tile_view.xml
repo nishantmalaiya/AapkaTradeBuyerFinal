@@ -65,7 +65,6 @@
                     android:layout_height="wrap_content"
 
                     android:layout_alignParentLeft="true"
-
                     android:background="@drawable/simple_spinner_back"
                     android:gravity="center_horizontal" />
 
@@ -75,7 +74,6 @@
                     android:layout_height="@dimen/twenty_dip"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="@dimen/five_dip"
                     android:scaleType="fitXY"
                     android:src="@drawable/ic_arrow" />
 
@@ -128,7 +126,6 @@
                     android:layout_height="@dimen/twenty_dip"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="@dimen/ten_dip"
                     android:scaleType="fitXY"
                     android:src="@drawable/ic_arrow" />
 
