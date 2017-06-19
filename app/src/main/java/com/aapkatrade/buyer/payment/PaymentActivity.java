@@ -127,7 +127,7 @@ public class PaymentActivity extends AppCompatActivity implements TabLayout.OnTa
                     @SuppressLint({"JavascriptInterface", "SetJavaScriptEnabled"})
                     @Override
                     public void onCompleted(Exception e, JsonObject result) {
-                        AndroidUtils.showErrorLog(context, "************%%%%%%%", result.toString());
+                        AndroidUtils.showErrorLog(context, "**********", result.toString());
                         url = result.get("url").getAsString();
                         webview.getSettings().setBuiltInZoomControls(true);
                         webview.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);

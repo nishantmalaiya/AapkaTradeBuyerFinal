@@ -21,7 +21,6 @@ import android.widget.TextView;
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Validation;
-import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
 import com.aapkatrade.buyer.general.progressbar.ProgressDialogHandler;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
@@ -64,6 +63,7 @@ public class ServiceEnquiry extends DialogFragment {
         //noinspection ConstantConditions
         getDialog().getWindow().setBackgroundDrawableResource(R.drawable.rounded_dialog);
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        getDialog().getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
         progressDialogHandler = new ProgressDialogHandler(getActivity());
         initView(v);
         return v;
