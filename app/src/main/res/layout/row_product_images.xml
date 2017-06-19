@@ -18,7 +18,7 @@
             android:layout_height="@dimen/one_hundred_five_dip"
             android:src="@drawable/honda_navi"
             android:layout_marginLeft="@dimen/ten_dip"
-            android:scaleType="fitCenter"
+            android:scaleType="fitXY"
             />
         <ImageView
             android:id="@+id/cancelImage"
@@ -28,8 +28,6 @@
             android:layout_alignRight="@+id/previewImage"
             android:scaleType="fitXY"
             android:src="@drawable/cross" />
-
-
 
     </RelativeLayout>
 
