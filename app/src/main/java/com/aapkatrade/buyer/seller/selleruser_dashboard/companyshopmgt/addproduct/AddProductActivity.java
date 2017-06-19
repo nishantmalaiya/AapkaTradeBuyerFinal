@@ -12,6 +12,7 @@ import android.provider.MediaStore;
 import android.provider.Telephony;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -57,6 +58,10 @@ public class AddProductActivity extends AppCompatActivity
     private int current_state_index;
     private int step1FieldsSet=-1;
     RelativeLayout relativeImage;
+    EditText etproductname,et_product_price,et_product_price_discount;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -89,7 +94,7 @@ public class AddProductActivity extends AppCompatActivity
 
         context = AddProductActivity.this;
 
-        relativeImage = (RelativeLayout) findViewById(R.id.relativeImage);
+       /* relativeImage = (RelativeLayout) findViewById(R.id.relativeImage);
 
         relativeImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,11 +102,24 @@ public class AddProductActivity extends AppCompatActivity
                 picPhoto();
             }
         });
+      */
 
         setUpToolBar();
 
+        setuplayout();
 
         setupRecyclerView();
+
+    }
+
+    private void setuplayout()
+    {
+        etproductname = (EditText) findViewById(R.id.etproductname);
+
+        et_product_price = (EditText) findViewById(R.id.et_product_price);
+
+        et_product_price_discount = (EditText) findViewById(R.id.et_product_price_discount);
+
 
     }
 
@@ -119,30 +137,40 @@ public class AddProductActivity extends AppCompatActivity
             }
         });
         setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) {
+
+        if (getSupportActionBar() != null)
+        {
             getSupportActionBar().setDisplayShowTitleEnabled(false);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setTitle(null);
             getSupportActionBar().setElevation(0);
         }
+
+
+
     }
 
-    private void setupRecyclerView() {
+    private void setupRecyclerView()
+    {
         recyclerView = (RecyclerView) findViewById(R.id.recycler);
-        adapter = new ProductImagesAdapter(AddProductActivity.this, productImagesDatas);
-        layoutManager = new LinearLayoutManager(AddProductActivity.this, LinearLayoutManager.HORIZONTAL, false);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setVisibility(View.INVISIBLE);
+
+        productImagesDatas.add(new ProductImagesData("first", ""));
+
+        adapter = new ProductImagesAdapter(AddProductActivity.this, productImagesDatas,AddProductActivity.this);
+
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
+
+        recyclerView.setLayoutManager(gridLayoutManager);
+
+        recyclerView.setVisibility(View.VISIBLE);
         recyclerView.setAdapter(adapter);
 
-        productImagesDatas.add(new ProductImagesData(docFile.getAbsolutePath(), ""));
 
-        adapter.notifyDataSetChanged();
 
     }
 
 
-    void picPhoto()
+    public void picPhoto()
     {
         String str[] = new String[]{"Camera", "Gallery"};
         new AlertDialog.Builder(this).setItems(str,
@@ -173,12 +201,12 @@ public class AddProductActivity extends AppCompatActivity
     }
 
 
-    @Override
+   /* @Override
     protected void onResume() {
         super.onResume();
       //  spService_type.setSelection(0);
         AndroidUtils.showErrorLog(context, "onResume");
-    }
+    }*/
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data)
