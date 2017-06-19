@@ -12,8 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.aapkatrade.buyer.home.navigation.entity.Category;
 import com.aapkatrade.buyer.home.navigation.viewholder.NavigationViewHolder;
-import com.aapkatrade.buyer.home.navigation.entity.CategoryHome;
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.categories_tab.ShopListByCategoryActivity;
 import com.aapkatrade.buyer.general.AppSharedPreference;
@@ -34,13 +34,13 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationViewHolder
 {
 
     private Context context;
-    private ArrayList<CategoryHome> listDataHeader;
+    private ArrayList<Category> listDataHeader;
     private View view;
     private Mylocation mylocation;
     AppSharedPreference appSharedPreference;
 
 
-    public NavigationAdapter(Context context, ArrayList<CategoryHome> listDataHeader)
+    public NavigationAdapter(Context context, ArrayList<Category> listDataHeader)
     {
         this.context = context;
         this.listDataHeader = listDataHeader;
