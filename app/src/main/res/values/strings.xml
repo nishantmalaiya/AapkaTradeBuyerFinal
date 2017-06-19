@@ -28,7 +28,7 @@
 
     <string name="qty_def">05</string>
 
-    <string name="product_name">Product Name</string>
+    <string name="add_product_name">Product Name</string>
 
     <string name="category">Category</string>
     <string name="tab_1">Home</string>
@@ -270,6 +270,7 @@
     <string name="splash_footer_text">YAHA SAB MILTA HAI</string>
     <string name="title_activity_fcm">FcmActivity</string>
     <string name="bussiness_details">Bussiness Details</string>
+    <string name="product_images">Product Images</string>
     <string name="uploadPDFFile">Company Incorporation (*pdf)</string>
     <string name="company_name_heading">Company Name*</string>
     <string name="tin_number">TIN Number</string>
@@ -318,6 +319,8 @@
     <string name="twitter_url">Twitter URL</string>
     <string name="youtube_url">Youtube URL</string>
     <string name="google_plus_url">Google+ URL</string>
-
-
+    <string name="price_heading">Price</string>
+    <string name="price_discount_heading">Discount ( in % only )</string>
+    <string name="max_order_qty">Max Order Qty</string>
+    <string name="add_product_description">Description</string>
 </resources>

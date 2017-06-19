@@ -81,7 +81,9 @@
         <activity android:name=".categories_tab.ShopListByCategoryActivity" />
         <activity android:name=".categories_tab.FilterActivity" />
         <activity android:name=".user_dashboard.address.AddressActivity" />
-        <activity android:name=".user_dashboard.address.viewpager.CartCheckoutActivity" />
+        <activity
+            android:name=".user_dashboard.address.viewpager.CartCheckoutActivity"
+            />
 
         <receiver
             android:name=".general.IncomingSms"
