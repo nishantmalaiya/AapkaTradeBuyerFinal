@@ -57,7 +57,7 @@ public class AddProductActivity extends AppCompatActivity
     private GeoCoderAddress GeocoderAsync;
     private int current_state_index;
     private int step1FieldsSet=-1;
-   RelativeLayout relativeImage;
+    RelativeLayout relativeImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -99,8 +99,6 @@ public class AddProductActivity extends AppCompatActivity
             }
         });
 
-
-
         setUpToolBar();
 
 
@@ -135,13 +133,18 @@ public class AddProductActivity extends AppCompatActivity
         adapter = new ProductImagesAdapter(AddProductActivity.this, productImagesDatas);
         layoutManager = new LinearLayoutManager(AddProductActivity.this, LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setVisibility(View.INVISIBLE);
         recyclerView.setAdapter(adapter);
 
+        productImagesDatas.add(new ProductImagesData(docFile.getAbsolutePath(), ""));
+
+        adapter.notifyDataSetChanged();
 
     }
 
 
-    void picPhoto() {
+    void picPhoto()
+    {
         String str[] = new String[]{"Camera", "Gallery"};
         new AlertDialog.Builder(this).setItems(str,
                 new DialogInterface.OnClickListener() {
