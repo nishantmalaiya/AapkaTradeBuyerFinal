@@ -166,8 +166,7 @@
             android:name=".seller.selleruser_dashboard.salestransaction.SalesTransaction"
             />
 
-
-            android:name=".seller.selleruser_dashboard.companyshopmgt.addproduct.AddProductActivity"
+<activity android:name=".seller.selleruser_dashboard.companyshopmgt.addproduct.AddProductActivity"
             android:label="@string/title_activity_add_product"
             android:theme="@style/AppTheme">
 
