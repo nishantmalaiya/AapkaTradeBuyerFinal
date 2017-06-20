@@ -1,5 +1,6 @@
 package com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.addproduct;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -14,6 +15,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 import com.aapkatrade.buyer.R;
+import com.aapkatrade.buyer.general.Utils.AndroidUtils;
+import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.addcompanyshop.AddCompanyShopActivity;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.squareup.picasso.Picasso;
@@ -35,7 +38,7 @@ public class ProductImagesAdapter extends RecyclerView.Adapter<RecyclerView.View
     AddProductActivity addproductActivity = new AddProductActivity();
 
 
-    public ProductImagesAdapter(Context context, List<ProductImagesData> itemList, AddProductActivity addproductActivity)
+    public ProductImagesAdapter(Context context, List<ProductImagesData> itemList)
     {
 
         this.itemList = itemList;
@@ -85,10 +88,29 @@ public class ProductImagesAdapter extends RecyclerView.Adapter<RecyclerView.View
                     public void onClick(View v)
                     {
 
-                        Toast.makeText(context, "Hi ", Toast.LENGTH_SHORT).show();
-                        addproductActivity.picPhoto();
+                        Toast.makeText(context, "Hi "+context.getClass().getSimpleName()+" 2nd hi", Toast.LENGTH_SHORT).show();
 
+                        Class<?> c = null;
+                        try {
+                            c =  Class.forName(context.getClass().getName());
+                        } catch (ClassNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                        AndroidUtils.showErrorLog(context, c != null ? c.getClass().getSimpleName() : "NULL");
+                        AddProductActivity t = null;
+                        try {
+                            t = (AddProductActivity) c.newInstance();
+                        } catch (InstantiationException e) {
+                            e.printStackTrace();
+                        } catch (IllegalAccessException e) {
+                            e.printStackTrace();
+                        }
+
+                        t.picPhoto();
                     }
+
+
+
                 });
 
                 break;
