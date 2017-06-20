@@ -70,39 +70,7 @@ public class AddProductActivity extends AppCompatActivity
 
         setContentView(R.layout.activity_add_product);
 
-//        daysTileView = (DaysTileView) findViewById(R.id.daysTileView);
-//        daysTileView.setBackgroundColor(R.color.green);
-//        daysTileView.setDayName("Mon - Fri");
-
-//        daysTileView2 = (DaysTileView) findViewById(R.id.daysTileView2);
-//        daysTileView2.setBackgroundColor(R.color.md_material_blue_600);
-//        daysTileView2.setDayName("Saturday");
-
-//        daysTileView3 = (DaysTileView) findViewById(R.id.daysTileView3);
-//        daystileview3.setbackgroundcolor(r.color.red);
-//        daystileview3.setDayName("Sunday");
-
-
-//        findViewById(R.id.btnSave).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                AndroidUtils.showToast(AddProductActivity.this, daysTileView.getOpeningTime()+"   "+daysTileView.getClosingTime());
-//                AndroidUtils.showToast(AddProductActivity.this, daysTileView2.getOpeningTime()+"   "+daysTileView2.getClosingTime());
-//
-//            }
-//        });
-
         context = AddProductActivity.this;
-
-       /* relativeImage = (RelativeLayout) findViewById(R.id.relativeImage);
-
-        relativeImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                picPhoto();
-            }
-        });
-      */
 
         setUpToolBar();
 
@@ -156,12 +124,11 @@ public class AddProductActivity extends AppCompatActivity
 
         productImagesDatas.add(new ProductImagesData("first", ""));
 
-        adapter = new ProductImagesAdapter(AddProductActivity.this, productImagesDatas,AddProductActivity.this);
+        adapter = new ProductImagesAdapter(AddProductActivity.this, productImagesDatas);
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
 
         recyclerView.setLayoutManager(gridLayoutManager);
-
         recyclerView.setVisibility(View.VISIBLE);
         recyclerView.setAdapter(adapter);
 
