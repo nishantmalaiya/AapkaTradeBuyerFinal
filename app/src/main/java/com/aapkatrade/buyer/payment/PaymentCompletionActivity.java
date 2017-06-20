@@ -44,7 +44,7 @@ public class PaymentCompletionActivity extends AppCompatActivity {
                 isSuccess = true;
             }
             if (isSuccess) {
-                transactionAmount = Double.parseDouble(getIntent().getExtras().get("vpc_Amount").toString())/100;
+                transactionAmount = Double.parseDouble(getIntent().getExtras().get("vpc_Amount").toString());
                 transactionNo = getIntent().getExtras().get("vpc_TransactionNo").toString();
                 receiptNo = getIntent().getExtras().get("vpc_ReceiptNo").toString();
             }

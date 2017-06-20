@@ -81,7 +81,9 @@
         <activity android:name=".categories_tab.ShopListByCategoryActivity" />
         <activity android:name=".categories_tab.FilterActivity" />
         <activity android:name=".user_dashboard.address.AddressActivity" />
-        <activity android:name=".user_dashboard.address.viewpager.CartCheckoutActivity" />
+        <activity
+            android:name=".user_dashboard.address.viewpager.CartCheckoutActivity"
+            />
 
         <receiver
             android:name=".general.IncomingSms"
@@ -157,13 +159,19 @@
         <activity
             android:name=".videoplay.VideoPalyActivity"
             android:configChanges="orientation|screenSize" />
-        <activity
-            android:name=".seller.selleruser_dashboard.billhistory.BillHistory"
-            />
+        <activity android:name=".seller.selleruser_dashboard.billhistory.BillHistory" />
+       
 
         <activity
             android:name=".seller.selleruser_dashboard.salestransaction.SalesTransaction"
             />
+
+
+            android:name=".seller.selleruser_dashboard.companyshopmgt.addproduct.AddProductActivity"
+            android:label="@string/title_activity_add_product"
+            android:theme="@style/AppTheme">
+
+        </activity>
 
     </application>
 

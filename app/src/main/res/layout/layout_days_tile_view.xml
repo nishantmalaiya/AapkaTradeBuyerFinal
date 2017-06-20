@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainLayout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_centerHorizontal="true"
+    android:layout_centerVertical="true"
+
+    >
+
+
+    <RelativeLayout
+        android:id="@+id/rl_layout1"
+        android:layout_width="@dimen/one_hundred_twenty_dip"
+        android:layout_height="@dimen/one_hundred_twenty_dip"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        >
+
+        <TextView
+            android:id="@+id/tv_day_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:textSize="@dimen/twenty_dip"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            tools:ignore="SpUsage" />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_layout2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_layout1"
+        android:layout_marginTop="@dimen/ten_dip"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true">
+
+
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_layout_open_time"
+            android:layout_width="@dimen/one_hundred_twenty_dip"
+            android:layout_height="wrap_content"
+            android:textColorHint="@color/hint_color">
+
+            <RelativeLayout
+                android:id="@+id/spOpenTimeLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/two_dip"
+                android:layout_marginRight="@dimen/two_dip"
+                android:layout_marginBottom="@dimen/two_dip"
+                android:layout_marginTop="@dimen/two_dip">
+
+
+                <Spinner
+                    android:id="@+id/spOpenTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:layout_alignParentLeft="true"
+                    android:background="@drawable/simple_spinner_back"
+                    android:gravity="center_horizontal" />
+
+                <ImageView
+                    android:id="@+id/imgOpenTimeSpinner"
+                    android:layout_width="@dimen/twenty_dip"
+                    android:layout_height="@dimen/twenty_dip"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_arrow" />
+
+            </RelativeLayout>
+        </android.support.design.widget.TextInputLayout>
+
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_layout3"
+        android:layout_width="@dimen/one_hundred_twenty_dip"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_layout2"
+        android:layout_marginTop="@dimen/ten_dip"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true">
+
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_layout_close_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColorHint="@color/hint_color">
+
+            <RelativeLayout
+                android:id="@+id/spCloseTimeLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/two_dip"
+                android:layout_marginRight="@dimen/two_dip"
+                android:layout_marginBottom="@dimen/two_dip"
+                android:layout_marginTop="@dimen/two_dip">
+
+
+                <Spinner
+                    android:id="@+id/spCloseTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:layout_alignParentLeft="true"
+
+                    android:background="@drawable/simple_spinner_back"
+                    android:gravity="center_horizontal" />
+
+                <ImageView
+                    android:id="@+id/imgCloseTimeSpinner"
+                    android:layout_width="@dimen/twenty_dip"
+                    android:layout_height="@dimen/twenty_dip"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_arrow" />
+
+            </RelativeLayout>
+        </android.support.design.widget.TextInputLayout>
+
+
+    </RelativeLayout>
+
+</RelativeLayout>

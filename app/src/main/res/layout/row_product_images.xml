@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/fifteen_dip"
+    app:cardCornerRadius="10dp"
+    >
+<RelativeLayout
+    android:layout_height="wrap_content"
+    android:layout_width="wrap_content"
+    >
+
+    <RelativeLayout
+        android:id="@+id/previewImageLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        >
+
+        <ImageView
+            android:id="@+id/previewImage"
+            android:layout_width="@dimen/one_hundred_five_dip"
+            android:layout_height="@dimen/one_hundred_five_dip"
+            android:src="@drawable/honda_navi"
+            android:scaleType="fitXY"
+            />
+        <ImageView
+            android:id="@+id/cancelImage"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="right|top"
+            android:layout_alignRight="@+id/previewImage"
+            android:scaleType="centerCrop"
+            android:tint="@color/black"
+            android:src="@drawable/cross" />
+
+    </RelativeLayout>
+
+
+</RelativeLayout>
+</android.support.v7.widget.CardView>

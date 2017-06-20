@@ -50,6 +50,7 @@ public class MyCartActivity extends AppCompatActivity {
     private int page = 1;
     LinearLayoutManager linearLayoutManager;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

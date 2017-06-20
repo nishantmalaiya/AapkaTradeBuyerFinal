@@ -396,7 +396,8 @@ public class PaymentActivity extends AppCompatActivity implements TabLayout.OnTa
     }
 
 
-    private void callWebServiceMakePayment(List<String> data) {
+    private void callWebServiceMakePayment(List<String> data)
+    {
 
         progressBarHandler.show();
 
@@ -444,21 +445,30 @@ public class PaymentActivity extends AppCompatActivity implements TabLayout.OnTa
                     @Override
                     public void onCompleted(Exception e, JsonObject result) {
                         //  AndroidUtils.showErrorLog(context,result,"dghdfghsaf dawbnedvhaewnbedvsab dsadduyf");
-
                         progressBarHandler.hide();
 
-                        if (result.get("error").getAsString().contains("false")) {
+                        if (result.get("error").getAsString().contains("false"))
+                        {
+
                             String payment_status;
                             JsonObject jsonObject = result.getAsJsonObject("result");
-                            if (result.get("payment_status").getAsString().contains("false")) {
-                                payment_status = "false";
 
-                                appSharedPreference.setSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), 0);
-                            } else {
-                                payment_status = "true";
-                                String cart_count = jsonObject.get("cart_item").getAsString();
-                                appSharedPreference.setSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), Integer.valueOf(cart_count));
-                            }
+                            
+
+
+                           if(result.get("payment_status").getAsString().contains("false"))
+                           {
+                            payment_status = "false";
+                            appSharedPreference.setSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), 0);
+                           }
+                           else
+                          {
+
+                          payment_status = "true";
+                          String cart_count = jsonObject.get("cart_item").getAsString();
+                          appSharedPreference.setSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), Integer.valueOf(cart_count));
+                          }
+
                             AndroidUtils.showErrorLog(context, result.toString());
 
                             String amount = vpc_Amount.toString().replace("[", "");
