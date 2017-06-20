@@ -1,5 +1,7 @@
 package com.aapkatrade.buyer.seller.registration;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -24,6 +26,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -33,6 +36,7 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.aapkatrade.buyer.animation.Animations;
 import com.aapkatrade.buyer.home.HomeActivity;
 import com.aapkatrade.buyer.home.buyerregistration.entity.City;
 import com.aapkatrade.buyer.home.buyerregistration.entity.Country;
@@ -655,10 +659,15 @@ public class SellerRegistrationActivity extends AppCompatActivity implements Tim
             public void onClick(View v) {
                 if (llSellerBusinessDetailContainer.getVisibility() == View.VISIBLE) {
                     collapseoropenim_business.setImageDrawable(ContextCompat.getDrawable(SellerRegistrationActivity.this, R.drawable.ic_down));
-                    llSellerBusinessDetailContainer.setVisibility(View.GONE);
-                } else {
 
-                    llSellerBusinessDetailContainer.setVisibility(View.VISIBLE);
+
+                    Animations.expand(llSellerBusinessDetailContainer, 300);
+
+
+                } else {
+                    Animations.collapse(llSellerBusinessDetailContainer, 300);
+
+
                     collapseoropenim_business.setImageDrawable(ContextCompat.getDrawable(SellerRegistrationActivity.this, R.drawable.ic_up_arrow));
                 }
 
@@ -678,10 +687,10 @@ public class SellerRegistrationActivity extends AppCompatActivity implements Tim
             public void onClick(View v) {
                 if (llSellerPersonalDetailContainer.getVisibility() == View.VISIBLE) {
                     collapseoropenim_personal.setImageDrawable(ContextCompat.getDrawable(SellerRegistrationActivity.this, R.drawable.ic_down));
-                    llSellerPersonalDetailContainer.setVisibility(View.GONE);
+                    Animations.expand(llSellerPersonalDetailContainer, 300);
                 } else {
 
-                    llSellerPersonalDetailContainer.setVisibility(View.VISIBLE);
+                    Animations.collapse(llSellerPersonalDetailContainer, 300);
                     collapseoropenim_personal.setImageDrawable(ContextCompat.getDrawable(SellerRegistrationActivity.this, R.drawable.ic_up_arrow));
                 }
 
@@ -744,10 +753,12 @@ public class SellerRegistrationActivity extends AppCompatActivity implements Tim
             public void onClick(View v) {
                 if (llSellerUserDetailContainer.getVisibility() == View.VISIBLE) {
                     collapseoropenim_user.setImageDrawable(ContextCompat.getDrawable(SellerRegistrationActivity.this, R.drawable.ic_down));
-                    llSellerUserDetailContainer.setVisibility(View.GONE);
+                    Animations.expand(llSellerUserDetailContainer, 300);
+
                 } else {
 
-                    llSellerUserDetailContainer.setVisibility(View.VISIBLE);
+                    Animations.collapse(llSellerUserDetailContainer, 300);
+
                     collapseoropenim_user.setImageDrawable(ContextCompat.getDrawable(SellerRegistrationActivity.this, R.drawable.ic_up_arrow));
                 }
 

@@ -14,12 +14,13 @@ import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.login.LoginDashboard;
 
 
-
 import com.aapkatrade.buyer.seller.selleruser_dashboard.billhistory.BillHistory;
 
 import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.CompanyShopManagementActivity;
 
 import com.aapkatrade.buyer.seller.selleruser_dashboard.billpayment.BillPaymentActivity;
+import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.addproduct.AddProductActivity;
+import com.aapkatrade.buyer.seller.selleruser_dashboard.salestransaction.SalesTransaction;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.serviceenquiryList.ServiceEnquiryActivity;
 
 import com.aapkatrade.buyer.seller.selleruser_dashboard.bankdetails.BankDetailsActivity;
@@ -178,8 +179,7 @@ public class DashboardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
                     }
 
-                }
-                else if (itemList.get(position).dashboard_name.equals("Bill History")) {
+                } else if (itemList.get(position).dashboard_name.equals("Bill History")) {
                     if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString(), "notlogin").equals("notlogin")) {
                         Intent i = new Intent(context, LoginDashboard.class);
                         context.startActivity(i);
@@ -187,6 +187,30 @@ public class DashboardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
                     } else {
                         Intent billhistory = new Intent(context, BillHistory.class);
+                        context.startActivity(billhistory);
+
+                    }
+
+                } else if (itemList.get(position).dashboard_name.equals("Sales Transaction")) {
+                    if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString(), "notlogin").equals("notlogin")) {
+                        Intent i = new Intent(context, LoginDashboard.class);
+                        context.startActivity(i);
+
+
+                    } else {
+                        Intent billhistory = new Intent(context, SalesTransaction.class);
+                        context.startActivity(billhistory);
+
+                    }
+
+                } else if (itemList.get(position).dashboard_name.equals("Product Management")) {
+                    if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString(), "notlogin").equals("notlogin")) {
+                        Intent i = new Intent(context, LoginDashboard.class);
+                        context.startActivity(i);
+
+
+                    } else {
+                        Intent billhistory = new Intent(context, AddProductActivity.class);
                         context.startActivity(billhistory);
 
                     }

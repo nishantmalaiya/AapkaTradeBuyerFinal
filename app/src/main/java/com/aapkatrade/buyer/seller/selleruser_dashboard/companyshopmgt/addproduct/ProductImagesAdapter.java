@@ -38,7 +38,9 @@ public class ProductImagesAdapter extends RecyclerView.Adapter<RecyclerView.View
     AddProductActivity addproductActivity = new AddProductActivity();
 
 
+
     public ProductImagesAdapter(Context context, List<ProductImagesData> itemList,AddProductActivity addproductActivity)
+
     {
 
         this.itemList = itemList;
@@ -89,8 +91,11 @@ public class ProductImagesAdapter extends RecyclerView.Adapter<RecyclerView.View
                     {
 
                         Toast.makeText(context, "Hi "+context.getClass().getSimpleName()+" 2nd hi", Toast.LENGTH_SHORT).show();
+
                         addproductActivity.picPhoto();
 
+
+                     
                     }
 
 

@@ -189,6 +189,7 @@ public class HomeActivity extends AppCompatActivity {
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.drawer_layout, newFragment, tag).addToBackStack(tag);
+        transaction.setCustomAnimations(R.anim.slide_left, R.anim.slide_right);
         transaction.commit();
     }
 

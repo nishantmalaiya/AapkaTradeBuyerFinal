@@ -60,7 +60,7 @@ public class CustomQuantityDialog extends DialogFragment
         View v = inflater.inflate(R.layout.layout_more_quantity, container, false);
         //noinspection ConstantConditions
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-
+        getDialog().getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
         initView(v);
 
         return v;

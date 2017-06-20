@@ -85,6 +85,7 @@ public class AddProductActivity extends AppCompatActivity
 
         setContentView(R.layout.activity_add_product);
 
+
         context = AddProductActivity.this;
 
         app_sharedpreference = new AppSharedPreference(context);
@@ -124,6 +125,10 @@ public class AddProductActivity extends AppCompatActivity
             }
         });
       */
+
+        context = AddProductActivity.this;
+
+
         setUpToolBar();
 
         setuplayout();
@@ -269,12 +274,11 @@ public class AddProductActivity extends AppCompatActivity
 
         productImagesDatas.add(new ProductImagesData("first", ""));
 
-        adapter = new ProductImagesAdapter(AddProductActivity.this, productImagesDatas,AddProductActivity.this);
+        adapter = new ProductImagesAdapter(AddProductActivity.this, productImagesDatas);
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
 
         recyclerView.setLayoutManager(gridLayoutManager);
-
         recyclerView.setVisibility(View.VISIBLE);
         recyclerView.setAdapter(adapter);
 

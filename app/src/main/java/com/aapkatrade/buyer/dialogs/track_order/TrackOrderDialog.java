@@ -20,7 +20,6 @@ import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.AppConfig;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Validation;
-import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
 import com.aapkatrade.buyer.general.progressbar.ProgressDialogHandler;
 import com.aapkatrade.buyer.login.ActivityOTPVerify;
 import com.google.gson.JsonObject;
@@ -51,10 +50,10 @@ public class TrackOrderDialog extends DialogFragment {
         final View v = inflater.inflate(R.layout.fragment_track_order_dialog, container, false);
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         getDialog().getWindow().setBackgroundDrawableResource(R.drawable.rounded_dialog);
+        getDialog().getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
 
         initview(v);
 
-       
 
         progressDialogHandler = new ProgressDialogHandler(getActivity());
 
@@ -73,7 +72,7 @@ public class TrackOrderDialog extends DialogFragment {
                 if (Validation.validateEdittext(tracking_id)) {
                     call_Validate_order_webservice();
                 } else {
-                    AndroidUtils.showToast(getActivity(),"!Blank  Order id");
+                    AndroidUtils.showToast(getActivity(), "!Blank  Order id");
 
                 }
 
@@ -95,7 +94,7 @@ public class TrackOrderDialog extends DialogFragment {
                 .load(track_order_url)
                 .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                 .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
-                .setBodyParameter("ORDER_ID",tracking_id.getText().toString())
+                .setBodyParameter("ORDER_ID", tracking_id.getText().toString())
                 .setBodyParameter("client_id", AppConfig.getCurrentDeviceId(getActivity()))
                 .asJsonObject().setCallback(new FutureCallback<JsonObject>() {
             @Override
@@ -119,11 +118,10 @@ public class TrackOrderDialog extends DialogFragment {
                         Log.e("otp_id", getActivity().getClass().getName());
 
 
-
                     } else {
                         progressDialogHandler.hide();
                         String message = result.get("message").getAsString();
-                        AndroidUtils.showToast(getActivity(),message);
+                        AndroidUtils.showToast(getActivity(), message);
                     }
 
 

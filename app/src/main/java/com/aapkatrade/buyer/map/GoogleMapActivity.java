@@ -88,7 +88,7 @@ public class GoogleMapActivity extends AppCompatActivity implements OnMapReadyCa
     ArrayList<String> route_timeduration = new ArrayList<>();
 
     boolean permission_status;
-    
+
 
     public static TextView tv_travel_duration, travel_time;
 

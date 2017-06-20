@@ -44,7 +44,7 @@ public class BillPaymentActivity extends AppCompatActivity {
 
     ArrayList<BillPaymentListData> billPaymentListDatas = new ArrayList<>();
 
-ProgressBarHandler pbar_handler;
+    ProgressBarHandler pbar_handler;
     public static CommonInterface commonInterface;
 
 
@@ -108,16 +108,13 @@ ProgressBarHandler pbar_handler;
                         }
                         pbar_handler.hide();
 
-                    }
-                    else{
-                        AndroidUtils.showErrorLog(context,"json_return_error",result.get("error").getAsString());
+                    } else {
+                        AndroidUtils.showErrorLog(context, "json_return_error", result.get("error").getAsString());
                         pbar_handler.hide();
                     }
 
 
                 } else {
-
-
 
 
                     pbar_handler.hide();
@@ -148,7 +145,7 @@ ProgressBarHandler pbar_handler;
 
     private void initView() {
         appSharedPreference = new AppSharedPreference(context);
-        pbar_handler=new ProgressBarHandler(context);
+        pbar_handler = new ProgressBarHandler(context);
         tvStatusTitle = (TextView) findViewById(R.id.tvStatusTitle);
         tvStatusMsg = (TextView) findViewById(R.id.tvStatusMsg);
         tickImageView = (ImageView) findViewById(R.id.tickImageView);
@@ -156,7 +153,6 @@ ProgressBarHandler pbar_handler;
         recycleView_bill_payment = (RecyclerView) findViewById(R.id.recycleView_bill_payment);
         rlSaveLayout = (TextView) findViewById(R.id.tvDone);
         linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
-
 
 
         commonInterface = new CommonInterface() {
