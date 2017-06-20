@@ -189,6 +189,12 @@ public class UserDashboardFragment extends Fragment
                                 dashboardDatas.add(new DashboardData("", "My Profile", R.drawable.ic_myprofile, R.drawable.circle_teal, false, ""));
 
                                 dashboardDatas.add(new DashboardData("", "Company/Shop List", R.drawable.ic_lstcmpny, R.drawable.circle_deep_pink, true, SharedPreferenceConstants.SHOP_LIST_COUNT.toString()));
+
+
+                                dashboardDatas.add(new DashboardData("", "Product Management", R.drawable.ic_add_company, R.drawable.circle_purple, false, ""));
+
+
+
                                 dashboardDatas.add(new DashboardData("", "Order", R.drawable.ic_lstprdct, R.drawable.circle_sienna, true, order_quantity));
 
 
