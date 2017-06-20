@@ -25,15 +25,14 @@ import com.aapkatrade.buyer.general.LocationManagerCheck;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.animation_effects.App_animation;
-import com.aapkatrade.buyer.general.progressbar.Custom_progress_bar;
+
 import com.aapkatrade.buyer.location.GeoCoderAddress;
 import com.aapkatrade.buyer.location.Mylocation;
 import com.aapkatrade.buyer.service.GpsLocationService;
 import com.aapkatrade.buyer.welcome.WelcomeActivity;
 import com.google.firebase.messaging.FirebaseMessaging;
 
-public class MainActivity extends AppCompatActivity
-{
+public class MainActivity extends AppCompatActivity {
 
     private final int SPLASH_DISPLAY_LENGTH = 3000;
     private ConnetivityCheck connetivityCheck;
@@ -41,7 +40,7 @@ public class MainActivity extends AppCompatActivity
     private ImageView left_image, right_image;
     private ProgressDialog pd;
     private ImageView circle_image;
-    private Custom_progress_bar custom_progress_bar;
+    //private Custom_progress_bar custom_progress_bar;
     private Mylocation mylocation;
     private GeoCoderAddress geoCoderAddressAsync;
     private String AddressAsync;
@@ -105,8 +104,8 @@ public class MainActivity extends AppCompatActivity
         // Applying font
         tv_aapkatrade.setTypeface(tf);
         connetivityCheck = new ConnetivityCheck();
-        custom_progress_bar = new Custom_progress_bar(MainActivity.this);
-        custom_progress_bar.show();
+        //custom_progress_bar = new Custom_progress_bar(MainActivity.this);
+        // custom_progress_bar.show();
 
 
         new Handler().postDelayed(new Runnable() {
@@ -122,15 +121,12 @@ public class MainActivity extends AppCompatActivity
                     Location location = null;
                     if (locationManagerCheck.isLocationServiceAvailable()) {
                         AndroidUtils.showErrorLog(MainActivity.this, "viewpager welcome", appSharedpreference.getSharedPrefInt(SharedPreferenceConstants.IS_FIRST_TIME.toString()));
-                        if (appSharedpreference.getSharedPrefInt(SharedPreferenceConstants.IS_FIRST_TIME.toString()) == 1)
-                        {
+                        if (appSharedpreference.getSharedPrefInt(SharedPreferenceConstants.IS_FIRST_TIME.toString()) == 1) {
 
                             Intent mainIntent = new Intent(MainActivity.this, HomeActivity.class);
                             startActivity(mainIntent);
                             finish();
-                        }
-                        else
-                         {
+                        } else {
                             // appSharedpreference.setSharedPrefInt(SharedPreferenceConstants.IS_FIRST_TIME.toString(), 1);
                             Intent mainIntent = new Intent(MainActivity.this, WelcomeActivity.class);
                             startActivity(mainIntent);
@@ -168,8 +164,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         AndroidUtils.showErrorLog(MainActivity.this, "onActivityResult" + requestCode + "***" + resultCode);
@@ -200,14 +195,13 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    private void displayFirebaseRegId()
-    {
+    private void displayFirebaseRegId() {
         SharedPreferences pref = getApplicationContext().getSharedPreferences(Config.SHARED_PREF, 0);
         String regId = pref.getString("regId", null);
 
-        System.out.println("regId----------------"+regId);
+        System.out.println("regId----------------" + regId);
 
-        Log.e("sachin","Firebase reg id: " + regId);
+        Log.e("sachin", "Firebase reg id: " + regId);
 
       /*  if (!TextUtils.isEmpty(regId))
             txtRegId.setText("Firebase Reg Id: " + regId);
@@ -233,12 +227,10 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    protected void onPause()
-    {
+    protected void onPause() {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mRegistrationBroadcastReceiver);
         super.onPause();
     }
-
 
 
 }

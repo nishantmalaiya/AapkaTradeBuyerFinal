@@ -30,6 +30,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:cardElevation="4dp"
+                    app:cardBackgroundColor="@color/white"
                     android:layout_margin="@dimen/ten_dip"
                     >
                     <android.support.v4.widget.NestedScrollView

@@ -1,24 +1,21 @@
-package com.aapkatrade.buyer.seller.selleruser_dashboard.billhistory;
+package com.aapkatrade.buyer.seller.selleruser_dashboard.salestransaction;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 
 import com.aapkatrade.buyer.R;
-import com.aapkatrade.buyer.associate.RegistrationBusinessAssociateActivity;
 import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
@@ -35,7 +32,7 @@ import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class BillHistory extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener {
+public class SalesTransaction extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener {
 
     AppSharedPreference appSharedPreference;
     Context c;
@@ -49,14 +46,14 @@ public class BillHistory extends AppCompatActivity implements TimePickerDialog.O
     EditText etstartdate, etenddate;
     private String date;
     private LinearLayoutManager linearLayoutManager;
-    BillHistoryAdapter billHistoryAdapter;
-    ArrayList<BillHistoryData> billHistoryDatas = new ArrayList<>();
+    SalesTransactionAdapter salesTransactionAdapter;
+    ArrayList<SalesTransactionData> salesTransactionDatas = new ArrayList<>();
     ProgressBarHandler progressBarHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bill_history);
+        setContentView(R.layout.activitysalestransaction);
 
 
         initView();
@@ -118,7 +115,7 @@ public class BillHistory extends AppCompatActivity implements TimePickerDialog.O
 
         Calendar now = Calendar.getInstance();
         DatePickerDialog dpd = DatePickerDialog.newInstance(
-                BillHistory.this,
+                SalesTransaction.this,
                 now.get(Calendar.YEAR),
                 now.get(Calendar.MONTH),
                 now.get(Calendar.DAY_OF_MONTH)
@@ -207,7 +204,7 @@ public class BillHistory extends AppCompatActivity implements TimePickerDialog.O
     private void callWebserviceBillHistory(int selectedItemPosition) {
         progressBarHandler.show();
 
-        String BillHistoryWebservice = getString(R.string.webservice_base_url) + "/billing_history";
+        String BillHistoryWebservice = getString(R.string.webservice_base_url) + "/sellerTransaction";
 
 
         Ion.with(this)
@@ -215,10 +212,6 @@ public class BillHistory extends AppCompatActivity implements TimePickerDialog.O
                 .setBodyParameter("seller_id", appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString()))
 
                 .setBodyParameter("machine_no", machineList.get(selectedItemPosition).toString())
-
-               /* .setBodyParameter("seller_id", "2")
-
-                .setBodyParameter("machine_no", "15456324")*/
 
                 .setBodyParameter("from_date", etstartdate.getText().toString())
                 .setBodyParameter("to_date", etenddate.getText().toString())
@@ -255,15 +248,15 @@ public class BillHistory extends AppCompatActivity implements TimePickerDialog.O
                                 String BankRefNo = result_jsonobject.get("bankReferenceNo").getAsString();
                                 String paymentAmount = result_jsonobject.get("total_vendor_amt").getAsString();
 
-                                billHistoryDatas.add(new BillHistoryData(paymentMode, paymentDate, RequestRefNo, BankRefNo, paymentStatus, paymentAmount));
+                                salesTransactionDatas.add(new SalesTransactionData(paymentMode, paymentDate, RequestRefNo, BankRefNo, paymentStatus, paymentAmount));
 
 
                             }
 
-                            billHistoryAdapter = new BillHistoryAdapter(BillHistory.this, billHistoryDatas);
+                            salesTransactionAdapter = new SalesTransactionAdapter(SalesTransaction.this, salesTransactionDatas);
 
                             recycleBillHistory.setLayoutManager(linearLayoutManager);
-                            recycleBillHistory.setAdapter(billHistoryAdapter);
+                            recycleBillHistory.setAdapter(salesTransactionAdapter);
 
 
                             AndroidUtils.showErrorLog(c, "responseBillPayment2", result.toString());

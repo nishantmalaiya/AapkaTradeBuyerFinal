@@ -127,7 +127,7 @@ public class PaymentActivity extends AppCompatActivity implements TabLayout.OnTa
                     @SuppressLint({"JavascriptInterface", "SetJavaScriptEnabled"})
                     @Override
                     public void onCompleted(Exception e, JsonObject result) {
-                        AndroidUtils.showErrorLog(context, "************%%%%%%%", result.toString());
+                        AndroidUtils.showErrorLog(context, "**********", result.toString());
                         url = result.get("url").getAsString();
                         webview.getSettings().setBuiltInZoomControls(true);
                         webview.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
@@ -453,6 +453,9 @@ public class PaymentActivity extends AppCompatActivity implements TabLayout.OnTa
                             String payment_status;
                             JsonObject jsonObject = result.getAsJsonObject("result");
 
+                            
+
+
                            if(result.get("payment_status").getAsString().contains("false"))
                            {
                             payment_status = "false";
@@ -476,6 +479,7 @@ public class PaymentActivity extends AppCompatActivity implements TabLayout.OnTa
 
                             String receipt_no = vpc_ReceiptNo.toString().replace("[", "");
                             receipt_no = receipt_no.replace("]", "");
+
 
                             System.out.println("amount----------" + amount);
 

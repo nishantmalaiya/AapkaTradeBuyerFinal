@@ -58,6 +58,7 @@ public class CustomQuantityCheckout extends DialogFragment {
 
         View v = inflater.inflate(R.layout.layout_more_quantity, container, false);
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        getDialog().getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
         initView(v);
 
         return v;

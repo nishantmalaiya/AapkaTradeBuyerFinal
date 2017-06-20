@@ -1,4 +1,4 @@
-package com.aapkatrade.buyer.seller.selleruser_dashboard.billhistory;
+package com.aapkatrade.buyer.seller.selleruser_dashboard.salestransaction;
 
 import android.app.Activity;
 import android.os.Build;
@@ -7,13 +7,9 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
-import com.aapkatrade.buyer.seller.selleruser_dashboard.billpayment.BillPaymentActivity;
-import com.aapkatrade.buyer.seller.selleruser_dashboard.billpayment.BillPaymentListData;
-import com.aapkatrade.buyer.seller.selleruser_dashboard.billpayment.BillPaymentListHolder;
 
 import java.util.List;
 
@@ -21,14 +17,14 @@ import java.util.List;
  * Created by PPC17 on 13-Jun-17.
  */
 
-public class BillHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class SalesTransactionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final LayoutInflater inflater;
-    private List<BillHistoryData> itemList;
+    private List<SalesTransactionData> itemList;
     public Activity context;
-    private BillHistoryListHolder viewHolder;
+    private SalesTransactionListHolder viewHolder;
     private ProgressBarHandler progressBarHandler;
 
-    public BillHistoryAdapter(Activity context, List<BillHistoryData> itemList) {
+    public SalesTransactionAdapter(Activity context, List<SalesTransactionData> itemList) {
         this.itemList = itemList;
         this.context = context;
         inflater = LayoutInflater.from(context);
@@ -42,7 +38,7 @@ public class BillHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         View view = inflater.inflate(R.layout.billhistory_row, parent, false);
 
-        viewHolder = new BillHistoryListHolder(view);
+        viewHolder = new SalesTransactionListHolder(view);
 
         return viewHolder;
 
@@ -52,7 +48,7 @@ public class BillHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 
 
-        final BillHistoryListHolder homeHolder = (BillHistoryListHolder) holder;
+        final SalesTransactionListHolder homeHolder = (SalesTransactionListHolder) holder;
 
 
         StringBuilder stringBuilder = new StringBuilder(itemList.get(position).paymentMode);

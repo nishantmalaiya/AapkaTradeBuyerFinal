@@ -48,6 +48,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/ten_dip"
                         app:cardCornerRadius="5dp"
+                        app:cardBackgroundColor="@color/white"
                         app:cardMaxElevation="8dp">
 
                         <LinearLayout
@@ -152,6 +153,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/ten_dip"
+                    app:cardBackgroundColor="@color/white"
                     android:visibility="invisible">
 
                     <RelativeLayout
