@@ -80,8 +80,7 @@ public class SellerRegistrationActivity extends AppCompatActivity implements Tim
     private LinearLayout uploadCard, ll_content_seller_registration;
     private Spinner spBussinessCategory, spState, spCity;
     private String[] spBussinessName = {"Please Select Business Type", "Licence", "Personal"};
-    private EditText etProductName, etFirstName, etLastName, etDOB, etEmail, etMobileNo, etAddress, etPassword, etReenterPassword, et_tin_number,
-            et_tan_number, etReferenceNo;
+    private EditText etProductName, etFirstName, etLastName, etDOB, etEmail, etMobileNo, etAddress, etPassword, etReenterPassword, et_tin_number, et_tan_number, etReferenceNo;
     private TextView tvSave, uploadMsg, tv_agreement, tvListFootername;
     private LinearLayout registrationLayout, llSellerBusinessDetailContainer, llSellerPersonalDetailContainer, llSellerUserDetailContainer;
     private ArrayList<Country> countryList = new ArrayList<>();
@@ -485,7 +484,8 @@ public class SellerRegistrationActivity extends AppCompatActivity implements Tim
     }
 
 
-    private void getCity(String stateId) {
+    private void getCity(String stateId)
+    {
         progressBarHandler.show();
         findViewById(R.id.input_layout_city).setVisibility(View.VISIBLE);
         Ion.with(context)
@@ -533,11 +533,12 @@ public class SellerRegistrationActivity extends AppCompatActivity implements Tim
                     }
 
                 });
-
     }
 
 
-    private void setUpToolBar() {
+    private void setUpToolBar()
+    {
+
         ImageView homeIcon = (ImageView) findViewById(R.id.iconHome);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         AndroidUtils.setImageColor(homeIcon, context, R.color.white);
@@ -556,6 +557,7 @@ public class SellerRegistrationActivity extends AppCompatActivity implements Tim
             getSupportActionBar().setTitle(null);
             getSupportActionBar().setElevation(0);
         }
+
     }
 
     @Override
@@ -1063,8 +1065,8 @@ public class SellerRegistrationActivity extends AppCompatActivity implements Tim
     }
 
 
-    public void setSellerFormData() {
-
+    public void setSellerFormData()
+    {
         formSellerData.setBusinessType(busiType);
         formSellerData.setCompanyName(etProductName.getText().toString());
         formSellerData.setShopName(etProductName.getText().toString());
@@ -1084,12 +1086,17 @@ public class SellerRegistrationActivity extends AppCompatActivity implements Tim
 
 
     @Override
-    public void onTimeSet(TimePickerDialog view, int hourOfDay, int minute, int second) {
+    public void onTimeSet(TimePickerDialog view, int hourOfDay, int minute, int second)
+    {
 
     }
 
     @Override
-    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth)
+    {
         showDate(year, monthOfYear + 1, dayOfMonth);
     }
+
+
+
 }
