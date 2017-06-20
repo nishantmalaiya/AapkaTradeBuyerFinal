@@ -17,25 +17,26 @@ import java.util.ArrayList;
  * Created by PPC21 on 24-Jan-17.
  */
 
-public class CustomSpinnerAdapter extends BaseAdapter {
+public class CustomSpinnerAdapter extends BaseAdapter
+{
     Context context;
     ArrayList Names,id;
     LayoutInflater inflter;
 
-    public CustomSpinnerAdapter(Context applicationContext, ArrayList Names,ArrayList id) {
+    public CustomSpinnerAdapter(Context applicationContext, ArrayList Names,ArrayList id)
+    {
         this.context = applicationContext;
         this.Names = Names;
         this.id=id;
         inflter = (LayoutInflater.from(applicationContext));
     }
 
-    public CustomSpinnerAdapter(Context applicationContext, ArrayList Names) {
+    public CustomSpinnerAdapter(Context applicationContext, ArrayList Names)
+    {
         this.context = applicationContext;
         this.Names = Names;
         inflter = (LayoutInflater.from(applicationContext));
     }
-
-
 
     @Override
     public int getCount() {
@@ -53,7 +54,8 @@ public class CustomSpinnerAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
+    public View getView(int i, View view, ViewGroup viewGroup)
+    {
         view = inflter.inflate(R.layout.row_spinner, null);
         TextView names = (TextView) view.findViewById(R.id.tvSpCategory);
         if(Names.get(i) instanceof KeyValue){

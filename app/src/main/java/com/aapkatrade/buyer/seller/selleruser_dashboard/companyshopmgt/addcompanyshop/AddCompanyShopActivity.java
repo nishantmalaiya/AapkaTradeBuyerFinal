@@ -37,6 +37,7 @@ import com.aapkatrade.buyer.home.buyerregistration.entity.City;
 import com.aapkatrade.buyer.home.buyerregistration.spinner_adapter.SpCityAdapter;
 import com.aapkatrade.buyer.home.navigation.entity.Category;
 import com.aapkatrade.buyer.home.navigation.entity.SubCategory;
+import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.CompanyShopImagesAdapter;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.addproduct.AddProductActivity;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.addproduct.ProductImagesAdapter;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.addproduct.ProductImagesData;
@@ -72,7 +73,7 @@ public class AddCompanyShopActivity extends AppCompatActivity {
     public ArrayList<ProductImagesData> productImagesDatas = new ArrayList<>();
     LinearLayoutManager layoutManager;
     RecyclerView recyclerView;
-    ProductImagesAdapter adapter;
+    CompanyShopImagesAdapter adapter;
     Bitmap imageForPreview;
     int values_count = 0;
     ArrayList<Bitmap> multiple_images;
@@ -402,7 +403,10 @@ public class AddCompanyShopActivity extends AppCompatActivity {
 
     private void setupRecyclerView() {
         recyclerView = (RecyclerView) findViewById(R.id.recycler);
-        adapter = new ProductImagesAdapter(context, productImagesDatas);
+
+        productImagesDatas.add(new ProductImagesData("first", ""));
+
+        adapter = new CompanyShopImagesAdapter(context, productImagesDatas,AddCompanyShopActivity.this);
         layoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setVisibility(View.INVISIBLE);

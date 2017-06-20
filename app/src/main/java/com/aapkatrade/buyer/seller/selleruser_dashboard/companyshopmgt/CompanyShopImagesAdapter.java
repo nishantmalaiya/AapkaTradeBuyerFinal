@@ -1,32 +1,34 @@
-package com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.addproduct;
+package com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.media.ThumbnailUtils;
-import android.provider.MediaStore;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
 import com.aapkatrade.buyer.R;
-import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.addcompanyshop.AddCompanyShopActivity;
+import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.addproduct.ProductImagesData;
+import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.addproduct.ProductImagesHolder;
+import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.addproduct.ProductUserHolder;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
-import com.squareup.picasso.Picasso;
+
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
-import static android.R.attr.bitmap;
+/**
+ * Created by PPC16 on 6/20/2017.
+ */
 
-
-public class ProductImagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
+public class CompanyShopImagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 {
 
     private final LayoutInflater inflater;
@@ -35,12 +37,10 @@ public class ProductImagesAdapter extends RecyclerView.Adapter<RecyclerView.View
     private ProductImagesHolder viewHolder;
     Bitmap imageForPreview;
     private final int USER_Added = 0,IMAGE = 1;
-    AddProductActivity addproductActivity = new AddProductActivity();
+    AddCompanyShopActivity addproductActivity = new AddCompanyShopActivity();
 
 
-
-    public ProductImagesAdapter(Context context, List<ProductImagesData> itemList,AddProductActivity addproductActivity)
-
+    public CompanyShopImagesAdapter(Context context, List<ProductImagesData> itemList,AddCompanyShopActivity addproductActivity)
     {
 
         this.itemList = itemList;
@@ -49,6 +49,7 @@ public class ProductImagesAdapter extends RecyclerView.Adapter<RecyclerView.View
         this.addproductActivity = addproductActivity;
 
     }
+
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
@@ -67,7 +68,7 @@ public class ProductImagesAdapter extends RecyclerView.Adapter<RecyclerView.View
                 View v2 = inflater.inflate(R.layout.row_product_images, parent, false);
                 viewHolder = new ProductImagesHolder(v2);
                 break;
-          
+
         }
         return viewHolder;
 
@@ -91,11 +92,8 @@ public class ProductImagesAdapter extends RecyclerView.Adapter<RecyclerView.View
                     {
 
                         Toast.makeText(context, "Hi "+context.getClass().getSimpleName()+" 2nd hi", Toast.LENGTH_SHORT).show();
+                      //  addproductActivity.picPhoto();
 
-                        addproductActivity.picPhoto();
-
-
-                     
                     }
 
 
@@ -126,7 +124,8 @@ public class ProductImagesAdapter extends RecyclerView.Adapter<RecyclerView.View
                 {
                     File imgFile = new File(itemList.get(position).image_path);
 
-                    if (imgFile.exists()) {
+                    if (imgFile.exists())
+                    {
                         Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
 
                         Drawable drawable = new BitmapDrawable(context.getResources(), myBitmap);

@@ -14,8 +14,8 @@ public class ProductImagesHolder extends RecyclerView.ViewHolder
 {
 
     View view;
-    ImageView previewImage;
-    ImageView cancelImage;
+    public ImageView previewImage;
+    public ImageView cancelImage;
 
     public ProductImagesHolder(View itemView)
     {

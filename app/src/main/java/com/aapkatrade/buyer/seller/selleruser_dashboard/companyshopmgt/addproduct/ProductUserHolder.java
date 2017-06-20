@@ -15,7 +15,7 @@ public class ProductUserHolder  extends RecyclerView.ViewHolder
 {
 
     View view;
-    RelativeLayout relativeImage ;
+   public RelativeLayout relativeImage ;
 
     public ProductUserHolder(View itemView)
     {
