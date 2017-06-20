@@ -164,7 +164,7 @@
 
         <activity
             android:name=".seller.selleruser_dashboard.salestransaction.SalesTransaction"
-            />
+            >
 
 
             android:name=".seller.selleruser_dashboard.companyshopmgt.addproduct.AddProductActivity"
