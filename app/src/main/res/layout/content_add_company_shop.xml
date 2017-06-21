@@ -32,59 +32,38 @@
             </com.aapkatrade.buyer.uicomponent.customcardview.CustomCardViewHeader>
 
 
+
             <LinearLayout
                 android:id="@+id/llSellerBusinessDetailContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                tools:ignore="UselessParent">
+                tools:ignore="UselessParent"
+                android:background="#F1F5F8"
+                >
 
-                <HorizontalScrollView
+
+                <RelativeLayout
+                    android:id="@+id/uploadCard"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-                    <RelativeLayout
-                        android:id="@+id/uploadCard"
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recycler"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:orientation="horizontal"
+                        android:layout_marginLeft="@dimen/fifteen_dip"
+                        android:layout_marginTop="@dimen/fifteen_dip"
+                        >
 
-                        <android.support.v7.widget.RecyclerView
-                            android:id="@+id/recycler"
-                            android:layout_width="wrap_content"
-                            android:layout_height="@dimen/one_hundred_twenty_dip"
-                            android:layout_marginBottom="@dimen/fifteen_dip"
-                            android:layout_marginRight="@dimen/fifteen_dip"
-                            android:layout_marginTop="@dimen/fifteen_dip"
-                            android:orientation="horizontal"
-                            android:visibility="gone">
-
-                        </android.support.v7.widget.RecyclerView>
+                    </android.support.v7.widget.RecyclerView>
 
 
-                        <RelativeLayout
-                            android:id="@+id/relativeImage"
-                            android:layout_width="@dimen/one_hundred_five_dip"
-                            android:layout_height="@dimen/one_hundred_five_dip"
-                            android:layout_marginBottom="@dimen/fifteen_dip"
-                            android:layout_marginRight="@dimen/fifteen_dip"
-                            android:layout_marginTop="@dimen/fifteen_dip"
-                            android:layout_toRightOf="@+id/recycler"
-                            android:background="@drawable/dotted">
-
-                            <ImageView
-                                android:layout_width="@dimen/fifty_dip"
-                                android:layout_height="@dimen/fifty_dip"
-                                android:layout_centerHorizontal="true"
-                                android:layout_centerVertical="true"
-                                android:src="@drawable/ic_shop_plus" />
-
-                        </RelativeLayout>
-
-                    </RelativeLayout>
+                </RelativeLayout>
 
 
-                </HorizontalScrollView>
 
 
             </LinearLayout>

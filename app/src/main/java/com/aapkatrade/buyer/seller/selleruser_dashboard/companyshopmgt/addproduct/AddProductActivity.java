@@ -3,7 +3,6 @@ package com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.addprodu
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -16,7 +15,6 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -24,12 +22,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
-import com.aapkatrade.buyer.uicomponent.daystile.DaysTileView;
 
 import com.aapkatrade.buyer.general.Utils.ImageUtils;
 import com.aapkatrade.buyer.home.HomeActivity;
 import com.aapkatrade.buyer.location.GeoCoderAddress;
-import java.io.ByteArrayOutputStream;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -45,7 +42,7 @@ public class AddProductActivity extends AppCompatActivity
     private EditText etProductName, etDeliverLocation, etPrice, etCrossedPrice, etDescription, etDiscount, etarea_location, etpincode, etaddress;
     ImageView uploadButton;
     File docFile = new File("");
-    public ArrayList<ProductImagesData> productImagesDatas = new ArrayList<>();
+    public ArrayList<ProductMediaData> productMediaDatas = new ArrayList<>();
     LinearLayoutManager layoutManager;
     RecyclerView recyclerView;
     ProductImagesAdapter adapter;
@@ -122,9 +119,9 @@ public class AddProductActivity extends AppCompatActivity
     {
         recyclerView = (RecyclerView) findViewById(R.id.recycler);
 
-        productImagesDatas.add(new ProductImagesData("first", ""));
+        productMediaDatas.add(new ProductMediaData("first", "",null,""));
 
-        adapter = new ProductImagesAdapter(AddProductActivity.this, productImagesDatas);
+        adapter = new ProductImagesAdapter(context, productMediaDatas, this);
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
 
@@ -163,7 +160,6 @@ public class AddProductActivity extends AppCompatActivity
             in.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
             startActivityForResult(Intent.createChooser(in, "Capture Image from Camera"), 10);
         }
-
 
     }
 
@@ -207,12 +203,12 @@ public class AddProductActivity extends AppCompatActivity
                             AndroidUtils.showErrorLog(context, "doc", " else doc file path" + docFile.getAbsolutePath());
                         }
 
-                        productImagesDatas.add(new ProductImagesData(docFile.getAbsolutePath(), ""));
+                        productMediaDatas.add(new ProductMediaData(docFile.getAbsolutePath(), "",null,""));
                         AndroidUtils.showErrorLog(context, "docfile", docFile.getAbsolutePath());
 
 
                         adapter.notifyDataSetChanged();
-                        if (productImagesDatas.size() > 0) {
+                        if (productMediaDatas.size() > 0) {
                             recyclerView.setVisibility(View.VISIBLE);
 
                         }
@@ -231,11 +227,11 @@ public class AddProductActivity extends AppCompatActivity
                         // CALL THIS METHOD TO GET THE ACTUAL PATH
                         File finalFile = new File(ImageUtils.getRealPathFromURI(context, tempUri));
 
-                        productImagesDatas.add(new ProductImagesData(finalFile.getAbsolutePath(), ""));
+                        productMediaDatas.add(new ProductMediaData(finalFile.getAbsolutePath(), "",null,""));
                         AndroidUtils.showErrorLog(context, "docfile", finalFile.getAbsolutePath());
 
                         adapter.notifyDataSetChanged();
-                        if (productImagesDatas.size() > 0) {
+                        if (productMediaDatas.size() > 0) {
                             recyclerView.setVisibility(View.VISIBLE);
 
                         }
@@ -258,7 +254,7 @@ public class AddProductActivity extends AppCompatActivity
                 // CALL THIS METHOD TO GET THE ACTUAL PATH
                 File finalFile = new File(ImageUtils.getRealPathFromURI(context, tempUri));
 
-                productImagesDatas.add(new ProductImagesData(finalFile.getAbsolutePath(), ""));
+                productMediaDatas.add(new ProductMediaData(finalFile.getAbsolutePath(), "",null,""));
                 AndroidUtils.showErrorLog(context, "docfile", finalFile.getAbsolutePath());
 
                 adapter.notifyDataSetChanged();

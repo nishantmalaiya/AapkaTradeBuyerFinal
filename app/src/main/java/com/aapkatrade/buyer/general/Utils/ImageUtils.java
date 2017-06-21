@@ -70,6 +70,21 @@ public class ImageUtils {
     }
 
 
+
+    public static String copyFile(File sourceFile, File destinationFile) throws IOException {
+        FileInputStream fileInputStream = new FileInputStream(sourceFile);
+        FileOutputStream fileOutputStream = new FileOutputStream(destinationFile);
+        byte[] byteArray = new byte[1024];
+
+        while (fileInputStream.read(byteArray) > 0) {
+            fileOutputStream.write(byteArray, 0, fileInputStream.read(byteArray));
+        }
+        fileInputStream.close();
+        fileOutputStream.close();
+        return destinationFile.getAbsolutePath();
+    }
+
+
     public static String getRealPathFromURI(Context context, Uri uri) {
         String path = "";
         if (uri != null) {
@@ -84,17 +99,28 @@ public class ImageUtils {
         return path;
     }
 
-    public static String copyFile(File sourceFile, File destinationFile) throws IOException {
-        FileInputStream fileInputStream = new FileInputStream(sourceFile);
-        FileOutputStream fileOutputStream = new FileOutputStream(destinationFile);
-        byte[] byteArray = new byte[1024];
-
-        while (fileInputStream.read(byteArray) > 0) {
-            fileOutputStream.write(byteArray, 0, fileInputStream.read(byteArray));
+    public static String getVideoPath(Context context, Uri uri) {
+        Cursor cursor = context.getContentResolver().query(uri, new String[]{MediaStore.Video.Media.DATA}, null, null, null);
+        if (cursor != null) {
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DATA);
+            cursor.moveToFirst();
+            String path = cursor.getString(column_index);
+            cursor.close();
+            return path;
         }
-        fileInputStream.close();
-        fileOutputStream.close();
-        return destinationFile.getAbsolutePath();
+        return null;
+    }
+
+    public static String getRealPathFromURIVideo(Context context, Uri contentUri) {
+        String path = null;
+        String[] proj = { MediaStore.MediaColumns.DATA };
+        Cursor cursor = context.getContentResolver().query(contentUri, proj, null, null, null);
+        if (cursor.moveToFirst()) {
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
+            path = cursor.getString(column_index);
+        }
+        cursor.close();
+        return path;
     }
 
 }

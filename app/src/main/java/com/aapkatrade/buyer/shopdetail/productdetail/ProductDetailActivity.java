@@ -310,10 +310,10 @@ public class ProductDetailActivity extends AppCompatActivity {
     private void loadImageUrlArrayList(JsonArray jsonImageUrlArray) {
         for (int i = 0; i < jsonImageUrlArray.size(); i++) {
             JsonObject jsonUrlObject = (JsonObject) jsonImageUrlArray.get(i);
-            imageUrlArrayList.add(jsonUrlObject.get("image_url").getAsString());
-            imageUrlArrayList.add(jsonUrlObject.get("image_url").getAsString());
-            imageUrlArrayList.add(jsonUrlObject.get("image_url").getAsString());
-            imageUrlArrayList.add(jsonUrlObject.get("image_url").getAsString());
+            imageUrlArrayList.add(jsonUrlObject.get("imageUrl").getAsString());
+            imageUrlArrayList.add(jsonUrlObject.get("imageUrl").getAsString());
+            imageUrlArrayList.add(jsonUrlObject.get("imageUrl").getAsString());
+            imageUrlArrayList.add(jsonUrlObject.get("imageUrl").getAsString());
         }
         setUpViewPager();
     }

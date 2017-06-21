@@ -211,7 +211,7 @@ else {
 
 
                                     String product_qty = jsonObject2.get("product_qty").getAsString();
-                                    String product_image = jsonObject2.get("image_url").getAsString();
+                                    String product_image = jsonObject2.get("imageUrl").getAsString();
 
                                     String OrderStatus = jsonObject2.get("status").getAsString();
                                     String discount = jsonObject2.get("discount").getAsString() + "%";

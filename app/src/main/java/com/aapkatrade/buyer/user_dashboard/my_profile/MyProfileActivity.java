@@ -513,7 +513,8 @@ public class MyProfileActivity extends AppCompatActivity {
 
                 System.out.println("Saved Video =================");
 
-                if (resultCode == RESULT_OK) {
+                if (resultCode == RESULT_OK)
+                {
                     final File file = new File(data.getData().getPath());
 
                     //Toast.makeText(this, String.format("Saved to: %s, size: %s", file.getAbsolutePath(), fileSize(file)), Toast.LENGTH_LONG).show();
@@ -554,41 +555,6 @@ public class MyProfileActivity extends AppCompatActivity {
                     }
                 }
                 break;
-            case SELECT_VIDEO_REQUEST:
-
-                if (resultCode == RESULT_OK) {
-                    if (data.getData() != null) {
-
-                        Uri selectedImage = data.getData();
-                        String[] filePathColumn = {MediaStore.Video.Media.DATA};
-                        Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
-
-                        int columnindex = cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DATA);
-
-                        cursor.moveToFirst();
-                        String file_path = cursor.getString(columnindex);
-
-                        videopath = cursor.getString(columnindex);
-                        File oldfile = new File(videopath);
-                        File newFile = new File(source_video_folder);
-                        try {
-                            ImageUtils.copyFile(oldfile, newFile);
-                        } catch (IOException e) {
-                            Log.e("IOException", e.toString());
-                        }
-                        Log.e(getClass().getName(), "file_path" + file_path);
-                        Uri fileUri = Uri.parse("file://" + file_path);
-
-                        Toast.makeText(getApplicationContext(), fileUri.toString(), Toast.LENGTH_LONG).show();
-
-                        cursor.close();
-
-                    } else {
-                        Toast.makeText(getApplicationContext(), "Failed to select video", Toast.LENGTH_LONG).show();
-                    }
-                }
-                break;
-
 
             case REQUEST_TAKE_GALLERY_VIDEO:
 

@@ -24,30 +24,19 @@ import com.aapkatrade.buyer.animation.ProgressBarAnimation;
  * Created by PPC21 on 01-Feb-17.
  */
 
-public class ProgressBarHandler
-{
+public class ProgressBarHandler {
+    private Dialog mDialog;
+    private View mouse;
 
-    Context mcontext;
-    Animation operatingAnim;
-
-    Dialog mDialog;
-
-    View mouse;
-
-
-
-    public ProgressBarHandler(Context context)
-    {
-        mcontext = context;
+    public ProgressBarHandler(Context context) {
         if (mDialog == null) {
-            mDialog = new Dialog(mcontext, R.style.progressDialogStyle);
+            mDialog = new Dialog(context, R.style.progressDialogStyle);
+            //noinspection ConstantConditions
             mDialog.getWindow().setBackgroundDrawableResource(R.color.transparent);
 
             mDialog.setContentView(R.layout.progessdialoglayout);
             mDialog.setCanceledOnTouchOutside(true);
             mDialog.getWindow().setGravity(Gravity.CENTER);
-
-
 
 
             View view = mDialog.getWindow().getDecorView();
@@ -60,22 +49,20 @@ public class ProgressBarHandler
     }
 
     public void show() {
-        if (mDialog != null)
+        if (mDialog != null) {
             mDialog.show();
-        operatingAnim = new RotateAnimation(360f, 0f, Animation.RELATIVE_TO_SELF, 0.5f,
-                Animation.RELATIVE_TO_SELF, 0.5f);
+        }
+        Animation operatingAnim = new RotateAnimation(360f, 0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         operatingAnim.setRepeatCount(Animation.INFINITE);
         operatingAnim.setDuration(2000);
-
-
-        LinearInterpolator lin = new LinearInterpolator();
-        operatingAnim.setInterpolator(lin);
+        operatingAnim.setInterpolator(new LinearInterpolator());
         mouse.setAnimation(operatingAnim);
     }
 
     public void hide() {
-        if (mDialog != null)
+        if (mDialog != null) {
             mDialog.hide();
+        }
         mouse.clearAnimation();
     }
 
