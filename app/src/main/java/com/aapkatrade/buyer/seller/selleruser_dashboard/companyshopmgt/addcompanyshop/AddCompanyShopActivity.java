@@ -46,6 +46,7 @@ import com.aapkatrade.buyer.home.buyerregistration.entity.City;
 import com.aapkatrade.buyer.home.buyerregistration.spinner_adapter.SpCityAdapter;
 import com.aapkatrade.buyer.home.navigation.entity.Category;
 import com.aapkatrade.buyer.home.navigation.entity.SubCategory;
+import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.addproduct.ProductImagesAdapter;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.addproduct.ProductMediaData;
 import com.afollestad.materialcamera.MaterialCamera;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
