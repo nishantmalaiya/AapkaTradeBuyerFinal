@@ -202,8 +202,8 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
                             AndroidUtils.showErrorLog(context, "jsonArrayImage------" + jsonArrayReview.toString());
                             for (int i = 0; i < jsonArrayImage.size(); i++) {
                                 JsonObject jsonimage = (JsonObject) jsonArrayImage.get(i);
-                                String image_url = jsonimage.get("image_url").getAsString();
-                                AndroidUtils.showErrorLog(context, "image_url---------" + image_url);
+                                String image_url = jsonimage.get("imageUrl").getAsString();
+                                AndroidUtils.showErrorLog(context, "imageUrl---------" + image_url);
                                 imageList.add(image_url);
                             }
                             product_name = json_result.get("name").getAsString();
@@ -234,7 +234,7 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
                                     String product_name = jsonproduct.get("name").getAsString();
                                     String productShortDescription = jsonproduct.get("short_des").getAsString();
                                     String price = jsonproduct.get("price").getAsString();
-                                    String product_image = jsonproduct.get("image_url").getAsString();
+                                    String product_image = jsonproduct.get("imageUrl").getAsString();
                                     productlist.add(new CommonData(product_id, product_name, price, product_image, address));
                                 }
                                 commonAdapter_latestpost = new CommonAdapter(context, productlist, "list_product", "latestdeals");

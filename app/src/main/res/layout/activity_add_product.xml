@@ -102,27 +102,6 @@
                                 </android.support.v7.widget.RecyclerView>
 
 
-                               <!-- <RelativeLayout
-                                    android:id="@+id/relativeImage"
-                                    android:layout_width="@dimen/one_hundred_five_dip"
-                                    android:layout_height="@dimen/one_hundred_five_dip"
-                                    android:background="@drawable/dotted"
-                                    android:layout_marginBottom="@dimen/fifteen_dip"
-                                    android:layout_marginTop="@dimen/fifteen_dip"
-                                    android:layout_marginRight="@dimen/fifteen_dip"
-                                    android:layout_toRightOf="@+id/recycler"
-                                    >
-
-                                    <ImageView
-                                        android:layout_width="@dimen/fifty_dip"
-                                        android:layout_height="@dimen/fifty_dip"
-                                        android:src="@drawable/ic_shop_plus"
-                                        android:layout_centerVertical="true"
-                                        android:layout_centerHorizontal="true"
-                                        />
-
-                                </RelativeLayout>-->
-
                             </RelativeLayout>
 
 
