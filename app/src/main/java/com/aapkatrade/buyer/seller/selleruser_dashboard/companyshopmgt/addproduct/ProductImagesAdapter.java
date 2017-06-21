@@ -66,6 +66,7 @@ public class ProductImagesAdapter extends RecyclerView.Adapter<RecyclerView.View
         {
             case userAdded:
                 final ProductUserHolder homeHolder_User = (ProductUserHolder) holder;
+
                 homeHolder_User.relativeImage.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
