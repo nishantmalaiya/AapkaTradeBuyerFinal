@@ -21,6 +21,10 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.aapkatrade.buyer.R;
+
+import com.aapkatrade.buyer.general.AppSharedPreference;
+import com.aapkatrade.buyer.general.ConnetivityCheck;
+
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 
 import com.aapkatrade.buyer.general.Utils.ImageUtils;
@@ -86,6 +90,92 @@ public class AddProductActivity extends AppCompatActivity
         et_product_price_discount = (EditText) findViewById(R.id.et_product_price_discount);
 
 
+        et_description = (EditText) findViewById(R.id.et_description);
+
+        et__product_weight = (EditText) findViewById(R.id.et__product_weight);
+
+        et_maxorderquantity = (EditText) findViewById(R.id.et_maxorderquantity);
+
+        et_product_length = (EditText) findViewById(R.id.et_product_length);
+
+        et_product_width = (EditText) findViewById(R.id.et_product_width);
+
+        et_product_height = (EditText) findViewById(R.id.et_product_height);
+
+        tvplaceOrder = (TextView) findViewById(R.id.tvplaceOrder);
+
+        tvplaceOrder.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                if (Validation.isNonEmptyStr(etproductname.getText().toString()))
+                {
+
+                    if (Validation.isNonEmptyStr(et_product_price.getText().toString()))
+                    {
+
+                        if (Validation.isNonEmptyStr(et_product_price_discount.getText().toString())){
+
+
+                            if (Validation.isNonEmptyStr(et_description.getText().toString()))
+                            {
+
+                                if (Validation.isNonEmptyStr(et__product_weight.getText().toString()))
+                                {
+
+                                    if (Validation.isNonEmptyStr(et_maxorderquantity.getText().toString()))
+                                    {
+
+                                        //if (ConnetivityCheck.isNetworkAvailable())
+                                         call_add_product_webservice();
+
+                                    }
+                                    else
+                                    {
+
+                                        AndroidUtils.showToast(context,"Please Enter Product Max Order Quantity");
+                                    }
+
+                                }
+                                else
+                                {
+
+                                    AndroidUtils.showToast(context,"Please Enter Product Weight");
+                                }
+
+
+                            }
+                            else
+                            {
+
+                                AndroidUtils.showToast(context,"Please Enter Product Description");
+                            }
+
+                        }
+                        else
+                        {
+
+                            AndroidUtils.showToast(context,"Please Enter Product Discount");
+                        }
+
+                    }
+                    else
+                    {
+
+                        AndroidUtils.showToast(context,"Please Enter Product Price");
+                    }
+
+                }
+                else
+                {
+                    AndroidUtils.showToast(context,"Please Enter Product Name");
+                }
+
+
+            }
+        });
+
     }
 
     private void setUpToolBar()
@@ -127,9 +217,8 @@ public class AddProductActivity extends AppCompatActivity
 
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setVisibility(View.VISIBLE);
+
         recyclerView.setAdapter(adapter);
-
-
 
     }
 
@@ -243,8 +332,8 @@ public class AddProductActivity extends AppCompatActivity
 
                 }
             }
-            if (requestCode == 10) {
-
+            if (requestCode == 10)
+            {
                 AndroidUtils.showErrorLog(context, "docfile10", "Sachin sdnsdfjsd fsdjfsd fnmsdabf");
 
                 Bitmap photo = (Bitmap) data.getExtras().get("data");
@@ -271,10 +360,165 @@ public class AddProductActivity extends AppCompatActivity
 
     }
 
+    private File savebitmap(String filePath) {
+        File file = new File(filePath);
+        String extension = filePath.substring(filePath.lastIndexOf(".") + 1, filePath.length());
+        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+        Bitmap bitmap = BitmapFactory.decodeFile(filePath, bmOptions);
+        OutputStream outStream = null;
+        try {
+            // make a new bitmap from your file
+            outStream = new FileOutputStream(file);
+            if (extension.equalsIgnoreCase("png")) {
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 20, outStream);
+            } else if (extension.equalsIgnoreCase("jpg") || extension.equalsIgnoreCase("jpeg")) {
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 20, outStream);
+            } else {
+                return null;
+            }
+            outStream.flush();
+            outStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return file;
+
+
+    }
+
+
+
+    private void call_add_product_webservice()
+    {
+        p_handler.show();
+
+        for (int i = 0; i <productImagesDatas.size(); i++)
+        {
+            if (i==0){
+
+            }
+            else
+                {
+                files.add(new FilePart("image[]", savebitmap(productImagesDatas.get(i).image_path)));
+                Log.e("sellDatas",files.toArray().toString());
+            }
+
+        }
+
+        String url = getResources().getString(R.string.webservice_base_url) + "/add_product";
+
+        Ion.with(AddProductActivity.this)
+                .load(url)
+                .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                .addMultipartParts(files)
+                .setMultipartParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                .setMultipartParameter("user_id", "3")
+                .setMultipartParameter("name", etproductname.getText().toString())
+                .setMultipartParameter("company_id", cityID)
+                 .setMultipartParameter("price", et_product_price.getText().toString())
+                .setMultipartParameter("unit_id", unitID)
+                .setMultipartParameter("max_order_qty", et_maxorderquantity.getText().toString())
+                .setMultipartParameter("product_weight", app_sharedpreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), ""))
+                .setMultipartParameter("length", et_product_length.getText().toString())
+                .setMultipartParameter("width", et_product_width.getText().toString())
+                .setMultipartParameter("height", et_product_height.getText().toString())
+                .setMultipartParameter("discount", et_product_price_discount.getText().toString())
+                .asJsonObject().setCallback(new FutureCallback<JsonObject>() {
+            @Override
+            public void onCompleted(Exception e, JsonObject result) {
+
+                System.out.println("result------------------------------" + result);
+
+                p_handler.hide();
+               /* if (result != null)
+                {
+                    if (result.get("error").getAsString().contains("false"))
+                    {
+                        JsonObject jsonObject_result = result.getAsJsonObject("result");
+                        String profile_pic = jsonObject_result.get("profile_pic").getAsString();
+
+                        app_sharedpreference.setSharedPref(SharedPreferenceConstants.PROFILE_PIC.toString(), profile_pic);
+                        String a = app_sharedpreference.getSharedPref(SharedPreferenceConstants.PROFILE_PIC.toString());
+
+                        System.out.println("a------------------------------" + a);
+
+                        *//*  Picasso.with(context)
+                                .load(a)
+                                .error(R.drawable.banner)
+                                .placeholder(R.drawable.default_noimage)
+                                .error(R.drawable.default_noimage)
+                                .into(userImageView);
+
+                        p_handler.hide();*//*
+
+                    }
+                }
+                else
+                 {
+                    AndroidUtils.showErrorLog(context, "hello2", e.toString());
+                    p_handler.hide();
+                }*/
+            }
+        });
+    }
 
 
 
 
+
+
+    private void getCity(String stateId)
+    {
+        p_handler.show();
+       // findViewById(R.id.input_layout_city).setVisibility(View.VISIBLE);
+        Ion.with(context)
+                .load("http://aapkatrade.com/slim/listCompany")
+                .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                .setBodyParameter("type", "company")
+                .setBodyParameter("user_id", "3")
+                .asJsonObject()
+                .setCallback(new FutureCallback<JsonObject>() {
+                    @Override
+                    public void onCompleted(Exception e, JsonObject result)
+                    {
+                        p_handler.hide();
+                        Log.e("city result ", result == null ? "null" : result.toString());
+
+                        if (result != null) {
+                            JsonArray jsonResultArray = result.getAsJsonArray("result");
+
+                            City cityEntity_init = new City("-1", "Please Select Company");
+                            cityList.add(cityEntity_init);
+
+                            for (int i = 0; i < jsonResultArray.size(); i++) {
+                                JsonObject jsonObject1 = (JsonObject) jsonResultArray.get(i);
+                                City cityEntity = new City(jsonObject1.get("companyId").getAsString(), jsonObject1.get("name").getAsString());
+                                cityList.add(cityEntity);
+                            }
+
+                            SpCityAdapter spCityAdapter = new SpCityAdapter(context, cityList);
+                            spCompanyList.setAdapter(spCityAdapter);
+
+                            spCompanyList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                @Override
+                                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                    cityID = cityList.get(position).cityId;
+                                }
+
+                                @Override
+                                public void onNothingSelected(AdapterView<?> parent) {
+
+                                }
+                            });
+                        } else {
+                            AndroidUtils.showToast(context, "! Invalid city");
+                        }
+                    }
+
+                });
+    }
 
 }
 
