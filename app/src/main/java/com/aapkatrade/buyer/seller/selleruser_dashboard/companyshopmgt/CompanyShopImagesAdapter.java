@@ -14,8 +14,8 @@ import android.widget.Toast;
 
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.addcompanyshop.AddCompanyShopActivity;
-import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.addproduct.ProductImagesData;
-import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.addproduct.ProductImagesHolder;
+import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.addproduct.ProductMediaData;
+import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.addproduct.ProductMediaHolder;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.addproduct.ProductUserHolder;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
@@ -32,15 +32,15 @@ public class CompanyShopImagesAdapter extends RecyclerView.Adapter<RecyclerView.
 {
 
     private final LayoutInflater inflater;
-    private List<ProductImagesData> itemList;
+    private List<ProductMediaData> itemList;
     private Context context;
-    private ProductImagesHolder viewHolder;
+    private ProductMediaHolder viewHolder;
     Bitmap imageForPreview;
     private final int USER_Added = 0,IMAGE = 1;
     AddCompanyShopActivity addproductActivity = new AddCompanyShopActivity();
 
 
-    public CompanyShopImagesAdapter(Context context, List<ProductImagesData> itemList,AddCompanyShopActivity addproductActivity)
+    public CompanyShopImagesAdapter(Context context, List<ProductMediaData> itemList,AddCompanyShopActivity addproductActivity)
     {
 
         this.itemList = itemList;
@@ -66,7 +66,7 @@ public class CompanyShopImagesAdapter extends RecyclerView.Adapter<RecyclerView.
                 break;
             case IMAGE:
                 View v2 = inflater.inflate(R.layout.row_product_images, parent, false);
-                viewHolder = new ProductImagesHolder(v2);
+                viewHolder = new ProductMediaHolder(v2);
                 break;
 
         }
@@ -103,13 +103,13 @@ public class CompanyShopImagesAdapter extends RecyclerView.Adapter<RecyclerView.
                 break;
 
             case IMAGE:
-                final ProductImagesHolder homeHolder = (ProductImagesHolder) holder;
+                final ProductMediaHolder homeHolder = (ProductMediaHolder) holder;
 
-                Log.e("itemimage", itemList.get(position).image_path);
-                if (itemList.get(position).image_path.equals(""))
+                Log.e("itemimage", itemList.get(position).imagePath);
+                if (itemList.get(position).imagePath.equals(""))
                 {
                     Ion.with(context)
-                            .load(itemList.get(position).image_url)
+                            .load(itemList.get(position).imageUrl)
                             .withBitmap().asBitmap()
                             .setCallback(new FutureCallback<Bitmap>() {
                                 @Override
@@ -122,7 +122,7 @@ public class CompanyShopImagesAdapter extends RecyclerView.Adapter<RecyclerView.
                 }
                 else
                 {
-                    File imgFile = new File(itemList.get(position).image_path);
+                    File imgFile = new File(itemList.get(position).imagePath);
 
                     if (imgFile.exists())
                     {
@@ -164,9 +164,9 @@ public class CompanyShopImagesAdapter extends RecyclerView.Adapter<RecyclerView.
     public int getItemViewType(int position)
     {
 
-        System.out.println("itemlist----------------"+itemList.get(position).image_path.toString());
+        System.out.println("itemlist----------------"+itemList.get(position).imagePath.toString());
 
-        if (itemList.get(position).image_path.toString().equals("first"))
+        if (itemList.get(position).imagePath.toString().equals("first"))
         {
             return USER_Added;
         }

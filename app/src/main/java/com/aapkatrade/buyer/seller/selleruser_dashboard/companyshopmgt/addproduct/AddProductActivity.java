@@ -15,10 +15,13 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import com.aapkatrade.buyer.R;
 
@@ -28,39 +31,55 @@ import com.aapkatrade.buyer.general.ConnetivityCheck;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 
 import com.aapkatrade.buyer.general.Utils.ImageUtils;
+import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
+import com.aapkatrade.buyer.general.Validation;
+import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
 import com.aapkatrade.buyer.home.HomeActivity;
+import com.aapkatrade.buyer.home.buyerregistration.entity.City;
+import com.aapkatrade.buyer.home.buyerregistration.spinner_adapter.SpCityAdapter;
 import com.aapkatrade.buyer.location.GeoCoderAddress;
+import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.Comapany;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.async.http.body.FilePart;
+import com.koushikdutta.async.http.body.Part;
+import com.koushikdutta.ion.Ion;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 public class AddProductActivity extends AppCompatActivity
 {
 
-    Context context;
     private TextView btnUpload;
     private int count = -1;
-    private EditText etProductName, etDeliverLocation, etPrice, etCrossedPrice, etDescription, etDiscount, etarea_location, etpincode, etaddress;
-    ImageView uploadButton;
+    private ArrayList<Comapany> companyList = new ArrayList<>();
     File docFile = new File("");
     public ArrayList<ProductMediaData> productMediaDatas = new ArrayList<>();
-    LinearLayoutManager layoutManager;
     RecyclerView recyclerView;
     ProductImagesAdapter adapter;
-    Bitmap imageForPreview;
-    int values_count = 0;
     ArrayList<Bitmap> multiple_images;
-    RelativeLayout rl_layout1_saveandcontinue_container;
     List<Telephony.Mms.Part> files_image = new ArrayList();
     private GeoCoderAddress GeocoderAsync;
     private int current_state_index;
     private int step1FieldsSet=-1;
     RelativeLayout relativeImage;
-    EditText etproductname,et_product_price,et_product_price_discount;
-
+    EditText etproductname,et_product_price,et_product_price_discount,et__product_weight,et_description,et_maxorderquantity,et_product_length,et_product_width,et_product_height;
+    TextView tvplaceOrder;
+    List<Part> files = new ArrayList();
+    private AppSharedPreference app_sharedpreference;
+    private ProgressBarHandler p_handler;
+    private Context context;
+    Spinner spCompanyList,spUnitCategory;
+    private ArrayList<City> cityList = new ArrayList<>();
+    private ArrayList<City> unitList = new ArrayList<>();
+    String cityID,unitID;
 
 
 
@@ -393,15 +412,16 @@ public class AddProductActivity extends AppCompatActivity
     {
         p_handler.show();
 
-        for (int i = 0; i <productImagesDatas.size(); i++)
+        for (int i = 0; i <productMediaDatas.size(); i++)
         {
             if (i==0){
 
             }
             else
                 {
-                files.add(new FilePart("image[]", savebitmap(productImagesDatas.get(i).image_path)));
-                Log.e("sellDatas",files.toArray().toString());
+                        files.add(new FilePart("image[]", savebitmap(productMediaDatas.get(i).imagePath)));
+
+                    Log.e("sellDatas",files.toArray().toString());
             }
 
         }
