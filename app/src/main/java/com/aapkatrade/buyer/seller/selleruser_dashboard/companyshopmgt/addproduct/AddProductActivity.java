@@ -24,6 +24,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.AppSharedPreference;
+import com.aapkatrade.buyer.general.ConnetivityCheck;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.Validation;
@@ -185,8 +186,9 @@ public class AddProductActivity extends AppCompatActivity
                                     if (Validation.isNonEmptyStr(et_maxorderquantity.getText().toString()))
                                     {
 
+                                        //if (ConnetivityCheck.isNetworkAvailable())
                                          call_add_product_webservice();
-                                       // AndroidUtils.showToast(context,"Please Enter Product Weight");
+
                                     }
                                     else
                                     {
@@ -276,9 +278,8 @@ public class AddProductActivity extends AppCompatActivity
         recyclerView.setLayoutManager(gridLayoutManager);
 
         recyclerView.setVisibility(View.VISIBLE);
+
         recyclerView.setAdapter(adapter);
-
-
 
     }
 
@@ -403,8 +404,8 @@ public class AddProductActivity extends AppCompatActivity
                     }
                 }
             }
-            if (requestCode == 10) {
-
+            if (requestCode == 10)
+            {
                 AndroidUtils.showErrorLog(context, "docfile10", "Sachin sdnsdfjsd fsdjfsd fnmsdabf");
 
                 Bitmap photo = (Bitmap) data.getExtras().get("data");
@@ -500,7 +501,7 @@ public class AddProductActivity extends AppCompatActivity
 
                 System.out.println("result------------------------------" + result);
 
-                p_handler.show();
+                p_handler.hide();
                /* if (result != null)
                 {
                     if (result.get("error").getAsString().contains("false"))
