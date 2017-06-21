@@ -46,9 +46,7 @@ import com.aapkatrade.buyer.home.buyerregistration.entity.City;
 import com.aapkatrade.buyer.home.buyerregistration.spinner_adapter.SpCityAdapter;
 import com.aapkatrade.buyer.home.navigation.entity.Category;
 import com.aapkatrade.buyer.home.navigation.entity.SubCategory;
-import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.addproduct.ProductImagesAdapter;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.addproduct.ProductMediaData;
-import com.aapkatrade.buyer.user_dashboard.my_profile.MyProfileActivity;
 import com.afollestad.materialcamera.MaterialCamera;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
@@ -63,13 +61,9 @@ import com.koushikdutta.ion.Ion;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.net.URI;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 public class AddCompanyShopActivity extends AppCompatActivity {
     private Context context;
