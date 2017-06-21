@@ -54,7 +54,7 @@ public class CancelOrderDialog extends DialogFragment {
         this.container = container;
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         getDialog().getWindow().setBackgroundDrawableResource(R.drawable.rounded_dialog);
-
+        getDialog().getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
         initview(v);
 
         progressDialogHandler = new ProgressDialogHandler(getActivity());

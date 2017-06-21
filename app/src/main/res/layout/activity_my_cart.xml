@@ -129,6 +129,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/ten_dip"
                     android:visibility="invisible"
+                    app:cardBackgroundColor="@color/white"
                     >
 
                     <RelativeLayout
@@ -250,6 +251,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:visibility="invisible"
+            app:cardBackgroundColor="@color/white"
             >
 
             <LinearLayout

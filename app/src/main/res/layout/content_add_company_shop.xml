@@ -387,6 +387,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
+            app:cardBackgroundColor="@color/white"
+            app:cardElevation="@dimen/five_dip">
+
+
 
             android:orientation="vertical">
 
@@ -399,6 +403,7 @@
                 app:titleText="@string/bussiness_details">
 
             </com.aapkatrade.buyer.uicomponent.customcardview.CustomCardViewHeader>
+
 
 
             <LinearLayout
