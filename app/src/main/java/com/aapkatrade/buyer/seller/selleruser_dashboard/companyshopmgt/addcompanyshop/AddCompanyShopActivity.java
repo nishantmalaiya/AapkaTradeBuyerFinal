@@ -525,14 +525,10 @@ public class AddCompanyShopActivity extends AppCompatActivity {
             startActivityForResult(Intent.createChooser(in, "Select Multiple Picture From Gallery"), 11);
         } else
             {
-            Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-            takeVideoIntent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 30);
-            takeVideoIntent.putExtra(MediaStore.EXTRA_OUTPUT, Environment.getExternalStorageDirectory().getPath()+"videocapture_example.mp4");
-            startActivityForResult(Intent.createChooser(takeVideoIntent, "Capture Image from Camera"), 10);
-
+                in = new Intent();
+                in.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(Intent.createChooser(in, "Capture Image from Camera"), 10);
         }
-
-
     }
 
 
@@ -557,7 +553,8 @@ public class AddCompanyShopActivity extends AppCompatActivity {
         multiple_images = new ArrayList<>();
         AndroidUtils.showErrorLog(context, "hi", "requestCode : " + requestCode + "result code : " + resultCode);
         try {
-            if (requestCode == 11) {
+            if (requestCode == 11)
+            {
                 if (data.getClipData() != null) {
 
                     data.getClipData().getItemCount();
@@ -620,6 +617,7 @@ public class AddCompanyShopActivity extends AppCompatActivity {
 
 
                 }
+
             } else if (requestCode == 10) {
 
                 AndroidUtils.showErrorLog(context, "docfile10", "Sachin sdnsdfjsd fsdjfsd fnmsdabf");
@@ -639,10 +637,131 @@ public class AddCompanyShopActivity extends AppCompatActivity {
 
             }
 
+            if (requestCode == 12)
+            {
+                if (requestCode == RESULT_OK)
+                {
+                    Uri selectedImage = data.getData();
 
-            if (requestCode == 12) {
+                    if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
+                    {
+                        String wholeID = DocumentsContract.getDocumentId(selectedImage);
+
+                        String id = wholeID.split(":")[0];
+
+                        String[] column = { MediaStore.Video.Media.DATA };
+                        String sel = MediaStore.Video.Media._ID + "=?";
+
+                        Cursor cursor = context.getContentResolver().
+                                query(MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
+                                        column, sel, new String[]{ id }, null);
+
+                        int columnIndex = cursor.getColumnIndex(column[0]);
+
+                        if (cursor.moveToFirst())
+                        {
+                            String  selectedImagePath = cursor.getString(columnIndex);
+
+                          /*  //videofile=savevideo(videopath);
+                            Log.e("filePath", filePath);
+                            if (GeneralUtils.checkIfFileExistAndNotEmpty(filePath)) {
+                                new Video_compressor(this).execute();
+                            }
+                            else {
+                                Toast.makeText(getApplicationContext(), filePath + " not found", Toast.LENGTH_LONG).show();
+                            }
+                            */
+
+                            Bitmap thumb = ThumbnailUtils.createVideoThumbnail(selectedImagePath, MediaStore.Video.Thumbnails.MINI_KIND);
+
+
+                            File video_thumbnail = ImageUtils.getFile(context, thumb);
+                            File file = null;
+                            if (Validation.isNonEmptyStr(selectedImagePath)) {
+                                file = new File(selectedImagePath);
+                            }
+
+                            MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+                            //use one of overloaded setDataSource() functions to set your data source
+                            if (file != null)
+                                retriever.setDataSource(context, Uri.fromFile(file));
+                            String time = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
+                            long timeInMillisec = Long.parseLong(time);
+
+                            AndroidUtils.showToast(context, "timeInMillisec-------" + timeInMillisec);
+
+                            retriever.release();
+
+                            // edit_profilevideo_webservice(file,video_thumbnail);
+
+                            if (timeInMillisec >= 120000) {
+                                AndroidUtils.showToast(context, "Video timing should be between 30 to 120 second only");
+
+                            } else if (timeInMillisec <= 30000) {
+                                AndroidUtils.showToast(context, "Video timing should be between 30 to 120 second only");
+                            } else {
+                                productMediaDatas.add(new ProductMediaData("","",file, video_thumbnail.getAbsolutePath()));
+                                AndroidUtils.showErrorLog(context, "docfile", video_thumbnail.getAbsolutePath());
+
+                                adapter.notifyDataSetChanged();
+                                recyclerView.setVisibility(View.VISIBLE);
+                            }
+
+                        }
+
+                        cursor.close();
+                    }
+                    else
+                    {
+
+
+                        String selectedImagePath = ImageUtils.getVideoPath(context, selectedImage);
+
+                        Bitmap thumb = ThumbnailUtils.createVideoThumbnail(selectedImagePath, MediaStore.Video.Thumbnails.MINI_KIND);
+
+
+                        File video_thumbnail = ImageUtils.getFile(context, thumb);
+                        File file = null;
+                        if (Validation.isNonEmptyStr(selectedImagePath)) {
+                            file = new File(selectedImagePath);
+                        }
+
+                        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+                        //use one of overloaded setDataSource() functions to set your data source
+                        if (file != null)
+                            retriever.setDataSource(context, Uri.fromFile(file));
+                        String time = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
+                        long timeInMillisec = Long.parseLong(time);
+
+                        AndroidUtils.showToast(context, "timeInMillisec-------" + timeInMillisec);
+
+                        retriever.release();
+
+                        // edit_profilevideo_webservice(file,video_thumbnail);
+
+                        if (timeInMillisec >= 120000) {
+                            AndroidUtils.showToast(context, "Video timing should be between 30 to 120 second only");
+
+                        } else if (timeInMillisec <= 30000) {
+                            AndroidUtils.showToast(context, "Video timing should be between 30 to 120 second only");
+                        } else {
+                            productMediaDatas.add(new ProductMediaData("","",file, video_thumbnail.getAbsolutePath()));
+                            AndroidUtils.showErrorLog(context, "docfile", video_thumbnail.getAbsolutePath());
+
+                            adapter.notifyDataSetChanged();
+                            recyclerView.setVisibility(View.VISIBLE);
+                        }
+                    }
+
+
+                }
+
+
                 if (resultCode == RESULT_OK)
                 {
+
+
+
 
                     Uri selectedImage = data.getData();
                     AndroidUtils.showErrorLog(context, "-------Uri selectedImage = data.getData();---------" + selectedImage);
