@@ -110,7 +110,7 @@ public class CancelOrderFragment extends Fragment {
                                     String product_price = jsonObject2.get("product_price").getAsString();
 
                                     String product_qty = jsonObject2.get("product_qty").getAsString();
-                                    String image_url = jsonObject2.get("image_url").getAsString();
+                                    String image_url = jsonObject2.get("imageUrl").getAsString();
 
 //
                                     Log.e("image_url_orderList", image_url);
