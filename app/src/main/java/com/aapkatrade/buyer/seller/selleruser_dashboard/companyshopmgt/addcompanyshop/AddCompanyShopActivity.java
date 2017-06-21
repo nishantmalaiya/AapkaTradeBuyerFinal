@@ -4,15 +4,23 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.MediaMetadataRetriever;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.provider.Telephony;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatImageView;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -22,7 +30,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.AppSharedPreference;
@@ -31,16 +39,17 @@ import com.aapkatrade.buyer.general.Utils.ImageUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.Utils.adapter.CustomSimpleListAdapter;
 import com.aapkatrade.buyer.general.Utils.adapter.CustomSpinnerAdapter;
+import com.aapkatrade.buyer.general.Validation;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
 import com.aapkatrade.buyer.home.HomeActivity;
 import com.aapkatrade.buyer.home.buyerregistration.entity.City;
 import com.aapkatrade.buyer.home.buyerregistration.spinner_adapter.SpCityAdapter;
 import com.aapkatrade.buyer.home.navigation.entity.Category;
 import com.aapkatrade.buyer.home.navigation.entity.SubCategory;
-import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.CompanyShopImagesAdapter;
-import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.addproduct.AddProductActivity;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.addproduct.ProductImagesAdapter;
-import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.addproduct.ProductImagesData;
+import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.addproduct.ProductMediaData;
+import com.aapkatrade.buyer.user_dashboard.my_profile.MyProfileActivity;
+import com.afollestad.materialcamera.MaterialCamera;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.common.api.Status;
@@ -54,9 +63,13 @@ import com.koushikdutta.ion.Ion;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.net.URI;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class AddCompanyShopActivity extends AppCompatActivity {
     private Context context;
@@ -70,16 +83,17 @@ public class AddCompanyShopActivity extends AppCompatActivity {
     private ArrayList<SubCategory> listDataChild = new ArrayList<>();
     private EditText tvAreaLocation;
     File docFile = new File("");
-    public ArrayList<ProductImagesData> productImagesDatas = new ArrayList<>();
+    public ArrayList<ProductMediaData> productMediaDatas = new ArrayList<>();
     LinearLayoutManager layoutManager;
     RecyclerView recyclerView;
-    CompanyShopImagesAdapter adapter;
+    ProductImagesAdapter adapter;
     Bitmap imageForPreview;
     int values_count = 0;
     ArrayList<Bitmap> multiple_images;
     RelativeLayout rl_layout1_saveandcontinue_container;
     List<Telephony.Mms.Part> files_image = new ArrayList();
     RelativeLayout relativeImage;
+    String videoPath;
 
 
     @Override
@@ -93,12 +107,12 @@ public class AddCompanyShopActivity extends AppCompatActivity {
         getCategory();
         getServiceType();
         clickevents();
-        relativeImage.setOnClickListener(new View.OnClickListener() {
+        /*relativeImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 picPhoto();
             }
-        });
+        });*/
         setupRecyclerView();
     }
 
@@ -112,7 +126,8 @@ public class AddCompanyShopActivity extends AppCompatActivity {
     }
 
 
-    private void initView() {
+    private void initView()
+    {
         progressBarHandler = new ProgressBarHandler(context);
         appSharedPreference = new AppSharedPreference(context);
         userId = appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString());
@@ -125,7 +140,7 @@ public class AddCompanyShopActivity extends AppCompatActivity {
         findViewById(R.id.input_layout_sub_category).setVisibility(View.GONE);
         findViewById(R.id.input_layout_city).setVisibility(View.GONE);
 
-        relativeImage = (RelativeLayout) findViewById(R.id.relativeImage);
+//        relativeImage = (RelativeLayout) findViewById(R.id.relativeImage);
     }
 
 
@@ -157,7 +172,8 @@ public class AddCompanyShopActivity extends AppCompatActivity {
     }
 
 
-    private void getState() {
+    private void getState()
+    {
 
         stateList = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.state_list)));
         stateIds = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.state_ids)));
@@ -401,55 +417,133 @@ public class AddCompanyShopActivity extends AppCompatActivity {
     }
 
 
-    private void setupRecyclerView() {
+    /*private void setupRecyclerView() {
         recyclerView = (RecyclerView) findViewById(R.id.recycler);
-
-        productImagesDatas.add(new ProductImagesData("first", ""));
-
-        adapter = new CompanyShopImagesAdapter(context, productImagesDatas,AddCompanyShopActivity.this);
+        adapter = new ProductImagesAdapter(context, productMediaDatas, this);
         layoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setVisibility(View.INVISIBLE);
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
+    }*/
+
+
+    private void setupRecyclerView() {
+        recyclerView = (RecyclerView) findViewById(R.id.recycler);
+
+        productMediaDatas.add(new ProductMediaData("first", "",null,""));
+
+        adapter = new ProductImagesAdapter(context, productMediaDatas, this);
+
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
+
+        recyclerView.setLayoutManager(gridLayoutManager);
+        recyclerView.setVisibility(View.VISIBLE);
+        recyclerView.setAdapter(adapter);
+
+
     }
 
 
-    void picPhoto()
-    {
-        String str[] = new String[]{"Camera", "Gallery"};
-        new AlertDialog.Builder(this).setItems(str,
+    public void picPhoto() {
+        String str[] = new String[]{"Image", "Video"};
+        new AlertDialog.Builder(context).setItems(str,
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        performImgPicAction(which);
+                        String str1[] = new String[]{"Capture", "Upload"};
+                        if (which == 0) {
+
+                            new AlertDialog.Builder(context).setItems(str1,
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            performImgPicAction(which);
+                                        }
+                                    }).show();
+
+                        } else {
+                            new AlertDialog.Builder(context).setItems(str1,
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            performVideoAction(which);
+                                        }
+                                    }).show();
+                        }
                     }
                 }).show();
 
     }
 
-    void performImgPicAction(int which) {
+    private void performVideoAction(int which)
+    {
+        Intent in;
+        if (which == 1) {
+            in = new Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI);
+            in.setAction(Intent.ACTION_GET_CONTENT);
+            startActivityForResult(Intent.createChooser(in, "Select Video From Gallery"), 12);
+        } else {
+
+            in = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+            in.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 80);
+            in.putExtra(MediaStore.EXTRA_OUTPUT, Environment.getExternalStorageDirectory().getPath()+"videocapture_example.mp4");
+
+            startActivityForResult(Intent.createChooser(in, "Capture Video From Camera"), 13);
+
+            /*try {
+                // code buggy code
+                File saveDir = null;
+                saveDir = new File(Environment.getExternalStorageDirectory(), "MaterialCamera");
+                saveDir.mkdirs();
+
+                MaterialCamera materialCamera = new MaterialCamera(AddCompanyShopActivity.this)
+                        .saveDir(saveDir)
+                        .showPortraitWarning(true)
+                        .allowRetry(true)
+                        .countdownMinutes(1.25f)
+                        .countdownImmediately(false)
+                        .videoFrameRate(24)                                // Sets a custom frame rate (FPS) for video recording.
+                        .qualityProfile(MaterialCamera.QUALITY_HIGH)       // Sets a quality profile, manually setting bit rates or frame rates with other settings will overwrite individual quality profile settings
+                        .videoPreferredHeight(240)                         // Sets a preferred height for the recorded video output.
+                        .videoPreferredAspect(4f / 3f)                     // Sets a preferred aspect ratio for the recorded video output.
+                        //.maxAllowedFileSize(1024 * 1024 * 2)
+                        .defaultToFrontFacing(true);
+
+                // .labelConfirm(R.string.mcam_use_video);
+
+                materialCamera.start(13);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }*/
+        }
+    }
+
+    private void performImgPicAction(int which) {
         Intent in;
         if (which == 1) {
             in = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            in.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                in.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+            }
             in.setAction(Intent.ACTION_GET_CONTENT);
             startActivityForResult(Intent.createChooser(in, "Select Multiple Picture From Gallery"), 11);
-        } else {
+        } else
+            {
+            Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+            takeVideoIntent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 30);
+            takeVideoIntent.putExtra(MediaStore.EXTRA_OUTPUT, Environment.getExternalStorageDirectory().getPath()+"videocapture_example.mp4");
+            startActivityForResult(Intent.createChooser(takeVideoIntent, "Capture Image from Camera"), 10);
 
-            in = new Intent();
-            in.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
-            startActivityForResult(Intent.createChooser(in, "Capture Image from Camera"), 10);
         }
 
 
     }
 
 
-
-
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
         if (requestCode == 1) {
             if (resultCode == RESULT_OK) {
                 progressBarHandler.show();
@@ -492,12 +586,12 @@ public class AddCompanyShopActivity extends AppCompatActivity {
                             AndroidUtils.showErrorLog(context, "doc", " else doc file path" + docFile.getAbsolutePath());
                         }
 
-                        productImagesDatas.add(new ProductImagesData(docFile.getAbsolutePath(), ""));
+                        productMediaDatas.add(new ProductMediaData(docFile.getAbsolutePath(), "",null,""));
                         AndroidUtils.showErrorLog(context, "docfile", docFile.getAbsolutePath());
 
 
                         adapter.notifyDataSetChanged();
-                        if (productImagesDatas.size() > 0) {
+                        if (productMediaDatas.size() > 0) {
                             recyclerView.setVisibility(View.VISIBLE);
 
                         }
@@ -516,11 +610,11 @@ public class AddCompanyShopActivity extends AppCompatActivity {
                         // CALL THIS METHOD TO GET THE ACTUAL PATH
                         File finalFile = new File(ImageUtils.getRealPathFromURI(context, tempUri));
 
-                        productImagesDatas.add(new ProductImagesData(finalFile.getAbsolutePath(), ""));
+                        productMediaDatas.add(new ProductMediaData(finalFile.getAbsolutePath(), "",null,""));
                         AndroidUtils.showErrorLog(context, "docfile", finalFile.getAbsolutePath());
 
                         adapter.notifyDataSetChanged();
-                        if (productImagesDatas.size() > 0) {
+                        if (productMediaDatas.size() > 0) {
                             recyclerView.setVisibility(View.VISIBLE);
 
                         }
@@ -531,8 +625,7 @@ public class AddCompanyShopActivity extends AppCompatActivity {
 
 
                 }
-            }
-            if (requestCode == 10) {
+            } else if (requestCode == 10) {
 
                 AndroidUtils.showErrorLog(context, "docfile10", "Sachin sdnsdfjsd fsdjfsd fnmsdabf");
 
@@ -543,7 +636,7 @@ public class AddCompanyShopActivity extends AppCompatActivity {
                 // CALL THIS METHOD TO GET THE ACTUAL PATH
                 File finalFile = new File(ImageUtils.getRealPathFromURI(context, tempUri));
 
-                productImagesDatas.add(new ProductImagesData(finalFile.getAbsolutePath(), ""));
+                productMediaDatas.add(new ProductMediaData(finalFile.getAbsolutePath(), "",null,""));
                 AndroidUtils.showErrorLog(context, "docfile", finalFile.getAbsolutePath());
 
                 adapter.notifyDataSetChanged();
@@ -552,6 +645,120 @@ public class AddCompanyShopActivity extends AppCompatActivity {
             }
 
 
+            if (requestCode == 12) {
+                if (resultCode == RESULT_OK)
+                {
+
+                    Uri selectedImage = data.getData();
+                    AndroidUtils.showErrorLog(context, "-------Uri selectedImage = data.getData();---------" + selectedImage);
+
+                    String video_file = selectedImage.toString().replace("file://","");
+
+                    AndroidUtils.showToast(context, "selectedImage----------------" + selectedImage);
+                    AndroidUtils.showErrorLog(context, "--------selectedImage.toString().replace--------" + video_file);
+
+                    selectedImage = Uri.parse(video_file);
+                    AndroidUtils.showErrorLog(context, "--------selectedImagePath-------" + video_file);
+                    String selectedImagePath = ImageUtils.getVideoPath(context, selectedImage);
+
+                   AndroidUtils.showToast(context, "selectedImagePath----------------" + selectedImagePath);
+
+                    Bitmap thumb = ThumbnailUtils.createVideoThumbnail(selectedImagePath, MediaStore.Video.Thumbnails.MINI_KIND);
+
+                    // imageViewProfile.setImageBitmap(thumb);
+
+                    File video_thumbnail = ImageUtils.getFile(context, thumb);
+                    File file = null;
+                    if (Validation.isNonEmptyStr(selectedImagePath)) {
+                        file = new File(selectedImagePath);
+                    }
+
+                    MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+                    //use one of overloaded setDataSource() functions to set your data source
+                    if (file != null)
+                        retriever.setDataSource(context, Uri.fromFile(file));
+                    String time = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
+                    long timeInMillisec = Long.parseLong(time);
+
+                   AndroidUtils.showToast(context, "timeInMillisec-------" + timeInMillisec);
+
+                    retriever.release();
+
+                    // edit_profilevideo_webservice(file,video_thumbnail);
+
+                    if (timeInMillisec >= 120000) {
+                        AndroidUtils.showToast(context, "Video timing should be between 30 to 120 second only");
+
+                    } else if (timeInMillisec <= 30000) {
+                        AndroidUtils.showToast(context, "Video timing should be between 30 to 120 second only");
+                    } else {
+                        productMediaDatas.add(new ProductMediaData("","",file, video_thumbnail.getAbsolutePath()));
+                        AndroidUtils.showErrorLog(context, "docfile", video_thumbnail.getAbsolutePath());
+
+                        adapter.notifyDataSetChanged();
+                        recyclerView.setVisibility(View.VISIBLE);                    }
+                }
+            } else if (requestCode == 13)
+            {
+
+                System.out.println("Saved Video ================="+data.getData().getPath());
+
+                if (resultCode == RESULT_OK)
+                {
+
+                    Uri vid = data.getData();
+                    videoPath =ImageUtils.getRealPathFromURI(context,vid);
+
+                    AndroidUtils.showErrorLog(context,"file.getAbsolutePath()",videoPath);
+
+                    final File file = new File(videoPath);
+
+                    AndroidUtils.showErrorLog(context,"file.getAbsolutePath()",file.getAbsolutePath());
+
+                    //Toast.makeText(this, String.format("Saved to: %s, size: %s", file.getAbsolutePath(), fileSize(file)), Toast.LENGTH_LONG).show();
+                    //Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+                    Bitmap thumb = ThumbnailUtils.createVideoThumbnail(file.getAbsolutePath(), MediaStore.Video.Thumbnails.MINI_KIND);
+
+                    File videothumbnail = ImageUtils.getFile(context, thumb);
+
+                    MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+                    //use one of overloaded setDataSource() functions to set your data source
+                    retriever.setDataSource(context, Uri.fromFile(file));
+                    String time = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
+                    long timeInMillisec = Long.parseLong(time);
+
+                    System.out.println("timeInMillisec-------" + timeInMillisec);
+
+                    retriever.release();
+
+
+                    if (timeInMillisec >= 120000) {
+
+                        AndroidUtils.showToast(context, "Video timing should be between 30 to 120 second only");
+
+                    } else if (timeInMillisec <= 30000) {
+
+
+                        AndroidUtils.showToast(context, "Video timing should be between 30 to 120 second only");
+                    } else {
+
+                        productMediaDatas.add(new ProductMediaData("","",file, videothumbnail.getAbsolutePath()));
+                        AndroidUtils.showErrorLog(context, "docfile", videothumbnail.getAbsolutePath());
+
+                        adapter.notifyDataSetChanged();
+                        recyclerView.setVisibility(View.VISIBLE);
+
+                    }
+
+                } else if (data != null) {
+                    Exception e = (Exception) data.getSerializableExtra(MaterialCamera.ERROR_EXTRA);
+                    if (e != null) {
+                        e.printStackTrace();
+                        Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                }
+
+            }
 
 
         } catch (Exception e) {
@@ -561,4 +768,58 @@ public class AddCompanyShopActivity extends AppCompatActivity {
 
 
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    public String generatePath(Uri uri, Context context) {
+        String filePath = null;
+        final boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
+        if(isKitKat){
+            filePath = generateFromKitkat(uri,context);
+        }
+
+        if(filePath != null){
+            return filePath;
+        }
+
+        Cursor cursor = context.getContentResolver().query(uri, new String[] { MediaStore.MediaColumns.DATA }, null, null, null);
+
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
+                filePath = cursor.getString(columnIndex);
+            }
+            cursor.close();
+        }
+        return filePath == null ? uri.getPath() : filePath;
+    }
+
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    private String generateFromKitkat(Uri uri, Context context){
+        String filePath = null;
+        if(DocumentsContract.isDocumentUri(context, uri)){
+            String wholeID = DocumentsContract.getDocumentId(uri);
+
+            String id = wholeID.split(":")[1];
+
+            String[] column = { MediaStore.Images.Media.DATA };
+            String sel = MediaStore.Audio.Media._ID + "=?";
+
+            Cursor cursor = context.getContentResolver().
+                    query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                            column, sel, new String[]{ id }, null);
+
+
+
+            int columnIndex = cursor.getColumnIndex(column[0]);
+
+            if (cursor.moveToFirst()) {
+                filePath = cursor.getString(columnIndex);
+            }
+
+            cursor.close();
+        }
+        return filePath;
+    }
+
 }
+
