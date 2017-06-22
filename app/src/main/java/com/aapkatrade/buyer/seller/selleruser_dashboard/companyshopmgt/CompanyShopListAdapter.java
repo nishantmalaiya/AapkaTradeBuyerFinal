@@ -63,13 +63,8 @@ public class CompanyShopListAdapter extends RecyclerView.Adapter<CompanyShopData
             //noinspection deprecation
             holder.tvCompanyShop.setText(Html.fromHtml(tvData));
         }
-        holder.rlAddProduct.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-            }
-        });
-        holder.rlEdit.setOnClickListener(new View.OnClickListener() {
+        holder.imageViewEditCompany.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
