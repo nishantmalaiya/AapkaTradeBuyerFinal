@@ -1,6 +1,7 @@
 package com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.addcompanyshop;
 
 import android.app.Activity;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -62,6 +63,7 @@ import com.koushikdutta.ion.Ion;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -555,7 +557,8 @@ public class AddCompanyShopActivity extends AppCompatActivity {
         try {
             if (requestCode == 11)
             {
-                if (data.getClipData() != null) {
+                if (data.getClipData() != null)
+                {
 
                     data.getClipData().getItemCount();
 
@@ -618,7 +621,8 @@ public class AddCompanyShopActivity extends AppCompatActivity {
 
                 }
 
-            } else if (requestCode == 10) {
+            } else if (requestCode == 10)
+            {
 
                 AndroidUtils.showErrorLog(context, "docfile10", "Sachin sdnsdfjsd fsdjfsd fnmsdabf");
 
@@ -639,179 +643,55 @@ public class AddCompanyShopActivity extends AppCompatActivity {
 
             if (requestCode == 12)
             {
-                if (requestCode == RESULT_OK)
-                {
-                    Uri selectedImage = data.getData();
-
-                    if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
-                    {
-                        String wholeID = DocumentsContract.getDocumentId(selectedImage);
-
-                        String id = wholeID.split(":")[0];
-
-                        String[] column = { MediaStore.Video.Media.DATA };
-                        String sel = MediaStore.Video.Media._ID + "=?";
-
-                        Cursor cursor = context.getContentResolver().
-                                query(MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
-                                        column, sel, new String[]{ id }, null);
-
-                        int columnIndex = cursor.getColumnIndex(column[0]);
-
-                        if (cursor.moveToFirst())
-                        {
-                            String  selectedImagePath = cursor.getString(columnIndex);
-
-                          /*  //videofile=savevideo(videopath);
-                            Log.e("filePath", filePath);
-                            if (GeneralUtils.checkIfFileExistAndNotEmpty(filePath)) {
-                                new Video_compressor(this).execute();
-                            }
-                            else {
-                                Toast.makeText(getApplicationContext(), filePath + " not found", Toast.LENGTH_LONG).show();
-                            }
-                            */
-
-                            Bitmap thumb = ThumbnailUtils.createVideoThumbnail(selectedImagePath, MediaStore.Video.Thumbnails.MINI_KIND);
-
-
-                            File video_thumbnail = ImageUtils.getFile(context, thumb);
-                            File file = null;
-                            if (Validation.isNonEmptyStr(selectedImagePath)) {
-                                file = new File(selectedImagePath);
-                            }
-
-                            MediaMetadataRetriever retriever = new MediaMetadataRetriever();
-                            //use one of overloaded setDataSource() functions to set your data source
-                            if (file != null)
-                                retriever.setDataSource(context, Uri.fromFile(file));
-                            String time = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
-                            long timeInMillisec = Long.parseLong(time);
-
-                            AndroidUtils.showToast(context, "timeInMillisec-------" + timeInMillisec);
-
-                            retriever.release();
-
-                            // edit_profilevideo_webservice(file,video_thumbnail);
-
-                            if (timeInMillisec >= 120000) {
-                                AndroidUtils.showToast(context, "Video timing should be between 30 to 120 second only");
-
-                            } else if (timeInMillisec <= 30000) {
-                                AndroidUtils.showToast(context, "Video timing should be between 30 to 120 second only");
-                            } else {
-                                productMediaDatas.add(new ProductMediaData("","",file, video_thumbnail.getAbsolutePath()));
-                                AndroidUtils.showErrorLog(context, "docfile", video_thumbnail.getAbsolutePath());
-
-                                adapter.notifyDataSetChanged();
-                                recyclerView.setVisibility(View.VISIBLE);
-                            }
-
-                        }
-
-                        cursor.close();
-                    }
-                    else
-                    {
-
-
-                        String selectedImagePath = ImageUtils.getVideoPath(context, selectedImage);
-
-                        Bitmap thumb = ThumbnailUtils.createVideoThumbnail(selectedImagePath, MediaStore.Video.Thumbnails.MINI_KIND);
-
-
-                        File video_thumbnail = ImageUtils.getFile(context, thumb);
-                        File file = null;
-                        if (Validation.isNonEmptyStr(selectedImagePath)) {
-                            file = new File(selectedImagePath);
-                        }
-
-                        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
-                        //use one of overloaded setDataSource() functions to set your data source
-                        if (file != null)
-                            retriever.setDataSource(context, Uri.fromFile(file));
-                        String time = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
-                        long timeInMillisec = Long.parseLong(time);
-
-                        AndroidUtils.showToast(context, "timeInMillisec-------" + timeInMillisec);
-
-                        retriever.release();
-
-                        // edit_profilevideo_webservice(file,video_thumbnail);
-
-                        if (timeInMillisec >= 120000) {
-                            AndroidUtils.showToast(context, "Video timing should be between 30 to 120 second only");
-
-                        } else if (timeInMillisec <= 30000) {
-                            AndroidUtils.showToast(context, "Video timing should be between 30 to 120 second only");
-                        } else {
-                            productMediaDatas.add(new ProductMediaData("","",file, video_thumbnail.getAbsolutePath()));
-                            AndroidUtils.showErrorLog(context, "docfile", video_thumbnail.getAbsolutePath());
-
-                            adapter.notifyDataSetChanged();
-                            recyclerView.setVisibility(View.VISIBLE);
-                        }
-                    }
-
-
-                }
-
-
-                if (resultCode == RESULT_OK)
-                {
-
-
 
 
                     Uri selectedImage = data.getData();
-                    AndroidUtils.showErrorLog(context, "-------Uri selectedImage = data.getData();---------" + selectedImage);
 
-                    String video_file = selectedImage.toString().replace("file://","");
+                     System.out.println("selectedImage----"+selectedImage);
 
-                    AndroidUtils.showToast(context, "selectedImage----------------" + selectedImage);
-                    AndroidUtils.showErrorLog(context, "--------selectedImage.toString().replace--------" + video_file);
+                    AndroidUtils.showToast(context,selectedImage.toString());
 
-                    selectedImage = Uri.parse(video_file);
-                    AndroidUtils.showErrorLog(context, "--------selectedImagePath-------" + video_file);
-                    String selectedImagePath = ImageUtils.getVideoPath(context, selectedImage);
+                 String selectedImagePath = getPath(context, selectedImage);
 
-                   AndroidUtils.showToast(context, "selectedImagePath----------------" + selectedImagePath);
+                AndroidUtils.showToast(context, "selectedImagePath----------------" + selectedImagePath);
 
-                    Bitmap thumb = ThumbnailUtils.createVideoThumbnail(selectedImagePath, MediaStore.Video.Thumbnails.MINI_KIND);
+                Bitmap thumb = ThumbnailUtils.createVideoThumbnail(selectedImagePath, MediaStore.Video.Thumbnails.MINI_KIND);
 
-                    // imageViewProfile.setImageBitmap(thumb);
+                // imageViewProfile.setImageBitmap(thumb);
 
-                    File video_thumbnail = ImageUtils.getFile(context, thumb);
-                    File file = null;
-                    if (Validation.isNonEmptyStr(selectedImagePath)) {
-                        file = new File(selectedImagePath);
-                    }
-
-                    MediaMetadataRetriever retriever = new MediaMetadataRetriever();
-                    //use one of overloaded setDataSource() functions to set your data source
-                    if (file != null)
-                        retriever.setDataSource(context, Uri.fromFile(file));
-                    String time = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
-                    long timeInMillisec = Long.parseLong(time);
-
-                   AndroidUtils.showToast(context, "timeInMillisec-------" + timeInMillisec);
-
-                    retriever.release();
-
-                    // edit_profilevideo_webservice(file,video_thumbnail);
-
-                    if (timeInMillisec >= 120000) {
-                        AndroidUtils.showToast(context, "Video timing should be between 30 to 120 second only");
-
-                    } else if (timeInMillisec <= 30000) {
-                        AndroidUtils.showToast(context, "Video timing should be between 30 to 120 second only");
-                    } else {
-                        productMediaDatas.add(new ProductMediaData("","",file, video_thumbnail.getAbsolutePath()));
-                        AndroidUtils.showErrorLog(context, "docfile", video_thumbnail.getAbsolutePath());
-
-                        adapter.notifyDataSetChanged();
-                        recyclerView.setVisibility(View.VISIBLE);                    }
+                File video_thumbnail = ImageUtils.getFile(context, thumb);
+                File file = null;
+                if (Validation.isNonEmptyStr(selectedImagePath)) {
+                    file = new File(selectedImagePath);
                 }
+
+                MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+                //use one of overloaded setDataSource() functions to set your data source
+                if (file != null)
+                    retriever.setDataSource(context, Uri.fromFile(file));
+                String time = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
+                long timeInMillisec = Long.parseLong(time);
+
+                AndroidUtils.showToast(context, "timeInMillisec-------" + timeInMillisec);
+
+                retriever.release();
+
+                // edit_profilevideo_webservice(file,video_thumbnail);
+
+                if (timeInMillisec >= 120000) {
+                    AndroidUtils.showToast(context, "Video timing should be between 30 to 120 second only");
+
+                } else if (timeInMillisec <= 30000) {
+                    AndroidUtils.showToast(context, "Video timing should be between 30 to 120 second only");
+                } else {
+                    productMediaDatas.add(new ProductMediaData("","",file, video_thumbnail.getAbsolutePath()));
+                    AndroidUtils.showErrorLog(context, "docfile", video_thumbnail.getAbsolutePath());
+
+                    adapter.notifyDataSetChanged();
+                    recyclerView.setVisibility(View.VISIBLE);
+                }
+
+
             } else if (requestCode == 13)
             {
 
@@ -934,5 +814,157 @@ public class AddCompanyShopActivity extends AppCompatActivity {
         }
         return filePath;
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public static String getPath(final Context context, final Uri uri) {
+
+        final boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
+
+        // DocumentProvider
+        if (isKitKat && DocumentsContract.isDocumentUri(context, uri)) {
+            // ExternalStorageProvider
+            if (isExternalStorageDocument(uri)) {
+                final String docId = DocumentsContract.getDocumentId(uri);
+                final String[] split = docId.split(":");
+                final String type = split[0];
+
+                if ("primary".equalsIgnoreCase(type)) {
+                    return Environment.getExternalStorageDirectory() + "/" + split[1];
+                }
+
+                // TODO handle non-primary volumes
+            }
+            // DownloadsProvider
+            else if (isDownloadsDocument(uri)) {
+
+                final String id = DocumentsContract.getDocumentId(uri);
+                final Uri contentUri = ContentUris.withAppendedId(
+                        Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
+
+                return getDataColumn(context, contentUri, null, null);
+            }
+            // MediaProvider
+            else if (isMediaDocument(uri)) {
+                final String docId = DocumentsContract.getDocumentId(uri);
+                final String[] split = docId.split(":");
+                final String type = split[0];
+
+                Uri contentUri = null;
+                if ("image".equals(type)) {
+                    contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+                } else if ("video".equals(type)) {
+                    contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+                } else if ("audio".equals(type)) {
+                    contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+                }
+
+                final String selection = "_id=?";
+                final String[] selectionArgs = new String[] {
+                        split[1]
+                };
+
+                return getDataColumn(context, contentUri, selection, selectionArgs);
+            }
+        }
+        // MediaStore (and general)
+        else if ("content".equalsIgnoreCase(uri.getScheme())) {
+
+            // Return the remote address
+            if (isGooglePhotosUri(uri))
+                return uri.getLastPathSegment();
+
+            return getDataColumn(context, uri, null, null);
+        }
+        // File
+        else if ("file".equalsIgnoreCase(uri.getScheme())) {
+            return uri.getPath();
+        }
+
+        return null;
+    }
+
+    /**
+     * Get the value of the data column for this Uri. This is useful for
+     * MediaStore Uris, and other file-based ContentProviders.
+     *
+     * @param context The context.
+     * @param uri The Uri to query.
+     * @param selection (Optional) Filter used in the query.
+     * @param selectionArgs (Optional) Selection arguments used in the query.
+     * @return The value of the _data column, which is typically a file path.
+     */
+    public static String getDataColumn(Context context, Uri uri, String selection,
+                                       String[] selectionArgs) {
+
+        Cursor cursor = null;
+        final String column = "_data";
+        final String[] projection = {
+                column
+        };
+
+        try {
+            cursor = context.getContentResolver().query(uri, projection, selection, selectionArgs,
+                    null);
+            if (cursor != null && cursor.moveToFirst()) {
+                final int index = cursor.getColumnIndexOrThrow(column);
+                return cursor.getString(index);
+            }
+        } finally {
+            if (cursor != null)
+                cursor.close();
+        }
+        return null;
+    }
+
+
+    /**
+     * @param uri The Uri to check.
+     * @return Whether the Uri authority is ExternalStorageProvider.
+     */
+    public static boolean isExternalStorageDocument(Uri uri) {
+        return "com.android.externalstorage.documents".equals(uri.getAuthority());
+    }
+
+    /**
+     * @param uri The Uri to check.
+     * @return Whether the Uri authority is DownloadsProvider.
+     */
+    public static boolean isDownloadsDocument(Uri uri) {
+        return "com.android.providers.downloads.documents".equals(uri.getAuthority());
+    }
+
+    /**
+     * @param uri The Uri to check.
+     * @return Whether the Uri authority is MediaProvider.
+     */
+    public static boolean isMediaDocument(Uri uri) {
+        return "com.android.providers.media.documents".equals(uri.getAuthority());
+    }
+
+    /**
+     * @param uri The Uri to check.
+     * @return Whether the Uri authority is Google Photos.
+     */
+    public static boolean isGooglePhotosUri(Uri uri) {
+        return "com.google.android.apps.photos.content".equals(uri.getAuthority());
+    }
+
+
+
+
 
 }
