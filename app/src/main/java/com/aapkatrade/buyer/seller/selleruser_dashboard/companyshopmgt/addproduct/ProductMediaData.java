@@ -23,5 +23,25 @@ public class ProductMediaData {
         }
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ProductMediaData)) return false;
 
+        ProductMediaData that = (ProductMediaData) o;
+
+        if (isVideo != that.isVideo) return false;
+        return false;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = imagePath != null ? imagePath.hashCode() : 0;
+        result = 31 * result + (imageUrl != null ? imageUrl.hashCode() : 0);
+        result = 31 * result + (videoThumbnail != null ? videoThumbnail.hashCode() : 0);
+        result = 31 * result + (videoFile != null ? videoFile.hashCode() : 0);
+        result = 31 * result + (isVideo ? 1 : 0);
+        return result;
+    }
 }
