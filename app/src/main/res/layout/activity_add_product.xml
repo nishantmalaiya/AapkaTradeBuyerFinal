@@ -55,11 +55,11 @@
 
                        <ImageView
                            android:id="@+id/cardview_header_icon_left"
-                           android:layout_width="@dimen/thirty_dip"
+                           android:layout_width="@dimen/fourty_dip"
                            android:padding="@dimen/five_dip"
-                           android:layout_height="@dimen/thirty_dip"
+                           android:layout_height="@dimen/fourty_dip"
                            android:layout_margin="@dimen/ten_dip"
-                           android:src="@drawable/ic_edit_white" />
+                           android:src="@drawable/ic_product" />
 
                        <TextView
                            android:layout_width="wrap_content"
@@ -140,11 +140,11 @@
 
                         <ImageView
                             android:id="@+id/cardview_header_icon_left2"
-                            android:layout_width="@dimen/thirty_dip"
+                            android:layout_width="@dimen/fourty_dip"
                             android:padding="@dimen/five_dip"
-                            android:layout_height="@dimen/thirty_dip"
+                            android:layout_height="@dimen/fourty_dip"
                             android:layout_margin="@dimen/ten_dip"
-                            android:src="@drawable/ic_edit_white" />
+                            android:src="@drawable/ic_product_detail" />
 
                         <TextView
                             android:layout_width="wrap_content"

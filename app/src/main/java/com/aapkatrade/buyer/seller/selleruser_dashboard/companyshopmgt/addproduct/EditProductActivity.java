@@ -49,7 +49,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddProductActivity extends AppCompatActivity
+public class EditProductActivity extends AppCompatActivity
 {
 
     private TextView btnUpload;
@@ -87,7 +87,7 @@ public class AddProductActivity extends AppCompatActivity
         setContentView(R.layout.activity_add_product);
 
 
-        context = AddProductActivity.this;
+        context = EditProductActivity.this;
 
         app_sharedpreference = new AppSharedPreference(context);
 
@@ -115,7 +115,7 @@ public class AddProductActivity extends AppCompatActivity
 //            }
 //        });
 
-        context = AddProductActivity.this;
+        context = EditProductActivity.this;
 
        /* relativeImage = (RelativeLayout) findViewById(R.id.relativeImage);
 
@@ -126,8 +126,6 @@ public class AddProductActivity extends AppCompatActivity
             }
         });
       */
-
-        context = AddProductActivity.this;
 
 
         setUpToolBar();
@@ -194,7 +192,7 @@ public class AddProductActivity extends AppCompatActivity
                                         if (ConnetivityCheck.isNetworkAvailable(context)){
                                             call_add_product_webservice();
                                         }
-                                         else {
+                                        else {
 
                                             AndroidUtils.showToast(context,"Please Connect Netwrok");
                                         }
@@ -281,7 +279,7 @@ public class AddProductActivity extends AppCompatActivity
 
         productImagesDatas.add(new ProductMediaData("first", "",null,""));
 
-        adapter = new ProductImagesAdapter(AddProductActivity.this, productImagesDatas,this);
+        adapter = new ProductImagesAdapter(EditProductActivity.this, productImagesDatas,this);
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
 
@@ -419,7 +417,7 @@ public class AddProductActivity extends AppCompatActivity
 
                 Bitmap photo = (Bitmap) data.getExtras().get("data");
 
-                Uri tempUri = ImageUtils.getImageUri(AddProductActivity.this, photo);
+                Uri tempUri = ImageUtils.getImageUri(EditProductActivity.this, photo);
 
                 // CALL THIS METHOD TO GET THE ACTUAL PATH
                 File finalFile = new File(ImageUtils.getRealPathFromURI(context, tempUri));
@@ -487,7 +485,7 @@ public class AddProductActivity extends AppCompatActivity
 
         String url = getResources().getString(R.string.webservice_base_url) + "/add_product";
 
-        Ion.with(AddProductActivity.this)
+        Ion.with(EditProductActivity.this)
                 .load(url)
                 .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                 .addMultipartParts(files)
@@ -514,11 +512,11 @@ public class AddProductActivity extends AppCompatActivity
                 {
                     if (result.get("error").getAsString().contains("false"))
                     {
-                       AndroidUtils.showToast(context,result.get("message").getAsString());
+                        AndroidUtils.showToast(context,result.get("message").getAsString());
                     }
                 }
                 else
-                 {
+                {
                     AndroidUtils.showErrorLog(context, "hello2", e.toString());
                     p_handler.hide();
                 }
@@ -635,8 +633,5 @@ public class AddProductActivity extends AppCompatActivity
 
                 });
     }
-
-
-
 
 }
