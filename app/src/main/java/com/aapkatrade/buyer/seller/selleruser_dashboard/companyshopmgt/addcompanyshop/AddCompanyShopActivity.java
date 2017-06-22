@@ -63,7 +63,6 @@ import com.koushikdutta.ion.Ion;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -86,7 +85,7 @@ public class AddCompanyShopActivity extends AppCompatActivity {
     ProductImagesAdapter adapter;
     Bitmap imageForPreview;
     int values_count = 0;
-    ArrayList<Bitmap> multiple_images;
+    ArrayList<Bitmap> multipleImages;
     RelativeLayout rl_layout1_saveandcontinue_container;
     List<Telephony.Mms.Part> files_image = new ArrayList();
     RelativeLayout relativeImage;
@@ -123,8 +122,7 @@ public class AddCompanyShopActivity extends AppCompatActivity {
     }
 
 
-    private void initView()
-    {
+    private void initView() {
         progressBarHandler = new ProgressBarHandler(context);
         appSharedPreference = new AppSharedPreference(context);
         userId = appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString());
@@ -169,8 +167,7 @@ public class AddCompanyShopActivity extends AppCompatActivity {
     }
 
 
-    private void getState()
-    {
+    private void getState() {
 
         stateList = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.state_list)));
         stateIds = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.state_ids)));
@@ -428,7 +425,7 @@ public class AddCompanyShopActivity extends AppCompatActivity {
     private void setupRecyclerView() {
         recyclerView = (RecyclerView) findViewById(R.id.recycler);
 
-        productMediaDatas.add(new ProductMediaData("first", "",null,""));
+        productMediaDatas.add(new ProductMediaData("first", "", null, ""));
 
         adapter = new ProductImagesAdapter(context, productMediaDatas, this);
 
@@ -473,46 +470,17 @@ public class AddCompanyShopActivity extends AppCompatActivity {
 
     }
 
-    private void performVideoAction(int which)
-    {
+    private void performVideoAction(int which) {
         Intent in;
         if (which == 1) {
             in = new Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI);
             in.setAction(Intent.ACTION_GET_CONTENT);
             startActivityForResult(Intent.createChooser(in, "Select Video From Gallery"), 12);
         } else {
-
             in = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
             in.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 80);
-            in.putExtra(MediaStore.EXTRA_OUTPUT, Environment.getExternalStorageDirectory().getPath()+"videocapture_example.mp4");
-
+            in.putExtra(MediaStore.EXTRA_OUTPUT, Environment.getExternalStorageDirectory().getPath() + "videocapture_example.mp4");
             startActivityForResult(Intent.createChooser(in, "Capture Video From Camera"), 13);
-
-            /*try {
-                // code buggy code
-                File saveDir = null;
-                saveDir = new File(Environment.getExternalStorageDirectory(), "MaterialCamera");
-                saveDir.mkdirs();
-
-                MaterialCamera materialCamera = new MaterialCamera(AddCompanyShopActivity.this)
-                        .saveDir(saveDir)
-                        .showPortraitWarning(true)
-                        .allowRetry(true)
-                        .countdownMinutes(1.25f)
-                        .countdownImmediately(false)
-                        .videoFrameRate(24)                                // Sets a custom frame rate (FPS) for video recording.
-                        .qualityProfile(MaterialCamera.QUALITY_HIGH)       // Sets a quality profile, manually setting bit rates or frame rates with other settings will overwrite individual quality profile settings
-                        .videoPreferredHeight(240)                         // Sets a preferred height for the recorded video output.
-                        .videoPreferredAspect(4f / 3f)                     // Sets a preferred aspect ratio for the recorded video output.
-                        //.maxAllowedFileSize(1024 * 1024 * 2)
-                        .defaultToFrontFacing(true);
-
-                // .labelConfirm(R.string.mcam_use_video);
-
-                materialCamera.start(13);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }*/
         }
     }
 
@@ -525,21 +493,19 @@ public class AddCompanyShopActivity extends AppCompatActivity {
             }
             in.setAction(Intent.ACTION_GET_CONTENT);
             startActivityForResult(Intent.createChooser(in, "Select Multiple Picture From Gallery"), 11);
-        } else
-            {
-                in = new Intent();
-                in.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(Intent.createChooser(in, "Capture Image from Camera"), 10);
+        } else {
+            in = new Intent();
+            in.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
+            startActivityForResult(Intent.createChooser(in, "Capture Image from Camera"), 10);
         }
     }
 
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 1) {
             if (resultCode == RESULT_OK) {
-                progressBarHandler.show();
+                progressBarHandler.hide();
                 Place place = PlaceAutocomplete.getPlace(context, data);
                 tvAreaLocation.setText(place.getName());
             } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
@@ -552,13 +518,11 @@ public class AddCompanyShopActivity extends AppCompatActivity {
         }
 
 
-        multiple_images = new ArrayList<>();
+        multipleImages = new ArrayList<>();
         AndroidUtils.showErrorLog(context, "hi", "requestCode : " + requestCode + "result code : " + resultCode);
         try {
-            if (requestCode == 11)
-            {
-                if (data.getClipData() != null)
-                {
+            if (requestCode == 11) {
+                if (data.getClipData() != null) {
 
                     data.getClipData().getItemCount();
 
@@ -567,7 +531,7 @@ public class AddCompanyShopActivity extends AppCompatActivity {
                         Uri selectedImage = data.getClipData().getItemAt(k).getUri();
 
                         Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
-                        multiple_images.add(bitmap);
+                        multipleImages.add(bitmap);
 
 
                         AndroidUtils.showErrorLog(context, "doc", "***START.****** ");
@@ -581,9 +545,8 @@ public class AddCompanyShopActivity extends AppCompatActivity {
                             AndroidUtils.showErrorLog(context, "doc", " else doc file path" + docFile.getAbsolutePath());
                         }
 
-                        productMediaDatas.add(new ProductMediaData(docFile.getAbsolutePath(), "",null,""));
+                        productMediaDatas.add(new ProductMediaData(docFile.getAbsolutePath(), "", null, ""));
                         AndroidUtils.showErrorLog(context, "docfile", docFile.getAbsolutePath());
-
 
                         adapter.notifyDataSetChanged();
                         if (productMediaDatas.size() > 0) {
@@ -605,7 +568,7 @@ public class AddCompanyShopActivity extends AppCompatActivity {
                         // CALL THIS METHOD TO GET THE ACTUAL PATH
                         File finalFile = new File(ImageUtils.getRealPathFromURI(context, tempUri));
 
-                        productMediaDatas.add(new ProductMediaData(finalFile.getAbsolutePath(), "",null,""));
+                        productMediaDatas.add(new ProductMediaData(finalFile.getAbsolutePath(), "", null, ""));
                         AndroidUtils.showErrorLog(context, "docfile", finalFile.getAbsolutePath());
 
                         adapter.notifyDataSetChanged();
@@ -621,8 +584,7 @@ public class AddCompanyShopActivity extends AppCompatActivity {
 
                 }
 
-            } else if (requestCode == 10)
-            {
+            } else if (requestCode == 10) {
 
                 AndroidUtils.showErrorLog(context, "docfile10", "Sachin sdnsdfjsd fsdjfsd fnmsdabf");
 
@@ -633,7 +595,7 @@ public class AddCompanyShopActivity extends AppCompatActivity {
                 // CALL THIS METHOD TO GET THE ACTUAL PATH
                 File finalFile = new File(ImageUtils.getRealPathFromURI(context, tempUri));
 
-                productMediaDatas.add(new ProductMediaData(finalFile.getAbsolutePath(), "",null,""));
+                productMediaDatas.add(new ProductMediaData(finalFile.getAbsolutePath(), "", null, ""));
                 AndroidUtils.showErrorLog(context, "docfile", finalFile.getAbsolutePath());
 
                 adapter.notifyDataSetChanged();
@@ -641,17 +603,16 @@ public class AddCompanyShopActivity extends AppCompatActivity {
 
             }
 
-            if (requestCode == 12)
-            {
+            if (requestCode == 12) {
 
 
-                    Uri selectedImage = data.getData();
+                Uri selectedImage = data.getData();
 
-                     System.out.println("selectedImage----"+selectedImage);
+                System.out.println("selectedImage----" + selectedImage);
 
-                    AndroidUtils.showToast(context,selectedImage.toString());
+                AndroidUtils.showToast(context, selectedImage.toString());
 
-                 String selectedImagePath = getPath(context, selectedImage);
+                String selectedImagePath = getPath(context, selectedImage);
 
                 AndroidUtils.showToast(context, "selectedImagePath----------------" + selectedImagePath);
 
@@ -680,34 +641,39 @@ public class AddCompanyShopActivity extends AppCompatActivity {
 
                 if (timeInMillisec >= 120000) {
                     AndroidUtils.showToast(context, "Video timing should be between 30 to 120 second only");
-
                 } else if (timeInMillisec <= 30000) {
                     AndroidUtils.showToast(context, "Video timing should be between 30 to 120 second only");
                 } else {
-                    productMediaDatas.add(new ProductMediaData("","",file, video_thumbnail.getAbsolutePath()));
+                    if(!isVideoExists(productMediaDatas)){
+                        productMediaDatas.add(new ProductMediaData("", "", file, video_thumbnail.getAbsolutePath()));
+                    } else {
+                        for (int i = 0; i < productMediaDatas.size(); i++){
+                            if(productMediaDatas.get(i).isVideo) {
+                                productMediaDatas.get(i).videoFile = file;
+                                productMediaDatas.get(i).videoThumbnail = video_thumbnail.getAbsolutePath();
+                            }
+                        }
+                    }
                     AndroidUtils.showErrorLog(context, "docfile", video_thumbnail.getAbsolutePath());
-
                     adapter.notifyDataSetChanged();
                     recyclerView.setVisibility(View.VISIBLE);
                 }
 
 
-            } else if (requestCode == 13)
-            {
+            } else if (requestCode == 13) {
 
-                System.out.println("Saved Video ================="+data.getData().getPath());
+                System.out.println("Saved Video =================" + data.getData().getPath());
 
-                if (resultCode == RESULT_OK)
-                {
+                if (resultCode == RESULT_OK) {
 
                     Uri vid = data.getData();
-                    videoPath =ImageUtils.getRealPathFromURI(context,vid);
+                    videoPath = ImageUtils.getRealPathFromURI(context, vid);
 
-                    AndroidUtils.showErrorLog(context,"file.getAbsolutePath()",videoPath);
+                    AndroidUtils.showErrorLog(context, "file.getAbsolutePath()", videoPath);
 
                     final File file = new File(videoPath);
 
-                    AndroidUtils.showErrorLog(context,"file.getAbsolutePath()",file.getAbsolutePath());
+                    AndroidUtils.showErrorLog(context, "file.getAbsolutePath()", file.getAbsolutePath());
 
                     //Toast.makeText(this, String.format("Saved to: %s, size: %s", file.getAbsolutePath(), fileSize(file)), Toast.LENGTH_LONG).show();
                     //Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
@@ -735,8 +701,16 @@ public class AddCompanyShopActivity extends AppCompatActivity {
 
                         AndroidUtils.showToast(context, "Video timing should be between 30 to 120 second only");
                     } else {
-
-                        productMediaDatas.add(new ProductMediaData("","",file, videothumbnail.getAbsolutePath()));
+                        if(!isVideoExists(productMediaDatas)){
+                            productMediaDatas.add(new ProductMediaData("", "", file, videothumbnail.getAbsolutePath()));
+                        } else {
+                            for (int i = 0; i < productMediaDatas.size(); i++){
+                                if(productMediaDatas.get(i).isVideo) {
+                                    productMediaDatas.get(i).videoFile = file;
+                                    productMediaDatas.get(i).videoThumbnail = videothumbnail.getAbsolutePath();
+                                }
+                            }
+                        }
                         AndroidUtils.showErrorLog(context, "docfile", videothumbnail.getAbsolutePath());
 
                         adapter.notifyDataSetChanged();
@@ -761,20 +735,27 @@ public class AddCompanyShopActivity extends AppCompatActivity {
     }
 
 
+    private boolean isVideoExists(ArrayList<ProductMediaData> productMediaDataArrayList){
+        for (ProductMediaData productMediaData : productMediaDataArrayList){
+            if(productMediaData.isVideo) return true;
+        }
+        return false;
+    }
+
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public String generatePath(Uri uri, Context context) {
         String filePath = null;
         final boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
-        if(isKitKat){
-            filePath = generateFromKitkat(uri,context);
+        if (isKitKat) {
+            filePath = generateFromKitkat(uri, context);
         }
 
-        if(filePath != null){
+        if (filePath != null) {
             return filePath;
         }
 
-        Cursor cursor = context.getContentResolver().query(uri, new String[] { MediaStore.MediaColumns.DATA }, null, null, null);
+        Cursor cursor = context.getContentResolver().query(uri, new String[]{MediaStore.MediaColumns.DATA}, null, null, null);
 
         if (cursor != null) {
             if (cursor.moveToFirst()) {
@@ -788,20 +769,19 @@ public class AddCompanyShopActivity extends AppCompatActivity {
 
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    private String generateFromKitkat(Uri uri, Context context){
+    private String generateFromKitkat(Uri uri, Context context) {
         String filePath = null;
-        if(DocumentsContract.isDocumentUri(context, uri)){
+        if (DocumentsContract.isDocumentUri(context, uri)) {
             String wholeID = DocumentsContract.getDocumentId(uri);
 
             String id = wholeID.split(":")[1];
 
-            String[] column = { MediaStore.Images.Media.DATA };
+            String[] column = {MediaStore.Images.Media.DATA};
             String sel = MediaStore.Audio.Media._ID + "=?";
 
             Cursor cursor = context.getContentResolver().
                     query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                            column, sel, new String[]{ id }, null);
-
+                            column, sel, new String[]{id}, null);
 
 
             int columnIndex = cursor.getColumnIndex(column[0]);
@@ -814,20 +794,6 @@ public class AddCompanyShopActivity extends AppCompatActivity {
         }
         return filePath;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     public static String getPath(final Context context, final Uri uri) {
@@ -873,7 +839,7 @@ public class AddCompanyShopActivity extends AppCompatActivity {
                 }
 
                 final String selection = "_id=?";
-                final String[] selectionArgs = new String[] {
+                final String[] selectionArgs = new String[]{
                         split[1]
                 };
 
@@ -901,9 +867,9 @@ public class AddCompanyShopActivity extends AppCompatActivity {
      * Get the value of the data column for this Uri. This is useful for
      * MediaStore Uris, and other file-based ContentProviders.
      *
-     * @param context The context.
-     * @param uri The Uri to query.
-     * @param selection (Optional) Filter used in the query.
+     * @param context       The context.
+     * @param uri           The Uri to query.
+     * @param selection     (Optional) Filter used in the query.
      * @param selectionArgs (Optional) Selection arguments used in the query.
      * @return The value of the _data column, which is typically a file path.
      */
@@ -962,9 +928,6 @@ public class AddCompanyShopActivity extends AppCompatActivity {
     public static boolean isGooglePhotosUri(Uri uri) {
         return "com.google.android.apps.photos.content".equals(uri.getAuthority());
     }
-
-
-
 
 
 }

@@ -60,10 +60,9 @@ public class ProductImagesAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
-        AndroidUtils.showErrorLog(context, "Hi holder.getItemViewType() "+ holder.getItemViewType());
+        AndroidUtils.showErrorLog(context, "Hi holder.getItemViewType() " + holder.getItemViewType());
 
-        switch (holder.getItemViewType())
-        {
+        switch (holder.getItemViewType()) {
             case userAdded:
                 final ProductUserHolder homeHolder_User = (ProductUserHolder) holder;
 
@@ -85,8 +84,8 @@ public class ProductImagesAdapter extends RecyclerView.Adapter<RecyclerView.View
                 final ProductMediaHolder homeHolder = (ProductMediaHolder) holder;
                 AndroidUtils.showErrorLog(context, "itemimage", itemList.get(position).imagePath);
 
-                if (itemList.get(position).isVideo)
-                {
+                if (itemList.get(position).isVideo) {
+                    homeHolder.playImage.setVisibility(View.VISIBLE);
                     File imgFile = new File(itemList.get(position).videoThumbnail);
                     if (imgFile.exists()) {
                         Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
@@ -94,9 +93,7 @@ public class ProductImagesAdapter extends RecyclerView.Adapter<RecyclerView.View
                         homeHolder.previewImage.setImageDrawable(drawable);
                     }
 
-                }
-                else
-                    {
+                } else {
 
                     if (Validation.isEmptyStr(itemList.get(position).imagePath)) {
                         Ion.with(context)
@@ -119,8 +116,6 @@ public class ProductImagesAdapter extends RecyclerView.Adapter<RecyclerView.View
                     }
 
                 }
-
-
 
 
                 homeHolder.cancelImage.setOnClickListener(new View.OnClickListener() {
