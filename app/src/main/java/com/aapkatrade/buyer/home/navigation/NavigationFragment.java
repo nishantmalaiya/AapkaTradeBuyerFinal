@@ -330,18 +330,20 @@ public class NavigationFragment extends Fragment {
 
                                 Category Category = new Category(jsonObject1.get("id").getAsString(), jsonObject1.get("name").getAsString(), jsonObject1.get("icon").getAsString(), null);
                                 listDataHeader.add(Category);
-                                Log.e("data", Category.toString());
+                                AndroidUtils.showErrorLog(context, "Category data", Category.toString());
 
                             }
+                            setRecycleviewAdapter();
                         }
 
                     }
                 });
-        setRecycleviewAdapter();
     }
 
     private void setRecycleviewAdapter() {
+        AndroidUtils.showErrorLog(context, "LIST CATEGORY---------------", listDataHeader.toString());
         if (listDataHeader.size() != 0) {
+            AndroidUtils.showErrorLog(context, "LIST CATEGORY--------listDataHeader.size() != 0-------", listDataHeader.toString());
             category_adapter = new NavigationAdapter(context, listDataHeader);
             navigationRecycleview.setAdapter(category_adapter);
         }
