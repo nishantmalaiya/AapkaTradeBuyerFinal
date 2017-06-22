@@ -147,7 +147,7 @@ public class ParticularActivity extends AppCompatActivity {
 
                                     String shopLocation = jsonObject2.get("city_name").getAsString() + "," + jsonObject2.get("state_name").getAsString() + "," +
                                             jsonObject2.get("country_name").getAsString();
-                                    String shopImage = jsonObject2.get("imageUrl").getAsString();
+                                    String shopImage = jsonObject2.get("image_url").getAsString();
 
                                     String distance = jsonObject2.get("distance").getAsString();
 

@@ -568,7 +568,7 @@ public class ShopListByCategoryActivity extends AppCompatActivity {
             AndroidUtils.showErrorLog(context, "<--result-->cITY" + i + jsonObject2.toString());
             String shopId = jsonObject2.get("id").getAsString();
             String shopName = jsonObject2.get("name").getAsString();
-            String shopImage = jsonObject2.get("imageUrl").getAsString();
+            String shopImage = jsonObject2.get("image_url").getAsString();
             String distance = jsonObject2.get("distance").getAsString();
             String category_name = jsonObject2.get("category_name").getAsString();
 

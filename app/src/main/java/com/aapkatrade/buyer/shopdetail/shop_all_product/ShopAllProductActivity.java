@@ -186,7 +186,7 @@ public class ShopAllProductActivity extends AppCompatActivity {
                                     String productName = jsonproduct.get("name").getAsString();
                                     String productShortDescription = jsonproduct.get("short_des").getAsString();
                                     String price = jsonproduct.get("price").getAsString();
-                                    String productImage = jsonproduct.get("imageUrl").getAsString();
+                                    String productImage = jsonproduct.get("image_url").getAsString();
                                     shopAllProductDatas.add(new ShopAllProductData(productId, productName, productShortDescription, price, productImage, ""));
                                 }
                                 RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
