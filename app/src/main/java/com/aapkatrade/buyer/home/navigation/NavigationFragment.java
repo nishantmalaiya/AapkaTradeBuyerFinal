@@ -26,14 +26,11 @@ import com.aapkatrade.buyer.home.HomeActivity;
 import com.aapkatrade.buyer.home.navigation.adapter.NavigationAdapter;
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.AppSharedPreference;
-import com.aapkatrade.buyer.general.CallWebService;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.Validation;
-import com.aapkatrade.buyer.general.interfaces.TaskCompleteReminder;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
 import com.aapkatrade.buyer.home.navigation.entity.Category;
-import com.aapkatrade.buyer.home.navigation.entity.SubCategory;
 import com.aapkatrade.buyer.login.LoginDashboard;
 import com.aapkatrade.buyer.privacypolicy.PrivacyPolicyActivity;
 import com.aapkatrade.buyer.termandcondition.TermsAndConditionActivity;
@@ -45,9 +42,9 @@ import com.koushikdutta.ion.Ion;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -67,7 +64,7 @@ public class NavigationFragment extends Fragment {
     private List<String> categoryname;
     private Context context;
     private TextView textViewName, emailid, tv_user_heading;
-    private NavigationAdapter category_adapter;
+    private NavigationAdapter categoryAdapter;
     public ArrayList<Category> listDataHeader = new ArrayList<>();
     private RelativeLayout rlprofilepic, rlLogout, rlPolicy, rlTerms, rlInvite;
     private View rlMainContent;
@@ -323,8 +320,6 @@ public class NavigationFragment extends Fragment {
                             JsonArray jsonResultArray = jsonObject.getAsJsonArray("result");
 
                             listDataHeader = new ArrayList<>();
-
-                            listDataHeader.add(new Category("-1", "Please Select Category", "", null));
                             for (int i = 0; i < jsonResultArray.size(); i++) {
                                 JsonObject jsonObject1 = (JsonObject) jsonResultArray.get(i);
 
@@ -333,6 +328,12 @@ public class NavigationFragment extends Fragment {
                                 AndroidUtils.showErrorLog(context, "Category data", Category.toString());
 
                             }
+                            Collections.sort(listDataHeader, new Comparator<Category>(){
+                                @Override
+                                public int compare(Category o1, Category o2) {
+                                    return o1.getCategoryName().compareTo(o2.getCategoryName());
+                                }
+                            });
                             setRecycleviewAdapter();
                         }
 
@@ -344,8 +345,8 @@ public class NavigationFragment extends Fragment {
         AndroidUtils.showErrorLog(context, "LIST CATEGORY---------------", listDataHeader.toString());
         if (listDataHeader.size() != 0) {
             AndroidUtils.showErrorLog(context, "LIST CATEGORY--------listDataHeader.size() != 0-------", listDataHeader.toString());
-            category_adapter = new NavigationAdapter(context, listDataHeader);
-            navigationRecycleview.setAdapter(category_adapter);
+            categoryAdapter = new NavigationAdapter(context, listDataHeader);
+            navigationRecycleview.setAdapter(categoryAdapter);
         }
     }
 
