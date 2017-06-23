@@ -6,160 +6,131 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.media.ThumbnailUtils;
-import android.provider.MediaStore;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
+import com.aapkatrade.buyer.general.Validation;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.addcompanyshop.AddCompanyShopActivity;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
-import com.squareup.picasso.Picasso;
+
 import java.io.File;
 import java.util.List;
 
-import static android.R.attr.bitmap;
 
+public class ProductImagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-public class ProductImagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
-{
-
-    private final LayoutInflater inflater;
-    private List<ProductImagesData> itemList;
+    private List<ProductMediaData> itemList;
     private Context context;
-    private ProductImagesHolder viewHolder;
-    Bitmap imageForPreview;
-    private final int USER_Added = 0,IMAGE = 1;
-    AddProductActivity addproductActivity = new AddProductActivity();
+    private final int userAdded = 0, image = 1;
+    private Activity activity;
 
 
-    public ProductImagesAdapter(Context context, List<ProductImagesData> itemList)
-    {
-
+    public ProductImagesAdapter(Context context, List<ProductMediaData> itemList, Activity activity) {
         this.itemList = itemList;
         this.context = context;
-        inflater = LayoutInflater.from(context);
-        this.addproductActivity = addproductActivity;
-
+        this.activity = activity;
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
-    {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder viewHolder = null;
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-
-        System.out.println("viewType---------------"+viewType);
-
+        AndroidUtils.showErrorLog(context, "viewType---------------" + viewType);
         switch (viewType) {
-            case USER_Added:
+            case userAdded:
                 View v1 = inflater.inflate(R.layout.row_user_added, parent, false);
                 viewHolder = new ProductUserHolder(v1);
                 break;
-            case IMAGE:
+            case image:
                 View v2 = inflater.inflate(R.layout.row_product_images, parent, false);
-                viewHolder = new ProductImagesHolder(v2);
+                viewHolder = new ProductMediaHolder(v2);
                 break;
-          
+
         }
         return viewHolder;
 
 
     }
 
+
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position)
-    {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+        AndroidUtils.showErrorLog(context, "Hi holder.getItemViewType() " + holder.getItemViewType());
 
-        switch (holder.getItemViewType())
-        {
-            case USER_Added:
-
+        switch (holder.getItemViewType()) {
+            case userAdded:
                 final ProductUserHolder homeHolder_User = (ProductUserHolder) holder;
 
-                homeHolder_User.relativeImage.setOnClickListener(new View.OnClickListener()
-                {
+                homeHolder_User.relativeImage.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(View v)
-                    {
-
-                        Toast.makeText(context, "Hi "+context.getClass().getSimpleName()+" 2nd hi", Toast.LENGTH_SHORT).show();
-
-                        Class<?> c = null;
-                        try {
-                            c =  Class.forName(context.getClass().getName());
-                        } catch (ClassNotFoundException e) {
-                            e.printStackTrace();
+                    public void onClick(View v) {
+                        AndroidUtils.showErrorLog(context, "Hi " + context.getClass().getName() + " 2nd hi");
+                        if (activity instanceof AddProductActivity) {
+                            ((AddProductActivity) activity).picPhoto();
+                        } else if (activity instanceof AddCompanyShopActivity) {
+                            ((AddCompanyShopActivity) activity).picPhoto();
                         }
-                        AndroidUtils.showErrorLog(context, c != null ? c.getClass().getSimpleName() : "NULL");
-                        AddProductActivity t = null;
-                        try {
-                            t = (AddProductActivity) c.newInstance();
-                        } catch (InstantiationException e) {
-                            e.printStackTrace();
-                        } catch (IllegalAccessException e) {
-                            e.printStackTrace();
-                        }
-
-                        t.picPhoto();
                     }
-
-
-
                 });
-
                 break;
 
-            case IMAGE:
-                final ProductImagesHolder homeHolder = (ProductImagesHolder) holder;
 
-                Log.e("itemimage", itemList.get(position).image_path);
-                if (itemList.get(position).image_path.equals(""))
-                {
-                    Ion.with(context)
-                            .load(itemList.get(position).image_url)
-                            .withBitmap().asBitmap()
-                            .setCallback(new FutureCallback<Bitmap>() {
-                                @Override
-                                public void onCompleted(Exception e, Bitmap result) {
-                                    if (result != null)
-                                        homeHolder.previewImage.setImageBitmap(result);
-                                }
-                            });
+            case image:
+                final ProductMediaHolder homeHolder = (ProductMediaHolder) holder;
+                AndroidUtils.showErrorLog(context, "itemimage", itemList.get(position).imagePath);
 
-                }
-                else
-                {
-                    File imgFile = new File(itemList.get(position).image_path);
-
+                if (itemList.get(position).isVideo) {
+                    homeHolder.playImage.setVisibility(View.VISIBLE);
+                    File imgFile = new File(itemList.get(position).videoThumbnail);
                     if (imgFile.exists()) {
                         Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-
                         Drawable drawable = new BitmapDrawable(context.getResources(), myBitmap);
                         homeHolder.previewImage.setImageDrawable(drawable);
                     }
+
+                } else {
+
+                    if (Validation.isEmptyStr(itemList.get(position).imagePath)) {
+                        Ion.with(context)
+                                .load(itemList.get(position).imageUrl)
+                                .withBitmap().asBitmap()
+                                .setCallback(new FutureCallback<Bitmap>() {
+                                    @Override
+                                    public void onCompleted(Exception e, Bitmap result) {
+                                        if (result != null)
+                                            homeHolder.previewImage.setImageBitmap(result);
+                                    }
+                                });
+                    } else {
+                        File imgFile = new File(itemList.get(position).imagePath);
+                        if (imgFile.exists()) {
+                            Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+                            Drawable drawable = new BitmapDrawable(context.getResources(), myBitmap);
+                            homeHolder.previewImage.setImageDrawable(drawable);
+                        }
+                    }
+
                 }
+
 
                 homeHolder.cancelImage.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         itemList.remove(position);
                         notifyDataSetChanged();
-                        //notifyItemRemoved(position);
                     }
                 });
-                System.out.println("data-----------" + itemList);
+                AndroidUtils.showErrorLog(context, "data-----------" + itemList);
 
 
                 break;
 
         }
-
 
 
     }
@@ -168,28 +139,21 @@ public class ProductImagesAdapter extends RecyclerView.Adapter<RecyclerView.View
     @Override
     public int getItemCount() {
         return itemList.size();
-        //return itemList.size();
     }
 
 
     @Override
-    public int getItemViewType(int position)
-    {
+    public int getItemViewType(int position) {
 
-        System.out.println("itemlist----------------"+itemList.get(position).image_path.toString());
+        AndroidUtils.showErrorLog(context, "itemlist----------------" + itemList.get(position).imagePath);
 
-        if (itemList.get(position).image_path.toString().equals("first"))
-        {
-            return USER_Added;
-        }
-        else
-        {
-            return IMAGE;
+        if (itemList.get(position).imagePath.equals("first")) {
+            return userAdded;
+        } else {
+            return image;
         }
 
     }
-
-
 
 
 }

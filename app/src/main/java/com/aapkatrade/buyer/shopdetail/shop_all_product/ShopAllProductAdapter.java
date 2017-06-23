@@ -144,12 +144,23 @@ public class ShopAllProductAdapter extends RecyclerView.Adapter<ShopAllProductHo
                 /*holder.addToCartButton.setTextColor(ContextCompat.getColor(context, R.color.white));
                 holder.addToCartButton.setBackground(ContextCompat.getDrawable(context, R.drawable.add_to_cart_selected));
                 */
-                String product_id = itemList.get(position).productId;
-                String product_name = itemList.get(position).productName;
-                String price = itemList.get(position).productPrice;
-                String quantity = homeHolder.tv_qty.toString();
 
-                callwebservice__add_tocart(product_id,"",product_name,price,quantity);
+                if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), "").equals("2"))
+                {
+                    AndroidUtils.showToast(context,"Oops Not Buyer Account");
+
+                }
+                else
+                {
+
+                    String product_id = itemList.get(position).productId;
+                    String product_name = itemList.get(position).productName;
+                    String price = itemList.get(position).productPrice;
+                    String quantity = homeHolder.tv_qty.toString();
+
+                    callwebservice__add_tocart(product_id,"",product_name,price,quantity);
+
+                }
 
 
             }

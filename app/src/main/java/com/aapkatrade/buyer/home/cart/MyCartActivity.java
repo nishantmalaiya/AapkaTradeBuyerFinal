@@ -266,7 +266,6 @@ public class MyCartActivity extends AppCompatActivity {
 
                             } else {
 
-
                                 progressBarHandler.hide();
 
                                 AndroidUtils.showErrorLog(context, "-jsonObject------------NULL RESULT FOUND");

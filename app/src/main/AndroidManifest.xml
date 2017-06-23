@@ -158,17 +158,22 @@
             android:name=".videoplay.VideoPalyActivity"
             android:configChanges="orientation|screenSize" />
         <activity android:name=".seller.selleruser_dashboard.billhistory.BillHistory" />
-
-
         <activity android:name=".seller.selleruser_dashboard.salestransaction.SalesTransaction" />
-
         <activity
             android:name=".seller.selleruser_dashboard.companyshopmgt.addproduct.AddProductActivity"
             android:label="@string/title_activity_add_product"
             android:theme="@style/AppTheme">
 
-        </activity>
+            <!--
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            -->
+
+        </activity>
+        <activity android:name=".seller.selleruser_dashboard.companyshopmgt.addproduct.EditProductActivity"></activity>
     </application>
 
 </manifest>

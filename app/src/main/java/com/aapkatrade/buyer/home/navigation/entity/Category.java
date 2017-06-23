@@ -1,6 +1,8 @@
 package com.aapkatrade.buyer.home.navigation.entity;
 
 
+import android.support.v7.widget.CardView;
+
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Validation;
 
@@ -55,7 +57,12 @@ public class Category
         return this.subCategoryList;
     }
 
-
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == null) return false;
+        else if(this.categoryName.equalsIgnoreCase(((Category) obj).getCategoryName())) return true;
+        return false;
+    }
 
     @Override
     public String toString() {

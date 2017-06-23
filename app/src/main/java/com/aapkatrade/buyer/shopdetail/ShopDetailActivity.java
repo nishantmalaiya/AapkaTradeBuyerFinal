@@ -203,7 +203,7 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
                             for (int i = 0; i < jsonArrayImage.size(); i++) {
                                 JsonObject jsonimage = (JsonObject) jsonArrayImage.get(i);
                                 String image_url = jsonimage.get("image_url").getAsString();
-                                AndroidUtils.showErrorLog(context, "image_url---------" + image_url);
+                                AndroidUtils.showErrorLog(context, "imageUrl---------" + image_url);
                                 imageList.add(image_url);
                             }
                             product_name = json_result.get("name").getAsString();
