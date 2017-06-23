@@ -163,7 +163,11 @@ public class ResetPasswordFragment extends Fragment implements View.OnClickListe
                 .asJsonObject()
                 .setCallback(new FutureCallback<JsonObject>() {
                     @Override
-                    public void onCompleted(Exception e, JsonObject result) {
+                    public void onCompleted(Exception e, JsonObject result)
+                    {
+
+                        System.out.println("result-------------"+result);
+
                         progressBarHandler.hide();
 
                         if (result != null) {
@@ -182,7 +186,7 @@ public class ResetPasswordFragment extends Fragment implements View.OnClickListe
 
                             JsonObject user_data = result.getAsJsonObject("user_data");
 
-                            String userid = user_data.get("buyer_id").getAsString();
+                            String userid = user_data.get("user_id").getAsString();
                             String fname = user_data.get("name").getAsString();
                             String userName = user_data.get("name").getAsString();
                             String lastname = user_data.get("lastname").getAsString();

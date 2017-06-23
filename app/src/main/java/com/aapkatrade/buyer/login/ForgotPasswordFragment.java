@@ -113,17 +113,17 @@ public class ForgotPasswordFragment extends Fragment implements View.OnClickList
         //et_email_forgot.getText().toString() != null ? "" : et_email_forgot.getText().toString()
         if (Validation.isValidEmail(et_email_forgot.getText().toString())) {
 
-            if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString()).equals(SharedPreferenceConstants.USER_TYPE_BUYER)) {
+            if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString().trim()).equals("1")) {
 
                 userType = "buyer";
                 call_forgotpasswod_webservice(userType);
                 AndroidUtils.showErrorLog(getActivity(), "EmailAddress", et_email_forgot.getText().toString());
 
-            } else if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString()).equals(SharedPreferenceConstants.USER_TYPE_SELLER)) {
+            } else if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString().trim()).equals("2")) {
                 userType = "seller";
                 call_forgotpasswod_webservice(userType);
                 AndroidUtils.showErrorLog(getActivity(), "EmailAddress", et_email_forgot.getText().toString());
-            } else {
+            } else if(appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString().trim()).equals("3")){
                 userType = "associate";
                 call_forgotpasswod_webservice(userType);
                 AndroidUtils.showErrorLog(getActivity(), "EmailAddress", et_email_forgot.getText().toString());
@@ -131,37 +131,41 @@ public class ForgotPasswordFragment extends Fragment implements View.OnClickList
 
             }
 
-        } else if (Validation.isValidNumber(et_mobile_no.getText().toString(), Validation.getNumberPrefix(et_mobile_no.getText().toString()))) {
-            if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString()).equals(SharedPreferenceConstants.USER_TYPE_BUYER)) {
+        } else if (Validation.isValidNumber(et_mobile_no.getText().toString(), Validation.getNumberPrefix(et_mobile_no.getText().toString())))
+        {
+            System.out.println("dg dbv "+appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString()));
+
+            if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString().trim()).equals("1")) {
 
                 userType = "buyer";
                 call_forgotpasswod_webservice(userType);
                 AndroidUtils.showErrorLog(getActivity(), "EmailAddress", et_email_forgot.getText().toString());
 
-            } else if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString()).equals(SharedPreferenceConstants.USER_TYPE_SELLER)) {
+            } else if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString().trim()).equals("2")) {
                 userType = "seller";
                 call_forgotpasswod_webservice(userType);
                 AndroidUtils.showErrorLog(getActivity(), "EmailAddress", et_email_forgot.getText().toString());
+            } else if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString().trim()).equals("3")) {
+                {
+                    userType = "associate";
+                    call_forgotpasswod_webservice(userType);
+                    AndroidUtils.showErrorLog(getActivity(), "EmailAddress", et_email_forgot.getText().toString());
+                }
+
+
             } else {
-                userType = "associate";
-                call_forgotpasswod_webservice(userType);
-                AndroidUtils.showErrorLog(getActivity(), "EmailAddress", et_email_forgot.getText().toString());
-
-
+                AndroidUtils.showErrorLog(getActivity(), "error in Validation", "error in Validation");
             }
 
-
-        } else {
-            AndroidUtils.showErrorLog(getActivity(), "error in Validation", "error in Validation");
         }
-
-
     }
 
 
-    private void call_forgotpasswod_webservice(String usertype) {
+    private void call_forgotpasswod_webservice(String usertype)
+    {
         progressBarHandler.show();
 
+        System.out.println("Usertype---------------"+usertype+et_mobile_no.getText().toString().trim()+AppConfig.getCurrentDeviceId(getActivity()));
 
         String webservice_forgot_password = getResources().getString(R.string.webservice_base_url) + "/forget";
 

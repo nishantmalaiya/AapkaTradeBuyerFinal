@@ -45,9 +45,9 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
-
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
 
         super.onCreate(savedInstanceState);
 
@@ -60,7 +60,11 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = getIntent();
 
         Bundle b = intent.getExtras();
+
         usertype = b.getString("user_login");
+
+        System.out.println("usertype"+usertype);
+
         appSharedpreference = new AppSharedPreference(context);
         progressBarHandler = new ProgressBarHandler(context);
         setUpToolBar();
