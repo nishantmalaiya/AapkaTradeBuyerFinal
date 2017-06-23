@@ -257,7 +257,6 @@ public class CommonAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
                     boolean permission_status = CheckPermission.checkPermissions((Activity) context);
 
-
                     if (permission_status)
                     {
 
@@ -619,6 +618,7 @@ public class CommonAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
                     }
                 });
+
 
     }
 

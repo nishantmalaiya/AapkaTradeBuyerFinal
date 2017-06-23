@@ -14,26 +14,30 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.aapkatrade.buyer.home.HomeActivity;
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
+import com.aapkatrade.buyer.smsreceiver.SmsListener;
+import com.aapkatrade.buyer.smsreceiver.SmsReceiver;
 
-public class ForgotPassword extends AppCompatActivity {
+import swarajsaaj.smscodereader.interfaces.OTPListener;
+import swarajsaaj.smscodereader.receivers.OtpReader;
+
+public class ForgotPassword extends AppCompatActivity
+{
 
     private CoordinatorLayout activity_forgot__password;
-
-
     private Context context;
-
     private ForgotPasswordFragment forgot_password_fragment;
     private ResetPasswordFragment reset_passwordFragment;
-
     String class_index, otp_id;
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot__password);
         context = ForgotPassword.this;
@@ -50,6 +54,7 @@ public class ForgotPassword extends AppCompatActivity {
         setupForgetpassword(class_index);
         setUpToolBar();
         initView();
+
 
     }
 
@@ -151,4 +156,6 @@ public class ForgotPassword extends AppCompatActivity {
         finish();
 
     }
+
+
 }
