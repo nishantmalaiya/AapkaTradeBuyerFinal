@@ -23,6 +23,7 @@ import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.interfaces.CommonInterface;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.billpayment.BillPaymentActivity;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.billpayment.BillPaymentAdapter;
+import com.aapkatrade.buyer.seller.selleruser_dashboard.salestransaction.SalesTransactionData;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.salestransaction.SalesTransactionMachine;
 import com.squareup.picasso.Picasso;
 
@@ -38,9 +39,9 @@ import me.relex.circleindicator.CircleIndicator;
 public class ViewpagerAdapterSalesTransaction extends PagerAdapter {
 
     private Context mContext;
-    ArrayList<SalesMachineResultData> SalesReportsList;
+
     CardView cardview_salesTransaction;
-    ArrayList<ArrayList<SalesTransactionMachine>> machineDatas;
+    ArrayList<SalesMachineResultData> machineDatas;
     RecyclerView RecyclerMachine;
     LinearLayoutManager linearLayoutManager;
     private SalesTransactionRecyclerAdapter salesTransactionAdapter;
@@ -48,18 +49,18 @@ public class ViewpagerAdapterSalesTransaction extends PagerAdapter {
 
     public static CommonInterface commonInterface;
 
-    public ViewpagerAdapterSalesTransaction(Context mContext, ArrayList<SalesMachineResultData> SalesReportsList, ArrayList<ArrayList<SalesTransactionMachine>> machineDatas, ViewPager viewpagerSalesTransaction) {
-        this.SalesReportsList = SalesReportsList;
+    public ViewpagerAdapterSalesTransaction(Context mContext, ArrayList<SalesMachineResultData> machineDatas, ViewPager viewpagerSalesTransaction) {
+
         this.mContext = mContext;
         this.machineDatas = machineDatas;
         this.viewpagerSalesTransaction = viewpagerSalesTransaction;
-        AndroidUtils.showErrorLog(mContext, "SalesReportList", SalesReportsList.size());
+
 
     }
 
 
     public int getCount() {
-        return SalesReportsList != null ? SalesReportsList.size() : -1;
+        return machineDatas != null ? machineDatas.size() : -1;
 
     }
 
@@ -73,10 +74,11 @@ public class ViewpagerAdapterSalesTransaction extends PagerAdapter {
         TextView TvSalesResultData = (TextView) itemView.findViewById(R.id.tv_salesTransactionResultData);
         linearLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
 
-        StringBuilder stringBuilder = new StringBuilder("<font size=\"20\">Machine No. 15456234</font>");
-        stringBuilder.append("<br>").append("<br>").append("Txn Amount: " + mContext.getString(R.string.rupay_text) + "6182.76").append("<br>").append("Sales Amount : ").append(" " + mContext.getString(R.string.rupay_text)).append("5216.53").append("<br>").append("<br>").append("07-june-2017 to 16-june-2017");
+        StringBuilder stringBuilder = new StringBuilder("<font size=\"20\" color=" + "#0072bb>Machine No. 15456234</font>").append("<font size =\"15\"color=" + "#e45641"
+                + ">+07-june-2017" + "</font size=\"15\" color=#00aaa0" + "> </font>" + "<font size=\"15\" color=\"#c26baa\">To</font>" + "<font size=\"15\" color=\"#00aaa0\"> 16-june-2017</font>");
+        stringBuilder.append("<br>").append("Txn Amount: " + mContext.getString(R.string.rupay_text) + "6182.76").append("<br>").append("Sales Amount : ").append(" " + mContext.getString(R.string.rupay_text)).append("5216.53").append("<br>").append("<br>");
         String tvData = stringBuilder.toString();
-        CircleIndicator circleIndicator=(CircleIndicator)itemView.findViewById(R.id.indicator_custom_sales_transaction);
+        CircleIndicator circleIndicator = (CircleIndicator) itemView.findViewById(R.id.indicator_custom_sales_transaction);
         circleIndicator.setViewPager(viewpagerSalesTransaction);
         TvSalesResultData.setText(Html.fromHtml(tvData));
 
@@ -103,28 +105,8 @@ public class ViewpagerAdapterSalesTransaction extends PagerAdapter {
         recyclerMachine.setLayoutManager(linearLayoutManager);
 
 
-        salesTransactionAdapter = new SalesTransactionRecyclerAdapter(mContext, machineDatas.get(0));
+        salesTransactionAdapter = new SalesTransactionRecyclerAdapter(mContext, machineDatas.get(position).salesMachineResultDatas);
         recyclerMachine.setAdapter(salesTransactionAdapter);
-        recyclerMachine.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                int totalItemCount = linearLayoutManager.getItemCount();
-                int FirstVisibleItemCount = linearLayoutManager.findFirstVisibleItemPosition();
-                AndroidUtils.showErrorLog(mContext,"FirstVisibleItemCount",FirstVisibleItemCount);
-                if (totalItemCount > 0) {
-                    if (FirstVisibleItemCount == 0) {
-
-                        commonInterface.getData("Show");
-                    }
-                    else{
-
-                        commonInterface.getData("Hide");
-                    }
-                }
-            }
-
-        });
 
 
     }

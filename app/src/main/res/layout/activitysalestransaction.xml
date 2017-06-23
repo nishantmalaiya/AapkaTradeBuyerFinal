@@ -31,9 +31,35 @@
     </android.support.design.widget.AppBarLayout>
 
 
-    <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@color/color_voilet"
+        android:padding="@dimen/ten_dip">
+
+
+        <TextView
+            android:id="@+id/txn_amount_total"
+            android:layout_width="@dimen/one_hundred_fifty_dip"
+            android:layout_height="wrap_content"
+            android:minLines="2"
+            android:textAlignment="center"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/sales_amount_total"
+            android:layout_width="@dimen/one_hundred_fifty_dip"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:gravity="right"
+            android:minLines="2"
+            android:textAlignment="center"
+
+            android:textColor="@color/white" />
+    </RelativeLayout>
+
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/toolbarsize"
@@ -45,15 +71,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 xmlns:tools="http://schemas.android.com/tools"
                 android:id="@+id/fl_salestransaction"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
 
-                android:layout_marginTop="@dimen/ten_dip"
-                android:visibility="gone">
+                android:layout_marginTop="@dimen/ten_dip">
 
 
                 <RelativeLayout
@@ -284,7 +309,7 @@
 
                 </RelativeLayout>
 
-            </FrameLayout>
+            </RelativeLayout>
 
             <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -294,9 +319,13 @@
                 android:layout_marginBottom="@dimen/sixty_dip"
                 android:descendantFocusability="beforeDescendants"
                 android:fillViewport="true"
+                android:id="@+id/nestedScrollViewsalesTransaction"
                 android:focusable="true"
+                android:visibility="gone"
                 android:focusableInTouchMode="true">
-<requestFocus/>
+
+                <requestFocus />
+
                 <android.support.v4.view.ViewPager
                     android:id="@+id/viewpagerSalesTransactionResult"
 
@@ -327,35 +356,6 @@
                 app:layout_behavior="com.aapkatrade.buyer.general.BottomNavigationBehavior" />
         </RelativeLayout>
     </android.support.design.widget.CoordinatorLayout>
-
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:background="@color/color_voilet"
-        android:padding="@dimen/ten_dip">
-
-
-        <TextView
-            android:id="@+id/txn_amount_total"
-            android:layout_width="@dimen/one_hundred_fifty_dip"
-            android:layout_height="wrap_content"
-            android:minLines="2"
-            android:textAlignment="center"
-            android:textColor="@color/white" />
-
-        <TextView
-            android:id="@+id/sales_amount_total"
-            android:layout_width="@dimen/one_hundred_fifty_dip"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:gravity="right"
-            android:minLines="2"
-            android:textAlignment="center"
-
-            android:textColor="@color/white" />
-    </RelativeLayout>
 
 
 </android.support.design.widget.CoordinatorLayout>
