@@ -13,11 +13,12 @@ import com.aapkatrade.buyer.R;
 class SalesTransactionReyclerHolder extends RecyclerView.ViewHolder{
 
 
-    TextView SalesMachineTxnData,TxnStatus,TxnAmount;
+    TextView SalesMachineTxnData,TxnStatus,TxnAmount,tv_saleshistorietxnid;
     public SalesTransactionReyclerHolder(View itemView) {
         super(itemView);
         SalesMachineTxnData=(TextView)itemView.findViewById(R.id.tv_saleshistories);
         TxnStatus=(TextView)itemView.findViewById(R.id.tvTxnStatus);
         TxnAmount=(TextView)itemView.findViewById(R.id.Salesamount);
+        tv_saleshistorietxnid=(TextView)itemView.findViewById(R.id.tv_saleshistorietxnid);
     }
 }

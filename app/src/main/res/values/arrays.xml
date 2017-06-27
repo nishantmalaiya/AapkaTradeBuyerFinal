@@ -139,21 +139,19 @@
 
     </array>
 
-    <array name="random_color">
+    <integer-array name="random_color">
 
 
-        <item>@color/green</item>
-        <item>@color/purple</item>
-        <item>@color/color_voilet</item>
+        <item>@color/random_color1</item>
+        <item>@color/random_color2</item>
+        <item>@color/random_color3</item>
 
-        <item>@color/sienna</item>
-        <item>@color/deep_pink</item>
-        <item>@color/turquoise</item>
-        <item>@color/deep_pink</item>
-        <item>@color/cherry_red</item>
+        <item>@color/random_color4</item>
+        <item>@color/random_color3</item>
 
+        <item>@color/random_color4</item>
 
-    </array>
+    </integer-array>
 
 
     <integer-array name="welcome_screen">

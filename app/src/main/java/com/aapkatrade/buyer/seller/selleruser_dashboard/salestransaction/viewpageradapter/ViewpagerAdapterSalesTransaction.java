@@ -2,6 +2,7 @@ package com.aapkatrade.buyer.seller.selleruser_dashboard.salestransaction.viewpa
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -29,6 +30,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 import me.relex.circleindicator.CircleIndicator;
 
@@ -74,9 +76,8 @@ public class ViewpagerAdapterSalesTransaction extends PagerAdapter {
         TextView TvSalesResultData = (TextView) itemView.findViewById(R.id.tv_salesTransactionResultData);
         linearLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
 
-        StringBuilder stringBuilder = new StringBuilder("<font size=\"20\" color=" + "#0072bb>Machine No. 15456234</font>").append("<font size =\"15\"color=" + "#e45641"
-                + ">+07-june-2017" + "</font size=\"15\" color=#00aaa0" + "> </font>" + "<font size=\"15\" color=\"#c26baa\">To</font>" + "<font size=\"15\" color=\"#00aaa0\"> 16-june-2017</font>");
-        stringBuilder.append("<br>").append("Txn Amount: " + mContext.getString(R.string.rupay_text) + "6182.76").append("<br>").append("Sales Amount : ").append(" " + mContext.getString(R.string.rupay_text)).append("5216.53").append("<br>").append("<br>");
+        StringBuilder stringBuilder = new StringBuilder("<br><font size=\"20\" color=" + "#D9C356>Machine No. " + machineDatas.get(position).MachineNo + "/font>").append("<font size =\"15\"color=" + "#062B3D" + "><br>  " + machineDatas.get(position).ToDate + "</font size=\"15\" color=#00aaa0" + "> </font>" + "<font size=\"15\" color=\"#ffffff\">To</font>" + "<font size=\"15\" color=\"#062B3D\">" + machineDatas.get(position).FromDate + "</font>");
+        stringBuilder.append("<br>").append("Txn Amount: " + mContext.getString(R.string.rupay_text) + machineDatas.get(position).TxnAmount).append("<br>").append("Sales Amount : ").append(" " + mContext.getString(R.string.rupay_text)).append(machineDatas.get(position).SalesAmount).append("<br>");
         String tvData = stringBuilder.toString();
         CircleIndicator circleIndicator = (CircleIndicator) itemView.findViewById(R.id.indicator_custom_sales_transaction);
         circleIndicator.setViewPager(viewpagerSalesTransaction);
@@ -105,7 +106,7 @@ public class ViewpagerAdapterSalesTransaction extends PagerAdapter {
         recyclerMachine.setLayoutManager(linearLayoutManager);
 
 
-        salesTransactionAdapter = new SalesTransactionRecyclerAdapter(mContext, machineDatas.get(position).salesMachineResultDatas);
+        salesTransactionAdapter = new SalesTransactionRecyclerAdapter(mContext, machineDatas.get(position).salesMachineResultDatas,machineDatas.get(position).FromDate,machineDatas.get(position).ToDate);
         recyclerMachine.setAdapter(salesTransactionAdapter);
 
 
@@ -117,10 +118,13 @@ public class ViewpagerAdapterSalesTransaction extends PagerAdapter {
     }
 
     private void setUpViewBackground(CardView view) {
-        TypedArray colors = mContext.getResources().obtainTypedArray(R.array.random_color);
-        int choice = (int) (Math.random() * colors.length());
-        view.setCardBackgroundColor(colors.getResourceId(choice, R.drawable.circle_sienna));
-        colors.recycle();
+
+        int[] androidColors = mContext.getResources().getIntArray(R.array.random_color);
+        int randomAndroidColor = androidColors[new Random().nextInt(androidColors.length)];
+
+        view.setCardBackgroundColor(randomAndroidColor);
+
+
     }
 
 

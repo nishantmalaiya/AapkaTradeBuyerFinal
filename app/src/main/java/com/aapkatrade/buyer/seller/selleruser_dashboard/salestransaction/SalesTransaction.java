@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -139,7 +140,7 @@ public class SalesTransaction extends AppCompatActivity implements TimePickerDia
 
     }
 
-    private void setViewPager(ArrayList<SalesMachineResultData> machineDatas) {
+    private void setViewPager(ArrayList<SalesMachineResultData> machineDatas, String totalTxnAmount, String totalSalesAmount) {
 
 
         viewpagerAdapterSalesTransaction = new ViewpagerAdapterSalesTransaction(c, machineDatas, viewpagerSalesTransaction);
@@ -148,9 +149,13 @@ public class SalesTransaction extends AppCompatActivity implements TimePickerDia
 
         //circleIndicator.setViewPager(viewpagerSalesTransaction);
 
+        StringBuilder stringBuilder_txnamount = new StringBuilder("<br><font size=\"20\" color=" + "#ffffff>Txn Amount. <br> " + "Total" + " " + c.getString(R.string.rupay_text) + totalTxnAmount + "</font>");
+        String tvData = stringBuilder_txnamount.toString();
+        txn_amount_total.setText(Html.fromHtml(tvData));
 
-        txn_amount_total.setText("Txn Amount Total:1250,50");
-        sales_amount_total.setText("Sales Amount Total:1250,50");
+        StringBuilder stringBuilder_salesamount = new StringBuilder("<br><font size=\"20\" color=" + "#ffffff>Sales Amount. <br> " + "Total" +" " +c.getString(R.string.rupay_text)  + totalSalesAmount + "</font>");
+        String tvData2 = stringBuilder_salesamount.toString();
+        sales_amount_total.setText(Html.fromHtml(tvData2));
 
 
     }
@@ -243,7 +248,7 @@ public class SalesTransaction extends AppCompatActivity implements TimePickerDia
 
                         } else {
                             JsonArray result_jsonArray = result.getAsJsonArray("result");
-
+                            String TotalTxnAmount = "", TotalSalesAmount = "";
 
                             for (int k = 0; k < result_jsonArray.size(); k++) {
 
@@ -264,8 +269,8 @@ public class SalesTransaction extends AppCompatActivity implements TimePickerDia
                                 JsonObject transactions = result_jsonobject.getAsJsonObject("transactions");
                                 JsonObject total = transactions.getAsJsonObject("total");
 
-                                String TotalTxnAmount = total.get("txn_amount").getAsString();
-                                String TotalSalesAmount = total.get("sales_amount").getAsString();
+                                TotalTxnAmount = total.get("txn_amount").getAsString();
+                                TotalSalesAmount = total.get("sales_amount").getAsString();
 
                                 JsonArray resulr_list_data = transactions.getAsJsonArray("list");
 
@@ -293,7 +298,7 @@ public class SalesTransaction extends AppCompatActivity implements TimePickerDia
                             }
 
 
-                            setViewPager(MachineDatas);
+                            setViewPager(MachineDatas, TotalTxnAmount, TotalSalesAmount);
 
 
                             AndroidUtils.showErrorLog(c, "responseBillPayment2", result.toString());
