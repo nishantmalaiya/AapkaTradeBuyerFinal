@@ -208,12 +208,15 @@ public class MyCartActivity extends AppCompatActivity {
 
         System.out.println("deveice -id----------" + user_id + "ghsdfs" + AppConfig.getCurrentDeviceId(context));
 
+        System.out.println("cart_item------------"+app_sharedpreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), ""));
+
         Ion.with(MyCartActivity.this)
                 .load(getResources().getString(R.string.webservice_base_url) + "/list_cart")
                 .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                 .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                 .setBodyParameter("user_id", user_id)
                 .setBodyParameter("page", pageNumber)
+                .setBodyParameter("user_type",app_sharedpreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), ""))
                 .setBodyParameter("device_id", AppConfig.getCurrentDeviceId(context))
                 .asJsonObject()
                 .setCallback(new FutureCallback<JsonObject>() {
