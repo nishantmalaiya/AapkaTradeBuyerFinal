@@ -6,31 +6,54 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
 
+import com.aapkatrade.buyer.general.Utils.AndroidUtils;
+import com.aapkatrade.buyer.general.Validation;
+
 /**
  * Created by PPC16 on 6/23/2017.
  */
 
-public class SmsReceiver extends BroadcastReceiver {
+public class SmsReceiver extends BroadcastReceiver
+{
 
     private static SmsListener mListener;
 
+
     @Override
-    public void onReceive(Context context, Intent intent) {
+    public void onReceive(Context context, Intent intent)
+    {
         Bundle data  = intent.getExtras();
 
         Object[] pdus = (Object[]) data.get("pdus");
 
-        for(int i=0;i<pdus.length;i++){
-            SmsMessage smsMessage = SmsMessage.createFromPdu((byte[]) pdus[i]);
+        System.out.println("pdus------------"+pdus+"pdus.length--"+pdus.length);
 
-            String sender = smsMessage.getDisplayOriginatingAddress();
-            //You must check here if the sender is your provider and not another one with same text.
+        for(int i=0;i<pdus.length;i++)
+        {
+            SmsMessage smsMessage;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M)
+            {
+                smsMessage = SmsMessage.createFromPdu((byte[]) pdus[i],"3gpp");
+                if (Validation.isNonEmptyStr(smsMessage.toString()))
+                {
+                    String messageBody = smsMessage.getMessageBody();
+                    System.out.println("------------"+messageBody);
+                    //Pass on the text to our listenmessageBodyer.
+                    mListener.messageReceived(messageBody);
+                }
 
-            String messageBody = smsMessage.getMessageBody();
-
-            //Pass on the text to our listener.
-            mListener.messageReceived(messageBody);
-
+            }
+            else
+            {
+                smsMessage = SmsMessage.createFromPdu((byte[]) pdus[i]);
+                if (Validation.isNonEmptyStr(smsMessage.toString()))
+                {
+                    String messageBody = smsMessage.getMessageBody();
+                    System.out.println("messageBody2------------"+messageBody);
+                    //Pass on the text to our listener.
+                    mListener.messageReceived(messageBody);
+                }
+            }
         }
 
     }

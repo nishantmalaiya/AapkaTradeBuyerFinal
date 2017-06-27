@@ -84,7 +84,7 @@ public class ActivityOTPVerify extends AppCompatActivity {
             @Override
             public void messageReceived(String messageText) {
                 Log.d("Text",messageText);
-                Toast.makeText(ActivityOTPVerify.this,"Message: "+messageText,Toast.LENGTH_LONG).show();
+                //Toast.makeText(ActivityOTPVerify.this,"Message: "+messageText,Toast.LENGTH_LONG).show();
 
                 update_otp(messageText);
 
@@ -591,8 +591,8 @@ public class ActivityOTPVerify extends AppCompatActivity {
     }
 
 
-    private void callwebserviceUpdateCartSimple() {
-
+    private void callwebserviceUpdateCartSimple()
+    {
         progressBarHandler.show();
 
         String login_url = context.getResources().getString(R.string.webservice_base_url) + "/update_cart_user";

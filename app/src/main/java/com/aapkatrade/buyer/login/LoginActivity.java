@@ -221,8 +221,8 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
-    private void saveDataInSharedPreference(JsonObject webservice_returndata) {
-
+    private void saveDataInSharedPreference(JsonObject webservice_returndata)
+    {
 
         appSharedpreference.setSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), webservice_returndata.get("user_type").getAsString());
 
@@ -246,7 +246,8 @@ public class LoginActivity extends AppCompatActivity {
         appSharedpreference.setSharedPref(SharedPreferenceConstants.CREATED_AT.toString(), webservice_returndata.get("createdAt").getAsString());
 
 
-        if (usertype.contains("BUYER")) {
+        if (usertype.contains("BUYER"))
+        {
 
             appSharedpreference.setSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS.toString(), jsonObject.get("sh_address").getAsString());
             appSharedpreference.setSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS_PHONE.toString(), jsonObject.get("sh_phone").getAsString());
@@ -300,7 +301,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-    private void callwebserviceUpdateCart() {
+    private void callwebserviceUpdateCart()
+    {
         progressBarHandler.show();
 
         String login_url = context.getResources().getString(R.string.webservice_base_url) + "/update_cart_user";

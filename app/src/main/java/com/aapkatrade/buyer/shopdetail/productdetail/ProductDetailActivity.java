@@ -53,7 +53,8 @@ import java.util.TimerTask;
 
 import me.relex.circleindicator.CircleIndicator;
 
-public class ProductDetailActivity extends AppCompatActivity {
+public class ProductDetailActivity extends AppCompatActivity
+{
     private int productDetailActivity = 1;
     private Context context;
     private ProgressBarHandler progressBarHandler;
@@ -168,8 +169,14 @@ public class ProductDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                callwebservice__add_tocart_buy(productId, "", tvProductName.getText().toString(), singleUnitPrice, tvQuantity.getText().toString());
+                if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), "").equals("2"))
+                {
+                    AndroidUtils.showToast(context,"Oops Not Buyer Account");
 
+                }
+                else {
+                    callwebservice__add_tocart_buy(productId, "", tvProductName.getText().toString(), singleUnitPrice, tvQuantity.getText().toString());
+                }
             }
         });
 
@@ -177,7 +184,16 @@ public class ProductDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                callwebservice__add_tocart(productId, "", tvProductName.getText().toString(), singleUnitPrice, tvQuantity.getText().toString());
+                if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), "").equals("2"))
+                {
+                    AndroidUtils.showToast(context,"Oops Not Buyer Account");
+
+                }
+                else
+                {
+                    callwebservice__add_tocart(productId, "", tvProductName.getText().toString(), singleUnitPrice, tvQuantity.getText().toString());
+
+                }
 
 
             }
