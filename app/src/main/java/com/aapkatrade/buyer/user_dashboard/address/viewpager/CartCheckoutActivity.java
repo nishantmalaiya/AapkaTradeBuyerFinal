@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -72,10 +73,12 @@ public class CartCheckoutActivity extends AppCompatActivity
     LinearLayoutManager linearLayoutManager;
     public static final String TAG = "PayUMoneySDK Sample";
     String order_number,phone_number;
+    Button button_changeAddress;
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_cart_checkout);
@@ -87,9 +90,6 @@ public class CartCheckoutActivity extends AppCompatActivity
         progressBarHandler = new ProgressBarHandler(context);
 
         app_sharedpreference = new AppSharedPreference(getApplicationContext());
-
-
-
 
         initView();
 
@@ -166,6 +166,15 @@ public class CartCheckoutActivity extends AppCompatActivity
 
         mycartRecyclerView = (RecyclerView) findViewById(R.id.order_list);
 
+        button_changeAddress = (Button) findViewById(R.id.button_changeAddress);
+
+        button_changeAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         cartList("0");
 
        relativePayment.setOnClickListener(new View.OnClickListener() {
@@ -215,11 +224,12 @@ public class CartCheckoutActivity extends AppCompatActivity
 
     private void cartList(String pageNumber)
     {
-
         progressBarHandler.show();
 
         String user_id = app_sharedpreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), "notlogin");
-        if (user_id.equals("notlogin")) {
+
+        if (user_id.equals("notlogin"))
+        {
             user_id = "";
         }
 
@@ -229,6 +239,8 @@ public class CartCheckoutActivity extends AppCompatActivity
                 .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                 .setBodyParameter("device_id", AppConfig.getCurrentDeviceId(context))
                 .setBodyParameter("user_id", user_id)
+                .setBodyParameter("pincode",app_sharedpreference.getSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS_PINCODE.toString(), ""))
+                .setBodyParameter("user_type",app_sharedpreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), ""))
                 .setBodyParameter("page", pageNumber)
                 .asJsonObject()
                 .setCallback(new FutureCallback<JsonObject>() {
@@ -249,8 +261,10 @@ public class CartCheckoutActivity extends AppCompatActivity
                             // tvLastPayableAmount.setText(getApplicationContext().getResources().getText(R.string.rupay_text)+total_amount);
 
                             JsonArray jsonProductList = jsonObject.getAsJsonArray("items");
-                            if (jsonProductList != null && jsonProductList.size() > 0) {
-                                for (int i = 0; i < jsonProductList.size(); i++) {
+                            if (jsonProductList != null && jsonProductList.size() > 0)
+                            {
+                                for (int i = 0; i < jsonProductList.size(); i++)
+                                {
                                     JsonObject jsonproduct = (JsonObject) jsonProductList.get(i);
                                     String Id = jsonproduct.get("id").getAsString();
                                     String productName = jsonproduct.get("name").getAsString();
@@ -261,7 +275,10 @@ public class CartCheckoutActivity extends AppCompatActivity
 
                                     String productImage = jsonproduct.get("image_url").getAsString();
                                     String product_id = jsonproduct.get("product_id").getAsString();
-                                    cartDataArrayList.add(new CartData(Id, productName, productqty, price, productImage, product_id, subtotal_price));
+                                    String available_status = jsonproduct.get("available_status").getAsString();
+                                    String shipping_cost = jsonproduct.get("shipping_cost").getAsString();
+
+                                    cartDataArrayList.add(new CartData(Id, productName, productqty, price, productImage, product_id, subtotal_price,available_status,shipping_cost));
                                 }
                                 RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
                                 mycartRecyclerView.setLayoutManager(mLayoutManager);
@@ -309,14 +326,11 @@ public class CartCheckoutActivity extends AppCompatActivity
                             order_number = jsonObject.get("tracking_no").getAsString();
                             progressBarHandler.hide();
                             makePayment();
-
-
                         }
                         else
                         {
                             progressBarHandler.hide();
                             AndroidUtils.showToast(context, message );
-
                         }
 
                     }

@@ -63,7 +63,9 @@ import java.io.IOException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class MyProfileActivity extends AppCompatActivity {
+public class MyProfileActivity extends AppCompatActivity
+{
+
     private AppSharedPreference app_sharedpreference;
     private EditText etFName, etLName, etEmail, etMobileNo, etAddress;
     private ProgressBarHandler p_handler;
@@ -86,7 +88,8 @@ public class MyProfileActivity extends AppCompatActivity {
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_profile);
         context = MyProfileActivity.this;
@@ -96,7 +99,8 @@ public class MyProfileActivity extends AppCompatActivity {
 
     }
 
-    private void initView() {
+    private void initView()
+    {
         app_sharedpreference = new AppSharedPreference(context);
 
         p_handler = new ProgressBarHandler(context);
@@ -119,7 +123,6 @@ public class MyProfileActivity extends AppCompatActivity {
 
             }
         });
-
 
         tvMyProfileDetailHeading = (TextView) findViewById(R.id.tvMyProfileDetailHeading);
 
@@ -214,7 +217,8 @@ public class MyProfileActivity extends AppCompatActivity {
         });
     }
 
-    private void getshared_pref_data() {
+    private void getshared_pref_data()
+    {
         user_image = app_sharedpreference.getSharedPref(SharedPreferenceConstants.PROFILE_PIC.toString(), "");
         fname = app_sharedpreference.getSharedPref(SharedPreferenceConstants.FIRST_NAME.toString(), "");
         lname = app_sharedpreference.getSharedPref(SharedPreferenceConstants.LAST_NAME.toString(), "");
@@ -729,7 +733,14 @@ public class MyProfileActivity extends AppCompatActivity {
 
 
     }
+    private void showEditVideoPopup2() {
+        boolean wrapInScrollView = true;
 
+        video_dailog = new MaterialDialog.Builder(context)
+                .customView(R.layout.dailog_pincode, wrapInScrollView)
+                .show();
+
+    }
 
     private void showEditVideoPopup() {
         boolean wrapInScrollView = true;
