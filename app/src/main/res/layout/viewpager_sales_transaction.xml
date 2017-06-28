@@ -9,7 +9,6 @@
         android:id="@+id/aapbar_layout_myprofile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
         android:orientation="vertical">
 
         <requestFocus />
@@ -94,7 +93,8 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-
+            android:layout_marginTop="@dimen/five_dip"
+            android:background="@color/white"
             android:layout_height="wrap_content"
 
 
@@ -106,6 +106,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/grey_2"
                 android:focusable="false"
+               android:layout_marginTop="@dimen/five_dip"
                 android:nestedScrollingEnabled="false"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior">
 

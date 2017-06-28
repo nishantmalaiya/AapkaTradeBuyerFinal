@@ -330,5 +330,6 @@
     <string name="product_length">Product Length</string>
     <string name="add_product_weight">Weight</string>
     <string name="product_height">Product Height</string>
+    <string name="startchat">Start Chat</string>
 
 </resources>

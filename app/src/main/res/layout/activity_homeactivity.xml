@@ -69,6 +69,23 @@
 
                     </android.support.v4.widget.NestedScrollView>
 
+<RelativeLayout
+    android:layout_width="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:layout_gravity="bottom|right"
+    android:gravity="right"
+    android:id="@+id/container_chat_icon"
+    app:layout_behavior="com.aapkatrade.buyer.general.BottomNavigationBehavior"
+    android:layout_marginBottom="@dimen/sixty_dip"
+    android:layout_marginRight="@dimen/twenty_dip"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:layout_width="@dimen/fifty_dip"
+        android:src="@drawable/chat_icon_temp"
+        android:layout_height="@dimen/fifty_dip" />
+
+</RelativeLayout>
+
 
                     <com.aurelhubert.ahbottomnavigation.AHBottomNavigation
                         android:id="@+id/bottom_navigation"
