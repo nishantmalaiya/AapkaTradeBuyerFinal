@@ -323,11 +323,16 @@
     <string name="price_discount_heading">Discount ( in % only )</string>
     <string name="max_order_qty">Max Order Qty</string>
     <string name="add_product_description">Description</string>
+
+    <string name="salestransaction">Sales Reports</string>
+
     <string name="product_width">Product Width</string>
     <string name="product_length">Product Length</string>
     <string name="add_product_weight">Weight</string>
     <string name="product_height">Product Height</string>
+
     <string name="enter_delivry_pincode">Enter Delivery pincode here</string>
     <string name="use_current_location">Use my current location</string>
     <string name="product_status">Currently out of stock for 224146</string>
+
 </resources>

@@ -139,6 +139,23 @@
 
     </array>
 
+    <array name="random_color">
+
+
+        <item>@color/green</item>
+        <item>@color/purple</item>
+        <item>@color/color_voilet</item>
+
+        <item>@color/sienna</item>
+        <item>@color/deep_pink</item>
+        <item>@color/turquoise</item>
+        <item>@color/deep_pink</item>
+        <item>@color/cherry_red</item>
+
+
+    </array>
+
+
     <integer-array name="welcome_screen">
         <item>@drawable/welcome_slide_one</item>
         <item>@drawable/welcome_slide_two</item>
