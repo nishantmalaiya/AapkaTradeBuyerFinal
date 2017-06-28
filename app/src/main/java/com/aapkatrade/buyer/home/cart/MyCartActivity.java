@@ -255,7 +255,7 @@ public class MyCartActivity extends AppCompatActivity {
                                     System.out.println("price--------------------" + price);
                                     String productImage = jsonproduct.get("image_url").getAsString();
                                     String product_id = jsonproduct.get("product_id").getAsString();
-                                    cartDataArrayList.add(new CartData(Id, productName, productqty, price, productImage, product_id, subtotal_price));
+                                    cartDataArrayList.add(new CartData(Id, productName, productqty, price, productImage, product_id, subtotal_price,"",""));
 
 
                                 }
