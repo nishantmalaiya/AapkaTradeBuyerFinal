@@ -39,7 +39,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 /**
- * Created by Netforce on 7/25/2016.
+ * Created by Shankit on 7/25/2016.
  */
 public class CommonAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 {
@@ -81,7 +81,6 @@ public class CommonAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         CommonHolder_listProduct viewHolder_listProduct;
         CategoriesListHolder categoriesListHolder;
 
-        //RecyclerView.ViewHolder viewHolder;
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         if (arrangementtype == "list")
         {

@@ -164,16 +164,8 @@
             android:label="@string/title_activity_add_product"
             android:theme="@style/AppTheme">
 
-            <!--
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            -->
-
         </activity>
-        <activity android:name=".seller.selleruser_dashboard.companyshopmgt.addproduct.EditProductActivity"></activity>
+        <activity android:name=".seller.selleruser_dashboard.companyshopmgt.addproduct.EditProductActivity" />
     </application>
 
 </manifest>

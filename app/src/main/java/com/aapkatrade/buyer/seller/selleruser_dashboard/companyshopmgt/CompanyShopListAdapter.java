@@ -2,6 +2,7 @@ package com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -16,6 +17,8 @@ import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.serviceenquiryList.ServiceEnquiryActivity;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.serviceenquiryList.ServiceEnquiryData;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.serviceenquiryList.ServiceEnquiryHolder;
+import com.aapkatrade.buyer.shopdetail.ShopDetailActivity;
+import com.aapkatrade.buyer.shopdetail.shop_all_product.ShopAllProductActivity;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -40,7 +43,6 @@ public class CompanyShopListAdapter extends RecyclerView.Adapter<CompanyShopData
         this.companyShopLinkedList = companyShopLinkedList;
         appSharedpreference = new AppSharedPreference(context);
         progressHandler = new ProgressBarHandler(context);
-//        AndroidUtils.showErrorLog(context, " The size of list is  ", companyShopLinkedList.size());
     }
 
 
@@ -52,7 +54,7 @@ public class CompanyShopListAdapter extends RecyclerView.Adapter<CompanyShopData
 
     @SuppressLint("NewApi")
     @Override
-    public void onBindViewHolder(CompanyShopDataHolder holder, int position) {
+    public void onBindViewHolder(CompanyShopDataHolder holder, final int position) {
         StringBuilder stringBuilder = new StringBuilder(companyShopLinkedList.get(position).getName());
         stringBuilder.append("<br>").append("<font color=\"#7dbd00\"><i>").append(companyShopLinkedList.get(position).getCreated()).append("</i></font>").append("<br>").append("Products : ").append(companyShopLinkedList.get(position).getProductCount());
         String tvData = stringBuilder.toString();
@@ -68,6 +70,16 @@ public class CompanyShopListAdapter extends RecyclerView.Adapter<CompanyShopData
             @Override
             public void onClick(View v) {
 
+            }
+        });
+
+        holder.cardLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intentShopDetail = new Intent(context, ShopDetailActivity.class);
+                intentShopDetail.putExtra("product_id", companyShopLinkedList.get(position).getCompanyId());
+                context.startActivity(intentShopDetail);
             }
         });
     }

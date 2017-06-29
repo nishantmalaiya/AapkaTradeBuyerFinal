@@ -73,7 +73,7 @@ public class CompanyShopData {
 
     @Override
     public boolean equals(Object obj) {
-        return obj == this || obj instanceof CompanyShopData && this.companyId.equals(((CompanyShopData) obj).companyId);
+        return obj == this || obj instanceof CompanyShopData && this.getName().equals(((CompanyShopData) obj).getName());
     }
 
     @Override

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/addCompanyShopLayout"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -23,20 +23,40 @@
         </RelativeLayout>
 
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="fill_parent">
+            android:layout_height="fill_parent"
+            android:orientation="horizontal"
+            android:weightSum="3"
+            >
 
-            <android.support.v4.widget.NestedScrollView
+            <com.aapkatrade.buyer.uicomponent.daystile.DaysTileView
+                android:id="@+id/daysTileView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:minHeight="@dimen/three_hundred_dip"
+                />
 
-                <include layout="@layout/content_add_company_shop" />
+
+            <com.aapkatrade.buyer.uicomponent.daystile.DaysTileView
+                android:id="@+id/daysTileView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:minHeight="@dimen/three_hundred_dip"
+                />
+
+            <com.aapkatrade.buyer.uicomponent.daystile.DaysTileView
+                android:id="@+id/daysTileView3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:minHeight="@dimen/three_hundred_dip"
+                />
 
 
-            </android.support.v4.widget.NestedScrollView>
-
-        </RelativeLayout>
+        </LinearLayout>
 
 
     </LinearLayout>
