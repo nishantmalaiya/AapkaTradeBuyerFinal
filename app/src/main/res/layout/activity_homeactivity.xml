@@ -70,19 +70,40 @@
                     </android.support.v4.widget.NestedScrollView>
 
 <RelativeLayout
-    android:layout_width="wrap_content"
+    android:layout_width="@dimen/sixty_dip"
     android:layout_alignParentBottom="true"
     android:layout_gravity="bottom|right"
-    android:gravity="right"
+
     android:id="@+id/container_chat_icon"
     app:layout_behavior="com.aapkatrade.buyer.general.BottomNavigationBehavior"
     android:layout_marginBottom="@dimen/sixty_dip"
     android:layout_marginRight="@dimen/twenty_dip"
-    android:layout_height="wrap_content">
+
+    android:layout_height="@dimen/sixty_dip">
     <ImageView
         android:layout_width="@dimen/fifty_dip"
         android:src="@drawable/chat_icon_temp"
-        android:layout_height="@dimen/fifty_dip" />
+        android:id="@+id/img_chat"
+        android:layout_alignParentBottom="true"
+        android:layout_height="@dimen/fifty_dip"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:id="@+id/textOne"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="@dimen/ten_dip"
+        android:layout_marginRight="@dimen/ten_dip"
+        android:layout_alignTop="@id/img_chat"
+        android:layout_alignRight="@id/img_chat"
+        android:text="10"
+        android:textColor="#FFF"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:background="@drawable/badge_circle"/>
+
 
 </RelativeLayout>
 

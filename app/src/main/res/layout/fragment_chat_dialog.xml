@@ -12,207 +12,184 @@
 
     <RelativeLayout
         android:id="@+id/cross_container"
-        android:layout_width="match_parent"
-        android:background="@color/green"
-        android:layout_height="wrap_content">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/green">
 
         <ImageView
+            android:id="@+id/img_close_dialog"
             android:layout_width="@dimen/fifty_dip"
             android:layout_height="@dimen/fifty_dip"
             android:layout_alignParentRight="true"
             android:layout_margin="@dimen/five_dip"
             android:src="@drawable/ic_cross" />
 
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="11dp"
+            android:text="@string/welcomeguest"
+            android:textColor="@color/white" />
+
+
     </RelativeLayout>
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
+        android:layout_below="@+id/cross_container"
+        android:layout_marginBottom="@dimen/twenty_dip"
         android:fillViewport="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true">
+
+        >
 
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:weightSum="2">
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:layout_marginTop="@dimen/fifty_dip"
+            android:gravity="center_vertical|center_horizontal"
+            android:orientation="vertical">
 
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/twenty_dip"
+                android:layout_marginRight="@dimen/twenty_dip"
 
+                android:gravity="center_vertical"
+                tools:ignore="NestedWeights">
 
-                android:orientation="vertical">
+                <android.support.design.widget.TextInputLayout
 
-
-                <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="11dp"
-                    android:text="@string/welcomeguest"
-                    android:textColor="@color/white" />
+                    android:hint="@string/email_or_mobile"
+                    android:textColorHint="@color/white"
+                    android:theme="@style/myedittextWhite"
+                    tools:ignore="HardcodedText">
 
+
+                    <EditText
+                        android:id="@+id/etEmail"
+                        style="@style/myedittextWhite"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/five_dip"
+                        android:layout_toRightOf="@+id/imgview_password"
+                        android:imeOptions="actionNext"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:padding="@dimen/ten_dip"
+                        android:theme="@style/myedittextWhite"
+
+                        tools:ignore="RtlHardcoded" />
+
+                </android.support.design.widget.TextInputLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/twenty_dip"
+                android:layout_marginRight="@dimen/twenty_dip"
+
+                android:gravity="center_vertical">
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:hint="Name"
+
+                    android:textColorHint="@color/white"
+                    android:theme="@style/myedittextWhite"
+                    tools:ignore="HardcodedText">
+
+                    <EditText
+                        android:id="@+id/etname"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_toRightOf="@+id/imgview_username"
+                        android:imeOptions="actionDone"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:padding="@dimen/ten_dip"
+                        android:theme="@style/myedittextWhite"
+
+                        tools:ignore="RtlHardcoded" />
+
+                </android.support.design.widget.TextInputLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/twenty_dip"
+                android:layout_marginRight="@dimen/twenty_dip"
+
+                android:gravity="center_vertical">
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:hint="Your Question"
+                    android:textColorHint="@color/white"
+                    android:theme="@style/myedittextWhite"
+
+                    tools:ignore="HardcodedText">
+
+                    <EditText
+                        android:id="@+id/etyourquestion"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_toRightOf="@+id/imgview_username"
+                        android:imeOptions="actionDone"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:padding="@dimen/ten_dip"
+                        android:theme="@style/myedittextWhite"
+                        tools:ignore="RtlHardcoded" />
+
+                </android.support.design.widget.TextInputLayout>
 
             </RelativeLayout>
 
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-android:layout_marginTop="@dimen/fifty_dip"
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:gravity="center_vertical|center_horizontal"
-                android:orientation="vertical">
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="@dimen/twenty_dip"
+android:layout_marginBottom="@dimen/twenty_dip"
 
+                android:gravity="center_vertical">
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
+                <Button
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="@dimen/twenty_dip"
-                    android:layout_marginRight="@dimen/twenty_dip"
+                    android:layout_centerHorizontal="true"
+                    android:background="@color/color_voilet"
+                    android:text="@string/startchat"
+                    android:textColor="@color/white" />
 
-                    android:gravity="center_vertical"
-                    tools:ignore="NestedWeights">
-
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/email_or_mobile"
-                        android:textColorHint="@color/white"
-                        tools:ignore="HardcodedText">
+            </RelativeLayout>
 
 
-                        <EditText
-                            android:id="@+id/etEmail"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/five_dip"
-                            android:layout_toRightOf="@+id/imgview_password"
-                            android:imeOptions="actionNext"
-                            android:inputType="textEmailAddress"
-                            android:maxLines="1"
-                            android:padding="@dimen/ten_dip"
-                            android:theme="@style/myedittext"
-                            tools:ignore="RtlHardcoded" />
-
-                    </android.support.design.widget.TextInputLayout>
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="@dimen/twenty_dip"
-                    android:layout_marginRight="@dimen/twenty_dip"
-
-                    android:gravity="center_vertical">
-
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:layout_alignParentTop="true"
-                        android:hint="Name"
-
-                        android:textColorHint="@color/white"
-                        android:theme="@style/myedittext"
-                        tools:ignore="HardcodedText">
-
-                        <EditText
-                            android:id="@+id/etname"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:layout_toRightOf="@+id/imgview_username"
-                            android:imeOptions="actionDone"
-                            android:inputType="textPassword"
-                            android:maxLines="1"
-                            android:padding="@dimen/ten_dip"
-                            android:theme="@style/myedittext"
-                            tools:ignore="RtlHardcoded" />
-
-                    </android.support.design.widget.TextInputLayout>
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="@dimen/twenty_dip"
-                    android:layout_marginRight="@dimen/twenty_dip"
-
-                    android:gravity="center_vertical">
-
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:layout_alignParentTop="true"
-                        android:hint="Your Question"
-
-                        android:textColorHint="@color/white"
-                        android:theme="@style/myedittext"
-                        tools:ignore="HardcodedText">
-
-                        <EditText
-                            android:id="@+id/etyourquestion"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:layout_toRightOf="@+id/imgview_username"
-                            android:imeOptions="actionDone"
-                            android:inputType="textPassword"
-                            android:maxLines="1"
-                            android:padding="@dimen/ten_dip"
-                            android:theme="@style/myedittext"
-                            tools:ignore="RtlHardcoded" />
-
-                    </android.support.design.widget.TextInputLayout>
-
-                </RelativeLayout>
-
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_margin="@dimen/twenty_dip"
-                    android:layout_marginLeft="@dimen/twenty_dip"
-                    android:layout_marginRight="@dimen/twenty_dip"
-
-                    android:gravity="center_vertical">
-
-                   <Button
-                       android:layout_width="wrap_content"
-                       android:layout_centerHorizontal="true"
-                       android:background="@color/color_voilet"
-                       android:text="@string/startchat"
-                       android:textColor="@color/white"
-                       android:layout_height="wrap_content" />
-
-                </RelativeLayout>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            </LinearLayout>
         </LinearLayout>
 
 

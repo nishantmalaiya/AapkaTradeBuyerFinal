@@ -173,7 +173,8 @@
             -->
 
         </activity>
-        <activity android:name=".seller.selleruser_dashboard.companyshopmgt.addproduct.EditProductActivity"></activity>
+        <activity android:name=".seller.selleruser_dashboard.companyshopmgt.addproduct.EditProductActivity" />
+        <activity android:name=".Chat.ChatActivity"></activity>
     </application>
 
 </manifest>
