@@ -16,6 +16,7 @@ public class SalesTransactionMachine {
         this.paymentStatus = paymentStatus;
         this.TxnDate = TxnDate;
         this.benificalPayoutDate = benificalPayoutDate;
+
     }
 
 

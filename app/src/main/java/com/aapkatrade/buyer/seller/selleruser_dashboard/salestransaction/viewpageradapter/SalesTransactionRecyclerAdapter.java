@@ -26,16 +26,19 @@ import java.util.List;
 
 public class SalesTransactionRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final LayoutInflater inflater;
-    public ArrayList<SalesTransactionMachine> itemList;
+    public ArrayList<SalesTransactionData> itemList;
     public Activity context;
     private SalesTransactionReyclerHolder viewHolder;
     private ProgressBarHandler progressBarHandler;
+    String fromDate, toDate;
 
-    public SalesTransactionRecyclerAdapter(Context context, ArrayList<SalesTransactionMachine> itemList) {
+    public SalesTransactionRecyclerAdapter(Context context, ArrayList<SalesTransactionData> itemList, String fromDate, String toDate) {
         this.itemList = itemList;
         this.context = (Activity) context;
         inflater = LayoutInflater.from(context);
         progressBarHandler = new ProgressBarHandler(context);
+        this.fromDate = fromDate;
+        this.toDate = toDate;
     }
 
 
@@ -59,12 +62,14 @@ public class SalesTransactionRecyclerAdapter extends RecyclerView.Adapter<Recycl
 
         final SalesTransactionReyclerHolder homeHolder = (SalesTransactionReyclerHolder) holder;
 
-        StringBuilder stringBuilder = new StringBuilder("<font size=\"15\" " + "color=" + ContextCompat.getColor(context, R.color.green) + ">Txn ID." + itemList.get(position).TxnId + "</font>");
-        stringBuilder.append("<br>").append("<i>" + itemList.get(position).benificalPayoutDate).append("</i>" + "<br><b><font color=" + ContextCompat.getColor(context, R.color.black) + "> Txn Date:" + "</font></b> " + itemList.get(position).TxnDate).append("<br>" + "<font color=" + ContextCompat.getColor(context, R.color.black) + ">").append("Sales Amount : </font>").append(" " + context.getString(R.string.rupay_text)).append(itemList.get(position).SalesAmount).append("<br>").append("07-june-2017<b>to</b>16-june-2017");
+        StringBuilder stringBuilder = new StringBuilder("");
+        stringBuilder.append("<i>" + itemList.get(position).paymentDate).append("</i>" + "<br><b><font color=" + ContextCompat.getColor(context, R.color.black) + "> Txn Date:" + "</font></b> " + itemList.get(position).paymentDate).append("<br>" + "<font color=" + ContextCompat.getColor(context, R.color.black) + ">").append("Sales Amount : </font>").append(" " + context.getString(R.string.rupay_text)).append(itemList.get(position).paymentAmount).append("<br>").append(fromDate).append("<i><font color=" + "#F8670E> To </font></i>").append(toDate);
         String tvData = stringBuilder.toString();
         homeHolder.SalesMachineTxnData.setText(Html.fromHtml(tvData));
-        homeHolder.TxnAmount.setText(itemList.get(position).TxnAmount);
+        homeHolder.TxnAmount.setText(context.getString(R.string.rupay_text) + itemList.get(position).paymentAmount);
         homeHolder.TxnStatus.setText(itemList.get(position).paymentStatus);
+
+        homeHolder.tv_saleshistorietxnid.setText("Txn ID."+itemList.get(position).BankRefNo );
 
 
     }

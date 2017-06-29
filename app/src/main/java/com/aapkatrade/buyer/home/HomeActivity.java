@@ -31,6 +31,8 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.aapkatrade.buyer.dialogs.ChatDialogFragment;
+import com.aapkatrade.buyer.dialogs.ServiceEnquiry;
 import com.aapkatrade.buyer.dialogs.track_order.TrackOrderDialog;
 import com.aapkatrade.buyer.general.Validation;
 import com.aapkatrade.buyer.login.LoginDashboard;
@@ -85,7 +87,7 @@ public class HomeActivity extends AppCompatActivity {
     public static TextView tvCartCount;
     int home_activity = 1;
     ImageView logoWord;
-
+    RelativeLayout ChatContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,6 +113,7 @@ public class HomeActivity extends AppCompatActivity {
 
         //prefs = getSharedPreferences(shared_pref_name, Activity.MODE_PRIVATE);
         context = this;
+        ChatContainer = (RelativeLayout) findViewById(R.id.container_chat_icon);
         rlTutorial = (RelativeLayout) findViewById(R.id.rlFirstTime);
         //  permissions  granted.
         setupToolBar();
@@ -122,12 +125,21 @@ public class HomeActivity extends AppCompatActivity {
         setup_bottomNavigation();
         AppConfig.deleteCache(HomeActivity.this);
 
+
         if (permission_status && (rl_main_content.getVisibility() == View.GONE)) {
 
             rl_main_content.setVisibility(View.VISIBLE);
 
 
         }
+
+
+        ChatContainer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                open_chat();
+            }
+        });
     }
 
     private void preInit() {
@@ -497,6 +509,17 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
+    public void open_chat() {
+
+
+        ChatDialogFragment serviceEnquiry = new ChatDialogFragment(context);
+
+
+        FragmentManager fm = getSupportFragmentManager();
+        serviceEnquiry.show(fm, "enquiry");
+
+
+    }
 
 }
 

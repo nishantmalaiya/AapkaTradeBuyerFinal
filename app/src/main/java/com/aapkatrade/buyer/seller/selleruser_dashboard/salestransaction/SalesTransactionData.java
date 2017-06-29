@@ -7,7 +7,7 @@ package com.aapkatrade.buyer.seller.selleruser_dashboard.salestransaction;
 public class SalesTransactionData {
 
 
-    String paymentMode,paymentDate,RequestRefNo,BankRefNo,paymentStatus,paymentAmount;
+    public String paymentMode,paymentDate,RequestRefNo,BankRefNo,paymentStatus,paymentAmount;
 
     public SalesTransactionData(String paymentMode, String paymentDate, String requestRefNo, String bankRefNo, String paymentStatus, String paymentAmount) {
         this.paymentMode = paymentMode;
@@ -17,4 +17,18 @@ public class SalesTransactionData {
         this.paymentStatus = paymentStatus;
         this.paymentAmount = paymentAmount;
     }
+
+   /* public String MachineNo, TxnAmount, SalesAmount, ToDate, FromDate, TransationStatus, TotalTxnAmount, TotalSalesAmount;
+    public SalesTransactionData(String machineNo, String txnAmount, String salesAmount, String toDate, String fromDate, String transationStatus, String totalTxnAmount, String totalSalesAmount) {
+        MachineNo = machineNo;
+        TxnAmount = txnAmount;
+        SalesAmount = salesAmount;
+        ToDate = toDate;
+        FromDate = fromDate;
+        TransationStatus = transationStatus;
+        TotalTxnAmount = totalTxnAmount;
+        TotalSalesAmount = totalSalesAmount;
+    }*/
+
+
 }

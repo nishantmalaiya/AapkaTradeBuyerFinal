@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -55,15 +57,17 @@ public class SalesTransaction extends AppCompatActivity implements TimePickerDia
     private String date;
     private LinearLayoutManager linearLayoutManager;
     SalesTransactionAdapter salesTransactionAdapter;
-    ArrayList<SalesMachineResultData> salesTransactionDatas = new ArrayList<>();
+
     ProgressBarHandler progressBarHandler;
     ViewPager viewpagerSalesTransaction;
     ViewpagerAdapterSalesTransaction viewpagerAdapterSalesTransaction;
-    FrameLayout fl_salestransaction;
+    RelativeLayout fl_salestransaction;
     CircleIndicator circleIndicator;
     TextView txn_amount_total, sales_amount_total;
-    ArrayList<ArrayList<SalesTransactionMachine>> MachineDatas = new ArrayList<>();
-    ArrayList<SalesTransactionMachine> salesTransactionMachineArrayList = new ArrayList<>();
+    ArrayList<SalesMachineResultData> MachineDatas = new ArrayList<>();
+
+    ArrayList<SalesTransactionData> SalesTransactionData = new ArrayList<>();
+
 
     CommonInterface commonInterface;
 
@@ -76,7 +80,6 @@ public class SalesTransaction extends AppCompatActivity implements TimePickerDia
         initView();
         setUpToolBar();
         setSpinnerTransactionType();
-        callWebserviceSalesTransaction();
 
 
         etstartdate.setOnClickListener(new View.OnClickListener() {
@@ -110,7 +113,7 @@ public class SalesTransaction extends AppCompatActivity implements TimePickerDia
                         if (fl_salestransaction.getVisibility() == View.VISIBLE) {
                             fl_salestransaction.setVisibility(View.GONE);
                             viewpagerSalesTransaction.setVisibility(View.VISIBLE);
-                            setViewPager(MachineDatas);
+                            callWebserviceSalesTransaction();
 
                         }
 
@@ -137,27 +140,22 @@ public class SalesTransaction extends AppCompatActivity implements TimePickerDia
 
     }
 
-    private void setViewPager(ArrayList<ArrayList<SalesTransactionMachine>> machineDatas) {
+    private void setViewPager(ArrayList<SalesMachineResultData> machineDatas, String totalTxnAmount, String totalSalesAmount) {
 
 
-
-
-
-        salesTransactionMachineArrayList.add(new SalesTransactionMachine("1245646", "15-May-2017", "436", "547", "COMPLETE", "15-June-2017"));
-        salesTransactionMachineArrayList.add(new SalesTransactionMachine("1245646", "15-May-2017", "436", "547", "COMPLETE", "15-June-2017"));
-        salesTransactionMachineArrayList.add(new SalesTransactionMachine("1245646", "15-May-2017", "436", "547", "COMPLETE", "15-June-2017"));
-
-        MachineDatas.add(salesTransactionMachineArrayList);
-
-        viewpagerAdapterSalesTransaction = new ViewpagerAdapterSalesTransaction(c, this.salesTransactionDatas, machineDatas, viewpagerSalesTransaction);
+        viewpagerAdapterSalesTransaction = new ViewpagerAdapterSalesTransaction(c, machineDatas, viewpagerSalesTransaction);
 
         viewpagerSalesTransaction.setAdapter(viewpagerAdapterSalesTransaction);
 
         //circleIndicator.setViewPager(viewpagerSalesTransaction);
 
+        StringBuilder stringBuilder_txnamount = new StringBuilder("<br><font size=\"20\" color=" + "#ffffff>Txn Amount. <br> " + "Total" + " " + c.getString(R.string.rupay_text) + totalTxnAmount + "</font>");
+        String tvData = stringBuilder_txnamount.toString();
+        txn_amount_total.setText(Html.fromHtml(tvData));
 
-        txn_amount_total.setText("Txn Amount Total:1250,50");
-        sales_amount_total.setText("Sales Amount Total:1250,50");
+        StringBuilder stringBuilder_salesamount = new StringBuilder("<br><font size=\"20\" color=" + "#ffffff>Sales Amount. <br> " + "Total" +" " +c.getString(R.string.rupay_text)  + totalSalesAmount + "</font>");
+        String tvData2 = stringBuilder_salesamount.toString();
+        sales_amount_total.setText(Html.fromHtml(tvData2));
 
 
     }
@@ -208,7 +206,7 @@ public class SalesTransaction extends AppCompatActivity implements TimePickerDia
         linearLayoutManager = new LinearLayoutManager(c, LinearLayoutManager.VERTICAL, false);
         viewpagerSalesTransaction = (ViewPager) findViewById(R.id.viewpagerSalesTransactionResult);
 
-        fl_salestransaction = (FrameLayout) findViewById(R.id.fl_salestransaction);
+        fl_salestransaction = (RelativeLayout) findViewById(R.id.fl_salestransaction);
         circleIndicator = (CircleIndicator) findViewById(R.id.indicator_custom_sales_transaction);
 
         txn_amount_total = (TextView) findViewById(R.id.txn_amount_total);
@@ -224,9 +222,10 @@ public class SalesTransaction extends AppCompatActivity implements TimePickerDia
 
         Ion.with(this)
                 .load(BillHistoryWebservice).setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
-                .setBodyParameter("seller_id", appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString()))
+//                .setBodyParameter("seller_id", appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString()))
 
 
+                .setBodyParameter("seller_id", "133")
                 .setBodyParameter("from_date", etstartdate.getText().toString())
                 .setBodyParameter("to_date", etenddate.getText().toString())
                 .setBodyParameter("page", "1")
@@ -249,7 +248,7 @@ public class SalesTransaction extends AppCompatActivity implements TimePickerDia
 
                         } else {
                             JsonArray result_jsonArray = result.getAsJsonArray("result");
-
+                            String TotalTxnAmount = "", TotalSalesAmount = "";
 
                             for (int k = 0; k < result_jsonArray.size(); k++) {
 
@@ -263,22 +262,53 @@ public class SalesTransaction extends AppCompatActivity implements TimePickerDia
 
                                 }
 
-                                String txnAmount = result_jsonobject.get("txnAmount").getAsString();
+                                String txnAmount = result_jsonobject.get("txn_amount").getAsString();
                                 String salesAmount = result_jsonobject.get("total_txt_amount").getAsString();
                                 String ToDate = etenddate.getText().toString();
-                                String fromDate =etstartdate.getText().toString();
+                                String fromDate = etstartdate.getText().toString();
+                                JsonObject transactions = result_jsonobject.getAsJsonObject("transactions");
+                                JsonObject total = transactions.getAsJsonObject("total");
 
-                                salesTransactionDatas.add(new SalesMachineResultData(machine_number, txnAmount,salesAmount, ToDate, fromDate, "COMPLETE"));
+                                TotalTxnAmount = total.get("txn_amount").getAsString();
+                                TotalSalesAmount = total.get("sales_amount").getAsString();
+
+                                JsonArray resulr_list_data = transactions.getAsJsonArray("list");
+
+                                for (int l = 0; l < resulr_list_data.size(); l++) {
+                                    JsonObject resultjsonlist = resulr_list_data.get(l).getAsJsonObject();
+                                    String listStatus;
+                                    if (resultjsonlist.get("payout_status").getAsString().contains("1")) {
+                                        listStatus = "COMPLETED";
+                                    } else {
+                                        listStatus = "PENDING";
+
+                                    }
+                                    String paymentdate = resultjsonlist.get("payout_date").getAsString();
+                                    String RequestRefNo = resultjsonlist.get("request_reference_no").getAsString();
+                                    String BankRefNo = resultjsonlist.get("request_reference_no").getAsString();
+
+                                    String paymentAmount = resultjsonlist.get("net_amount").getAsString();
+
+
+                                    SalesTransactionData.add(new SalesTransactionData(listStatus, paymentdate, RequestRefNo, BankRefNo, listStatus, paymentAmount));
+                                }
+
+
+                                MachineDatas.add(new SalesMachineResultData(machine_number, txnAmount, salesAmount, ToDate, fromDate, "COMPLETE", TotalTxnAmount, TotalSalesAmount, SalesTransactionData));
                             }
 
 
-                            MachineDatas.add(salesTransactionMachineArrayList);
-
-                            setViewPager(MachineDatas);
+                            setViewPager(MachineDatas, TotalTxnAmount, TotalSalesAmount);
 
 
                             AndroidUtils.showErrorLog(c, "responseBillPayment2", result.toString());
                             progressBarHandler.hide();
+
+                            if (findViewById(R.id.nestedScrollViewsalesTransaction).getVisibility() == View.GONE) {
+
+
+                                findViewById(R.id.nestedScrollViewsalesTransaction).setVisibility(View.VISIBLE);
+                            }
                         }
 
 

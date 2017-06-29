@@ -112,5 +112,10 @@
     <color name="datanotfound_gradient_top">#96f1e5</color>
     <color name="datanotfound_gradient_bottom">#26a997</color>
 
+    <color name="random_color1">#0072bb</color>
+    <color name="random_color2">#e45641</color>
+    <color name="random_color3">#00aaa0</color>
+    <color name="random_color4">#c26baa</color>
+
 
 </resources>
