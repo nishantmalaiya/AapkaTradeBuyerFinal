@@ -38,6 +38,7 @@
     <dimen name="one_dip">1dp</dimen>
     <dimen name="sixty_dip">60dp</dimen>
     <dimen name="one_hundred_fifty_dip" >150dp</dimen>
+    <dimen name="one_hundred_fourty_dip">140dp</dimen>
     <!-- view* 1 -->
 
 </resources>

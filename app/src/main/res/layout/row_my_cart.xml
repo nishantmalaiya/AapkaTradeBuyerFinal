@@ -27,15 +27,50 @@
             android:layout_alignParentStart="true">
 
 
-            <ImageView
+            <android.support.v7.widget.CardView
+                android:id="@+id/imgCardView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="10dp"
+                android:layout_margin="@dimen/five_dip"
+
+                >
+
+                <FrameLayout
+                    android:layout_width="@dimen/one_hundred_twenty_dip"
+                    android:layout_height="@dimen/one_hundred_fourty_dip">
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/imgProduct"
+                            android:layout_width="@dimen/one_hundred_twenty_dip"
+                            android:layout_height="@dimen/one_hundred_fourty_dip"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/honda_navi" />
+
+
+                    </RelativeLayout>
+
+
+
+                </FrameLayout>
+            </android.support.v7.widget.CardView>
+
+          <!--  <ImageView
                 android:id="@+id/imgProduct"
                 android:layout_width="@dimen/one_hundred_twenty_dip"
-                android:layout_height="@dimen/one_hundred_fifty_dip"
+                android:layout_height="@dimen/one_hundred_fourty_dip"
                 android:src="@drawable/demo_review_pic"
                 android:scaleType="fitXY"
                 android:layout_marginRight="5dp"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentStart="true" />
+
+            -->
+
 
             <LinearLayout
                 android:layout_width="100dp"
@@ -73,10 +108,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Rose "
-                android:layout_toRightOf="@+id/imgProduct"
+                android:layout_toRightOf="@+id/imgCardView"
                 android:layout_marginLeft="@dimen/ten_dip"
                 android:textColor="@color/black"
                 android:textSize="@dimen/fifteen_dip"
+                android:layout_marginTop="@dimen/five_dip"
                 android:maxLines="1"
                 />
 
@@ -85,7 +121,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Seller: Amazing Business Solutions"
-                android:layout_toRightOf="@+id/imgProduct"
+                android:layout_toRightOf="@+id/imgCardView"
                 android:layout_marginLeft="@dimen/ten_dip"
                 android:layout_below="@+id/tvProductName"
                 android:layout_marginTop="@dimen/five_dip"
@@ -98,7 +134,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Rs. 74.00"
-                android:layout_toRightOf="@+id/imgProduct"
+                android:layout_toRightOf="@+id/imgCardView"
                 android:layout_marginLeft="@dimen/ten_dip"
                 android:layout_below="@+id/tvProductShopName"
                 android:textColor="@color/orange"
@@ -112,7 +148,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Rs. 74.00"
-                android:layout_toRightOf="@+id/imgProduct"
+                android:layout_toRightOf="@+id/imgCardView"
                 android:layout_marginLeft="@dimen/ten_dip"
                 android:layout_below="@+id/tvProductShopName"
                 android:textColor="@color/orange"
@@ -142,7 +178,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tvProductSubtotalPrice"
                 android:background="@drawable/border_bg_grey"
-                android:layout_toRightOf="@+id/imgProduct"
+                android:layout_toRightOf="@+id/imgCardView"
                 android:gravity="center"
                 android:layout_marginTop="@dimen/ten_dip"
                 android:layout_marginLeft="@dimen/five_dip"
@@ -192,7 +228,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Shipping Charge Rs. 74.00"
-                android:layout_toRightOf="@+id/imgProduct"
+                android:layout_toRightOf="@+id/imgCardView"
                 android:layout_marginLeft="@dimen/ten_dip"
                 android:layout_below="@+id/dropdown_ll"
                 android:textColor="@color/black"
@@ -206,7 +242,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/dropdown_ll"
-                android:layout_toRightOf="@+id/imgProduct"
+                android:layout_toRightOf="@+id/imgCardView"
                 android:layout_marginTop="@dimen/ten_dip"
                 android:layout_marginLeft="@dimen/ten_dip"
                 android:text="Seller does not exits deliver this item to 224176"

@@ -60,7 +60,7 @@ public class CartCheckoutActivity extends AppCompatActivity
     ArrayList<CartData> cartDataArrayList = new ArrayList<>();
     private Context context;
     private ImageView locationImageView;
-    public static TextView tvContinue, tvPriceItemsHeading, tvPriceItems, tvLastPayableAmount, tvAmountPayable,addressPhone;
+    public static TextView tvContinue, tvPriceItemsHeading, tvPriceItems, tvLastPayableAmount, tvAmountPayable,addressPhone,tvDelivery;
     RelativeLayout buttonContainer;
     RecyclerView mycartRecyclerView;
     CartCheckOutAdapter cartAdapter;
@@ -115,7 +115,8 @@ public class CartCheckoutActivity extends AppCompatActivity
     }
 
 
-    private void initView() {
+    private void initView()
+    {
 
         linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
 
@@ -131,7 +132,6 @@ public class CartCheckoutActivity extends AppCompatActivity
 
         addressPhone = (TextView) findViewById(R.id.addressPhone);
 
-
         addressLine1.setText(app_sharedpreference.getSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS_NAME.toString(), ""));
 
         addressLine2.setText(app_sharedpreference.getSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS.toString(), ""));
@@ -139,7 +139,6 @@ public class CartCheckoutActivity extends AppCompatActivity
         addressLine3.setText(app_sharedpreference.getSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS_CITY.toString(), "")+"-"+app_sharedpreference.getSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS_PINCODE.toString(), ""));
 
         addressPhone.setText(app_sharedpreference.getSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS_PHONE.toString(), ""));
-
 
         locationImageView = (ImageView) findViewById(R.id.locationImageView);
 
@@ -150,6 +149,8 @@ public class CartCheckoutActivity extends AppCompatActivity
         tvAmountPayable = (TextView) findViewById(R.id.tvAmountPayable);
 
         tvPriceItems = (TextView) findViewById(R.id.tvPriceItems);
+
+        tvDelivery = (TextView) findViewById(R.id.tvDelivery);
 
         tvPriceItems.setText(getApplicationContext().getResources().getText(R.string.rupay_text) + "4251");
 
@@ -181,12 +182,9 @@ public class CartCheckoutActivity extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-
                 String userid = app_sharedpreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), "");
                 callwebservice__save_order(userid);
-
                //     makePayment();
-
             }
         });
 
@@ -194,7 +192,8 @@ public class CartCheckoutActivity extends AppCompatActivity
     }
 
 
-    private void setuptoolbar() {
+    private void setuptoolbar()
+    {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -203,15 +202,18 @@ public class CartCheckoutActivity extends AppCompatActivity
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
         getMenuInflater().inflate(R.menu.menu_map, menu);
         return true;
     }
 
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
             case android.R.id.home:
                 finish();
                 break;
@@ -251,13 +253,16 @@ public class CartCheckoutActivity extends AppCompatActivity
                             AndroidUtils.showErrorLog(context, "-jsonObject------------" + result.toString());
 
                             JsonObject jsonObject = result.getAsJsonObject("result");
-
+                            String product_total_amount = jsonObject.get("product_total_amount").getAsString();
                             String cart_count = jsonObject.get("total_qty").getAsString();
                             String total_amount = jsonObject.get("total_amount").getAsString();
+                            String total_shipping_charge = jsonObject.get("total_shipping").getAsString();
 
                             tvPriceItemsHeading.setText("Price (" + cart_count + " item)");
-                            tvPriceItems.setText(getApplicationContext().getResources().getText(R.string.rupay_text) + total_amount);
+                            tvPriceItems.setText(getApplicationContext().getResources().getText(R.string.rupay_text) + product_total_amount);
                             tvAmountPayable.setText(getApplicationContext().getResources().getText(R.string.rupay_text) + total_amount);
+                            tvDelivery.setText(getApplicationContext().getResources().getText(R.string.rupay_text) + total_shipping_charge);
+
                             // tvLastPayableAmount.setText(getApplicationContext().getResources().getText(R.string.rupay_text)+total_amount);
 
                             JsonArray jsonProductList = jsonObject.getAsJsonArray("items");

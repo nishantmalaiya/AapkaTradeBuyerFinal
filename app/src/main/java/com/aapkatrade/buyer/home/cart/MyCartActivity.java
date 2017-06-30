@@ -197,7 +197,6 @@ public class MyCartActivity extends AppCompatActivity {
 
     private void cartList(String pageNumber)
     {
-
         //cartDataArrayList.clear();
         progressBarHandler.show();
 

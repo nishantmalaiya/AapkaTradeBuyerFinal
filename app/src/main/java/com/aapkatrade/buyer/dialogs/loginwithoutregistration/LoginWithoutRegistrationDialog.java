@@ -157,6 +157,7 @@ public class LoginWithoutRegistrationDialog extends DialogFragment {
         JsonObject jsonObject = webservice_returndata.getAsJsonObject("all_info");
         Log.e("hi", jsonObject.toString());
 
+        appSharedPreference.setSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), "1");
         appSharedPreference.setSharedPref(SharedPreferenceConstants.USER_ID.toString(), webservice_returndata.get("user_id").getAsString());
         appSharedPreference.setSharedPref(SharedPreferenceConstants.FIRST_NAME.toString(), jsonObject.get("name").getAsString());
         appSharedPreference.setSharedPref(SharedPreferenceConstants.USER_NAME.toString(), jsonObject.get("name").getAsString());
@@ -230,7 +231,8 @@ public class LoginWithoutRegistrationDialog extends DialogFragment {
         }
     }
 
-    private void visibleHiddenLayouts() {
+    private void visibleHiddenLayouts()
+    {
         passwordLayout.setVisibility(View.VISIBLE);
         row2Layout.setVisibility(View.VISIBLE);
         otpLayout.setVisibility(View.VISIBLE);
@@ -240,7 +242,8 @@ public class LoginWithoutRegistrationDialog extends DialogFragment {
         etEmailOrMobile.setEnabled(false);
     }
 
-    private void callStep2WebService() {
+    private void callStep2WebService()
+    {
 
         AndroidUtils.showErrorLog(context, " URL  ---> " + new StringBuilder(getString(R.string.webservice_base_url)).append("/").append("varify_buyer_otp").toString());
         AndroidUtils.showErrorLog(context, "Data to sent UserID : " + appSharedPreference.getSharedPref(SharedPreferenceConstants.TEMP_USER_ID.toString()) + "  OTP " + etOTP.getText().toString() + "  CLIENT_ID  :  " + appSharedPreference.getSharedPref(SharedPreferenceConstants.CLIENT_ID.toString()) + " PASSWORD : " + etPassword.getText().toString() + "type: " + type);
