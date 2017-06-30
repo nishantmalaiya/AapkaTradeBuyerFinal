@@ -1,4 +1,4 @@
-package com.aapkatrade.buyer.Chat;
+package com.aapkatrade.buyer.chat;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
