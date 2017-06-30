@@ -227,7 +227,7 @@ public class MyProfileActivity extends AppCompatActivity
         address = app_sharedpreference.getSharedPref(SharedPreferenceConstants.ADDRESS.toString(), "");
         usertype = app_sharedpreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), "");
 
-        Log.e("usertype", usertype);
+        Log.e("userType", usertype);
 
     }
 

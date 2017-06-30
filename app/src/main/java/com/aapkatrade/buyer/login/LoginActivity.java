@@ -63,7 +63,7 @@ public class LoginActivity extends AppCompatActivity {
 
         usertype = b.getString("user_login");
 
-        System.out.println("usertype"+usertype);
+        System.out.println("userType"+usertype);
 
         appSharedpreference = new AppSharedPreference(context);
         progressBarHandler = new ProgressBarHandler(context);

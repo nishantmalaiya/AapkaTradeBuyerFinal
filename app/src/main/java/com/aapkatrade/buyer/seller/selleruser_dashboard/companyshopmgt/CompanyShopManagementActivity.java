@@ -223,8 +223,6 @@ public class CompanyShopManagementActivity extends AppCompatActivity {
             getSupportActionBar().setTitle(null);
             getSupportActionBar().setElevation(0);
         }
-
-
     }
 
     @Override

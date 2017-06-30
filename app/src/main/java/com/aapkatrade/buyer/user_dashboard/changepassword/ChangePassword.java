@@ -60,7 +60,7 @@ public class ChangePassword extends AppCompatActivity {
 
         progressHandler.show();
 
-        System.out.println("user_id------------" + appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString()) + "usertype-----buyer" + "old password--" + etOldPassword.getText().toString() + "Confirm password----" + etConfirmPassword.getText().toString());
+        System.out.println("user_id------------" + appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString()) + "userType-----buyer" + "old password--" + etOldPassword.getText().toString() + "Confirm password----" + etConfirmPassword.getText().toString());
 
         if (ConnetivityCheck.isNetworkAvailable(ChangePassword.this)) {
 

@@ -156,7 +156,7 @@
     <string name="enter_delivery_pin">Enter Delivery Pincode</string>
     <string name="check">Check</string>
 
-    <string name="usertype">1</string>
+    <string name="userType">1</string>
     <string name="continue_order">CONTINUE</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="trackorder">Track Your Order</string>
