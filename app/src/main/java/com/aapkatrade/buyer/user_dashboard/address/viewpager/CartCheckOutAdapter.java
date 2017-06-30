@@ -44,7 +44,6 @@ import java.util.List;
  * Created by PPC16 on 4/25/2017.
  */
 
-
 public class CartCheckOutAdapter extends RecyclerView.Adapter<CartHolder> implements View.OnClickListener
 {
 
@@ -61,28 +60,27 @@ public class CartCheckOutAdapter extends RecyclerView.Adapter<CartHolder> implem
     public static int cart_popup_position = 0;
 
 
-    public CartCheckOutAdapter(Context context, List<CartData> itemList) {
-
+    public CartCheckOutAdapter(Context context, List<CartData> itemList)
+    {
         this.itemList = itemList;
         this.context = context;
         inflater = LayoutInflater.from(context);
         appSharedPreference = new AppSharedPreference(context);
         progressBarHandler = new ProgressBarHandler(context);
         System.out.println("itemlist_cartdata-----------------" + itemList.size());
-
     }
 
     @Override
-    public CartHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public CartHolder onCreateViewHolder(ViewGroup parent, int viewType)
+    {
         return new CartHolder(inflater.inflate(R.layout.row_my_cart, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(final CartHolder holder, final int position) {
+    public void onBindViewHolder(final CartHolder holder, final int position)
+    {
 
         linearLayoutQuantity = holder.dropdown_ll;
-
-
 
         textViewQuantity = holder.textView64;
 
@@ -107,12 +105,14 @@ public class CartCheckOutAdapter extends RecyclerView.Adapter<CartHolder> implem
         if (itemList.get(position).available_status.equals("false"))
         {
             holder.tvAvailableProduct.setVisibility(View.VISIBLE);
+            holder.tvAvailableProduct.setText("Seller does not exits deliver this item to "+appSharedPreference.getSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS_PINCODE.toString(), ""));
             holder.tvProductShippingCharge.setVisibility(View.INVISIBLE);
         }
         else
         {
             holder.tvProductShippingCharge.setVisibility(View.VISIBLE);
             holder.tvAvailableProduct.setVisibility(View.INVISIBLE);
+            holder.tvProductShippingCharge.setText("Shipping Charge "+context.getResources().getText(R.string.rupay_text) +itemList.get(position).shipping_cost);
         }
 
         System.out.println("itemlist-------------" + itemList.get(position).product_image);
@@ -301,6 +301,7 @@ public class CartCheckOutAdapter extends RecyclerView.Adapter<CartHolder> implem
                 .setBodyParameter("id", product_id)
                 .setBodyParameter("device_id", android_id)
                 .setBodyParameter("user_id", user_id)
+                .setBodyParameter("pincode",appSharedPreference.getSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS_PINCODE.toString(), ""))
                 .asJsonObject()
                 .setCallback(new FutureCallback<JsonObject>() {
                     @Override
@@ -309,12 +310,15 @@ public class CartCheckOutAdapter extends RecyclerView.Adapter<CartHolder> implem
                         if (result != null) {
                             String error_message = result.get("error").getAsString();
 
-                            if (error_message.equals("false")) {
+                            if (error_message.equals("false"))
+                            {
 
                                 System.out.println("result--------------" + result);
                                 JsonObject jsonObject = result.getAsJsonObject("result");
+                                String product_total_amount = jsonObject.get("product_total_amount").getAsString();
                                 String total_amount = jsonObject.get("total_amount").getAsString();
                                 String cart_count = jsonObject.get("total_qty").getAsString();
+                                String total_shipping_change = jsonObject.get("total_shipping").getAsString();
 
                                 if (cart_count.equals("0")) {
                                     CartCheckoutActivity.cardviewProductDeatails.setVisibility(View.INVISIBLE);
@@ -331,7 +335,8 @@ public class CartCheckOutAdapter extends RecyclerView.Adapter<CartHolder> implem
                                 appSharedPreference.setSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), Integer.valueOf(cart_count));
 
                                 CartCheckoutActivity.tvPriceItemsHeading.setText("Price (" + cart_count + " items)");
-                                CartCheckoutActivity.tvPriceItems.setText(context.getResources().getText(R.string.rupay_text) + total_amount);
+                                CartCheckoutActivity.tvPriceItems.setText(context.getResources().getText(R.string.rupay_text) + product_total_amount);
+                                CartCheckoutActivity.tvDelivery.setText(context.getResources().getText(R.string.rupay_text) + total_shipping_change);
                                 CartCheckoutActivity.tvAmountPayable.setText(context.getResources().getText(R.string.rupay_text) + total_amount);
                                 // CartCheckoutActivity.tvLastPayableAmount.setText(context.getResources().getText(R.string.rupay_text)+total_amount);
 
@@ -376,6 +381,7 @@ public class CartCheckOutAdapter extends RecyclerView.Adapter<CartHolder> implem
                 .setBodyParameter("product_id", product_id)
                 .setBodyParameter("quantity", quantity)
                 .setBodyParameter("user_id", user_id)
+                .setBodyParameter("pincode",appSharedPreference.getSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS_PINCODE.toString(), ""))
                 .setBodyParameter("device_id", AppConfig.getCurrentDeviceId(context))
                 .asJsonObject()
                 .setCallback(new FutureCallback<JsonObject>() {
@@ -403,12 +409,16 @@ public class CartCheckOutAdapter extends RecyclerView.Adapter<CartHolder> implem
                                 } else {
                                     JsonObject jsonresult = result.getAsJsonObject("result");
 
+                                    String product_total_amount = jsonresult.get("product_total_amount").getAsString();
                                     String total_amount = jsonresult.get("total_amount").getAsString();
                                     String cart_count = jsonresult.get("total_qty").getAsString();
+                                    String total_shipping_charge = jsonresult.get("total_shipping").getAsString();
+
                                     appSharedPreference.setSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), Integer.valueOf(cart_count));
 
                                     CartCheckoutActivity.tvPriceItemsHeading.setText("Price (" + cart_count + " item)");
-                                    CartCheckoutActivity.tvPriceItems.setText(context.getResources().getText(R.string.rupay_text) + total_amount);
+                                    CartCheckoutActivity.tvPriceItems.setText(context.getResources().getText(R.string.rupay_text) + product_total_amount);
+                                    CartCheckoutActivity.tvDelivery.setText(context.getResources().getText(R.string.rupay_text) + total_shipping_charge);
                                     CartCheckoutActivity.tvAmountPayable.setText(context.getResources().getText(R.string.rupay_text) + total_amount);
                                     //CartCheckoutActivity.tvLastPayableAmount.setText(context.getResources().getText(R.string.rupay_text)+total_amount);
 

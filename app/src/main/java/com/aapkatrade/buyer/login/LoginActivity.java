@@ -320,6 +320,7 @@ public class LoginActivity extends AppCompatActivity {
                 .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                 .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                 .setBodyParameter("user_id", user_id)
+                .setBodyParameter("user_type",appSharedpreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), ""))
                 .setBodyParameter("device_id", AppConfig.getCurrentDeviceId(context))
                 .setBodyParameter("platform", "Android")
                 .asJsonObject()

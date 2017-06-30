@@ -97,7 +97,7 @@ public class ProfilePreviewActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
 
-                save_shared_pref("notlogin", "notlogin", "notlogin", "profile_pic");
+                save_shared_pref("notlogin", "notlogin", "notlogin", "profile_pic","");
                 Intent Homedashboard = new Intent(ProfilePreviewActivity.this, HomeActivity.class);
                 Homedashboard.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(Homedashboard);
@@ -230,12 +230,13 @@ public class ProfilePreviewActivity extends AppCompatActivity
     }
 
 
-    public void save_shared_pref(String user_id, String user_name, String email_id, String profile_pic)
+    public void save_shared_pref(String user_id, String user_name, String email_id, String profile_pic,String user_type)
     {
         appSharedPreference.setSharedPref(SharedPreferenceConstants.USER_ID.toString(), user_id);
         appSharedPreference.setSharedPref(SharedPreferenceConstants.USER_NAME.toString(), user_name);
         appSharedPreference.setSharedPref(SharedPreferenceConstants.EMAIL_ID.toString(), email_id);
         appSharedPreference.setSharedPref(SharedPreferenceConstants.PROFILE_PIC.toString(), profile_pic);
+        appSharedPreference.setSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), user_type);
     }
 
     /*

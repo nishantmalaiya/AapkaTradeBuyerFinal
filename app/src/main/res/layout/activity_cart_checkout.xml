@@ -224,7 +224,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentLeft="true"
                                 android:padding="@dimen/ten_dip"
-                                android:text="Delivery" />
+                                android:text="Total Shipping Charge" />
 
 
                             <TextView
