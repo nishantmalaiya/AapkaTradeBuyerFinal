@@ -29,12 +29,13 @@
 
             <ImageView
                 android:id="@+id/imgProduct"
-                android:layout_width="@dimen/one_hundred_five_dip"
-                android:layout_height="@dimen/one_hundred_thirty"
+                android:layout_width="@dimen/one_hundred_twenty_dip"
+                android:layout_height="@dimen/one_hundred_fifty_dip"
                 android:src="@drawable/demo_review_pic"
                 android:scaleType="fitXY"
                 android:layout_marginRight="5dp"
-                />
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true" />
 
             <LinearLayout
                 android:layout_width="100dp"
@@ -139,7 +140,7 @@
                 android:id="@+id/dropdown_ll"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tvProductPrice"
+                android:layout_below="@+id/tvProductSubtotalPrice"
                 android:background="@drawable/border_bg_grey"
                 android:layout_toRightOf="@+id/imgProduct"
                 android:gravity="center"
@@ -184,6 +185,34 @@
 
                 </LinearLayout>
             </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/tvProductShippingCharge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Shipping Charge Rs. 74.00"
+                android:layout_toRightOf="@+id/imgProduct"
+                android:layout_marginLeft="@dimen/ten_dip"
+                android:layout_below="@+id/dropdown_ll"
+                android:textColor="@color/black"
+                android:layout_marginTop="@dimen/five_dip"
+                android:maxLines="1"
+                android:visibility="gone"
+                />
+
+            <TextView
+                android:id="@+id/tvAvailableProduct"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/dropdown_ll"
+                android:layout_toRightOf="@+id/imgProduct"
+                android:layout_marginTop="@dimen/ten_dip"
+                android:layout_marginLeft="@dimen/ten_dip"
+                android:text="Seller does not exits deliver this item to 224176"
+                android:textColor="@color/red"
+                android:visibility="gone"
+                />
 
 
         </RelativeLayout>

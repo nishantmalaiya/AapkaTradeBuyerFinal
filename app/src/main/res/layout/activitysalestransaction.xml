@@ -30,19 +30,49 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@color/color_voilet"
+        android:padding="@dimen/ten_dip">
+
+
+        <TextView
+            android:id="@+id/txn_amount_total"
+            android:layout_width="@dimen/one_hundred_fifty_dip"
+            android:layout_height="wrap_content"
+            android:minLines="2"
+            android:textAlignment="center"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/sales_amount_total"
+            android:layout_width="@dimen/one_hundred_fifty_dip"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:gravity="right"
+            android:minLines="2"
+            android:textAlignment="center"
+
+            android:textColor="@color/white" />
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/rl_transaction_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/toolbarsize"
-        tools:context="com.aapkatrade.buyer.seller.selleruser_dashboard.billhistory.BillHistory">
+        android:layout_marginTop="@dimen/toolbarsize">
 
-        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/fl_salestransaction"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+
             android:layout_marginTop="@dimen/ten_dip">
 
 
@@ -86,7 +116,7 @@
                             android:layout_height="wrap_content"
                             android:layout_centerHorizontal="true"
                             android:layout_marginTop="@dimen/ten_dip"
-                            android:text="@string/paymenthistory"
+                            android:text="@string/salestransaction"
                             android:textStyle="bold" />
 
                         <android.support.design.widget.TextInputLayout
@@ -241,17 +271,6 @@
                 </android.support.v7.widget.CardView>
 
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recyclePaymentHistory"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_below="@+id/cardview_billDate"
-                    android:layout_marginBottom="@dimen/ten_dip">
-
-
-                </android.support.v7.widget.RecyclerView>
-
-
             </RelativeLayout>
 
             <RelativeLayout
@@ -285,6 +304,52 @@
 
             </RelativeLayout>
 
-        </FrameLayout>
-    </android.support.v4.widget.NestedScrollView>
+        </RelativeLayout>
+
+        <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/nestedScrollViewsalesTransaction"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/sixty_dip"
+            android:descendantFocusability="beforeDescendants"
+            android:fillViewport="true"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:visibility="gone">
+
+            <requestFocus />
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/viewpagerSalesTransactionResult"
+
+                android:layout_width="match_parent"
+
+                android:layout_height="match_parent"
+
+                android:nestedScrollingEnabled="false">
+
+            </android.support.v4.view.ViewPager>
+        </android.support.v4.widget.NestedScrollView>
+
+        <me.relex.circleindicator.CircleIndicator
+            android:id="@+id/indicator_custom_sales_transaction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="@dimen/two_hundred_dip"
+            android:visibility="gone"
+            app:ci_animator="@anim/indicator_animator"
+            app:ci_drawable="@drawable/selecteditem_dot"
+            app:ci_drawable_unselected="@drawable/nonselected_item"
+            app:ci_height="3dp"
+            app:ci_margin="3dp"
+            app:ci_width="8dp"
+            app:layout_behavior="com.aapkatrade.buyer.general.BottomNavigationBehavior" />
+    </RelativeLayout>
+
+
 </android.support.design.widget.CoordinatorLayout>

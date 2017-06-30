@@ -328,7 +328,7 @@ public class NavigationFragment extends Fragment {
                                 AndroidUtils.showErrorLog(context, "Category data", Category.toString());
 
                             }
-                            Collections.sort(listDataHeader, new Comparator<Category>(){
+                            Collections.sort(listDataHeader, new Comparator<Category>() {
                                 @Override
                                 public int compare(Category o1, Category o2) {
                                     return o1.getCategoryName().compareTo(o2.getCategoryName());

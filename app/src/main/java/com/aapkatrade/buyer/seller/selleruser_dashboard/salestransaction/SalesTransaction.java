@@ -3,25 +3,33 @@ package com.aapkatrade.buyer.seller.selleruser_dashboard.salestransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.Utils.adapter.CustomSpinnerAdapter;
+import com.aapkatrade.buyer.general.interfaces.CommonInterface;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
 import com.aapkatrade.buyer.home.HomeActivity;
+import com.aapkatrade.buyer.seller.selleruser_dashboard.salestransaction.viewpageradapter.SalesMachineResultData;
+import com.aapkatrade.buyer.seller.selleruser_dashboard.salestransaction.viewpageradapter.ViewpagerAdapterSalesTransaction;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
@@ -32,11 +40,13 @@ import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import me.relex.circleindicator.CircleIndicator;
+
 public class SalesTransaction extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener {
 
     AppSharedPreference appSharedPreference;
     Context c;
-    ArrayList<String> machineList = new ArrayList<>();
+    ArrayList<String> TransactionType = new ArrayList<>();
     Spinner SpMachineList;
     CustomSpinnerAdapter customSpinnerAdapter;
     RecyclerView recycleBillHistory;
@@ -47,8 +57,19 @@ public class SalesTransaction extends AppCompatActivity implements TimePickerDia
     private String date;
     private LinearLayoutManager linearLayoutManager;
     SalesTransactionAdapter salesTransactionAdapter;
-    ArrayList<SalesTransactionData> salesTransactionDatas = new ArrayList<>();
+
     ProgressBarHandler progressBarHandler;
+    ViewPager viewpagerSalesTransaction;
+    ViewpagerAdapterSalesTransaction viewpagerAdapterSalesTransaction;
+    RelativeLayout fl_salestransaction;
+    CircleIndicator circleIndicator;
+    TextView txn_amount_total, sales_amount_total;
+    ArrayList<SalesMachineResultData> MachineDatas = new ArrayList<>();
+
+    ArrayList<SalesTransactionData> SalesTransactionData = new ArrayList<>();
+
+
+    CommonInterface commonInterface;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +79,7 @@ public class SalesTransaction extends AppCompatActivity implements TimePickerDia
 
         initView();
         setUpToolBar();
-        callWebserviceMachineList();
+        setSpinnerTransactionType();
 
 
         etstartdate.setOnClickListener(new View.OnClickListener() {
@@ -89,7 +110,15 @@ public class SalesTransaction extends AppCompatActivity implements TimePickerDia
 
                     if (SpMachineList.getSelectedItemPosition() != 0) {
 
-                        callWebserviceBillHistory(SpMachineList.getSelectedItemPosition());
+                        if (fl_salestransaction.getVisibility() == View.VISIBLE) {
+                            fl_salestransaction.setVisibility(View.GONE);
+                            viewpagerSalesTransaction.setVisibility(View.VISIBLE);
+                            callWebserviceSalesTransaction();
+
+                        }
+
+
+                        //callWebserviceSalesTransaction(SpMachineList.getSelectedItemPosition());
 
                     } else {
 
@@ -107,6 +136,26 @@ public class SalesTransaction extends AppCompatActivity implements TimePickerDia
 
             }
         });
+
+
+    }
+
+    private void setViewPager(ArrayList<SalesMachineResultData> machineDatas, String totalTxnAmount, String totalSalesAmount) {
+
+
+        viewpagerAdapterSalesTransaction = new ViewpagerAdapterSalesTransaction(c, machineDatas, viewpagerSalesTransaction);
+
+        viewpagerSalesTransaction.setAdapter(viewpagerAdapterSalesTransaction);
+
+        //circleIndicator.setViewPager(viewpagerSalesTransaction);
+
+        StringBuilder stringBuilder_txnamount = new StringBuilder("<br><font size=\"20\" color=" + "#ffffff>Txn Amount. <br> " + "Total" + " " + c.getString(R.string.rupay_text) + totalTxnAmount + "</font>");
+        String tvData = stringBuilder_txnamount.toString();
+        txn_amount_total.setText(Html.fromHtml(tvData));
+
+        StringBuilder stringBuilder_salesamount = new StringBuilder("<br><font size=\"20\" color=" + "#ffffff>Sales Amount. <br> " + "Total" +" " +c.getString(R.string.rupay_text)  + totalSalesAmount + "</font>");
+        String tvData2 = stringBuilder_salesamount.toString();
+        sales_amount_total.setText(Html.fromHtml(tvData2));
 
 
     }
@@ -129,58 +178,14 @@ public class SalesTransaction extends AppCompatActivity implements TimePickerDia
 
     }
 
-    private void callWebserviceMachineList() {
+    private void setSpinnerTransactionType() {
+        TransactionType.add("Select Transaction Type");
+        TransactionType.add("POP");
+        TransactionType.add("ONLINE SALES");
 
-        String MachineListWebservice = getString(R.string.webservice_base_url) + "/get_machine";
+        customSpinnerAdapter = new CustomSpinnerAdapter(c, TransactionType);
 
-
-        Ion.with(this)
-                .load(MachineListWebservice)
-                .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
-                .setBodyParameter("seller_id", appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString()))
-                .asJsonObject().setCallback(new FutureCallback<JsonObject>() {
-            @Override
-            public void onCompleted(Exception e, JsonObject result) {
-
-                if (result != null) {
-
-                    if (result.get("error").getAsString().contains("false"))
-
-                    {
-                        machineList.add("Select Machine");
-
-                        JsonArray resultjsonarray = result.getAsJsonArray("result");
-
-
-                        for (int i = 0; i < resultjsonarray.size(); i++) {
-
-                            JsonObject jsonObjectMachineno = resultjsonarray.get(i).getAsJsonObject();
-
-                            String machinenumber = jsonObjectMachineno.get("machine_number").getAsString();
-
-                            machineList.add(machinenumber);
-
-                        }
-
-
-                        customSpinnerAdapter = new CustomSpinnerAdapter(c, machineList);
-
-                        SpMachineList.setAdapter(customSpinnerAdapter);
-
-                        AndroidUtils.showErrorLog(c, "responseMachineList", result.toString());
-
-
-                    } else {
-
-                        AndroidUtils.showErrorLog(c, "responseMachineList", result.toString());
-                    }
-
-
-                }
-
-
-            }
-        });
+        SpMachineList.setAdapter(customSpinnerAdapter);
 
 
     }
@@ -199,9 +204,17 @@ public class SalesTransaction extends AppCompatActivity implements TimePickerDia
 
         etenddate = (EditText) findViewById(R.id.etenddate);
         linearLayoutManager = new LinearLayoutManager(c, LinearLayoutManager.VERTICAL, false);
+        viewpagerSalesTransaction = (ViewPager) findViewById(R.id.viewpagerSalesTransactionResult);
+
+        fl_salestransaction = (RelativeLayout) findViewById(R.id.fl_salestransaction);
+        circleIndicator = (CircleIndicator) findViewById(R.id.indicator_custom_sales_transaction);
+
+        txn_amount_total = (TextView) findViewById(R.id.txn_amount_total);
+        sales_amount_total = (TextView) findViewById(R.id.sales_amount_total);
+
     }
 
-    private void callWebserviceBillHistory(int selectedItemPosition) {
+    private void callWebserviceSalesTransaction() {
         progressBarHandler.show();
 
         String BillHistoryWebservice = getString(R.string.webservice_base_url) + "/sellerTransaction";
@@ -209,10 +222,10 @@ public class SalesTransaction extends AppCompatActivity implements TimePickerDia
 
         Ion.with(this)
                 .load(BillHistoryWebservice).setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
-                .setBodyParameter("seller_id", appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString()))
+//                .setBodyParameter("seller_id", appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString()))
 
-                .setBodyParameter("machine_no", machineList.get(selectedItemPosition).toString())
 
+                .setBodyParameter("seller_id", "133")
                 .setBodyParameter("from_date", etstartdate.getText().toString())
                 .setBodyParameter("to_date", etenddate.getText().toString())
                 .setBodyParameter("page", "1")
@@ -235,32 +248,67 @@ public class SalesTransaction extends AppCompatActivity implements TimePickerDia
 
                         } else {
                             JsonArray result_jsonArray = result.getAsJsonArray("result");
-
+                            String TotalTxnAmount = "", TotalSalesAmount = "";
 
                             for (int k = 0; k < result_jsonArray.size(); k++) {
 
                                 JsonObject result_jsonobject = result_jsonArray.get(k).getAsJsonObject();
-                                String paymentDate = result_jsonobject.get("created_at").getAsString();
+                                String machine_number = result_jsonobject.get("machine_number").getAsString();
+                                String transationStatus;
+                                if (result_jsonobject.get("payout_status").getAsString().contains("1")) {
+                                    transationStatus = "COMPLETED";
+                                } else {
+                                    transationStatus = "PENDING";
 
-                                String paymentStatus = result_jsonobject.get("status_name").getAsString();
-                                String paymentMode = result_jsonobject.get("transferType").getAsString();
-                                String RequestRefNo = result_jsonobject.get("request_reference_no").getAsString();
-                                String BankRefNo = result_jsonobject.get("bankReferenceNo").getAsString();
-                                String paymentAmount = result_jsonobject.get("total_vendor_amt").getAsString();
+                                }
 
-                                salesTransactionDatas.add(new SalesTransactionData(paymentMode, paymentDate, RequestRefNo, BankRefNo, paymentStatus, paymentAmount));
+                                String txnAmount = result_jsonobject.get("txn_amount").getAsString();
+                                String salesAmount = result_jsonobject.get("total_txt_amount").getAsString();
+                                String ToDate = etenddate.getText().toString();
+                                String fromDate = etstartdate.getText().toString();
+                                JsonObject transactions = result_jsonobject.getAsJsonObject("transactions");
+                                JsonObject total = transactions.getAsJsonObject("total");
+
+                                TotalTxnAmount = total.get("txn_amount").getAsString();
+                                TotalSalesAmount = total.get("sales_amount").getAsString();
+
+                                JsonArray resulr_list_data = transactions.getAsJsonArray("list");
+
+                                for (int l = 0; l < resulr_list_data.size(); l++) {
+                                    JsonObject resultjsonlist = resulr_list_data.get(l).getAsJsonObject();
+                                    String listStatus;
+                                    if (resultjsonlist.get("payout_status").getAsString().contains("1")) {
+                                        listStatus = "COMPLETED";
+                                    } else {
+                                        listStatus = "PENDING";
+
+                                    }
+                                    String paymentdate = resultjsonlist.get("payout_date").getAsString();
+                                    String RequestRefNo = resultjsonlist.get("request_reference_no").getAsString();
+                                    String BankRefNo = resultjsonlist.get("request_reference_no").getAsString();
+
+                                    String paymentAmount = resultjsonlist.get("net_amount").getAsString();
 
 
+                                    SalesTransactionData.add(new SalesTransactionData(listStatus, paymentdate, RequestRefNo, BankRefNo, listStatus, paymentAmount));
+                                }
+
+
+                                MachineDatas.add(new SalesMachineResultData(machine_number, txnAmount, salesAmount, ToDate, fromDate, "COMPLETE", TotalTxnAmount, TotalSalesAmount, SalesTransactionData));
                             }
 
-                            salesTransactionAdapter = new SalesTransactionAdapter(SalesTransaction.this, salesTransactionDatas);
 
-                            recycleBillHistory.setLayoutManager(linearLayoutManager);
-                            recycleBillHistory.setAdapter(salesTransactionAdapter);
+                            setViewPager(MachineDatas, TotalTxnAmount, TotalSalesAmount);
 
 
                             AndroidUtils.showErrorLog(c, "responseBillPayment2", result.toString());
                             progressBarHandler.hide();
+
+                            if (findViewById(R.id.nestedScrollViewsalesTransaction).getVisibility() == View.GONE) {
+
+
+                                findViewById(R.id.nestedScrollViewsalesTransaction).setVisibility(View.VISIBLE);
+                            }
                         }
 
 

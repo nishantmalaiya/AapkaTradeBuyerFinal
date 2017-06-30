@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    >
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/twenty_dip"
+        android:layout_marginRight="@dimen/twenty_dip"
+        android:layout_marginTop="@dimen/ten_dip"
+        android:textColorHint="@color/hint_color">
+
+        <EditText
+            android:id="@+id/etFirstName"
+            style="@style/myedittext"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/five_dip"
+            android:layout_marginRight="@dimen/five_dip"
+            android:hint="@string/enter_delivry_pincode"
+            android:inputType="text"
+            android:paddingLeft="@dimen/ten_dip"
+            android:textColorHint="@color/green"
+            android:theme="@style/myedittext" />
+
+
+    </android.support.design.widget.TextInputLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/twenty_dip"
+        android:layout_marginRight="@dimen/twenty_dip"
+        android:layout_marginTop="@dimen/ten_dip"
+        android:orientation="vertical"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/ten_dip"
+            >
+
+            <ImageView
+                android:id="@+id/imgViewLocatiopn"
+                android:layout_width="@dimen/twenty_five_dip"
+                android:layout_height="@dimen/twenty_five_dip"
+                android:src="@drawable/ic_location"
+                android:tint="@color/green"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/use_current_location"
+                android:layout_toRightOf="@+id/imgViewLocatiopn"
+                android:layout_centerVertical="true"
+                android:textColor="@color/green"
+                />
+
+        </RelativeLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/product_status"
+            android:textColor="@color/red"
+            android:layout_marginTop="@dimen/ten_dip"
+            android:layout_marginLeft="@dimen/five_dip"
+            />
+
+    </LinearLayout>
+
+   <View
+       android:layout_width="match_parent"
+       android:layout_height="@dimen/one_dip"
+       android:layout_marginTop="@dimen/ten_dip"
+       android:background="@color/black"
+       ></View>
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/thirty_five_dip"
+    android:layout_marginTop="@dimen/ten_dip"
+    >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/submit"
+        android:textAllCaps="false"
+        android:textColor="@color/green"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:padding="@dimen/five_dip"
+        />
+
+
+</RelativeLayout>
+
+</LinearLayout>

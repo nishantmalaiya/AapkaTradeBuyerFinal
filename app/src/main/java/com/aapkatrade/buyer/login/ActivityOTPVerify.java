@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.aapkatrade.buyer.home.HomeActivity;
 import com.aapkatrade.buyer.R;
@@ -31,6 +32,8 @@ import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.interfaces.TaskCompleteReminder;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
+import com.aapkatrade.buyer.smsreceiver.SmsListener;
+import com.aapkatrade.buyer.smsreceiver.SmsReceiver;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
@@ -76,9 +79,24 @@ public class ActivityOTPVerify extends AppCompatActivity {
         appSharedPreference = new AppSharedPreference(context);
         setUpToolBar();
         setup_layout();
+
+        SmsReceiver.bindListener(new SmsListener() {
+            @Override
+            public void messageReceived(String messageText) {
+                Log.d("Text",messageText);
+                //Toast.makeText(ActivityOTPVerify.this,"Message: "+messageText,Toast.LENGTH_LONG).show();
+
+                update_otp(messageText);
+
+            }
+        });
+
+
+
     }
 
-    public void update_otp(String message) {
+    public void update_otp(String message)
+    {
         message = message.replace("Your otp is ", "").trim();
         String a = message.substring(0, 1).trim();
         String b = message.substring(1, 2).trim();
@@ -573,8 +591,8 @@ public class ActivityOTPVerify extends AppCompatActivity {
     }
 
 
-    private void callwebserviceUpdateCartSimple() {
-
+    private void callwebserviceUpdateCartSimple()
+    {
         progressBarHandler.show();
 
         String login_url = context.getResources().getString(R.string.webservice_base_url) + "/update_cart_user";

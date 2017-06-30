@@ -256,7 +256,6 @@ public class CommonAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
                     boolean permission_status = CheckPermission.checkPermissions((Activity) context);
 
-
                     if (permission_status)
                     {
 
@@ -349,18 +348,27 @@ public class CommonAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 @Override
                 public void onClick(View v) {
 
-                    String product_id = commonDatas.get(position).id;
-                    String product_name = commonDatas.get(position).name;
-                    String price = commonDatas.get(position).price;
+                    if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), "").equals("2"))
+                    {
+                        AndroidUtils.showToast(context,"Oops Not Buyer Account");
 
-                    callwebservice__add_tocart(product_id, "", product_name, price, "1");
+                    }
+                    else
+                        {
+                        String product_id = commonDatas.get(position).id;
+                        String product_name = commonDatas.get(position).name;
+                        String price = commonDatas.get(position).price;
 
+                        callwebservice__add_tocart(product_id, "", product_name, price, "1");
+                    }
 
                 }
             });
             viewHolder_listProduct.product_addcard.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
+                public void onClick(View v)
+                {
+
 
                     Intent intent = new Intent(context, ProductDetailActivity.class);
                     AndroidUtils.showErrorLog(context, "___________PRODUCT ID--(((---------->"+ commonDatas.get(position).id);
@@ -618,6 +626,7 @@ public class CommonAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
                     }
                 });
+
 
     }
 

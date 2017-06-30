@@ -105,8 +105,8 @@
                             android:minWidth="@dimen/hundred_dip"
                             android:background="@color/orange"
                             android:gravity="center_horizontal|center_vertical"
-                            android:text="@string/rupay"
-                            android:textColor="@color/white"
+                            android:text=""
+                               android:textColor="@color/white"
                             android:textSize="@dimen/textsize_large"
                             android:textStyle="bold" />
 

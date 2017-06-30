@@ -139,6 +139,21 @@
 
     </array>
 
+    <integer-array name="random_color">
+
+
+        <item>@color/random_color1</item>
+        <item>@color/random_color2</item>
+        <item>@color/random_color3</item>
+
+        <item>@color/random_color4</item>
+        <item>@color/random_color3</item>
+
+        <item>@color/random_color4</item>
+
+    </integer-array>
+
+
     <integer-array name="welcome_screen">
         <item>@drawable/welcome_slide_one</item>
         <item>@drawable/welcome_slide_two</item>
