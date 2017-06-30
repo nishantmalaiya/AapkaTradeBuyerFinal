@@ -1,5 +1,7 @@
 package com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +11,7 @@ import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,6 +27,9 @@ import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
 
 public class CompanyShopManagementActivity extends AppCompatActivity {
@@ -55,11 +61,11 @@ public class CompanyShopManagementActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent bankDetails = new Intent(context, AddCompanyShopActivity.class);
-                bankDetails.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                context.startActivity(bankDetails);
+                doCircularReveal(findViewById(R.id.mainLayout));
             }
         });
+
+
 
 
         recyclerViewCompanyShop.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -78,6 +84,49 @@ public class CompanyShopManagementActivity extends AppCompatActivity {
 
         });
     }
+
+    private void doCircularReveal(final View view) {
+
+        // get the center for the clipping circle
+//        int centerX = (view.getLeft() + view.getRight()) / 2;
+//        int centerY = (view.getTop() + view.getBottom()) / 2;
+        int centerX = view.getRight();
+        int centerY = view.getBottom();
+
+        int startRadius = 0;
+        // get the final radius for the clipping circle
+        int endRadius = Math.max(view.getWidth(), view.getHeight());
+
+        // create the animator for this view (the start radius is zero)
+        Animator anim = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            anim = ViewAnimationUtils.createCircularReveal(view,
+                    centerX, centerY, startRadius, endRadius);
+        }
+        if (anim != null) {
+            anim.setDuration(1000);
+        // make the view invisible when the animation is done
+            anim.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    super.onAnimationEnd(animation);
+                    Intent bankDetails = new Intent(context, AddCompanyShopActivity.class);
+                    bankDetails.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    context.startActivity(bankDetails);
+                }
+            });
+           /* view.animate().alpha(1.0f).setDuration(2000).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    super.onAnimationEnd(animation);
+
+                }
+            });*/
+            anim.start();
+        }
+    }
+
+
 
     private void callCompanyShopListWebService(int page) {
 
@@ -106,6 +155,12 @@ public class CompanyShopManagementActivity extends AppCompatActivity {
                                                 companyShopLinkedList.add(companyShopData);
                                             }
                                         }
+                                        Collections.sort(companyShopLinkedList, new Comparator<CompanyShopData>() {
+                                            @Override
+                                            public int compare(CompanyShopData o1, CompanyShopData o2) {
+                                                return o1.getName().compareTo(o2.getName());
+                                            }
+                                        });
                                         AndroidUtils.showErrorLog(context, companyShopLinkedList.size(), "**********");
                                         if (companyShopListAdapter == null) {
                                             companyShopListAdapter = new CompanyShopListAdapter(context, companyShopLinkedList);

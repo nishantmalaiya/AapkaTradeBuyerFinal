@@ -86,7 +86,7 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
     private LinearLayout linearProductDetail, RelativeProductDetail;
     private TextView tvshopName, tvProPrice, tvCrossPrice, tvDiscription, tvSpecification, tvQuatity;
     private ProgressBarHandler progress_handler;
-    private String product_id, product_location;
+    private String product_id;
     private ImageView imgViewPlus, imgViewMinus;
     private int quantity_value = 1;
     private ProgressBarHandler progressBarHandler;
@@ -136,7 +136,6 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
 
         Log.e("product_id", product_id);
 
-        product_location = b.getString("product_location");
 
         progressBarHandler = new ProgressBarHandler(context);
         circleIndicator = (CircleIndicator) findViewById(R.id.indicator_product_detail);

@@ -1,5 +1,6 @@
 package com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt;
 
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
@@ -16,14 +17,13 @@ import com.aapkatrade.buyer.R;
 
 public class CompanyShopDataHolder extends RecyclerView.ViewHolder {
     public TextView tvCompanyShop;
-    public RelativeLayout rlAddProduct, rlEdit;
     public ImageView imageViewEditCompany;
+    public CardView cardLayout;
 
     public CompanyShopDataHolder(View itemView) {
         super(itemView);
         tvCompanyShop = (TextView) itemView.findViewById(R.id.tvCompanyShop);
-
         imageViewEditCompany = (ImageView) itemView.findViewById(R.id.imageViewEditCompany);
-
+        cardLayout = (CardView) itemView.findViewById(R.id.cardLayout);
     }
 }

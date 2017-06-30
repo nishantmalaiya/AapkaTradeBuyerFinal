@@ -19,9 +19,15 @@ import android.widget.TextView;
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.adapter.CustomSpinnerAdapter;
+import com.aapkatrade.buyer.general.Validation;
+import com.aapkatrade.buyer.general.entity.KeyValue;
+import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Ion;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * Created by PPC17 on 01-Apr-17.
@@ -29,13 +35,14 @@ import java.util.Arrays;
 
 public class DaysTileView extends RelativeLayout {
     private View view;
+    private ProgressBarHandler progressBarHandler;
     private RelativeLayout mainLayout, rl_layout1, rl_layout2, rl_layout3;
     private TextView tv_day_name;
     private Context context;
     private TextInputLayout input_layout_open_time, input_layout_close_time;
     private Spinner spOpenTime, spCloseTime;
-    private String openTime, closeTime;
-    private ArrayList<String> openTimingList, closeTimingList;
+    private KeyValue openTime, closeTime;
+    private ArrayList<KeyValue> openTimingList = new ArrayList<>(), closeTimingList = new ArrayList<>();
     private ImageView imgOpenTimeSpinner, imgCloseTimeSpinner;
 
     public DaysTileView(Context context) {
@@ -60,7 +67,7 @@ public class DaysTileView extends RelativeLayout {
     public DaysTileView(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         this.context = context;
-    init();
+        init();
     }
 
     protected void init() {
@@ -69,6 +76,7 @@ public class DaysTileView extends RelativeLayout {
         }
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         view = inflater.inflate(layoutId(), this, true);
+        progressBarHandler = new ProgressBarHandler(context);
         initView();
         setOpenTimeSpinner();
         setCloseTimeSpinner();
@@ -97,17 +105,17 @@ public class DaysTileView extends RelativeLayout {
         if (this.rl_layout1 == null) {
             return;
         }
-        AndroidUtils.setBackgroundSolid(rl_layout1, context,color, 0, GradientDrawable.OVAL);
+        AndroidUtils.setBackgroundSolid(rl_layout1, context, color, 0, GradientDrawable.OVAL);
 
         if (this.input_layout_open_time == null) {
             return;
         }
-        AndroidUtils.setBackgroundSolid(input_layout_open_time, context,color, 0, GradientDrawable.RECTANGLE);
+        AndroidUtils.setBackgroundSolid(input_layout_open_time, context, color, 0, GradientDrawable.RECTANGLE);
 
         if (this.input_layout_close_time == null) {
             return;
         }
-        AndroidUtils.setBackgroundSolid(input_layout_close_time, context,color, 0, GradientDrawable.RECTANGLE);
+        AndroidUtils.setBackgroundSolid(input_layout_close_time, context, color, 0, GradientDrawable.RECTANGLE);
     }
 
 
@@ -130,51 +138,103 @@ public class DaysTileView extends RelativeLayout {
         if (this.spOpenTime == null) {
             return;
         }
-        openTimingList = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.opening_timing_list)));
-        spOpenTime.setAdapter(new CustomSpinnerAdapter(context, openTimingList));
-        spOpenTime.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position > 0) {
-                    openTime = openTimingList.get(position);
-                }
-            }
+        progressBarHandler.show();
+        Ion.with(context)
+                .load(context.getString(R.string.webservice_base_url) + "/dropdown")
+                .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                .setBodyParameter("type", "open_close")
+                .setBodyParameter("timing", "0")
+                .asJsonObject()
+                .setCallback(new FutureCallback<JsonObject>() {
+                    @Override
+                    public void onCompleted(Exception e, JsonObject result) {
+                        progressBarHandler.hide();
+                        if (result != null) {
+                            JsonArray jsonResultArray = result.getAsJsonArray("result");
+                            if (Validation.containsIgnoreCase(result.get("message").getAsString(), "Listed") && jsonResultArray != null && jsonResultArray.size() > 0) {
+                                for (int i = 0; i < jsonResultArray.size(); i++) {
+                                    JsonObject jsonObject = (JsonObject) jsonResultArray.get(i);
+                                    openTimingList.add(new KeyValue(jsonObject.get("id").getAsString(), jsonObject.get("timing").getAsString()));
+                                }
+                                spOpenTime.setAdapter(new CustomSpinnerAdapter(context, openTimingList));
+                                spOpenTime.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                    @Override
+                                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                        if (position > 0) {
+                                            openTime = openTimingList.get(position);
+                                        }
+                                    }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+                                    @Override
+                                    public void onNothingSelected(AdapterView<?> parent) {
 
-            }
-        });
+                                    }
+                                });
+                            }
+                        }
+                    }
+
+                });
     }
 
-    public String getOpeningTime(){
-        return openTime == null ? "" : openTime;
+    public String getOpeningTime() {
+        return openTime == null ? "" : openTime.value.toString();
+    }
+
+
+    public String getOpeningTimeID() {
+        return openTime == null ? "" : openTime.key.toString();
     }
 
     public void setCloseTimeSpinner() {
         if (this.spCloseTime == null) {
             return;
         }
-        closeTimingList = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.closing_timing_list)));
-        spCloseTime.setAdapter(new CustomSpinnerAdapter(context, closeTimingList));
-        spCloseTime.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position > 0) {
-                    closeTime = closeTimingList.get(position);
-                }
-            }
+        progressBarHandler.show();
+        Ion.with(context)
+                .load(context.getString(R.string.webservice_base_url) + "/dropdown")
+                .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                .setBodyParameter("type", "open_close")
+                .setBodyParameter("timing", "1")
+                .asJsonObject()
+                .setCallback(new FutureCallback<JsonObject>() {
+                    @Override
+                    public void onCompleted(Exception e, JsonObject result) {
+                        progressBarHandler.hide();
+                        if (result != null) {
+                            JsonArray jsonResultArray = result.getAsJsonArray("result");
+                            if (Validation.containsIgnoreCase(result.get("message").getAsString(), "Listed") && jsonResultArray != null && jsonResultArray.size() > 0) {
+                                for (int i = 0; i < jsonResultArray.size(); i++) {
+                                    JsonObject jsonObject = (JsonObject) jsonResultArray.get(i);
+                                    closeTimingList.add(new KeyValue(jsonObject.get("id").getAsString(), jsonObject.get("timing").getAsString()));
+                                }
+                                spCloseTime.setAdapter(new CustomSpinnerAdapter(context, closeTimingList));
+                                spCloseTime.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                    @Override
+                                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                        if (position > 0) {
+                                            closeTime = closeTimingList.get(position);
+                                        }
+                                    }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+                                    @Override
+                                    public void onNothingSelected(AdapterView<?> parent) {
 
-            }
-        });
+                                    }
+                                });
+                            }
+                        }
+                    }
+
+                });
     }
 
-    public String getClosingTime(){
-        return closeTime == null ? "" : closeTime;
+    public String getClosingTime() {
+        return closeTime == null ? "" : closeTime.value.toString();
     }
 
+    public String getClosingTimeID() {
+        return closeTime == null ? "" : closeTime.key.toString();
+    }
 
 }
