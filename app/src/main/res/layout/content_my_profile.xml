@@ -84,139 +84,208 @@
                     android:text="@string/my_profile_detail_heading"
                     android:textColor="@color/black" />
 
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
 
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="First Name"
-                    android:textColorHint="@color/green"
-                    tools:ignore="HardcodedText">
+                    android:layout_marginBottom="@dimen/ten_dip"
+                    android:layout_marginLeft="@dimen/fourty_dip"
+                    android:layout_marginRight="@dimen/fourty_dip"
+                    android:layout_marginTop="@dimen/ten_dip"
+                    android:background="@drawable/edit_text_green_back">
+
 
                     <EditText
                         android:id="@+id/etFName"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/fifty_dip"
-                        android:layout_marginLeft="30dp"
-                        android:layout_marginRight="30dp"
-
-
-                        android:inputType="text"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="top"
+                        android:layout_marginLeft="@dimen/five_dip"
+                        android:layout_marginRight="@dimen/fourty_dip"
+                        android:layout_marginTop="@dimen/five_dip"
+                        android:ellipsize="none"
+                        android:gravity="top"
+                        android:background="@null"
+                        android:hint="First Name"
+                        android:inputType="textEmailAddress"
                         android:maxLines="1"
-                        android:padding="@dimen/ten_dip"
-                        android:textColorHint="@color/hint_color"
-                        android:textSize="@dimen/textsize"
+                        android:paddingLeft="@dimen/ten_dip"
+                        android:paddingTop="@dimen/eight"
+                        android:paddingBottom="@dimen/eight"
+                        android:textColor="@color/dialog_text"
+                        android:textColorHint="@color/dialog_text" />
 
-                        />
 
-                </android.support.design.widget.TextInputLayout>
 
-                <android.support.design.widget.TextInputLayout
+                </RelativeLayout>
+
+                <RelativeLayout
                     android:layout_width="match_parent"
-
                     android:layout_height="wrap_content"
-                    android:hint="Last Name"
-                    android:textColorHint="@color/green"
-                    tools:ignore="HardcodedText">
+                    android:layout_marginBottom="@dimen/ten_dip"
+                    android:layout_marginLeft="@dimen/fourty_dip"
+                    android:layout_marginRight="@dimen/fourty_dip"
+                    android:layout_marginTop="@dimen/ten_dip"
+                    android:background="@drawable/edit_text_green_back">
 
 
                     <EditText
                         android:id="@+id/etLName"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/fifty_dip"
-                        android:layout_marginLeft="30dp"
-                        android:layout_marginRight="30dp"
-
-
-                        android:layout_marginTop="10dp"
-                        android:inputType="text"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="top"
+                        android:layout_marginLeft="@dimen/five_dip"
+                        android:layout_marginRight="@dimen/fourty_dip"
+                        android:layout_marginTop="@dimen/five_dip"
+                        android:ellipsize="none"
+                        android:gravity="top"
+                        android:hint="Last Name"
+                        android:inputType="textEmailAddress"
                         android:maxLines="1"
-                        android:padding="10dp"
-                        android:textColorHint="@color/hint_color"
-                        android:textSize="@dimen/textsize" />
+                        android:background="@null"
+                        android:paddingLeft="@dimen/ten_dip"
+                        android:paddingTop="@dimen/eight"
+                        android:paddingBottom="@dimen/eight"
+                        android:textColor="@color/dialog_text"
+                        android:textColorHint="@color/dialog_text" />
 
-                </android.support.design.widget.TextInputLayout>
 
-                <android.support.design.widget.TextInputLayout
+
+                </RelativeLayout>
+
+
+
+                <RelativeLayout
                     android:layout_width="match_parent"
-
                     android:layout_height="wrap_content"
-                    android:hint="Email"
-                    android:textColorHint="@color/green"
-                    tools:ignore="HardcodedText">
+
+                    android:layout_marginBottom="@dimen/ten_dip"
+                    android:layout_marginLeft="@dimen/fourty_dip"
+                    android:layout_marginRight="@dimen/fourty_dip"
+                    android:layout_marginTop="@dimen/ten_dip"
+                    android:background="@drawable/edit_text_green_back">
+
 
                     <EditText
                         android:id="@+id/etEmail"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/fifty_dip"
-                        android:layout_marginLeft="30dp"
-                        android:layout_marginRight="30dp"
-
-
-                        android:layout_marginTop="10dp"
-                        android:editable="false"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="top"
+                        android:layout_marginLeft="@dimen/five_dip"
+                        android:layout_marginRight="@dimen/fourty_dip"
+                        android:layout_marginTop="@dimen/five_dip"
+                        android:ellipsize="none"
+                        android:gravity="top"
+                        android:background="@null"
+                        android:hint="Email"
                         android:inputType="textEmailAddress"
                         android:maxLines="1"
-                        android:padding="10dp"
-                        android:textColorHint="@color/hint_color"
-                        android:textSize="@dimen/textsize" />
-                </android.support.design.widget.TextInputLayout>
+                        android:paddingLeft="@dimen/ten_dip"
+                        android:paddingTop="@dimen/eight"
+                        android:paddingBottom="@dimen/eight"
+                        android:textColor="@color/dialog_text"
+                        android:textColorHint="@color/dialog_text" />
 
-                <android.support.design.widget.TextInputLayout
+                    <ImageView
+                        android:id="@+id/imgEmailEdit"
+                        android:layout_width="@dimen/thirty_dip"
+                        android:layout_height="@dimen/thirty_dip"
+                        android:layout_alignParentEnd="true"
+                        android:layout_margin="@dimen/five_dip"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_edit"
+                        android:layout_centerVertical="true"
+                        tools:ignore="RtlCompat" />
+
+                </RelativeLayout>
+
+
+                <RelativeLayout
                     android:layout_width="match_parent"
-
                     android:layout_height="wrap_content"
-                    android:hint="Mobile"
-                    android:textColorHint="@color/green"
-                    tools:ignore="HardcodedText">
+
+                    android:layout_marginBottom="@dimen/ten_dip"
+                    android:layout_marginLeft="@dimen/fourty_dip"
+                    android:layout_marginRight="@dimen/fourty_dip"
+                    android:layout_marginTop="@dimen/ten_dip"
+                    android:background="@drawable/edit_text_green_back">
+
 
                     <EditText
                         android:id="@+id/etMobileNo"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/fifty_dip"
-                        android:layout_marginLeft="30dp"
-                        android:layout_marginRight="30dp"
-
-
-                        android:layout_marginTop="10dp"
-                        android:editable="false"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="top"
+                        android:layout_marginLeft="@dimen/five_dip"
+                        android:layout_marginRight="@dimen/fourty_dip"
+                        android:layout_marginTop="@dimen/five_dip"
+                        android:ellipsize="none"
+                        android:background="@null"
+                        android:gravity="top"
+                        android:hint="Mobile"
                         android:inputType="number"
-                        android:maxLines="1"
-                        android:padding="10dp"
-                        android:textColorHint="@color/hint_color"
-                        android:textSize="@dimen/textsize" />
-                </android.support.design.widget.TextInputLayout>
+                        android:maxLines="10"
+                        android:paddingLeft="@dimen/ten_dip"
+                        android:paddingTop="@dimen/eight"
+                        android:paddingBottom="@dimen/eight"
+                        android:textColor="@color/dialog_text"
+                        android:textColorHint="@color/dialog_text" />
 
-                <android.support.design.widget.TextInputLayout
+                    <ImageView
+                        android:id="@+id/imgMobileEdit"
+                        android:layout_width="@dimen/thirty_dip"
+                        android:layout_height="@dimen/thirty_dip"
+                        android:layout_alignParentEnd="true"
+                        android:layout_margin="@dimen/five_dip"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_edit"
+                        android:layout_centerVertical="true"
+                        tools:ignore="RtlCompat" />
+
+                </RelativeLayout>
+
+
+
+                <RelativeLayout
                     android:layout_width="match_parent"
-
                     android:layout_height="wrap_content"
-                    android:hint="Address"
-                    android:textColorHint="@color/green"
-                    tools:ignore="HardcodedText">
+
+                    android:layout_marginBottom="@dimen/ten_dip"
+                    android:layout_marginLeft="@dimen/fourty_dip"
+                    android:layout_marginRight="@dimen/fourty_dip"
+                    android:layout_marginTop="@dimen/ten_dip"
+                    android:background="@drawable/edit_text_green_back">
 
 
                     <EditText
                         android:id="@+id/etAddress"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/fifty_dip"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginLeft="30dp"
-
-                        android:layout_marginRight="30dp"
-
-                        android:layout_marginTop="10dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="top"
+                        android:layout_marginLeft="@dimen/five_dip"
+                        android:layout_marginRight="@dimen/fourty_dip"
+                        android:layout_marginTop="@dimen/five_dip"
+                        android:ellipsize="none"
+                        android:gravity="top"
+                        android:hint="Address"
+                        android:background="@null"
                         android:inputType="text"
-                        android:maxLines="1"
-                        android:padding="10dp"
-                        android:textColorHint="@color/hint_color"
-                        android:textSize="@dimen/textsize" />
-                </android.support.design.widget.TextInputLayout>
+                        android:maxLines="10"
+                        android:paddingLeft="@dimen/ten_dip"
+                        android:paddingTop="@dimen/eight"
+                        android:paddingBottom="@dimen/eight"
+                        android:textColor="@color/dialog_text"
+                        android:textColorHint="@color/dialog_text" />
+
+
+                </RelativeLayout>
+
+
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal"
-
                     android:visibility="gone">
 
 
@@ -230,7 +299,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
-
                             android:background="@drawable/button_orange_back"
                             android:gravity="center"
                             android:text="@string/logout"

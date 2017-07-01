@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
-
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Validation;
 
@@ -39,7 +38,7 @@ public class SmsReceiver extends BroadcastReceiver
                     String messageBody = smsMessage.getMessageBody();
                     System.out.println("------------"+messageBody);
                     //Pass on the text to our listenmessageBodyer.
-                    mListener.messageReceived(messageBody);
+                   // mListener.messageReceived(messageBody);
                 }
 
             }
