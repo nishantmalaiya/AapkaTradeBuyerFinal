@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.PorterDuff;
 import android.media.MediaMetadataRetriever;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
@@ -20,6 +21,7 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -35,6 +37,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.aapkatrade.buyer.dialogs.UpdateUserDataVerifyDialog;
+import com.aapkatrade.buyer.dialogs.loginwithoutregistration.LoginWithoutRegistrationDialog;
 import com.aapkatrade.buyer.general.Utils.ImageUtils;
 import com.aapkatrade.buyer.home.HomeActivity;
 import com.aapkatrade.buyer.R;
@@ -64,7 +68,8 @@ public class MyProfileActivity extends AppCompatActivity
 {
 
     private AppSharedPreference app_sharedpreference;
-    private EditText etFName, etLName, etEmail, etMobileNo, etAddress;
+    public static EditText etMobileNo,etEmail;
+    public EditText etFName, etLName, etAddress;
     private ProgressBarHandler p_handler;
     private TextView tvMyProfileDetailHeading;
     private CoordinatorLayout coordinatorlayout_myprofile;
@@ -81,7 +86,9 @@ public class MyProfileActivity extends AppCompatActivity
     public static String selectedImagePath;
     private final static int SELECT_VIDEO_REQUEST = 100;
     String source_video_folder = null;
-    ImageView imageViewProfile;
+   public static ImageView imageViewProfile,imgEmailEdit,imgMobileEdit;
+
+
 
 
     @Override
@@ -134,9 +141,11 @@ public class MyProfileActivity extends AppCompatActivity
         etLName.setText(lname);
         etLName.setSelection(etLName.getText().length());
 
+
         etEmail = (EditText) findViewById(R.id.etEmail);
         etEmail.setText(email);
         etEmail.setSelection(etEmail.getText().length());
+
 
         etMobileNo = (EditText) findViewById(R.id.etMobileNo);
         etMobileNo.setText(mobile);
@@ -146,7 +155,69 @@ public class MyProfileActivity extends AppCompatActivity
         etAddress.setText(address);
 
 
-        etEmail.setKeyListener(null);
+        imgEmailEdit = (ImageView) findViewById(R.id.imgEmailEdit);
+
+        imgMobileEdit = (ImageView)findViewById(R.id.imgMobileEdit);
+
+        imgEmailEdit.setOnClickListener(new View.OnClickListener()
+        {
+
+            @Override
+            public void onClick(View v)
+            {
+
+                UpdateUserDataVerifyDialog updateUserDataVerifyDialog = new UpdateUserDataVerifyDialog(context);
+                updateUserDataVerifyDialog.show(((FragmentActivity) context).getSupportFragmentManager(), "LoginWithoutRegistrationDialog");
+
+            }
+
+        });
+
+        imgMobileEdit.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                UpdateUserDataVerifyDialog updateUserDataVerifyDialog = new UpdateUserDataVerifyDialog(context);
+                updateUserDataVerifyDialog.show(((FragmentActivity) context).getSupportFragmentManager(), "LoginWithoutRegistrationDialog");
+            }
+        });
+
+        if (etEmail.getText().toString().equals(""))
+        {
+            imgEmailEdit.setVisibility(View.INVISIBLE);
+        }
+        else
+        {
+            etEmail.setKeyListener(null);
+            imgEmailEdit.setVisibility(View.VISIBLE);
+        }
+
+        if (etMobileNo.getText().toString().equals(""))
+        {
+            imgMobileEdit.setVisibility(View.INVISIBLE);
+        }
+        else
+        {
+
+            imgMobileEdit.setVisibility(View.VISIBLE);
+            etMobileNo.setKeyListener(null);
+        }
+
+         etEmail.setKeyListener(null);
+
+        etEmail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (etEmail.getText().toString().equals("")){
+
+                    UpdateUserDataVerifyDialog updateUserDataVerifyDialog = new UpdateUserDataVerifyDialog(context);
+                    updateUserDataVerifyDialog.show(((FragmentActivity) context).getSupportFragmentManager(), "LoginWithoutRegistrationDialog");
+
+                }
+            }
+        });
 
         etMobileNo.setKeyListener(null);
 
@@ -730,7 +801,8 @@ public class MyProfileActivity extends AppCompatActivity
 
 
     }
-    private void showEditVideoPopup2() {
+    private void showEditVideoPopup2()
+    {
         boolean wrapInScrollView = true;
 
         video_dailog = new MaterialDialog.Builder(context)
@@ -820,6 +892,5 @@ public class MyProfileActivity extends AppCompatActivity
 
 
     }
-
 
 }

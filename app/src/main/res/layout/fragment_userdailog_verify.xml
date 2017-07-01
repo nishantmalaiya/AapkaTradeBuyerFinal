@@ -237,50 +237,6 @@
 
                     </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/tvPassword"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/img_cross"
-                        android:layout_marginLeft="@dimen/fourty_dip"
-                        android:layout_marginTop="@dimen/twenty_dip"
-                        android:text="@string/create_password"
-                        android:textColor="@color/dialog_text"
-                        android:textSize="@dimen/textsize_medium"
-                        android:visibility="gone"
-                        tools:ignore="ObsoleteLayoutParam,RtlHardcoded" />
-
-
-                    <RelativeLayout
-                        android:id="@+id/passwordLayout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/fourty_dip"
-                        android:layout_marginRight="@dimen/fourty_dip"
-                        android:layout_marginTop="@dimen/ten_dip"
-                        android:background="@drawable/edit_text_green_back"
-                        android:visibility="gone">
-
-
-                        <EditText
-                            android:id="@+id/etPassword"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="top"
-                            android:layout_marginLeft="@dimen/fourty_dip"
-                            android:layout_marginRight="@dimen/fourty_dip"
-                            android:layout_marginTop="@dimen/five_dip"
-                            android:ellipsize="none"
-                            android:gravity="top"
-                            android:hint="@string/optional"
-                            android:inputType="textPassword"
-                            android:maxLines="1"
-                            android:paddingLeft="@dimen/ten_dip"
-                            android:textColor="@color/dialog_text"
-                            android:textColorHint="@color/dialog_text" />
-
-                    </RelativeLayout>
-
 
                     <Button
                         android:id="@+id/submit"
