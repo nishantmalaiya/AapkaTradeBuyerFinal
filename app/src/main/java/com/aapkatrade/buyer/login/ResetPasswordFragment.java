@@ -17,7 +17,7 @@ import com.aapkatrade.buyer.general.AppConfig;
 import com.aapkatrade.buyer.home.HomeActivity;
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.AppSharedPreference;
-import com.aapkatrade.buyer.general.Change_Font;
+import com.aapkatrade.buyer.general.ChangeFont;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.Validation;
@@ -80,8 +80,8 @@ public class ResetPasswordFragment extends Fragment implements View.OnClickListe
 
         activity_forgot__password = (CoordinatorLayout) v.findViewById(R.id.coordinate_reset_password);
         reset_password_container = (LinearLayout) v.findViewById(R.id.reset_password_container);
-        Change_Font.Change_Font_textview(getActivity(), tv_forgot_password);
-        Change_Font.Change_Font_textview(getActivity(), tv_forgot_password_description);
+        ChangeFont.Change_Font_textview(getActivity(), tv_forgot_password);
+        ChangeFont.Change_Font_textview(getActivity(), tv_forgot_password_description);
 
 
     }

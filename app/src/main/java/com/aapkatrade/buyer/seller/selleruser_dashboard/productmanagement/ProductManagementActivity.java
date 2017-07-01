@@ -1,40 +1,42 @@
-package com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt;
+package com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.aapkatrade.buyer.home.HomeActivity;
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
+import com.aapkatrade.buyer.home.HomeActivity;
+import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.CompanyShopData;
+import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.CompanyShopListAdapter;
+import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.CompanyShopManagementActivity;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.addcompanyshop.AddCompanyShopActivity;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
 
-public class CompanyShopManagementActivity extends AppCompatActivity {
+public class ProductManagementActivity extends AppCompatActivity {
     private Context context;
     private AppSharedPreference appSharedPreference;
     private ProgressBarHandler progressBarHandler;
@@ -52,20 +54,12 @@ public class CompanyShopManagementActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_company_shop_management);
-        context = CompanyShopManagementActivity.this;
+        context = ProductManagementActivity.this;
         setUpToolBar();
         initView();
         callCompanyShopListWebService(page);
 
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#33c8aa")));
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                doCircularReveal(findViewById(R.id.mainLayout));
-            }
-        });
 
 
 
@@ -107,7 +101,7 @@ public class CompanyShopManagementActivity extends AppCompatActivity {
         }
         if (anim != null) {
             anim.setDuration(1000);
-        // make the view invisible when the animation is done
+            // make the view invisible when the animation is done
             anim.addListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
@@ -190,13 +184,14 @@ public class CompanyShopManagementActivity extends AppCompatActivity {
     }
 
     private void initView() {
+        findViewById(R.id.fab).setVisibility(View.GONE);
         progressBarHandler = new ProgressBarHandler(context);
         appSharedPreference = new AppSharedPreference(context);
         linearLayoutManager = new LinearLayoutManager(context);
         userId = appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString());
         listFooterName = (TextView) findViewById(R.id.listfootername);
         recyclerViewCompanyShop = (RecyclerView) findViewById(R.id.recyclerview);
-        listFooterName.setText(R.string.title_activity_company_shop_management);
+        listFooterName.setText(R.string.title_activity_product_management);
     }
 
 

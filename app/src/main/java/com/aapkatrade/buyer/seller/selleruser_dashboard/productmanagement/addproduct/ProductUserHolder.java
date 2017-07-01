@@ -1,8 +1,7 @@
-package com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.addproduct;
+package com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.addproduct;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.aapkatrade.buyer.R;

@@ -38,7 +38,6 @@
                    android:layout_width="@dimen/fifty_dip"
                    android:layout_height="@dimen/fifty_dip"
                    android:src="@drawable/ic_profile_user"
-
                    />
 
            </LinearLayout>
@@ -51,6 +50,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/ten_dip"
                 android:background="@color/white"
+                android:gravity="center_vertical"
                 android:layout_toRightOf="@+id/imageCompany"
                 android:textColor="@color/text_color_product_detail"
                 android:textSize="@dimen/textsize_medium"
@@ -66,11 +66,26 @@
                 >
 
                 <ImageView
-                    android:id="@+id/imageViewEditCompany"
+                    android:id="@+id/rowRightIcon"
                     android:layout_width="@dimen/fifty_dip"
                     android:layout_height="@dimen/fifty_dip"
                     android:src="@drawable/ic_edit_company"
                     android:layout_alignParentRight="true"
+                    />
+
+                <TextView
+                    android:id="@+id/rowRightIconDescription"
+                    android:layout_width="@dimen/fifty_dip"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/textsize_small"
+                    android:textColor="@color/text_color_product_detail"
+                    android:textStyle="bold"
+                    android:padding="@dimen/five_dip"
+                    android:layout_margin="@dimen/five_dip"
+                    android:layout_below="@id/rowRightIcon"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:layout_alignParentRight="true"
+                    android:visibility="gone"
                     />
 
 

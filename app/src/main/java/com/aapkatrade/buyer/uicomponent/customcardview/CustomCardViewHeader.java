@@ -112,13 +112,35 @@ public class CustomCardViewHeader extends CardView {
 
 
     public void setImageLeftVisibility() {
-
         if (this.imageViewLeft.getVisibility() == View.GONE) {
             this.imageViewLeft.setVisibility(View.VISIBLE);
         }
+    }
 
+    public ImageView getRightImageView(){
+        if(imageViewRight == null){
+            return null;
+        }
+        return imageViewRight;
+    }
 
+    public ImageView getLeftImageView(){
+        if(imageViewLeft == null){
+            return null;
+        }
+        return imageViewLeft;
     }
 
 
+    public void setImageLeftRotation(int angleOfRotation) {
+        if (this.imageViewLeft!=null) {
+            this.imageViewLeft.setRotation(angleOfRotation);
+        }
+    }
+
+    public void setImageRightRotation(int angleOfRotation) {
+        if (this.imageViewRight!=null) {
+            this.imageViewRight.setRotation(angleOfRotation);
+        }
+    }
 }

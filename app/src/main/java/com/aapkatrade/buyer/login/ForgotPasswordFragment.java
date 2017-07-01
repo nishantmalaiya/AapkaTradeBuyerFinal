@@ -18,7 +18,7 @@ import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.AppConfig;
 import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.CallWebService;
-import com.aapkatrade.buyer.general.Change_Font;
+import com.aapkatrade.buyer.general.ChangeFont;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.interfaces.TaskCompleteReminder;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
@@ -86,8 +86,8 @@ public class ForgotPasswordFragment extends Fragment implements View.OnClickList
 
         btn_send_otp = (Button) v.findViewById(R.id.btn_send_otp);
         btn_send_otp.setOnClickListener(this);
-        Change_Font.Change_Font_textview(getActivity(), tv_forgot_password);
-        Change_Font.Change_Font_textview(getActivity(), tv_forgot_password_description);
+        ChangeFont.Change_Font_textview(getActivity(), tv_forgot_password);
+        ChangeFont.Change_Font_textview(getActivity(), tv_forgot_password_description);
 
 
     }

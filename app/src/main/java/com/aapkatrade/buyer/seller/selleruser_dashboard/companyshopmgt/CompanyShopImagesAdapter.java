@@ -14,14 +14,13 @@ import android.widget.Toast;
 
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.addcompanyshop.AddCompanyShopActivity;
-import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.addproduct.ProductMediaData;
-import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.addproduct.ProductMediaHolder;
-import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.addproduct.ProductUserHolder;
+import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.addproduct.ProductMediaData;
+import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.addproduct.ProductMediaHolder;
+import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.addproduct.ProductUserHolder;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 /**

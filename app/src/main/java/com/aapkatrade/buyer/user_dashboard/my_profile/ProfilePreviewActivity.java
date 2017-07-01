@@ -20,7 +20,7 @@ import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.Validation;
 import com.aapkatrade.buyer.user_dashboard.changepassword.ChangePassword;
-import com.aapkatrade.buyer.videoplay.VideoPalyActivity;
+import com.aapkatrade.buyer.videoplay.VideoPlayActivity;
 import com.squareup.picasso.Picasso;
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -74,7 +74,7 @@ public class ProfilePreviewActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(ProfilePreviewActivity.this, VideoPalyActivity.class);
+                Intent intent = new Intent(ProfilePreviewActivity.this, VideoPlayActivity.class);
                 intent.putExtra("video_url", appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_VIDEO.toString(), "").toString());
                 startActivity(intent);
 

@@ -1,4 +1,4 @@
-package com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.addproduct;
+package com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.addproduct;
 
 import com.aapkatrade.buyer.general.Validation;
 
