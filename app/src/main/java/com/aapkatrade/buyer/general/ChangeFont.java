@@ -9,7 +9,7 @@ import android.widget.TextView;
  * Created by PPC21 on 21-Jan-17.
  */
 
-public class Change_Font {
+public class ChangeFont {
 
     public static  String fontPath = "OpenSans_Regular.ttf";
 

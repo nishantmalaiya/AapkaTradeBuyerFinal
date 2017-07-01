@@ -1,4 +1,4 @@
-package com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.addproduct;
+package com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.editproduct;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -31,10 +31,12 @@ import com.aapkatrade.buyer.general.Validation;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
 import com.aapkatrade.buyer.home.buyerregistration.entity.City;
 import com.aapkatrade.buyer.home.buyerregistration.spinner_adapter.SpCityAdapter;
-import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.Comapany;
 import com.aapkatrade.buyer.general.Utils.ImageUtils;
 import com.aapkatrade.buyer.home.HomeActivity;
 import com.aapkatrade.buyer.location.GeoCoderAddress;
+import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.CompanyShopData;
+import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.addproduct.ProductImagesAdapter;
+import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.addproduct.ProductMediaData;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
@@ -54,7 +56,7 @@ public class EditProductActivity extends AppCompatActivity
 
     private TextView btnUpload;
     private int count = -1;
-    private ArrayList<Comapany> companyList = new ArrayList<>();
+    private ArrayList<CompanyShopData> companyList = new ArrayList<>();
     File docFile = new File("");
     public ArrayList<ProductMediaData> productImagesDatas = new ArrayList<>();
     RecyclerView recyclerView;

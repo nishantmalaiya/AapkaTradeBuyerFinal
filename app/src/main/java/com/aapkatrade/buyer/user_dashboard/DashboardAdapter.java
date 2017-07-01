@@ -19,7 +19,8 @@ import com.aapkatrade.buyer.seller.selleruser_dashboard.billhistory.BillHistory;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.CompanyShopManagementActivity;
 
 import com.aapkatrade.buyer.seller.selleruser_dashboard.billpayment.BillPaymentActivity;
-import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.addproduct.AddProductActivity;
+import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.ProductManagementActivity;
+import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.addproduct.AddProductActivity;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.salestransaction.SalesTransaction;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.serviceenquiryList.ServiceEnquiryActivity;
 
@@ -210,7 +211,7 @@ public class DashboardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
 
                     } else {
-                        Intent billhistory = new Intent(context, AddProductActivity.class);
+                        Intent billhistory = new Intent(context, ProductManagementActivity.class);
                         context.startActivity(billhistory);
 
                     }

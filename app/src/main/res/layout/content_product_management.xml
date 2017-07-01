@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".seller.selleruser_dashboard.productmanagement.editproduct.EditProductActivity">
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.ProductManagementActivity"
+    tools:showIn="@layout/activity_product_management">
 
 </android.support.constraint.ConstraintLayout>

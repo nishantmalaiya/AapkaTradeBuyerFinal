@@ -19,23 +19,30 @@ import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewAnimationUtils;
+import android.view.animation.AnimationUtils;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.aapkatrade.buyer.R;
+import com.aapkatrade.buyer.animation.Animations;
 import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.ImageUtils;
@@ -51,8 +58,9 @@ import com.aapkatrade.buyer.home.buyerregistration.spinner_adapter.SpCityAdapter
 import com.aapkatrade.buyer.home.navigation.entity.Category;
 import com.aapkatrade.buyer.home.navigation.entity.SubCategory;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.CompanyShopManagementActivity;
-import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.addproduct.ProductImagesAdapter;
-import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.addproduct.ProductMediaData;
+import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.addproduct.ProductImagesAdapter;
+import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.addproduct.ProductMediaData;
+import com.aapkatrade.buyer.uicomponent.customcardview.CustomCardViewHeader;
 import com.aapkatrade.buyer.uicomponent.daystile.DaysTileView;
 import com.afollestad.materialcamera.MaterialCamera;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
@@ -94,8 +102,10 @@ public class AddCompanyShopActivity extends AppCompatActivity {
     private ArrayList<Bitmap> multipleImages;
     private RelativeLayout addCompanyShopLayout;
     private Button btnSave;
-    private boolean isAllFieldsValidate = true;
+    private boolean isAllFieldsValidate = true, isGeneralDetailsCompleted = true;
     private DaysTileView daysTileView1, daysTileView2, daysTileView3;
+    private CustomCardViewHeader generalDetailsHeader, shopDetailsHeader;
+    private LinearLayout llShopDetailsContainer, llGeneralContainer;
 
 
     @Override
@@ -130,10 +140,12 @@ public class AddCompanyShopActivity extends AppCompatActivity {
         if (!isImageExists(productMediaDatas)) {
             AndroidUtils.showSnackBar(addCompanyShopLayout, "Please Capture/Upload at least one Imaage.");
             isAllFieldsValidate = false;
+            isGeneralDetailsCompleted = false;
         } else if (Validation.isEmptyStr(etCompanyShopName.getText().toString())) {
             AndroidUtils.showSnackBar(addCompanyShopLayout, "Please enter company/shop name.");
             etCompanyShopName.setError("Please enter company/shop name.");
             isAllFieldsValidate = false;
+            isGeneralDetailsCompleted = false;
         } else if (!Validation.isPincode(etPinCode.getText().toString())) {
             AndroidUtils.showSnackBar(addCompanyShopLayout, "Please enter Valid Pincode.");
             etPinCode.setError("Please enter Valid Pincode.");
@@ -142,22 +154,31 @@ public class AddCompanyShopActivity extends AppCompatActivity {
             AndroidUtils.showSnackBar(addCompanyShopLayout, "Please enter company/shop address.");
             etAreaLocation.setError("Please enter company/shop address.");
             isAllFieldsValidate = false;
+        } else if (Validation.isEmptyStr(serviceType)) {
+            AndroidUtils.showSnackBar(addCompanyShopLayout, "Please select service type.");
+            isAllFieldsValidate = false;
+            isGeneralDetailsCompleted = false;
         } else if (Validation.isEmptyStr(categoryID)) {
             AndroidUtils.showSnackBar(addCompanyShopLayout, "Please select category.");
             isAllFieldsValidate = false;
+            isGeneralDetailsCompleted = false;
         } else if (Validation.isEmptyStr(subCategoryID)) {
             AndroidUtils.showSnackBar(addCompanyShopLayout, "Please select sub category.");
             isAllFieldsValidate = false;
+            isGeneralDetailsCompleted = false;
         } else if (Validation.isEmptyStr(etAreaLocation.getText().toString())) {
             AndroidUtils.showSnackBar(addCompanyShopLayout, "Please enter company/shop Area.");
             etAreaLocation.setError("Please enter company/shop Area.");
             isAllFieldsValidate = false;
+            isGeneralDetailsCompleted = false;
         } else if (Validation.isEmptyStr(stateID)) {
             AndroidUtils.showSnackBar(addCompanyShopLayout, "Please select state.");
             isAllFieldsValidate = false;
+            isGeneralDetailsCompleted = false;
         } else if (Validation.isEmptyStr(cityID)) {
             AndroidUtils.showSnackBar(addCompanyShopLayout, "Please select city.");
             isAllFieldsValidate = false;
+            isGeneralDetailsCompleted = false;
         } else if (Validation.isEmptyStr(etCompanyAddress.getText().toString())) {
             AndroidUtils.showSnackBar(addCompanyShopLayout, "Please enter company/shop Address.");
             etCompanyAddress.setError("Please enter company/shop Address.");
@@ -245,6 +266,61 @@ public class AddCompanyShopActivity extends AppCompatActivity {
         daysTileView3 = (DaysTileView) findViewById(R.id.daysTileView3);
         daysTileView3.setBackgroundColor(R.color.red);
         daysTileView3.setDayName("Sunday");
+
+        generalDetailsHeader = (CustomCardViewHeader) findViewById(R.id.generalDetailsHeader);
+        generalDetailsHeader.setTitle("General Information");
+        generalDetailsHeader.setImageDrawableLeft(ContextCompat.getDrawable(context, R.drawable.ic_info));
+
+        shopDetailsHeader = (CustomCardViewHeader) findViewById(R.id.shopDetailsHeader);
+        shopDetailsHeader.setTitle("Shop/Company Details Information");
+        shopDetailsHeader.setImageDrawableLeft(ContextCompat.getDrawable(context, R.drawable.ic_info));
+
+        llGeneralContainer = (LinearLayout) findViewById(R.id.llGeneralContainer);
+        llShopDetailsContainer = (LinearLayout) findViewById(R.id.llShopDetailsContainer);
+
+        llShopDetailsContainer.setVisibility(View.GONE);
+        generalDetailsHeader.setImageRightRotation(180);
+
+        generalDetailsHeader.getRightImageView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(llGeneralContainer.getVisibility() == View.VISIBLE){
+                    llGeneralContainer.setVisibility(View.GONE);
+                    generalDetailsHeader.setImageRightRotation(0);
+                }else {
+                    llGeneralContainer.setVisibility(View.VISIBLE);
+                    generalDetailsHeader.setImageRightRotation(180);
+                }
+            }
+        });
+
+        shopDetailsHeader.getRightImageView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(llShopDetailsContainer.getVisibility() == View.VISIBLE){
+                    llShopDetailsContainer.setVisibility(View.GONE);
+                    shopDetailsHeader.setImageRightRotation(0);
+                }else {
+                    llShopDetailsContainer.setVisibility(View.VISIBLE);
+                    shopDetailsHeader.setImageRightRotation(180);
+                }
+            }
+        });
+
+
+        etPinCode.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event){
+                if (actionId == EditorInfo.IME_ACTION_NEXT) {
+                    llShopDetailsContainer.setVisibility(View.VISIBLE);
+                    shopDetailsHeader.setImageRightRotation(180);
+                    etCompanyAddress.requestFocus();
+                    return true; 
+                }
+                return false;  
+            }
+        });
+
     }
 
     private void setUpToolBar() {

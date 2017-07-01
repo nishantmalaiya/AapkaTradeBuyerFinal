@@ -1,4 +1,4 @@
-package com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.addproduct;
+package com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.addproduct;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -8,9 +8,9 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.provider.Telephony;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -19,9 +19,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.ConnetivityCheck;
@@ -31,16 +31,15 @@ import com.aapkatrade.buyer.general.Validation;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
 import com.aapkatrade.buyer.home.buyerregistration.entity.City;
 import com.aapkatrade.buyer.home.buyerregistration.spinner_adapter.SpCityAdapter;
-import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.Comapany;
 import com.aapkatrade.buyer.general.Utils.ImageUtils;
 import com.aapkatrade.buyer.home.HomeActivity;
-import com.aapkatrade.buyer.location.GeoCoderAddress;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.async.http.body.FilePart;
 import com.koushikdutta.async.http.body.Part;
 import com.koushikdutta.ion.Ion;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -49,210 +48,106 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddProductActivity extends AppCompatActivity
-{
-
-    private TextView btnUpload;
-    private int count = -1;
-    private ArrayList<Comapany> companyList = new ArrayList<>();
-    File docFile = new File("");
-    public ArrayList<ProductMediaData> productImagesDatas = new ArrayList<>();
-    RecyclerView recyclerView;
-    ProductImagesAdapter adapter;
-    ArrayList<Bitmap> multiple_images;
-    List<Telephony.Mms.Part> files_image = new ArrayList();
-    private GeoCoderAddress GeocoderAsync;
-    private int current_state_index;
-    private int step1FieldsSet=-1;
-    RelativeLayout relativeImage;
-    EditText etproductname,et_product_price,et_product_price_discount,et__product_weight,et_description,et_maxorderquantity,et_product_length,et_product_width,et_product_height;
-    TextView tvplaceOrder;
-    List<Part> files = new ArrayList();
-    private AppSharedPreference app_sharedpreference;
-    private ProgressBarHandler p_handler;
+public class AddProductActivity extends AppCompatActivity {
+    private File docFile = new File("");
+    private ArrayList<ProductMediaData> productImagesDatas = new ArrayList<>();
+    private RecyclerView recyclerView;
+    private ProductImagesAdapter adapter;
+    private ArrayList<Bitmap> multiple_images;
+    private EditText etproductname, et_product_price, et_product_price_discount, et__product_weight, et_description, et_maxorderquantity, et_product_length, et_product_width, et_product_height;
+    private TextView tvplaceOrder;
+    private List<Part> files = new ArrayList();
+    private AppSharedPreference appSharedpreference;
+    private ProgressBarHandler progressBarHandler;
     private Context context;
-    Spinner spCompanyList,spUnitCategory;
+    private Spinner spCompanyList, spUnitCategory;
     private ArrayList<City> cityList = new ArrayList<>();
     private ArrayList<City> unitList = new ArrayList<>();
-    String cityID,unitID;
-
-
+    private String cityID, unitID, shopId;
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_add_product);
-
-
         context = AddProductActivity.this;
-
-        app_sharedpreference = new AppSharedPreference(context);
-
-        p_handler = new ProgressBarHandler(context);
-
-//        daysTileView = (DaysTileView) findViewById(R.id.daysTileView);
-//        daysTileView.setBackgroundColor(R.color.green);
-//        daysTileView.setDayName("Mon - Fri");
-
-//        daysTileView2 = (DaysTileView) findViewById(R.id.daysTileView2);
-//        daysTileView2.setBackgroundColor(R.color.md_material_blue_600);
-//        daysTileView2.setDayName("Saturday");
-
-//        daysTileView3 = (DaysTileView) findViewById(R.id.daysTileView3);
-//        daystileview3.setbackgroundcolor(r.color.red);
-//        daystileview3.setDayName("Sunday");
-
-
-//        findViewById(R.id.btnSave).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                AndroidUtils.showToast(AddProductActivity.this, daysTileView.getOpeningTime()+"   "+daysTileView.getClosingTime());
-//                AndroidUtils.showToast(AddProductActivity.this, daysTileView2.getOpeningTime()+"   "+daysTileView2.getClosingTime());
-//
-//            }
-//        });
-
-        context = AddProductActivity.this;
-
-       /* relativeImage = (RelativeLayout) findViewById(R.id.relativeImage);
-
-        relativeImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                picPhoto();
-            }
-        });
-      */
-
-        context = AddProductActivity.this;
-
-
+        appSharedpreference = new AppSharedPreference(context);
+        progressBarHandler = new ProgressBarHandler(context);
+        if (getIntent() != null) {
+            shopId = getIntent().getStringExtra("shopId");
+        }
         setUpToolBar();
-
-        setuplayout();
-
+        initView();
         setupRecyclerView();
-
         getCity("");
-
         getUnit();
 
     }
 
-    private void setuplayout()
-    {
-        spCompanyList= (Spinner) findViewById(R.id.spCompanyList);
-
-        spUnitCategory= (Spinner) findViewById(R.id.spUnitCategory);
-
+    private void initView() {
+        spCompanyList = (Spinner) findViewById(R.id.spCompanyList);
+        spUnitCategory = (Spinner) findViewById(R.id.spUnitCategory);
         etproductname = (EditText) findViewById(R.id.etproductname);
-
         et_product_price = (EditText) findViewById(R.id.et_product_price);
-
         et_product_price_discount = (EditText) findViewById(R.id.et_product_price_discount);
-
         et_description = (EditText) findViewById(R.id.et_description);
-
         et__product_weight = (EditText) findViewById(R.id.et__product_weight);
-
         et_maxorderquantity = (EditText) findViewById(R.id.et_maxorderquantity);
-
         et_product_length = (EditText) findViewById(R.id.et_product_length);
-
         et_product_width = (EditText) findViewById(R.id.et_product_width);
-
         et_product_height = (EditText) findViewById(R.id.et_product_height);
-
         tvplaceOrder = (TextView) findViewById(R.id.tvplaceOrder);
-
-        tvplaceOrder.setOnClickListener(new View.OnClickListener()
-        {
+        tvplaceOrder.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
-                if (Validation.isNonEmptyStr(etproductname.getText().toString()))
-                {
-
-                    if (Validation.isNonEmptyStr(et_product_price.getText().toString()))
-                    {
-
-                        if (Validation.isNonEmptyStr(et_product_price_discount.getText().toString())){
-
-
-                            if (Validation.isNonEmptyStr(et_description.getText().toString()))
-                            {
-
-                                if (Validation.isNonEmptyStr(et__product_weight.getText().toString()))
-                                {
-
-                                    if (Validation.isNonEmptyStr(et_maxorderquantity.getText().toString()))
-                                    {
-
-                                        if (ConnetivityCheck.isNetworkAvailable(context)){
+            public void onClick(View v) {
+                if (Validation.isNonEmptyStr(etproductname.getText().toString())) {
+                    if (Validation.isNonEmptyStr(et_product_price.getText().toString())) {
+                        if (Validation.isNonEmptyStr(et_product_price_discount.getText().toString())) {
+                            if (Validation.isNonEmptyStr(et_description.getText().toString())) {
+                                if (Validation.isNonEmptyStr(et__product_weight.getText().toString())) {
+                                    if (Validation.isNonEmptyStr(et_maxorderquantity.getText().toString())) {
+                                        if (ConnetivityCheck.isNetworkAvailable(context)) {
                                             call_add_product_webservice();
+                                        } else {
+                                            AndroidUtils.showToast(context, "Please Connect Netwrok");
                                         }
-                                         else {
-
-                                            AndroidUtils.showToast(context,"Please Connect Netwrok");
-                                        }
-
+                                    } else {
+                                        AndroidUtils.showToast(context, "Please Enter Product Max Order Quantity");
                                     }
-                                    else
-                                    {
-
-                                        AndroidUtils.showToast(context,"Please Enter Product Max Order Quantity");
-                                    }
-
+                                } else {
+                                    AndroidUtils.showToast(context, "Please Enter Product Weight");
                                 }
-                                else
-                                {
-
-                                    AndroidUtils.showToast(context,"Please Enter Product Weight");
-                                }
-
-
+                            } else {
+                                AndroidUtils.showToast(context, "Please Enter Product Description");
                             }
-                            else
-                            {
-
-                                AndroidUtils.showToast(context,"Please Enter Product Description");
-                            }
-
+                        } else {
+                            AndroidUtils.showToast(context, "Please Enter Product Discount");
                         }
-                        else
-                        {
-
-                            AndroidUtils.showToast(context,"Please Enter Product Discount");
-                        }
-
+                    } else {
+                        AndroidUtils.showToast(context, "Please Enter Product Price");
                     }
-                    else
-                    {
-
-                        AndroidUtils.showToast(context,"Please Enter Product Price");
-                    }
-
+                } else {
+                    AndroidUtils.showToast(context, "Please Enter Product Name");
                 }
-                else
-                {
-                    AndroidUtils.showToast(context,"Please Enter Product Name");
-                }
-
-
             }
         });
 
 
     }
 
-    private void setUpToolBar()
-    {
+
+    private void setUpToolBar() {
         ImageView homeIcon = (ImageView) findViewById(R.id.iconHome);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        AppCompatImageView back_imagview = (AppCompatImageView) findViewById(R.id.back_imagview);
         AndroidUtils.setImageColor(homeIcon, context, R.color.white);
+        back_imagview.setVisibility(View.VISIBLE);
+        back_imagview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
         homeIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -261,40 +156,26 @@ public class AddProductActivity extends AppCompatActivity
                 startActivity(intent);
             }
         });
-        setSupportActionBar(toolbar);
-
-        if (getSupportActionBar() != null)
-        {
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayShowTitleEnabled(false);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setTitle(null);
             getSupportActionBar().setElevation(0);
         }
-
-
-
     }
 
-    private void setupRecyclerView()
-    {
+    private void setupRecyclerView() {
         recyclerView = (RecyclerView) findViewById(R.id.recycler);
-
-        productImagesDatas.add(new ProductMediaData("first", "",null,""));
-
-        adapter = new ProductImagesAdapter(AddProductActivity.this, productImagesDatas,this);
-
+        productImagesDatas.add(new ProductMediaData("first", "", null, ""));
+        adapter = new ProductImagesAdapter(AddProductActivity.this, productImagesDatas, this);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
-
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setVisibility(View.VISIBLE);
-
         recyclerView.setAdapter(adapter);
-
     }
 
 
-    public void picPhoto()
-    {
+    public void picPhoto() {
         String str[] = new String[]{"Camera", "Gallery"};
         new AlertDialog.Builder(this).setItems(str,
                 new DialogInterface.OnClickListener() {
@@ -306,8 +187,7 @@ public class AddProductActivity extends AppCompatActivity
 
     }
 
-    void performImgPicAction(int which)
-    {
+    void performImgPicAction(int which) {
         Intent in;
         if (which == 1) {
             in = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -323,33 +203,21 @@ public class AddProductActivity extends AppCompatActivity
     }
 
 
-   /* @Override
-    protected void onResume() {
-        super.onResume();
-      //  spService_type.setSelection(0);
-        AndroidUtils.showErrorLog(context, "onResume");
-    }*/
-
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         multiple_images = new ArrayList<>();
 
         AndroidUtils.showErrorLog(context, "hi", "requestCode : " + requestCode + "result code : " + resultCode);
 
-        try
-        {
-            if (requestCode == 11)
-            {
-                if (data.getClipData() != null)
-                {
+        try {
+            if (requestCode == 11) {
+                if (data.getClipData() != null) {
 
                     data.getClipData().getItemCount();
 
-                    for (int k = 0; k < 4; k++)
-                    {
+                    for (int k = 0; k < 4; k++) {
 
                         Uri selectedImage = data.getClipData().getItemAt(k).getUri();
 
@@ -358,37 +226,30 @@ public class AddProductActivity extends AppCompatActivity
 
                         AndroidUtils.showErrorLog(context, "doc", "***START.****** ");
 
-                        if (ImageUtils.sizeOf(bitmap) > 2048)
-                        {
+                        if (ImageUtils.sizeOf(bitmap) > 2048) {
                             AndroidUtils.showErrorLog(context, "doc", "if doc file path 1");
                             docFile = ImageUtils.getFile(context, ImageUtils.resize(bitmap, bitmap.getHeight() / 2, bitmap.getWidth() / 2));
                             AndroidUtils.showErrorLog(context, "doc", "if doc file path" + docFile.getAbsolutePath());
-                        }
-                        else
-                        {
+                        } else {
                             AndroidUtils.showErrorLog(context, "doc", " else doc file path 1");
                             docFile = ImageUtils.getFile(context, bitmap);
                             AndroidUtils.showErrorLog(context, "doc", " else doc file path" + docFile.getAbsolutePath());
                         }
 
-                        productImagesDatas.add(new ProductMediaData(docFile.getAbsolutePath(), "",null,""));
+                        productImagesDatas.add(new ProductMediaData(docFile.getAbsolutePath(), "", null, ""));
                         AndroidUtils.showErrorLog(context, "docfile", docFile.getAbsolutePath());
 
                         adapter.notifyDataSetChanged();
 
-                        if (productImagesDatas.size() > 0)
-                        {
+                        if (productImagesDatas.size() > 0) {
                             recyclerView.setVisibility(View.VISIBLE);
 
                         }
 
                     }
 
-                }
-                else
-                {
-                    try
-                    {
+                } else {
+                    try {
                         InputStream inputStream = getContentResolver().openInputStream(data.getData());
                         Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
                         Uri tempUri = ImageUtils.getImageUri(context, bitmap);
@@ -396,14 +257,13 @@ public class AddProductActivity extends AppCompatActivity
                         // CALL THIS METHOD TO GET THE ACTUAL PATH
                         File finalFile = new File(ImageUtils.getRealPathFromURI(context, tempUri));
 
-                        productImagesDatas.add(new ProductMediaData(finalFile.getAbsolutePath(), "",null,""));
+                        productImagesDatas.add(new ProductMediaData(finalFile.getAbsolutePath(), "", null, ""));
 
                         AndroidUtils.showErrorLog(context, "docfile", finalFile.getAbsolutePath());
 
                         adapter.notifyDataSetChanged();
 
-                        if (productImagesDatas.size() > 0)
-                        {
+                        if (productImagesDatas.size() > 0) {
                             recyclerView.setVisibility(View.VISIBLE);
 
                         }
@@ -413,8 +273,7 @@ public class AddProductActivity extends AppCompatActivity
                     }
                 }
             }
-            if (requestCode == 10)
-            {
+            if (requestCode == 10) {
                 AndroidUtils.showErrorLog(context, "docfile10", "Sachin sdnsdfjsd fsdjfsd fnmsdabf");
 
                 Bitmap photo = (Bitmap) data.getExtras().get("data");
@@ -424,7 +283,7 @@ public class AddProductActivity extends AppCompatActivity
                 // CALL THIS METHOD TO GET THE ACTUAL PATH
                 File finalFile = new File(ImageUtils.getRealPathFromURI(context, tempUri));
 
-                productImagesDatas.add(new ProductMediaData(finalFile.getAbsolutePath(), "",null,""));
+                productImagesDatas.add(new ProductMediaData(finalFile.getAbsolutePath(), "", null, ""));
                 AndroidUtils.showErrorLog(context, "docfile", finalFile.getAbsolutePath());
 
                 adapter.notifyDataSetChanged();
@@ -433,15 +292,13 @@ public class AddProductActivity extends AppCompatActivity
             }
 
 
-
-
         } catch (Exception e) {
             AndroidUtils.showErrorLog(context, "Exception", e.toString());
         }
 
     }
-    private File savebitmap(String filePath)
-    {
+
+    private File savebitmap(String filePath) {
         File file = new File(filePath);
         String extension = filePath.substring(filePath.lastIndexOf(".") + 1, filePath.length());
         BitmapFactory.Options bmOptions = new BitmapFactory.Options();
@@ -467,20 +324,15 @@ public class AddProductActivity extends AppCompatActivity
     }
 
 
+    private void call_add_product_webservice() {
+        progressBarHandler.show();
 
-    private void call_add_product_webservice()
-    {
-        p_handler.show();
+        for (int i = 0; i < productImagesDatas.size(); i++) {
+            if (i == 0) {
 
-        for (int i = 0; i <productImagesDatas.size(); i++)
-        {
-            if (i==0){
-
-            }
-            else
-            {
+            } else {
                 files.add(new FilePart("image[]", savebitmap(productImagesDatas.get(i).imagePath)));
-                Log.e("sellDatas",files.toArray().toString());
+                Log.e("sellDatas", files.toArray().toString());
             }
 
         }
@@ -498,7 +350,7 @@ public class AddProductActivity extends AppCompatActivity
                 .setMultipartParameter("price", et_product_price.getText().toString())
                 .setMultipartParameter("unit_id", unitID)
                 .setMultipartParameter("max_order_qty", et_maxorderquantity.getText().toString())
-                .setMultipartParameter("product_weight", app_sharedpreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), ""))
+                .setMultipartParameter("product_weight", appSharedpreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), ""))
                 .setMultipartParameter("length", et_product_length.getText().toString())
                 .setMultipartParameter("width", et_product_width.getText().toString())
                 .setMultipartParameter("height", et_product_height.getText().toString())
@@ -509,31 +361,22 @@ public class AddProductActivity extends AppCompatActivity
 
                 System.out.println("result------------------------------" + result);
 
-                p_handler.hide();
-                if (result != null)
-                {
-                    if (result.get("error").getAsString().contains("false"))
-                    {
-                       AndroidUtils.showToast(context,result.get("message").getAsString());
+                progressBarHandler.hide();
+                if (result != null) {
+                    if (result.get("error").getAsString().contains("false")) {
+                        AndroidUtils.showToast(context, result.get("message").getAsString());
                     }
-                }
-                else
-                 {
+                } else {
                     AndroidUtils.showErrorLog(context, "hello2", e.toString());
-                    p_handler.hide();
+                    progressBarHandler.hide();
                 }
             }
         });
     }
 
 
-
-
-
-
-    private void getCity(String stateId)
-    {
-        p_handler.show();
+    private void getCity(String stateId) {
+        progressBarHandler.show();
         // findViewById(R.id.input_layout_city).setVisibility(View.VISIBLE);
         Ion.with(context)
                 .load("http://aapkatrade.com/slim/listCompany")
@@ -544,9 +387,8 @@ public class AddProductActivity extends AppCompatActivity
                 .asJsonObject()
                 .setCallback(new FutureCallback<JsonObject>() {
                     @Override
-                    public void onCompleted(Exception e, JsonObject result)
-                    {
-                        p_handler.hide();
+                    public void onCompleted(Exception e, JsonObject result) {
+                        progressBarHandler.hide();
                         Log.e("city result ", result == null ? "null" : result.toString());
 
                         if (result != null) {
@@ -584,11 +426,9 @@ public class AddProductActivity extends AppCompatActivity
     }
 
 
-
-    private void getUnit()
-    {
+    private void getUnit() {
         unitList.clear();
-        p_handler.show();
+        progressBarHandler.show();
         // findViewById(R.id.input_layout_city).setVisibility(View.VISIBLE);
         Ion.with(context)
                 .load("http://staging.aapkatrade.com/slim/dropdown")
@@ -598,9 +438,8 @@ public class AddProductActivity extends AppCompatActivity
                 .asJsonObject()
                 .setCallback(new FutureCallback<JsonObject>() {
                     @Override
-                    public void onCompleted(Exception e, JsonObject result)
-                    {
-                        p_handler.hide();
+                    public void onCompleted(Exception e, JsonObject result) {
+                        progressBarHandler.hide();
                         Log.e("city result ", result == null ? "null" : result.toString());
 
                         if (result != null) {
@@ -623,8 +462,7 @@ public class AddProductActivity extends AppCompatActivity
                                 }
 
                                 @Override
-                                public void onNothingSelected(AdapterView<?> parent)
-                                {
+                                public void onNothingSelected(AdapterView<?> parent) {
 
                                 }
                             });
@@ -635,8 +473,6 @@ public class AddProductActivity extends AppCompatActivity
 
                 });
     }
-
-
 
 
 }

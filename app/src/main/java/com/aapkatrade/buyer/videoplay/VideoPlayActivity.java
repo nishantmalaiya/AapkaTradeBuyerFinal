@@ -11,10 +11,9 @@ import com.github.rtoshiro.view.video.FullscreenVideoLayout;
 
 import java.io.IOException;
 
-public class VideoPalyActivity extends AppCompatActivity {
+public class VideoPlayActivity extends AppCompatActivity {
 
-    VideoView videoView;
-    FullscreenVideoLayout videoLayout;
+    private FullscreenVideoLayout videoLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)

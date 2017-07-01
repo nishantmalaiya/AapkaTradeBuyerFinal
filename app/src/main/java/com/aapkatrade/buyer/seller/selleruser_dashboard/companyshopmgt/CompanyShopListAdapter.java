@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -14,18 +15,12 @@ import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
-import com.aapkatrade.buyer.seller.selleruser_dashboard.serviceenquiryList.ServiceEnquiryActivity;
-import com.aapkatrade.buyer.seller.selleruser_dashboard.serviceenquiryList.ServiceEnquiryData;
-import com.aapkatrade.buyer.seller.selleruser_dashboard.serviceenquiryList.ServiceEnquiryHolder;
+import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.ProductManagementActivity;
+import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.addproduct.AddProductActivity;
 import com.aapkatrade.buyer.shopdetail.ShopDetailActivity;
 import com.aapkatrade.buyer.shopdetail.shop_all_product.ShopAllProductActivity;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Created by PPC16 on 10-Mar-17.
@@ -55,6 +50,11 @@ public class CompanyShopListAdapter extends RecyclerView.Adapter<CompanyShopData
     @SuppressLint("NewApi")
     @Override
     public void onBindViewHolder(CompanyShopDataHolder holder, final int position) {
+        if(context instanceof ProductManagementActivity){
+            holder.rowRightIconDescription.setVisibility(View.VISIBLE);
+            holder.rowRightIconDescription.setText("Add Product");
+            holder.rowRightIcon.setImageDrawable(AndroidUtils.setImageColor(context, R.drawable.ic_add_product, R.color.orange));
+        }
         StringBuilder stringBuilder = new StringBuilder(companyShopLinkedList.get(position).getName());
         stringBuilder.append("<br>").append("<font color=\"#7dbd00\"><i>").append(companyShopLinkedList.get(position).getCreated()).append("</i></font>").append("<br>").append("Products : ").append(companyShopLinkedList.get(position).getProductCount());
         String tvData = stringBuilder.toString();
@@ -66,10 +66,14 @@ public class CompanyShopListAdapter extends RecyclerView.Adapter<CompanyShopData
             holder.tvCompanyShop.setText(Html.fromHtml(tvData));
         }
 
-        holder.imageViewEditCompany.setOnClickListener(new View.OnClickListener() {
+        holder.rowRightIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if(context instanceof ProductManagementActivity){
+                    Intent intentAddProduct = new Intent(context, AddProductActivity.class);
+                    intentAddProduct.putExtra("shopId", companyShopLinkedList.get(position).getCompanyId());
+                    context.startActivity(intentAddProduct);
+                }
             }
         });
 
@@ -77,9 +81,15 @@ public class CompanyShopListAdapter extends RecyclerView.Adapter<CompanyShopData
             @Override
             public void onClick(View v) {
 
-                Intent intentShopDetail = new Intent(context, ShopDetailActivity.class);
-                intentShopDetail.putExtra("product_id", companyShopLinkedList.get(position).getCompanyId());
-                context.startActivity(intentShopDetail);
+                if(context instanceof CompanyShopManagementActivity) {
+                    Intent intentShopDetail = new Intent(context, ShopDetailActivity.class);
+                    intentShopDetail.putExtra("product_id", companyShopLinkedList.get(position).getCompanyId());
+                    context.startActivity(intentShopDetail);
+                } else if(context instanceof ProductManagementActivity && Integer.parseInt(companyShopLinkedList.get(position).getProductCount())>0){
+                    Intent intentShopAllProduct = new Intent(context, ShopAllProductActivity.class);
+                    intentShopAllProduct.putExtra("shopId", companyShopLinkedList.get(position).getCompanyId());
+                    context.startActivity(intentShopAllProduct);
+                }
             }
         });
     }

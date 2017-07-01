@@ -146,7 +146,6 @@ public class AndroidUtils {
         Drawable mDrawable = ContextCompat.getDrawable(context, imageDrawable);
         mDrawable.setColorFilter(ContextCompat.getColor(context, color), PorterDuff.Mode.SRC_ATOP);
         return mDrawable;
-
     }
 
     public static void showErrorLog(Context context, Object message) {
@@ -159,11 +158,7 @@ public class AndroidUtils {
     }
 
 
-    public static void sortArrayList(ArrayList<Category> arrayList) {
-
-    }
-
-    public static int convertPixelsToDp(float px, Context context) {
+        public static int convertPixelsToDp(float px, Context context) {
         Resources resources = context.getResources();
         DisplayMetrics metrics = resources.getDisplayMetrics();
         int dp = (int) (px / (metrics.densityDpi / 160f));
