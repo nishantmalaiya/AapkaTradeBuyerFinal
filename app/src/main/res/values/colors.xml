@@ -11,6 +11,7 @@
 
     <color name="green_transparent">#0063BEAC</color>
     <color name="green_transparent2">#E6069f81</color>
+    <color name="green_gradient3">#0A8475</color>
     <color name="toast_start_color">#16b696</color>
     <color name="toast_end_color">#28deb9</color>
     <color name="teal">#008080</color>

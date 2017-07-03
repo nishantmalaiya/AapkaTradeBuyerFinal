@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_gravity="center_horizontal|center_vertical"
+    android:gravity="center_horizontal|center_vertical"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:id="@+id/circleImageLinearLayout"
+        android:layout_width="wrap_content"
+        android:background="@drawable/circle_white"
+        android:padding="@dimen/two_dip"
+        android:gravity="center_vertical|center_horizontal"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/circleImageView"
+            android:layout_width="@dimen/fifty_dip"
+            android:layout_height="@dimen/fifty_dip"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:gravity="center_horizontal|center_vertical"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_profile_user" />
+
+    </LinearLayout>
+
+
+
+
+
+
+
+
+    <TextView
+        android:id="@+id/tv_usertype"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|center_vertical"
+        android:layout_marginLeft="@dimen/twenty_dip"
+        android:layout_marginRight="@dimen/twenty_dip"
+
+        android:gravity="center_horizontal|center_vertical"
+        android:text="@string/message"
+        android:textAllCaps="true"
+        android:textColor="@color/white"
+        android:textSize="@dimen/textsize_medium" />
+    <RadioButton
+        android:layout_width="wrap_content"
+        android:id="@+id/radio_usertypeselection"
+       android:theme="@style/myRadioButton_white"
+
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>
