@@ -166,7 +166,7 @@ public class EditProductActivity extends AppCompatActivity
 
         et_product_height = (EditText) findViewById(R.id.et_product_height);
 
-        tvplaceOrder = (TextView) findViewById(R.id.tvplaceOrder);
+        tvplaceOrder = (TextView) findViewById(R.id.tvSaveButton);
 
         tvplaceOrder.setOnClickListener(new View.OnClickListener()
         {

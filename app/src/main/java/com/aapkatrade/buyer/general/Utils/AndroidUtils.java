@@ -155,7 +155,7 @@ public class AndroidUtils {
 
 
     public static void showErrorLog(Context context, Object addIdentifierText, Object message) {
-        Log.e(getTag(context) + addIdentifierText.toString(), message.toString());
+        Log.e(getTag(context) + ( addIdentifierText == null ? " Context String Adder is Null": addIdentifierText.toString()), message == null ? " Message String is Null" : message.toString());
     }
 
 

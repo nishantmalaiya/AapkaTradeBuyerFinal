@@ -136,7 +136,7 @@ public class MyCartActivity extends AppCompatActivity {
         tvPriceItems = (TextView) findViewById(R.id.tvPriceItems);
 
 
-        tvContinue = (TextView) findViewById(R.id.tvplaceOrder);
+        tvContinue = (TextView) findViewById(R.id.tvSaveButton);
 
         tvLastPayableAmount = (TextView) findViewById(R.id.tvLastPayableAmount);
 
