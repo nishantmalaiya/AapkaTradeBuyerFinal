@@ -82,10 +82,10 @@
                 android:layout_marginTop="@dimen/thirty_dip"
                 android:gravity="center_horizontal|center_vertical"
                 android:text="@string/receipt"
-                android:visibility="invisible"
                 android:textAllCaps="true"
                 android:textColor="@color/golden_text"
-                android:textSize="@dimen/textsize_large" />
+                android:textSize="@dimen/textsize_large"
+                android:visibility="invisible" />
 
 
         </LinearLayout>
@@ -151,10 +151,10 @@
                 android:id="@+id/doneIcon"
                 android:layout_width="@dimen/fifty_dip"
                 android:layout_height="@dimen/fifty_dip"
-                android:layout_marginLeft="@dimen/fifteen_dip"
                 android:layout_alignParentStart="true"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/fifteen_dip"
                 android:scaleType="fitCenter"
                 android:src="@drawable/ic_done"
                 tools:ignore="RtlCompat" />

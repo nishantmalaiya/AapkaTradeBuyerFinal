@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.entity.KeyValue;
+import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.addproduct.entity.FormValue;
 
 import java.util.ArrayList;
 
@@ -20,27 +21,27 @@ import java.util.ArrayList;
 public class CustomSpinnerAdapter extends BaseAdapter
 {
     Context context;
-    ArrayList Names,id;
+    ArrayList arrayList,id;
     LayoutInflater inflter;
 
-    public CustomSpinnerAdapter(Context applicationContext, ArrayList Names,ArrayList id)
+    public CustomSpinnerAdapter(Context applicationContext, ArrayList arrayList, ArrayList id)
     {
         this.context = applicationContext;
-        this.Names = Names;
+        this.arrayList = arrayList;
         this.id=id;
         inflter = (LayoutInflater.from(applicationContext));
     }
 
-    public CustomSpinnerAdapter(Context applicationContext, ArrayList Names)
+    public CustomSpinnerAdapter(Context applicationContext, ArrayList arrayList)
     {
         this.context = applicationContext;
-        this.Names = Names;
+        this.arrayList = arrayList;
         inflter = (LayoutInflater.from(applicationContext));
     }
 
     @Override
     public int getCount() {
-        return Names.size();
+        return arrayList.size();
     }
 
     @Override
@@ -57,12 +58,14 @@ public class CustomSpinnerAdapter extends BaseAdapter
     public View getView(int i, View view, ViewGroup viewGroup)
     {
         view = inflter.inflate(R.layout.row_spinner, null);
-        TextView names = (TextView) view.findViewById(R.id.tvSpCategory);
-        if(Names.get(i) instanceof KeyValue){
-            names.setText(((KeyValue) Names.get(i)).value.toString());
-            names.setTextColor(ContextCompat.getColor(context,R.color.black));
-        } else{
-            names.setText(Names.get(i).toString());
+        TextView spinnerItemName = (TextView) view.findViewById(R.id.tvSpCategory);
+        if(arrayList.get(i) instanceof KeyValue){
+            spinnerItemName.setText(((KeyValue) arrayList.get(i)).value.toString());
+            spinnerItemName.setTextColor(ContextCompat.getColor(context,R.color.black));
+        } else if(arrayList.get(i) instanceof FormValue) {
+            spinnerItemName.setText(((FormValue) arrayList.get(i)).getValue());
+        }else {
+            spinnerItemName.setText(arrayList.get(i).toString());
         }
         return view;
     }

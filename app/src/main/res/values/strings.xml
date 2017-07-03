@@ -336,5 +336,6 @@
     <string name="use_current_location">Use my current location</string>
     <string name="product_status">Currently out of stock for 224146</string>
     <string name="title_activity_product_management">ProductManagementActivity</string>
+    <string name="hint">Hint</string>
 
 </resources>

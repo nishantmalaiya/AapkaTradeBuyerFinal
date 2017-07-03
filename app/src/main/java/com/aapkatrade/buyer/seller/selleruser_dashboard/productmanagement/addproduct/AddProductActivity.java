@@ -8,17 +8,21 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -27,12 +31,15 @@ import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.ConnetivityCheck;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
+import com.aapkatrade.buyer.general.Utils.adapter.CustomSpinnerAdapter;
 import com.aapkatrade.buyer.general.Validation;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
 import com.aapkatrade.buyer.home.buyerregistration.entity.City;
 import com.aapkatrade.buyer.home.buyerregistration.spinner_adapter.SpCityAdapter;
 import com.aapkatrade.buyer.general.Utils.ImageUtils;
 import com.aapkatrade.buyer.home.HomeActivity;
+import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.addproduct.entity.DynamicFormEntity;
+import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.addproduct.entity.FormValue;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
@@ -54,8 +61,8 @@ public class AddProductActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ProductImagesAdapter adapter;
     private ArrayList<Bitmap> multiple_images;
-    private EditText etproductname, et_product_price, et_product_price_discount, et__product_weight, et_description, et_maxorderquantity, et_product_length, et_product_width, et_product_height;
-    private TextView tvplaceOrder;
+    private EditText etproductname, etProductPrice, etProductPriceDiscount, etProductWeight, etDescription, etMaxorderQuantity, etProductLength, etProductWidth, etProductHeight;
+    private TextView save;
     private List<Part> files = new ArrayList();
     private AppSharedPreference appSharedpreference;
     private ProgressBarHandler progressBarHandler;
@@ -64,6 +71,8 @@ public class AddProductActivity extends AppCompatActivity {
     private ArrayList<City> cityList = new ArrayList<>();
     private ArrayList<City> unitList = new ArrayList<>();
     private String cityID, unitID, shopId;
+    private ArrayList<DynamicFormEntity> dynamicFormEntityArrayList = new ArrayList<>();
+    private LinearLayout llSellerProductDetailContainer;
 
 
     @Override
@@ -77,38 +86,139 @@ public class AddProductActivity extends AppCompatActivity {
         if (getIntent() != null) {
             shopId = getIntent().getStringExtra("shopId");
         }
+
         setUpToolBar();
         initView();
+        loadDynamicForm(shopId);
         setupRecyclerView();
         getCity("");
         getUnit();
 
     }
 
+    private void loadDynamicForm(String shopId) {
+        AndroidUtils.showErrorLog(context, "     shop_id     ", shopId == null ? "0" : shopId);
+        progressBarHandler.show();
+        Ion.with(context)
+                .load(new StringBuilder(getString(R.string.webservice_base_url)).append("/list_formdata").toString())
+                .setHeader("Authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                .setBodyParameter("shop_id", shopId == null ? "0" : shopId)
+                .asJsonObject()
+                .setCallback(new FutureCallback<JsonObject>() {
+                    @Override
+                    public void onCompleted(Exception e, JsonObject result) {
+                        progressBarHandler.hide();
+
+                        if (result != null) {
+                            if (result.get("status").getAsString().contains("true")) {
+                                JsonArray jsonResultArray = result.get("result").getAsJsonArray();
+                                if (jsonResultArray != null && jsonResultArray.size() > 0) {
+
+                                    for (int i = 0; i < jsonResultArray.size(); i++) {
+                                        JsonObject jsonObject = (JsonObject) jsonResultArray.get(i);
+                                        DynamicFormEntity dynamicFormEntity = new DynamicFormEntity();
+                                        dynamicFormEntity.setMultiple(false);
+                                        dynamicFormEntity.setName(jsonObject.get("name").getAsString());
+                                        dynamicFormEntity.setLabel(jsonObject.get("label").getAsString());
+                                        dynamicFormEntity.setType(jsonObject.get("type").getAsString());
+                                        if (jsonObject.get("is_multiple").getAsString().contains("true")) {
+                                            dynamicFormEntity.setMultiple(true);
+                                            if (jsonObject.get("value") != null) {
+                                                JsonArray multipleValueArray = jsonObject
+                                                        .get("value").getAsJsonArray();
+                                                if (multipleValueArray != null && multipleValueArray.size() > 0) {
+                                                    for (int j = 0; j < multipleValueArray.size(); j++) {
+                                                        JsonObject jsonObject1 = (JsonObject) multipleValueArray.get(j);
+                                                        dynamicFormEntity.addToFormValueArrayList(new FormValue(jsonObject1.get("name").getAsString(), jsonObject1.get("value").getAsString()));
+                                                    }
+                                                }
+                                            }
+                                        } else {
+                                            dynamicFormEntity.addToFormValueArrayList(new FormValue(jsonObject.get("label") == null ? "" : jsonObject.get("label").getAsString(), jsonObject.get("value") == null ? "" : jsonObject.get("value").getAsString()));
+                                        }
+                                        dynamicFormEntityArrayList.add(dynamicFormEntity);
+                                    }
+                                    AndroidUtils.showErrorLog(context, "dynamicFormEntityArrayList size : " + dynamicFormEntityArrayList.size(), dynamicFormEntityArrayList.toString());
+
+                                } else {
+                                    AndroidUtils.showErrorLog(context, "jsonResultArray is null or jsonResultArray.size == 0");
+                                }
+                            }
+                            createDynamicForm();
+                        } else {
+                            AndroidUtils.showErrorLog(context, "list formdata showErrorLog", e.toString());
+                        }
+                    }
+                });
+    }
+
+
+    private void createDynamicForm() {
+        if (dynamicFormEntityArrayList != null && dynamicFormEntityArrayList.size() > 0) {
+            for (DynamicFormEntity dynamicFormEntity : dynamicFormEntityArrayList) {
+                String title = dynamicFormEntity.getLabel();
+                String type = dynamicFormEntity.getType();
+                if (dynamicFormEntity.isMultiple() && type.equalsIgnoreCase("dropdown")) {
+                    createDynamicSpinner(title, type, dynamicFormEntity.getFormValueArrayList());
+                } else if (type.equalsIgnoreCase("text") || type.equalsIgnoreCase("number") || type.equalsIgnoreCase("textarea")) {
+                    createDynamicEditText(title, type);
+                }
+            }
+        }
+    }
+
+    private void createDynamicSpinner(String title, String type, ArrayList<FormValue> formValueArrayList) {
+        View view = LayoutInflater.from(context).inflate(R.layout.layout_dynamic_spinner, null, false);
+        Spinner spinner = (Spinner) view.findViewById(R.id.spinner);
+        if (type.equalsIgnoreCase("dropdown")) {
+            CustomSpinnerAdapter spinnerArrayAdapter = new CustomSpinnerAdapter(context, formValueArrayList);
+            spinner.setAdapter(spinnerArrayAdapter);
+        }
+
+        llSellerProductDetailContainer.addView(view);
+
+    }
+
+    private void createDynamicEditText(String title, String type) {
+        View view = LayoutInflater.from(context).inflate(R.layout.layout_dynamic_edittext, null, false);
+        EditText editText = (EditText) view.findViewById(R.id.edittext);
+        TextInputLayout textInputLayout = (TextInputLayout) view.findViewById(R.id.input_layout);
+        if (type.equalsIgnoreCase("text") || type.equalsIgnoreCase("textarea")) {
+            editText.setInputType(InputType.TYPE_CLASS_TEXT);
+        } else if (type.equalsIgnoreCase("number")) {
+            editText.setInputType(InputType.TYPE_CLASS_NUMBER);
+        }
+//        editText.s
+        textInputLayout.setHint(title);
+        llSellerProductDetailContainer.addView(view);
+    }
+
     private void initView() {
         spCompanyList = (Spinner) findViewById(R.id.spCompanyList);
         spUnitCategory = (Spinner) findViewById(R.id.spUnitCategory);
         etproductname = (EditText) findViewById(R.id.etproductname);
-        et_product_price = (EditText) findViewById(R.id.et_product_price);
-        et_product_price_discount = (EditText) findViewById(R.id.et_product_price_discount);
-        et_description = (EditText) findViewById(R.id.et_description);
-        et__product_weight = (EditText) findViewById(R.id.et__product_weight);
-        et_maxorderquantity = (EditText) findViewById(R.id.et_maxorderquantity);
-        et_product_length = (EditText) findViewById(R.id.et_product_length);
-        et_product_width = (EditText) findViewById(R.id.et_product_width);
-        et_product_height = (EditText) findViewById(R.id.et_product_height);
-        tvplaceOrder = (TextView) findViewById(R.id.tvplaceOrder);
-        tvplaceOrder.setOnClickListener(new View.OnClickListener() {
+        etProductPrice = (EditText) findViewById(R.id.et_product_price);
+        etProductPriceDiscount = (EditText) findViewById(R.id.et_product_price_discount);
+        etDescription = (EditText) findViewById(R.id.et_description);
+        etProductWeight = (EditText) findViewById(R.id.et__product_weight);
+        etMaxorderQuantity = (EditText) findViewById(R.id.et_maxorderquantity);
+        etProductLength = (EditText) findViewById(R.id.et_product_length);
+        etProductWidth = (EditText) findViewById(R.id.et_product_width);
+        etProductHeight = (EditText) findViewById(R.id.et_product_height);
+        save = (TextView) findViewById(R.id.tvSaveButton);
+        llSellerProductDetailContainer = (LinearLayout) findViewById(R.id.llSellerProductDetailContainer);
+        save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (Validation.isNonEmptyStr(etproductname.getText().toString())) {
-                    if (Validation.isNonEmptyStr(et_product_price.getText().toString())) {
-                        if (Validation.isNonEmptyStr(et_product_price_discount.getText().toString())) {
-                            if (Validation.isNonEmptyStr(et_description.getText().toString())) {
-                                if (Validation.isNonEmptyStr(et__product_weight.getText().toString())) {
-                                    if (Validation.isNonEmptyStr(et_maxorderquantity.getText().toString())) {
+                    if (Validation.isNonEmptyStr(etProductPrice.getText().toString())) {
+                        if (Validation.isNonEmptyStr(etProductPriceDiscount.getText().toString())) {
+                            if (Validation.isNonEmptyStr(etDescription.getText().toString())) {
+                                if (Validation.isNonEmptyStr(etProductWeight.getText().toString())) {
+                                    if (Validation.isNonEmptyStr(etMaxorderQuantity.getText().toString())) {
                                         if (ConnetivityCheck.isNetworkAvailable(context)) {
-                                            call_add_product_webservice();
+                                            callAddProductWebservice();
                                         } else {
                                             AndroidUtils.showToast(context, "Please Connect Netwrok");
                                         }
@@ -324,7 +434,7 @@ public class AddProductActivity extends AppCompatActivity {
     }
 
 
-    private void call_add_product_webservice() {
+    private void callAddProductWebservice() {
         progressBarHandler.show();
 
         for (int i = 0; i < productImagesDatas.size(); i++) {
@@ -347,14 +457,14 @@ public class AddProductActivity extends AppCompatActivity {
                 .setMultipartParameter("user_id", "3")
                 .setMultipartParameter("name", etproductname.getText().toString())
                 .setMultipartParameter("company_id", cityID)
-                .setMultipartParameter("price", et_product_price.getText().toString())
+                .setMultipartParameter("price", etProductPrice.getText().toString())
                 .setMultipartParameter("unit_id", unitID)
-                .setMultipartParameter("max_order_qty", et_maxorderquantity.getText().toString())
+                .setMultipartParameter("max_order_qty", etMaxorderQuantity.getText().toString())
                 .setMultipartParameter("product_weight", appSharedpreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), ""))
-                .setMultipartParameter("length", et_product_length.getText().toString())
-                .setMultipartParameter("width", et_product_width.getText().toString())
-                .setMultipartParameter("height", et_product_height.getText().toString())
-                .setMultipartParameter("discount", et_product_price_discount.getText().toString())
+                .setMultipartParameter("length", etProductLength.getText().toString())
+                .setMultipartParameter("width", etProductWidth.getText().toString())
+                .setMultipartParameter("height", etProductHeight.getText().toString())
+                .setMultipartParameter("discount", etProductPriceDiscount.getText().toString())
                 .asJsonObject().setCallback(new FutureCallback<JsonObject>() {
             @Override
             public void onCompleted(Exception e, JsonObject result) {
