@@ -27,6 +27,16 @@
 
     </LinearLayout>
 
+
+
+    <RadioButton
+        android:layout_width="wrap_content"
+        android:id="@+id/radio_usertypeselection"
+        android:visibility="gone"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:layout_height="wrap_content" />
+
     <TextView
         android:id="@+id/tvHeader"
         android:layout_width="match_parent"

@@ -153,14 +153,17 @@
         <item name="android:textSize">@dimen/textsize_medium</item>
     </style>
 
-    <style name="myRadioButton" parent="Widget.AppCompat.CompoundButton.RadioButton">
-        <item name="colorAccent">@color/green</item>
-        <item name="colorControlHighlight">@color/green</item>
-        <item name="android:colorPressedHighlight">@color/green</item>
-        <item name="colorPrimaryDark">@color/green</item>
-        <item name="colorPrimary">@color/green</item>
-        <item name="colorControlActivated">@color/green</item>
+
+    <style name="myRadioButton_white" parent="Theme.AppCompat.Light">
+        <item name="colorAccent">@color/white</item>
+        <item name="colorControlHighlight">@color/white</item>
+        <item name="android:colorPressedHighlight">@color/white</item>
+        <item name="colorPrimaryDark">@color/white</item>
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+        <item name="android:textColorSecondary">@color/dark_green</item>
     </style>
+
 
     <style name="busiAssocHeaderText" parent="android:Widget.TextView">
         <item name="android:textColor">@color/green</item>
