@@ -36,7 +36,7 @@ public class FilterColumn2ViewHolder extends RecyclerView.ViewHolder {
             radioButton = (RadioButton) view.findViewById(R.id.radio_button);
             radioButton.setVisibility(View.VISIBLE);
             checkFilterValue.setVisibility(View.GONE);
-            filterValue.setVisibility(View.GONE);
+            filterValue.setVisibility(View.VISIBLE);
         }
     }
 }
