@@ -13,7 +13,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
 import android.util.Log;
@@ -40,6 +39,7 @@ import com.aapkatrade.buyer.general.Utils.ImageUtils;
 import com.aapkatrade.buyer.home.HomeActivity;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.addproduct.entity.DynamicFormEntity;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.addproduct.entity.FormValue;
+import com.aapkatrade.buyer.uicomponent.customchecklist.CustomCheckList;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
@@ -160,18 +160,38 @@ public class AddProductActivity extends AppCompatActivity {
                 String title = dynamicFormEntity.getLabel();
                 String type = dynamicFormEntity.getType();
                 if (dynamicFormEntity.isMultiple() && type.equalsIgnoreCase("dropdown")) {
-                    createDynamicSpinner(title, type, dynamicFormEntity.getFormValueArrayList());
-                } else if (type.equalsIgnoreCase("text") || type.equalsIgnoreCase("number") || type.equalsIgnoreCase("textarea")) {
+//                    createDynamicSpinner(title, type, dynamicFormEntity.getFormValueArrayList());
+                    createDynamicCheckList(title, type, dynamicFormEntity.getFormValueArrayList());
+
+                } else  if (dynamicFormEntity.isMultiple() && type.equalsIgnoreCase("checkbox")) {
+                    createDynamicCheckList(title, type, dynamicFormEntity.getFormValueArrayList());
+                } else  if (dynamicFormEntity.isMultiple() && type.equalsIgnoreCase("radio")) {
+                    createDynamicRadioGroup(title, type, dynamicFormEntity.getFormValueArrayList());
+                }else if (type.equalsIgnoreCase("text") || type.equalsIgnoreCase("number") || type.equalsIgnoreCase("textarea")) {
                     createDynamicEditText(title, type);
                 }
             }
         }
     }
 
+    private void createDynamicRadioGroup(String title, String type, ArrayList<FormValue> formValueArrayList) {
+
+    }
+
+    private void createDynamicCheckList(String title, String type, ArrayList<FormValue> formValueArrayList) {
+        View view = LayoutInflater.from(context).inflate(R.layout.layout_custom_check_list, null, false);
+
+        CustomCheckList customCheckList = (CustomCheckList) view.findViewById(R.id.customCheckList);
+        customCheckList.setBasicRequiredValues(title, formValueArrayList, true);
+        llSellerProductDetailContainer.addView(view);
+    }
+
     private void createDynamicSpinner(String title, String type, ArrayList<FormValue> formValueArrayList) {
         View view = LayoutInflater.from(context).inflate(R.layout.layout_dynamic_spinner, null, false);
         Spinner spinner = (Spinner) view.findViewById(R.id.spinner);
+        spinner.setTag("g");
         if (type.equalsIgnoreCase("dropdown")) {
+            formValueArrayList.add(0, new FormValue("", "Please Select "+title));
             CustomSpinnerAdapter spinnerArrayAdapter = new CustomSpinnerAdapter(context, formValueArrayList);
             spinner.setAdapter(spinnerArrayAdapter);
         }
@@ -189,7 +209,7 @@ public class AddProductActivity extends AppCompatActivity {
         } else if (type.equalsIgnoreCase("number")) {
             editText.setInputType(InputType.TYPE_CLASS_NUMBER);
         }
-//        editText.s
+
         textInputLayout.setHint(title);
         llSellerProductDetailContainer.addView(view);
     }
@@ -246,7 +266,6 @@ public class AddProductActivity extends AppCompatActivity {
 
     }
 
-
     private void setUpToolBar() {
         ImageView homeIcon = (ImageView) findViewById(R.id.iconHome);
         AppCompatImageView back_imagview = (AppCompatImageView) findViewById(R.id.back_imagview);
@@ -284,7 +303,6 @@ public class AddProductActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
     }
 
-
     public void picPhoto() {
         String str[] = new String[]{"Camera", "Gallery"};
         new AlertDialog.Builder(this).setItems(str,
@@ -311,7 +329,6 @@ public class AddProductActivity extends AppCompatActivity {
             startActivityForResult(Intent.createChooser(in, "Capture Image from Camera"), 10);
         }
     }
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -432,7 +449,6 @@ public class AddProductActivity extends AppCompatActivity {
 
         return file;
     }
-
 
     private void callAddProductWebservice() {
         progressBarHandler.show();

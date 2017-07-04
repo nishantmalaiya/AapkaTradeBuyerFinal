@@ -51,6 +51,12 @@ public class DynamicFormEntity {
         this.formValueArrayList.add(formValue);
     }
 
+    public void addToFormValueArrayList(int position, FormValue formValue) {
+        if(position >= 0){
+            this.formValueArrayList.add(position, formValue);
+        }
+    }
+
     @Override
     public String toString() {
         return "DynamicFormEntity{" +

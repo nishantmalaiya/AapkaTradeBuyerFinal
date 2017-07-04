@@ -58,11 +58,14 @@ public class CustomSpinnerAdapter extends BaseAdapter
     public View getView(int i, View view, ViewGroup viewGroup)
     {
         view = inflter.inflate(R.layout.row_spinner, null);
+
         TextView spinnerItemName = (TextView) view.findViewById(R.id.tvSpCategory);
         if(arrayList.get(i) instanceof KeyValue){
             spinnerItemName.setText(((KeyValue) arrayList.get(i)).value.toString());
             spinnerItemName.setTextColor(ContextCompat.getColor(context,R.color.black));
         } else if(arrayList.get(i) instanceof FormValue) {
+            view.findViewById(R.id.view1).setVisibility(View.VISIBLE);
+            view.findViewById(R.id.view2).setVisibility(View.VISIBLE);
             spinnerItemName.setText(((FormValue) arrayList.get(i)).getValue());
         }else {
             spinnerItemName.setText(arrayList.get(i).toString());
