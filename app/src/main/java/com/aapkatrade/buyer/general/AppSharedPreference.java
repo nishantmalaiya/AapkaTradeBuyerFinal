@@ -15,6 +15,16 @@ public class AppSharedPreference extends Application {
     public SharedPreferences sharedPreferences;
     public SharedPreferences.Editor editor;
 
+    public static final String TOPIC_GLOBAL = "global";
+
+    // broadcast receiver intent filters
+    public static final String REGISTRATION_COMPLETE = "registrationComplete";
+    public static final String PUSH_NOTIFICATION = "pushNotification";
+
+    // id to handle the notification in the notification tray
+    public static final int NOTIFICATION_ID = 100;
+    public static final int NOTIFICATION_ID_BIG_IMAGE = 101;
+
 
     public AppSharedPreference(Context c) {
         this.sharedPreferences = c.getSharedPreferences(app_pref, Activity.MODE_PRIVATE);
@@ -50,14 +60,13 @@ public class AppSharedPreference extends Application {
     }
 
 
-
     public void setSharedPrefBoolean(String pref_key, boolean n) {
         editor.putBoolean(pref_key, n);
         editor.commit();
     }
 
     public boolean getSharedPrefBoolean(String pref_key) {
-        return sharedPreferences.getBoolean(pref_key,false);
+        return sharedPreferences.getBoolean(pref_key, false);
     }
 
 
