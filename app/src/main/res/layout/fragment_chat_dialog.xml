@@ -236,6 +236,7 @@ android:visibility="gone"
                     android:id="@+id/btn_start_chat"
                     android:layout_height="@dimen/fifty_dip"
                     android:layout_centerHorizontal="true"
+                    android:padding="@dimen/ten_dip"
                     android:background="@drawable/orange_background"
                     android:text="@string/startchat"
                     android:textColor="@color/white" />
