@@ -11,31 +11,30 @@ import android.widget.RadioButton;
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.filter.viewholder.FilterColumn2ViewHolder;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
-import com.aapkatrade.buyer.general.Validation;
 import com.aapkatrade.buyer.general.entity.KeyValue;
 import com.aapkatrade.buyer.general.interfaces.CommonInterface;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.addproduct.entity.FormValue;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class CustomCheckListAdapter extends RecyclerView.Adapter<FilterColumn2ViewHolder> {
     private ArrayList<FormValue> formValueArrayList = new ArrayList<>();
-    private ArrayList<FormValue> selectedValueList = new ArrayList<>();
+    private ArrayList<FormValue> selectedItemsArrayList = new ArrayList<>();
+    private HashMap<String, ArrayList<FormValue>>stringArrayListHashMap = new HashMap<>();
     private Context context;
     private RadioButton radioButton;
+    private String title;
 
     public static CommonInterface commonInterface;
     private boolean isRadio;
 
-    public CustomCheckListAdapter(Context context, ArrayList<FormValue> formValueArrayList) {
-        this.context = context;
-        this.formValueArrayList = formValueArrayList;
-    }
 
-    public CustomCheckListAdapter(Context context, ArrayList<FormValue> formValueArrayList, boolean isRadio) {
+    public CustomCheckListAdapter(Context context, String title, ArrayList<FormValue> formValueArrayList, boolean isRadio) {
         this.context = context;
         this.formValueArrayList = formValueArrayList;
         this.isRadio = isRadio;
+        this.title = title;
     }
 
     @Override
@@ -65,28 +64,33 @@ public class CustomCheckListAdapter extends RecyclerView.Adapter<FilterColumn2Vi
                         holder.radioButton.setChecked(true);
                         if (radioButton != null) {
                             radioButton.setChecked(false);
-                            commonInterface.getData(radioButton);
                         }
                         radioButton = holder.radioButton;
+                        if(isChecked){
+                            selectedItemsArrayList.add(formValueArrayList.get(position));
+                        } else {
+                            selectedItemsArrayList.remove(0);
+                        }
+                        commonInterface.getData(new KeyValue(title, selectedItemsArrayList));
                     }
                 });
 
             }
         } else {
             if (holder != null) {
-                holder.radioButton.setChecked(false);
+                holder.checkFilterValue.setChecked(false);
                 holder.filterValue.setText(formValueArrayList.get(position).getValue());
                 holder.filterValue.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (!holder.radioButton.isChecked()) {
-                            holder.radioButton.setChecked(true);
+                        if (!holder.checkFilterValue.isChecked()) {
+                            holder.checkFilterValue.setChecked(true);
                         } else {
-                            holder.radioButton.setChecked(false);
+                            holder.checkFilterValue.setChecked(false);
                         }
                     }
                 });
-                holder.radioButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                holder.checkFilterValue.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                         if (isChecked) {
@@ -94,8 +98,6 @@ public class CustomCheckListAdapter extends RecyclerView.Adapter<FilterColumn2Vi
                         } else {
                             removeItemsFromList(position);
                         }
-                        if (selectedValueList != null)
-                            commonInterface.getData(selectedValueList.size() > 0 ? selectedValueList : formValueArrayList);
                     }
                 });
 
@@ -105,14 +107,15 @@ public class CustomCheckListAdapter extends RecyclerView.Adapter<FilterColumn2Vi
 
 
     private void removeItemsFromList(int position) {
-        if (selectedValueList.contains(formValueArrayList.get(position))) {
-            for (int i = 0; i < selectedValueList.size(); i++) {
-                if (selectedValueList.get(i).equals(formValueArrayList.get(position))) {
-                    selectedValueList.remove(i);
+        if (selectedItemsArrayList.contains(formValueArrayList.get(position))) {
+            for (int i = 0; i < selectedItemsArrayList.size(); i++) {
+                if (selectedItemsArrayList.get(i).equals(formValueArrayList.get(position))) {
+                    selectedItemsArrayList.remove(i);
                 }
             }
-            AndroidUtils.showErrorLog(context, "Item No removed ;  " + position + "  new size " + selectedValueList.size());
+            AndroidUtils.showErrorLog(context, "Item No removed ;  " + position + "  new size " + selectedItemsArrayList.size());
         }
+        commonInterface.getData(new KeyValue(title, selectedItemsArrayList));
     }
 
 
@@ -123,10 +126,11 @@ public class CustomCheckListAdapter extends RecyclerView.Adapter<FilterColumn2Vi
 
     private void addItemsToList(int position) {
         AndroidUtils.showErrorLog(context, "Item No Selected ;  " + position);
-        if (!selectedValueList.contains(formValueArrayList.get(position))) {
-            selectedValueList.add(formValueArrayList.get(position));
-            AndroidUtils.showErrorLog(context, "Item No Added ;  " + position + "  new size " + selectedValueList.size());
+        if (!selectedItemsArrayList.contains(formValueArrayList.get(position))) {
+            selectedItemsArrayList.add(formValueArrayList.get(position));
+            AndroidUtils.showErrorLog(context, "Item No Added ;  " + position + "  new size " + selectedItemsArrayList.size());
         }
+        commonInterface.getData(new KeyValue(title, selectedItemsArrayList));
     }
 
 }

@@ -27,11 +27,9 @@ import android.widget.TextView;
 
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.AppSharedPreference;
-import com.aapkatrade.buyer.general.ConnetivityCheck;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.Utils.adapter.CustomSpinnerAdapter;
-import com.aapkatrade.buyer.general.Validation;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
 import com.aapkatrade.buyer.home.buyerregistration.entity.City;
 import com.aapkatrade.buyer.home.buyerregistration.spinner_adapter.SpCityAdapter;
@@ -161,13 +159,13 @@ public class AddProductActivity extends AppCompatActivity {
                 String type = dynamicFormEntity.getType();
                 if (dynamicFormEntity.isMultiple() && type.equalsIgnoreCase("dropdown")) {
 //                    createDynamicSpinner(title, type, dynamicFormEntity.getFormValueArrayList());
-                    createDynamicCheckList(title, type, dynamicFormEntity.getFormValueArrayList());
 
-                } else  if (dynamicFormEntity.isMultiple() && type.equalsIgnoreCase("checkbox")) {
                     createDynamicCheckList(title, type, dynamicFormEntity.getFormValueArrayList());
-                } else  if (dynamicFormEntity.isMultiple() && type.equalsIgnoreCase("radio")) {
+                } else if (dynamicFormEntity.isMultiple() && type.equalsIgnoreCase("checkbox")) {
+                    createDynamicCheckList(title, type, dynamicFormEntity.getFormValueArrayList());
+                } else if (dynamicFormEntity.isMultiple() && type.equalsIgnoreCase("radio")) {
                     createDynamicRadioGroup(title, type, dynamicFormEntity.getFormValueArrayList());
-                }else if (type.equalsIgnoreCase("text") || type.equalsIgnoreCase("number") || type.equalsIgnoreCase("textarea")) {
+                } else if (type.equalsIgnoreCase("text") || type.equalsIgnoreCase("number") || type.equalsIgnoreCase("textarea")) {
                     createDynamicEditText(title, type);
                 }
             }
@@ -175,23 +173,29 @@ public class AddProductActivity extends AppCompatActivity {
     }
 
     private void createDynamicRadioGroup(String title, String type, ArrayList<FormValue> formValueArrayList) {
-
+        View view = LayoutInflater.from(context).inflate(R.layout.layout_custom_check_list, null, false);
+        CustomCheckList customCheckList = (CustomCheckList) view.findViewById(R.id.customCheckList);
+        customCheckList.setTag(title);
+        customCheckList.setBasicRequiredValues(title, formValueArrayList, true);
+        llSellerProductDetailContainer.addView(view);
     }
 
     private void createDynamicCheckList(String title, String type, ArrayList<FormValue> formValueArrayList) {
         View view = LayoutInflater.from(context).inflate(R.layout.layout_custom_check_list, null, false);
-
         CustomCheckList customCheckList = (CustomCheckList) view.findViewById(R.id.customCheckList);
-        customCheckList.setBasicRequiredValues(title, formValueArrayList, true);
+        customCheckList.setTag(title);
+        customCheckList.setBasicRequiredValues(title, formValueArrayList, false);
         llSellerProductDetailContainer.addView(view);
+
+        AndroidUtils.showErrorLog(context, "+++++++++++customCheckList.getTag("+title+")++++++++++++", null == customCheckList.findViewWithTag(title));
     }
 
     private void createDynamicSpinner(String title, String type, ArrayList<FormValue> formValueArrayList) {
         View view = LayoutInflater.from(context).inflate(R.layout.layout_dynamic_spinner, null, false);
         Spinner spinner = (Spinner) view.findViewById(R.id.spinner);
-        spinner.setTag("g");
+        spinner.setTag(title);
         if (type.equalsIgnoreCase("dropdown")) {
-            formValueArrayList.add(0, new FormValue("", "Please Select "+title));
+            formValueArrayList.add(0, new FormValue("", "Please Select " + title));
             CustomSpinnerAdapter spinnerArrayAdapter = new CustomSpinnerAdapter(context, formValueArrayList);
             spinner.setAdapter(spinnerArrayAdapter);
         }
@@ -204,6 +208,7 @@ public class AddProductActivity extends AppCompatActivity {
         View view = LayoutInflater.from(context).inflate(R.layout.layout_dynamic_edittext, null, false);
         EditText editText = (EditText) view.findViewById(R.id.edittext);
         TextInputLayout textInputLayout = (TextInputLayout) view.findViewById(R.id.input_layout);
+        editText.setTag(title);
         if (type.equalsIgnoreCase("text") || type.equalsIgnoreCase("textarea")) {
             editText.setInputType(InputType.TYPE_CLASS_TEXT);
         } else if (type.equalsIgnoreCase("number")) {
@@ -231,7 +236,7 @@ public class AddProductActivity extends AppCompatActivity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (Validation.isNonEmptyStr(etproductname.getText().toString())) {
+                /*if (Validation.isNonEmptyStr(etproductname.getText().toString())) {
                     if (Validation.isNonEmptyStr(etProductPrice.getText().toString())) {
                         if (Validation.isNonEmptyStr(etProductPriceDiscount.getText().toString())) {
                             if (Validation.isNonEmptyStr(etDescription.getText().toString())) {
@@ -259,11 +264,52 @@ public class AddProductActivity extends AppCompatActivity {
                     }
                 } else {
                     AndroidUtils.showToast(context, "Please Enter Product Name");
+                }*/
+
+                if (dynamicFormEntityArrayList != null && dynamicFormEntityArrayList.size() > 0) {
+                    for (DynamicFormEntity dynamicFormEntity : dynamicFormEntityArrayList) {
+                        String title = dynamicFormEntity.getLabel();
+                        String type = dynamicFormEntity.getType();
+                        if (dynamicFormEntity.isMultiple() && type.equalsIgnoreCase("dropdown")) {
+
+                            collectDynamicCheckListData(title, type, dynamicFormEntity.getFormValueArrayList());
+//                            collectDynamicSpinnerData(title, type, dynamicFormEntity.getFormValueArrayList());
+                        } else if (dynamicFormEntity.isMultiple() && type.equalsIgnoreCase("checkbox")) {
+                            collectDynamicCheckListData(title, type, dynamicFormEntity.getFormValueArrayList());
+                        } else if (dynamicFormEntity.isMultiple() && type.equalsIgnoreCase("radio")) {
+                            collectDynamicRadioGroupData(title, type, dynamicFormEntity.getFormValueArrayList());
+                        } else if (type.equalsIgnoreCase("text") || type.equalsIgnoreCase("number") || type.equalsIgnoreCase("textarea")) {
+                            collectDynamicEditTextData(title, type);
+                        }
+                    }
                 }
+
             }
         });
 
 
+    }
+
+    private void collectDynamicRadioGroupData(String title, String type, ArrayList<FormValue> formValueArrayList) {
+        CustomCheckList customCheckList = (CustomCheckList) llSellerProductDetailContainer.findViewWithTag(title);
+        AndroidUtils.showErrorLog(context, "*(((((((((((((((((RadioGroup)))))))))*", customCheckList.getSelectedCheckList());
+    }
+
+    private void collectDynamicCheckListData(String title, String type, ArrayList<FormValue> formValueArrayList) {
+        CustomCheckList customCheckList = (CustomCheckList) llSellerProductDetailContainer.findViewWithTag(title);
+        AndroidUtils.showErrorLog(context, "+++++++++++customCheckList.getTag(" + title + ")2++++++++++++", null == customCheckList.findViewWithTag(title));
+
+        AndroidUtils.showErrorLog(context, "*(((((((((((((((((CheckList)))))))))*", customCheckList.getSelectedCheckList());
+    }
+
+    private void collectDynamicEditTextData(String title, String type) {
+        EditText editText = (EditText) llSellerProductDetailContainer.findViewWithTag(title);
+        AndroidUtils.showErrorLog(context, "*(((((((((((((((((Edit Text)))))))))*", editText.getText());
+    }
+
+    private void collectDynamicSpinnerData(String title, String type, ArrayList<FormValue> formValueArrayList) {
+        Spinner spinner = (Spinner) llSellerProductDetailContainer.findViewWithTag(title);
+        AndroidUtils.showErrorLog(context, "*(((((((((((((((((Spinner)))))))))*", formValueArrayList.get(spinner.getSelectedItemPosition()));
     }
 
     private void setUpToolBar() {

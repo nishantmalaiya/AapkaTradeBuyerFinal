@@ -152,7 +152,6 @@ public class MyCartActivity extends AppCompatActivity {
                 } else {
                     Intent i = new Intent(MyCartActivity.this, AddAddressActivity.class);
                     startActivity(i);
-                    //overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left);
                 }
 
 

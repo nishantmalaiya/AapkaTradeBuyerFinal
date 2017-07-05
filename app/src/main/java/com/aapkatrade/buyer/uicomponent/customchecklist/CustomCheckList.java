@@ -15,12 +15,13 @@ import android.widget.TextView;
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Validation;
+import com.aapkatrade.buyer.general.entity.KeyValue;
 import com.aapkatrade.buyer.general.interfaces.CommonInterface;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.addproduct.entity.FormValue;
-import com.aapkatrade.buyer.user_dashboard.order_list.OrderListAdapter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by PPC17 on 01-Apr-17.
@@ -32,9 +33,10 @@ public class CustomCheckList extends LinearLayout {
     private ProgressBarHandler progressBarHandler;
     private RecyclerView recyclerView;
     private TextInputLayout inputLayout;
-    private FormValue title, value;
-    private ArrayList<FormValue> formValueArrayList = new ArrayList<>(), selectedFormValueArrayList = new ArrayList<>();
+    private ArrayList<FormValue> formValueArrayList = new ArrayList<>();
+    private HashMap<String, ArrayList<FormValue>> selectedItemsArrayList = new HashMap<>();
     private TextView tvTitle;
+    private boolean isRadio = false;
 
     public CustomCheckList(Context context) {
         super(context);
@@ -73,8 +75,8 @@ public class CustomCheckList extends LinearLayout {
             @Override
             public Object getData(Object object) {
                 if(object != null){
-                    selectedFormValueArrayList = (ArrayList<FormValue>) object;
-                    AndroidUtils.showErrorLog(context, "****************", selectedFormValueArrayList);
+                    selectedItemsArrayList = (HashMap<String, ArrayList<FormValue>>) object;
+                    AndroidUtils.showErrorLog(context, "****************", selectedItemsArrayList);
                 }
                 return null;
             }
@@ -93,10 +95,10 @@ public class CustomCheckList extends LinearLayout {
 
     public void setBasicRequiredValues(String title, ArrayList<FormValue> formValueArrayList, boolean isRadio){
         this.formValueArrayList = formValueArrayList;
-
+        this.isRadio = isRadio;
         if(formValueArrayList != null && formValueArrayList.size() > 0){
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(context);
-            CustomCheckListAdapter customCheckListAdapter = new CustomCheckListAdapter(context, formValueArrayList, isRadio);
+            CustomCheckListAdapter customCheckListAdapter = new CustomCheckListAdapter(context, title,  formValueArrayList, isRadio);
             recyclerView.setLayoutManager(mLayoutManager);
             recyclerView.setAdapter(customCheckListAdapter);
             customCheckListAdapter.notifyDataSetChanged();
@@ -108,8 +110,8 @@ public class CustomCheckList extends LinearLayout {
         }
     }
 
-    public ArrayList<FormValue> getSelectedCheckList(){
-        return selectedFormValueArrayList;
+    public HashMap<String, ArrayList<FormValue>> getSelectedCheckList(){
+        return selectedItemsArrayList;
     }
 
 }
