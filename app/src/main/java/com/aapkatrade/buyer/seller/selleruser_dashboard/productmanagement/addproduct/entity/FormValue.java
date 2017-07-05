@@ -29,6 +29,25 @@ public class FormValue {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof FormValue)) return false;
+
+        FormValue formValue = (FormValue) o;
+
+        if (!title.equals(formValue.title)) return false;
+        return value.equals(formValue.value);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = title.hashCode();
+        result = 31 * result + value.hashCode();
+        return result;
+    }
+
+    @Override
     public String toString() {
         return "FormValue{" +
                 "title='" + title + '\'' +
