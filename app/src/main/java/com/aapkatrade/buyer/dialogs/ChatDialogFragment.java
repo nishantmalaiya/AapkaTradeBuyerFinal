@@ -2,6 +2,8 @@ package com.aapkatrade.buyer.dialogs;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -12,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -22,8 +25,11 @@ import android.widget.TextView;
 
 
 import com.aapkatrade.buyer.R;
+import com.aapkatrade.buyer.chat.ChatActivity;
 import com.aapkatrade.buyer.chat.ChatValidationDatas;
+import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
+import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.Validation;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
 import com.aapkatrade.buyer.general.progressbar.ProgressDialogHandler;
@@ -34,6 +40,8 @@ import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
 import java.util.ArrayList;
+
+import static com.aapkatrade.buyer.R.id.etyourquestion;
 
 @SuppressLint("ValidFragment")
 public class ChatDialogFragment extends DialogFragment {
@@ -57,6 +65,8 @@ public class ChatDialogFragment extends DialogFragment {
     ArrayList<ChatValidationDatas> ValidateUserList = new ArrayList<>();
     RadioButton radioButton1, radioButton2;
     RelativeLayout buyer_seller_type;
+    String firebasetoken;
+    Button btn_start_chat;
 
     public ChatDialogFragment(Context context) {
         super();
@@ -79,12 +89,13 @@ public class ChatDialogFragment extends DialogFragment {
         initView(v);
         AndroidUtils.setGradientColor(layoutcontainer, android.graphics.drawable.GradientDrawable.RECTANGLE, ContextCompat.getColor(context, R.color.datanotfound_gradient_bottom), ContextCompat.getColor(context, R.color.datanotfound_gradient_top), android.graphics.drawable.GradientDrawable.Orientation.TOP_BOTTOM, 0);
         progressDialogHandler = new ProgressDialogHandler(getActivity());
-
+        SharedPreferences pref = getActivity().getSharedPreferences(AppSharedPreference.app_pref, 0);
+        firebasetoken = pref.getString(SharedPreferenceConstants.FIREBASE_REG_ID.toString(), null);
         return v;
     }
 
     private void initView(View v) {
-
+        btn_start_chat = (Button) v.findViewById(R.id.btn_start_chat);
         img_close_dialog = (ImageView) v.findViewById(R.id.img_close_dialog);
         chatUserTypeSelection1 = (ChatUserTypeSelection) v.findViewById(R.id.chatusertypeselction1);
         radioButton1 = (RadioButton) chatUserTypeSelection1.findViewById(R.id.radio_usertypeselection);
@@ -111,7 +122,7 @@ public class ChatDialogFragment extends DialogFragment {
         layoutcontainer = (LinearLayout) v.findViewById(R.id.chat_container);
         EmailOrPhone = (EditText) v.findViewById(R.id.etEmail);
         Name = (EditText) v.findViewById(R.id.etname);
-        Questions = (EditText) v.findViewById(R.id.etyourquestion);
+        Questions = (EditText) v.findViewById(etyourquestion);
         progressBarHandler = new ProgressBarHandler(getActivity());
         callEvents();
         ApplyValidation();
@@ -132,17 +143,15 @@ public class ChatDialogFragment extends DialogFragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-                if(Validation.isValidEmail(s.toString())||Validation.isValidNumber(s.toString(),Validation.getNumberPrefix(s.toString()))) {
+                if (Validation.isValidEmail(s.toString()) || Validation.isValidNumber(s.toString(), Validation.getNumberPrefix(s.toString()))) {
 
 
+                    callWebserviceValidateUser(EmailOrPhone.getText().toString());
 
 
-                        callWebserviceValidateUser(EmailOrPhone.getText().toString());
-
-
-
+                } else {
+                    EmailOrPhone.setError("!Invalid Mobile No/Email");
                 }
-                else{EmailOrPhone.setError("!Invalid Mobile No/Email");}
 
             }
 
@@ -217,7 +226,7 @@ public class ChatDialogFragment extends DialogFragment {
                                     }
                                 } else {
                                     Name.setText(ValidateUserList.get(0).username);
-                                    welcome_user.setText("Welcome "+ValidateUserList.get(0).username);
+                                    welcome_user.setText("Welcome " + ValidateUserList.get(0).username);
                                     buyer_seller_type.setVisibility(View.GONE);
 
                                 }
@@ -246,6 +255,31 @@ public class ChatDialogFragment extends DialogFragment {
     }
 
     private void callEvents() {
+        btn_start_chat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (Validation.isNonEmptyStr(EmailOrPhone.getText().toString()) || Validation.isNonEmptyStr(Name.getText().toString()) || Validation.isNonEmptyStr(Questions.getText().toString())) {
+                    if (Validation.isValidEmail(EmailOrPhone.getText().toString()) || Validation.isNonEmptyStr(Name.getText().toString())) {
+
+                        Intent i = new Intent(getActivity(), ChatActivity.class);
+                        startActivity(i);
+                        callChatInitiateWebService(EmailOrPhone.getText().toString(), Name.getText().toString(), Questions.getText().toString());
+
+
+                    } else {
+                        EmailOrPhone.setError("!Invalid Mobile No/Email");
+                    }
+
+
+                } else {
+
+
+                    AndroidUtils.showToast(context, "!Invalid Input Entries");
+                }
+
+
+            }
+        });
 
         img_close_dialog.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -339,6 +373,11 @@ public class ChatDialogFragment extends DialogFragment {
 
             }
         });
+
+
+    }
+
+    private void callChatInitiateWebService(String s, String toString, String string) {
 
 
     }

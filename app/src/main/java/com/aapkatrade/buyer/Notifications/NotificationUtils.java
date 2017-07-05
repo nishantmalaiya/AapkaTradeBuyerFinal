@@ -1,4 +1,4 @@
-package com.aapkatrade.buyer;
+package com.aapkatrade.buyer.Notifications;
 
 /**
  * Created by PPC16 on 6/3/2017.
@@ -19,9 +19,18 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
+import android.support.v7.app.AppCompatDelegate;
 import android.text.Html;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Patterns;
+import android.widget.RemoteViews;
+
+import com.aapkatrade.buyer.MainActivity;
+import com.aapkatrade.buyer.R;
+import com.aapkatrade.buyer.general.AppSharedPreference;
+import com.aapkatrade.buyer.general.Utils.AndroidUtils;
+import com.aapkatrade.buyer.home.HomeActivity;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -41,12 +50,15 @@ public class NotificationUtils {
 
     private Context mContext;
 
-    public NotificationUtils(Context mContext) {
+    public NotificationUtils(Context mContext,String title, String message, String timeStamp, Intent intent) {
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         this.mContext = mContext;
+        AndroidUtils.showErrorLog(mContext, "NotificationUtils", "mcontext received");
+        showNotificationMessage(title, message, timeStamp, intent, "");
     }
 
-    public void showNotificationMessage(String title, String message, String timeStamp, Intent intent) {
-        showNotificationMessage(title, message, timeStamp, intent, null);
+    public NotificationUtils(Context mContext) {
+        this.mContext = mContext;
     }
 
     public void showNotificationMessage(final String title, final String message, final String timeStamp, Intent intent, String imageUrl) {
@@ -71,7 +83,7 @@ public class NotificationUtils {
                 mContext);
 
         final Uri alarmSound = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE
-                + "://" + mContext.getPackageName() + "/raw/notification");
+                + "://" + mContext.getPackageName() + "/raw/notificationsound");
 
         if (!TextUtils.isEmpty(imageUrl)) {
 
@@ -89,6 +101,9 @@ public class NotificationUtils {
             showSmallNotification(mBuilder, icon, title, message, timeStamp, resultPendingIntent, alarmSound);
             playNotificationSound();
         }
+      //  getComplexNotificationView();
+
+
     }
 
 
@@ -112,7 +127,7 @@ public class NotificationUtils {
                 .build();
 
         NotificationManager notificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(Config.NOTIFICATION_ID, notification);
+        notificationManager.notify(100, notification);
     }
 
     private void showBigNotification(Bitmap bitmap, NotificationCompat.Builder mBuilder, int icon, String title, String message, String timeStamp, PendingIntent resultPendingIntent, Uri alarmSound) {
@@ -121,7 +136,7 @@ public class NotificationUtils {
         bigPictureStyle.setSummaryText(Html.fromHtml(message).toString());
         bigPictureStyle.bigPicture(bitmap);
         Notification notification;
-        notification = mBuilder.setSmallIcon(icon).setTicker(title).setWhen(0)
+        notification = mBuilder.setSmallIcon(icon).setTicker(title).setWhen(0).setCustomContentView(getComplexNotificationView())
                 .setAutoCancel(true)
                 .setContentTitle(title)
                 .setContentIntent(resultPendingIntent)
@@ -134,7 +149,7 @@ public class NotificationUtils {
                 .build();
 
         NotificationManager notificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(Config.NOTIFICATION_ID_BIG_IMAGE, notification);
+        notificationManager.notify(AppSharedPreference.NOTIFICATION_ID_BIG_IMAGE, notification);
     }
 
     /**
@@ -151,7 +166,7 @@ public class NotificationUtils {
             Bitmap myBitmap = BitmapFactory.decodeStream(input);
             return myBitmap;
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e("IOException_notifi", e.toString());
             return null;
         }
     }
@@ -160,11 +175,12 @@ public class NotificationUtils {
     public void playNotificationSound() {
         try {
             Uri alarmSound = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE
-                    + "://" + mContext.getPackageName() + "/raw/notification");
+                    + "://" + mContext.getPackageName() + "/raw/notificationsound");
             Ringtone r = RingtoneManager.getRingtone(mContext, alarmSound);
             r.play();
         } catch (Exception e) {
-            e.printStackTrace();
+
+            AndroidUtils.showErrorLog(mContext, "error in sound", e.toString());
         }
     }
 
@@ -202,14 +218,95 @@ public class NotificationUtils {
         notificationManager.cancelAll();
     }
 
-    public static long getTimeMilliSec(String timeStamp) {
+    public long getTimeMilliSec(String timeStamp) {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
             Date date = format.parse(timeStamp);
             return date.getTime();
         } catch (ParseException e) {
-            e.printStackTrace();
+            AndroidUtils.showErrorLog(mContext, "timestamp", e.toString());
         }
         return 0;
     }
+
+
+
+    private RemoteViews getComplexNotificationView() {
+        // Using RemoteViews to bind custom layouts into Notification
+        RemoteViews notificationView = new RemoteViews(
+                mContext.getPackageName(),
+                R.layout.notification_layout
+        );
+
+        // Locate and set the Image into customnotificationtext.xml ImageViews
+        notificationView.setImageViewResource(
+                R.id.imagenotileft,
+                R.drawable.ic_app_icon);
+
+        // Locate and set the Text into customnotificationtext.xml TextViews
+        notificationView.setTextViewText(R.id.title, mContext.getString(R.string.notificationtitle));
+        notificationView.setTextViewText(R.id.text, mContext.getString(R.string.notificationtext));
+
+        return notificationView;
+
+       /* RemoteViews remoteViews = new RemoteViews( mContext.getPackageName(),
+                R.layout.notification_layout);
+
+        // Set Notification Title
+        String strtitle = mContext.getString(R.string.notificationtitle);
+        // Set Notification Text
+        String strtext = mContext.getString(R.string.notificationtext);
+
+        // Open NotificationView Class on Notification Click
+        Intent intent = new Intent(mContext, HomeActivity.class);
+        // Send data to NotificationView Class
+        intent.putExtra("title", strtitle);
+        intent.putExtra("text", strtext);
+        // Open NotificationView.java Activity
+        PendingIntent pIntent = PendingIntent.getActivity(mContext, 0, intent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext)
+                // Set Icon
+                .setSmallIcon(R.drawable.ic_app_icon)
+                // Set Ticker Message
+                .setTicker(mContext.getString(R.string.notificationtext))
+                // Dismiss Notification
+                .setAutoCancel(true)
+                // Set PendingIntent into Notification
+                .setContentIntent(pIntent)
+                // Set RemoteViews into Notification
+                .setContent(remoteViews);
+
+        // Locate and set the Image into customnotificationtext.xml ImageViews
+        remoteViews.setImageViewResource(R.id.imagenotileft,R.drawable.ic_app_icon);
+        remoteViews.setImageViewResource(R.id.imagenotileft,R.drawable.ic_app_icon);
+
+        // Locate and set the Text into customnotificationtext.xml TextViews
+        remoteViews.setTextViewText(R.id.title,mContext.getString(R.string.notificationtitle));
+        remoteViews.setTextViewText(R.id.text,mContext.getString(R.string.notificationtext));
+
+        // Create Notification Manager
+        NotificationManager notificationmanager = (NotificationManager) mContext.getSystemService(mContext.NOTIFICATION_SERVICE);
+        // Build Notification with Notification Manager
+        notificationmanager.notify(0, builder.build());*/
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

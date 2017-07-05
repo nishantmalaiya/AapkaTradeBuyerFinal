@@ -17,6 +17,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
+import com.aapkatrade.buyer.Notifications.MyFirebaseInstanceIDService;
+import com.aapkatrade.buyer.Notifications.NotificationUtils;
 import com.aapkatrade.buyer.home.HomeActivity;
 import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.ConnectivityNotFound;
@@ -30,6 +33,7 @@ import com.aapkatrade.buyer.location.GeoCoderAddress;
 import com.aapkatrade.buyer.location.Mylocation;
 import com.aapkatrade.buyer.service.GpsLocationService;
 import com.aapkatrade.buyer.welcome.WelcomeActivity;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 public class MainActivity extends AppCompatActivity {
@@ -56,7 +60,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-
         appSharedpreference = new AppSharedPreference(MainActivity.this);
 
         mRegistrationBroadcastReceiver = new BroadcastReceiver() {
@@ -64,14 +67,14 @@ public class MainActivity extends AppCompatActivity {
             public void onReceive(Context context, Intent intent) {
 
                 // checking for type intent filter
-                if (intent.getAction().equals(Config.REGISTRATION_COMPLETE)) {
+                if (intent.getAction().equals(AppSharedPreference.REGISTRATION_COMPLETE)) {
                     // gcm successfully registered
                     // now subscribe to `global` topic to receive app wide notifications
-                    FirebaseMessaging.getInstance().subscribeToTopic(Config.TOPIC_GLOBAL);
+                    FirebaseMessaging.getInstance().subscribeToTopic(AppSharedPreference.TOPIC_GLOBAL);
 
                     displayFirebaseRegId();
 
-                } else if (intent.getAction().equals(Config.PUSH_NOTIFICATION)) {
+                } else if (intent.getAction().equals(AppSharedPreference.PUSH_NOTIFICATION)) {
                     // new push notification is received
 
                     String message = intent.getStringExtra("message");
@@ -198,11 +201,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void displayFirebaseRegId() {
-        SharedPreferences pref = getApplicationContext().getSharedPreferences(Config.SHARED_PREF, 0);
-        String regId = pref.getString("regId", null);
+        SharedPreferences pref = getApplicationContext().getSharedPreferences(AppSharedPreference.app_pref, 0);
+        String regId = pref.getString(SharedPreferenceConstants.FIREBASE_REG_ID.toString(), null);
 
-        System.out.println("regId----------------" + regId);
-
+        try {
+            String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+            Log.e("Firbase id login", "Refreshed token: " + refreshedToken);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         Log.e("sachin", "Firebase reg id: " + regId);
 
       /*  if (!TextUtils.isEmpty(regId))
@@ -217,12 +224,12 @@ public class MainActivity extends AppCompatActivity {
 
         // register GCM registration complete receiver
         LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
-                new IntentFilter(Config.REGISTRATION_COMPLETE));
+                new IntentFilter(AppSharedPreference.REGISTRATION_COMPLETE));
 
         // register new push message receiver
         // by doing this, the activity will be notified each time a new message arrives
         LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
-                new IntentFilter(Config.PUSH_NOTIFICATION));
+                new IntentFilter(AppSharedPreference.PUSH_NOTIFICATION));
 
         // clear the notification area when the app is opened
         NotificationUtils.clearNotifications(getApplicationContext());

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.aapkatrade.buyer">
 
     <uses-permission android:name="com.example.pat.aapkatrade.permission.MAPS_RECEIVE" />
@@ -19,7 +20,10 @@
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.CLEAR_APP_CACHE" />
     <uses-permission android:name="android.permission.INTERNET" />
-
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission
+        android:name="android.permission.PACKAGE_USAGE_STATS"
+        tools:ignore="ProtectedPermissions" />
     <permission
         android:name="com.aapkatrade.buyer.permission.MAPS_RECEIVE"
         android:protectionLevel="signature" />
@@ -41,6 +45,7 @@
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait"
+            android:exported="true"
             android:theme="@style/Theme.Transparent">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -64,6 +69,7 @@
         <activity
             android:name=".home.HomeActivity"
             android:screenOrientation="portrait"
+            android:exported="true"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".shopdetail.ShopDetailActivity"
@@ -127,23 +133,19 @@
             android:enabled="true"
             android:exported="true" />
         <service
-            android:name=".MyFirebaseMessagingService"
+            android:name=".Notifications.MyFirebaseMessagingService"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-        <service android:name=".MyFirebaseInstanceIDService">
+        <service android:name=".Notifications.MyFirebaseInstanceIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
 
-        <activity
-            android:name=".home.FcmActivity"
-            android:label="@string/title_activity_fcm"
-            android:theme="@style/AppTheme" />
         <activity android:name=".seller.registration.SellerRegistrationActivity" />
         <activity android:name=".seller.selleruser_dashboard.bankdetails.BankDetailsActivity" />
         <activity
