@@ -67,6 +67,7 @@ public class ChatDialogFragment extends DialogFragment {
     RelativeLayout buyer_seller_type;
     String firebasetoken;
     Button btn_start_chat;
+    AppSharedPreference appSharedPreference;
 
     public ChatDialogFragment(Context context) {
         super();
@@ -96,6 +97,7 @@ public class ChatDialogFragment extends DialogFragment {
 
     private void initView(View v) {
         btn_start_chat = (Button) v.findViewById(R.id.btn_start_chat);
+        appSharedPreference = new AppSharedPreference(getActivity());
         img_close_dialog = (ImageView) v.findViewById(R.id.img_close_dialog);
         chatUserTypeSelection1 = (ChatUserTypeSelection) v.findViewById(R.id.chatusertypeselction1);
         radioButton1 = (RadioButton) chatUserTypeSelection1.findViewById(R.id.radio_usertypeselection);
@@ -261,8 +263,7 @@ public class ChatDialogFragment extends DialogFragment {
                 if (Validation.isNonEmptyStr(EmailOrPhone.getText().toString()) || Validation.isNonEmptyStr(Name.getText().toString()) || Validation.isNonEmptyStr(Questions.getText().toString())) {
                     if (Validation.isValidEmail(EmailOrPhone.getText().toString()) || Validation.isNonEmptyStr(Name.getText().toString())) {
 
-                        Intent i = new Intent(getActivity(), ChatActivity.class);
-                        startActivity(i);
+
                         callChatInitiateWebService(EmailOrPhone.getText().toString(), Name.getText().toString(), Questions.getText().toString());
 
 
@@ -377,7 +378,61 @@ public class ChatDialogFragment extends DialogFragment {
 
     }
 
-    private void callChatInitiateWebService(String s, String toString, String string) {
+    private void callChatInitiateWebService(final String EmailOrPhone, final String Name, final String Questions) {
+
+
+        progressBarHandler.show();
+
+        String urlValidateUser = getActivity().getResources().getString(R.string.webservice_base_url) + "/login_chat";
+
+
+        final String FirebaseTokenId = appSharedPreference.getSharedPref(SharedPreferenceConstants.FIREBASE_REG_ID.toString());
+
+
+        Ion.with(context)
+                .load(urlValidateUser)
+                .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                .setBodyParameter("emailphone", EmailOrPhone)
+                .setBodyParameter("name", Name)
+                .setBodyParameter("message", Questions)
+                .setBodyParameter("token", FirebaseTokenId)
+                .asJsonObject()
+                .setCallback(new FutureCallback<JsonObject>() {
+                    @Override
+                    public void onCompleted(Exception e, JsonObject result) {
+
+
+                        if (result != null) {
+
+                            AndroidUtils.showErrorLog(getActivity(), result.toString());
+                            progressBarHandler.hide();
+
+
+                            if (result.get("error").getAsString().contains("false")) {
+
+
+                                String chatid = result.get("chat_id").getAsString();
+
+                                Intent i = new Intent(getActivity(), ChatActivity.class);
+                                i.putExtra("chatid", chatid);
+
+                                i.putExtra("emailphone", EmailOrPhone);
+                                i.putExtra("token", FirebaseTokenId);
+                                i.putExtra("name", Name);
+                                i.putExtra("message", Questions);
+
+
+                                startActivity(i);
+                            }
+
+                        } else {
+                            AndroidUtils.showErrorLog(getActivity(), e.toString());
+                            progressBarHandler.hide();
+                        }
+
+                    }
+                });
 
 
     }
