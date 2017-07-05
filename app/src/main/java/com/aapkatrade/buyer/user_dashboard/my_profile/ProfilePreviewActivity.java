@@ -1,6 +1,7 @@
 package com.aapkatrade.buyer.user_dashboard.my_profile;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatImageView;
@@ -74,9 +75,15 @@ public class ProfilePreviewActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(ProfilePreviewActivity.this, VideoPlayActivity.class);
+               /* Intent intent = new Intent(ProfilePreviewActivity.this, VideoPlayActivity.class);
                 intent.putExtra("video_url", appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_VIDEO.toString(), "").toString());
+
+                */
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_VIEW);
+                intent.setDataAndType(Uri.parse(appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_VIDEO.toString())), "video/mp4");
                 startActivity(intent);
+
 
             }
         });
