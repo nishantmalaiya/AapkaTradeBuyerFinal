@@ -41,12 +41,10 @@ public class CompanyShopImagesAdapter extends RecyclerView.Adapter<RecyclerView.
 
     public CompanyShopImagesAdapter(Context context, List<ProductMediaData> itemList,AddCompanyShopActivity addproductActivity)
     {
-
         this.itemList = itemList;
         this.context = context;
         inflater = LayoutInflater.from(context);
         this.addproductActivity = addproductActivity;
-
     }
 
 
@@ -54,11 +52,13 @@ public class CompanyShopImagesAdapter extends RecyclerView.Adapter<RecyclerView.
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
     {
         RecyclerView.ViewHolder viewHolder = null;
+
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
         System.out.println("viewType---------------"+viewType);
 
-        switch (viewType) {
+        switch (viewType)
+        {
             case USER_Added:
                 View v1 = inflater.inflate(R.layout.row_user_added, parent, false);
                 viewHolder = new ProductUserHolder(v1);
@@ -77,13 +77,10 @@ public class CompanyShopImagesAdapter extends RecyclerView.Adapter<RecyclerView.
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position)
     {
-
         switch (holder.getItemViewType())
         {
             case USER_Added:
-
                 final ProductUserHolder homeHolder_User = (ProductUserHolder) holder;
-
                 homeHolder_User.relativeImage.setOnClickListener(new View.OnClickListener()
                 {
                     @Override
@@ -92,18 +89,14 @@ public class CompanyShopImagesAdapter extends RecyclerView.Adapter<RecyclerView.
 
                         Toast.makeText(context, "Hi "+context.getClass().getSimpleName()+" 2nd hi", Toast.LENGTH_SHORT).show();
                       //  addproductActivity.picPhoto();
-
                     }
 
 
 
                 });
-
                 break;
-
             case IMAGE:
                 final ProductMediaHolder homeHolder = (ProductMediaHolder) holder;
-
                 Log.e("itemimage", itemList.get(position).imagePath);
                 if (itemList.get(position).imagePath.equals(""))
                 {
@@ -117,7 +110,6 @@ public class CompanyShopImagesAdapter extends RecyclerView.Adapter<RecyclerView.
                                         homeHolder.previewImage.setImageBitmap(result);
                                 }
                             });
-
                 }
                 else
                 {
@@ -131,7 +123,6 @@ public class CompanyShopImagesAdapter extends RecyclerView.Adapter<RecyclerView.
                         homeHolder.previewImage.setImageDrawable(drawable);
                     }
                 }
-
                 homeHolder.cancelImage.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -141,19 +132,14 @@ public class CompanyShopImagesAdapter extends RecyclerView.Adapter<RecyclerView.
                     }
                 });
                 System.out.println("data-----------" + itemList);
-
-
                 break;
-
         }
-
-
-
     }
 
 
     @Override
-    public int getItemCount() {
+    public int getItemCount()
+    {
         return itemList.size();
         //return itemList.size();
     }
@@ -162,7 +148,6 @@ public class CompanyShopImagesAdapter extends RecyclerView.Adapter<RecyclerView.
     @Override
     public int getItemViewType(int position)
     {
-
         System.out.println("itemlist----------------"+itemList.get(position).imagePath.toString());
 
         if (itemList.get(position).imagePath.toString().equals("first"))
