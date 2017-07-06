@@ -160,7 +160,7 @@ public class AddProductActivity extends AppCompatActivity {
                 if (dynamicFormEntity.isMultiple() && type.equalsIgnoreCase("dropdown")) {
 //                    createDynamicSpinner(title, type, dynamicFormEntity.getFormValueArrayList());
 
-                    createDynamicCheckList(title, type, dynamicFormEntity.getFormValueArrayList());
+                    createDynamicRadioGroup(title, type, dynamicFormEntity.getFormValueArrayList());
                 } else if (dynamicFormEntity.isMultiple() && type.equalsIgnoreCase("checkbox")) {
                     createDynamicCheckList(title, type, dynamicFormEntity.getFormValueArrayList());
                 } else if (dynamicFormEntity.isMultiple() && type.equalsIgnoreCase("radio")) {
@@ -271,8 +271,7 @@ public class AddProductActivity extends AppCompatActivity {
                         String title = dynamicFormEntity.getLabel();
                         String type = dynamicFormEntity.getType();
                         if (dynamicFormEntity.isMultiple() && type.equalsIgnoreCase("dropdown")) {
-
-                            collectDynamicCheckListData(title, type, dynamicFormEntity.getFormValueArrayList());
+                            collectDynamicRadioGroupData(title, type, dynamicFormEntity.getFormValueArrayList());
 //                            collectDynamicSpinnerData(title, type, dynamicFormEntity.getFormValueArrayList());
                         } else if (dynamicFormEntity.isMultiple() && type.equalsIgnoreCase("checkbox")) {
                             collectDynamicCheckListData(title, type, dynamicFormEntity.getFormValueArrayList());

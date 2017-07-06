@@ -2,6 +2,7 @@ package com.aapkatrade.buyer.uicomponent.customchecklist;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -34,9 +35,10 @@ public class CustomCheckList extends LinearLayout {
     private RecyclerView recyclerView;
     private TextInputLayout inputLayout;
     private ArrayList<FormValue> formValueArrayList = new ArrayList<>();
-    private HashMap<String, ArrayList<FormValue>> selectedItemsArrayList = new HashMap<>();
+    private ArrayList<Integer> selectedItemsArrayList = new ArrayList<>();
     private TextView tvTitle;
     private boolean isRadio = false;
+    public CommonInterface commonInterface;
 
     public CustomCheckList(Context context) {
         super(context);
@@ -71,16 +73,7 @@ public class CustomCheckList extends LinearLayout {
         view = inflater.inflate(layoutId(), this, true);
         progressBarHandler = new ProgressBarHandler(context);
         initView();
-        CustomCheckListAdapter.commonInterface = new CommonInterface() {
-            @Override
-            public Object getData(Object object) {
-                if(object != null){
-                    selectedItemsArrayList = (HashMap<String, ArrayList<FormValue>>) object;
-                    AndroidUtils.showErrorLog(context, "****************", selectedItemsArrayList);
-                }
-                return null;
-            }
-        };
+
     }
 
     private void initView() {
@@ -97,8 +90,18 @@ public class CustomCheckList extends LinearLayout {
         this.formValueArrayList = formValueArrayList;
         this.isRadio = isRadio;
         if(formValueArrayList != null && formValueArrayList.size() > 0){
+            commonInterface = new CommonInterface() {
+                @Override
+                public Object getData(Object object) {
+                    if(object != null){
+                        selectedItemsArrayList = (ArrayList<Integer>) object;
+                        AndroidUtils.showErrorLog(context, "****************", selectedItemsArrayList);
+                    }
+                    return null;
+                }
+            };
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(context);
-            CustomCheckListAdapter customCheckListAdapter = new CustomCheckListAdapter(context, title,  formValueArrayList, isRadio);
+            CustomCheckListAdapter customCheckListAdapter = new CustomCheckListAdapter(context, title, commonInterface, formValueArrayList, isRadio);
             recyclerView.setLayoutManager(mLayoutManager);
             recyclerView.setAdapter(customCheckListAdapter);
             customCheckListAdapter.notifyDataSetChanged();
@@ -110,8 +113,14 @@ public class CustomCheckList extends LinearLayout {
         }
     }
 
-    public HashMap<String, ArrayList<FormValue>> getSelectedCheckList(){
-        return selectedItemsArrayList;
+    public ArrayList<FormValue> getSelectedCheckList(){
+        ArrayList<FormValue> finalSelectedList = new ArrayList<>();
+        if(formValueArrayList!=null && formValueArrayList.size() >0){
+            for (int i : selectedItemsArrayList){
+                finalSelectedList.add(formValueArrayList.get(i));
+            }
+        }
+        return finalSelectedList;
     }
 
 }
