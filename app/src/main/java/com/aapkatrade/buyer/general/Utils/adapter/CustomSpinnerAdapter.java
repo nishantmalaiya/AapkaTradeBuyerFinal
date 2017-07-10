@@ -46,12 +46,12 @@ public class CustomSpinnerAdapter extends BaseAdapter
 
     @Override
     public Object getItem(int i) {
-        return null;
+        return i;
     }
 
     @Override
     public long getItemId(int i) {
-        return 0;
+        return i;
     }
 
     @Override
