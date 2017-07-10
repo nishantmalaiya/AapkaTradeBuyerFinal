@@ -184,7 +184,7 @@ public class ProductManagementActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        findViewById(R.id.fab).setVisibility(View.GONE);
+//        findViewById(R.id.fab).setVisibility(View.GONE);
         progressBarHandler = new ProgressBarHandler(context);
         appSharedPreference = new AppSharedPreference(context);
         linearLayoutManager = new LinearLayoutManager(context);
