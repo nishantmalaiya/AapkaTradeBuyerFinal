@@ -39,17 +39,30 @@ public class ChatActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
-        chatid = getIntent().getStringExtra("chat_id");
+        chatid = getIntent().getStringExtra("chatid");
 
+        emailphone = getIntent().getStringExtra("emailphone");
+        token = getIntent().getStringExtra("token");
+        name = getIntent().getStringExtra("name");
+        message = getIntent().getStringExtra("message");
 
         context = this;
         setupToolBar();
+
         initView();
 
         setupRecyclerView();
 
 
         clickEvents();
+        initChat();
+    }
+
+    private void initChat() {
+
+        ChatDatas myData = new ChatDatas(message, name, Long.parseLong("" + System.currentTimeMillis()), true, token, emailphone);
+        chatDatas.add(myData);
+        add_message(chatDatas);
     }
 
     private void clickEvents() {
@@ -61,7 +74,8 @@ public class ChatActivity extends AppCompatActivity {
                     String fcm_token = appSharedPreference.getSharedPref(SharedPreferenceConstants.FIREBASE_REG_ID.toString());
 
 
-                    Callwebservicechat();
+                    Callwebservicechat(etchatmessage.getText().toString());
+                    etchatmessage.setText("");
 
 
                 }
@@ -69,7 +83,7 @@ public class ChatActivity extends AppCompatActivity {
         });
     }
 
-    private void Callwebservicechat() {
+    private void Callwebservicechat(final String s) {
 
         String callwebservicechat = context.getResources().getString(R.string.webservice_base_url) + "/chating";
 
@@ -80,8 +94,9 @@ public class ChatActivity extends AppCompatActivity {
                 .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                 .setBodyParameter("emailphone", emailphone)
                 .setBodyParameter("name", name)
-                .setBodyParameter("message", message)
+                .setBodyParameter("message", s)
                 .setBodyParameter("token", token)
+                .setBodyParameter("chat_id", chatid)
                 .asJsonObject()
                 .setCallback(new FutureCallback<JsonObject>() {
                     @Override
@@ -89,7 +104,9 @@ public class ChatActivity extends AppCompatActivity {
 
 
                         if (result != null) {
-                            ChatDatas myData = new ChatDatas("demo", "demo", Long.parseLong("" + System.currentTimeMillis()), true, token, "demo@gmail.com");
+
+                            AndroidUtils.showErrorLog(ChatActivity.this, "Response Chat Activity", result.toString());
+                            ChatDatas myData = new ChatDatas(s, name, Long.parseLong("" + System.currentTimeMillis()), true, token, emailphone);
                             chatDatas.add(myData);
                             add_message(chatDatas);
 
