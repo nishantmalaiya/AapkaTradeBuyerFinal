@@ -960,7 +960,7 @@
         </android.support.v4.widget.NestedScrollView>
 
 
-        <RelativeLayout
+       <!-- <RelativeLayout
             android:id="@+id/relativeService_enquiry"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -980,8 +980,36 @@
                 android:textColor="@color/white" />
 
 
+        </RelativeLayout>-->
+
+
+        <RelativeLayout
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:orientation="vertical"
+            android:background="@drawable/circle_orange_back"
+            android:padding="@dimen/ten_dip"
+            android:layout_gravity="bottom|right"
+            android:layout_margin="15dp"
+            >
+
+            <ImageButton
+                android:id="@+id/btnService_enquiry"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:src="@drawable/ic_enquiry"
+                android:background="@color/transparent"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                />
+
         </RelativeLayout>
+
+
     </android.support.design.widget.CoordinatorLayout>
+
+
 </LinearLayout>
 
 

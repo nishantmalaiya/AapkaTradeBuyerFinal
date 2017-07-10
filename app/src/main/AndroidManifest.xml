@@ -24,6 +24,7 @@
     <uses-permission
         android:name="android.permission.PACKAGE_USAGE_STATS"
         tools:ignore="ProtectedPermissions" />
+
     <permission
         android:name="com.aapkatrade.buyer.permission.MAPS_RECEIVE"
         android:protectionLevel="signature" />
@@ -44,8 +45,8 @@
 
         <activity
             android:name=".MainActivity"
-            android:screenOrientation="portrait"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.Transparent">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -68,8 +69,8 @@
         <activity android:name=".user_dashboard.changepassword.ChangePassword" />
         <activity
             android:name=".home.HomeActivity"
-            android:screenOrientation="portrait"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".shopdetail.ShopDetailActivity"
@@ -83,7 +84,7 @@
         <activity android:name=".user_dashboard.order_list.OrderActivity" />
         <activity android:name=".user_dashboard.order_list.order_details.OrderDetailsActivity" />
         <activity android:name=".categories_tab.CategoriesTabActivity" />
-        <activity android:name=".login.ForgotPassword"></activity>
+        <activity android:name=".login.ForgotPassword" />
         <activity android:name=".categories_tab.ShopListByCategoryActivity" />
         <activity android:name=".categories_tab.FilterActivity" />
         <activity android:name=".user_dashboard.address.AddressActivity" />
@@ -162,6 +163,10 @@
             android:label="@string/title_activity_add_company_shop"
             android:theme="@style/AppTheme" />
         <activity
+            android:name=".seller.selleruser_dashboard.companyshopmgt.editcompanyshop.EditCompanyShopActivity"
+            android:label="@string/title_activity_add_company_shop"
+            android:theme="@style/AppTheme" />
+        <activity
             android:name=".videoplay.VideoPlayActivity"
             android:configChanges="orientation|screenSize" />
         <activity android:name=".seller.selleruser_dashboard.billhistory.BillHistory" />
@@ -169,13 +174,14 @@
         <activity
             android:name=".seller.selleruser_dashboard.productmanagement.addproduct.AddProductActivity"
             android:label="@string/title_activity_add_product"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
         <activity android:name=".seller.selleruser_dashboard.productmanagement.editproduct.EditProductActivity" />
         <activity android:name=".chat.ChatActivity" />
         <activity
             android:name=".seller.selleruser_dashboard.productmanagement.ProductManagementActivity"
             android:label="@string/title_activity_product_management"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
+        <activity android:name=".seller.selleruser_dashboard.productmanagement.sellerproduct.SellerProductListActivity"></activity>
     </application>
 
 </manifest>

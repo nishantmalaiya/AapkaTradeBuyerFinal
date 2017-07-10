@@ -360,7 +360,6 @@ public class ChatDialogFragment extends DialogFragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-
                 if (isChecked) {
 
                     radioButton1.setChecked(false);
