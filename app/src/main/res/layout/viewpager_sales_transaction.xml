@@ -54,18 +54,36 @@
                         android:layout_alignParentBottom="true"
                         android:layout_alignParentRight="true"
                         android:layout_marginBottom="@dimen/thirty_dip"
-
                         android:layout_marginRight="@dimen/ten_dip"
+                        android:paddingBottom="@dimen/ten_dip"
+                        android:paddingRight="@dimen/ten_dip"
+                        android:textColor="@color/white"
                         android:textSize="@dimen/textsize_medium" />
 
-                    <ImageView
+                    <RelativeLayout
+                        android:id="@+id/rl_salestransactionstatus"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
+
                         android:layout_marginRight="@dimen/twenty_dip"
+
+
                         android:layout_marginTop="@dimen/twenty_dip"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/complete" />
+                        android:padding="@dimen/ten_dip">
+
+
+                        <ImageView
+                            android:id="@+id/imgstatus"
+                            android:layout_width="@dimen/twenty_dip"
+
+                            android:layout_height="@dimen/twenty_dip"
+
+                            android:scaleType="fitCenter"
+
+                            android:src="@drawable/complete" />
+
+                    </RelativeLayout>
 
 
                 </RelativeLayout>
@@ -93,9 +111,9 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/five_dip"
             android:background="@color/white"
-            android:layout_height="wrap_content"
 
 
             >
@@ -104,9 +122,9 @@
                 android:id="@+id/recycleview_viewpager_salesReport"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/five_dip"
                 android:background="@color/grey_2"
                 android:focusable="false"
-               android:layout_marginTop="@dimen/five_dip"
                 android:nestedScrollingEnabled="false"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior">
 

@@ -3,6 +3,8 @@ package com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.icu.text.SimpleDateFormat;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -19,7 +21,11 @@ import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.Produc
 import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.addproduct.AddProductActivity;
 import com.aapkatrade.buyer.shopdetail.ShopDetailActivity;
 import com.aapkatrade.buyer.shopdetail.shop_all_product.ShopAllProductActivity;
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Ion;
 
+import java.text.ParseException;
+import java.util.Date;
 import java.util.LinkedList;
 
 /**
@@ -33,13 +39,13 @@ public class CompanyShopListAdapter extends RecyclerView.Adapter<CompanyShopData
     private LinkedList<CompanyShopData> companyShopLinkedList;
     private AppSharedPreference appSharedpreference;
     private ProgressBarHandler progressHandler;
-    public CompanyShopListAdapter(Context context, LinkedList<CompanyShopData> companyShopLinkedList) {
+    public CompanyShopListAdapter(Context context, LinkedList<CompanyShopData> companyShopLinkedList)
+    {
         this.context = context;
         this.companyShopLinkedList = companyShopLinkedList;
         appSharedpreference = new AppSharedPreference(context);
         progressHandler = new ProgressBarHandler(context);
     }
-
 
 
     @Override
@@ -49,14 +55,30 @@ public class CompanyShopListAdapter extends RecyclerView.Adapter<CompanyShopData
 
     @SuppressLint("NewApi")
     @Override
-    public void onBindViewHolder(CompanyShopDataHolder holder, final int position) {
-        if(context instanceof ProductManagementActivity){
+    public void onBindViewHolder(final CompanyShopDataHolder holder, final int position)
+    {
+
+        if(context instanceof ProductManagementActivity)
+        {
             holder.rowRightIconDescription.setVisibility(View.VISIBLE);
             holder.rowRightIconDescription.setText("Add Product");
             holder.rowRightIcon.setImageDrawable(AndroidUtils.setImageColor(context, R.drawable.ic_add_product, R.color.orange));
         }
+
+        String strCurrentDate = companyShopLinkedList.get(position).getCreated();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        Date newDate = null;
+        try {
+            newDate = format.parse(strCurrentDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        format = new SimpleDateFormat("dd MMM yyyy");
+        String date = format.format(newDate);
+
         StringBuilder stringBuilder = new StringBuilder(companyShopLinkedList.get(position).getName());
-        stringBuilder.append("<br>").append("<font color=\"#7dbd00\"><i>").append(companyShopLinkedList.get(position).getCreated()).append("</i></font>").append("<br>").append("Products : ").append(companyShopLinkedList.get(position).getProductCount());
+        stringBuilder.append("<br>").append("<font color=\"#7dbd00\"><i>").append(date).append("</i></font>").append("<br>").append("Products : ").append(companyShopLinkedList.get(position).getProductCount());
         String tvData = stringBuilder.toString();
         AndroidUtils.showErrorLog(context,position+"---->  ", tvData);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -65,6 +87,16 @@ public class CompanyShopListAdapter extends RecyclerView.Adapter<CompanyShopData
             //noinspection deprecation
             holder.tvCompanyShop.setText(Html.fromHtml(tvData));
         }
+        Ion.with(context)
+                .load(companyShopLinkedList.get(position).getCompany_image())
+                .withBitmap().asBitmap()
+                .setCallback(new FutureCallback<Bitmap>() {
+                    @Override
+                    public void onCompleted(Exception e, Bitmap result) {
+                        if (result != null)
+                            holder.company_image.setImageBitmap(result);
+                    }
+                });
 
         holder.rowRightIcon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,6 +133,7 @@ public class CompanyShopListAdapter extends RecyclerView.Adapter<CompanyShopData
     public int getItemCount() {
         return companyShopLinkedList.size();
     }
+
 
 
 }

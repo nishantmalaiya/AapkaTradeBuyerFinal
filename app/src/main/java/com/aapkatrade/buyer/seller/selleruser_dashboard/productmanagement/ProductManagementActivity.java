@@ -146,7 +146,7 @@ public class ProductManagementActivity extends AppCompatActivity {
                                     if (jsonArray != null && jsonArray.size() > 0) {
                                         for (int i = 0; i < jsonArray.size(); i++) {
                                             JsonObject jsonObject = jsonArray.get(i).getAsJsonObject();
-                                            CompanyShopData companyShopData = new CompanyShopData(jsonObject.get("companyId").getAsString(), jsonObject.get("name").getAsString(), jsonObject.get("address").getAsString(), jsonObject.get("description").getAsString(), jsonObject.get("created").getAsString(), jsonObject.get("product_count").getAsString());
+                                            CompanyShopData companyShopData = new CompanyShopData(jsonObject.get("companyId").getAsString(), jsonObject.get("name").getAsString(), jsonObject.get("address").getAsString(), jsonObject.get("description").getAsString(), jsonObject.get("created").getAsString(), jsonObject.get("product_count").getAsString(),"");
                                             if(!companyShopLinkedList.contains(companyShopData)){
                                                 companyShopLinkedList.add(companyShopData);
                                             }

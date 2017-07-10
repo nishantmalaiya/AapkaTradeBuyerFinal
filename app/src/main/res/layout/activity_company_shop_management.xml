@@ -33,17 +33,29 @@
 
     </LinearLayout>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+   <RelativeLayout
+        android:layout_width="@dimen/sixty_dip"
+        android:layout_height="@dimen/sixty_dip"
+        android:orientation="vertical"
+        android:background="@drawable/circle_green_back"
+        android:padding="@dimen/ten_dip"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_margin="@dimen/fab_margin"
-        android:scaleType="center"
-        app:srcCompat="@drawable/ic_shop"
-        tools:ignore="RtlCompat" />
+        android:layout_alignParentRight="true"
+        android:layout_margin="15dp"
+        >
 
+        <ImageButton
+            android:id="@+id/btnAdd_shop"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:src="@drawable/ic_shop"
+            android:background="@color/transparent"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            />
+
+    </RelativeLayout>
 
 
 </RelativeLayout>
