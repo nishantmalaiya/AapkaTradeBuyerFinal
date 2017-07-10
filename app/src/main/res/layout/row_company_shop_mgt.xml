@@ -26,17 +26,16 @@
 
            <LinearLayout
                android:layout_width="0dp"
-               android:layout_height="@dimen/fifty_dip"
-               android:layout_margin="@dimen/ten_dip"
-               android:layout_weight="1.5"
+               android:layout_height="@dimen/seventy_dip"
+               android:layout_weight="1.7"
                android:layout_gravity="center_vertical"
                >
 
 
                <de.hdodenhof.circleimageview.CircleImageView
                    android:id="@+id/imageCompany"
-                   android:layout_width="@dimen/fifty_dip"
-                   android:layout_height="@dimen/fifty_dip"
+                   android:layout_width="match_parent"
+                   android:layout_height="@dimen/seventy_dip"
                    android:src="@drawable/ic_profile_user"
                    />
 
@@ -46,7 +45,7 @@
             <TextView
                 android:id="@+id/tvCompanyShop"
                 android:layout_width="0dp"
-                android:layout_weight="6.5"
+                android:layout_weight="6.2"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/ten_dip"
                 android:background="@color/white"
@@ -54,6 +53,7 @@
                 android:layout_toRightOf="@+id/imageCompany"
                 android:textColor="@color/text_color_product_detail"
                 android:textSize="@dimen/textsize_medium"
+                android:layout_marginLeft="@dimen/ten_dip"
                 android:textStyle="bold" />
 
 
@@ -93,9 +93,6 @@
             </RelativeLayout>
 
         </LinearLayout>
-
-
-
 
 
     </LinearLayout>

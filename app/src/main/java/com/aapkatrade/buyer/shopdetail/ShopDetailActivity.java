@@ -7,6 +7,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
@@ -19,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -82,8 +84,8 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
     private ImageView[] dots;
     private Timer banner_timer = new Timer();
 
-    private RelativeLayout relativeBuyNow, relativeRateReview;
-    private LinearLayout linearProductDetail, RelativeProductDetail;
+    private RelativeLayout  relativeRateReview;
+    private LinearLayout linearProductDetail,RelativeProductDetail;
     private TextView tvshopName, tvProPrice, tvCrossPrice, tvDiscription, tvSpecification, tvQuatity;
     private ProgressBarHandler progress_handler;
     private String product_id;
@@ -112,7 +114,7 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
     private int shopDetailActivity = 1;
     private CustomBottomNavigationView bottomNavigationShop;
     private CoordinatorLayout coordinatorLayout;
-    Button btnServiceEnquiry;
+    ImageButton btnServiceEnquiry;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -155,9 +157,9 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
 
     }
 
+    private void getShopDetailsData()
+    {
 
-    private void getShopDetailsData() {
-        relativeBuyNow.setVisibility(View.GONE);
         linearProductDetail.setVisibility(View.GONE);
         progress_handler.show();
         AndroidUtils.showErrorLog(context, "data_productdetail", getResources().getString(R.string.webservice_base_url) + "     " + product_id);
@@ -166,7 +168,7 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
                 .load(getResources().getString(R.string.webservice_base_url) + "/shop_detail/" + product_id)
                 .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                 .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
-                .setBodyParameter("id", "0")
+                //.setBodyParameter("id", "0")
                 .asJsonObject()
                 .setCallback(new FutureCallback<JsonObject>() {
                     @Override
@@ -296,12 +298,12 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
                             progress_handler.hide();
 
                             linearProductDetail.setVisibility(View.VISIBLE);
-                            relativeBuyNow.setVisibility(View.VISIBLE);
+
 
                         } else {
                             progress_handler.hide();
                             linearProductDetail.setVisibility(View.GONE);
-                            relativeBuyNow.setVisibility(View.GONE);
+
                         }
 
 
@@ -453,8 +455,8 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
         tvSpecification = (TextView) findViewById(R.id.tvSpecification);
 
 
-        relativeBuyNow = (RelativeLayout) findViewById(R.id.relativeService_enquiry);
-        btnServiceEnquiry = (Button) findViewById(R.id.btnService_enquiry);
+
+        btnServiceEnquiry = (ImageButton) findViewById(R.id.btnService_enquiry);
 
         vp = (HorizontalInfiniteCycleViewPager) findViewById(R.id.viewpager_custom);
         viewpagerindicator = (LinearLayout) findViewById(R.id.viewpagerindicator);

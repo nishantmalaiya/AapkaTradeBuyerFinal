@@ -8,6 +8,8 @@ import android.widget.TextView;
 
 import com.aapkatrade.buyer.R;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 
 /**
  * Created by PPC16 on 10-Mar-17.
@@ -17,6 +19,7 @@ public class CompanyShopDataHolder extends RecyclerView.ViewHolder {
     public TextView tvCompanyShop, rowRightIconDescription;
     public ImageView rowRightIcon;
     public CardView cardLayout;
+    public CircleImageView company_image;
 
     public CompanyShopDataHolder(View itemView) {
         super(itemView);
@@ -24,5 +27,7 @@ public class CompanyShopDataHolder extends RecyclerView.ViewHolder {
         rowRightIcon = (ImageView) itemView.findViewById(R.id.rowRightIcon);
         rowRightIconDescription = (TextView) itemView.findViewById(R.id.rowRightIconDescription);
         cardLayout = (CardView) itemView.findViewById(R.id.cardLayout);
+        company_image = (CircleImageView) itemView.findViewById(R.id.imageCompany);
+
     }
 }

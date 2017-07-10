@@ -1,4 +1,4 @@
-package com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.addcompanyshop;
+package com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.editcompanyshop;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -28,7 +28,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewAnimationUtils;
-import android.view.animation.AnimationUtils;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -42,7 +41,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.aapkatrade.buyer.R;
-import com.aapkatrade.buyer.animation.Animations;
 import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.ImageUtils;
@@ -75,6 +73,8 @@ import com.koushikdutta.async.http.body.FilePart;
 import com.koushikdutta.async.http.body.Part;
 import com.koushikdutta.ion.Ion;
 
+import org.json.JSONArray;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -84,7 +84,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class AddCompanyShopActivity extends AppCompatActivity
+public class EditCompanyShopActivity extends AppCompatActivity
 {
 
     private Context context;
@@ -96,7 +96,7 @@ public class AddCompanyShopActivity extends AppCompatActivity
     private ArrayList<City> cityList = new ArrayList<>();
     private ArrayList<Category> listDataHeader = new ArrayList<>();
     private ArrayList<SubCategory> listDataChild = new ArrayList<>();
-    private EditText etCompanyShopName, etAreaLocation, etCompanyAddress, etPinCode, etMobileNo, etPhoneNo, etEmail, etWebURL, etFBUrl, etTwitterUrl, etYoutubeURL, etGooglePlusURL, etDescription;
+    private EditText etCompanyShopName, etAreaLocation, etCompanyAddress, etPinCode, etMobileNo, etPhoneNo, etEmail, etWebURL, etFBUrl, etTwitterUrl, etYoutubeURL, etGooglePlusURL,etDescription;
     private File docFile = new File("");
     private ArrayList<ProductMediaData> productMediaDatas = new ArrayList<>();
     private RecyclerView recyclerView;
@@ -108,6 +108,9 @@ public class AddCompanyShopActivity extends AppCompatActivity
     private DaysTileView daysTileView1, daysTileView2, daysTileView3;
     private CustomCardViewHeader generalDetailsHeader, shopDetailsHeader;
     private LinearLayout llShopDetailsContainer, llGeneralContainer;
+    String company_name,product_type,country_id,state_id,city_id,area,lat,lng,pincode,mobile,phone,email_id,web_url,category_id,sub_cat_id,facebookurl,twitterurl,googleplusurl,youtubeurl;
+
+
 
 
     @Override
@@ -115,7 +118,7 @@ public class AddCompanyShopActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_company_shop);
-        context = AddCompanyShopActivity.this;
+        context = EditCompanyShopActivity.this;
         setUpToolBar();
         initView();
         getState();
@@ -123,6 +126,8 @@ public class AddCompanyShopActivity extends AppCompatActivity
         getServiceType();
         takeAreaLocation();
         setupRecyclerView();
+        getCompanyShopDetails("577");
+
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -133,14 +138,65 @@ public class AddCompanyShopActivity extends AppCompatActivity
         });
     }
 
-    private void validateFields() {
-        if (productMediaDatas.size() > 0) {
-            if (productMediaDatas.get(0).imagePath.equalsIgnoreCase("first")) {
+    private void getCompanyShopDetails(String shop_id)
+    {
+        Ion.with(getApplicationContext())
+                .load(getResources().getString(R.string.webservice_base_url) + "/shop_detail/" + shop_id)
+                .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                .asJsonObject()
+                .setCallback(new FutureCallback<JsonObject>()
+                {
+                    @Override
+                    public void onCompleted(Exception e, JsonObject result)
+                    {
+                        JsonObject jsonObject = result.getAsJsonObject("result");
+                        company_name = jsonObject.get("company_name").getAsString();
+                        product_type = jsonObject.get("product_type").getAsString();
+                        country_id = jsonObject.get("country_id").getAsString();
+                        state_id = jsonObject.get("state_id").getAsString();
+                        city_id = jsonObject.get("city_id").getAsString();
+                        area = jsonObject.get("area").getAsString();
+                        pincode= jsonObject.get("pincode").getAsString();
+                        mobile = jsonObject.get("mobile").getAsString();
+                        phone = jsonObject.get("phone").getAsString();
+                        email_id = jsonObject.get("email_id").getAsString();
+                        category_id = jsonObject.get("category_id").getAsString();
+                        sub_cat_id = jsonObject.get("sub_cat_id").getAsString();
+                        web_url = jsonObject.get("web_url").getAsString();
+                        facebookurl = jsonObject.get("facebookurl").getAsString();
+                        twitterurl = jsonObject.get("twitterurl").getAsString();
+                        googleplusurl = jsonObject.get("googleplusurl").getAsString();
+                        youtubeurl = jsonObject.get("youtubeurl").getAsString();
+
+                        //productMediaDatas.add(new ProductMediaData("","",null,jsonObject.get("shop_video").getAsString()));
+
+                        JsonArray jsonArray = jsonObject.getAsJsonArray("product_images");
+
+                        for (int i = 0; i<jsonArray.size(); i++)
+                        {
+                             System.out.println("imagepathurl---------------------"+jsonArray.get(i).getAsJsonObject().get("image_url").getAsString());
+                             productMediaDatas.add(new ProductMediaData("",jsonArray.get(i).getAsJsonObject().get("image_url").getAsString(),null,""));
+                        }
+                        adapter.notifyDataSetChanged();
+
+                    }
+                });
+    }
+
+    private void validateFields()
+    {
+
+        if (productMediaDatas.size() > 0)
+        {
+            if (productMediaDatas.get(0).imagePath.equalsIgnoreCase("first"))
+            {
                 productMediaDatas.remove(0);
             }
         }
 
-        if (!isImageExists(productMediaDatas)) {
+        if (!isImageExists(productMediaDatas))
+        {
             AndroidUtils.showSnackBar(addCompanyShopLayout, "Please Capture/Upload at least one Imaage.");
             isAllFieldsValidate = false;
             isGeneralDetailsCompleted = false;
@@ -205,12 +261,11 @@ public class AddCompanyShopActivity extends AppCompatActivity
         }
     }
 
-    private void takeAreaLocation() {
-
+    private void takeAreaLocation()
+    {
         etAreaLocation.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 
             public void onFocusChange(View v, boolean hasFocus) {
-
                 if (hasFocus) {
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(etAreaLocation.getWindowToken(), 0);
@@ -318,9 +373,9 @@ public class AddCompanyShopActivity extends AppCompatActivity
                     llShopDetailsContainer.setVisibility(View.VISIBLE);
                     shopDetailsHeader.setImageRightRotation(180);
                     etCompanyAddress.requestFocus();
-                    return true; 
+                    return true;
                 }
-                return false;  
+                return false;
             }
         });
 
@@ -712,7 +767,7 @@ public class AddCompanyShopActivity extends AppCompatActivity
 
         // create the animator for this view (the start radius is zero)
         Animator anim = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             anim = ViewAnimationUtils.createCircularReveal(view,
                     centerX, centerY, startRadius, endRadius);
         }

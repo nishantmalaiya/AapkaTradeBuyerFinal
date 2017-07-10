@@ -14,6 +14,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewAnimationUtils;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,6 +25,7 @@ import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.addcompanyshop.AddCompanyShopActivity;
+import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.editcompanyshop.EditCompanyShopActivity;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
@@ -34,7 +36,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
 
-public class CompanyShopManagementActivity extends AppCompatActivity {
+public class CompanyShopManagementActivity extends AppCompatActivity
+{
+
     private Context context;
     private AppSharedPreference appSharedPreference;
     private ProgressBarHandler progressBarHandler;
@@ -48,6 +52,7 @@ public class CompanyShopManagementActivity extends AppCompatActivity {
     private LinearLayoutManager mLayoutManager;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,16 +63,13 @@ public class CompanyShopManagementActivity extends AppCompatActivity {
         callCompanyShopListWebService(page);
 
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#33c8aa")));
-        fab.setOnClickListener(new View.OnClickListener() {
+        ImageButton btnAdd_shop = (ImageButton) findViewById(R.id.btnAdd_shop);
+        btnAdd_shop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 doCircularReveal(findViewById(R.id.mainLayout));
             }
         });
-
-
 
 
         recyclerViewCompanyShop.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -79,7 +81,7 @@ public class CompanyShopManagementActivity extends AppCompatActivity {
                 if (totalItemCount > 0) {
                     if ((totalItemCount - 1) == lastVisibleItemCount) {
                         page = page + 1;
-                        callCompanyShopListWebService(++page);
+                       callCompanyShopListWebService(++page);
                     }
                 }
             }
@@ -112,7 +114,7 @@ public class CompanyShopManagementActivity extends AppCompatActivity {
                 @Override
                 public void onAnimationEnd(Animator animation) {
                     super.onAnimationEnd(animation);
-                    Intent bankDetails = new Intent(context, AddCompanyShopActivity.class);
+                    Intent bankDetails = new Intent(context, EditCompanyShopActivity.class);
                     bankDetails.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     context.startActivity(bankDetails);
                 }
@@ -130,34 +132,42 @@ public class CompanyShopManagementActivity extends AppCompatActivity {
 
 
 
-    private void callCompanyShopListWebService(int page) {
-
+    private void callCompanyShopListWebService(int page)
+    {
         progressBarHandler.show();
         Ion.with(context)
-                .load(getString(R.string.webservice_base_url) + "/listCompany")
+                .load(getString(R.string.webservice_base_url) + "/shoplist")
                 .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                 .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
-                .setBodyParameter("user_id", userId)
-                .setBodyParameter("page", String.valueOf(page))
+                .setBodyParameter("apply","1")
+                .setBodyParameter("seller_id", userId)
+                .setBodyParameter("lat","0")
+                .setBodyParameter("long","0")
+               // .setBodyParameter("page", String.valueOf(page))
                 .asJsonObject()
                 .setCallback(new FutureCallback<JsonObject>() {
                     @Override
                     public void onCompleted(Exception e, JsonObject result) {
                         progressBarHandler.hide();
-                        if (result != null) {
+                        if (result != null)
+                        {
                             AndroidUtils.showErrorLog(context, "result::::::", result.toString());
-                            if (result.get("error").getAsString().equalsIgnoreCase("false")) {
-                                if (result.get("message").getAsString().toLowerCase().contains("success")) {
+                            if (result.get("error").getAsString().equalsIgnoreCase("false"))
+                            {
+
                                     JsonArray jsonArray = result.get("result").getAsJsonArray();
-                                    if (jsonArray != null && jsonArray.size() > 0) {
-                                        for (int i = 0; i < jsonArray.size(); i++) {
+                                    if (jsonArray != null && jsonArray.size() > 0)
+                                    {
+                                        for (int i = 0; i < jsonArray.size(); i++)
+                                        {
                                             JsonObject jsonObject = jsonArray.get(i).getAsJsonObject();
-                                            CompanyShopData companyShopData = new CompanyShopData(jsonObject.get("companyId").getAsString(), jsonObject.get("name").getAsString(), jsonObject.get("address").getAsString(), jsonObject.get("description").getAsString(), jsonObject.get("created").getAsString(), jsonObject.get("product_count").getAsString());
-                                            if(!companyShopLinkedList.contains(companyShopData)){
+                                            CompanyShopData companyShopData = new CompanyShopData(jsonObject.get("id").getAsString(), jsonObject.get("company_name").getAsString(), jsonObject.get("short_des").getAsString(), jsonObject.get("short_des").getAsString(), jsonObject.get("created_at").getAsString(), jsonObject.get("product_count").getAsString(),jsonObject.get("image_url").getAsString());
+                                           if(!companyShopLinkedList.contains(companyShopData)){
                                                 companyShopLinkedList.add(companyShopData);
                                             }
+
                                         }
-                                        Collections.sort(companyShopLinkedList, new Comparator<CompanyShopData>() {
+                                       Collections.sort(companyShopLinkedList, new Comparator<CompanyShopData>() {
                                             @Override
                                             public int compare(CompanyShopData o1, CompanyShopData o2) {
                                                 return o1.getName().compareTo(o2.getName());
@@ -173,9 +183,7 @@ public class CompanyShopManagementActivity extends AppCompatActivity {
                                         }
                                     }
 
-                                } else {
-                                    AndroidUtils.showErrorLog(context, "error::::::TRUE");
-                                }
+
 
                             } else {
                                 AndroidUtils.showErrorLog(context, "error::::::TRUE");
@@ -189,7 +197,8 @@ public class CompanyShopManagementActivity extends AppCompatActivity {
 
     }
 
-    private void initView() {
+    private void initView()
+    {
         progressBarHandler = new ProgressBarHandler(context);
         appSharedPreference = new AppSharedPreference(context);
         linearLayoutManager = new LinearLayoutManager(context);
