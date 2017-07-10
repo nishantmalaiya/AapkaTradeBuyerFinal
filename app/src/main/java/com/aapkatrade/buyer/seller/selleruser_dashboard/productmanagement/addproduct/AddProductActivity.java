@@ -71,7 +71,8 @@ public class AddProductActivity extends AppCompatActivity {
     private String cityID, unitID, shopId;
     private ArrayList<DynamicFormEntity> dynamicFormEntityArrayList = new ArrayList<>();
     private LinearLayout llSellerProductDetailContainer;
-
+    ArrayList<CompanyDropdownDatas> companyDropdownDatas = new ArrayList<>();
+    CustomSpinnerAdapter customSpinnerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +89,81 @@ public class AddProductActivity extends AppCompatActivity {
         initView();
         loadDynamicForm(shopId);
         setupRecyclerView();
+
+        setupSpinner();
+
+
+    }
+
+    private void setupSpinner() {
+
+
+        callCompanyListWebservice();
+
+
         getUnit();
+
+    }
+
+    private void callCompanyListWebservice() {
+
+
+        String CompanyListWebserviceUrl = getString(R.string.webservice_base_url) + "/shoplist";
+
+
+        Ion.with(context)
+                .load(CompanyListWebserviceUrl)
+                .setHeader("Authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                .setBodyParameter("seller_id", appSharedpreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString()))
+                .setBodyParameter("lat", "0")
+                .setBodyParameter("long", "0")
+                .setBodyParameter("apply", "1")
+
+                .asJsonObject().setCallback(new FutureCallback<JsonObject>() {
+            @Override
+            public void onCompleted(Exception e, JsonObject result) {
+
+                if (result != null) {
+                    if (result.get("error").getAsString().contains("false")) {
+
+
+
+
+                        JsonArray jsonArray_response = result.getAsJsonArray("result");
+
+                        for (int i = 0; i < jsonArray_response.size(); i++) {
+
+
+                            JsonObject jsonObject = jsonArray_response.get(i).getAsJsonObject();
+                            String companyId = jsonObject.get("company_id").getAsString();
+                            String companyImageUrl = jsonObject.get("image_url").getAsString();
+                            String companyName = jsonObject.get("name").getAsString();
+                            String comapanyCategory = jsonObject.get("category_name").getAsString();
+
+                            companyDropdownDatas.add(new CompanyDropdownDatas(companyId, companyImageUrl, companyName, comapanyCategory));
+
+
+                        }
+
+                        customSpinnerAdapter = new CustomSpinnerAdapter(context, companyDropdownDatas);
+
+                        spCompanyList.setAdapter(customSpinnerAdapter);
+                    }
+
+
+                }
+
+
+                AndroidUtils.showErrorLog(context, "ShopListResponse", result.toString());
+
+
+            }
+        });
+
+
+        // CustomSpinnerAdapter customSpinnerAdapter = new CustomSpinnerAdapter()
+
 
     }
 
@@ -290,15 +365,12 @@ public class AddProductActivity extends AppCompatActivity {
     }
 
 
-
     private void collectDynamicSpinnerData(String title, String type, ArrayList<FormValue> formValueArrayList) {
         Spinner spinner = (Spinner) llSellerProductDetailContainer.findViewWithTag(title);
         AndroidUtils.showErrorLog(context, "*(((((((((((((((((Spinner)))))))))*", formValueArrayList.get(spinner.getSelectedItemPosition()));
     }
 
-    private String makeDynamicSelectedData(){
-
-
+    private String makeDynamicSelectedData() {
 
 
         return null;

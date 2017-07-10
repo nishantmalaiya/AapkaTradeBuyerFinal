@@ -1,46 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/fifty_dip"
-    android:background="@color/white"
-    android:orientation="vertical">
+    android:layout_height="wrap_content"
+    android:background="@color/white">
 
 
-
-    <View
-        android:id="@+id/view1"
+    <LinearLayout
+        android:id="@+id/container_simple_spinner"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/five_dip"
-        android:visibility="gone"
-        />
+        android:layout_height="@dimen/fifty_dip"
+        android:background="@color/white"
 
-    <TextView
-        android:id="@+id/tvSpCategory"
+        android:orientation="vertical">
+
+
+        <View
+            android:id="@+id/view1"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/five_dip"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tvSpCategory"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/thirty_five_dip"
+            android:layout_below="@+id/view1"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/ten_dip"
+            android:text="Electronics"
+
+            android:textColor="@color/hint_color"
+            android:textSize="@dimen/textsize_medium" />
+
+
+        <View
+            android:id="@+id/view2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/grey"
+
+            />
+
+
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/containershoplist"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/thirty_five_dip"
-        android:paddingLeft="@dimen/ten_dip"
-        android:layout_below="@+id/view1"
-        android:gravity="center_vertical"
-        android:text="Electronics"
+        android:layout_height="wrap_content"
+android:visibility="gone"
+        android:layout_centerVertical="true"
 
-        android:textColor="@color/hint_color"
-        android:textSize="@dimen/textsize_medium" />
+        android:gravity="center_vertical">
 
 
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/shopimage"
+            android:layout_width="@dimen/seventy_dip"
+            android:layout_height="@dimen/seventy_dip"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="@dimen/twenty_dip"
 
-    <View
-        android:id="@+id/view2"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/five_dip"
-        android:layout_below="@+id/tvSpCategory"
-        android:visibility="gone"
-        />
+            android:layout_marginLeft="@dimen/twenty_dip"
+            android:layout_marginRight="@dimen/twenty_dip"
+            android:src="@drawable/ic_profile_user" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@+id/view2"
-        android:background="@color/grey"
-        />
 
-</LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/shopimage"
+            android:layout_marginLeft="@dimen/ten_dip"
+            android:layout_marginRight="@dimen/ten_dip"
+            android:background="@color/grey" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/shopimage"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvshopdropdownshopname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="@dimen/ten_dip"
+
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvshopdropdownshopcategory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+
+                android:layout_marginBottom="@dimen/five_dip"
+
+                android:gravity="bottom"
+                android:textColor="@color/green" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</RelativeLayout>
+
