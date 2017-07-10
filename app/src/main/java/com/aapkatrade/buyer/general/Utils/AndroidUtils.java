@@ -64,12 +64,15 @@ public class AndroidUtils {
     }
 
     public static Calendar stringToCalender(String date_yyyy_mm_dd) {
-        int day = Integer.parseInt(date_yyyy_mm_dd.split("-")[2]);
-        int month = Integer.parseInt(date_yyyy_mm_dd.split("-")[1]);
-        int year = Integer.parseInt(date_yyyy_mm_dd.split("-")[0]);
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(year, month - 1, day);
-        return calendar;
+        if (Validation.isNonEmptyStr(date_yyyy_mm_dd)) {
+            int day = Integer.parseInt(date_yyyy_mm_dd.split("-")[2]);
+            int month = Integer.parseInt(date_yyyy_mm_dd.split("-")[1]);
+            int year = Integer.parseInt(date_yyyy_mm_dd.split("-")[0]);
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(year, month - 1, day);
+            return calendar;
+        }
+        return Calendar.getInstance();
     }
 
     public static void setBackgroundSolid(View layout, Context context, int bgColor, int cornerRadius, int oval) {
@@ -102,6 +105,7 @@ public class AndroidUtils {
         GradientDrawable shape = new GradientDrawable();
         shape.setStroke(strokeWidth, ContextCompat.getColor(context, bgColor));
         shape.setCornerRadius(cornerRadius);
+
         layout.setBackground(shape);
     }
 
@@ -121,6 +125,13 @@ public class AndroidUtils {
         layout.setBackground(shape);
     }
 
+    public static void setBackgroundStroke(View layout, Context context, int bgColor, int viewshape, int cornerRadius, int strokeWidth, int backgroundcolor) {
+        GradientDrawable shape = new GradientDrawable();
+        shape.setStroke(strokeWidth, ContextCompat.getColor(context, bgColor));
+        shape.setCornerRadius(cornerRadius);
+        shape.setShape(viewshape);
+        layout.setBackground(shape);
+    }
 
     public static void setImageColor(ImageView imageView, Context context, int color) {
         if (imageView != null)
@@ -155,11 +166,11 @@ public class AndroidUtils {
 
 
     public static void showErrorLog(Context context, Object addIdentifierText, Object message) {
-        Log.e(getTag(context) + ( addIdentifierText == null ? " Context String Adder is Null": addIdentifierText.toString()), message == null ? " Message String is Null" : message.toString());
+        Log.e(getTag(context) + (addIdentifierText == null ? " Context String Adder is Null" : addIdentifierText.toString()), message == null ? " Message String is Null" : message.toString());
     }
 
 
-        public static int convertPixelsToDp(float px, Context context) {
+    public static int convertPixelsToDp(float px, Context context) {
         Resources resources = context.getResources();
         DisplayMetrics metrics = resources.getDisplayMetrics();
         int dp = (int) (px / (metrics.densityDpi / 160f));
@@ -167,26 +178,24 @@ public class AndroidUtils {
     }
 
     public static void setGradientColor(View layout, int viewShape, int startColor, int endColor, GradientDrawable.Orientation orientation, int cornerRadius) {
-        GradientDrawable gradient = new GradientDrawable(orientation, new int[]{startColor,endColor});
+        GradientDrawable gradient = new GradientDrawable(orientation, new int[]{startColor, endColor});
         gradient.setShape(viewShape);
         gradient.setCornerRadius(cornerRadius);
         layout.setBackground(gradient);
     }
 
-    public static void showToast(Context context, String message){
-        View v = ((Activity)context).getLayoutInflater().inflate(R.layout.my_toast, (ViewGroup) (((Activity) context).findViewById(R.id.myToast)), false);
+    public static void showToast(Context context, String message) {
+        View v = ((Activity) context).getLayoutInflater().inflate(R.layout.my_toast, (ViewGroup) (((Activity) context).findViewById(R.id.myToast)), false);
         LinearLayout myToastLinearLayout = (LinearLayout) v.findViewById(R.id.myToast);
         setGradientColor(myToastLinearLayout, GradientDrawable.RECTANGLE, ContextCompat.getColor(context, R.color.toast_end_color), ContextCompat.getColor(context, R.color.toast_start_color), GradientDrawable.Orientation.TOP_BOTTOM, 50);
         TextView textView = (TextView) v.findViewById(R.id.msg);
         textView.setText(message);
         Toast toast = new Toast(context);
         toast.setDuration(Toast.LENGTH_SHORT);
-        toast.setGravity(Gravity.CENTER_HORIZONTAL,0,0);
+        toast.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
         toast.setView(v);
         toast.show();
     }
-
-
 
 
 }

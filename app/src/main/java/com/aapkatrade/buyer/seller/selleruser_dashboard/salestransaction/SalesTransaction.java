@@ -12,6 +12,7 @@ import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -57,11 +58,12 @@ public class SalesTransaction extends AppCompatActivity implements TimePickerDia
     private String date;
     private LinearLayoutManager linearLayoutManager;
     SalesTransactionAdapter salesTransactionAdapter;
+    ImageView img_startdate, img_enddate;
 
     ProgressBarHandler progressBarHandler;
     ViewPager viewpagerSalesTransaction;
     ViewpagerAdapterSalesTransaction viewpagerAdapterSalesTransaction;
-    RelativeLayout fl_salestransaction;
+    RelativeLayout fl_salestransaction, salestransactionfooter;
     CircleIndicator circleIndicator;
     TextView txn_amount_total, sales_amount_total;
     ArrayList<SalesMachineResultData> MachineDatas = new ArrayList<>();
@@ -80,9 +82,25 @@ public class SalesTransaction extends AppCompatActivity implements TimePickerDia
         initView();
         setUpToolBar();
         setSpinnerTransactionType();
+        img_enddate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isStartDate = 1;
+                openCalender();
+            }
+        });
 
 
-        etstartdate.setOnClickListener(new View.OnClickListener() {
+        img_startdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isStartDate = 0;
+
+                openCalender();
+
+            }
+        });
+        /*etstartdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -100,7 +118,7 @@ public class SalesTransaction extends AppCompatActivity implements TimePickerDia
                 isStartDate = 1;
                 openCalender();
             }
-        });
+        });*/
 
 
         BillHistorysearch.setOnClickListener(new View.OnClickListener() {
@@ -113,6 +131,7 @@ public class SalesTransaction extends AppCompatActivity implements TimePickerDia
                         if (fl_salestransaction.getVisibility() == View.VISIBLE) {
                             fl_salestransaction.setVisibility(View.GONE);
                             viewpagerSalesTransaction.setVisibility(View.VISIBLE);
+                            salestransactionfooter.setVisibility(View.VISIBLE);
                             callWebserviceSalesTransaction();
 
                         }
@@ -122,7 +141,7 @@ public class SalesTransaction extends AppCompatActivity implements TimePickerDia
 
                     } else {
 
-                        AndroidUtils.showToast(c, "Select Machine No");
+                        AndroidUtils.showToast(c, "Select Transaction Type");
 
                     }
 
@@ -153,7 +172,7 @@ public class SalesTransaction extends AppCompatActivity implements TimePickerDia
         String tvData = stringBuilder_txnamount.toString();
         txn_amount_total.setText(Html.fromHtml(tvData));
 
-        StringBuilder stringBuilder_salesamount = new StringBuilder("<br><font size=\"20\" color=" + "#ffffff>Sales Amount. <br> " + "Total" +" " +c.getString(R.string.rupay_text)  + totalSalesAmount + "</font>");
+        StringBuilder stringBuilder_salesamount = new StringBuilder("<br><font size=\"20\" color=" + "#ffffff>Sales Amount. <br> " + "Total" + " " + c.getString(R.string.rupay_text) + totalSalesAmount + "</font>");
         String tvData2 = stringBuilder_salesamount.toString();
         sales_amount_total.setText(Html.fromHtml(tvData2));
 
@@ -172,6 +191,8 @@ public class SalesTransaction extends AppCompatActivity implements TimePickerDia
         dpd.setMaxDate(now);
         if (isStartDate == 1) {
             if (etstartdate.getText() != null || etstartdate.getText().toString().length() >= 8)
+
+
                 dpd.setMinDate(AndroidUtils.stringToCalender(etstartdate.getText().toString()));
         }
         dpd.show(getFragmentManager(), "DatePickerDialog");
@@ -203,9 +224,11 @@ public class SalesTransaction extends AppCompatActivity implements TimePickerDia
         etstartdate = (EditText) findViewById(R.id.etstartdate);
 
         etenddate = (EditText) findViewById(R.id.etenddate);
+        img_startdate = (ImageView) findViewById(R.id.img_startdate);
+        img_enddate = (ImageView) findViewById(R.id.img_enddate);
         linearLayoutManager = new LinearLayoutManager(c, LinearLayoutManager.VERTICAL, false);
         viewpagerSalesTransaction = (ViewPager) findViewById(R.id.viewpagerSalesTransactionResult);
-
+        salestransactionfooter = (RelativeLayout) findViewById(R.id.salestransactionfooter);
         fl_salestransaction = (RelativeLayout) findViewById(R.id.fl_salestransaction);
         circleIndicator = (CircleIndicator) findViewById(R.id.indicator_custom_sales_transaction);
 
@@ -397,5 +420,31 @@ public class SalesTransaction extends AppCompatActivity implements TimePickerDia
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
+    }
+
+
+    @Override
+    public void onBackPressed() {
+
+        if (fl_salestransaction.getVisibility() == View.GONE) {
+
+
+            SpMachineList.invalidate();
+            etstartdate.invalidate();
+            etenddate.invalidate();
+            SpMachineList.clearFocus();
+
+            viewpagerSalesTransaction.setVisibility(View.GONE);
+            salestransactionfooter.setVisibility(View.GONE);
+            fl_salestransaction.setVisibility(View.VISIBLE);
+
+        } else {
+
+
+            super.onBackPressed();
+
+        }
+
+
     }
 }
