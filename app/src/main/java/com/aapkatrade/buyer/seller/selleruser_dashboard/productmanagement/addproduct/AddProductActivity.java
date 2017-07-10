@@ -84,12 +84,10 @@ public class AddProductActivity extends AppCompatActivity {
         if (getIntent() != null) {
             shopId = getIntent().getStringExtra("shopId");
         }
-
         setUpToolBar();
         initView();
         loadDynamicForm(shopId);
         setupRecyclerView();
-        getCity("");
         getUnit();
 
     }
@@ -158,9 +156,7 @@ public class AddProductActivity extends AppCompatActivity {
                 String title = dynamicFormEntity.getLabel();
                 String type = dynamicFormEntity.getType();
                 if (dynamicFormEntity.isMultiple() && type.equalsIgnoreCase("dropdown")) {
-//                    createDynamicSpinner(title, type, dynamicFormEntity.getFormValueArrayList());
-
-                    createDynamicRadioGroup(title, type, dynamicFormEntity.getFormValueArrayList());
+                    createDynamicSpinner(title, type, dynamicFormEntity.getFormValueArrayList());
                 } else if (dynamicFormEntity.isMultiple() && type.equalsIgnoreCase("checkbox")) {
                     createDynamicCheckList(title, type, dynamicFormEntity.getFormValueArrayList());
                 } else if (dynamicFormEntity.isMultiple() && type.equalsIgnoreCase("radio")) {
@@ -187,7 +183,7 @@ public class AddProductActivity extends AppCompatActivity {
         customCheckList.setBasicRequiredValues(title, formValueArrayList, false);
         llSellerProductDetailContainer.addView(view);
 
-        AndroidUtils.showErrorLog(context, "+++++++++++customCheckList.getTag("+title+")++++++++++++", null == customCheckList.findViewWithTag(title));
+        AndroidUtils.showErrorLog(context, "+++++++++++customCheckList.getTag(" + title + ")++++++++++++", null == customCheckList.findViewWithTag(title));
     }
 
     private void createDynamicSpinner(String title, String type, ArrayList<FormValue> formValueArrayList) {
@@ -271,14 +267,18 @@ public class AddProductActivity extends AppCompatActivity {
                         String title = dynamicFormEntity.getLabel();
                         String type = dynamicFormEntity.getType();
                         if (dynamicFormEntity.isMultiple() && type.equalsIgnoreCase("dropdown")) {
-                            collectDynamicRadioGroupData(title, type, dynamicFormEntity.getFormValueArrayList());
-//                            collectDynamicSpinnerData(title, type, dynamicFormEntity.getFormValueArrayList());
+                            collectDynamicSpinnerData(title, type, dynamicFormEntity.getFormValueArrayList());
                         } else if (dynamicFormEntity.isMultiple() && type.equalsIgnoreCase("checkbox")) {
-                            collectDynamicCheckListData(title, type, dynamicFormEntity.getFormValueArrayList());
+                            CustomCheckList customCheckList = (CustomCheckList) llSellerProductDetailContainer.findViewWithTag(title);
+                            AndroidUtils.showErrorLog(context, "+++++++++++customCheckList.getTag(" + title + ")2++++++++++++", null == customCheckList.findViewWithTag(title));
+
+                            AndroidUtils.showErrorLog(context, "*(((((((((((((((((CheckList)))))))))*", customCheckList.getSelectedCheckList());
                         } else if (dynamicFormEntity.isMultiple() && type.equalsIgnoreCase("radio")) {
-                            collectDynamicRadioGroupData(title, type, dynamicFormEntity.getFormValueArrayList());
+                            CustomCheckList customCheckList = (CustomCheckList) llSellerProductDetailContainer.findViewWithTag(title);
+                            AndroidUtils.showErrorLog(context, "*(((((((((((((((((RadioGroup)))))))))*", customCheckList.getSelectedCheckList());
                         } else if (type.equalsIgnoreCase("text") || type.equalsIgnoreCase("number") || type.equalsIgnoreCase("textarea")) {
-                            collectDynamicEditTextData(title, type);
+                            EditText editText = (EditText) llSellerProductDetailContainer.findViewWithTag(title);
+                            AndroidUtils.showErrorLog(context, "*(((((((((((((((((Edit Text)))))))))*", editText.getText());
                         }
                     }
                 }
@@ -289,26 +289,19 @@ public class AddProductActivity extends AppCompatActivity {
 
     }
 
-    private void collectDynamicRadioGroupData(String title, String type, ArrayList<FormValue> formValueArrayList) {
-        CustomCheckList customCheckList = (CustomCheckList) llSellerProductDetailContainer.findViewWithTag(title);
-        AndroidUtils.showErrorLog(context, "*(((((((((((((((((RadioGroup)))))))))*", customCheckList.getSelectedCheckList());
-    }
 
-    private void collectDynamicCheckListData(String title, String type, ArrayList<FormValue> formValueArrayList) {
-        CustomCheckList customCheckList = (CustomCheckList) llSellerProductDetailContainer.findViewWithTag(title);
-        AndroidUtils.showErrorLog(context, "+++++++++++customCheckList.getTag(" + title + ")2++++++++++++", null == customCheckList.findViewWithTag(title));
-
-        AndroidUtils.showErrorLog(context, "*(((((((((((((((((CheckList)))))))))*", customCheckList.getSelectedCheckList());
-    }
-
-    private void collectDynamicEditTextData(String title, String type) {
-        EditText editText = (EditText) llSellerProductDetailContainer.findViewWithTag(title);
-        AndroidUtils.showErrorLog(context, "*(((((((((((((((((Edit Text)))))))))*", editText.getText());
-    }
 
     private void collectDynamicSpinnerData(String title, String type, ArrayList<FormValue> formValueArrayList) {
         Spinner spinner = (Spinner) llSellerProductDetailContainer.findViewWithTag(title);
         AndroidUtils.showErrorLog(context, "*(((((((((((((((((Spinner)))))))))*", formValueArrayList.get(spinner.getSelectedItemPosition()));
+    }
+
+    private String makeDynamicSelectedData(){
+
+
+
+
+        return null;
     }
 
     private void setUpToolBar() {
@@ -543,57 +536,6 @@ public class AddProductActivity extends AppCompatActivity {
                 }
             }
         });
-    }
-
-
-    private void getCity(String stateId) {
-        progressBarHandler.show();
-        // findViewById(R.id.input_layout_city).setVisibility(View.VISIBLE);
-        Ion.with(context)
-                .load("http://aapkatrade.com/slim/listCompany")
-                .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
-                .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
-                .setBodyParameter("type", "company")
-                .setBodyParameter("user_id", "3")
-                .asJsonObject()
-                .setCallback(new FutureCallback<JsonObject>() {
-                    @Override
-                    public void onCompleted(Exception e, JsonObject result) {
-                        progressBarHandler.hide();
-                        Log.e("city result ", result == null ? "null" : result.toString());
-
-                        if (result != null) {
-                            JsonArray jsonResultArray = result.getAsJsonArray("result");
-
-                            City cityEntity_init = new City("-1", "Please Select Company");
-                            cityList.add(cityEntity_init);
-
-                            for (int i = 0; i < jsonResultArray.size(); i++) {
-                                JsonObject jsonObject1 = (JsonObject) jsonResultArray.get(i);
-                                City cityEntity = new City(jsonObject1.get("companyId").getAsString(), jsonObject1.get("name").getAsString());
-                                cityList.add(cityEntity);
-                            }
-
-                            SpCityAdapter spCityAdapter = new SpCityAdapter(context, cityList);
-                            spCompanyList.setAdapter(spCityAdapter);
-
-                            spCompanyList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                                @Override
-                                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                                    cityID = cityList.get(position).cityId;
-                                }
-
-                                @Override
-                                public void onNothingSelected(AdapterView<?> parent) {
-
-                                }
-                            });
-                        } else {
-                            AndroidUtils.showToast(context, "! Invalid city");
-                        }
-                    }
-
-                });
     }
 
 
