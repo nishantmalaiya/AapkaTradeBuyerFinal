@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.TextInputLayout;
@@ -80,6 +81,7 @@ public class AddProductActivity extends AppCompatActivity {
 
     ArrayList<CompanyDropdownDatas> companyDropdownDatas = new ArrayList<>();
     CustomSpinnerAdapter customSpinnerAdapter;
+    int page=0;
 
     private boolean isAllFieldsSet = true;
 
@@ -107,16 +109,41 @@ public class AddProductActivity extends AppCompatActivity {
 
     private void setupSpinner() {
 
+        callCompanyListWebservice(++page);
 
-        callCompanyListWebservice();
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            spCompanyList.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+                @Override
+                public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                    int totalItemCount = companyDropdownDatas.size();
+
+                    if (totalItemCount==scrollY) {
+                        if (totalItemCount > 0) {
+
+                            page = page + 1;
+
+
+
+                            page = page + 1;
+                            callCompanyListWebservice(++page);
+                        }
+
+
+                    }
+                }
+            });
+        }
 
         getUnit();
 
     }
 
 
-    private void callCompanyListWebservice() {
+
+
+
+    private void callCompanyListWebservice(int i) {
 
 
         String CompanyListWebserviceUrl = getString(R.string.webservice_base_url) + "/shoplist";
@@ -130,6 +157,7 @@ public class AddProductActivity extends AppCompatActivity {
                 .setBodyParameter("lat", "0")
                 .setBodyParameter("long", "0")
                 .setBodyParameter("apply", "1")
+                .setBodyParameter("page", i+"")
 
                 .asJsonObject().setCallback(new FutureCallback<JsonObject>() {
             @Override
@@ -142,7 +170,7 @@ public class AddProductActivity extends AppCompatActivity {
 
 
                         JsonArray jsonArray_response = result.getAsJsonArray("result");
-
+                        companyDropdownDatas.add(new CompanyDropdownDatas("","","",""));
                         for (int i = 0; i < jsonArray_response.size(); i++) {
 
 
@@ -178,7 +206,7 @@ public class AddProductActivity extends AppCompatActivity {
 
     }
 
-    private void loadDynamicForm(String shopId) {
+
 
     private void loadDynamicForm(final String shopId) {
 
@@ -245,9 +273,9 @@ public class AddProductActivity extends AppCompatActivity {
             for (DynamicFormEntity dynamicFormEntity : dynamicFormEntityArrayList) {
                 String title = dynamicFormEntity.getLabel();
                 String type = dynamicFormEntity.getType();
-                if (dynamicFormEntity.isMultiple() && type.equalsIgnoreCase("checkbox")) {
+                if (dynamicFormEntity.isMultiple() && type.equalsIgnoreCase("dropdown")) {
                     createDynamicSpinner(title, type, dynamicFormEntity.getFormValueArrayList());
-                } else if (dynamicFormEntity.isMultiple() && type.equalsIgnoreCase("dropdown")) {
+                } else if (dynamicFormEntity.isMultiple() && type.equalsIgnoreCase("checkbox")) {
                     createDynamicCheckList(title, type, dynamicFormEntity.getFormValueArrayList());
                 } else if (dynamicFormEntity.isMultiple() && type.equalsIgnoreCase("radio")) {
                     createDynamicRadioGroup(title, type, dynamicFormEntity.getFormValueArrayList());
@@ -322,64 +350,73 @@ public class AddProductActivity extends AppCompatActivity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                /*if (Validation.isNonEmptyStr(etproductname.getText().toString())) {
+                    if (Validation.isNonEmptyStr(etProductPrice.getText().toString())) {
+                        if (Validation.isNonEmptyStr(etProductPriceDiscount.getText().toString())) {
+                            if (Validation.isNonEmptyStr(etDescription.getText().toString())) {
+                                if (Validation.isNonEmptyStr(etProductWeight.getText().toString())) {
+                                    if (Validation.isNonEmptyStr(etMaxorderQuantity.getText().toString())) {
+                                        if (ConnetivityCheck.isNetworkAvailable(context)) {
+                                            callAddProductWebservice();
+                                        } else {
+                                            AndroidUtils.showToast(context, "Please Connect Netwrok");
+                                        }
+                                    } else {
+                                        AndroidUtils.showToast(context, "Please Enter Product Max Order Quantity");
+                                    }
+                                } else {
+                                    AndroidUtils.showToast(context, "Please Enter Product Weight");
+                                }
+                            } else {
+                                AndroidUtils.showToast(context, "Please Enter Product Description");
+                            }
+                        } else {
+                            AndroidUtils.showToast(context, "Please Enter Product Discount");
+                        }
+                    } else {
+                        AndroidUtils.showToast(context, "Please Enter Product Price");
+                    }
+                } else {
+                    AndroidUtils.showToast(context, "Please Enter Product Name");
+                }*/
 
-                validateFields();
-                getDynamicSelectedData();
+                if (dynamicFormEntityArrayList != null && dynamicFormEntityArrayList.size() > 0) {
+                    for (DynamicFormEntity dynamicFormEntity : dynamicFormEntityArrayList) {
+                        String title = dynamicFormEntity.getLabel();
+                        String type = dynamicFormEntity.getType();
+                        if (dynamicFormEntity.isMultiple() && type.equalsIgnoreCase("dropdown")) {
+                            collectDynamicSpinnerData(title, type, dynamicFormEntity.getFormValueArrayList());
+                        } else if (dynamicFormEntity.isMultiple() && type.equalsIgnoreCase("checkbox")) {
+                            CustomCheckList customCheckList = (CustomCheckList) llSellerProductDetailContainer.findViewWithTag(title);
+                            AndroidUtils.showErrorLog(context, "+++++++++++customCheckList.getTag(" + title + ")2++++++++++++", null == customCheckList.findViewWithTag(title));
+
+                            AndroidUtils.showErrorLog(context, "*(((((((((((((((((CheckList)))))))))*", customCheckList.getSelectedCheckList());
+                        } else if (dynamicFormEntity.isMultiple() && type.equalsIgnoreCase("radio")) {
+                            CustomCheckList customCheckList = (CustomCheckList) llSellerProductDetailContainer.findViewWithTag(title);
+                            AndroidUtils.showErrorLog(context, "*(((((((((((((((((RadioGroup)))))))))*", customCheckList.getSelectedCheckList());
+                        } else if (type.equalsIgnoreCase("text") || type.equalsIgnoreCase("number") || type.equalsIgnoreCase("textarea")) {
+                            EditText editText = (EditText) llSellerProductDetailContainer.findViewWithTag(title);
+                            AndroidUtils.showErrorLog(context, "*(((((((((((((((((Edit Text)))))))))*", editText.getText());
+                        }
+                    }
+                }
+
             }
         });
 
 
     }
 
-    private void validateFields() {
 
-        if (productImagesDatas.size() > 0) {
-            if (productImagesDatas.get(0).imagePath.equalsIgnoreCase("first")) {
-                productImagesDatas.remove(0);
-            }
-        }
+    private void collectDynamicSpinnerData(String title, String type, ArrayList<FormValue> formValueArrayList) {
+        Spinner spinner = (Spinner) llSellerProductDetailContainer.findViewWithTag(title);
+        AndroidUtils.showErrorLog(context, "*(((((((((((((((((Spinner)))))))))*", formValueArrayList.get(spinner.getSelectedItemPosition()));
+    }
 
-        if (!isImageExists(productImagesDatas)) {
-            AndroidUtils.showSnackBar(llSellerProductDetailContainer, "Please Capture/Upload at least one Imaage.");
-            isAllFieldsSet = false;
-        }
-
-        if (Validation.isEmptyStr(etproductname.getText().toString())) {
-            etproductname.setError("Product Name can not be empty.");
-            AndroidUtils.showSnackBar(llSellerProductDetailContainer, "Product Name can not be empty.");
-            isAllFieldsSet = false;
-        } else if (Validation.isEmptyStr(etProductPrice.getText().toString())) {
-            etProductPrice.setError("Product Price can not be empty.");
-            AndroidUtils.showSnackBar(llSellerProductDetailContainer, "Product Price can not be empty.");
-            isAllFieldsSet = false;
-        } else if (Validation.isEmptyStr(etProductPriceDiscount.getText().toString())) {
-            etProductPriceDiscount.setError("Product Discount can not be empty.");
-            AndroidUtils.showSnackBar(llSellerProductDetailContainer, "Product Discount can not be empty.");
-            isAllFieldsSet = false;
-
-        } else if (Validation.isEmptyStr(etDescription.getText().toString())) {
-            etDescription.setError("Product Description can not be empty.");
-            AndroidUtils.showSnackBar(llSellerProductDetailContainer, "Product Description can not be empty.");
-            isAllFieldsSet = false;
-            
-        } else if (Validation.isEmptyStr(etProductWeight.getText().toString())) {
-            etProductWeight.setError("Product Weight can not be empty.");
-            AndroidUtils.showSnackBar(llSellerProductDetailContainer, "Product Weight can not be empty.");
-            isAllFieldsSet = false;
-
-        } else if (Validation.isEmptyStr(etMaxorderQuantity.getText().toString())) {
-            etMaxorderQuantity.setError("Product Quantity can not be empty.");
-            AndroidUtils.showSnackBar(llSellerProductDetailContainer, "Product Quantity can not be empty.");
-            isAllFieldsSet = false;
-
-        } else if (ConnetivityCheck.isNetworkAvailable(context)) {
-            AndroidUtils.showSnackBar(llSellerProductDetailContainer, "No Internet Connection available.");
-            isAllFieldsSet = false;
+    private String makeDynamicSelectedData() {
 
 
-
-
-       
+        return null;
     }
 
     private void setUpToolBar() {
@@ -569,8 +606,20 @@ public class AddProductActivity extends AppCompatActivity {
     private void callAddProductWebservice() {
         progressBarHandler.show();
 
+        for (int i = 0; i < productImagesDatas.size(); i++) {
+            if (i == 0) {
+
+            } else {
+                files.add(new FilePart("image[]", savebitmap(productImagesDatas.get(i).imagePath)));
+                Log.e("sellDatas", files.toArray().toString());
+            }
+
+        }
+
+        String url = getResources().getString(R.string.webservice_base_url) + "/add_product";
+
         Ion.with(AddProductActivity.this)
-                .load(getString(R.string.webservice_base_url) + "/add_product")
+                .load(url)
                 .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                 .addMultipartParts(files)
                 .setMultipartParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")

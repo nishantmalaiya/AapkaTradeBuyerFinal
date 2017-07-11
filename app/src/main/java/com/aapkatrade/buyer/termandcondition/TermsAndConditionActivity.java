@@ -93,7 +93,7 @@ public class TermsAndConditionActivity extends AppCompatActivity {
         findViewById(R.id.logoWord).setVisibility(View.GONE);
         TextView header_name = (TextView) findViewById(R.id.header_name);
         header_name.setVisibility(View.VISIBLE);
-        header_name.setText(getResources().getString(R.string.my_profile_heading));
+        header_name.setText(getResources().getString(R.string.terms));
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         homeIcon.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -88,7 +88,7 @@ public class CompanyShopImagesAdapter extends RecyclerView.Adapter<RecyclerView.
                     {
 
                         Toast.makeText(context, "Hi "+context.getClass().getSimpleName()+" 2nd hi", Toast.LENGTH_SHORT).show();
-                      //  addproductActivity.picPhoto();
+                       addproductActivity.picPhoto();
                     }
 
 

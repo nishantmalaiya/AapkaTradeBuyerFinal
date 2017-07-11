@@ -84,8 +84,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class EditCompanyShopActivity extends AppCompatActivity
-{
+public class EditCompanyShopActivity extends AppCompatActivity {
 
     private Context context;
     private AppSharedPreference appSharedPreference;
@@ -96,7 +95,7 @@ public class EditCompanyShopActivity extends AppCompatActivity
     private ArrayList<City> cityList = new ArrayList<>();
     private ArrayList<Category> listDataHeader = new ArrayList<>();
     private ArrayList<SubCategory> listDataChild = new ArrayList<>();
-    private EditText etCompanyShopName, etAreaLocation, etCompanyAddress, etPinCode, etMobileNo, etPhoneNo, etEmail, etWebURL, etFBUrl, etTwitterUrl, etYoutubeURL, etGooglePlusURL,etDescription;
+    private EditText etCompanyShopName, etAreaLocation, etCompanyAddress, etPinCode, etMobileNo, etPhoneNo, etEmail, etWebURL, etFBUrl, etTwitterUrl, etYoutubeURL, etGooglePlusURL, etDescription;
     private File docFile = new File("");
     private ArrayList<ProductMediaData> productMediaDatas = new ArrayList<>();
     private RecyclerView recyclerView;
@@ -108,14 +107,12 @@ public class EditCompanyShopActivity extends AppCompatActivity
     private DaysTileView daysTileView1, daysTileView2, daysTileView3;
     private CustomCardViewHeader generalDetailsHeader, shopDetailsHeader;
     private LinearLayout llShopDetailsContainer, llGeneralContainer;
-    String company_name,product_type,country_id,state_id,city_id,area,lat,lng,pincode,mobile,phone,email_id,web_url,category_id,sub_cat_id,facebookurl,twitterurl,googleplusurl,youtubeurl;
-
-
+    String company_name, product_type, country_id, state_id, city_id, area, lat, lng, pincode, mobile, phone, email_id, web_url, category_id, sub_cat_id, facebookurl, twitterurl, googleplusurl, youtubeurl, short_description,address;
+    int selectStateIndex, selectCategoryIndex;
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_company_shop);
         context = EditCompanyShopActivity.this;
@@ -138,45 +135,107 @@ public class EditCompanyShopActivity extends AppCompatActivity
         });
     }
 
-    private void getCompanyShopDetails(String shop_id)
-    {
+    private void getCompanyShopDetails(String shop_id) {
         Ion.with(getApplicationContext())
                 .load(getResources().getString(R.string.webservice_base_url) + "/shop_detail/" + shop_id)
                 .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                 .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                 .asJsonObject()
-                .setCallback(new FutureCallback<JsonObject>()
-                {
+                .setCallback(new FutureCallback<JsonObject>() {
                     @Override
-                    public void onCompleted(Exception e, JsonObject result)
-                    {
+                    public void onCompleted(Exception e, JsonObject result) {
+
+                        AndroidUtils.showErrorLog(context, "getCompanyShopDetails_response" + result.toString());
                         JsonObject jsonObject = result.getAsJsonObject("result");
                         company_name = jsonObject.get("company_name").getAsString();
+                        etCompanyShopName.setText(company_name);
                         product_type = jsonObject.get("product_type").getAsString();
+                        if (product_type.contains("0")) {
+                            spServiceType.setSelection(1);
+
+                        } else {
+                            spServiceType.setSelection(2);
+                        }
+
                         country_id = jsonObject.get("country_id").getAsString();
+
+
                         state_id = jsonObject.get("state_id").getAsString();
+                        selectState(state_id);
+
+
                         city_id = jsonObject.get("city_id").getAsString();
+
+                        selectcity(city_id);
+
                         area = jsonObject.get("area").getAsString();
-                        pincode= jsonObject.get("pincode").getAsString();
+                        etAreaLocation.setText(area);
+                        pincode = jsonObject.get("pincode").getAsString();
+
+                        etPinCode.setText(pincode);
                         mobile = jsonObject.get("mobile").getAsString();
+                        etMobileNo.setText(mobile);
                         phone = jsonObject.get("phone").getAsString();
+                        etPhoneNo.setText(phone);
                         email_id = jsonObject.get("email_id").getAsString();
+                        etEmail.setText(email_id);
                         category_id = jsonObject.get("category_id").getAsString();
                         sub_cat_id = jsonObject.get("sub_cat_id").getAsString();
+                        setSelectedCategory(category_id);
+                        setSelectedSubCategory(sub_cat_id);
                         web_url = jsonObject.get("web_url").getAsString();
+                        etWebURL.setText(web_url);
+
                         facebookurl = jsonObject.get("facebookurl").getAsString();
+                        etFBUrl.setText(facebookurl);
                         twitterurl = jsonObject.get("twitterurl").getAsString();
+                        etTwitterUrl.setText(twitterurl);
                         googleplusurl = jsonObject.get("googleplusurl").getAsString();
+                        etGooglePlusURL.setText(googleplusurl);
                         youtubeurl = jsonObject.get("youtubeurl").getAsString();
+                        etYoutubeURL.setText(youtubeurl);
+                        short_description = jsonObject.get("short_des").getAsString();
+                        etDescription.setText(short_description);
+                        address = jsonObject.get("address").getAsString();
+                        etCompanyAddress.setText(address);
+
+
+
+                        JsonArray openingtime = result.getAsJsonArray("opening_time");
+
+                        for (int k = 4; k < openingtime.size(); k++) {
+
+                            JsonObject jsonObjectOpenClose = (JsonObject) openingtime.get(k);
+                            daysTileView2.setOpenTimeSpinnerByValue(jsonObjectOpenClose.get("open_time").getAsString());
+                            daysTileView2.setCloseTimeSpinnerByValue(jsonObjectOpenClose.get("close_time").getAsString());
+
+                            switch (k) {
+                                case 4:
+                                    daysTileView1.setOpenTimeSpinnerByValue(jsonObjectOpenClose.get("open_time").getAsString());
+                                    daysTileView1.setCloseTimeSpinnerByValue(jsonObjectOpenClose.get("close_time").getAsString());
+                                    break;
+                                case 5:
+                                    daysTileView2.setOpenTimeSpinnerByValue(jsonObjectOpenClose.get("open_time").getAsString());
+                                    daysTileView2.setCloseTimeSpinnerByValue(jsonObjectOpenClose.get("close_time").getAsString());
+                                    break;
+                                case 6:
+                                    daysTileView3.setOpenTimeSpinnerByValue(jsonObjectOpenClose.get("open_time").getAsString());
+                                    daysTileView3.setCloseTimeSpinnerByValue(jsonObjectOpenClose.get("close_time").getAsString());
+                                    break;
+
+
+                            }
+
+                        }
+
 
                         //productMediaDatas.add(new ProductMediaData("","",null,jsonObject.get("shop_video").getAsString()));
 
                         JsonArray jsonArray = jsonObject.getAsJsonArray("product_images");
 
-                        for (int i = 0; i<jsonArray.size(); i++)
-                        {
-                             System.out.println("imagepathurl---------------------"+jsonArray.get(i).getAsJsonObject().get("image_url").getAsString());
-                             productMediaDatas.add(new ProductMediaData("",jsonArray.get(i).getAsJsonObject().get("image_url").getAsString(),null,""));
+                        for (int i = 0; i < jsonArray.size(); i++) {
+                            System.out.println("imagepathurl---------------------" + jsonArray.get(i).getAsJsonObject().get("image_url").getAsString());
+                            productMediaDatas.add(new ProductMediaData("", jsonArray.get(i).getAsJsonObject().get("image_url").getAsString(), null, ""));
                         }
                         adapter.notifyDataSetChanged();
 
@@ -184,19 +243,68 @@ public class EditCompanyShopActivity extends AppCompatActivity
                 });
     }
 
-    private void validateFields()
-    {
+    private void selectcity(String city_id) {
 
-        if (productMediaDatas.size() > 0)
-        {
-            if (productMediaDatas.get(0).imagePath.equalsIgnoreCase("first"))
-            {
+        for (int i = 0; i < cityList.size(); i++) {
+            if (cityList.get(i).equals(city_id)) {
+                spCity.setSelection(i);
+
+            }
+
+        }
+    }
+
+    private void setSelectedSubCategory(String sub_cat_id) {
+
+        for (int i = 0; i < listDataChild.size(); i++) {
+            if (listDataChild.get(i).subCategoryId.equals(sub_cat_id))
+
+                spSubCategory.setSelection(i);
+
+        }
+
+    }
+
+    private void setSelectedCategory(String category_id) {
+
+        for (int i = 0; i < listDataHeader.size(); i++) {
+            if (listDataHeader.get(i).getCategoryId().equals(category_id))
+
+                spCategory.setSelection(i);
+            selectCategoryIndex = i;
+        }
+
+        if (selectCategoryIndex != -1) {
+
+
+        }
+
+    }
+
+    private void selectState(String state_id) {
+
+
+        for (int i = 0; i < stateIds.size(); i++) {
+            if (stateIds.get(i).equals(state_id)) {
+                spState.setSelection(i);
+                selectStateIndex = i;
+
+            }
+
+        }
+
+    }
+
+
+    private void validateFields() {
+
+        if (productMediaDatas.size() > 0) {
+            if (productMediaDatas.get(0).imagePath.equalsIgnoreCase("first")) {
                 productMediaDatas.remove(0);
             }
         }
 
-        if (!isImageExists(productMediaDatas))
-        {
+        if (!isImageExists(productMediaDatas)) {
             AndroidUtils.showSnackBar(addCompanyShopLayout, "Please Capture/Upload at least one Imaage.");
             isAllFieldsValidate = false;
             isGeneralDetailsCompleted = false;
@@ -246,7 +354,7 @@ public class EditCompanyShopActivity extends AppCompatActivity
             AndroidUtils.showSnackBar(addCompanyShopLayout, "Please enter valid mobile number.");
             etMobileNo.setError("Please enter valid mobile number.");
             isAllFieldsValidate = false;
-        }else if (Validation.isEmptyStr(etMobileNo.getText().toString())) {
+        } else if (Validation.isEmptyStr(etMobileNo.getText().toString())) {
             AndroidUtils.showSnackBar(addCompanyShopLayout, "Please enter valid mobile number.");
             etPhoneNo.setError("Please enter valid mobile number.");
             isAllFieldsValidate = false;
@@ -261,8 +369,7 @@ public class EditCompanyShopActivity extends AppCompatActivity
         }
     }
 
-    private void takeAreaLocation()
-    {
+    private void takeAreaLocation() {
         etAreaLocation.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 
             public void onFocusChange(View v, boolean hasFocus) {
@@ -342,10 +449,10 @@ public class EditCompanyShopActivity extends AppCompatActivity
         generalDetailsHeader.getRightImageView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(llGeneralContainer.getVisibility() == View.VISIBLE){
+                if (llGeneralContainer.getVisibility() == View.VISIBLE) {
                     llGeneralContainer.setVisibility(View.GONE);
                     generalDetailsHeader.setImageRightRotation(0);
-                }else {
+                } else {
                     llGeneralContainer.setVisibility(View.VISIBLE);
                     generalDetailsHeader.setImageRightRotation(180);
                 }
@@ -355,10 +462,10 @@ public class EditCompanyShopActivity extends AppCompatActivity
         shopDetailsHeader.getRightImageView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(llShopDetailsContainer.getVisibility() == View.VISIBLE){
+                if (llShopDetailsContainer.getVisibility() == View.VISIBLE) {
                     llShopDetailsContainer.setVisibility(View.GONE);
                     shopDetailsHeader.setImageRightRotation(0);
-                }else {
+                } else {
                     llShopDetailsContainer.setVisibility(View.VISIBLE);
                     shopDetailsHeader.setImageRightRotation(180);
                 }
@@ -368,7 +475,7 @@ public class EditCompanyShopActivity extends AppCompatActivity
 
         etPinCode.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event){
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_NEXT) {
                     llShopDetailsContainer.setVisibility(View.VISIBLE);
                     shopDetailsHeader.setImageRightRotation(180);
@@ -408,8 +515,7 @@ public class EditCompanyShopActivity extends AppCompatActivity
         }
     }
 
-    private void getState()
-    {
+    private void getState() {
 
         stateList = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.state_list)));
         stateIds = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.state_ids)));
@@ -488,13 +594,10 @@ public class EditCompanyShopActivity extends AppCompatActivity
         arrayList.add("Multiple/Group Product");
         arrayList.add("Only Services");
         spServiceType.setAdapter(new CustomSimpleListAdapter(context, arrayList));
-        spServiceType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
-        {
+        spServiceType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
-            {
-                if (position > 0)
-                {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position > 0) {
                     serviceType = arrayList.get(position);
                 }
             }
@@ -506,8 +609,7 @@ public class EditCompanyShopActivity extends AppCompatActivity
         });
     }
 
-    private void setCategoryAdapter()
-    {
+    private void setCategoryAdapter() {
         AndroidUtils.showErrorLog(context, "data", this.listDataHeader.toString());
         CustomSimpleListAdapter categoriesAdapter = new CustomSimpleListAdapter(context, this.listDataHeader);
         spCategory.setAdapter(categoriesAdapter);
@@ -557,6 +659,7 @@ public class EditCompanyShopActivity extends AppCompatActivity
     }
 
     private void getCity(String stateId) {
+        AndroidUtils.showErrorLog(context, " stateId ", stateId.toString());
         progressBarHandler.show();
         findViewById(R.id.input_layout_city).setVisibility(View.VISIBLE);
         Ion.with(context)
@@ -569,6 +672,8 @@ public class EditCompanyShopActivity extends AppCompatActivity
                 .setCallback(new FutureCallback<JsonObject>() {
                     @Override
                     public void onCompleted(Exception e, JsonObject result) {
+
+
                         progressBarHandler.hide();
                         AndroidUtils.showErrorLog(context, "city result ", result == null ? "null" : result.toString());
 
@@ -590,7 +695,7 @@ public class EditCompanyShopActivity extends AppCompatActivity
                             spCity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                                 @Override
                                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                                    if(position>0)
+                                    if (position > 0)
                                         cityID = cityList.get(position).cityId;
                                 }
 
@@ -681,7 +786,7 @@ public class EditCompanyShopActivity extends AppCompatActivity
                             if (result != null) {
                                 AndroidUtils.showErrorLog(context, "result::::::", result.toString());
                                 if (result.get("error").getAsString().equalsIgnoreCase("false")) {
-                                    if (Validation.containsIgnoreCase(result.get("message").getAsString(),"successfully added")) {
+                                    if (Validation.containsIgnoreCase(result.get("message").getAsString(), "successfully added")) {
                                         AndroidUtils.showErrorLog(context, "result:::success:::", result.toString());
                                         AndroidUtils.showToast(context, result.get("message").getAsString());
                                         doExitReveal(findViewById(R.id.mainLayout), false);
@@ -738,7 +843,7 @@ public class EditCompanyShopActivity extends AppCompatActivity
                             if (result != null) {
                                 AndroidUtils.showErrorLog(context, "result::::::", result.toString());
                                 if (result.get("error").getAsString().equalsIgnoreCase("false")) {
-                                    if (Validation.containsIgnoreCase(result.get("message").getAsString().toLowerCase(),"successfully added")) {
+                                    if (Validation.containsIgnoreCase(result.get("message").getAsString().toLowerCase(), "successfully added")) {
                                         AndroidUtils.showErrorLog(context, "result:::success:::", result.toString());
                                         AndroidUtils.showToast(context, result.get("message").getAsString());
                                         doExitReveal(findViewById(R.id.mainLayout), false);
@@ -756,6 +861,7 @@ public class EditCompanyShopActivity extends AppCompatActivity
                         }
                     });
     }
+
     void doExitReveal(final View view, final boolean isBack) {
 
         int centerX = view.getLeft();
@@ -778,7 +884,7 @@ public class EditCompanyShopActivity extends AppCompatActivity
                 @Override
                 public void onAnimationEnd(Animator animation) {
                     super.onAnimationEnd(animation);
-                    if(!isBack) {
+                    if (!isBack) {
                         Intent bankDetails = new Intent(context, CompanyShopManagementActivity.class);
                         bankDetails.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         context.startActivity(bankDetails);
@@ -804,8 +910,7 @@ public class EditCompanyShopActivity extends AppCompatActivity
         doExitReveal(findViewById(R.id.mainLayout), true);
     }
 
-    private void setupRecyclerView()
-    {
+    private void setupRecyclerView() {
         recyclerView = (RecyclerView) findViewById(R.id.recycler);
 
         productMediaDatas.add(new ProductMediaData("first", "", null, ""));
@@ -1050,11 +1155,11 @@ public class EditCompanyShopActivity extends AppCompatActivity
 
         AndroidUtils.showErrorLog(context, "selectedImage----" + selectedImage);
 
-       // AndroidUtils.showToast(context, selectedImage.toString());
+        // AndroidUtils.showToast(context, selectedImage.toString());
 
         String selectedImagePath = getPath(context, selectedImage);
 
-       // AndroidUtils.showToast(context, "selectedImagePath----------------" + selectedImagePath);
+        // AndroidUtils.showToast(context, "selectedImagePath----------------" + selectedImagePath);
 
         Bitmap thumb = ThumbnailUtils.createVideoThumbnail(selectedImagePath, MediaStore.Video.Thumbnails.MINI_KIND);
 

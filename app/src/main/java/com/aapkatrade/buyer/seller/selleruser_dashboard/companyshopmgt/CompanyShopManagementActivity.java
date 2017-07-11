@@ -36,8 +36,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
 
-public class CompanyShopManagementActivity extends AppCompatActivity
-{
+public class CompanyShopManagementActivity extends AppCompatActivity {
 
     private Context context;
     private AppSharedPreference appSharedPreference;
@@ -50,7 +49,6 @@ public class CompanyShopManagementActivity extends AppCompatActivity
     private LinkedList<CompanyShopData> companyShopLinkedList = new LinkedList<>();
     private int page = 0;
     private LinearLayoutManager mLayoutManager;
-
 
 
     @Override
@@ -81,7 +79,7 @@ public class CompanyShopManagementActivity extends AppCompatActivity
                 if (totalItemCount > 0) {
                     if ((totalItemCount - 1) == lastVisibleItemCount) {
                         page = page + 1;
-                       callCompanyShopListWebService(++page);
+                        callCompanyShopListWebService(++page);
                     }
                 }
             }
@@ -109,12 +107,12 @@ public class CompanyShopManagementActivity extends AppCompatActivity
         }
         if (anim != null) {
             anim.setDuration(1000);
-        // make the view invisible when the animation is done
+            // make the view invisible when the animation is done
             anim.addListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
                     super.onAnimationEnd(animation);
-                    Intent bankDetails = new Intent(context, EditCompanyShopActivity.class);
+                    Intent bankDetails = new Intent(context, AddCompanyShopActivity.class);
                     bankDetails.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     context.startActivity(bankDetails);
                 }
@@ -131,58 +129,51 @@ public class CompanyShopManagementActivity extends AppCompatActivity
     }
 
 
-
-    private void callCompanyShopListWebService(int page)
-    {
+    private void callCompanyShopListWebService(int page) {
         progressBarHandler.show();
         Ion.with(context)
                 .load(getString(R.string.webservice_base_url) + "/shoplist")
                 .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                 .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
-                .setBodyParameter("apply","1")
+                .setBodyParameter("apply", "1")
                 .setBodyParameter("seller_id", userId)
-                .setBodyParameter("lat","0")
-                .setBodyParameter("long","0")
-               // .setBodyParameter("page", String.valueOf(page))
+                .setBodyParameter("lat", "0")
+                .setBodyParameter("long", "0")
+                // .setBodyParameter("page", String.valueOf(page))
                 .asJsonObject()
                 .setCallback(new FutureCallback<JsonObject>() {
                     @Override
                     public void onCompleted(Exception e, JsonObject result) {
                         progressBarHandler.hide();
-                        if (result != null)
-                        {
+                        if (result != null) {
                             AndroidUtils.showErrorLog(context, "result::::::", result.toString());
-                            if (result.get("error").getAsString().equalsIgnoreCase("false"))
-                            {
+                            if (result.get("error").getAsString().equalsIgnoreCase("false")) {
 
-                                    JsonArray jsonArray = result.get("result").getAsJsonArray();
-                                    if (jsonArray != null && jsonArray.size() > 0)
-                                    {
-                                        for (int i = 0; i < jsonArray.size(); i++)
-                                        {
-                                            JsonObject jsonObject = jsonArray.get(i).getAsJsonObject();
-                                            CompanyShopData companyShopData = new CompanyShopData(jsonObject.get("id").getAsString(), jsonObject.get("company_name").getAsString(), jsonObject.get("short_des").getAsString(), jsonObject.get("short_des").getAsString(), jsonObject.get("created_at").getAsString(), jsonObject.get("product_count").getAsString(),jsonObject.get("image_url").getAsString());
-                                           if(!companyShopLinkedList.contains(companyShopData)){
-                                                companyShopLinkedList.add(companyShopData);
-                                            }
+                                JsonArray jsonArray = result.get("result").getAsJsonArray();
+                                if (jsonArray != null && jsonArray.size() > 0) {
+                                    for (int i = 0; i < jsonArray.size(); i++) {
+                                        JsonObject jsonObject = jsonArray.get(i).getAsJsonObject();
+                                        CompanyShopData companyShopData = new CompanyShopData(jsonObject.get("id").getAsString(), jsonObject.get("company_name").getAsString(), jsonObject.get("short_des").getAsString(), jsonObject.get("short_des").getAsString(), jsonObject.get("created_at").getAsString(), jsonObject.get("product_count").getAsString(), jsonObject.get("image_url").getAsString());
+                                        if (!companyShopLinkedList.contains(companyShopData)) {
+                                            companyShopLinkedList.add(companyShopData);
+                                        }
 
-                                        }
-                                       Collections.sort(companyShopLinkedList, new Comparator<CompanyShopData>() {
-                                            @Override
-                                            public int compare(CompanyShopData o1, CompanyShopData o2) {
-                                                return o1.getName().compareTo(o2.getName());
-                                            }
-                                        });
-                                        AndroidUtils.showErrorLog(context, companyShopLinkedList.size(), "**********");
-                                        if (companyShopListAdapter == null) {
-                                            companyShopListAdapter = new CompanyShopListAdapter(context, companyShopLinkedList);
-                                            recyclerViewCompanyShop.setLayoutManager(linearLayoutManager);
-                                            recyclerViewCompanyShop.setAdapter(companyShopListAdapter);
-                                        } else {
-                                            companyShopListAdapter.notifyDataSetChanged();
-                                        }
                                     }
-
+                                    Collections.sort(companyShopLinkedList, new Comparator<CompanyShopData>() {
+                                        @Override
+                                        public int compare(CompanyShopData o1, CompanyShopData o2) {
+                                            return o1.getName().compareTo(o2.getName());
+                                        }
+                                    });
+                                    AndroidUtils.showErrorLog(context, companyShopLinkedList.size(), "**********");
+                                    if (companyShopListAdapter == null) {
+                                        companyShopListAdapter = new CompanyShopListAdapter(context, companyShopLinkedList);
+                                        recyclerViewCompanyShop.setLayoutManager(linearLayoutManager);
+                                        recyclerViewCompanyShop.setAdapter(companyShopListAdapter);
+                                    } else {
+                                        companyShopListAdapter.notifyDataSetChanged();
+                                    }
+                                }
 
 
                             } else {
@@ -197,8 +188,7 @@ public class CompanyShopManagementActivity extends AppCompatActivity
 
     }
 
-    private void initView()
-    {
+    private void initView() {
         progressBarHandler = new ProgressBarHandler(context);
         appSharedPreference = new AppSharedPreference(context);
         linearLayoutManager = new LinearLayoutManager(context);
