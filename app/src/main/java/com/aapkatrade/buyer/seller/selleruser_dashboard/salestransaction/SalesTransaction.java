@@ -168,7 +168,7 @@ public class SalesTransaction extends AppCompatActivity implements TimePickerDia
 
         //circleIndicator.setViewPager(viewpagerSalesTransaction);
 
-        StringBuilder stringBuilder_txnamount = new StringBuilder("<br><font size=\"20\" color=" + "#ffffff>Txn Amount. <br> " + "Total" + " " + c.getString(R.string.rupay_text) + totalTxnAmount + "</font>");
+        StringBuilder stringBuilder_txnamount = new StringBuilder("<br><font size=\"25\" color=" + "#ffffff>Txn Amount. <br> " + "Total" + " " + c.getString(R.string.rupay_text) + totalTxnAmount + "</font>");
         String tvData = stringBuilder_txnamount.toString();
         txn_amount_total.setText(Html.fromHtml(tvData));
 

@@ -64,6 +64,8 @@ public class SpCityAdapter  extends BaseAdapter {
             names.setText(cityList.get(i).cityName);
         }else {
             view = inflter.inflate(R.layout.row_spinner, null);
+
+
             TextView names = (TextView) view.findViewById(R.id.tvSpCategory);
             Log.e("HOooooooooo", "State List item : " + i);
             names.setText(cityList.get(i).cityName);
