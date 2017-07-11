@@ -1,6 +1,7 @@
 package com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.sellerproduct;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,8 @@ import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Ion;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -56,7 +59,23 @@ public class SellerProductAdapter extends RecyclerView.Adapter<RecyclerView.View
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position)
     {
 
-        SellerProductHolder homeHolder = (SellerProductHolder) holder;
+        final SellerProductHolder homeHolder = (SellerProductHolder) holder;
+
+        homeHolder.productName.setText(itemList.get(position).product_name);
+        homeHolder.tvProductCategoryName.setText(itemList.get(position).category_name);
+        homeHolder.tvProductShopName.setText(itemList.get(position).shop_name);
+        homeHolder.tvProductStateName.setText(itemList.get(position).State_name);
+
+        Ion.with(context)
+                .load(itemList.get(position).product_image)
+                .withBitmap().asBitmap()
+                .setCallback(new FutureCallback<Bitmap>() {
+                    @Override
+                    public void onCompleted(Exception e, Bitmap result) {
+                        if (result != null)
+                            homeHolder.imgProduct.setImageBitmap(result);
+                    }
+                });
 
     }
 
