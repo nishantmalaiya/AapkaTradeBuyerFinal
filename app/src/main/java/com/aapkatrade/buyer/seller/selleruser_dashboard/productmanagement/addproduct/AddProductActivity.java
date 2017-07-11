@@ -6,8 +6,10 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -74,9 +76,10 @@ public class AddProductActivity extends AppCompatActivity {
     private Spinner spCompanyList, spUnitCategory;
     private ArrayList<City> cityList = new ArrayList<>();
     private ArrayList<City> unitList = new ArrayList<>();
-    private String cityID, unitID, shopId, dynamicFormData;
+    private String cityID, unitID, shopId, dynamicFormData, companyId;
     private ArrayList<DynamicFormEntity> dynamicFormEntityArrayList = new ArrayList<>();
     private LinearLayout llSellerProductDetailContainer;
+    int page = 0;
 
     ArrayList<CompanyDropdownDatas> companyDropdownDatas = new ArrayList<>();
     CustomSpinnerAdapter customSpinnerAdapter;
@@ -108,15 +111,30 @@ public class AddProductActivity extends AppCompatActivity {
     private void setupSpinner() {
 
 
-        callCompanyListWebservice();
+        callCompanyListWebservice(++page);
 
 
+       /* if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            spCompanyList.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+                @Override
+                public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                    int totalItemCount = companyDropdownDatas.size();
+
+                    if (totalItemCount == scrollY) {
+                        if (totalItemCount > 0) {
+                            page = page + 1;
+                            callCompanyListWebservice(++page);
+                        }
+                    }
+                }
+            });
+        }*/
         getUnit();
 
     }
 
 
-    private void callCompanyListWebservice() {
+    private void callCompanyListWebservice(int i) {
 
 
         String CompanyListWebserviceUrl = getString(R.string.webservice_base_url) + "/shoplist";
@@ -131,6 +149,7 @@ public class AddProductActivity extends AppCompatActivity {
                 .setBodyParameter("long", "0")
                 .setBodyParameter("apply", "1")
 
+//                .setBodyParameter("page", i + "")
                 .asJsonObject().setCallback(new FutureCallback<JsonObject>() {
             @Override
             public void onCompleted(Exception e, JsonObject result) {
@@ -139,15 +158,13 @@ public class AddProductActivity extends AppCompatActivity {
                     if (result.get("error").getAsString().contains("false")) {
 
 
-
-
                         JsonArray jsonArray_response = result.getAsJsonArray("result");
-
+                        companyDropdownDatas.add(new CompanyDropdownDatas("", "", "", ""));
                         for (int i = 0; i < jsonArray_response.size(); i++) {
 
 
                             JsonObject jsonObject = jsonArray_response.get(i).getAsJsonObject();
-                            String companyId = jsonObject.get("company_id").getAsString();
+                            String companyId = jsonObject.get("id").getAsString();
                             String companyImageUrl = jsonObject.get("image_url").getAsString();
                             String companyName = jsonObject.get("name").getAsString();
                             String comapanyCategory = jsonObject.get("category_name").getAsString();
@@ -160,13 +177,26 @@ public class AddProductActivity extends AppCompatActivity {
                         customSpinnerAdapter = new CustomSpinnerAdapter(context, companyDropdownDatas);
 
                         spCompanyList.setAdapter(customSpinnerAdapter);
+                        spCompanyList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                if (position > 0) {
+                                    companyId = companyDropdownDatas.get(position).comapanyId;
+                                }
+                            }
+
+                            @Override
+                            public void onNothingSelected(AdapterView<?> parent) {
+
+                            }
+                        });
                     }
 
 
                 }
 
 
-                AndroidUtils.showErrorLog(context, "ShopListResponse", result.toString());
+                AndroidUtils.showErrorLog(context, "ShopListResponse", result);
 
 
             }
@@ -177,7 +207,6 @@ public class AddProductActivity extends AppCompatActivity {
 
 
     }
-
 
 
     private void loadDynamicForm(final String shopId) {
@@ -245,9 +274,9 @@ public class AddProductActivity extends AppCompatActivity {
             for (DynamicFormEntity dynamicFormEntity : dynamicFormEntityArrayList) {
                 String title = dynamicFormEntity.getLabel();
                 String type = dynamicFormEntity.getType();
-                if (dynamicFormEntity.isMultiple() && type.equalsIgnoreCase("checkbox")) {
+                if (dynamicFormEntity.isMultiple() && type.equalsIgnoreCase("dropdown")) {
                     createDynamicSpinner(title, type, dynamicFormEntity.getFormValueArrayList());
-                } else if (dynamicFormEntity.isMultiple() && type.equalsIgnoreCase("dropdown")) {
+                } else if (dynamicFormEntity.isMultiple() && type.equalsIgnoreCase("checkbox")) {
                     createDynamicCheckList(title, type, dynamicFormEntity.getFormValueArrayList());
                 } else if (dynamicFormEntity.isMultiple() && type.equalsIgnoreCase("radio")) {
                     createDynamicRadioGroup(title, type, dynamicFormEntity.getFormValueArrayList());
@@ -324,7 +353,10 @@ public class AddProductActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 validateFields();
-                //getDynamicSelectedData();
+                AndroidUtils.showErrorLog(context, "isAllFieldsSet............." + isAllFieldsSet);
+                if (isAllFieldsSet) {
+                    callAddProductWebservice();
+                }
             }
         });
 
@@ -333,54 +365,179 @@ public class AddProductActivity extends AppCompatActivity {
 
     private void validateFields() {
 
-        if (productImagesDatas.size() > 0) {
-            if (productImagesDatas.get(0).imagePath.equalsIgnoreCase("first")) {
-                productImagesDatas.remove(0);
-            }
-        }
+        isAllFieldsSet = true;
 
-       /* if (!isImageExists(productImagesDatas)) {
-            AndroidUtils.showSnackBar(llSellerProductDetailContainer, "Please Capture/Upload at least one Imaage.");
+        if (productImagesDatas.size() <= 1) {
+
+            AndroidUtils.showSnackBar(llSellerProductDetailContainer, "Please Upload/Capture at least one Image.");
+            AndroidUtils.showErrorLog(context, "isAllFieldsSet.............productImagesDatas" + isAllFieldsSet);
             isAllFieldsSet = false;
-        }
-*/
-        if (Validation.isEmptyStr(etproductname.getText().toString())) {
+
+        } else if (!Validation.isNumber(companyId)) {
+            AndroidUtils.showSnackBar(llSellerProductDetailContainer, "Please Select Company/Shop.");
+            AndroidUtils.showErrorLog(context, "isAllFieldsSet.............companyId" + isAllFieldsSet);
+            isAllFieldsSet = false;
+        } else if (Validation.isEmptyStr(etproductname.getText().toString())) {
+            AndroidUtils.showErrorLog(context, companyId + "**************************");
             etproductname.setError("Product Name can not be empty.");
             AndroidUtils.showSnackBar(llSellerProductDetailContainer, "Product Name can not be empty.");
+            AndroidUtils.showErrorLog(context, "isAllFieldsSet.............etproductname" + isAllFieldsSet);
             isAllFieldsSet = false;
         } else if (Validation.isEmptyStr(etProductPrice.getText().toString())) {
             etProductPrice.setError("Product Price can not be empty.");
             AndroidUtils.showSnackBar(llSellerProductDetailContainer, "Product Price can not be empty.");
+            AndroidUtils.showErrorLog(context, "isAllFieldsSet.............etProductPrice" + isAllFieldsSet);
             isAllFieldsSet = false;
         } else if (Validation.isEmptyStr(etProductPriceDiscount.getText().toString())) {
             etProductPriceDiscount.setError("Product Discount can not be empty.");
             AndroidUtils.showSnackBar(llSellerProductDetailContainer, "Product Discount can not be empty.");
+            AndroidUtils.showErrorLog(context, "isAllFieldsSet.............etProductPriceDiscount" + isAllFieldsSet);
             isAllFieldsSet = false;
-
+        } else if (!Validation.isNumber(unitID)) {
+            AndroidUtils.showSnackBar(llSellerProductDetailContainer, "Please Select Unit.");
+            AndroidUtils.showErrorLog(context, "isAllFieldsSet.............unitID" + isAllFieldsSet);
+            isAllFieldsSet = false;
         } else if (Validation.isEmptyStr(etDescription.getText().toString())) {
             etDescription.setError("Product Description can not be empty.");
             AndroidUtils.showSnackBar(llSellerProductDetailContainer, "Product Description can not be empty.");
+            AndroidUtils.showErrorLog(context, "isAllFieldsSet.............etDescription" + isAllFieldsSet);
             isAllFieldsSet = false;
-            
+
         } else if (Validation.isEmptyStr(etProductWeight.getText().toString())) {
             etProductWeight.setError("Product Weight can not be empty.");
             AndroidUtils.showSnackBar(llSellerProductDetailContainer, "Product Weight can not be empty.");
+            AndroidUtils.showErrorLog(context, "isAllFieldsSet.............etProductWeight" + isAllFieldsSet);
             isAllFieldsSet = false;
 
         } else if (Validation.isEmptyStr(etMaxorderQuantity.getText().toString())) {
             etMaxorderQuantity.setError("Product Quantity can not be empty.");
             AndroidUtils.showSnackBar(llSellerProductDetailContainer, "Product Quantity can not be empty.");
+            AndroidUtils.showErrorLog(context, "isAllFieldsSet.............etMaxorderQuantity" + isAllFieldsSet);
             isAllFieldsSet = false;
 
-        } else if (ConnetivityCheck.isNetworkAvailable(context)) {
+        } else if (!ConnetivityCheck.isNetworkAvailable(context)) {
             AndroidUtils.showSnackBar(llSellerProductDetailContainer, "No Internet Connection available.");
+            AndroidUtils.showErrorLog(context, "isAllFieldsSet.............isNetworkAvailable" + isAllFieldsSet);
             isAllFieldsSet = false;
+
+        } else {
+            dynamicFormData = getDynamicSelectedData();
+            if (Validation.isEmptyStr(dynamicFormData)) {
+                AndroidUtils.showErrorLog(context, "isAllFieldsSet.............dynamicFormData" + isAllFieldsSet);
+                isAllFieldsSet = false;
+            }
         }
 
 
-
-       
     }
+
+
+    private String getDynamicSelectedData() {
+
+        if (dynamicFormEntityArrayList != null && dynamicFormEntityArrayList.size() > 0) {
+
+            JSONArray jsonArray = new JSONArray();
+            for (DynamicFormEntity dynamicFormEntity : dynamicFormEntityArrayList) {
+                String title = dynamicFormEntity.getLabel();
+                String type = dynamicFormEntity.getType();
+                JSONObject jsonObject = new JSONObject();
+                if (dynamicFormEntity.isMultiple() && type.equalsIgnoreCase("dropdown")) {
+                    Spinner spinner = (Spinner) llSellerProductDetailContainer.findViewWithTag(title);
+                    AndroidUtils.showErrorLog(context, "*(((((((((((((((((Spinner)))))))))*", dynamicFormEntity.getFormValueArrayList().get(spinner.getSelectedItemPosition()));
+
+
+                    if (spinner.getSelectedItemPosition() < 1) {
+                        AndroidUtils.showSnackBar(llSellerProductDetailContainer, "Please Select " + title + ".");
+                        AndroidUtils.showErrorLog(context, "isAllFieldsSet.............dropdown" + isAllFieldsSet);
+                        isAllFieldsSet = false;
+                    }
+
+
+                    try {
+                        jsonObject.put(title, dynamicFormEntity.getFormValueArrayList().get(spinner.getSelectedItemPosition()).getValue());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                } else if (dynamicFormEntity.isMultiple() && type.equalsIgnoreCase("checkbox")) {
+                    CustomCheckList customCheckList = (CustomCheckList) llSellerProductDetailContainer.findViewWithTag(title);
+                    AndroidUtils.showErrorLog(context, "+++++++++++customCheckList.getTag(" + title + ")2++++++++++++", null == customCheckList.findViewWithTag(title));
+
+                    AndroidUtils.showErrorLog(context, "*(((((((((((((((((CheckList)))))))))*", customCheckList.getSelectedCheckList());
+
+                    JSONArray jsonArray1 = new JSONArray();
+                    for (FormValue formValue : customCheckList.getSelectedCheckList()) {
+                        jsonArray1.put(formValue.getValue());
+                    }
+
+                    if (customCheckList.getSelectedCheckList() != null && customCheckList.getSelectedCheckList().size() == 0) {
+                        AndroidUtils.showSnackBar(llSellerProductDetailContainer, "Please Select at least one " + title + ".");
+                        AndroidUtils.showErrorLog(context, "isAllFieldsSet.............CheckList" + isAllFieldsSet);
+                        isAllFieldsSet = false;
+                    }
+
+
+                    try {
+                        jsonObject.put(title, jsonArray1);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                } else if (dynamicFormEntity.isMultiple() && type.equalsIgnoreCase("radio")) {
+                    CustomCheckList customCheckList = (CustomCheckList) llSellerProductDetailContainer.findViewWithTag(title);
+                    AndroidUtils.showErrorLog(context, "*(((((((((((((((((RadioGroup)))))))))*", customCheckList.getSelectedCheckList());
+
+                    JSONArray jsonArray1 = new JSONArray();
+                    for (FormValue formValue : customCheckList.getSelectedCheckList()) {
+                        jsonArray1.put(formValue.getValue());
+                    }
+
+                    if (customCheckList.getSelectedCheckList() != null && customCheckList.getSelectedCheckList().size() == 0) {
+                        AndroidUtils.showSnackBar(llSellerProductDetailContainer, "Please Select " + title + ".");
+                        AndroidUtils.showErrorLog(context, "isAllFieldsSet.............radio" + isAllFieldsSet);
+                        isAllFieldsSet = false;
+                    }
+
+                    try {
+                        jsonObject.put(title, customCheckList.getSelectedCheckList().get(0).getValue());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+
+                } else if (type.equalsIgnoreCase("text") || type.equalsIgnoreCase("number") || type.equalsIgnoreCase("textarea")) {
+                    EditText editText = (EditText) llSellerProductDetailContainer.findViewWithTag(title);
+
+                    AndroidUtils.showErrorLog(context, "*(((((((((((((((((Edit Text)))))))))*", editText.getText());
+
+                    if (Validation.isEmptyStr(editText.getText().toString())) {
+                        editText.setError(title + " can not be empty.");
+                        AndroidUtils.showSnackBar(llSellerProductDetailContainer, title + " can not be empty.");
+                        AndroidUtils.showErrorLog(context, "isAllFieldsSet.............editText.getText().toString()" + isAllFieldsSet);
+                        isAllFieldsSet = false;
+
+                    }
+                    try {
+                        jsonObject.put(title, editText.getText().toString());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                jsonArray.put(jsonObject);
+            }
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put("dynamic_data", jsonArray.toString());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            AndroidUtils.showErrorLog(context, jsonObject);
+            return jsonObject.toString();
+        }
+
+
+        return null;
+    }
+
 
     private void setUpToolBar() {
         ImageView homeIcon = (ImageView) findViewById(R.id.iconHome);
@@ -566,39 +723,62 @@ public class AddProductActivity extends AppCompatActivity {
         return file;
     }
 
+
+    private ArrayList<Part> submitImages() {
+        ArrayList<Part> files = new ArrayList<>();
+
+        if (productImagesDatas != null && productImagesDatas.size() > 0) {
+            for (int i = 1; i < productImagesDatas.size(); i++) {
+                ProductMediaData file = productImagesDatas.get(i);
+                if (!file.isVideo) {
+                    files.add(new FilePart("image[]", savebitmap(file.imagePath)));
+                    AndroidUtils.showErrorLog(context, files.toArray().toString());
+                }
+            }
+            return files;
+        }
+        return null;
+    }
+
     private void callAddProductWebservice() {
         progressBarHandler.show();
+
+        AndroidUtils.showErrorLog(context, "callAddProductWebservice----------called");
 
         Ion.with(AddProductActivity.this)
                 .load(getString(R.string.webservice_base_url) + "/add_product")
                 .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
-                .addMultipartParts(files)
+                .addMultipartParts(submitImages())
                 .setMultipartParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
-                .setMultipartParameter("user_id", "3")
                 .setMultipartParameter("name", etproductname.getText().toString())
-                .setMultipartParameter("company_id", cityID)
+                .setMultipartParameter("shop_id", companyId)
                 .setMultipartParameter("price", etProductPrice.getText().toString())
-                .setMultipartParameter("unit_id", unitID)
-                .setMultipartParameter("max_order_qty", etMaxorderQuantity.getText().toString())
-                .setMultipartParameter("product_weight", appSharedpreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), ""))
-                .setMultipartParameter("length", etProductLength.getText().toString())
-                .setMultipartParameter("width", etProductWidth.getText().toString())
-                .setMultipartParameter("height", etProductHeight.getText().toString())
                 .setMultipartParameter("discount", etProductPriceDiscount.getText().toString())
+                .setMultipartParameter("unit_id", unitID)
+                .setMultipartParameter("short_des", etDescription.getText().toString())
+                .setMultipartParameter("max_order_qty", etMaxorderQuantity.getText().toString())
+                .setMultipartParameter("weight", etProductWeight.getText().toString())
+                .setMultipartParameter("length", etProductLength.getText() == null ? "0" : etProductLength.getText().toString())
+                .setMultipartParameter("width", etProductWidth.getText() == null ? "0" : etProductWidth.getText().toString())
+                .setMultipartParameter("height", etProductHeight.getText() == null ? "0" : etProductHeight.getText().toString())
+                .setMultipartParameter("dynamic", dynamicFormData)
+
                 .asJsonObject().setCallback(new FutureCallback<JsonObject>() {
             @Override
             public void onCompleted(Exception e, JsonObject result) {
 
-                System.out.println("result------------------------------" + result);
+                AndroidUtils.showErrorLog(context, "result----------" + context.getClass().getSimpleName() + "------"+result);
 
                 progressBarHandler.hide();
                 if (result != null) {
                     if (result.get("error").getAsString().contains("false")) {
                         AndroidUtils.showToast(context, result.get("message").getAsString());
+                        if(Validation.containsIgnoreCase(result.get("message").getAsString(), "Added") || Validation.containsIgnoreCase(result.get("message").getAsString(), "Successfully")){
+                            onBackPressed();
+                        }
                     }
                 } else {
                     AndroidUtils.showErrorLog(context, "hello2", e.toString());
-                    progressBarHandler.hide();
                 }
             }
         });
@@ -608,7 +788,6 @@ public class AddProductActivity extends AppCompatActivity {
     private void getUnit() {
         unitList.clear();
         progressBarHandler.show();
-        // findViewById(R.id.input_layout_city).setVisibility(View.VISIBLE);
         Ion.with(context)
                 .load("http://staging.aapkatrade.com/slim/dropdown")
                 .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
@@ -624,6 +803,7 @@ public class AddProductActivity extends AppCompatActivity {
                         if (result != null) {
                             JsonArray jsonResultArray = result.getAsJsonArray("result");
 
+                            unitList.add(new City("-1", "Please Select Unit"));
 
                             for (int i = 0; i < jsonResultArray.size(); i++) {
                                 JsonObject jsonObject1 = (JsonObject) jsonResultArray.get(i);
@@ -638,6 +818,7 @@ public class AddProductActivity extends AppCompatActivity {
                                 @Override
                                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                                     unitID = unitList.get(position).cityId;
+                                    AndroidUtils.showErrorLog(context, "Unit id is : ", unitID);
                                 }
 
                                 @Override
@@ -646,7 +827,7 @@ public class AddProductActivity extends AppCompatActivity {
                                 }
                             });
                         } else {
-                            AndroidUtils.showToast(context, "! Invalid city");
+                            AndroidUtils.showToast(context, "! Invalid Unit");
                         }
                     }
 
@@ -655,3 +836,4 @@ public class AddProductActivity extends AppCompatActivity {
 
 
 }
+
