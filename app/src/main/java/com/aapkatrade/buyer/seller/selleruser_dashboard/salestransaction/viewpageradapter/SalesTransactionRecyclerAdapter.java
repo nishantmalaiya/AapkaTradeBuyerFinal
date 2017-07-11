@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.aapkatrade.buyer.R;
+import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.salestransaction.SalesTransactionData;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.salestransaction.SalesTransactionMachine;
@@ -63,7 +64,7 @@ public class SalesTransactionRecyclerAdapter extends RecyclerView.Adapter<Recycl
         final SalesTransactionReyclerHolder homeHolder = (SalesTransactionReyclerHolder) holder;
 
         StringBuilder stringBuilder = new StringBuilder("");
-        stringBuilder.append("<i>" + itemList.get(position).paymentDate).append("</i>" + "<br><b><font color=" + ContextCompat.getColor(context, R.color.black) + "> Txn Date:" + "</font></b> " + itemList.get(position).paymentDate).append("<br>" + "<font color=" + ContextCompat.getColor(context, R.color.black) + ">").append("Sales Amount : </font>").append(" " + context.getString(R.string.rupay_text)).append(itemList.get(position).paymentAmount).append("<br>").append(fromDate).append("<i><font color=" + "#F8670E> To </font></i>").append(toDate);
+        stringBuilder.append("<b><font color=" + ContextCompat.getColor(context, R.color.black) + "> Txn Date: "  + AndroidUtils.formateDateFromstring(itemList.get(position).paymentDate)).append("<br>" + "<font color=" + ContextCompat.getColor(context, R.color.black) + ">").append("Sales Amount : </font>").append(" " + context.getString(R.string.rupay_text)).append(itemList.get(position).paymentAmount);
         String tvData = stringBuilder.toString();
         homeHolder.SalesMachineTxnData.setText(Html.fromHtml(tvData));
         homeHolder.TxnAmount.setText(context.getString(R.string.rupay_text) + itemList.get(position).paymentAmount);
