@@ -132,7 +132,6 @@ public class OrderActivity extends AppCompatActivity {
                 .setBodyParameter("buyer_id", appSharedPreference.getSharedPref("userid", user_id))
                 .setBodyParameter("type", UserType)
 
-
                 .asJsonObject()
                 .setCallback(new FutureCallback<JsonObject>() {
                     @Override
@@ -193,7 +192,7 @@ public class OrderActivity extends AppCompatActivity {
 
                                 }
                                 orderListAdapter = new OrderListAdapter(getApplicationContext(), orderListDatas);
-//
+
                                 order_list.setAdapter(orderListAdapter);
 
                                 orderListAdapter.notifyDataSetChanged();
@@ -211,7 +210,6 @@ public class OrderActivity extends AppCompatActivity {
 
                             }
 
-//
 
                         }
 
