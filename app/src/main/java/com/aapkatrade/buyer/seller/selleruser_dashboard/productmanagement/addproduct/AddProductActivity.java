@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -74,7 +75,7 @@ public class AddProductActivity extends AppCompatActivity {
     private Spinner spCompanyList, spUnitCategory;
     private ArrayList<City> cityList = new ArrayList<>();
     private ArrayList<City> unitList = new ArrayList<>();
-    private String cityID, unitID, shopId, dynamicFormData;
+    private String cityID, unitID, shopId, dynamicFormData, companyId;
     private ArrayList<DynamicFormEntity> dynamicFormEntityArrayList = new ArrayList<>();
     private LinearLayout llSellerProductDetailContainer;
 
@@ -139,8 +140,6 @@ public class AddProductActivity extends AppCompatActivity {
                     if (result.get("error").getAsString().contains("false")) {
 
 
-
-
                         JsonArray jsonArray_response = result.getAsJsonArray("result");
 
                         for (int i = 0; i < jsonArray_response.size(); i++) {
@@ -160,6 +159,19 @@ public class AddProductActivity extends AppCompatActivity {
                         customSpinnerAdapter = new CustomSpinnerAdapter(context, companyDropdownDatas);
 
                         spCompanyList.setAdapter(customSpinnerAdapter);
+                        spCompanyList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                if (position > 0) {
+                                    companyId = companyDropdownDatas.get(position).comapanyId;
+                                }
+                            }
+
+                            @Override
+                            public void onNothingSelected(AdapterView<?> parent) {
+
+                            }
+                        });
                     }
 
 
@@ -178,7 +190,6 @@ public class AddProductActivity extends AppCompatActivity {
 
     }
 
-    private void loadDynamicForm(String shopId) {
 
     private void loadDynamicForm(final String shopId) {
 
@@ -324,7 +335,9 @@ public class AddProductActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 validateFields();
-                getDynamicSelectedData();
+                if (isAllFieldsSet) {
+                    callAddProductWebservice();
+                }
             }
         });
 
@@ -333,18 +346,15 @@ public class AddProductActivity extends AppCompatActivity {
 
     private void validateFields() {
 
-        if (productImagesDatas.size() > 0) {
-            if (productImagesDatas.get(0).imagePath.equalsIgnoreCase("first")) {
-                productImagesDatas.remove(0);
-            }
-        }
+        if (productImagesDatas.size() < 1) {
 
-        if (!isImageExists(productImagesDatas)) {
-            AndroidUtils.showSnackBar(llSellerProductDetailContainer, "Please Capture/Upload at least one Imaage.");
+            AndroidUtils.showSnackBar(llSellerProductDetailContainer, "Please Upload/Capture at least one Image.");
             isAllFieldsSet = false;
-        }
 
-        if (Validation.isEmptyStr(etproductname.getText().toString())) {
+        } else if (Validation.isNumber(companyId)) {
+            AndroidUtils.showSnackBar(llSellerProductDetailContainer, "Please Select Company/Shop.");
+            isAllFieldsSet = false;
+        } else if (Validation.isEmptyStr(etproductname.getText().toString())) {
             etproductname.setError("Product Name can not be empty.");
             AndroidUtils.showSnackBar(llSellerProductDetailContainer, "Product Name can not be empty.");
             isAllFieldsSet = false;
@@ -356,12 +366,14 @@ public class AddProductActivity extends AppCompatActivity {
             etProductPriceDiscount.setError("Product Discount can not be empty.");
             AndroidUtils.showSnackBar(llSellerProductDetailContainer, "Product Discount can not be empty.");
             isAllFieldsSet = false;
-
-        } else if (Validation.isEmptyStr(etDescription.getText().toString())) {
+        } else if (Validation.isNumber(unitID)) {
+            AndroidUtils.showSnackBar(llSellerProductDetailContainer, "Please Select Unit.");
+            isAllFieldsSet = false;
+        }  else if (Validation.isEmptyStr(etDescription.getText().toString())) {
             etDescription.setError("Product Description can not be empty.");
             AndroidUtils.showSnackBar(llSellerProductDetailContainer, "Product Description can not be empty.");
             isAllFieldsSet = false;
-            
+
         } else if (Validation.isEmptyStr(etProductWeight.getText().toString())) {
             etProductWeight.setError("Product Weight can not be empty.");
             AndroidUtils.showSnackBar(llSellerProductDetailContainer, "Product Weight can not be empty.");
@@ -372,15 +384,139 @@ public class AddProductActivity extends AppCompatActivity {
             AndroidUtils.showSnackBar(llSellerProductDetailContainer, "Product Quantity can not be empty.");
             isAllFieldsSet = false;
 
+        } else if (Validation.isEmptyStr(etProductWidth.getText().toString())) {
+            etProductWidth.setError("Product Width can not be empty.");
+            AndroidUtils.showSnackBar(llSellerProductDetailContainer, "Product Width can not be empty.");
+            isAllFieldsSet = false;
+
+        } else if (Validation.isEmptyStr(etProductHeight.getText().toString())) {
+            etProductHeight.setError("Product Height can not be empty.");
+            AndroidUtils.showSnackBar(llSellerProductDetailContainer, "Product Height can not be empty.");
+            isAllFieldsSet = false;
+
+        }else if (Validation.isEmptyStr(etProductLength.getText().toString())) {
+            etProductLength.setError("Product Length can not be empty.");
+            AndroidUtils.showSnackBar(llSellerProductDetailContainer, "Product Length can not be empty.");
+            isAllFieldsSet = false;
+
         } else if (ConnetivityCheck.isNetworkAvailable(context)) {
             AndroidUtils.showSnackBar(llSellerProductDetailContainer, "No Internet Connection available.");
             isAllFieldsSet = false;
 
+        } else {
+            dynamicFormData = getDynamicSelectedData();
+            if (Validation.isEmptyStr(dynamicFormData)) {
+                isAllFieldsSet = false;
+            }
+        }
 
 
-
-       
     }
+
+
+    @Nullable
+    private String getDynamicSelectedData() {
+
+        if (dynamicFormEntityArrayList != null && dynamicFormEntityArrayList.size() > 0) {
+
+            JSONArray jsonArray = new JSONArray();
+            for (DynamicFormEntity dynamicFormEntity : dynamicFormEntityArrayList) {
+                String title = dynamicFormEntity.getLabel();
+                String type = dynamicFormEntity.getType();
+                JSONObject jsonObject = new JSONObject();
+                if (dynamicFormEntity.isMultiple() && type.equalsIgnoreCase("dropdown")) {
+                    Spinner spinner = (Spinner) llSellerProductDetailContainer.findViewWithTag(title);
+                    AndroidUtils.showErrorLog(context, "*(((((((((((((((((Spinner)))))))))*", dynamicFormEntity.getFormValueArrayList().get(spinner.getSelectedItemPosition()));
+
+
+                    if (Validation.isEmptyStr(dynamicFormEntity.getFormValueArrayList().get(spinner.getSelectedItemPosition()).getValue())) {
+                        AndroidUtils.showSnackBar(llSellerProductDetailContainer, "Please Select " + title + ".");
+                        isAllFieldsSet = false;
+                    }
+
+
+                    try {
+                        jsonObject.put(title, dynamicFormEntity.getFormValueArrayList().get(spinner.getSelectedItemPosition()).getValue());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                } else if (dynamicFormEntity.isMultiple() && type.equalsIgnoreCase("checkbox")) {
+                    CustomCheckList customCheckList = (CustomCheckList) llSellerProductDetailContainer.findViewWithTag(title);
+                    AndroidUtils.showErrorLog(context, "+++++++++++customCheckList.getTag(" + title + ")2++++++++++++", null == customCheckList.findViewWithTag(title));
+
+                    AndroidUtils.showErrorLog(context, "*(((((((((((((((((CheckList)))))))))*", customCheckList.getSelectedCheckList());
+
+                    JSONArray jsonArray1 = new JSONArray();
+                    for (FormValue formValue : customCheckList.getSelectedCheckList()) {
+                        jsonArray1.put(formValue.getValue());
+                    }
+
+                    if (customCheckList.getSelectedCheckList() != null && customCheckList.getSelectedCheckList().size() == 0) {
+                        AndroidUtils.showSnackBar(llSellerProductDetailContainer, "Please Select at least one " + title + ".");
+                        isAllFieldsSet = false;
+                    }
+
+
+                    try {
+                        jsonObject.put(title, jsonArray1);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                } else if (dynamicFormEntity.isMultiple() && type.equalsIgnoreCase("radio")) {
+                    CustomCheckList customCheckList = (CustomCheckList) llSellerProductDetailContainer.findViewWithTag(title);
+                    AndroidUtils.showErrorLog(context, "*(((((((((((((((((RadioGroup)))))))))*", customCheckList.getSelectedCheckList());
+
+                    JSONArray jsonArray1 = new JSONArray();
+                    for (FormValue formValue : customCheckList.getSelectedCheckList()) {
+                        jsonArray1.put(formValue.getValue());
+                    }
+
+                    if (customCheckList.getSelectedCheckList() != null && customCheckList.getSelectedCheckList().size() == 0) {
+                        AndroidUtils.showSnackBar(llSellerProductDetailContainer, "Please Select " + title + ".");
+                        isAllFieldsSet = false;
+                    }
+
+                    try {
+                        jsonObject.put(title, customCheckList.getSelectedCheckList().get(0).getValue());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+
+                } else if (type.equalsIgnoreCase("text") || type.equalsIgnoreCase("number") || type.equalsIgnoreCase("textarea")) {
+                    EditText editText = (EditText) llSellerProductDetailContainer.findViewWithTag(title);
+
+                    AndroidUtils.showErrorLog(context, "*(((((((((((((((((Edit Text)))))))))*", editText.getText());
+
+                    if (Validation.isEmptyStr(editText.getText().toString())) {
+                        editText.setError(title + " can not be empty.");
+                        AndroidUtils.showSnackBar(llSellerProductDetailContainer, title + " can not be empty.");
+                        isAllFieldsSet = false;
+
+                    }
+                    try {
+                        jsonObject.put(title, editText.getText().toString());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                jsonArray.put(jsonObject);
+            }
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put("dynamic_data", jsonArray.toString());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            AndroidUtils.showErrorLog(context, jsonObject);
+            return jsonObject.toString();
+        }
+
+
+        return null;
+    }
+
 
     private void setUpToolBar() {
         ImageView homeIcon = (ImageView) findViewById(R.id.iconHome);
@@ -566,17 +702,34 @@ public class AddProductActivity extends AppCompatActivity {
         return file;
     }
 
+
+    private ArrayList<Part> submitImages() {
+        ArrayList<Part> files = new ArrayList<>();
+        if (productImagesDatas != null && productImagesDatas.size() > 0) {
+
+            for (ProductMediaData file : productImagesDatas) {
+                if (!file.isVideo) {
+                    files.add(new FilePart("image[]", savebitmap(file.imagePath)));
+                    AndroidUtils.showErrorLog(context, files.toArray().toString());
+                }
+            }
+            return files;
+        }
+        return null;
+    }
+
     private void callAddProductWebservice() {
         progressBarHandler.show();
+
 
         Ion.with(AddProductActivity.this)
                 .load(getString(R.string.webservice_base_url) + "/add_product")
                 .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
-                .addMultipartParts(files)
+                .addMultipartParts(submitImages())
                 .setMultipartParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
-                .setMultipartParameter("user_id", "3")
+                .setMultipartParameter("user_id", appSharedpreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString()))
                 .setMultipartParameter("name", etproductname.getText().toString())
-                .setMultipartParameter("company_id", cityID)
+                .setMultipartParameter("shop_id", companyId)
                 .setMultipartParameter("price", etProductPrice.getText().toString())
                 .setMultipartParameter("unit_id", unitID)
                 .setMultipartParameter("max_order_qty", etMaxorderQuantity.getText().toString())
@@ -608,7 +761,6 @@ public class AddProductActivity extends AppCompatActivity {
     private void getUnit() {
         unitList.clear();
         progressBarHandler.show();
-        // findViewById(R.id.input_layout_city).setVisibility(View.VISIBLE);
         Ion.with(context)
                 .load("http://staging.aapkatrade.com/slim/dropdown")
                 .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
@@ -646,7 +798,7 @@ public class AddProductActivity extends AppCompatActivity {
                                 }
                             });
                         } else {
-                            AndroidUtils.showToast(context, "! Invalid city");
+                            AndroidUtils.showToast(context, "! Invalid Unit");
                         }
                     }
 
