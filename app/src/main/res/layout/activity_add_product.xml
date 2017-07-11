@@ -257,6 +257,7 @@
                             android:layout_marginLeft="@dimen/twenty_dip"
                             android:layout_marginRight="@dimen/twenty_dip"
                             android:layout_marginTop="@dimen/ten_dip"
+                            android:layout_marginBottom="@dimen/ten_dip"
                             android:textColorHint="@color/hint_color">
 
                             <EditText
