@@ -211,7 +211,8 @@ public class SalesTransaction extends AppCompatActivity implements TimePickerDia
 
     }
 
-    private void initView() {
+    private void initView()
+    {
         c = this;
 
         progressBarHandler = new ProgressBarHandler(this);
@@ -325,13 +326,14 @@ public class SalesTransaction extends AppCompatActivity implements TimePickerDia
 
 
                             AndroidUtils.showErrorLog(c, "responseBillPayment2", result.toString());
-                            progressBarHandler.hide();
+
 
                             if (findViewById(R.id.nestedScrollViewsalesTransaction).getVisibility() == View.GONE) {
 
 
                                 findViewById(R.id.nestedScrollViewsalesTransaction).setVisibility(View.VISIBLE);
                             }
+                            progressBarHandler.hide();
                         }
 
 
@@ -428,11 +430,16 @@ public class SalesTransaction extends AppCompatActivity implements TimePickerDia
 
         if (fl_salestransaction.getVisibility() == View.GONE) {
 
+            Intent intent = getIntent();
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            finish();
+            overridePendingTransition(0, 0);
+            startActivity(intent);
 
-            SpMachineList.invalidate();
+            /*SpMachineList.invalidate();
             etstartdate.invalidate();
             etenddate.invalidate();
-            SpMachineList.clearFocus();
+            SpMachineList.clearFocus();*/
 
             viewpagerSalesTransaction.setVisibility(View.GONE);
             salestransactionfooter.setVisibility(View.GONE);

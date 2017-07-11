@@ -23,8 +23,11 @@ import com.aapkatrade.buyer.general.Validation;
 import com.aapkatrade.buyer.home.navigation.entity.Category;
 import com.aapkatrade.buyer.uicomponent.CustomSnackBar;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.regex.Pattern;
 
 /**
@@ -74,6 +77,9 @@ public class AndroidUtils {
         }
         return Calendar.getInstance();
     }
+
+
+
 
     public static void setBackgroundSolid(View layout, Context context, int bgColor, int cornerRadius, int oval) {
         GradientDrawable shape = new GradientDrawable();
@@ -197,5 +203,27 @@ public class AndroidUtils {
         toast.show();
     }
 
+
+    public static String formateDateFromstring(String inputDate)
+    {
+
+        System.out.println("inputDate------------"+inputDate);
+        Date parsed = null;
+        String outputDate = "";
+
+        SimpleDateFormat df_input = new SimpleDateFormat("yyyy-MM-dd ", java.util.Locale.getDefault());
+        SimpleDateFormat df_output = new SimpleDateFormat("dd MMM yyyy", java.util.Locale.getDefault());
+
+        try {
+            parsed = df_input.parse(inputDate);
+            outputDate = df_output.format(parsed);
+
+        } catch (ParseException e) {
+            //LOGE(TAG, "ParseException - dateFormat");
+        }
+
+        return outputDate;
+
+    }
 
 }

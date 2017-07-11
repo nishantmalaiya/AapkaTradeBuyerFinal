@@ -52,7 +52,6 @@ public class CompanyShopManagementActivity extends AppCompatActivity
     private LinearLayoutManager mLayoutManager;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
