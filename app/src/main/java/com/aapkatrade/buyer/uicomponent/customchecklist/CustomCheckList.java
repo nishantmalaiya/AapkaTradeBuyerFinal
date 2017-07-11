@@ -104,6 +104,7 @@ public class CustomCheckList extends LinearLayout {
             CustomCheckListAdapter customCheckListAdapter = new CustomCheckListAdapter(context, title, commonInterface, formValueArrayList, isRadio);
             recyclerView.setLayoutManager(mLayoutManager);
             recyclerView.setAdapter(customCheckListAdapter);
+            recyclerView.smoothScrollToPosition(formValueArrayList.size());
             customCheckListAdapter.notifyDataSetChanged();
         }
 
