@@ -13,6 +13,7 @@ import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
@@ -51,18 +52,12 @@ public class SellerProductListActivity extends AppCompatActivity
 
         setup_layout();
 
-       // get_web_data();
+        get_web_data();
 
     }
 
     private void setup_layout()
     {
-        orderListDatas.add(new SellerProductData("","","","","","",""));
-        orderListDatas.add(new SellerProductData("","","","","","",""));
-        orderListDatas.add(new SellerProductData("","","","","","",""));
-        orderListDatas.add(new SellerProductData("","","","","","",""));
-        orderListDatas.add(new SellerProductData("","","","","","",""));
-
         order_list = (RecyclerView) findViewById(R.id.recyclerview);
 
         linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
@@ -115,11 +110,10 @@ public class SellerProductListActivity extends AppCompatActivity
         progress_handler.show();
 
         Ion.with(context)
-                .load(getResources().getString(R.string.webservice_base_url) + "/buyer_order_details")
+                .load(getResources().getString(R.string.webservice_base_url) + "/product_list")
                 .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                 .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
-                .setBodyParameter("buyer_id", appSharedPreference.getSharedPref("userid", user_id))
-                .setBodyParameter("type", UserType)
+                .setBodyParameter("user_id", appSharedPreference.getSharedPref("userid", user_id))
                 .asJsonObject()
                 .setCallback(new FutureCallback<JsonObject>() {
                     @Override
@@ -129,18 +123,30 @@ public class SellerProductListActivity extends AppCompatActivity
                         if (result == null)
                         {
                             progress_handler.hide();
-                            //layout_container.setVisibility(View.INVISIBLE);
                         }
                         else
                         {
                             String error = result.get("error").getAsString();
-                            if (error.contains("false")) {
-                                JsonObject jsonObject_result = result.getAsJsonObject("result");
+                            if (error.contains("false"))
+                            {
+                                JsonArray json_result = result.getAsJsonArray("result");
 
+                                for (int i=0; i<json_result.size(); i++)
+                                {
+                                    JsonObject jsonObject = (JsonObject) json_result.get(i);
+                                    String product_id= jsonObject.get("id").getAsString();
+                                    String product_name = jsonObject.get("name").getAsString();
+                                    String product_image = jsonObject.get("image_url").getAsString();
+                                    String category_name = jsonObject.get("category_name").getAsString();
+                                    String State_name = jsonObject.get("state_name").getAsString();
+                                    String shop_name = jsonObject.get("company_name").getAsString();
+                                    String product_status = jsonObject.get("status").getAsString();
 
-                                System.out.println("message_data==================" + result.get("message").getAsString());
-
+                                    orderListDatas.add(new SellerProductData(product_id,product_name,product_image,category_name,State_name,shop_name,product_status));
+                                }
+                                sellerProductAdapter.notifyDataSetChanged();
                                 progress_handler.hide();
+
 
                             }
                         }
