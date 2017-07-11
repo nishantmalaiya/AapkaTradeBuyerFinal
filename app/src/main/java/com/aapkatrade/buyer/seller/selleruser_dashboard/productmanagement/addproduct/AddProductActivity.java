@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.TextInputLayout;
@@ -73,6 +74,7 @@ public class AddProductActivity extends AppCompatActivity {
     private LinearLayout llSellerProductDetailContainer;
     ArrayList<CompanyDropdownDatas> companyDropdownDatas = new ArrayList<>();
     CustomSpinnerAdapter customSpinnerAdapter;
+    int page=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,15 +99,41 @@ public class AddProductActivity extends AppCompatActivity {
 
     private void setupSpinner() {
 
+        callCompanyListWebservice(++page);
 
-        callCompanyListWebservice();
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            spCompanyList.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+                @Override
+                public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                    int totalItemCount = companyDropdownDatas.size();
+
+                    if (totalItemCount==scrollY) {
+                        if (totalItemCount > 0) {
+
+                            page = page + 1;
+
+
+
+                            page = page + 1;
+                            callCompanyListWebservice(++page);
+                        }
+
+
+                    }
+                }
+            });
+        }
 
         getUnit();
 
     }
 
-    private void callCompanyListWebservice() {
+
+
+
+
+    private void callCompanyListWebservice(int i) {
 
 
         String CompanyListWebserviceUrl = getString(R.string.webservice_base_url) + "/shoplist";
@@ -119,6 +147,7 @@ public class AddProductActivity extends AppCompatActivity {
                 .setBodyParameter("lat", "0")
                 .setBodyParameter("long", "0")
                 .setBodyParameter("apply", "1")
+                .setBodyParameter("page", i+"")
 
                 .asJsonObject().setCallback(new FutureCallback<JsonObject>() {
             @Override
@@ -131,7 +160,7 @@ public class AddProductActivity extends AppCompatActivity {
 
 
                         JsonArray jsonArray_response = result.getAsJsonArray("result");
-
+                        companyDropdownDatas.add(new CompanyDropdownDatas("","","",""));
                         for (int i = 0; i < jsonArray_response.size(); i++) {
 
 

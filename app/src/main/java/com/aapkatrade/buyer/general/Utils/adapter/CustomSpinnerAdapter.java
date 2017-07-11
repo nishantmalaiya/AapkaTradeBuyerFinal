@@ -69,39 +69,47 @@ public class CustomSpinnerAdapter extends BaseAdapter {
 
         LinearLayout linearLayout = (LinearLayout) view.findViewById(R.id.container_simple_spinner);
         RelativeLayout containershoplist = (RelativeLayout) view.findViewById(R.id.containershoplist);
+        TextView spinnerItemName = (TextView) view.findViewById(R.id.tvSpCategory);
         if (arrayList.get(i) instanceof CompanyDropdownDatas) {
-
-            linearLayout.setVisibility(View.GONE);
-            containershoplist.setVisibility(View.VISIBLE);
-
-
-            CircleImageView circleImageView = (CircleImageView) view.findViewById(R.id.shopimage);
-            TextView tvshopdropdownShopname = (TextView) view.findViewById(R.id.tvshopdropdownshopname);
-            TextView tvshopdropdownCategoryname = (TextView) view.findViewById(R.id.tvshopdropdownshopcategory);
+           if(((CompanyDropdownDatas) arrayList.get(i)).comapanyCategory!="") {
+               linearLayout.setVisibility(View.GONE);
+               containershoplist.setVisibility(View.VISIBLE);
 
 
-            if (Validation.isNonEmptyStr(((CompanyDropdownDatas) arrayList.get(i)).companyImageUrl)) {
-                Picasso.with(context)
-                        .load(((CompanyDropdownDatas) arrayList.get(i)).companyImageUrl)
-                        .error(R.drawable.banner)
-                        .placeholder(R.drawable.default_noimage)
-                        .error(R.drawable.default_noimage)
-                        .into(circleImageView);
-            }
+               CircleImageView circleImageView = (CircleImageView) view.findViewById(R.id.shopimage);
+               TextView tvshopdropdownShopname = (TextView) view.findViewById(R.id.tvshopdropdownshopname);
+               TextView tvshopdropdownCategoryname = (TextView) view.findViewById(R.id.tvshopdropdownshopcategory);
 
 
-            StringBuilder stringBuilder_txnamount = new StringBuilder("<font size=\"20\" color=" + "#ffffff>" + ((CompanyDropdownDatas) arrayList.get(i)).companyName +
-                    ((CompanyDropdownDatas) arrayList.get(i)).comapanyCategory + "</font>");
-            String tvData = stringBuilder_txnamount.toString();
-            AndroidUtils.showErrorLog(context, "work1***" + Html.fromHtml(tvData));
-            tvshopdropdownShopname.setText(((CompanyDropdownDatas) arrayList.get(i)).companyName);
-            tvshopdropdownCategoryname.setText("Category : " + ((CompanyDropdownDatas) arrayList.get(i)).comapanyCategory);
-            return view;
+               if (Validation.isNonEmptyStr(((CompanyDropdownDatas) arrayList.get(i)).companyImageUrl)) {
+                   Picasso.with(context)
+                           .load(((CompanyDropdownDatas) arrayList.get(i)).companyImageUrl)
+                           .error(R.drawable.banner)
+                           .placeholder(R.drawable.default_noimage)
+                           .error(R.drawable.default_noimage)
+                           .into(circleImageView);
+               }
 
+
+               StringBuilder stringBuilder_txnamount = new StringBuilder("<font size=\"20\" color=" + "#ffffff>" + ((CompanyDropdownDatas) arrayList.get(i)).companyName +
+                       ((CompanyDropdownDatas) arrayList.get(i)).comapanyCategory + "</font>");
+               String tvData = stringBuilder_txnamount.toString();
+               AndroidUtils.showErrorLog(context, "work1***" + Html.fromHtml(tvData));
+               tvshopdropdownShopname.setText(((CompanyDropdownDatas) arrayList.get(i)).companyName);
+               tvshopdropdownCategoryname.setText("Category : " + ((CompanyDropdownDatas) arrayList.get(i)).comapanyCategory);
+               return view;
+           }
+           else{
+
+               linearLayout.setVisibility(View.VISIBLE);
+               containershoplist.setVisibility(View.GONE);
+               spinnerItemName.setText("Please Select Shop/Company");
+               return view;
+           }
 
         } else {
 
-            TextView spinnerItemName = (TextView) view.findViewById(R.id.tvSpCategory);
+
             if (arrayList.get(i) instanceof KeyValue) {
                 spinnerItemName.setText(((KeyValue) arrayList.get(i)).value.toString());
                 spinnerItemName.setTextColor(ContextCompat.getColor(context, R.color.black));
