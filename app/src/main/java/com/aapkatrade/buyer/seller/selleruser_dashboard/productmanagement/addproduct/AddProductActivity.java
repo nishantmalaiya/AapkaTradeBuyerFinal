@@ -178,7 +178,7 @@ public class AddProductActivity extends AppCompatActivity {
 
     }
 
-    private void loadDynamicForm(String shopId) {
+
 
     private void loadDynamicForm(final String shopId) {
 
@@ -324,7 +324,7 @@ public class AddProductActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 validateFields();
-                getDynamicSelectedData();
+                //getDynamicSelectedData();
             }
         });
 
@@ -339,11 +339,11 @@ public class AddProductActivity extends AppCompatActivity {
             }
         }
 
-        if (!isImageExists(productImagesDatas)) {
+       /* if (!isImageExists(productImagesDatas)) {
             AndroidUtils.showSnackBar(llSellerProductDetailContainer, "Please Capture/Upload at least one Imaage.");
             isAllFieldsSet = false;
         }
-
+*/
         if (Validation.isEmptyStr(etproductname.getText().toString())) {
             etproductname.setError("Product Name can not be empty.");
             AndroidUtils.showSnackBar(llSellerProductDetailContainer, "Product Name can not be empty.");
@@ -375,7 +375,7 @@ public class AddProductActivity extends AppCompatActivity {
         } else if (ConnetivityCheck.isNetworkAvailable(context)) {
             AndroidUtils.showSnackBar(llSellerProductDetailContainer, "No Internet Connection available.");
             isAllFieldsSet = false;
-
+        }
 
 
 

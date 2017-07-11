@@ -51,7 +51,6 @@ public class SalesTransaction extends AppCompatActivity implements TimePickerDia
     Spinner SpMachineList;
     CustomSpinnerAdapter customSpinnerAdapter;
     RecyclerView recycleBillHistory;
-
     Button BillHistorysearch;
     private int isStartDate = -1;
     EditText etstartdate, etenddate;
@@ -59,7 +58,6 @@ public class SalesTransaction extends AppCompatActivity implements TimePickerDia
     private LinearLayoutManager linearLayoutManager;
     SalesTransactionAdapter salesTransactionAdapter;
     ImageView img_startdate, img_enddate;
-
     ProgressBarHandler progressBarHandler;
     ViewPager viewpagerSalesTransaction;
     ViewpagerAdapterSalesTransaction viewpagerAdapterSalesTransaction;
@@ -67,10 +65,7 @@ public class SalesTransaction extends AppCompatActivity implements TimePickerDia
     CircleIndicator circleIndicator;
     TextView txn_amount_total, sales_amount_total;
     ArrayList<SalesMachineResultData> MachineDatas = new ArrayList<>();
-
     ArrayList<SalesTransactionData> SalesTransactionData = new ArrayList<>();
-
-
     CommonInterface commonInterface;
 
     @Override
