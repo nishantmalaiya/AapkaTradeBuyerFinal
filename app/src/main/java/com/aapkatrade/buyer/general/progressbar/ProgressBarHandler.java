@@ -52,7 +52,7 @@ public class ProgressBarHandler {
         if (mDialog != null) {
             mDialog.show();
         }
-        Animation operatingAnim = new RotateAnimation(360f, 0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        Animation operatingAnim = new RotateAnimation(0f, 360f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         operatingAnim.setRepeatCount(Animation.INFINITE);
         operatingAnim.setDuration(2000);
         operatingAnim.setInterpolator(new LinearInterpolator());

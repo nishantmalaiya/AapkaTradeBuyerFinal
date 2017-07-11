@@ -22,17 +22,18 @@ import com.aapkatrade.buyer.home.HomeActivity;
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
+import com.aapkatrade.buyer.uicomponent.ExpandableTextView;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
 public class PrivacyPolicyActivity extends AppCompatActivity {
     private Context context;
-    private TextView tvPolicy, tvReadMore;
+
     private RelativeLayout expandableRelativeLayout;
     private LinearLayout policyContentMainLayout;
     private LinearLayout policyHeaderLayout;
-
+    ExpandableTextView tvPolicy;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,25 +69,11 @@ public class PrivacyPolicyActivity extends AppCompatActivity {
     private void initView() {
         policyContentMainLayout = (LinearLayout) findViewById(R.id.policyContentMainLayout);
         AndroidUtils.setBackgroundSolid(policyContentMainLayout, context, android.R.color.transparent, 10, GradientDrawable.RECTANGLE);
-        tvPolicy = (TextView) findViewById(R.id.tvTermsAndConditions);
+        tvPolicy = (ExpandableTextView) findViewById(R.id.tvTermsAndConditions);
         tvPolicy.setText("");
         policyHeaderLayout = (LinearLayout) findViewById(R.id.policyHeaderLayout);
-        tvReadMore = (TextView) findViewById(R.id.tvReadMore);
-        tvReadMore.setBackground(AndroidUtils.setImageColor(context, R.drawable.ic_arrow, R.color.green));
-        tvReadMore.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                policyHeaderLayout.animate().alpha(0.0f).setDuration(2000).setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        super.onAnimationEnd(animation);
-                        policyHeaderLayout.setVisibility(View.GONE);
-                        policyContentMainLayout.removeView(tvReadMore);
-                    }
-                });
-                tvReadMore.setVisibility(View.GONE);
-            }
-        });
+
+
     }
     private void setUpToolBar() {
         ImageView homeIcon = (ImageView) findViewById(R.id.iconHome);
@@ -102,7 +89,7 @@ public class PrivacyPolicyActivity extends AppCompatActivity {
         findViewById(R.id.logoWord).setVisibility(View.GONE);
         TextView header_name = (TextView) findViewById(R.id.header_name);
         header_name.setVisibility(View.VISIBLE);
-        header_name.setText(getResources().getString(R.string.my_profile_heading));
+        header_name.setText(getResources().getString(R.string.privacy_policy));
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         homeIcon.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -75,25 +75,7 @@ public class AboutUsFragment extends Fragment {
         tvTermsAndConditions = (ExpandableTextView) view.findViewById(R.id.tvTermsAndConditions);
         tvTermsAndConditions.setText("");
         policyHeaderLayout = (LinearLayout) view.findViewById(R.id.policyHeaderLayout);
-        tvReadMore = (TextView) view.findViewById(R.id.tvReadMore);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            tvReadMore.setBackground(AndroidUtils.setImageColor(context, R.drawable.ic_arrow, R.color.green));
-        }
-        tvReadMore.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB_MR1)
-            @Override
-            public void onClick(View v) {
-                policyHeaderLayout.animate().alpha(0.0f).setDuration(2000).setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        super.onAnimationEnd(animation);
-                        policyHeaderLayout.setVisibility(View.GONE);
-                        policyContentMainLayout.removeView(tvReadMore);
-                    }
-                });
-                tvReadMore.setVisibility(View.GONE);
-            }
-        });
+
     }
    
 }

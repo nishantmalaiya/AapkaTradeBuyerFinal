@@ -79,6 +79,27 @@ public class AndroidUtils {
     }
 
 
+    public static String formateDateFromstring(String inputDate) {
+
+
+        Date parsed = null;
+        String outputDate = "";
+
+        SimpleDateFormat df_input = new SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault());
+        SimpleDateFormat df_output = new SimpleDateFormat("dd MMM yyyy", java.util.Locale.getDefault());
+
+        try {
+            parsed = df_input.parse(inputDate);
+            outputDate = df_output.format(parsed);
+
+        } catch (ParseException e) {
+       Log.e("ParseE_Fromstring",e.toString());
+        }
+
+        return outputDate;
+
+    }
+
 
 
     public static void setBackgroundSolid(View layout, Context context, int bgColor, int cornerRadius, int oval) {

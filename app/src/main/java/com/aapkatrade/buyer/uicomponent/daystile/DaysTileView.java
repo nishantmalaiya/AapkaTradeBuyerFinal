@@ -237,4 +237,28 @@ public class DaysTileView extends RelativeLayout {
         return closeTime == null ? "" : closeTime.key.toString();
     }
 
+    public void setOpenTimeSpinnerByValue(String timeValue){
+        if(Validation.isNonEmptyStr(timeValue)){
+            spOpenTime.setSelection(getPositionInList(timeValue, openTimingList));
+        }
+
+    }
+
+    public void setCloseTimeSpinnerByValue(String timeValue){
+        if(Validation.isNonEmptyStr(timeValue)){
+            spCloseTime.setSelection(getPositionInList(timeValue, closeTimingList));
+        }
+
+    }
+
+
+    private int getPositionInList(String value, ArrayList<KeyValue> timingList){
+        for(int i = 0; i < timingList.size(); i++){
+            if(value.equalsIgnoreCase(timingList.get(i).value.toString())){
+                return i;
+            }
+        }
+        return 0;
+    }
+
 }

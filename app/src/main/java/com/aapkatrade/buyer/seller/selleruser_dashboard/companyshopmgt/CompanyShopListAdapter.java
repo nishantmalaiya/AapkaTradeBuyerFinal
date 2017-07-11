@@ -17,6 +17,7 @@ import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
+import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.editcompanyshop.EditCompanyShopActivity;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.ProductManagementActivity;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.addproduct.AddProductActivity;
 import com.aapkatrade.buyer.shopdetail.ShopDetailActivity;
@@ -27,6 +28,7 @@ import com.koushikdutta.ion.Ion;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.Locale;
 
 /**
  * Created by PPC16 on 10-Mar-17.
@@ -66,17 +68,9 @@ public class CompanyShopListAdapter extends RecyclerView.Adapter<CompanyShopData
         }
 
         String strCurrentDate = companyShopLinkedList.get(position).getCreated();
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        Date newDate = null;
-        try {
-            newDate = format.parse(strCurrentDate);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
 
-        format = new SimpleDateFormat("dd MMM yyyy");
-        String date = format.format(newDate);
 
+        String date =   AndroidUtils.formateDateFromstring(strCurrentDate);
         StringBuilder stringBuilder = new StringBuilder(companyShopLinkedList.get(position).getName());
         stringBuilder.append("<br>").append("<font color=\"#7dbd00\"><i>").append(date).append("</i></font>").append("<br>").append("Products : ").append(companyShopLinkedList.get(position).getProductCount());
         String tvData = stringBuilder.toString();
@@ -103,6 +97,11 @@ public class CompanyShopListAdapter extends RecyclerView.Adapter<CompanyShopData
             public void onClick(View v) {
                 if(context instanceof ProductManagementActivity){
                     Intent intentAddProduct = new Intent(context, AddProductActivity.class);
+                    intentAddProduct.putExtra("shopId", companyShopLinkedList.get(position).getCompanyId());
+                    context.startActivity(intentAddProduct);
+                }
+                else if(context instanceof CompanyShopManagementActivity){
+                    Intent intentAddProduct = new Intent(context, EditCompanyShopActivity.class);
                     intentAddProduct.putExtra("shopId", companyShopLinkedList.get(position).getCompanyId());
                     context.startActivity(intentAddProduct);
                 }

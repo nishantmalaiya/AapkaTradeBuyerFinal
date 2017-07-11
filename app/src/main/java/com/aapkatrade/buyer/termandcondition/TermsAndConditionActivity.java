@@ -29,7 +29,7 @@ import com.koushikdutta.ion.Ion;
 
 public class TermsAndConditionActivity extends AppCompatActivity {
     private Context context;
-    private TextView  tvReadMore;
+    private TextView tvReadMore;
     ExpandableTextView tvTermsAndConditions;
     private RelativeLayout expandableRelativeLayout;
     private LinearLayout policyContentMainLayout;
@@ -52,14 +52,16 @@ public class TermsAndConditionActivity extends AppCompatActivity {
         final ProgressBarHandler progressBarHandler = new ProgressBarHandler(context);
         progressBarHandler.show();
         Ion.with(context)
-                .load(getString(R.string.webservice_base_url)+"/terms_condition")
+                .load(getString(R.string.webservice_base_url) + "/terms_condition")
                 .asJsonObject()
                 .setCallback(new FutureCallback<JsonObject>() {
                     @Override
                     public void onCompleted(Exception e, JsonObject result) {
                         progressBarHandler.hide();
-                        if(result!=null){
-                            AndroidUtils.showErrorLog(context, "if**********", Html.fromHtml(result.get("result").getAsString()));
+                        if (result != null) {
+                            AndroidUtils.showErrorLog(context, "if**********", result.get("result").getAsString());
+
+
                             tvTermsAndConditions.setText(Html.fromHtml(result.get("result").getAsString()));
                         } else {
                             AndroidUtils.showErrorLog(context, "Else**********");
@@ -74,23 +76,9 @@ public class TermsAndConditionActivity extends AppCompatActivity {
         tvTermsAndConditions = (ExpandableTextView) findViewById(R.id.tvTermsAndConditions);
         tvTermsAndConditions.setText("");
         policyHeaderLayout = (LinearLayout) findViewById(R.id.policyHeaderLayout);
-        tvReadMore = (TextView) findViewById(R.id.tvReadMore);
-        tvReadMore.setBackground(AndroidUtils.setImageColor(context, R.drawable.ic_arrow, R.color.green));
-        tvReadMore.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                policyHeaderLayout.animate().alpha(0.0f).setDuration(2000).setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        super.onAnimationEnd(animation);
-                        policyHeaderLayout.setVisibility(View.GONE);
-                        policyContentMainLayout.removeView(tvReadMore);
-                    }
-                });
-                tvReadMore.setVisibility(View.GONE);
-            }
-        });
+
     }
+
     private void setUpToolBar() {
         ImageView homeIcon = (ImageView) findViewById(R.id.iconHome);
         AndroidUtils.setImageColor(homeIcon, context, R.color.white);
@@ -105,7 +93,7 @@ public class TermsAndConditionActivity extends AppCompatActivity {
         findViewById(R.id.logoWord).setVisibility(View.GONE);
         TextView header_name = (TextView) findViewById(R.id.header_name);
         header_name.setVisibility(View.VISIBLE);
-        header_name.setText(getResources().getString(R.string.my_profile_heading));
+        header_name.setText(getResources().getString(R.string.terms));
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         homeIcon.setOnClickListener(new View.OnClickListener() {
             @Override
