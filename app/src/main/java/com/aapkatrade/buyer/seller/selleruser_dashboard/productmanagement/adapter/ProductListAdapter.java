@@ -1,4 +1,4 @@
-package com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.sellerproduct;
+package com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -7,14 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.aapkatrade.buyer.R;
-import com.aapkatrade.buyer.general.AppConfig;
 import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
-import com.aapkatrade.buyer.home.HomeActivity;
-import com.aapkatrade.buyer.home.cart.MyCartActivity;
-import com.google.gson.JsonObject;
+import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.entity.ProductListData;
+import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.viewholder.ProductListViewHolder;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import java.text.SimpleDateFormat;
@@ -25,19 +23,19 @@ import java.util.List;
  * Created by PPC16 on 7/10/2017.
  */
 
-public class SellerProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
+public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 {
 
     private final LayoutInflater inflater;
-    private List<SellerProductData> itemList;
+    private List<ProductListData> itemList;
     private Context context;
-    SellerProductHolder viewHolder;
+    ProductListViewHolder viewHolder;
     AppSharedPreference appSharedPreference;
     String userId;
     ProgressBarHandler progressBarHandler;
 
 
-    public SellerProductAdapter(Context context, List<SellerProductData> itemList)
+    public ProductListAdapter(Context context, List<ProductListData> itemList)
     {
         this.itemList = itemList;
         this.context = context;
@@ -54,7 +52,7 @@ public class SellerProductAdapter extends RecyclerView.Adapter<RecyclerView.View
     {
         View view = inflater.inflate(R.layout.row_seller_product_list, parent, false);
 
-        viewHolder = new SellerProductHolder(view);
+        viewHolder = new ProductListViewHolder(view);
 
         return viewHolder;
     }
@@ -63,7 +61,7 @@ public class SellerProductAdapter extends RecyclerView.Adapter<RecyclerView.View
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position)
     {
 
-        final SellerProductHolder homeHolder = (SellerProductHolder) holder;
+        final ProductListViewHolder homeHolder = (ProductListViewHolder) holder;
 
         homeHolder.productName.setText(itemList.get(position).product_name);
         homeHolder.tvProductCategoryName.setText(itemList.get(position).category_name);
