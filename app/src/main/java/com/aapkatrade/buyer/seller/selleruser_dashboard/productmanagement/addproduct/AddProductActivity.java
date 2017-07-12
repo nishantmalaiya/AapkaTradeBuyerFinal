@@ -678,6 +678,7 @@ public class AddProductActivity extends AppCompatActivity {
                         }
 
 
+
                 }
             }
             if (requestCode == 10) {
