@@ -7,10 +7,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.aapkatrade.buyer.R;
+import com.aapkatrade.buyer.general.AppConfig;
 import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
+import com.aapkatrade.buyer.home.HomeActivity;
+import com.aapkatrade.buyer.home.cart.MyCartActivity;
+import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import java.text.SimpleDateFormat;
@@ -77,13 +81,41 @@ public class SellerProductAdapter extends RecyclerView.Adapter<RecyclerView.View
                     }
                 });
 
+
+        homeHolder.relativeEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+
+
+            }
+        });
+
+        homeHolder.relativeDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+
+        homeHolder.relativeUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+            }
+        });
+
     }
+
+
 
     private void showMessage(String s)
     {
         AndroidUtils.showToast(context, s);
     }
-
 
     @Override
     public int getItemCount()
@@ -95,6 +127,69 @@ public class SellerProductAdapter extends RecyclerView.Adapter<RecyclerView.View
     {
         return new SimpleDateFormat("dd MMM yyyy HH:mm").format(new Date());
     }
+
+
+   /* private void callwebserviceDeleteCart(String product_id, final int position)
+    {
+        progressBarHandler.show();
+
+        String login_url = context.getResources().getString(R.string.webservice_base_url) + "/delete_product";
+
+        Ion.with(context)
+                .load(login_url)
+                .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                .setBodyParameter("id", product_id)
+                .asJsonObject()
+                .setCallback(new FutureCallback<JsonObject>() {
+                    @Override
+                    public void onCompleted(Exception e, JsonObject result) {
+                        if (result != null)
+                        {
+
+                            String error_message = result.get("error").getAsString();
+
+                            if (error_message.equals("false")) {
+                                System.out.println("result--------------" + result);
+                                JsonObject jsonObject = result.getAsJsonObject("result");
+                                String total_amount = jsonObject.get("total_amount").getAsString();
+                                String cart_count = jsonObject.get("total_qty").getAsString();
+
+                                if (cart_count.equals("0")) {
+                                    MyCartActivity.cardviewProductDeatails.setVisibility(View.INVISIBLE);
+                                    MyCartActivity.cardBottom.setVisibility(View.INVISIBLE);
+                                } else {
+                                    MyCartActivity.cardviewProductDeatails.setVisibility(View.VISIBLE);
+                                    MyCartActivity.cardBottom.setVisibility(View.VISIBLE);
+
+                                }
+                                appSharedPreference.setSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), Integer.valueOf(cart_count));
+
+                                HomeActivity.tvCartCount.setText(String.valueOf(appSharedPreference.getSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), 0)));
+
+                                MyCartActivity.tvPriceItemsHeading.setText(new StringBuilder("Price ( ").append(cart_count).append(" Items )"));
+                                MyCartActivity.tvPriceItems.setText(new StringBuilder(context.getResources().getText(R.string.rupay_text)).append(total_amount));
+                                MyCartActivity.tvAmountPayable.setText(new StringBuilder(context.getResources().getText(R.string.rupay_text)).append(total_amount));
+                                MyCartActivity.tvLastPayableAmount.setText(new StringBuilder(context.getResources().getText(R.string.rupay_text)).append(total_amount));
+
+                                place_order.remove(position);
+                                itemList.remove(position);
+                                notifyDataSetChanged();
+                                progressBarHandler.hide();
+
+                            } else {
+                                progressBarHandler.hide();
+                                AndroidUtils.showToast(context, "Server is not responding. Please try again.");
+                            }
+                        } else {
+                            AndroidUtils.showToast(context, "Server is not responding. Please try again.");
+                            progressBarHandler.hide();
+                        }
+
+                    }
+                });
+
+    }*/
 
 
 }

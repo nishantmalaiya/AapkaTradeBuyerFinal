@@ -127,7 +127,6 @@
                 android:layout_alignParentRight="true"
                 android:textSize="@dimen/twelve_dip"
                 android:layout_below="@+id/tvProductShopName"
-                android:background="@color/green"
                 android:layout_marginLeft="@dimen/five_dip"
                 />
 
@@ -154,6 +153,7 @@
                 >
 
                 <RelativeLayout
+                    android:id="@+id/relativeEdit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
@@ -194,6 +194,7 @@
                 >
 
             <RelativeLayout
+                android:id="@+id/relativeDelete"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
@@ -222,6 +223,7 @@
 
 
             <RelativeLayout
+                android:id="@+id/relativeUpdate"
                 android:layout_weight="3"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
