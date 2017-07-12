@@ -569,7 +569,7 @@ public class AddProductActivity extends AppCompatActivity {
     private void setupRecyclerView() {
         recyclerView = (RecyclerView) findViewById(R.id.recycler);
         productImagesDatas.add(new ProductMediaData("first", "", null, ""));
-        adapter = new ProductImagesAdapter(AddProductActivity.this, productImagesDatas, this);
+        adapter = new ProductImagesAdapter(context, productImagesDatas, this);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setVisibility(View.VISIBLE);
@@ -678,7 +678,7 @@ public class AddProductActivity extends AppCompatActivity {
 
                 Bitmap photo = (Bitmap) data.getExtras().get("data");
 
-                Uri tempUri = ImageUtils.getImageUri(AddProductActivity.this, photo);
+                Uri tempUri = ImageUtils.getImageUri(context, photo);
 
                 // CALL THIS METHOD TO GET THE ACTUAL PATH
                 File finalFile = new File(ImageUtils.getRealPathFromURI(context, tempUri));
@@ -745,7 +745,7 @@ public class AddProductActivity extends AppCompatActivity {
 
         AndroidUtils.showErrorLog(context, "callAddProductWebservice----------called");
 
-        Ion.with(AddProductActivity.this)
+        Ion.with(context)
                 .load(getString(R.string.webservice_base_url) + "/add_product")
                 .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                 .addMultipartParts(submitImages())
@@ -836,3 +836,4 @@ public class AddProductActivity extends AppCompatActivity {
 
 
 }
+

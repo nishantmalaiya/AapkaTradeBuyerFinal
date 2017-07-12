@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    android:layout_marginLeft="@dimen/ten_dip"
+    app:cardBackgroundColor="@color/white"
+    android:layout_marginRight="@dimen/ten_dip"
+    android:layout_marginBottom="@dimen/ten_dip">
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        >
+
+        <RelativeLayout
+            android:id="@+id/relativeshop_service"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/ten_dip"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
+
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/imgCardView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="10dp"
+                android:layout_margin="@dimen/five_dip"
+
+                >
+
+                <FrameLayout
+                    android:layout_width="@dimen/one_hundred_five_dip"
+                    android:layout_height="@dimen/one_hundred_five_dip">
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/imgProduct"
+                            android:layout_width="@dimen/one_hundred_five_dip"
+                            android:layout_height="@dimen/one_hundred_five_dip"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/honda_navi" />
+
+
+                    </RelativeLayout>
+
+
+
+                </FrameLayout>
+            </android.support.v7.widget.CardView>
+
+
+            <TextView
+                android:id="@+id/tvProductName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rose "
+                android:layout_toRightOf="@+id/imgCardView"
+                android:layout_marginLeft="@dimen/ten_dip"
+                android:textColor="@color/black"
+                android:layout_toLeftOf="@+id/radio_button"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="@dimen/five_dip"
+                android:maxLines="1"
+                />
+
+            <TextView
+                android:id="@+id/tvProductShopName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Syska LED"
+                android:layout_toRightOf="@+id/imgCardView"
+                android:layout_marginLeft="@dimen/ten_dip"
+                android:layout_below="@+id/tvProductName"
+                android:textColor="@color/orange"
+                android:layout_toLeftOf="@+id/radio_button"
+                android:layout_marginRight="5dp"
+                android:maxLines="1"
+                />
+
+
+
+            <TextView
+                android:id="@+id/tvProductCategoryName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Electronics"
+                android:layout_toRightOf="@+id/imgCardView"
+                android:layout_marginLeft="@dimen/ten_dip"
+                android:layout_below="@+id/tvProductShopName"
+                android:layout_toLeftOf="@+id/radio_button"
+                android:layout_marginRight="5dp"
+                android:textColor="@color/black"
+                android:maxLines="1"
+                />
+
+            <TextView
+                android:id="@+id/tvProductStateName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Uttar Pradesh"
+                android:layout_toRightOf="@+id/imgCardView"
+                android:layout_marginLeft="@dimen/ten_dip"
+                android:layout_below="@+id/tvProductCategoryName"
+                android:textColor="@color/black"
+                android:layout_toLeftOf="@+id/radio_button"
+                android:layout_marginRight="5dp"
+                android:maxLines="1"
+                />
+
+
+
+            <RadioButton
+                android:id="@+id/radio_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:textSize="@dimen/twelve_dip"
+                android:layout_below="@+id/tvProductShopName"
+                android:layout_marginLeft="@dimen/five_dip"
+                />
+
+
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/fifty_five_dip"
+            android:layout_below="@+id/relativeshop_service"
+            android:weightSum="9"
+            android:orientation="horizontal"
+            android:background="@color/black"
+            >
+
+            <RelativeLayout
+                android:layout_weight="3"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:padding="5dp"
+                android:background="@color/white"
+                android:layout_marginTop="1dp"
+                >
+
+                <RelativeLayout
+                    android:id="@+id/relativeEdit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    >
+                    <ImageView
+                        android:id="@+id/imgEdit"
+                        android:layout_width="@dimen/twenty_five_dip"
+                        android:layout_height="@dimen/twenty_five_dip"
+                        android:src="@drawable/ic_edit"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@+id/imgEdit"
+                        android:layout_marginLeft="5dp"
+                        android:text="Edit"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/sixteen"
+                        />
+
+
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_weight="3"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:padding="5dp"
+                android:background="@color/white"
+                android:layout_marginLeft="1dp"
+                android:layout_marginTop="1dp"
+                >
+
+            <RelativeLayout
+                android:id="@+id/relativeDelete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                >
+                <ImageView
+                    android:id="@+id/imgDelete"
+                    android:layout_width="@dimen/twenty_five_dip"
+                    android:layout_height="@dimen/twenty_five_dip"
+                    android:src="@drawable/ic_delete"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/imgDelete"
+                    android:layout_marginLeft="5dp"
+                    android:text="Delete"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/sixteen"
+                    />
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/relativeUpdate"
+                android:layout_weight="3"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:padding="5dp"
+                android:background="@color/white"
+                android:layout_marginLeft="1dp"
+                android:layout_marginTop="1dp"
+
+                >
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                >
+                <ImageView
+                    android:id="@+id/imgUpdate"
+                    android:layout_width="@dimen/twenty_five_dip"
+                    android:layout_height="@dimen/twenty_five_dip"
+                    android:src="@drawable/ic_update"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/imgUpdate"
+                    android:layout_marginLeft="5dp"
+                    android:text="Update"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/sixteen"
+                    />
+              </RelativeLayout>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+
+
+    </RelativeLayout>
+
+
+
+</android.support.v7.widget.CardView>
+
+
