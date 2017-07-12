@@ -1,4 +1,4 @@
-package com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.sellerproduct;
+package com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.viewholder;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -10,14 +10,14 @@ import com.aapkatrade.buyer.R;
  * Created by PPC16 on 7/10/2017.
  */
 
-public class SellerProductHolder extends RecyclerView.ViewHolder
+public class ProductListViewHolder extends RecyclerView.ViewHolder
 {
-    View view;
-    TextView  productName,tvProductShopName,tvProductCategoryName,tvProductStateName;
-    ImageView imgProduct;
-    RelativeLayout relativeEdit,relativeDelete,relativeUpdate;
+    public View view;
+    public TextView  productName,tvProductShopName,tvProductCategoryName,tvProductStateName;
+    public ImageView imgProduct;
+    public RelativeLayout relativeEdit,relativeDelete,relativeUpdate;
 
-    public SellerProductHolder(View itemView)
+    public ProductListViewHolder(View itemView)
     {
         super(itemView);
 

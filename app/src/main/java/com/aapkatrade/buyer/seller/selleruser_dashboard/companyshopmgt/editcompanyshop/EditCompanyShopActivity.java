@@ -73,8 +73,6 @@ import com.koushikdutta.async.http.body.FilePart;
 import com.koushikdutta.async.http.body.Part;
 import com.koushikdutta.ion.Ion;
 
-import org.json.JSONArray;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -89,7 +87,7 @@ public class EditCompanyShopActivity extends AppCompatActivity {
     private Context context;
     private AppSharedPreference appSharedPreference;
     private ProgressBarHandler progressBarHandler;
-    private String userId, stateID, cityID, categoryID, subCategoryID, serviceType, videoPath, tempCityId, tempsubcategoryId;
+    private String userId, stateID, cityID, categoryID, subCategoryID, serviceType, videoPath, tempCityID, tempsubcategoryId;
     private Spinner spState, spCity, spCategory, spSubCategory, spServiceType;
     private ArrayList<String> stateList, stateIds;
     private ArrayList<City> cityList = new ArrayList<>();
@@ -107,10 +105,8 @@ public class EditCompanyShopActivity extends AppCompatActivity {
     private DaysTileView daysTileView1, daysTileView2, daysTileView3;
     private CustomCardViewHeader generalDetailsHeader, shopDetailsHeader;
     private LinearLayout llShopDetailsContainer, llGeneralContainer;
-    String company_name, product_type, country_id, state_id, city_id, area, lat, lng, pincode, mobile, phone, email_id, web_url, category_id, sub_cat_id, facebookurl, twitterurl, googleplusurl, youtubeurl, short_description, address;
-    int selectStateIndex;
-    boolean cityflag = false, subCategoryflag = false;
-    ;
+    private String company_name, product_type, state_id, city_id, area, pincode, mobile, phone, email_id, web_url, category_id, sub_cat_id, facebookurl, twitterurl, googleplusurl, youtubeurl, short_description, address;
+    private boolean cityFlag = false, subCategoryFlag = false;
 
 
     @Override
@@ -160,8 +156,6 @@ public class EditCompanyShopActivity extends AppCompatActivity {
                         } else {
                             spServiceType.setSelection(2);
                         }
-
-                        country_id = jsonObject.get("country_id").getAsString();
 
 
                         state_id = jsonObject.get("state_id").getAsString();
@@ -253,7 +247,7 @@ public class EditCompanyShopActivity extends AppCompatActivity {
         for (int i = 0; i < listDataHeader.size(); i++) {
             if (listDataHeader.get(i).getCategoryId().equals(category_id)) {
 
-                subCategoryflag = true;
+                subCategoryFlag = true;
                 tempsubcategoryId = sub_cat_id;
                 spCategory.setSelection(i);
             }
@@ -268,12 +262,10 @@ public class EditCompanyShopActivity extends AppCompatActivity {
         for (int i = 0; i < stateIds.size(); i++) {
             if (stateIds.get(i).equals(state_id)) {
 
+                cityFlag = true;
+                tempCityID = city_id;
                 spState.setSelection(i);
-                cityflag = true;
-                tempCityId = city_id;
 
-
-                AndroidUtils.showErrorLog(context, "listDataHeader_category", selectStateIndex);
             }
 
         }
@@ -283,7 +275,7 @@ public class EditCompanyShopActivity extends AppCompatActivity {
 
 
     private void validateFields() {
-        isAllFieldsValidate=true;
+        isAllFieldsValidate = true;
         if (productMediaDatas.size() > 0) {
             if (productMediaDatas.get(0).imagePath.equalsIgnoreCase("first")) {
                 productMediaDatas.remove(0);
@@ -515,7 +507,7 @@ public class EditCompanyShopActivity extends AppCompatActivity {
                 if (position > 0) {
                     findViewById(R.id.input_layout_city).setVisibility(View.VISIBLE);
                     stateID = String.valueOf(position);
-                    getCity(stateIds.get(position), cityflag);
+                    getCity(stateIds.get(position), cityFlag);
                 }
 
             }
@@ -620,7 +612,7 @@ public class EditCompanyShopActivity extends AppCompatActivity {
                         findViewById(R.id.input_layout_sub_category).setVisibility(View.VISIBLE);
                         CustomSimpleListAdapter adapter = new CustomSimpleListAdapter(context, listDataChild);
                         spSubCategory.setAdapter(adapter);
-                        if (subCategoryflag) {
+                        if (subCategoryFlag) {
                             for (int i = 0; i < listDataChild.size(); i++) {
                                 if (listDataChild.get(i).subCategoryId.equals(tempsubcategoryId)) {
                                     spSubCategory.setSelection(i);
@@ -659,8 +651,8 @@ public class EditCompanyShopActivity extends AppCompatActivity {
 
             }
         });
-        if (subCategoryflag) {
-            subCategoryflag = false;
+        if (subCategoryFlag) {
+            subCategoryFlag = false;
 
 
         }
@@ -705,7 +697,7 @@ public class EditCompanyShopActivity extends AppCompatActivity {
                             if (cityflag) {
                                 for (int k = 0; k < cityList.size(); k++) {
 
-                                    if (cityList.get(k).cityId.equals(tempCityId)) {
+                                    if (cityList.get(k).cityId.equals(tempCityID)) {
 
                                         spCity.setSelection(k);
                                     }
@@ -737,7 +729,7 @@ public class EditCompanyShopActivity extends AppCompatActivity {
                 });
 
         if (cityflag) {
-            this.cityflag = false;
+            this.cityFlag = false;
         }
     }
 

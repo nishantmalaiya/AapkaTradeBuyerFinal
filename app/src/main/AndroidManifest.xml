@@ -177,11 +177,7 @@
             android:theme="@style/AppTheme" />
         <activity android:name=".seller.selleruser_dashboard.productmanagement.editproduct.EditProductActivity" />
         <activity android:name=".chat.ChatActivity" />
-        <activity
-            android:name=".seller.selleruser_dashboard.productmanagement.ProductManagementActivity"
-            android:label="@string/title_activity_product_management"
-            android:theme="@style/AppTheme" />
-        <activity android:name=".seller.selleruser_dashboard.productmanagement.sellerproduct.SellerProductListActivity"></activity>
+        <activity android:name=".seller.selleruser_dashboard.productmanagement.ProductManagementActivity"></activity>
     </application>
 
 </manifest>

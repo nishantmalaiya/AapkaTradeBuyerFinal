@@ -1,232 +1,162 @@
 package com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.AppCompatImageView;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.view.ViewAnimationUtils;
-import android.widget.ImageView;
-import android.widget.TextView;
-
+import android.view.Menu;
+import android.view.MenuItem;
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
-import com.aapkatrade.buyer.home.HomeActivity;
-import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.CompanyShopData;
-import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.CompanyShopListAdapter;
-import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.CompanyShopManagementActivity;
-import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.addcompanyshop.AddCompanyShopActivity;
+import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.adapter.ProductListAdapter;
+import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.entity.ProductListData;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
+import java.util.ArrayList;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.LinkedList;
+public class ProductManagementActivity extends AppCompatActivity
+{
 
-public class ProductManagementActivity extends AppCompatActivity {
-    private Context context;
+    private ArrayList<ProductListData> orderListDatas = new ArrayList<>();
+    private RecyclerView order_list;
+    private ProductListAdapter productListAdapter;
+    private ProgressBarHandler progress_handler;
     private AppSharedPreference appSharedPreference;
-    private ProgressBarHandler progressBarHandler;
-    private String userId;
-    private TextView listFooterName;
+    private String user_id;
+    private Context context;
+    String UserType;
     private LinearLayoutManager linearLayoutManager;
-    private RecyclerView recyclerViewCompanyShop;
-    private CompanyShopListAdapter companyShopListAdapter;
-    private LinkedList<CompanyShopData> companyShopLinkedList = new LinkedList<>();
-    private int page = 0;
-    private LinearLayoutManager mLayoutManager;
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_company_shop_management);
+
+        setContentView(R.layout.activity_seller_product_list);
+
         context = ProductManagementActivity.this;
-        setUpToolBar();
-        initView();
-        callCompanyShopListWebService(page);
 
+        setuptoolbar();
 
+        progress_handler = new ProgressBarHandler(context);
 
+        appSharedPreference = new AppSharedPreference(context);
 
+        user_id = appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), "");
 
+        setup_layout();
 
-        recyclerViewCompanyShop.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                int totalItemCount = linearLayoutManager.getItemCount();
-                int lastVisibleItemCount = linearLayoutManager.findLastVisibleItemPosition();
-                if (totalItemCount > 0) {
-                    if ((totalItemCount - 1) == lastVisibleItemCount) {
-                        page = page + 1;
-                        callCompanyShopListWebService(++page);
-                    }
-                }
-            }
+        get_web_data();
 
-        });
     }
 
-    private void doCircularReveal(final View view) {
+    private void setup_layout()
+    {
+        order_list = (RecyclerView) findViewById(R.id.recyclerview);
 
-        // get the center for the clipping circle
-//        int centerX = (view.getLeft() + view.getRight()) / 2;
-//        int centerY = (view.getTop() + view.getBottom()) / 2;
-        int centerX = view.getRight();
-        int centerY = view.getBottom();
+        linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
 
-        int startRadius = 0;
-        // get the final radius for the clipping circle
-        int endRadius = Math.max(view.getWidth(), view.getHeight());
+        order_list.setLayoutManager(linearLayoutManager);
 
-        // create the animator for this view (the start radius is zero)
-        Animator anim = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            anim = ViewAnimationUtils.createCircularReveal(view,
-                    centerX, centerY, startRadius, endRadius);
+        productListAdapter = new ProductListAdapter(getApplicationContext(), orderListDatas);
+
+        order_list.setAdapter(productListAdapter);
+
+    }
+
+    private void setuptoolbar()
+    {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle(null);
         }
-        if (anim != null) {
-            anim.setDuration(1000);
-            // make the view invisible when the animation is done
-            anim.addListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    super.onAnimationEnd(animation);
-                    Intent bankDetails = new Intent(context, AddCompanyShopActivity.class);
-                    bankDetails.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    context.startActivity(bankDetails);
-                }
-            });
-           /* view.animate().alpha(1.0f).setDuration(2000).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    super.onAnimationEnd(animation);
+        appSharedPreference = new AppSharedPreference(context);
+    }
 
-                }
-            });*/
-            anim.start();
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        getMenuInflater().inflate(R.menu.menu_map, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            case android.R.id.home:
+                finish();
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
         }
+        return super.onOptionsItemSelected(item);
     }
 
 
+    private void get_web_data()
+    {
+        orderListDatas.clear();
+        progress_handler.show();
 
-    private void callCompanyShopListWebService(int page) {
-
-        progressBarHandler.show();
         Ion.with(context)
-                .load(getString(R.string.webservice_base_url) + "/listCompany")
+                .load(getResources().getString(R.string.webservice_base_url) + "/product_list")
                 .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                 .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
-                .setBodyParameter("user_id", userId)
-                .setBodyParameter("page", String.valueOf(page))
+                .setBodyParameter("user_id", appSharedPreference.getSharedPref("userid", user_id))
                 .asJsonObject()
                 .setCallback(new FutureCallback<JsonObject>() {
                     @Override
                     public void onCompleted(Exception e, JsonObject result) {
-                        progressBarHandler.hide();
-                        if (result != null) {
-                            AndroidUtils.showErrorLog(context, "result::::::", result.toString());
-                            if (result.get("error").getAsString().equalsIgnoreCase("false")) {
-                                if (result.get("message").getAsString().toLowerCase().contains("success")) {
-                                    JsonArray jsonArray = result.get("result").getAsJsonArray();
-                                    if (jsonArray != null && jsonArray.size() > 0) {
-                                        for (int i = 0; i < jsonArray.size(); i++) {
-                                            JsonObject jsonObject = jsonArray.get(i).getAsJsonObject();
-                                            CompanyShopData companyShopData = new CompanyShopData(jsonObject.get("companyId").getAsString(), jsonObject.get("name").getAsString(), jsonObject.get("address").getAsString(), jsonObject.get("description").getAsString(), jsonObject.get("created").getAsString(), jsonObject.get("product_count").getAsString(),"");
-                                            if(!companyShopLinkedList.contains(companyShopData)){
-                                                companyShopLinkedList.add(companyShopData);
-                                            }
-                                        }
-                                        Collections.sort(companyShopLinkedList, new Comparator<CompanyShopData>() {
-                                            @Override
-                                            public int compare(CompanyShopData o1, CompanyShopData o2) {
-                                                return o1.getName().compareTo(o2.getName());
-                                            }
-                                        });
-                                        AndroidUtils.showErrorLog(context, companyShopLinkedList.size(), "**********");
-                                        if (companyShopListAdapter == null) {
-                                            companyShopListAdapter = new CompanyShopListAdapter(context, companyShopLinkedList);
-                                            recyclerViewCompanyShop.setLayoutManager(linearLayoutManager);
-                                            recyclerViewCompanyShop.setAdapter(companyShopListAdapter);
-                                        } else {
-                                            companyShopListAdapter.notifyDataSetChanged();
-                                        }
-                                    }
+                        AndroidUtils.showErrorLog(context, "order_list_response", result.toString());
 
-                                } else {
-                                    AndroidUtils.showErrorLog(context, "error::::::TRUE");
-                                }
-
-                            } else {
-                                AndroidUtils.showErrorLog(context, "error::::::TRUE");
-                            }
-
-                        } else {
-                            AndroidUtils.showErrorLog(context, "result::::::NULL");
+                        if (result == null)
+                        {
+                            progress_handler.hide();
                         }
+                        else
+                        {
+                            String error = result.get("error").getAsString();
+                            if (error.contains("false"))
+                            {
+                                JsonArray json_result = result.getAsJsonArray("result");
+
+                                for (int i=0; i<json_result.size(); i++)
+                                {
+                                    JsonObject jsonObject = (JsonObject) json_result.get(i);
+                                    String product_id= jsonObject.get("id").getAsString();
+                                    String product_name = jsonObject.get("name").getAsString();
+                                    String product_image = jsonObject.get("image_url").getAsString();
+                                    String category_name = jsonObject.get("category_name").getAsString();
+                                    String State_name = jsonObject.get("state_name").getAsString();
+                                    String shop_name = jsonObject.get("company_name").getAsString();
+                                    String product_status = jsonObject.get("status").getAsString();
+
+                                    orderListDatas.add(new ProductListData(product_id,product_name,product_image,category_name,State_name,shop_name,product_status));
+                                }
+                                productListAdapter.notifyDataSetChanged();
+                                progress_handler.hide();
+
+
+                            }
+                        }
+
+
                     }
                 });
 
     }
 
-    private void initView() {
-
-      findViewById(R.id.btnAdd_shop).setVisibility(View.GONE);
-
-        progressBarHandler = new ProgressBarHandler(context);
-        appSharedPreference = new AppSharedPreference(context);
-        linearLayoutManager = new LinearLayoutManager(context);
-        userId = appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString());
-        listFooterName = (TextView) findViewById(R.id.listfootername);
-        recyclerViewCompanyShop = (RecyclerView) findViewById(R.id.recyclerview);
-        listFooterName.setText(R.string.title_activity_product_management);
-    }
-
-
-    private void setUpToolBar() {
-        ImageView homeIcon = (ImageView) findViewById(R.id.iconHome);
-        AppCompatImageView back_imagview = (AppCompatImageView) findViewById(R.id.back_imagview);
-        AndroidUtils.setImageColor(homeIcon, context, R.color.white);
-        back_imagview.setVisibility(View.VISIBLE);
-        back_imagview.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
-        homeIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, HomeActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-            }
-        });
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayShowTitleEnabled(false);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setTitle(null);
-            getSupportActionBar().setElevation(0);
-        }
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        finish();
-    }
 }

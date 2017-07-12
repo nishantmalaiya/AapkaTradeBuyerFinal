@@ -4,9 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.icu.text.SimpleDateFormat;
 import android.os.Build;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -25,10 +23,7 @@ import com.aapkatrade.buyer.shopdetail.shop_all_product.ShopAllProductActivity;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
-import java.text.ParseException;
-import java.util.Date;
 import java.util.LinkedList;
-import java.util.Locale;
 
 /**
  * Created by PPC16 on 10-Mar-17.
