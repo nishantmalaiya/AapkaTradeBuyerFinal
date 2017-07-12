@@ -55,7 +55,7 @@ public class ImageUtils {
             tempUri = getImageUri(context, photo);
         }
         File finalFile = new File(getRealPathFromURI(context, tempUri));
-        AndroidUtils.showErrorLog(context, "data", getRealPathFromURI(context, tempUri));
+        AndroidUtils.showErrorLog(context, "getFile data", getRealPathFromURI(context, tempUri));
 
         return finalFile;
     }
