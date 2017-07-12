@@ -1,8 +1,9 @@
-package com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement;
+package com.aapkatrade.buyer.seller.selleruser_dashboard.servicemanagment;
 
 import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -18,37 +19,35 @@ import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.adapter.ProductListAdapter;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.entity.ProductListData;
+import com.aapkatrade.buyer.seller.selleruser_dashboard.servicemanagment.addService.AddServiceActivity;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
+
 import java.util.ArrayList;
 
-public class ProductManagementActivity extends AppCompatActivity
-{
+public class ServiceManagementActivity extends AppCompatActivity {
 
     private ArrayList<ProductListData> orderListDatas = new ArrayList<>();
     private RecyclerView order_list;
-    private ProductListAdapter productListAdapter;
+    private ProductListAdapter ServiceListAdapter;
     private ProgressBarHandler progress_handler;
     private AppSharedPreference appSharedPreference;
     private String user_id;
     private Context context;
     String UserType;
     private LinearLayoutManager linearLayoutManager;
-    ImageView img_shop_type;
 
+    ImageView btnAdd_service;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_seller_product_list);
+        setContentView(R.layout.activity_seller_service_list);
 
-        context = ProductManagementActivity.this;
-
-        initview();
+        context = ServiceManagementActivity.this;
 
         setuptoolbar();
 
@@ -62,43 +61,39 @@ public class ProductManagementActivity extends AppCompatActivity
 
         get_web_data();
 
-    }
-
-    private void initview() {
-
-        img_shop_type=(ImageView)findViewById(R.id.btnAdd_shop);
-
-
-
-        onClickEvents();
+        OnClickEvent();
 
     }
 
-    private void onClickEvents() {
-        img_shop_type.setOnClickListener(new View.OnClickListener() {
+    private void OnClickEvent() {
+
+
+        btnAdd_service.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent i = new Intent(ServiceManagementActivity.this, AddServiceActivity.class);
 
+                startActivity(i);
             }
         });
     }
 
-    private void setup_layout()
-    {
+
+    private void setup_layout() {
         order_list = (RecyclerView) findViewById(R.id.recyclerview);
+        btnAdd_service = (ImageView) findViewById(R.id.btnAdd_service);
 
         linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
 
         order_list.setLayoutManager(linearLayoutManager);
 
-        productListAdapter = new ProductListAdapter(getApplicationContext(), orderListDatas);
+        ServiceListAdapter = new ProductListAdapter(getApplicationContext(), orderListDatas);
 
-        order_list.setAdapter(productListAdapter);
+        order_list.setAdapter(ServiceListAdapter);
 
     }
 
-    private void setuptoolbar()
-    {
+    private void setuptoolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
@@ -110,17 +105,14 @@ public class ProductManagementActivity extends AppCompatActivity
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
+    public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_map, menu);
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch (item.getItemId())
-        {
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
                 break;
@@ -131,8 +123,7 @@ public class ProductManagementActivity extends AppCompatActivity
     }
 
 
-    private void get_web_data()
-    {
+    private void get_web_data() {
         orderListDatas.clear();
         progress_handler.show();
 
@@ -147,21 +138,16 @@ public class ProductManagementActivity extends AppCompatActivity
                     public void onCompleted(Exception e, JsonObject result) {
                         AndroidUtils.showErrorLog(context, "order_list_response", result.toString());
 
-                        if (result == null)
-                        {
+                        if (result == null) {
                             progress_handler.hide();
-                        }
-                        else
-                        {
+                        } else {
                             String error = result.get("error").getAsString();
-                            if (error.contains("false"))
-                            {
+                            if (error.contains("false")) {
                                 JsonArray json_result = result.getAsJsonArray("result");
 
-                                for (int i=0; i<json_result.size(); i++)
-                                {
+                                for (int i = 0; i < json_result.size(); i++) {
                                     JsonObject jsonObject = (JsonObject) json_result.get(i);
-                                    String product_id= jsonObject.get("id").getAsString();
+                                    String product_id = jsonObject.get("id").getAsString();
                                     String product_name = jsonObject.get("name").getAsString();
                                     String product_image = jsonObject.get("image_url").getAsString();
                                     String category_name = jsonObject.get("category_name").getAsString();
@@ -169,9 +155,9 @@ public class ProductManagementActivity extends AppCompatActivity
                                     String shop_name = jsonObject.get("company_name").getAsString();
                                     String product_status = jsonObject.get("status").getAsString();
 
-                                    orderListDatas.add(new ProductListData(product_id,product_name,product_image,category_name,State_name,shop_name,product_status));
+                                    orderListDatas.add(new ProductListData(product_id, product_name, product_image, category_name, State_name, shop_name, product_status));
                                 }
-                                productListAdapter.notifyDataSetChanged();
+                                ServiceListAdapter.notifyDataSetChanged();
                                 progress_handler.hide();
 
 
