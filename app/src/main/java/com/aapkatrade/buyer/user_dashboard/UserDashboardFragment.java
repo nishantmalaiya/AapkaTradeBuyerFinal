@@ -192,7 +192,7 @@ public class UserDashboardFragment extends Fragment
 
 
                                 dashboardDatas.add(new DashboardData("", "Product Management", R.drawable.ic_add_company, R.drawable.circle_purple, false, ""));
-
+                                dashboardDatas.add(new DashboardData("", "Service Management", R.drawable.ic_lstcmpny, R.drawable.circle_cherry_red, false, ""));
 
 
                                 dashboardDatas.add(new DashboardData("", "Order", R.drawable.ic_lstprdct, R.drawable.circle_sienna, true, order_quantity));
