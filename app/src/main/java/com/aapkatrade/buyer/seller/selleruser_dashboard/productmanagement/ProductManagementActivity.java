@@ -13,8 +13,8 @@ import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
-import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.sellerproduct.SellerProductAdapter;
-import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.sellerproduct.SellerProductData;
+import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.adapter.ProductListAdapter;
+import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.entity.ProductListData;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
@@ -24,9 +24,9 @@ import java.util.ArrayList;
 public class ProductManagementActivity extends AppCompatActivity
 {
 
-    private ArrayList<SellerProductData> orderListDatas = new ArrayList<>();
+    private ArrayList<ProductListData> orderListDatas = new ArrayList<>();
     private RecyclerView order_list;
-    private SellerProductAdapter sellerProductAdapter;
+    private ProductListAdapter productListAdapter;
     private ProgressBarHandler progress_handler;
     private AppSharedPreference appSharedPreference;
     private String user_id;
@@ -66,9 +66,9 @@ public class ProductManagementActivity extends AppCompatActivity
 
         order_list.setLayoutManager(linearLayoutManager);
 
-        sellerProductAdapter = new SellerProductAdapter(getApplicationContext(), orderListDatas);
+        productListAdapter = new ProductListAdapter(getApplicationContext(), orderListDatas);
 
-        order_list.setAdapter(sellerProductAdapter);
+        order_list.setAdapter(productListAdapter);
 
     }
 
@@ -144,9 +144,9 @@ public class ProductManagementActivity extends AppCompatActivity
                                     String shop_name = jsonObject.get("company_name").getAsString();
                                     String product_status = jsonObject.get("status").getAsString();
 
-                                    orderListDatas.add(new SellerProductData(product_id,product_name,product_image,category_name,State_name,shop_name,product_status));
+                                    orderListDatas.add(new ProductListData(product_id,product_name,product_image,category_name,State_name,shop_name,product_status));
                                 }
-                                sellerProductAdapter.notifyDataSetChanged();
+                                productListAdapter.notifyDataSetChanged();
                                 progress_handler.hide();
 
 
