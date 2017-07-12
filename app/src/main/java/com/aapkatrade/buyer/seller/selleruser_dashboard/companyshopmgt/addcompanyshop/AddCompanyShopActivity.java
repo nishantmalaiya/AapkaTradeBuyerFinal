@@ -1068,7 +1068,7 @@ public class AddCompanyShopActivity extends AppCompatActivity
 
             data.getClipData().getItemCount();
 
-            for (int k = 0; k < 4; k++) {
+            for (int k = 0; k < data.getClipData().getItemCount(); k++) {
 
                 Uri selectedImage = data.getClipData().getItemAt(k).getUri();
 
@@ -1102,13 +1102,13 @@ public class AddCompanyShopActivity extends AppCompatActivity
         } else {
 
 
-            try {
+          /*  try {
                 InputStream inputStream = getContentResolver().openInputStream(data.getData());
                 Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
                 Uri tempUri = ImageUtils.getImageUri(context, bitmap);
-
+*/
                 // CALL THIS METHOD TO GET THE ACTUAL PATH
-                File finalFile = new File(ImageUtils.getRealPathFromURI(context, tempUri));
+                File finalFile = new File(ImageUtils.getRealPathFromURI(context, data.getData()));
 
                 productMediaDatas.add(new ProductMediaData(finalFile.getAbsolutePath(), "", null, ""));
                 AndroidUtils.showErrorLog(context, "docfile", finalFile.getAbsolutePath());
@@ -1119,9 +1119,9 @@ public class AddCompanyShopActivity extends AppCompatActivity
 
                 }
 
-            } catch (FileNotFoundException e) {
+          /*  } catch (FileNotFoundException e) {
                 e.printStackTrace();
-            }
+            }*/
 
 
         }

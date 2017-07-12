@@ -109,7 +109,6 @@ public class ProfilePreviewActivity extends AppCompatActivity
                 Homedashboard.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(Homedashboard);
 
-
             }
         });
 
@@ -270,7 +269,6 @@ public class ProfilePreviewActivity extends AppCompatActivity
     protected void onResume()
     {
         super.onResume();
-
 
         if (profile_preview_activity == 1) {
 
