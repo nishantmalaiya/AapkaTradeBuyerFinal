@@ -3,15 +3,18 @@ package com.aapkatrade.buyer.general.Utils;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
+import android.util.Log;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Random;
 
 /**
  * Created by PPC09 on 31-Jan-17.
@@ -66,6 +69,7 @@ public class ImageUtils {
         String path = MediaStore.Images.Media.insertImage(context.getContentResolver(), bitmapImage, "Title", null);
         return Uri.parse(path);
     }
+
 
 
 

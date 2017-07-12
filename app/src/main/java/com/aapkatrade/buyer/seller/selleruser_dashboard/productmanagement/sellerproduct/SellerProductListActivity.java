@@ -1,6 +1,7 @@
 package com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.sellerproduct;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,11 +9,15 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageButton;
+
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
+import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.addproduct.AddProductActivity;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
@@ -29,6 +34,7 @@ public class SellerProductListActivity extends AppCompatActivity
     private AppSharedPreference appSharedPreference;
     private String user_id;
     private Context context;
+    ImageButton  btnAddproduct;
     String UserType;
     private LinearLayoutManager linearLayoutManager;
 
@@ -58,6 +64,17 @@ public class SellerProductListActivity extends AppCompatActivity
 
     private void setup_layout()
     {
+
+        btnAddproduct  = (ImageButton) findViewById(R.id.btnAdd_shop) ;
+
+        btnAddproduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(SellerProductListActivity.this, AddProductActivity.class);
+                startActivity(i);
+            }
+        });
+
         order_list = (RecyclerView) findViewById(R.id.recyclerview);
 
         linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);

@@ -458,13 +458,14 @@ public class MyProfileActivity extends AppCompatActivity
 
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
 
-        switch (requestCode) {
+        switch (requestCode)
+        {
             case 1:
-
-                try {
-
+                /*try
+                {
                     BitmapFactory.Options option = new BitmapFactory.Options();
                     option.inDither = false;
                     option.inPurgeable = true;
@@ -516,12 +517,15 @@ public class MyProfileActivity extends AppCompatActivity
 
                 } catch (Exception e) {
                     AndroidUtils.showErrorLog(context, "error in myprofile", e.toString());
-                }
+                }*/
+
+                File imagefile = new File(ImageUtils.getRealPathFromURI(context, data.getData()));
+                call_myprofile_webservice(imagefile);
 
                 break;
 
 
-            case 2:
+            /*case 2:
 
                 try {
 
@@ -578,7 +582,7 @@ public class MyProfileActivity extends AppCompatActivity
                     AndroidUtils.showErrorLog(context, "error in myprofile", e.toString());
                 }
 
-                break;
+                break;*/
 
 
             case CAMERA_RQ:
