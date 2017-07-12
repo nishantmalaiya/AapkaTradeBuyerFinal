@@ -17,6 +17,7 @@ import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Validation;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.addcompanyshop.AddCompanyShopActivity;
+import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.editcompanyshop.EditCompanyShopActivity;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
@@ -82,6 +83,10 @@ public class ProductImagesAdapter extends RecyclerView.Adapter<RecyclerView.View
                         } else if (activity instanceof AddCompanyShopActivity) {
                             ((AddCompanyShopActivity) activity).picPhoto();
                         }
+                        else if (activity instanceof EditCompanyShopActivity) {
+                            (( EditCompanyShopActivity) activity).picPhoto();
+                        }
+
                     }
                 });
                 break;

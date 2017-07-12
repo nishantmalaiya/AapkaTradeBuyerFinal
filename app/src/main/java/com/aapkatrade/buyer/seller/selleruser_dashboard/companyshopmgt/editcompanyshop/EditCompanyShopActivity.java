@@ -73,8 +73,6 @@ import com.koushikdutta.async.http.body.FilePart;
 import com.koushikdutta.async.http.body.Part;
 import com.koushikdutta.ion.Ion;
 
-import org.json.JSONArray;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -89,7 +87,7 @@ public class EditCompanyShopActivity extends AppCompatActivity {
     private Context context;
     private AppSharedPreference appSharedPreference;
     private ProgressBarHandler progressBarHandler;
-    private String userId, stateID, cityID, categoryID, subCategoryID, serviceType, videoPath;
+    private String userId, stateID, cityID, categoryID, subCategoryID, serviceType, videoPath, tempCityID, tempsubcategoryId;
     private Spinner spState, spCity, spCategory, spSubCategory, spServiceType;
     private ArrayList<String> stateList, stateIds;
     private ArrayList<City> cityList = new ArrayList<>();
@@ -107,8 +105,8 @@ public class EditCompanyShopActivity extends AppCompatActivity {
     private DaysTileView daysTileView1, daysTileView2, daysTileView3;
     private CustomCardViewHeader generalDetailsHeader, shopDetailsHeader;
     private LinearLayout llShopDetailsContainer, llGeneralContainer;
-    String company_name, product_type, country_id, state_id, city_id, area, lat, lng, pincode, mobile, phone, email_id, web_url, category_id, sub_cat_id, facebookurl, twitterurl, googleplusurl, youtubeurl, short_description,address;
-    int selectStateIndex, selectCategoryIndex;
+    private String company_name, product_type, state_id, city_id, area, pincode, mobile, phone, email_id, web_url, category_id, sub_cat_id, facebookurl, twitterurl, googleplusurl, youtubeurl, short_description, address;
+    private boolean cityFlag = false, subCategoryFlag = false;
 
 
     @Override
@@ -123,14 +121,16 @@ public class EditCompanyShopActivity extends AppCompatActivity {
         getServiceType();
         takeAreaLocation();
         setupRecyclerView();
-        getCompanyShopDetails("577");
+
 
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 validateFields();
-                if (isAllFieldsValidate)
+                if (isAllFieldsValidate) {
+                    AndroidUtils.showErrorLog(context, "working 1", "working isAllFieldsValidate");
                     hitAddCompanyShopWebService();
+                }
             }
         });
     }
@@ -157,16 +157,12 @@ public class EditCompanyShopActivity extends AppCompatActivity {
                             spServiceType.setSelection(2);
                         }
 
-                        country_id = jsonObject.get("country_id").getAsString();
-
 
                         state_id = jsonObject.get("state_id").getAsString();
-                        selectState(state_id);
 
 
                         city_id = jsonObject.get("city_id").getAsString();
-
-                        selectcity(city_id);
+                        selectStateCity(state_id, city_id);
 
                         area = jsonObject.get("area").getAsString();
                         etAreaLocation.setText(area);
@@ -181,8 +177,8 @@ public class EditCompanyShopActivity extends AppCompatActivity {
                         etEmail.setText(email_id);
                         category_id = jsonObject.get("category_id").getAsString();
                         sub_cat_id = jsonObject.get("sub_cat_id").getAsString();
-                        setSelectedCategory(category_id);
-                        setSelectedSubCategory(sub_cat_id);
+                        setSelectedCategory(category_id, sub_cat_id);
+
                         web_url = jsonObject.get("web_url").getAsString();
                         etWebURL.setText(web_url);
 
@@ -198,7 +194,6 @@ public class EditCompanyShopActivity extends AppCompatActivity {
                         etDescription.setText(short_description);
                         address = jsonObject.get("address").getAsString();
                         etCompanyAddress.setText(address);
-
 
 
                         JsonArray openingtime = result.getAsJsonArray("opening_time");
@@ -226,6 +221,7 @@ public class EditCompanyShopActivity extends AppCompatActivity {
 
                             }
 
+
                         }
 
 
@@ -243,61 +239,43 @@ public class EditCompanyShopActivity extends AppCompatActivity {
                 });
     }
 
-    private void selectcity(String city_id) {
 
-        for (int i = 0; i < cityList.size(); i++) {
-            if (cityList.get(i).equals(city_id)) {
-                spCity.setSelection(i);
+    private void setSelectedCategory(String category_id, String sub_cat_id) {
 
-            }
-
-        }
-    }
-
-    private void setSelectedSubCategory(String sub_cat_id) {
-
-        for (int i = 0; i < listDataChild.size(); i++) {
-            if (listDataChild.get(i).subCategoryId.equals(sub_cat_id))
-
-                spSubCategory.setSelection(i);
-
-        }
-
-    }
-
-    private void setSelectedCategory(String category_id) {
-
+        AndroidUtils.showErrorLog(context, "categoryid123------------------", category_id + "***" + sub_cat_id);
+        AndroidUtils.showErrorLog(context, "listDataHeader------------------", listDataHeader.size());
         for (int i = 0; i < listDataHeader.size(); i++) {
-            if (listDataHeader.get(i).getCategoryId().equals(category_id))
+            if (listDataHeader.get(i).getCategoryId().equals(category_id)) {
 
+                subCategoryFlag = true;
+                tempsubcategoryId = sub_cat_id;
                 spCategory.setSelection(i);
-            selectCategoryIndex = i;
+            }
         }
 
-        if (selectCategoryIndex != -1) {
-
-
-        }
 
     }
 
-    private void selectState(String state_id) {
+    private void selectStateCity(String state_id, String city_id) {
 
 
         for (int i = 0; i < stateIds.size(); i++) {
             if (stateIds.get(i).equals(state_id)) {
+
+                cityFlag = true;
+                tempCityID = city_id;
                 spState.setSelection(i);
-                selectStateIndex = i;
 
             }
 
         }
+
 
     }
 
 
     private void validateFields() {
-
+        isAllFieldsValidate = true;
         if (productMediaDatas.size() > 0) {
             if (productMediaDatas.get(0).imagePath.equalsIgnoreCase("first")) {
                 productMediaDatas.remove(0);
@@ -406,6 +384,7 @@ public class EditCompanyShopActivity extends AppCompatActivity {
         findViewById(R.id.input_layout_sub_category).setVisibility(View.GONE);
         findViewById(R.id.input_layout_city).setVisibility(View.GONE);
         btnSave = (Button) findViewById(R.id.btnSave);
+        btnSave.setText("Update Company/Shop");
         etCompanyShopName = (EditText) findViewById(R.id.etCompanyShopName);
         etPinCode = (EditText) findViewById(R.id.et_pin_code);
         etMobileNo = (EditText) findViewById(R.id.etMobileNo);
@@ -528,15 +507,18 @@ public class EditCompanyShopActivity extends AppCompatActivity {
                 if (position > 0) {
                     findViewById(R.id.input_layout_city).setVisibility(View.VISIBLE);
                     stateID = String.valueOf(position);
-                    getCity(stateIds.get(position));
+                    getCity(stateIds.get(position), cityFlag);
                 }
+
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
+
             }
         });
+
     }
 
     private void getCategory() {
@@ -583,9 +565,12 @@ public class EditCompanyShopActivity extends AppCompatActivity {
                             }
                             setCategoryAdapter();
                         }
-
+                        getCompanyShopDetails("577");
                     }
+
                 });
+
+
     }
 
     private void getServiceType() {
@@ -622,12 +607,23 @@ public class EditCompanyShopActivity extends AppCompatActivity {
                     listDataChild = new ArrayList<>();
                     listDataChild = listDataHeader.get(position).getSubCategoryList();
                     if (listDataChild.size() > 0) {
+
+
                         findViewById(R.id.input_layout_sub_category).setVisibility(View.VISIBLE);
                         CustomSimpleListAdapter adapter = new CustomSimpleListAdapter(context, listDataChild);
                         spSubCategory.setAdapter(adapter);
+                        if (subCategoryFlag) {
+                            for (int i = 0; i < listDataChild.size(); i++) {
+                                if (listDataChild.get(i).subCategoryId.equals(tempsubcategoryId)) {
+                                    spSubCategory.setSelection(i);
+                                }
+                            }
+                        }
                         spSubCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                             @Override
                             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+
                                 if (position >= 0) {
                                     subCategoryID = listDataChild.get(position).subCategoryId;
                                 }
@@ -655,10 +651,16 @@ public class EditCompanyShopActivity extends AppCompatActivity {
 
             }
         });
+        if (subCategoryFlag) {
+            subCategoryFlag = false;
 
+
+        }
     }
 
-    private void getCity(String stateId) {
+    private void getCity(String stateId, final boolean cityflag) {
+
+
         AndroidUtils.showErrorLog(context, " stateId ", stateId.toString());
         progressBarHandler.show();
         findViewById(R.id.input_layout_city).setVisibility(View.VISIBLE);
@@ -679,7 +681,7 @@ public class EditCompanyShopActivity extends AppCompatActivity {
 
                         if (result != null) {
                             JsonArray jsonResultArray = result.getAsJsonArray("result");
-                            cityList.clear();
+                            //cityList.clear();
                             City cityEntity_init = new City("-1", "Please Select City");
                             cityList.add(cityEntity_init);
 
@@ -692,6 +694,18 @@ public class EditCompanyShopActivity extends AppCompatActivity {
                             SpCityAdapter spCityAdapter = new SpCityAdapter(context, cityList);
                             spCity.setAdapter(spCityAdapter);
 
+                            if (cityflag) {
+                                for (int k = 0; k < cityList.size(); k++) {
+
+                                    if (cityList.get(k).cityId.equals(tempCityID)) {
+
+                                        spCity.setSelection(k);
+                                    }
+
+
+                                }
+                            }
+
                             spCity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                                 @Override
                                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -702,7 +716,10 @@ public class EditCompanyShopActivity extends AppCompatActivity {
                                 @Override
                                 public void onNothingSelected(AdapterView<?> parent) {
 
+
                                 }
+
+
                             });
                         } else {
                             AndroidUtils.showToast(context, "! Invalid city");
@@ -711,6 +728,9 @@ public class EditCompanyShopActivity extends AppCompatActivity {
 
                 });
 
+        if (cityflag) {
+            this.cityFlag = false;
+        }
     }
 
     private void hitAddCompanyShopWebService() {
