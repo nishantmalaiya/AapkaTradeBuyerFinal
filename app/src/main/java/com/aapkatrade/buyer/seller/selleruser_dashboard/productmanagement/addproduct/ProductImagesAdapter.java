@@ -20,6 +20,7 @@ import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.addcompan
 import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.editcompanyshop.EditCompanyShopActivity;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.util.List;
@@ -97,13 +98,21 @@ public class ProductImagesAdapter extends RecyclerView.Adapter<RecyclerView.View
 
                 if (itemList.get(position).isVideo) {
                     homeHolder.playImage.setVisibility(View.VISIBLE);
-                    File imgFile = new File(itemList.get(position).videoThumbnail);
-                    if (imgFile.exists()) {
-                        Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-                        Drawable drawable = new BitmapDrawable(context.getResources(), myBitmap);
-                        homeHolder.previewImage.setImageDrawable(drawable);
-                    }
+                    if(itemList.get(position).videoFile == null){
+                        AndroidUtils.showErrorLog(context, "itemimage", itemList.get(position).videoThumbnail);
 
+                        Picasso.with(context).load(itemList.get(position).videoThumbnail)
+                                .placeholder(R.drawable.default_noimage)
+                                .error(R.drawable.default_noimage)
+                                .into(homeHolder.previewImage);
+                    }else {
+                        File imgFile = new File(itemList.get(position).videoThumbnail);
+                        if (imgFile.exists()) {
+                            Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+                            Drawable drawable = new BitmapDrawable(context.getResources(), myBitmap);
+                            homeHolder.previewImage.setImageDrawable(drawable);
+                        }
+                    }
                 }
                 else
                 {
@@ -146,7 +155,11 @@ public class ProductImagesAdapter extends RecyclerView.Adapter<RecyclerView.View
                         {
                             File file =itemList.get(position).videoFile;
                             Intent intent = new Intent(Intent.ACTION_VIEW);
-                            intent.setDataAndType(Uri.fromFile(file), "video/*");
+                            if(itemList.get(position).videoFile == null){
+                                intent.setDataAndType(Uri.parse(itemList.get(position).videoThumbnail.replace("png", "mp4")), "video/*");
+                            }else {
+                                intent.setDataAndType(Uri.fromFile(file), "video/*");
+                            }
                             context.startActivity(intent);
                         }
                         else
@@ -175,7 +188,7 @@ public class ProductImagesAdapter extends RecyclerView.Adapter<RecyclerView.View
     {
         AndroidUtils.showErrorLog(context, "itemlist----------------" + itemList.get(position).imagePath);
 
-        if (itemList.get(position).imagePath.equals("first"))
+        if (itemList.get(position).imagePath != null && itemList.get(position).imagePath.equals("first"))
         {
             return userAdded;
         }

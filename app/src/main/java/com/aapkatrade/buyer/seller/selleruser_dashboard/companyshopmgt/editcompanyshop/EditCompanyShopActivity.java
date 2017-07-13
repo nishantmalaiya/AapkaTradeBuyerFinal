@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.media.MediaMetadataRetriever;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
@@ -72,6 +73,8 @@ import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.async.http.body.FilePart;
 import com.koushikdutta.async.http.body.Part;
 import com.koushikdutta.ion.Ion;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -79,8 +82,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 
 public class EditCompanyShopActivity extends AppCompatActivity {
 
@@ -105,8 +110,9 @@ public class EditCompanyShopActivity extends AppCompatActivity {
     private DaysTileView daysTileView1, daysTileView2, daysTileView3;
     private CustomCardViewHeader generalDetailsHeader, shopDetailsHeader;
     private LinearLayout llShopDetailsContainer, llGeneralContainer;
-    private String company_name, product_type, state_id, city_id, area, pincode, mobile, phone, email_id, web_url, category_id, sub_cat_id, facebookurl, twitterurl, googleplusurl, youtubeurl, short_description, address;
+    private String company_name, product_type, state_id, city_id, area, pincode, mobile, phone, email_id, web_url, category_id, sub_cat_id, facebookurl, twitterurl, googleplusurl, youtubeurl, short_description, address, videoURL;
     private boolean cityFlag = false, subCategoryFlag = false;
+    private ArrayList<String> imageUrlList = new ArrayList<>();
 
 
     @Override
@@ -224,21 +230,200 @@ public class EditCompanyShopActivity extends AppCompatActivity {
 
                         }
 
-
-                        //productMediaDatas.add(new ProductMediaData("","",null,jsonObject.get("shop_video").getAsString()));
+                        videoURL = jsonObject.get("shop_video").getAsString();
+                        if (Validation.isNonEmptyStr(videoURL) && !videoURL.equals("No Video")) {
+                            AndroidUtils.showErrorLog(context, "videoURL---------------------" + videoURL);
+                            productMediaDatas.add(new ProductMediaData(videoURL.replace("mp4", "png")));
+                            adapter.notifyDataSetChanged();
+                        }
 
                         JsonArray jsonArray = jsonObject.getAsJsonArray("product_images");
 
                         for (int i = 0; i < jsonArray.size(); i++) {
-                            System.out.println("imagepathurl---------------------" + jsonArray.get(i).getAsJsonObject().get("image_url").getAsString());
-                            productMediaDatas.add(new ProductMediaData("", jsonArray.get(i).getAsJsonObject().get("image_url").getAsString(), null, ""));
+                            AndroidUtils.showErrorLog(context, "imagepathurl---------------------" + jsonArray.get(i).getAsJsonObject().get("image_url").getAsString());
+                            imageUrlList.add(jsonArray.get(i).getAsJsonObject().get("image_url").getAsString());
                         }
-                        adapter.notifyDataSetChanged();
-
+                        if (imageUrlList.size() > 0) {
+                            for (int i = 0; i < imageUrlList.size(); i++) {
+                                AndroidUtils.showErrorLog(context, "downloadImage---------------------" + imageUrlList.get(i));
+                                downloadImage(i);
+                            }
+                        }
                     }
                 });
     }
 
+    private void downloadImage(final int index) {
+        progressBarHandler.show();
+
+        Picasso.with(this)
+                .load(imageUrlList.get(index))
+                .into(new Target() {
+                    @Override
+                    public void onBitmapLoaded(final Bitmap bitmap, Picasso.LoadedFrom from) {
+                        storeImage(bitmap, index);
+                        progressBarHandler.hide();
+                    }
+
+                    @Override
+                    public void onBitmapFailed(Drawable errorDrawable) {
+                        progressBarHandler.hide();
+                        AndroidUtils.showErrorLog(context, "Problems in downloading image onBitmapFailed");
+                    }
+
+                    @Override
+                    public void onPrepareLoad(Drawable placeHolderDrawable) {
+                        progressBarHandler.hide();
+                        AndroidUtils.showErrorLog(context, "Problems in downloading image onPrepareLoad");
+                    }
+                });
+    }
+
+
+    private void downloadVideo() {
+        progressBarHandler.show();
+
+        Picasso.with(this)
+                .load(videoURL)
+                .into(new Target() {
+                    @Override
+                    public void onBitmapLoaded(final Bitmap bitmap, Picasso.LoadedFrom from) {
+                        storeVideo(bitmap);
+                        progressBarHandler.hide();
+                    }
+
+                    @Override
+                    public void onBitmapFailed(Drawable errorDrawable) {
+                        progressBarHandler.hide();
+                        AndroidUtils.showErrorLog(context, "Problems in downloading video onBitmapFailed");
+                    }
+
+                    @Override
+                    public void onPrepareLoad(Drawable placeHolderDrawable) {
+                        progressBarHandler.hide();
+                        AndroidUtils.showErrorLog(context, "Problems in downloading video onPrepareLoad");
+                    }
+                });
+    }
+    private void storeImage(Bitmap image, int index) {
+        File pictureFile = getOutputMediaFile(index);
+        if (pictureFile == null) {
+            AndroidUtils.showErrorLog(context, "Error creating media file, check storage permissions: ");// e.getMessage());
+            return;
+        }
+        try {
+            FileOutputStream fos = new FileOutputStream(pictureFile);
+            image.compress(Bitmap.CompressFormat.PNG, 100, fos);
+            fos.close();
+        } catch (FileNotFoundException e) {
+            AndroidUtils.showErrorLog(context, "File not found: " + e.getMessage());
+        } catch (IOException e) {
+            AndroidUtils.showErrorLog(context, "Error accessing file: " + e.getMessage());
+        }
+        AndroidUtils.showErrorLog(context, "Image file exists with path-------------- : ", pictureFile.getAbsolutePath());// e.getMessage());
+
+        productMediaDatas.add(new ProductMediaData(pictureFile.getAbsolutePath(), "", null, ""));
+        adapter.notifyDataSetChanged();
+    }
+
+
+    private void storeVideo(Bitmap image) {
+        File videoFile = getOutputMediaFileForVideo();
+        if (videoFile == null) {
+            AndroidUtils.showErrorLog(context, "Error creating video media file, check storage permissions: ");// e.getMessage());
+            return;
+        }
+//        try {
+//            FileOutputStream fos = new FileOutputStream(pictureFile);
+//            image.compress(Bitmap.CompressFormat.PNG, 100, fos);
+//            fos.close();
+//        } catch (FileNotFoundException e) {
+//            AndroidUtils.showErrorLog(context, "File not found: " + e.getMessage());
+//        } catch (IOException e) {
+//            AndroidUtils.showErrorLog(context, "Error accessing file: " + e.getMessage());
+//        }
+        AndroidUtils.showErrorLog(context, "video file exists with path-------------- : ", videoFile.getAbsolutePath());// e.getMessage());
+
+        productMediaDatas.add(new ProductMediaData("", "", videoFile, ""));
+        adapter.notifyDataSetChanged();
+    }
+
+
+    private File getOutputMediaFile(int index) {
+        // To be safe, you should check that the SDCard is mounted
+        // using Environment.getExternalStorageState() before doing this.
+        File mediaStorageDir = new File(Environment.getExternalStorageDirectory()
+                + "/Android/data/"
+                + getApplicationContext().getPackageName()
+                + "/Files");
+
+        // This location works best if you want the created images to be shared
+        // between applications and persist after your app has been uninstalled.
+
+        // Create the storage directory if it does not exist
+        if (!mediaStorageDir.exists()) {
+            if (!mediaStorageDir.mkdirs()) {
+                return null;
+            }
+        }
+        // Create a media file name
+        File mediaFile;
+        String mImageName = "MI_" + getFileName(imageUrlList.get(index)) + ".jpg";
+        mediaFile = new File(mediaStorageDir.getPath() + File.separator + mImageName);
+        return mediaFile;
+    }
+
+    private File getOutputMediaFileForVideo() {
+        // To be safe, you should check that the SDCard is mounted
+        // using Environment.getExternalStorageState() before doing this.
+        File mediaStorageDir = new File(Environment.getExternalStorageDirectory()
+                + "/Android/data/"
+                + getApplicationContext().getPackageName()
+                + "/Files");
+
+        // This location works best if you want the created images to be shared
+        // between applications and persist after your app has been uninstalled.
+
+        // Create the storage directory if it does not exist
+        if (!mediaStorageDir.exists()) {
+            if (!mediaStorageDir.mkdirs()) {
+                return null;
+            }
+        }
+        // Create a media file name
+        File mediaFile;
+        String mImageName = "MI_" + getFileName(videoURL) + ".mp4";
+        mediaFile = new File(mediaStorageDir.getPath() + File.separator + mImageName);
+        return mediaFile;
+    }
+
+    private String getFileName(String s) {
+        if (Validation.isNonEmptyStr(s)) {
+            String s1[] = s.split("/");
+            String s2 = s1[s1.length - 1];
+            return s2;
+        }
+        return new SimpleDateFormat("ddMMyyyy_HHmm").format(new Date());
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        AndroidUtils.showErrorLog(context, "________________^^^^^^^onDestroyonDestroyonDestroy^^^^^^^^^_________________");
+        File mediaStorageDir = new File(Environment.getExternalStorageDirectory()
+                + "/Android/data/"
+                + getApplicationContext().getPackageName()
+                + "/Files");
+
+        if (mediaStorageDir.isDirectory()) {
+            String[] children = mediaStorageDir.list();
+            for (String aChildren : children) {
+                AndroidUtils.showErrorLog(context, "________________^^^^^^^onDestroyonDestroyonDestroy^^^^^^^^^Entry_________________");
+
+                new File(mediaStorageDir, aChildren).delete();
+            }
+        }
+    }
 
     private void setSelectedCategory(String category_id, String sub_cat_id) {
 
@@ -1067,7 +1252,6 @@ public class EditCompanyShopActivity extends AppCompatActivity {
     private ArrayList<Part> submitImages() {
         ArrayList<Part> files = new ArrayList<>();
         if (productMediaDatas != null && productMediaDatas.size() > 0) {
-
             for (ProductMediaData file : productMediaDatas) {
                 if (!file.isVideo) {
                     files.add(new FilePart("image[]", savebitmap(file.imagePath)));
@@ -1246,9 +1430,8 @@ public class EditCompanyShopActivity extends AppCompatActivity {
     private void uploadImage(int requestCode, int resultCode, Intent data) throws IOException {
         if (data.getClipData() != null) {
 
-            data.getClipData().getItemCount();
 
-            for (int k = 0; k < 4; k++) {
+            for (int k = 0; k < data.getClipData().getItemCount(); k++) {
 
                 Uri selectedImage = data.getClipData().getItemAt(k).getUri();
 
