@@ -209,7 +209,7 @@ public class UserDashboardFragment extends Fragment
 
                             }
                             dashboardlist.setLayoutManager(layoutManager);
-                            dashboardAdapter = new DashboardAdapter(getContext(), dashboardDatas);
+                            dashboardAdapter = new DashboardAdapter(getActivity(), dashboardDatas);
                             dashboardlist.setAdapter(dashboardAdapter);
                         }
                     }
