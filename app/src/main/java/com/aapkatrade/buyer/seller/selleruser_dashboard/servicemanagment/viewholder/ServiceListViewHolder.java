@@ -15,29 +15,31 @@ import com.aapkatrade.buyer.R;
 public class ServiceListViewHolder extends RecyclerView.ViewHolder
 {
     public View view;
-    public TextView  productName,tvProductShopName,tvProductCategoryName,tvProductStateName;
-    public ImageView imgProduct;
+    public TextView  serviceName,tvServiceShopName,tvServiceCategoryName,tvServiceStateName;
+    public ImageView imgService,imgviewServiceEdit;
     public RelativeLayout relativeEdit,relativeDelete,relativeUpdate;
 
     public ServiceListViewHolder(View itemView)
     {
         super(itemView);
 
-        productName = (TextView) itemView.findViewById(R.id.tvProductName);
 
-        tvProductShopName = (TextView) itemView.findViewById(R.id.tvProductShopName);
+        serviceName = (TextView) itemView.findViewById(R.id.tv_service_name);
 
-        tvProductCategoryName = (TextView) itemView.findViewById(R.id.tvProductCategoryName);
+        tvServiceShopName = (TextView) itemView.findViewById(R.id.tvServiceShopName);
 
-        tvProductStateName = (TextView) itemView.findViewById(R.id.tvProductStateName);
+        tvServiceCategoryName = (TextView) itemView.findViewById(R.id.tv_Service_category_name);
 
-        imgProduct = (ImageView) itemView.findViewById(R.id.imgProduct);
 
-        relativeEdit = (RelativeLayout) itemView.findViewById(R.id.relativeEdit);
+
+        imgService = (ImageView) itemView.findViewById(R.id.imgService);
+        imgviewServiceEdit = (ImageView) itemView.findViewById(R.id.imgviewServiceEdit);
+
+      /*  relativeEdit = (RelativeLayout) itemView.findViewById(R.id.relativeEdit);
 
         relativeDelete = (RelativeLayout) itemView.findViewById(R.id.relativeDelete);
 
-        relativeUpdate = (RelativeLayout) itemView.findViewById(R.id.relativeUpdate);
+        relativeUpdate = (RelativeLayout) itemView.findViewById(R.id.relativeUpdate);*/
 
 
         view = itemView;

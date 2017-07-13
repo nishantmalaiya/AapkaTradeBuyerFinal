@@ -193,30 +193,30 @@
                 android:layout_marginTop="1dp"
                 >
 
-            <RelativeLayout
-                android:id="@+id/relativeDelete"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                >
-                <ImageView
-                    android:id="@+id/imgDelete"
-                    android:layout_width="@dimen/twenty_five_dip"
-                    android:layout_height="@dimen/twenty_five_dip"
-                    android:src="@drawable/ic_delete"
-                    />
-
-                <TextView
+                <RelativeLayout
+                    android:id="@+id/relativeDelete"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
-                    android:layout_toRightOf="@+id/imgDelete"
-                    android:layout_marginLeft="5dp"
-                    android:text="Delete"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/sixteen"
-                    />
+                    >
+                    <ImageView
+                        android:id="@+id/imgDelete"
+                        android:layout_width="@dimen/twenty_five_dip"
+                        android:layout_height="@dimen/twenty_five_dip"
+                        android:src="@drawable/ic_delete"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@+id/imgDelete"
+                        android:layout_marginLeft="5dp"
+                        android:text="Delete"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/sixteen"
+                        />
                 </RelativeLayout>
 
             </RelativeLayout>
@@ -233,30 +233,30 @@
                 android:layout_marginTop="1dp"
 
                 >
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                >
-                <ImageView
-                    android:id="@+id/imgUpdate"
-                    android:layout_width="@dimen/twenty_five_dip"
-                    android:layout_height="@dimen/twenty_five_dip"
-                    android:src="@drawable/ic_update"
-                    />
-
-                <TextView
+                <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
-                    android:layout_toRightOf="@+id/imgUpdate"
-                    android:layout_marginLeft="5dp"
-                    android:text="Update"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/sixteen"
-                    />
-              </RelativeLayout>
+                    >
+                    <ImageView
+                        android:id="@+id/imgUpdate"
+                        android:layout_width="@dimen/twenty_five_dip"
+                        android:layout_height="@dimen/twenty_five_dip"
+                        android:src="@drawable/ic_update"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@+id/imgUpdate"
+                        android:layout_marginLeft="5dp"
+                        android:text="Update"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/sixteen"
+                        />
+                </RelativeLayout>
 
             </RelativeLayout>
 

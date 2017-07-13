@@ -21,7 +21,7 @@ public class ProductListViewHolder extends RecyclerView.ViewHolder
     {
         super(itemView);
 
-        productName = (TextView) itemView.findViewById(R.id.tvProductName);
+       productName = (TextView) itemView.findViewById(R.id.tvProductName);
 
         tvProductShopName = (TextView) itemView.findViewById(R.id.tvProductShopName);
 

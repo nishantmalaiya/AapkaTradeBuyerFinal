@@ -339,5 +339,7 @@
     <string name="hint">Hint</string>
     <string name="notificationtitle">AapkaTradeNotification</string>
     <string name="notificationtext">testing</string>
+    <string name="service_edit">Edit</string>
+    <string name="service_delete">Delete</string>
 
 </resources>

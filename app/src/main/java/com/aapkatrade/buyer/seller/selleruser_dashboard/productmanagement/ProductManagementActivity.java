@@ -1,8 +1,10 @@
 package com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -16,6 +18,7 @@ import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
+import com.aapkatrade.buyer.home.HomeActivity;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.adapter.ProductListAdapter;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.entity.ProductListData;
 import com.google.gson.JsonArray;
@@ -50,7 +53,7 @@ public class ProductManagementActivity extends AppCompatActivity
 
         initview();
 
-        setuptoolbar();
+        setUpToolBar();
 
         progress_handler = new ProgressBarHandler(context);
 
@@ -97,16 +100,31 @@ public class ProductManagementActivity extends AppCompatActivity
 
     }
 
-    private void setuptoolbar()
-    {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+    private void setUpToolBar() {
+        ImageView homeIcon = (ImageView) findViewById(R.id.iconHome);
+        AppCompatImageView back_imagview = (AppCompatImageView) findViewById(R.id.back_imagview);
+        AndroidUtils.setImageColor(homeIcon, context, R.color.white);
+        back_imagview.setVisibility(View.VISIBLE);
+        back_imagview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+        homeIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, HomeActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }
+        });
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayShowTitleEnabled(false);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setTitle(null);
+            getSupportActionBar().setElevation(0);
         }
-        appSharedPreference = new AppSharedPreference(context);
     }
 
     @Override
