@@ -2,6 +2,7 @@ package com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.viewh
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -15,7 +16,7 @@ public class ProductListViewHolder extends RecyclerView.ViewHolder
     public View view;
     public TextView  productName,tvProductShopName,tvProductCategoryName,tvProductStateName;
     public ImageView imgProduct;
-    public RelativeLayout relativeEdit,relativeDelete,relativeUpdate;
+    public Button btnEdit,btnDelete;
 
     public ProductListViewHolder(View itemView)
     {
@@ -23,20 +24,17 @@ public class ProductListViewHolder extends RecyclerView.ViewHolder
 
         productName = (TextView) itemView.findViewById(R.id.tvProductName);
 
-        tvProductShopName = (TextView) itemView.findViewById(R.id.tvProductShopName);
+        tvProductShopName = (TextView) itemView.findViewById(R.id.tvCompanyName);
 
-        tvProductCategoryName = (TextView) itemView.findViewById(R.id.tvProductCategoryName);
+        tvProductCategoryName = (TextView) itemView.findViewById(R.id.tvCategoryName);
 
-        tvProductStateName = (TextView) itemView.findViewById(R.id.tvProductStateName);
+        tvProductStateName = (TextView) itemView.findViewById(R.id.tvStateName);
 
         imgProduct = (ImageView) itemView.findViewById(R.id.imgProduct);
 
-        relativeEdit = (RelativeLayout) itemView.findViewById(R.id.relativeEdit);
+        btnEdit = (Button) itemView.findViewById(R.id.btnEdit);
 
-        relativeDelete = (RelativeLayout) itemView.findViewById(R.id.relativeDelete);
-
-        relativeUpdate = (RelativeLayout) itemView.findViewById(R.id.relativeUpdate);
-
+        btnDelete = (Button) itemView.findViewById(R.id.btnDelete);
 
         view = itemView;
     }

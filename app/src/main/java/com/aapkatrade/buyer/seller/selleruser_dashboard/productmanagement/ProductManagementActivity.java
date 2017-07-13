@@ -91,7 +91,7 @@ public class ProductManagementActivity extends AppCompatActivity
 
         order_list.setLayoutManager(linearLayoutManager);
 
-        productListAdapter = new ProductListAdapter(getApplicationContext(), orderListDatas);
+        productListAdapter = new ProductListAdapter(ProductManagementActivity.this, orderListDatas);
 
         order_list.setAdapter(productListAdapter);
 
