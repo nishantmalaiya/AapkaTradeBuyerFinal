@@ -12,10 +12,8 @@ import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -43,15 +41,15 @@ import java.util.Calendar;
 
 import me.relex.circleindicator.CircleIndicator;
 
-public class SalesTransaction extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener {
+public class SalesTransactionActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener {
 
     AppSharedPreference appSharedPreference;
-    Context c;
+    Context context;
     ArrayList<String> TransactionType = new ArrayList<>();
     Spinner SpMachineList;
     CustomSpinnerAdapter customSpinnerAdapter;
     RecyclerView recycleBillHistory;
-    Button BillHistorysearch;
+    Button billHistorysearch;
     private int isStartDate = -1;
     EditText etstartdate, etenddate;
     private String date;
@@ -116,7 +114,7 @@ public class SalesTransaction extends AppCompatActivity implements TimePickerDia
         });*/
 
 
-        BillHistorysearch.setOnClickListener(new View.OnClickListener() {
+        billHistorysearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (etstartdate.getText().length() != 0 && etenddate.getText().length() != 0) {
@@ -136,7 +134,7 @@ public class SalesTransaction extends AppCompatActivity implements TimePickerDia
 
                     } else {
 
-                        AndroidUtils.showToast(c, "Select Transaction Type");
+                        AndroidUtils.showToast(context, "Select Transaction Type");
 
                     }
 
@@ -144,7 +142,7 @@ public class SalesTransaction extends AppCompatActivity implements TimePickerDia
                 } else {
 
 
-                    AndroidUtils.showToast(c, "Invalid Start/End Date");
+                    AndroidUtils.showToast(context, "Invalid Start/End Date");
                 }
 
 
@@ -157,17 +155,17 @@ public class SalesTransaction extends AppCompatActivity implements TimePickerDia
     private void setViewPager(ArrayList<SalesMachineResultData> machineDatas, String totalTxnAmount, String totalSalesAmount) {
 
 
-        viewpagerAdapterSalesTransaction = new ViewpagerAdapterSalesTransaction(c, machineDatas, viewpagerSalesTransaction);
+        viewpagerAdapterSalesTransaction = new ViewpagerAdapterSalesTransaction(context, machineDatas, viewpagerSalesTransaction);
 
         viewpagerSalesTransaction.setAdapter(viewpagerAdapterSalesTransaction);
 
         //circleIndicator.setViewPager(viewpagerSalesTransaction);
 
-        StringBuilder stringBuilder_txnamount = new StringBuilder("<br><font size=\"25\" color=" + "#ffffff>Txn Amount. <br> " + "Total" + " " + c.getString(R.string.rupay_text) + totalTxnAmount + "</font>");
+        StringBuilder stringBuilder_txnamount = new StringBuilder("<br><font size=\"25\" color=" + "#ffffff>Txn Amount. <br> " + "Total" + " " + context.getString(R.string.rupay_text) + totalTxnAmount + "</font>");
         String tvData = stringBuilder_txnamount.toString();
         txn_amount_total.setText(Html.fromHtml(tvData));
 
-        StringBuilder stringBuilder_salesamount = new StringBuilder("<br><font size=\"20\" color=" + "#ffffff>Sales Amount. <br> " + "Total" + " " + c.getString(R.string.rupay_text) + totalSalesAmount + "</font>");
+        StringBuilder stringBuilder_salesamount = new StringBuilder("<br><font size=\"20\" color=" + "#ffffff>Sales Amount. <br> " + "Total" + " " + context.getString(R.string.rupay_text) + totalSalesAmount + "</font>");
         String tvData2 = stringBuilder_salesamount.toString();
         sales_amount_total.setText(Html.fromHtml(tvData2));
 
@@ -178,7 +176,7 @@ public class SalesTransaction extends AppCompatActivity implements TimePickerDia
 
         Calendar now = Calendar.getInstance();
         DatePickerDialog dpd = DatePickerDialog.newInstance(
-                SalesTransaction.this,
+                SalesTransactionActivity.this,
                 now.get(Calendar.YEAR),
                 now.get(Calendar.MONTH),
                 now.get(Calendar.DAY_OF_MONTH)
@@ -199,7 +197,7 @@ public class SalesTransaction extends AppCompatActivity implements TimePickerDia
         TransactionType.add("POP");
         TransactionType.add("ONLINE SALES");
 
-        customSpinnerAdapter = new CustomSpinnerAdapter(c, TransactionType);
+        customSpinnerAdapter = new CustomSpinnerAdapter(context, TransactionType);
 
         SpMachineList.setAdapter(customSpinnerAdapter);
 
@@ -208,13 +206,13 @@ public class SalesTransaction extends AppCompatActivity implements TimePickerDia
 
     private void initView()
     {
-        c = this;
+        context = this;
 
         progressBarHandler = new ProgressBarHandler(this);
 
         appSharedPreference = new AppSharedPreference(this);
         recycleBillHistory = (RecyclerView) findViewById(R.id.recyclePaymentHistory);
-        BillHistorysearch = (Button) findViewById(R.id.searchBillHistory);
+        billHistorysearch = (Button) findViewById(R.id.searchBillHistory);
         SpMachineList = (Spinner) findViewById(R.id.spMachineList);
 
         etstartdate = (EditText) findViewById(R.id.etstartdate);
@@ -222,7 +220,7 @@ public class SalesTransaction extends AppCompatActivity implements TimePickerDia
         etenddate = (EditText) findViewById(R.id.etenddate);
         img_startdate = (ImageView) findViewById(R.id.img_startdate);
         img_enddate = (ImageView) findViewById(R.id.img_enddate);
-        linearLayoutManager = new LinearLayoutManager(c, LinearLayoutManager.VERTICAL, false);
+        linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
         viewpagerSalesTransaction = (ViewPager) findViewById(R.id.viewpagerSalesTransactionResult);
         salestransactionfooter = (RelativeLayout) findViewById(R.id.salestransactionfooter);
         fl_salestransaction = (RelativeLayout) findViewById(R.id.fl_salestransaction);
@@ -244,7 +242,7 @@ public class SalesTransaction extends AppCompatActivity implements TimePickerDia
 //                .setBodyParameter("seller_id", appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString()))
 
 
-                .setBodyParameter("seller_id", "133")
+                .setBodyParameter("seller_id", appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString()))
                 .setBodyParameter("from_date", etstartdate.getText().toString())
                 .setBodyParameter("to_date", etenddate.getText().toString())
                 .setBodyParameter("page", "1")
@@ -262,7 +260,10 @@ public class SalesTransaction extends AppCompatActivity implements TimePickerDia
                         String total_result = pagination_jsonobject.get("total_result").getAsString();
                         if (total_result.contains("0")) {
                             progressBarHandler.hide();
-                            AndroidUtils.showToast(c, "No Bill History Found On selected Dates");
+                            AndroidUtils.showToast(context, "No Bill History Found On selected Dates");
+                            viewpagerSalesTransaction.setVisibility(View.GONE);
+                            salestransactionfooter.setVisibility(View.GONE);
+                            fl_salestransaction.setVisibility(View.VISIBLE);
 
 
                         } else {
@@ -320,12 +321,10 @@ public class SalesTransaction extends AppCompatActivity implements TimePickerDia
                             setViewPager(MachineDatas, TotalTxnAmount, TotalSalesAmount);
 
 
-                            AndroidUtils.showErrorLog(c, "responseBillPayment2", result.toString());
+                            AndroidUtils.showErrorLog(context, "responseBillPayment2", result.toString());
 
 
                             if (findViewById(R.id.nestedScrollViewsalesTransaction).getVisibility() == View.GONE) {
-
-
                                 findViewById(R.id.nestedScrollViewsalesTransaction).setVisibility(View.VISIBLE);
                             }
                             progressBarHandler.hide();
@@ -334,7 +333,7 @@ public class SalesTransaction extends AppCompatActivity implements TimePickerDia
 
                     } else {
                         progressBarHandler.hide();
-                        AndroidUtils.showErrorLog(c, "responseBillPayment2", result.toString());
+                        AndroidUtils.showErrorLog(context, "responseBillPayment2", result.toString());
                     }
 
 
@@ -371,7 +370,7 @@ public class SalesTransaction extends AppCompatActivity implements TimePickerDia
         ImageView homeIcon = (ImageView) findViewById(R.id.iconHome);
         ImageView back_imagview = (ImageView) findViewById(R.id.back_imagview);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        AndroidUtils.setImageColor(homeIcon, c, R.color.white);
+        AndroidUtils.setImageColor(homeIcon, context, R.color.white);
         back_imagview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -413,7 +412,7 @@ public class SalesTransaction extends AppCompatActivity implements TimePickerDia
     }
 
     private void callHomeActivity() {
-        Intent intent = new Intent(c, HomeActivity.class);
+        Intent intent = new Intent(context, HomeActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);

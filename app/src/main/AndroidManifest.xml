@@ -170,7 +170,7 @@
             android:name=".videoplay.VideoPlayActivity"
             android:configChanges="orientation|screenSize" />
         <activity android:name=".seller.selleruser_dashboard.billhistory.BillHistory" />
-        <activity android:name=".seller.selleruser_dashboard.salestransaction.SalesTransaction" />
+        <activity android:name=".seller.selleruser_dashboard.salestransaction.SalesTransactionActivity" />
         <activity
             android:name=".seller.selleruser_dashboard.productmanagement.addproduct.AddProductActivity"
             android:label="@string/title_activity_add_product"

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -69,7 +70,7 @@ public class BankDetailsActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String ifscCode = s.toString();
-                if (Validation.isNonEmptyStr(ifscCode))
+                if (Validation.isNonEmptyStr(ifscCode) && ifscCode.length() >=11)
                     hitIFSCWebService(ifscCode);
             }
 
@@ -315,8 +316,15 @@ public class BankDetailsActivity extends AppCompatActivity {
 
     private void setUpToolBar() {
         ImageView homeIcon = (ImageView) findViewById(R.id.iconHome);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        AppCompatImageView back_imagview = (AppCompatImageView) findViewById(R.id.back_imagview);
         AndroidUtils.setImageColor(homeIcon, context, R.color.white);
+        back_imagview.setVisibility(View.VISIBLE);
+        back_imagview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
         homeIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -325,7 +333,6 @@ public class BankDetailsActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayShowTitleEnabled(false);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
