@@ -1,30 +1,14 @@
 package com.aapkatrade.buyer.seller.selleruser_dashboard.billpayment;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.location.Location;
-import android.os.Looper;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 
 import com.aapkatrade.buyer.R;
-import com.aapkatrade.buyer.general.CheckPermission;
-import com.aapkatrade.buyer.general.LocationManagerCheck;
-import com.aapkatrade.buyer.general.Tabletsize;
-import com.aapkatrade.buyer.general.Utils.AndroidUtils;
-import com.aapkatrade.buyer.general.entity.KeyValue;
-import com.aapkatrade.buyer.general.interfaces.CommonInterface;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
-import com.aapkatrade.buyer.map.GoogleMapActivity;
-import com.aapkatrade.buyer.shopdetail.ShopDetailActivity;
-import com.aapkatrade.buyer.user_dashboard.DashboardHolder;
-import com.koushikdutta.ion.Ion;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -61,16 +45,16 @@ public class BillPaymentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
 
         final BillPaymentListHolder homeHolder = (BillPaymentListHolder) holder;
 
 
         homeHolder.machineNo.setText(itemList.get(position).machineNo);
-        homeHolder.machinePrize.setText(new StringBuilder(context.getString(R.string.rupay_text)).append("  ").append(itemList.get(position).machineCost));
+        homeHolder.machinePrice.setText(new StringBuilder(context.getString(R.string.rupay_text)).append("  ").append(itemList.get(position).machineCost));
         homeHolder.machineType.setText(itemList.get(position).machineType);
 
-        homeHolder.machine_img.setBackground(context.getResources().getDrawable(itemList.get(position).background_color));
+        homeHolder.imageView.setBackground(context.getResources().getDrawable(itemList.get(position).background_color));
         homeHolder.machineSelection.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -86,6 +70,17 @@ public class BillPaymentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             }
 
 
+        });
+
+        homeHolder.linearLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(((BillPaymentListHolder) holder).machineSelection.isChecked()){
+                    ((BillPaymentListHolder) holder).machineSelection.setChecked(false);
+                } else {
+                    ((BillPaymentListHolder) holder).machineSelection.setChecked(true);
+                }
+            }
         });
 
 

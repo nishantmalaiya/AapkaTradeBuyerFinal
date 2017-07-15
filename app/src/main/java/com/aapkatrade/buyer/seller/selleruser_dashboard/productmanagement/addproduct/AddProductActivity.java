@@ -148,7 +148,7 @@ public class AddProductActivity extends AppCompatActivity {
                 .setBodyParameter("lat", "0")
                 .setBodyParameter("long", "0")
                 .setBodyParameter("apply", "1")
-
+                .setBodyParameter("shoptype", "1")
 //                .setBodyParameter("page", i + "")
                 .asJsonObject().setCallback(new FutureCallback<JsonObject>() {
             @Override
@@ -287,8 +287,7 @@ public class AddProductActivity extends AppCompatActivity {
         }
     }
 
-    private void createDynamicRadioGroup(String title, String type, ArrayList<FormValue> formValueArrayList)
-    {
+    private void createDynamicRadioGroup(String title, String type, ArrayList<FormValue> formValueArrayList) {
         View view = LayoutInflater.from(context).inflate(R.layout.layout_custom_check_list, null, false);
         CustomCheckList customCheckList = (CustomCheckList) view.findViewById(R.id.customCheckList);
         customCheckList.setTag(title);
@@ -296,8 +295,7 @@ public class AddProductActivity extends AppCompatActivity {
         llSellerProductDetailContainer.addView(view);
     }
 
-    private void createDynamicCheckList(String title, String type, ArrayList<FormValue> formValueArrayList)
-    {
+    private void createDynamicCheckList(String title, String type, ArrayList<FormValue> formValueArrayList) {
         View view = LayoutInflater.from(context).inflate(R.layout.layout_custom_check_list, null, false);
         CustomCheckList customCheckList = (CustomCheckList) view.findViewById(R.id.customCheckList);
         customCheckList.setTag(title);
@@ -606,8 +604,7 @@ public class AddProductActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         multiple_images = new ArrayList<>();
@@ -620,9 +617,7 @@ public class AddProductActivity extends AppCompatActivity {
 
                     data.getClipData().getItemCount();
 
-                    System.out.println("first method called-----");
-
-                    for (int k = 0; k < data.getClipData().getItemCount(); k++) {
+                    for (int k = 0; k < 4; k++) {
 
                         Uri selectedImage = data.getClipData().getItemAt(k).getUri();
 
@@ -631,13 +626,11 @@ public class AddProductActivity extends AppCompatActivity {
 
                         AndroidUtils.showErrorLog(context, "doc", "***START.****** ");
 
-                        if (ImageUtils.sizeOf(bitmap) > 2048)
-                        {
+                        if (ImageUtils.sizeOf(bitmap) > 2048) {
                             AndroidUtils.showErrorLog(context, "doc", "if doc file path 1");
                             docFile = ImageUtils.getFile(context, ImageUtils.resize(bitmap, bitmap.getHeight() / 2, bitmap.getWidth() / 2));
                             AndroidUtils.showErrorLog(context, "doc", "if doc file path" + docFile.getAbsolutePath());
-                        }
-                        else {
+                        } else {
                             AndroidUtils.showErrorLog(context, "doc", " else doc file path 1");
                             docFile = ImageUtils.getFile(context, bitmap);
                             AndroidUtils.showErrorLog(context, "doc", " else doc file path" + docFile.getAbsolutePath());
@@ -656,19 +649,17 @@ public class AddProductActivity extends AppCompatActivity {
                     }
 
                 } else {
-
-                       /* InputStream inputStream = getContentResolver().openInputStream(data.getData());
+                    try {
+                        InputStream inputStream = getContentResolver().openInputStream(data.getData());
                         Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
                         Uri tempUri = ImageUtils.getImageUri(context, bitmap);
-                       */
-
 
                         // CALL THIS METHOD TO GET THE ACTUAL PATH
-                        File finalFile = new File(ImageUtils.getRealPathFromURI(context, data.getData()));
+                        File finalFile = new File(ImageUtils.getRealPathFromURI(context, tempUri));
 
                         productImagesDatas.add(new ProductMediaData(finalFile.getAbsolutePath(), "", null, ""));
 
-                        AndroidUtils.showErrorLog(context, "docfile arvind", finalFile.getAbsolutePath());
+                        AndroidUtils.showErrorLog(context, "docfile", finalFile.getAbsolutePath());
 
                         adapter.notifyDataSetChanged();
 
@@ -677,8 +668,9 @@ public class AddProductActivity extends AppCompatActivity {
 
                         }
 
-
-
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
             if (requestCode == 10) {
@@ -844,4 +836,5 @@ public class AddProductActivity extends AppCompatActivity {
 
 
 }
+
 

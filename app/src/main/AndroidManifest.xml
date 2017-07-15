@@ -178,6 +178,14 @@
         <activity android:name=".seller.selleruser_dashboard.productmanagement.editproduct.EditProductActivity" />
         <activity android:name=".chat.ChatActivity" />
         <activity android:name=".seller.selleruser_dashboard.productmanagement.ProductManagementActivity"></activity>
+        <activity
+            android:name=".seller.selleruser_dashboard.servicemanagment.ServiceManagementActivity"
+
+
+
+            />
+        <activity android:name=".seller.selleruser_dashboard.servicemanagment.addService.AddServiceActivity"></activity>
+
     </application>
 
 </manifest>

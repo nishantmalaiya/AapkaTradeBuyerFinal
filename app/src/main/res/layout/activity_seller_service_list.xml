@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.CompanyShopManagementActivity">
+    tools:context="com.aapkatrade.buyer.seller.selleruser_dashboard.serviceenquiryList.ServiceEnquiryActivity">
 
     <LinearLayout
         android:id="@+id/mainLayout"
@@ -37,20 +37,26 @@
         android:layout_width="@dimen/sixty_dip"
         android:layout_height="@dimen/sixty_dip"
         android:orientation="vertical"
+        android:background="@drawable/circle_voilet"
         android:padding="@dimen/ten_dip"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
+
         android:layout_marginBottom="15dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="12dp">
+        android:layout_marginEnd="15dp">
 
-        <ImageButton
-            android:id="@+id/btnAdd_shop"
+        <ImageView
+            android:id="@+id/btnAdd_service"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+
             android:orientation="vertical"
-            android:src="@drawable/ic_add_product"
+       android:rotation="-25"
+
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_add_service"
             android:background="@color/transparent"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"

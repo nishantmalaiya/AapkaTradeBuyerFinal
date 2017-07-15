@@ -26,6 +26,7 @@ import com.aapkatrade.buyer.seller.selleruser_dashboard.serviceenquiryList.Servi
 
 import com.aapkatrade.buyer.seller.selleruser_dashboard.bankdetails.BankDetailsActivity;
 
+import com.aapkatrade.buyer.seller.selleruser_dashboard.servicemanagment.ServiceManagementActivity;
 import com.aapkatrade.buyer.user_dashboard.changepassword.ChangePassword;
 
 import com.aapkatrade.buyer.user_dashboard.my_profile.MyProfileActivity;
@@ -211,7 +212,21 @@ public class DashboardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
 
                     } else {
-                        Intent billhistory = new Intent(context, ProductManagementActivity.class);
+                        Intent productManagementIntent = new Intent(context, ProductManagementActivity.class);
+                        context.startActivity(productManagementIntent);
+
+                    }
+
+                }
+
+                else if (itemList.get(position).dashboard_name.equals("Service Management")) {
+                    if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString(), "notlogin").equals("notlogin")) {
+                        Intent i = new Intent(context, LoginDashboard.class);
+                        context.startActivity(i);
+
+
+                    } else {
+                        Intent billhistory = new Intent(context, ServiceManagementActivity.class);
                         context.startActivity(billhistory);
 
                     }

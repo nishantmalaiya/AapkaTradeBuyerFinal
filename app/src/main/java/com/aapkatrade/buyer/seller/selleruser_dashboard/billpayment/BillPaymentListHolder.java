@@ -4,8 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageView;
-import android.widget.RadioButton;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.aapkatrade.buyer.R;
@@ -16,10 +15,10 @@ import com.aapkatrade.buyer.R;
 
 public class BillPaymentListHolder extends RecyclerView.ViewHolder {
 
-    View view;
-    TextView machineType, machineNo, machinePrize;
-    ImageView machine_img;
-
+    public View view;
+    public TextView machineType, machineNo, machinePrice;
+    public ImageView imageView;
+    public LinearLayout linearLayout;
 
     CheckBox machineSelection;
 
@@ -27,11 +26,11 @@ public class BillPaymentListHolder extends RecyclerView.ViewHolder {
 
         super(itemView);
         machineSelection = (CheckBox) itemView.findViewById(R.id.checkedBoxMachineSelection);
-
+        linearLayout = (LinearLayout) itemView.findViewById(R.id.linearLayout);
         machineType = (TextView) itemView.findViewById(R.id.tvMachineType);
         machineNo = (TextView) itemView.findViewById(R.id.machineNo);
-        machinePrize = (TextView) itemView.findViewById(R.id.machinePrize);
-        machine_img = (ImageView) itemView.findViewById(R.id.machine_img);
+        machinePrice = (TextView) itemView.findViewById(R.id.machinePrize);
+        imageView = (ImageView) itemView.findViewById(R.id.machine_img);
         view = itemView;
     }
 }
