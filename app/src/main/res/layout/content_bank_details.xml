@@ -144,13 +144,15 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/twenty_dip"
             android:layout_marginRight="@dimen/twenty_dip"
-            android:layout_marginTop="@dimen/ten_dip"
+            android:layout_marginTop="@dimen/twenty_dip"
             android:textColorHint="@color/hint_color"
             android:hint="@string/state" >
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/five_dip"
+                android:layout_marginRight="@dimen/five_dip">
 
                 <Spinner
                     android:id="@+id/spStateCategory"
