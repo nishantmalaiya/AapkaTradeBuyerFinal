@@ -341,5 +341,9 @@
     <string name="notificationtext">testing</string>
     <string name="service_edit">Edit</string>
     <string name="service_delete">Delete</string>
+    <string name="servicename">Service Name <font color="#FA2B33">*</font></string>
+    <string name="offers">Offer <font color="#FA2B33">*</font> </string>
+    <string name="servicedescription"> Description <font color="#FA2B33">*</font></string>
+    <string name="save_and_update"><![CDATA[Save & Update]]></string>
 
 </resources>

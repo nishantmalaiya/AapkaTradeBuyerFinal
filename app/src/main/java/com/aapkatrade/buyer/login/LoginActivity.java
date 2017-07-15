@@ -52,8 +52,9 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_login);
+        if(FirebaseInstanceId.getInstance().getToken()!=null){
 
-        refreshedToken = FirebaseInstanceId.getInstance().getToken();
+        refreshedToken = FirebaseInstanceId.getInstance().getToken();}
 
         context = LoginActivity.this;
 

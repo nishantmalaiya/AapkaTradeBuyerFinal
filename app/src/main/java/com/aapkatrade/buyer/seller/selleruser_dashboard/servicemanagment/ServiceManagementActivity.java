@@ -45,6 +45,7 @@ public class ServiceManagementActivity extends AppCompatActivity {
     private LinearLayoutManager linearLayoutManager;
     GridLayoutManager gridLayoutManager;
     ImageView btnAdd_service;
+    int page=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +65,7 @@ public class ServiceManagementActivity extends AppCompatActivity {
 
         setup_layout();
 
-        get_web_data();
+        get_web_data(++page);
 
         OnClickEvent();
 
@@ -80,6 +81,41 @@ public class ServiceManagementActivity extends AppCompatActivity {
 
                 startActivity(i);
             }
+        });
+
+
+        service_list. addOnScrollListener(new RecyclerView.OnScrollListener() {
+
+            public void onScrollStateChanged(RecyclerView view, int scrollState) {
+
+                super.onScrollStateChanged(service_list, scrollState);
+
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                int totalItemCount = gridLayoutManager.getItemCount();
+
+                int firstVisibleItem = gridLayoutManager.findFirstVisibleItemPosition();
+
+                int lastVisibleItemCount = gridLayoutManager.findLastVisibleItemPosition();
+
+                if (totalItemCount > 0) {
+                    if ((totalItemCount - 1) == lastVisibleItemCount) {
+
+                        page = page + 1;
+
+                        get_web_data(page);
+                    } else {
+                        //loadingProgress.setVisibility(View.GONE);
+                    }
+
+                }
+
+            }
+
         });
     }
 
@@ -100,6 +136,17 @@ public class ServiceManagementActivity extends AppCompatActivity {
         ServiceListAdapter = new ServiceListAdapter(context, serviceListDatas);
 
         service_list.setAdapter(ServiceListAdapter);
+        btnAdd_service.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent i =new Intent(ServiceManagementActivity.this,AddServiceActivity.class);
+                startActivity(i);
+
+
+
+            }
+        });
 
     }
 
@@ -150,7 +197,7 @@ public class ServiceManagementActivity extends AppCompatActivity {
     }
 
 
-    private void get_web_data() {
+    private void get_web_data(int i) {
         serviceListDatas.clear();
         progress_handler.show();
 
@@ -159,6 +206,7 @@ public class ServiceManagementActivity extends AppCompatActivity {
                 .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                 .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                 .setBodyParameter("user_id", appSharedPreference.getSharedPref("userid", user_id))
+                .setBodyParameter("page",""+i)
                 .asJsonObject()
                 .setCallback(new FutureCallback<JsonObject>() {
                     @Override
