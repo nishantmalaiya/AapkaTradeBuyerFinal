@@ -169,9 +169,11 @@ public class DashboardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
 
                     } else {
-                        Intent bankDetails = new Intent(context, BankDetailsActivity.class);
-                        context.startActivity(bankDetails);
-
+//                        Intent bankDetails = new Intent(context, BankDetailsActivity.class);
+//                        context.startActivity(bankDetails);
+                        ComingSoonFragmentDialog comingSoonFragmentDialog = new ComingSoonFragmentDialog(context);
+                        FragmentManager fm = ((AppCompatActivity) context).getSupportFragmentManager();
+                        comingSoonFragmentDialog.show(fm, "enquiry");
                     }
 
                 } else if (itemList.get(position).dashboard_name.equals("Company/Shop List")) {

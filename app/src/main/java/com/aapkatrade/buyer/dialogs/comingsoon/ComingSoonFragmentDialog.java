@@ -30,7 +30,7 @@ import com.koushikdutta.ion.Ion;
 public class ComingSoonFragmentDialog extends DialogFragment {
 
     private Context context;
-    ProgressDialogHandler progressDialogHandler;
+    private Button closeButton;
 
     public ComingSoonFragmentDialog(Context context) {
         super();
@@ -45,14 +45,19 @@ public class ComingSoonFragmentDialog extends DialogFragment {
         getDialog().getWindow().setBackgroundDrawableResource(R.drawable.rounded_dialog);
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         getDialog().getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
-        progressDialogHandler = new ProgressDialogHandler(getActivity());
         initView(view);
+        closeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
         return view;
     }
 
 
     private void initView(View v) {
-
+        closeButton = (Button) v.findViewById(R.id.closeButton);
     }
 
 }
