@@ -148,8 +148,7 @@ public class AddProductActivity extends AppCompatActivity {
                 .setBodyParameter("lat", "0")
                 .setBodyParameter("long", "0")
                 .setBodyParameter("apply", "1")
-
-//                .setBodyParameter("page", i + "")
+                .setBodyParameter("shop_type", "1")
                 .asJsonObject().setCallback(new FutureCallback<JsonObject>() {
             @Override
             public void onCompleted(Exception e, JsonObject result) {
