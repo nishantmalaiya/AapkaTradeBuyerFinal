@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.aapkatrade.buyer.general.AppConfig;
+import com.aapkatrade.buyer.general.Utils.ParseUtils;
 import com.aapkatrade.buyer.home.HomeActivity;
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.AppSharedPreference;
@@ -62,10 +63,13 @@ public class BillPaymentActivity extends AppCompatActivity
     private TextView tvAmount;
     private BillPaymentAdapter billPaymentAdapter;
     private ArrayList<BillPaymentListData> billPaymentListDatas = new ArrayList<>();
+
+    private ArrayList<String> SelectedMachineNos=new ArrayList<>();
     private ProgressBarHandler progressBarHandler;
     public static CommonInterface commonInterface;
     public static final String TAG = "PayUMoneySDK Sample";
     String order_number;
+    ArrayList<MachineTotalBillDatas> machineTotalBillDatases=new ArrayList<>();
 
 
 
@@ -180,7 +184,7 @@ public class BillPaymentActivity extends AppCompatActivity
         rlSaveLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //callwebservice__save_order(appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString()));
+                makePayment();
 
             }
         });
@@ -189,7 +193,20 @@ public class BillPaymentActivity extends AppCompatActivity
             @Override
             public Object getData(Object object) {
 
-                tvAmount.setText(new StringBuilder(getString(R.string.rupay_text)).append("  ").append(String.valueOf((Integer) object)));
+
+
+     machineTotalBillDatases= (ArrayList<MachineTotalBillDatas>) object;
+                for(int i=0;i<machineTotalBillDatases.size();i++)
+                {
+
+                    SelectedMachineNos.add(machineTotalBillDatases.get(i).toString());
+
+                }
+
+
+
+
+                tvAmount.setText(new StringBuilder(getString(R.string.rupay_text)).append("  ").append(machineTotalBillDatases.get(machineTotalBillDatases.size()-1).TotalAmount));
 
                 return null;
             }
@@ -502,69 +519,75 @@ public class BillPaymentActivity extends AppCompatActivity
     }
 
 
-    private void callWebServiceMakePayment(String transactionId, String status)
-    {
+    private void callWebServiceMakePayment(String transactionId, String status) {
 
         progressBarHandler.show();
 
-        String login_url = context.getResources().getString(R.string.webservice_base_url) + "/make_payment";
+        String login_url = context.getResources().getString(R.string.webservice_base_url) + "/payment_bill";
 
-        System.out.println("order_number--------------" + order_number+status+transactionId+"fgdfgb----");
+        System.out.println("order_number--------------" + order_number + status + transactionId + "fgdfgb----");
 
-        Ion.with(context)
-                .load(login_url)
-                .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
-                .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
-                //.setBodyParameter("data_n", params.toString())
-                .setBodyParameter("order_id", order_number)
-                .setBodyParameter("transactionid", transactionId)
-                .setBodyParameter("status", status)
-                .asJsonObject()
-                .setCallback(new FutureCallback<JsonObject>() {
-                    @Override
-                    public void onCompleted(Exception e, JsonObject result) {
-                        //  AndroidUtils.showErrorLog(context,result,"dghdfghsaf dawbnedvhaewnbedvsab dsadduyf");
-                        progressBarHandler.hide();
+        if (SelectedMachineNos.size() != 0) {
+         String  jsonArrayMachineNOs= String.valueOf(ParseUtils.ArrayListToJsonObject( SelectedMachineNos));
+            AndroidUtils.showErrorLog(context,"machine_numers",jsonArrayMachineNOs);
 
-                        System.out.println("result--------------" + result);
-                        if (result.get("error").getAsString().contains("false"))
-                        {
-                            String payment_status;
-                            JsonObject jsonObject = result.getAsJsonObject("result");
+            Ion.with(context)
+                    .load(login_url)
+                    .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                    .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                    //.setBodyParameter("data_n", params.toString())
+                    .setBodyParameter("order_id", order_number)
+                    .setBodyParameter("transactionid", transactionId)
+                    .setBodyParameter("status", status)
+                    .setBodyParameter("machine_num", jsonArrayMachineNOs)
+                    .setBodyParameter("payment", tvAmount.getText().toString())
+                    .asJsonObject()
+                    .setCallback(new FutureCallback<JsonObject>() {
+                        @Override
+                        public void onCompleted(Exception e, JsonObject result) {
+                            //  AndroidUtils.showErrorLog(context,result,"dghdfghsaf dawbnedvhaewnbedvsab dsadduyf");
+                            progressBarHandler.hide();
 
-                            if(result.get("payment_status").getAsString().contains("false"))
-                            {
-                                payment_status = "false";
-                                appSharedPreference.setSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), 0);
+                            System.out.println("result--------------" + result);
+                            if (result.get("error").getAsString().contains("false")) {
+                                String payment_status;
+                                JsonObject jsonObject = result.getAsJsonObject("result");
+
+                                if (result.get("payment_status").getAsString().contains("false")) {
+                                    payment_status = "false";
+                                    appSharedPreference.setSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), 0);
+                                } else {
+                                    payment_status = "true";
+                                    String cart_count = jsonObject.get("cart_item").getAsString();
+                                    appSharedPreference.setSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), Integer.valueOf(cart_count));
+                                }
+
+                                AndroidUtils.showErrorLog(context, result.toString());
+
+                                Intent intent = new Intent(context, PaymentCompletionActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                intent.putExtra("isSuccess", payment_status);
+                                intent.putExtra("vpc_Amount", jsonObject.get("amount").getAsString());
+                                intent.putExtra("vpc_TransactionNo", jsonObject.get("transactionID").getAsString());
+                                intent.putExtra("vpc_ReceiptNo", jsonObject.get("order_id").getAsString());
+                                startActivity(intent);
+
+
+                            } else {
+                                Intent intent = new Intent(context, PaymentCompletionActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                intent.putExtra("isSuccess", "false");
+                                startActivity(intent);
                             }
-                            else
-                            {
-                                payment_status = "true";
-                                String cart_count = jsonObject.get("cart_item").getAsString();
-                                appSharedPreference.setSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), Integer.valueOf(cart_count));
-                            }
-
-                            AndroidUtils.showErrorLog(context, result.toString());
-
-                            Intent intent = new Intent(context, PaymentCompletionActivity.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            intent.putExtra("isSuccess", payment_status);
-                            intent.putExtra("vpc_Amount", jsonObject.get("amount").getAsString());
-                            intent.putExtra("vpc_TransactionNo", jsonObject.get("transactionID").getAsString());
-                            intent.putExtra("vpc_ReceiptNo", jsonObject.get("order_id").getAsString());
-                            startActivity(intent);
-
-
-                        } else {
-                            Intent intent = new Intent(context, PaymentCompletionActivity.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            intent.putExtra("isSuccess", "false");
-                            startActivity(intent);
+                            //Toast.makeText(getApplicationContext(),result.toString(),Toast.LENGTH_SHORT).show();
                         }
-                        //Toast.makeText(getApplicationContext(),result.toString(),Toast.LENGTH_SHORT).show();
-                    }
-                });
+                    });
+        }
+        else{
+
+
+            AndroidUtils.showErrorLog(context,"SelectedMachineNos","SelectedMachineNos size 0");
+        }
+
     }
-
-
 }

@@ -8,8 +8,10 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 
 import com.aapkatrade.buyer.R;
+import com.aapkatrade.buyer.general.entity.KeyValue;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,7 +26,11 @@ public class BillPaymentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private BillPaymentListHolder viewHolder;
     private ProgressBarHandler progressBarHandler;
 
+    ArrayList<MachineTotalBillDatas> machineTotalBillDatases=new ArrayList<>();
+    ArrayList<String> machineNos=new ArrayList<>();
+
     int totalBillAmount = 0;
+
 
 
     public BillPaymentAdapter(Activity context, List<BillPaymentListData> itemList) {
@@ -63,10 +69,14 @@ public class BillPaymentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 itemList.get(position).selected = isChecked;
                 if (isChecked) {
                     totalBillAmount = totalBillAmount + Integer.parseInt(itemList.get(position).machineCost);
+                    machineNos.add(itemList.get(position).machineNo);
                 } else {
                     totalBillAmount = totalBillAmount - Integer.parseInt(itemList.get(position).machineCost);
+                    machineNos.remove(itemList.get(position).machineNo);
                 }
-                BillPaymentActivity.commonInterface.getData(totalBillAmount);
+                machineTotalBillDatases.add(new MachineTotalBillDatas(String.valueOf(totalBillAmount),machineNos));
+
+                BillPaymentActivity.commonInterface.getData(machineTotalBillDatases);
             }
 
 
