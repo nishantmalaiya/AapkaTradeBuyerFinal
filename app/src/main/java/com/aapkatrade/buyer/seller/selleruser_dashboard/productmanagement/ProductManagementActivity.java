@@ -2,8 +2,13 @@ package com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement;
 
 import android.content.Context;
 import android.content.Intent;
+
+import android.os.Build;
+
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -17,6 +22,7 @@ import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
+import com.aapkatrade.buyer.home.HomeActivity;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.adapter.ProductListAdapter;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.addproduct.AddProductActivity;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.entity.ProductListData;
@@ -39,6 +45,7 @@ public class ProductManagementActivity extends AppCompatActivity
     String UserType;
     private LinearLayoutManager linearLayoutManager;
     ImageView img_shop_type;
+    int page = 0;
 
 
     @Override
@@ -52,7 +59,7 @@ public class ProductManagementActivity extends AppCompatActivity
 
         initview();
 
-        setuptoolbar();
+        setUpToolBar();
 
         progress_handler = new ProgressBarHandler(context);
 
@@ -62,7 +69,7 @@ public class ProductManagementActivity extends AppCompatActivity
 
         setup_layout();
 
-        get_web_data();
+        get_web_data(++page);
 
     }
 
@@ -70,9 +77,11 @@ public class ProductManagementActivity extends AppCompatActivity
 
         img_shop_type=(ImageView)findViewById(R.id.btnAdd_shop);
 
-
+        order_list = (RecyclerView) findViewById(R.id.recyclerview);
 
         onClickEvents();
+
+
 
     }
 
@@ -80,15 +89,56 @@ public class ProductManagementActivity extends AppCompatActivity
         img_shop_type.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent addProductIntent=new Intent(context, AddProductActivity.class);
+
+Intent addProductIntent=new Intent(context, AddProductActivity.class);
                 startActivity(addProductIntent);
             }
+        });
+
+
+
+       order_list. addOnScrollListener(new RecyclerView.OnScrollListener() {
+
+            public void onScrollStateChanged(RecyclerView view, int scrollState) {
+
+                super.onScrollStateChanged(order_list, scrollState);
+
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                int totalItemCount = linearLayoutManager.getItemCount();
+
+                int firstVisibleItem = linearLayoutManager.findFirstVisibleItemPosition();
+
+                int lastVisibleItemCount = linearLayoutManager.findLastVisibleItemPosition();
+
+                if (totalItemCount > 0) {
+                    if ((totalItemCount - 1) == lastVisibleItemCount) {
+
+                        page = page + 1;
+
+                        get_web_data(page);
+                    } else {
+                        //loadingProgress.setVisibility(View.GONE);
+                    }
+
+                }
+
+
+                Intent addProductIntent=new Intent(context, AddProductActivity.class);
+                startActivity(addProductIntent);
+
+            }
+
         });
     }
 
     private void setup_layout()
     {
-        order_list = (RecyclerView) findViewById(R.id.recyclerview);
+
 
         linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
 
@@ -98,18 +148,37 @@ public class ProductManagementActivity extends AppCompatActivity
 
         order_list.setAdapter(productListAdapter);
 
+
+
+
+
     }
 
-    private void setuptoolbar()
-    {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+    private void setUpToolBar() {
+        ImageView homeIcon = (ImageView) findViewById(R.id.iconHome);
+        AppCompatImageView back_imagview = (AppCompatImageView) findViewById(R.id.back_imagview);
+        AndroidUtils.setImageColor(homeIcon, context, R.color.white);
+        back_imagview.setVisibility(View.VISIBLE);
+        back_imagview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+        homeIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, HomeActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }
+        });
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayShowTitleEnabled(false);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setTitle(null);
+            getSupportActionBar().setElevation(0);
         }
-        appSharedPreference = new AppSharedPreference(context);
     }
 
     @Override
@@ -134,7 +203,7 @@ public class ProductManagementActivity extends AppCompatActivity
     }
 
 
-    private void get_web_data()
+    private void get_web_data(int i)
     {
         orderListDatas.clear();
         progress_handler.show();
@@ -144,6 +213,7 @@ public class ProductManagementActivity extends AppCompatActivity
                 .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                 .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                 .setBodyParameter("user_id", appSharedPreference.getSharedPref("userid", user_id))
+                .setBodyParameter("page",""+ i)
                 .asJsonObject()
                 .setCallback(new FutureCallback<JsonObject>() {
                     @Override
@@ -184,6 +254,11 @@ public class ProductManagementActivity extends AppCompatActivity
 
                     }
                 });
+
+
+
+
+
 
     }
 

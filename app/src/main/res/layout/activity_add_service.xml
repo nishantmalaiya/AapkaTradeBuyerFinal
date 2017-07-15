@@ -22,13 +22,204 @@
         </RelativeLayout>
 
 
-        <RelativeLayout
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="fill_parent">
+            android:layout_margin="@dimen/ten_dip"
+            app:cardBackgroundColor="@color/white"
+            android:layout_height="match_parent">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:weightSum="2"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
 
-            <include layout="@layout/content_company_shop_management" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_weight="0.6"
 
-        </RelativeLayout>
+
+
+
+        android:layout_height="0dp">
+
+<RelativeLayout
+    android:layout_width="@dimen/hundred_dip"
+    android:layout_centerInParent="true"
+
+android:id="@+id/rl_add_service_image_container"
+    android:layout_height="@dimen/hundred_dip">
+
+        <ImageView
+            android:layout_marginTop="@dimen/ten_dip"
+            android:id="@+id/img_add_service"
+            android:layout_width="wrap_content"
+            android:background="@drawable/ic_add_service_background"
+            android:scaleType="fitXY"
+            android:layout_height="wrap_content" />
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_alignParentRight="true"
+   android:id="@+id/add_service_img"
+        android:background="@drawable/ic_add_service_plus"
+        android:layout_height="wrap_content" />
+</RelativeLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_weight="1.4"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical"
+        android:layout_height="0dp">
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_layout_service_company_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/twenty_dip"
+            android:layout_marginRight="@dimen/twenty_dip"
+            android:layout_marginTop="@dimen/fifteen_dip"
+            android:textColorHint="@color/hint_color">
+
+            <RelativeLayout
+                android:id="@+id/spCompanyListLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/five_dip"
+                android:layout_marginTop="@dimen/five_dip">
+
+
+                <Spinner
+                    android:id="@+id/spCompanyListService"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:background="@drawable/simple_spinner_back"
+                    android:gravity="center_horizontal" />
+
+                <ImageView
+                    android:layout_width="@dimen/twenty_dip"
+                    android:layout_height="@dimen/twenty_dip"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/ten_dip"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_arrow" />
+
+            </RelativeLayout>
+        </android.support.design.widget.TextInputLayout>
+
+
+
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textinputlayout_servicename"
+            android:layout_below="@+id/input_layout_service_company_list"
+            android:layout_marginLeft="@dimen/twenty_dip"
+            android:layout_marginRight="@dimen/twenty_dip"
+            android:layout_marginTop="@dimen/ten_dip"
+            android:textColorHint="@color/hint_color">
+
+            <EditText
+                android:id="@+id/etservicename"
+                style="@style/myedittext"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/five_dip"
+                android:layout_marginRight="@dimen/five_dip"
+                android:hint="@string/servicename"
+                android:inputType="text"
+                android:paddingLeft="@dimen/ten_dip"
+                android:textColorHint="@color/green"
+                android:theme="@style/myedittext" />
+
+
+        </android.support.design.widget.TextInputLayout>
+
+
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/twenty_dip"
+            android:layout_marginRight="@dimen/twenty_dip"
+            android:layout_marginTop="@dimen/ten_dip"
+            android:id="@+id/textinputlayout_offer"
+            android:layout_below="@+id/textinputlayout_servicename"
+            android:textColorHint="@color/hint_color">
+
+            <EditText
+                android:id="@+id/etserviceOffers"
+                style="@style/myedittext"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/five_dip"
+                android:layout_marginRight="@dimen/five_dip"
+                android:hint="@string/offers"
+                android:inputType="text"
+                android:paddingLeft="@dimen/ten_dip"
+                android:textColorHint="@color/green"
+                android:theme="@style/myedittext" />
+
+
+        </android.support.design.widget.TextInputLayout>
+
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/twenty_dip"
+            android:layout_marginRight="@dimen/twenty_dip"
+            android:layout_marginTop="@dimen/ten_dip"
+            android:id="@+id/textinputlayout_description"
+            android:layout_below="@+id/textinputlayout_offer"
+            android:textColorHint="@color/hint_color">
+
+            <EditText
+                android:id="@+id/etDescription"
+                style="@style/myedittext"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/five_dip"
+                android:layout_marginRight="@dimen/five_dip"
+                android:hint="@string/servicedescription"
+                android:inputType="text"
+                android:paddingLeft="@dimen/ten_dip"
+                android:textColorHint="@color/green"
+                android:theme="@style/myedittext" />
+
+
+        </android.support.design.widget.TextInputLayout>
+
+
+
+
+
+<Button
+    android:layout_width="wrap_content"
+    android:background="@color/color_voilet"
+    android:padding="@dimen/ten_dip"
+    android:id="@+id/saveandupdatebtn"
+    android:text="@string/save_and_update"
+    android:textColor="@color/white"
+    android:layout_centerHorizontal="true"
+    android:layout_marginTop="@dimen/twenty_dip"
+    android:fontFamily="@string/library_AndroidIconics_isOpenSource"
+    android:layout_below="@+id/textinputlayout_description"
+    android:layout_height="wrap_content" />
+
+
+
+
+
+    </RelativeLayout>
+
+</LinearLayout>
+
+        </android.support.v7.widget.CardView>
 
 
     </LinearLayout>
