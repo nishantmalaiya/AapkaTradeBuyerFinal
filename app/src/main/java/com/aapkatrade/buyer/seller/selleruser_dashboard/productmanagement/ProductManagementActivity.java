@@ -1,6 +1,7 @@
 package com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,6 +18,7 @@ import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.adapter.ProductListAdapter;
+import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.addproduct.AddProductActivity;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.entity.ProductListData;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -78,7 +80,8 @@ public class ProductManagementActivity extends AppCompatActivity
         img_shop_type.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent addProductIntent=new Intent(context, AddProductActivity.class);
+                startActivity(addProductIntent);
             }
         });
     }

@@ -16,6 +16,8 @@ import android.view.ViewGroup;
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Validation;
+import com.aapkatrade.buyer.general.interfaces.CommonInterface;
+import com.aapkatrade.buyer.home.CommonData;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.addcompanyshop.AddCompanyShopActivity;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.editcompanyshop.EditCompanyShopActivity;
 import com.koushikdutta.async.future.FutureCallback;
@@ -33,6 +35,7 @@ public class ProductImagesAdapter extends RecyclerView.Adapter<RecyclerView.View
     private Context context;
     private final int userAdded = 0, image = 1;
     private Activity activity;
+    public static CommonInterface commonInterface;
 
 
     public ProductImagesAdapter(Context context, List<ProductMediaData> itemList, Activity activity)
@@ -142,8 +145,10 @@ public class ProductImagesAdapter extends RecyclerView.Adapter<RecyclerView.View
                 homeHolder.cancelImage.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        EditCompanyShopActivity.productMediaDatasDelete.add(itemList.get(position));
                         itemList.remove(position);
                         notifyDataSetChanged();
+//                        commonInterface.getData();
                     }
                 });
                 AndroidUtils.showErrorLog(context, "data-----------" + itemList);
@@ -161,10 +166,12 @@ public class ProductImagesAdapter extends RecyclerView.Adapter<RecyclerView.View
                                 intent.setDataAndType(Uri.fromFile(file), "video/*");
                             }
                             context.startActivity(intent);
-                        }
-                        else
-                        {
-
+                        } else {
+                            File file = new File(itemList.get(position).imagePath);
+                            Intent intent = new Intent(android.content.Intent.ACTION_VIEW);
+                            Uri data = Uri.parse("file://" + file.getAbsolutePath());
+                            intent.setDataAndType(data, "image/*");
+                            context.startActivity(intent);
                         }
                     }
                 });
