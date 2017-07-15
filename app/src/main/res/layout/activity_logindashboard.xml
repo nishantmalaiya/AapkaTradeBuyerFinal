@@ -81,12 +81,13 @@
                     android:layout_height="0dp"
                     android:layout_weight="3"
                     android:orientation="vertical"
-                    android:weightSum="2">
+
+                    android:weightSum="3">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
-                        android:layout_weight="1"
+                        android:layout_weight="3"
                         android:weightSum="2">
 
                         <RelativeLayout
@@ -192,6 +193,7 @@
 
                     </LinearLayout>
 
+<!--
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
@@ -250,6 +252,7 @@
                         </RelativeLayout>
 
                     </LinearLayout>
+-->
 
                 </LinearLayout>
 
