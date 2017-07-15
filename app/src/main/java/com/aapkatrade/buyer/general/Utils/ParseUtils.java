@@ -53,4 +53,29 @@ public class ParseUtils {
         }
         return jsonObject;
     }
+
+    public static JSONObject ArrayListToJsonObject(ArrayList arrayList){
+
+        JSONObject jsonObject = new JSONObject();
+
+        try {
+        for(int i=0;i<arrayList.size();i++)
+        {
+
+
+            jsonObject.put(String.valueOf(i), arrayList.get(i));
+
+        }
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
+    }
+
+
+
+
+
 }
