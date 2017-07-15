@@ -16,7 +16,11 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent">
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:paddingEnd="@dimen/ten_dip"
+        >
 
 
 
@@ -32,7 +36,6 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             android:layout_marginTop="25dp"
-            android:layout_marginBottom="@dimen/ten_dip"
             >
 
             <android.support.constraint.ConstraintLayout
@@ -40,6 +43,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="10dp"
+                android:layout_marginBottom="@dimen/ten_dip"
                 >
 
 
@@ -157,10 +161,11 @@
                     app:layout_constraintTop_toBottomOf="@+id/imgProduct"
                     app:layout_constraintRight_toRightOf="parent"
                     android:text="Edit"
-                    android:textColor="@color/blue"
+                    android:textColor="@drawable/button_blue_text_color"
                     android:padding="@dimen/five_dip"
                     android:background="@drawable/blue_button_selector"
                     android:layout_marginRight="10dp"
+
                     />
 
                 <Button
@@ -170,7 +175,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/imgProduct"
                     app:layout_constraintRight_toLeftOf="@+id/btnEdit"
                     android:text="Delete"
-                    android:textColor="@color/blue"
+                    android:textColor="@drawable/button_blue_text_color"
                     android:padding="@dimen/five_dip"
                     android:background="@drawable/blue_button_selector"
                     android:layout_marginRight="10dp"

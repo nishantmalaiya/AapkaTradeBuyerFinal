@@ -71,11 +71,12 @@ public class Seller_Update_Product_Policy extends DialogFragment
         et_schedule_delivery = (EditText) v.findViewById(R.id.et_schedule_delivery);
 
         submit = (TextView) v.findViewById(R.id.buttonSubmit);
-        AndroidUtils.setBackgroundSolid(rl_imgview_enquiry, getActivity(), R.color.white, 15, GradientDrawable.OVAL);
+
+      /*  AndroidUtils.setBackgroundSolid(rl_imgview_enquiry, getActivity(), R.color.white, 15, GradientDrawable.OVAL);
 
         AndroidUtils.setBackgroundSolid(submit, getActivity(), R.color.orange, 8, GradientDrawable.OVAL);
         AndroidUtils.setBackgroundSolid(dialogue_toolbar, getActivity(), R.color.green, 15, GradientDrawable.RECTANGLE);
-
+        */
         tvProductname = (TextView) v.findViewById(R.id.tvProductname);
         //tvCategoryName = (TextView) v.findViewById(R.id.tvCategoryName);
 

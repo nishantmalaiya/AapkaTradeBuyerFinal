@@ -1,16 +1,24 @@
 package com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.aapkatrade.buyer.R;
+import com.aapkatrade.buyer.dialogs.Seller_Update_Product_Policy;
+import com.aapkatrade.buyer.dialogs.ServiceEnquiry;
 import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
+import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.ProductManagementActivity;
+import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.editproduct.EditProductActivity;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.entity.ProductListData;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.viewholder.ProductListViewHolder;
 import com.google.gson.JsonObject;
@@ -81,10 +89,13 @@ public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     }
                 });
 
-        homeHolder.btnEdit.setOnClickListener(new View.OnClickListener() {
+        homeHolder.btnEdit.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
-
+            public void onClick(View v)
+            {
+                Intent edit_product = new Intent(context, EditProductActivity.class);
+                context.startActivity(edit_product);
             }
         });
 
@@ -93,6 +104,18 @@ public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             public void onClick(View v)
             {
                 callwebserviceDeleteCart(itemList.get(position).product_id,position);
+            }
+        });
+
+
+        homeHolder.btnPolicyUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                Seller_Update_Product_Policy seller_update_product_policy = new Seller_Update_Product_Policy(itemList.get(position).product_id, context);
+                FragmentManager manager = ((AppCompatActivity)context).getSupportFragmentManager();
+                seller_update_product_policy.show(manager, "enquiry");
+
             }
         });
 

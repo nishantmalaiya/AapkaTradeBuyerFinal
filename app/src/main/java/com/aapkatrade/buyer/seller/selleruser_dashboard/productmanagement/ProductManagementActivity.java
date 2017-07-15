@@ -1,8 +1,8 @@
 package com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement;
 
 import android.content.Context;
+import android.support.v4.app.FragmentManager;
 import android.content.Intent;
-
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,6 +15,8 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.aapkatrade.buyer.R;
+import com.aapkatrade.buyer.dialogs.Seller_Update_Product_Policy;
+import com.aapkatrade.buyer.dialogs.ServiceEnquiry;
 import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
@@ -179,6 +181,13 @@ public class ProductManagementActivity extends AppCompatActivity {
                 });
 
 
+    }
+
+    public  void fragment_call(String product_id)
+    {
+        Seller_Update_Product_Policy seller_update_product_policy = new Seller_Update_Product_Policy(product_id, context);
+        FragmentManager fm = getSupportFragmentManager();
+        seller_update_product_policy.show(fm, "enquiry");
     }
 
 }
