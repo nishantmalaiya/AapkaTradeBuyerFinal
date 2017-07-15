@@ -9,13 +9,20 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaMetadataRetriever;
+import android.media.MediaPlayer;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -31,6 +38,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -47,6 +55,7 @@ import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.Validation;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
+import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.addproduct.ProductMediaData;
 import com.aapkatrade.buyer.videoplay.VideoPlayActivity;
 import com.afollestad.materialcamera.MaterialCamera;
 import com.afollestad.materialdialogs.DialogAction;
@@ -61,20 +70,22 @@ import java.io.File;
 import java.io.FileDescriptor;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class MyProfileActivity extends AppCompatActivity
-{
+import static android.R.attr.animation;
+
+public class MyProfileActivity extends AppCompatActivity {
 
     private AppSharedPreference app_sharedpreference;
-    public static EditText etMobileNo,etEmail;
+    public static EditText etMobileNo, etEmail;
     public EditText etFName, etLName, etAddress;
     private ProgressBarHandler p_handler;
     private TextView tvMyProfileDetailHeading;
     private CoordinatorLayout coordinatorlayout_myprofile;
     private Context context;
-    private String fname, lname, email, mobile, address, user_image, usertype;
+    private String fname, lname, email, mobile, address, user_image, usertype, videoPath;
     private CircleImageView userImageView;
     private Button btnSave;
     private Bitmap imageForPreview;
@@ -82,18 +93,15 @@ public class MyProfileActivity extends AppCompatActivity
     private final static int CAMERA_RQ = 6969;
     private final static int PERMISSION_RQ = 84;
     private static final int REQUEST_TAKE_GALLERY_VIDEO = 111;
-    public static String videopath;
     public static String selectedImagePath;
     private final static int SELECT_VIDEO_REQUEST = 100;
     String source_video_folder = null;
-   public static ImageView imageViewProfile,imgEmailEdit,imgMobileEdit;
-
-
+    int frameno = 0;
+    public static ImageView imageViewProfile, imgEmailEdit, imgMobileEdit;
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_profile);
         context = MyProfileActivity.this;
@@ -103,8 +111,7 @@ public class MyProfileActivity extends AppCompatActivity
 
     }
 
-    private void initView()
-    {
+    private void initView() {
         app_sharedpreference = new AppSharedPreference(context);
 
         p_handler = new ProgressBarHandler(context);
@@ -157,14 +164,12 @@ public class MyProfileActivity extends AppCompatActivity
 
         imgEmailEdit = (ImageView) findViewById(R.id.imgEmailEdit);
 
-        imgMobileEdit = (ImageView)findViewById(R.id.imgMobileEdit);
+        imgMobileEdit = (ImageView) findViewById(R.id.imgMobileEdit);
 
-        imgEmailEdit.setOnClickListener(new View.OnClickListener()
-        {
+        imgEmailEdit.setOnClickListener(new View.OnClickListener() {
 
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
 
                 UpdateUserDataVerifyDialog updateUserDataVerifyDialog = new UpdateUserDataVerifyDialog(context);
                 updateUserDataVerifyDialog.show(((FragmentActivity) context).getSupportFragmentManager(), "LoginWithoutRegistrationDialog");
@@ -173,44 +178,36 @@ public class MyProfileActivity extends AppCompatActivity
 
         });
 
-        imgMobileEdit.setOnClickListener(new View.OnClickListener()
-        {
+        imgMobileEdit.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 UpdateUserDataVerifyDialog updateUserDataVerifyDialog = new UpdateUserDataVerifyDialog(context);
                 updateUserDataVerifyDialog.show(((FragmentActivity) context).getSupportFragmentManager(), "LoginWithoutRegistrationDialog");
             }
         });
 
-        if (etEmail.getText().toString().equals(""))
-        {
+        if (etEmail.getText().toString().equals("")) {
             imgEmailEdit.setVisibility(View.INVISIBLE);
-        }
-        else
-        {
+        } else {
             etEmail.setKeyListener(null);
             imgEmailEdit.setVisibility(View.VISIBLE);
         }
 
-        if (etMobileNo.getText().toString().equals(""))
-        {
+        if (etMobileNo.getText().toString().equals("")) {
             imgMobileEdit.setVisibility(View.INVISIBLE);
-        }
-        else
-        {
+        } else {
 
             imgMobileEdit.setVisibility(View.VISIBLE);
             etMobileNo.setKeyListener(null);
         }
 
-         etEmail.setKeyListener(null);
+        etEmail.setKeyListener(null);
 
         etEmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if (etEmail.getText().toString().equals("")){
+                if (etEmail.getText().toString().equals("")) {
 
                     UpdateUserDataVerifyDialog updateUserDataVerifyDialog = new UpdateUserDataVerifyDialog(context);
                     updateUserDataVerifyDialog.show(((FragmentActivity) context).getSupportFragmentManager(), "LoginWithoutRegistrationDialog");
@@ -285,8 +282,7 @@ public class MyProfileActivity extends AppCompatActivity
         });
     }
 
-    private void getshared_pref_data()
-    {
+    private void getshared_pref_data() {
         user_image = app_sharedpreference.getSharedPref(SharedPreferenceConstants.PROFILE_PIC.toString(), "");
         fname = app_sharedpreference.getSharedPref(SharedPreferenceConstants.FIRST_NAME.toString(), "");
         lname = app_sharedpreference.getSharedPref(SharedPreferenceConstants.LAST_NAME.toString(), "");
@@ -458,66 +454,10 @@ public class MyProfileActivity extends AppCompatActivity
 
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        switch (requestCode)
-        {
+        switch (requestCode) {
             case 1:
-                /*try
-                {
-                    BitmapFactory.Options option = new BitmapFactory.Options();
-                    option.inDither = false;
-                    option.inPurgeable = true;
-                    option.inInputShareable = true;
-                    option.inTempStorage = new byte[32 * 1024];
-                    option.inPreferredConfig = Bitmap.Config.RGB_565;
-                    if (Build.VERSION.SDK_INT < 19) {
-
-                        imageForPreview = BitmapFactory.decodeFile(getFilesDir().getPath(), option);
-
-                    } else {
-                        if (data.getData() != null) {
-
-                            ParcelFileDescriptor pfd;
-                            try {
-                                pfd = getContentResolver()
-                                        .openFileDescriptor(data.getData(), "r");
-                                if (pfd != null) {
-                                    FileDescriptor fileDescriptor = pfd
-                                            .getFileDescriptor();
-
-                                    imageForPreview = BitmapFactory.decodeFileDescriptor(fileDescriptor, null, option);
-
-                                }
-                                pfd.close();
-
-
-                            } catch (FileNotFoundException e) {
-                                Log.e("FileNotFoundException", e.toString());
-                            } catch (IOException e) {
-                                Log.e("IOException", e.toString());
-                            }
-                        } else {
-
-                            imageForPreview = (Bitmap) data.getExtras().get("data");
-
-                            Log.e("data_not_found", "data_not_found");
-                        }
-
-                    }
-
-                    userImageView.setVisibility(View.VISIBLE);
-
-                    // userImageView.setImageBitmap(imageForPreview);
-                    File imagefile = ImageUtils.getFile(context, imageForPreview);
-
-                    call_myprofile_webservice(imagefile);
-
-
-                } catch (Exception e) {
-                    AndroidUtils.showErrorLog(context, "error in myprofile", e.toString());
-                }*/
 
                 File imagefile = new File(ImageUtils.getRealPathFromURI(context, data.getData()));
                 call_myprofile_webservice(imagefile);
@@ -525,73 +465,13 @@ public class MyProfileActivity extends AppCompatActivity
                 break;
 
 
-            /*case 2:
-
-                try {
-
-                    BitmapFactory.Options option = new BitmapFactory.Options();
-                    option.inDither = false;
-                    option.inPurgeable = true;
-                    option.inInputShareable = true;
-                    option.inTempStorage = new byte[32 * 1024];
-                    option.inPreferredConfig = Bitmap.Config.RGB_565;
-                    if (Build.VERSION.SDK_INT < 19) {
-
-                        imageForPreview = BitmapFactory.decodeFile(getFilesDir().getPath(), option);
-
-                    } else {
-                        if (data.getData() != null) {
-
-                            ParcelFileDescriptor pfd;
-                            try {
-                                pfd = getContentResolver()
-                                        .openFileDescriptor(data.getData(), "r");
-                                if (pfd != null) {
-                                    FileDescriptor fileDescriptor = pfd
-                                            .getFileDescriptor();
-
-                                    imageForPreview = BitmapFactory.decodeFileDescriptor(fileDescriptor, null, option);
-
-                                }
-                                pfd.close();
-
-
-                            } catch (FileNotFoundException e) {
-                                Log.e("FileNotFoundException", e.toString());
-                            } catch (IOException e) {
-                                Log.e("IOException", e.toString());
-                            }
-                        } else {
-
-                            imageForPreview = (Bitmap) data.getExtras().get("data");
-
-                            Log.e("data_not_found", "data_not_found");
-                        }
-
-                    }
-
-                    userImageView.setVisibility(View.VISIBLE);
-
-                    //userImageView.setImageBitmap(imageForPreview);
-                    File imagefile = ImageUtils.getFile(context, imageForPreview);
-
-                    call_myprofile_webservice(imagefile);
-
-
-                } catch (Exception e) {
-                    AndroidUtils.showErrorLog(context, "error in myprofile", e.toString());
-                }
-
-                break;*/
-
-
             case CAMERA_RQ:
 
                 System.out.println("Saved Video =================");
 
-                if (resultCode == RESULT_OK)
-                {
+                if (resultCode == RESULT_OK) {
                     final File file = new File(data.getData().getPath());
+
 
                     //Toast.makeText(this, String.format("Saved to: %s, size: %s", file.getAbsolutePath(), fileSize(file)), Toast.LENGTH_LONG).show();
                     //Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
@@ -652,14 +532,14 @@ public class MyProfileActivity extends AppCompatActivity
 
                     File video_thumbnail = ImageUtils.getFile(context, thumb);
                     File file = null;
-                    if(Validation.isNonEmptyStr(selectedImagePath)) {
+                    if (Validation.isNonEmptyStr(selectedImagePath)) {
                         file = new File(selectedImagePath);
                     }
 
                     MediaMetadataRetriever retriever = new MediaMetadataRetriever();
                     //use one of overloaded setDataSource() functions to set your data source
-                    if(file!=null)
-                    retriever.setDataSource(context, Uri.fromFile(file));
+                    if (file != null)
+                        retriever.setDataSource(context, Uri.fromFile(file));
                     String time = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
                     long timeInMillisec = Long.parseLong(time);
 
@@ -678,6 +558,16 @@ public class MyProfileActivity extends AppCompatActivity
                     } else {
                         edit_profilevideo_webservice(file, video_thumbnail);
                     }
+                }
+                break;
+
+            case 13:
+                if (data != null && data.getData() != null) {
+
+
+                    captureVideo(requestCode, resultCode, data);
+                } else {
+                    AndroidUtils.showErrorLog(context, "Data.getData is null in video capture");
                 }
                 break;
 
@@ -805,8 +695,8 @@ public class MyProfileActivity extends AppCompatActivity
 
 
     }
-    private void showEditVideoPopup2()
-    {
+
+    private void showEditVideoPopup2() {
         boolean wrapInScrollView = true;
 
         video_dailog = new MaterialDialog.Builder(context)
@@ -855,7 +745,7 @@ public class MyProfileActivity extends AppCompatActivity
         video_dailog.findViewById(R.id.linearLayoutTakeVideo).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
+               /*
                     // code buggy code
                     File saveDir = null;
                     saveDir = new File(Environment.getExternalStorageDirectory(), "MaterialCamera");
@@ -876,12 +766,16 @@ public class MyProfileActivity extends AppCompatActivity
 
                     // .labelConfirm(R.string.mcam_use_video);
 
-                    materialCamera.start(CAMERA_RQ);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                    materialCamera.start(CAMERA_RQ);*/
+
 
                 video_dailog.dismiss();
+                Intent in = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+                in.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 120);
+                in.putExtra(MediaStore.EXTRA_OUTPUT, Environment.getExternalStorageDirectory().getPath() + "my_profile_video.mp4");
+                startActivityForResult(Intent.createChooser(in, "Capture Video From Camera"), 13);
+
+
             }
         });
 
@@ -895,6 +789,142 @@ public class MyProfileActivity extends AppCompatActivity
         });
 
 
+    }
+
+    private void captureVideo(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+
+            Uri vid = data.getData();
+            videoPath = ImageUtils.getRealPathFromURI(context, vid);
+
+            AndroidUtils.showErrorLog(context, "file.getAbsolutePath()", videoPath);
+
+            final File file = new File(videoPath);
+
+
+            Uri myVideoUri = Uri.parse(file.toString());
+        /*    MediaMetadataRetriever mmRetriever = new MediaMetadataRetriever();
+            mmRetriever.setDataSource(file.getAbsolutePath());
+
+// Array list to hold your frames
+            final ArrayList<Bitmap> frames = new ArrayList<Bitmap>();
+
+//Create a new Media Player
+            //MediaPlayer mp = MediaPlayer.create(getBaseContext(), myVideoUri);
+
+// Some kind of iteration to retrieve the frames and add it to Array list
+            Bitmap bitmap = mmRetriever.getFrameAtTime();
+            frames.add(bitmap);
+
+AndroidUtils.showErrorLog(context,"frame_size",frames.size());
+            final Handler handler = new Handler();
+            Runnable runnable = new Runnable() {
+                int i = 0;
+
+                public void run() {
+                    imageViewProfile.setImageBitmap(frames.get(i));
+                    i++;
+                    if (i > frames.size() - 1) {
+                        i = 0;
+                    }
+                    handler.postDelayed(this, 2000);
+                }
+            };
+            handler.postDelayed(runnable, 2000);
+
+*/
+
+
+
+
+
+
+
+/*
+
+            ArrayList<BitmapDrawable> bitmapDrawableslist = new ArrayList<BitmapDrawable>();
+            final AnimationDrawable animation = new AnimationDrawable();
+
+            for (int k = 0; k < frames.size(); k++) {
+
+
+                Canvas canvas = new Canvas(frames.get(k));
+                canvas.drawColor(Color.GRAY);
+                Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+                paint.setTextSize(80);
+                paint.setColor(Color.BLACK);
+                canvas.drawText("Frame " + k, 40, 220, paint);
+                BitmapDrawable animation2 = new BitmapDrawable(getResources(), frames.get(k));
+                bitmapDrawableslist.add(animation2);
+
+                animation.addFrame(animation2,k);
+    animation.addFrame(animation2, 50);
+    animation.addFrame(animation2, 30);
+
+
+            }
+            animation.setOneShot(false);
+
+
+// start the animation!
+
+            imageViewProfile.setImageDrawable(animation);
+            animation.start();
+*/
+
+
+            AndroidUtils.showErrorLog(context, "file.getAbsolutePath()", file.getAbsolutePath());
+
+            //Toast.makeText(this, String.format("Saved to: %s, size: %s", file.getAbsolutePath(), fileSize(file)), Toast.LENGTH_LONG).show();
+            //Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+            Bitmap thumb = ThumbnailUtils.createVideoThumbnail(file.getAbsolutePath(), MediaStore.Video.Thumbnails.MINI_KIND);
+
+            File videothumbnail = ImageUtils.getFile(context, thumb);
+
+            MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+            //use one of overloaded setDataSource() functions to set your data source
+            retriever.setDataSource(context, Uri.fromFile(file));
+            String time = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
+            long timeInMillisec = Long.parseLong(time);
+
+            AndroidUtils.showErrorLog(context, "timeInMillisec-------" + timeInMillisec);
+
+            retriever.release();
+
+
+            if (timeInMillisec >= 120000) {
+
+                AndroidUtils.showToast(context, "Video timing should be between 30 to 120 second only");
+
+            } else if (timeInMillisec <= 30000) {
+
+
+                AndroidUtils.showToast(context, "Video timing should be between 30 to 120 second only");
+            } else {
+
+                edit_profilevideo_webservice(file, videothumbnail);
+            }
+
+        } else if (data != null) {
+            Exception e = (Exception) data.getSerializableExtra(MaterialCamera.ERROR_EXTRA);
+            if (e != null) {
+                e.printStackTrace();
+                AndroidUtils.showErrorLog(context, e.getMessage());
+            }
+        }
+
+
+    }
+
+    private BitmapDrawable getDrawableForFrameNumber(int frameNumber) {
+        Bitmap bitmap = Bitmap.createBitmap(400, 400, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        canvas.drawColor(Color.GRAY);
+        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paint.setTextSize(80);
+        paint.setColor(Color.BLACK);
+        canvas.drawText("Frame " + frameNumber, 40, 220, paint);
+        return new BitmapDrawable(getResources(), bitmap);
     }
 
 }

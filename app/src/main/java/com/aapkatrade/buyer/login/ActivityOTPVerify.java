@@ -481,7 +481,18 @@ public class ActivityOTPVerify extends AppCompatActivity {
 
                         } else {
                             appSharedPreference.setSharedPref(SharedPreferenceConstants.USER_ID.toString(), jsonObject.get("user_id").getAsString());
-                            callwebserviceUpdateCartSimple();
+                            if(appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString())==SharedPreferenceConstants.USER_TYPE_SELLER.toString())
+
+                            {
+                                Intent Homedashboard = new Intent(context, HomeActivity.class);
+                                Homedashboard.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(Homedashboard);
+                            }
+
+                            else{
+
+                                callwebserviceUpdateCartSimple();
+                            }
 
                         }
                     } else {
