@@ -1,13 +1,18 @@
 package com.aapkatrade.buyer.user_dashboard;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.aapkatrade.buyer.R;
+import com.aapkatrade.buyer.dialogs.ServiceEnquiry;
+import com.aapkatrade.buyer.dialogs.comingsoon.ComingSoonFragmentDialog;
 import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 
@@ -176,9 +181,12 @@ public class DashboardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
 
                     } else {
-                        Intent bankDetails = new Intent(context, CompanyShopManagementActivity.class);
-                        context.startActivity(bankDetails);
+//                        Intent bankDetails = new Intent(context, CompanyShopManagementActivity.class);
+//                        context.startActivity(bankDetails);
 
+                        ComingSoonFragmentDialog comingSoonFragmentDialog = new ComingSoonFragmentDialog(context);
+                        FragmentManager fm = ((AppCompatActivity) context).getSupportFragmentManager();
+                        comingSoonFragmentDialog.show(fm, "enquiry");
                     }
 
                 } else if (itemList.get(position).dashboard_name.equals("Bill History")) {
@@ -212,8 +220,11 @@ public class DashboardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
 
                     } else {
-                        Intent productManagementIntent = new Intent(context, ProductManagementActivity.class);
-                        context.startActivity(productManagementIntent);
+//                        Intent productManagementIntent = new Intent(context, ProductManagementActivity.class);
+//                        context.startActivity(productManagementIntent);
+                        ComingSoonFragmentDialog comingSoonFragmentDialog = new ComingSoonFragmentDialog(context);
+                        FragmentManager fm = ((AppCompatActivity) context).getSupportFragmentManager();
+                        comingSoonFragmentDialog.show(fm, "enquiry");
 
                     }
 
@@ -226,9 +237,11 @@ public class DashboardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
 
                     } else {
-                        Intent billhistory = new Intent(context, ServiceManagementActivity.class);
-                        context.startActivity(billhistory);
-
+//                        Intent billhistory = new Intent(context, ServiceManagementActivity.class);
+//                        context.startActivity(billhistory);
+                        ComingSoonFragmentDialog comingSoonFragmentDialog = new ComingSoonFragmentDialog(context);
+                        FragmentManager fm = ((AppCompatActivity) context).getSupportFragmentManager();
+                        comingSoonFragmentDialog.show(fm, "enquiry");
                     }
 
                 }

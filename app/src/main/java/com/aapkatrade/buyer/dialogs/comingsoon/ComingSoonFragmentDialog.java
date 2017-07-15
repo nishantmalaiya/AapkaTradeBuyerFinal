@@ -32,7 +32,7 @@ public class ComingSoonFragmentDialog extends DialogFragment {
     private Context context;
     ProgressDialogHandler progressDialogHandler;
 
-    public ComingSoonFragmentDialog(String shopid, Context context) {
+    public ComingSoonFragmentDialog(Context context) {
         super();
         this.context = context;
     }
