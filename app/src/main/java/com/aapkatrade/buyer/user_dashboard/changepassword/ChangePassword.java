@@ -37,6 +37,8 @@ public class ChangePassword extends AppCompatActivity {
     private ProgressBarHandler progressHandler;
     private Context context;
 
+    String usertype;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +72,7 @@ public class ChangePassword extends AppCompatActivity {
                     .load(getResources().getString(R.string.webservice_base_url) + "/changePassword")
                     .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                     .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
-                    .setBodyParameter("type", "buyer")
+                    .setBodyParameter("type", usertype)
                     .setBodyParameter("old_password", etOldPassword.getText().toString())
                     .setBodyParameter("new_password", etNewPassword.getText().toString())
                     .setBodyParameter("confirm_password", etConfirmPassword.getText().toString())
@@ -136,6 +138,19 @@ public class ChangePassword extends AppCompatActivity {
                 }
             }
         });
+
+        if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), "").contains("1")) {
+            usertype = "buyer";
+            AndroidUtils.showErrorLog(context,"UserType",usertype);
+        } else if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), "").contains("2")) {
+            usertype = "seller";
+            AndroidUtils.showErrorLog(context,"UserType",usertype);
+        } else if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), "").contains("3")) {
+            usertype = "associate";
+            AndroidUtils.showErrorLog(context,"UserType",usertype);
+        }
+
+
     }
 
     private void setUpToolBar() {

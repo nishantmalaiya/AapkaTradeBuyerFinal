@@ -259,8 +259,9 @@ public class LoginActivity extends AppCompatActivity {
             appSharedpreference.setSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS_PINCODE.toString(), jsonObject.get("sh_pincode").getAsString());
             appSharedpreference.setSharedPref(SharedPreferenceConstants.PROFILE_PIC.toString(), jsonObject.get("profile_pic").getAsString());
 
-            appSharedpreference.setSharedPref(SharedPreferenceConstants.PROFILE_PIC.toString(), jsonObject.get("profile_pic").getAsString());
+
             appSharedpreference.setSharedPref(SharedPreferenceConstants.ORDER_LIST_COUNT.toString(), webservice_returndata.get("order").getAsString());
+            callwebserviceUpdateCart();
         } else if (usertype.contains("SELLER"))
         {
             appSharedpreference.setSharedPref(SharedPreferenceConstants.PROFILE_PIC.toString(), jsonObject.get("profile_pick").getAsString());
@@ -269,10 +270,12 @@ public class LoginActivity extends AppCompatActivity {
             appSharedpreference.setSharedPref(SharedPreferenceConstants.ENQUIRY_LIST_COUNT.toString(), webservice_returndata.get("enquiries").getAsString());
             appSharedpreference.setSharedPref(SharedPreferenceConstants.PROFILE_VIDEO.toString(), jsonObject.get("profile_video").getAsString());
             appSharedpreference.setSharedPref(SharedPreferenceConstants.PROFILE_VIDEO_THUMBNAIL.toString(), jsonObject.get("video_thumbnail").getAsString());
-
+            Intent Homedashboard = new Intent(context, HomeActivity.class);
+            Homedashboard.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(Homedashboard);
         }
 
-        callwebserviceUpdateCart();
+
     }
 
 
