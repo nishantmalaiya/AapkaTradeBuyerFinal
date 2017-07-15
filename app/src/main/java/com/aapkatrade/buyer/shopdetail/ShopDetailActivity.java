@@ -492,13 +492,9 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
             @Override
             public void onClick(View v) {
 
-
                 ServiceEnquiry serviceEnquiry = new ServiceEnquiry(product_id, context);
-
-
                 FragmentManager fm = getSupportFragmentManager();
                 serviceEnquiry.show(fm, "enquiry");
-
 
             }
         });

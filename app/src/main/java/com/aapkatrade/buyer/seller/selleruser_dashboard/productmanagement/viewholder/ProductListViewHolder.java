@@ -16,7 +16,7 @@ public class ProductListViewHolder extends RecyclerView.ViewHolder
     public View view;
     public TextView  productName,tvProductShopName,tvProductCategoryName,tvProductStateName;
     public ImageView imgProduct;
-    public Button btnEdit,btnDelete;
+    public Button btnEdit,btnDelete,btnPolicyUpdate;
 
     public ProductListViewHolder(View itemView)
     {
@@ -35,6 +35,8 @@ public class ProductListViewHolder extends RecyclerView.ViewHolder
         btnEdit = (Button) itemView.findViewById(R.id.btnEdit);
 
         btnDelete = (Button) itemView.findViewById(R.id.btnDelete);
+
+        btnPolicyUpdate = (Button) itemView.findViewById(R.id.btnPolicyUpdate);
 
         view = itemView;
     }
