@@ -79,8 +79,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
 
 public class EditCompanyShopActivity extends AppCompatActivity {
 
@@ -96,6 +100,7 @@ public class EditCompanyShopActivity extends AppCompatActivity {
     private EditText etCompanyShopName, etAreaLocation, etCompanyAddress, etPinCode, etMobileNo, etPhoneNo, etEmail, etWebURL, etFBUrl, etTwitterUrl, etYoutubeURL, etGooglePlusURL, etDescription;
     private File docFile = new File("");
     private ArrayList<ProductMediaData> productMediaDatas = new ArrayList<>();
+    public static ArrayList<ProductMediaData> productMediaDatasDelete = new ArrayList<>();
     private RecyclerView recyclerView;
     private ProductImagesAdapter adapter;
     private ArrayList<Bitmap> multipleImages;
@@ -105,8 +110,9 @@ public class EditCompanyShopActivity extends AppCompatActivity {
     private DaysTileView daysTileView1, daysTileView2, daysTileView3;
     private CustomCardViewHeader generalDetailsHeader, shopDetailsHeader;
     private LinearLayout llShopDetailsContainer, llGeneralContainer;
-    private String company_name, product_type, state_id, city_id, area, pincode, mobile, phone, email_id, web_url, category_id, sub_cat_id, facebookurl, twitterurl, googleplusurl, youtubeurl, short_description, address;
+    private String company_name, product_type, state_id, city_id, area, pincode, mobile, phone, email_id, web_url, category_id, sub_cat_id, facebookurl, twitterurl, googleplusurl, youtubeurl, short_description, address, videoURL, shopId;
     private boolean cityFlag = false, subCategoryFlag = false;
+    private ArrayList<String> imageUrlList = new ArrayList<>();
 
 
     @Override
@@ -114,6 +120,9 @@ public class EditCompanyShopActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_company_shop);
         context = EditCompanyShopActivity.this;
+        if (getIntent() != null) {
+            shopId = getIntent().getStringExtra("shopId");
+        }
         setUpToolBar();
         initView();
         getState();
@@ -129,15 +138,16 @@ public class EditCompanyShopActivity extends AppCompatActivity {
                 validateFields();
                 if (isAllFieldsValidate) {
                     AndroidUtils.showErrorLog(context, "working 1", "working isAllFieldsValidate");
-                    hitAddCompanyShopWebService();
+                    hitUpdateCompanyShopWebService();
                 }
             }
         });
     }
 
-    private void getCompanyShopDetails(String shop_id) {
+    private void getCompanyShopDetails() {
+        AndroidUtils.showErrorLog(context, "Shop Id is ------------------>>>>>", shopId);
         Ion.with(getApplicationContext())
-                .load(getResources().getString(R.string.webservice_base_url) + "/shop_detail/" + shop_id)
+                .load(getResources().getString(R.string.webservice_base_url) + "/shop_detail/" + shopId)
                 .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                 .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                 .asJsonObject()
@@ -145,7 +155,7 @@ public class EditCompanyShopActivity extends AppCompatActivity {
                     @Override
                     public void onCompleted(Exception e, JsonObject result) {
 
-                        AndroidUtils.showErrorLog(context, "getCompanyShopDetails_response" + result.toString());
+                        AndroidUtils.showErrorLog(context, "getCompanyShopDetails_response", result);
                         JsonObject jsonObject = result.getAsJsonObject("result");
                         company_name = jsonObject.get("company_name").getAsString();
                         etCompanyShopName.setText(company_name);
@@ -224,21 +234,121 @@ public class EditCompanyShopActivity extends AppCompatActivity {
 
                         }
 
-
-                        //productMediaDatas.add(new ProductMediaData("","",null,jsonObject.get("shop_video").getAsString()));
+                        videoURL = jsonObject.get("shop_video").getAsString();
+                        if (Validation.isNonEmptyStr(videoURL) && !videoURL.equals("No Video")) {
+                            AndroidUtils.showErrorLog(context, "videoURL---------------------" + videoURL);
+                            productMediaDatas.add(new ProductMediaData(videoURL.replace("mp4", "png")));
+                            adapter.notifyDataSetChanged();
+                        }
 
                         JsonArray jsonArray = jsonObject.getAsJsonArray("product_images");
 
                         for (int i = 0; i < jsonArray.size(); i++) {
-                            System.out.println("imagepathurl---------------------" + jsonArray.get(i).getAsJsonObject().get("image_url").getAsString());
-                            productMediaDatas.add(new ProductMediaData("", jsonArray.get(i).getAsJsonObject().get("image_url").getAsString(), null, ""));
+                            AndroidUtils.showErrorLog(context, "imagepathurl---------------------" + jsonArray.get(i).getAsJsonObject().get("image_url").getAsString());
+                            imageUrlList.add(jsonArray.get(i).getAsJsonObject().get("image_url").getAsString());
                         }
-                        adapter.notifyDataSetChanged();
-
+                        if (imageUrlList.size() > 0) {
+                            for (int i = 0; i < imageUrlList.size(); i++) {
+                                AndroidUtils.showErrorLog(context, "downloadImage---------------------" + imageUrlList.get(i));
+                                downloadImage(i);
+                            }
+                        }
                     }
                 });
     }
 
+    private void downloadImage(final int index) {
+        progressBarHandler.show();
+
+        Ion.with(this).load(imageUrlList.get(index)).withBitmap().asBitmap()
+                .setCallback(new FutureCallback<Bitmap>() {
+                    @Override
+                    public void onCompleted(Exception e, Bitmap result) {
+                        progressBarHandler.hide();
+                        // do something with your bitmap
+                        if (result == null) {
+                            AndroidUtils.showErrorLog(context, "Problems in downloading image result == null.");
+                        } else {
+                            storeImage(result, index);
+                        }
+                    }
+                });
+
+
+    }
+
+    private void storeImage(Bitmap image, int index) {
+        File pictureFile = getOutputMediaFile(index);
+        if (pictureFile == null) {
+            AndroidUtils.showErrorLog(context, "Error creating media file, check storage permissions: ");// e.getMessage());
+            return;
+        }
+        try {
+            FileOutputStream fos = new FileOutputStream(pictureFile);
+            image.compress(Bitmap.CompressFormat.PNG, 100, fos);
+            fos.close();
+        } catch (FileNotFoundException e) {
+            AndroidUtils.showErrorLog(context, "File not found: " + e.getMessage());
+        } catch (IOException e) {
+            AndroidUtils.showErrorLog(context, "Error accessing file: " + e.getMessage());
+        }
+        AndroidUtils.showErrorLog(context, "Image file exists with path-------------- : ", pictureFile.getAbsolutePath());// e.getMessage());
+
+        productMediaDatas.add(new ProductMediaData(pictureFile.getAbsolutePath(), "", null, ""));
+        adapter.notifyDataSetChanged();
+    }
+
+    private File getOutputMediaFile(int index) {
+        // To be safe, you should check that the SDCard is mounted
+        // using Environment.getExternalStorageState() before doing this.
+        File mediaStorageDir = new File(Environment.getExternalStorageDirectory()
+                + "/Android/data/"
+                + getApplicationContext().getPackageName()
+                + "/Files");
+
+        // This location works best if you want the created images to be shared
+        // between applications and persist after your app has been uninstalled.
+
+        // Create the storage directory if it does not exist
+        if (!mediaStorageDir.exists()) {
+            if (!mediaStorageDir.mkdirs()) {
+                return null;
+            }
+        }
+        // Create a media file name
+        File mediaFile;
+        String mImageName = getFileName(imageUrlList.get(index)) + ".jpg";
+        mediaFile = new File(mediaStorageDir.getPath() + File.separator + mImageName);
+        return mediaFile;
+    }
+
+    private String getFileName(String s) {
+        if (Validation.isNonEmptyStr(s)) {
+            String s1[] = s.split("/");
+            String s2 = s1[s1.length - 1];
+            return s2;
+        }
+        return new SimpleDateFormat("ddMMyyyy_HHmm").format(new Date());
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        AndroidUtils.showErrorLog(context, "________________^^^^^^^onDestroyonDestroyonDestroy^^^^^^^^^_________________");
+        File mediaStorageDir = new File(Environment.getExternalStorageDirectory()
+                + "/Android/data/"
+                + getApplicationContext().getPackageName()
+                + "/Files");
+
+        if (mediaStorageDir.isDirectory()) {
+            String[] children = mediaStorageDir.list();
+            for (String aChildren : children) {
+                AndroidUtils.showErrorLog(context, "________________^^^^^^^onDestroyonDestroyonDestroy^^^^^^^^^Entry_________________");
+
+                new File(mediaStorageDir, aChildren).delete();
+            }
+        }
+    }
 
     private void setSelectedCategory(String category_id, String sub_cat_id) {
 
@@ -272,7 +382,6 @@ public class EditCompanyShopActivity extends AppCompatActivity {
 
 
     }
-
 
     private void validateFields() {
         isAllFieldsValidate = true;
@@ -565,7 +674,7 @@ public class EditCompanyShopActivity extends AppCompatActivity {
                             }
                             setCategoryAdapter();
                         }
-                        getCompanyShopDetails("577");
+                        getCompanyShopDetails();
                     }
 
                 });
@@ -733,7 +842,7 @@ public class EditCompanyShopActivity extends AppCompatActivity {
         }
     }
 
-    private void hitAddCompanyShopWebService() {
+    private void hitUpdateCompanyShopWebService() {
 
 
         for (int i = 0; i < productMediaDatas.size(); i++) {
@@ -769,117 +878,246 @@ public class EditCompanyShopActivity extends AppCompatActivity {
         progressBarHandler.show();
 
 
-        if (submitVideo() == null)
-            Ion.with(context)
-                    .load(getString(R.string.webservice_base_url) + "/addCompany")
-                    .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
-                    .setMultipartParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
-                    .setMultipartParameter("user_id", userId)
-                    .setMultipartParameter("company_name", etCompanyShopName.getText().toString())
-                    .setMultipartParameter("address", etCompanyAddress.getText().toString())
-                    .setMultipartParameter("category_id", categoryID)
-                    .setMultipartParameter("sub_cat_id", subCategoryID)
-                    .setMultipartParameter("area", etAreaLocation.getText().toString())
-                    .setMultipartParameter("state_id", stateID)
-                    .setMultipartParameter("city_id", cityID)
-                    .setMultipartParameter("product_type", serviceType)
-                    .setMultipartParameter("mobile", etMobileNo.getText().toString())
-                    .setMultipartParameter("pincode", etPinCode.getText().toString())
-                    .setMultipartParameter("email_id", etEmail.getText().toString())
-                    .setMultipartParameter("phone", etPhoneNo.getText().toString())
-                    .setMultipartParameter("facebookurl", etFBUrl.getText().toString())
-                    .setMultipartParameter("short_des", etDescription.getText().toString())
-                    .setMultipartParameter("web_url", etWebURL.getText().toString())
-                    .setMultipartParameter("googleplusurl", etGooglePlusURL.getText().toString())
-                    .setMultipartParameter("twitterurl", etTwitterUrl.getText().toString())
-                    .setMultipartParameter("open_id", String.valueOf(ParseUtils.stringArrayToJsonObject(new String[]{daysTileView1.getOpeningTimeID(), daysTileView2.getOpeningTimeID(), daysTileView3.getOpeningTimeID()})))
-                    .setMultipartParameter("close_id", String.valueOf(ParseUtils.stringArrayToJsonObject(new String[]{daysTileView1.getClosingTimeID(), daysTileView2.getClosingTimeID(), daysTileView3.getClosingTimeID()})))
-                    .setMultipartParameter("youtubeurl", etYoutubeURL.getText().toString())
-                    .setMultipartParameter("lat", appSharedPreference.getSharedPref(SharedPreferenceConstants.CURRENT_LATTITUDE.toString(), "0"))
-                    .setMultipartParameter("long", appSharedPreference.getSharedPref(SharedPreferenceConstants.CURRENT_LONGITUDE.toString(), "0"))
-                    .addMultipartParts(submitImages())
-                    .asJsonObject()
-                    .setCallback(new FutureCallback<JsonObject>() {
-                        @Override
-                        public void onCompleted(Exception e, JsonObject result) {
-                            progressBarHandler.hide();
-                            if (result != null) {
-                                AndroidUtils.showErrorLog(context, "result::::::", result.toString());
-                                if (result.get("error").getAsString().equalsIgnoreCase("false")) {
-                                    if (Validation.containsIgnoreCase(result.get("message").getAsString(), "successfully added")) {
-                                        AndroidUtils.showErrorLog(context, "result:::success:::", result.toString());
-                                        AndroidUtils.showToast(context, result.get("message").getAsString());
-                                        doExitReveal(findViewById(R.id.mainLayout), false);
+        if (submitVideo() == null) {
+            AndroidUtils.showErrorLog(context, "submitDeletedImages::::--------------::NULL", submitDeletedImages());
+
+            if (submitDeletedImages() == null) {
+                AndroidUtils.showErrorLog(context, "submitDeletedImages::::if--------------::NULL", submitDeletedImages());
+
+                Ion.with(context)
+                        .load(getString(R.string.webservice_base_url) + "/addCompany")
+                        .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                        .setMultipartParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                        .setMultipartParameter("shop_id", shopId)
+                        .setMultipartParameter("user_id", userId)
+                        .setMultipartParameter("company_name", etCompanyShopName.getText().toString())
+                        .setMultipartParameter("address", etCompanyAddress.getText().toString())
+                        .setMultipartParameter("category_id", categoryID)
+                        .setMultipartParameter("sub_cat_id", subCategoryID)
+                        .setMultipartParameter("area", etAreaLocation.getText().toString())
+                        .setMultipartParameter("state_id", stateID)
+                        .setMultipartParameter("city_id", cityID)
+                        .setMultipartParameter("product_type", serviceType)
+                        .setMultipartParameter("mobile", etMobileNo.getText().toString())
+                        .setMultipartParameter("pincode", etPinCode.getText().toString())
+                        .setMultipartParameter("email_id", etEmail.getText().toString())
+                        .setMultipartParameter("phone", etPhoneNo.getText().toString())
+                        .setMultipartParameter("facebookurl", etFBUrl.getText().toString())
+                        .setMultipartParameter("short_des", etDescription.getText().toString())
+                        .setMultipartParameter("web_url", etWebURL.getText().toString())
+                        .setMultipartParameter("googleplusurl", etGooglePlusURL.getText().toString())
+                        .setMultipartParameter("twitterurl", etTwitterUrl.getText().toString())
+                        .setMultipartParameter("open_id", String.valueOf(ParseUtils.stringArrayToJsonObject(new String[]{daysTileView1.getOpeningTimeID(), daysTileView2.getOpeningTimeID(), daysTileView3.getOpeningTimeID()})))
+                        .setMultipartParameter("close_id", String.valueOf(ParseUtils.stringArrayToJsonObject(new String[]{daysTileView1.getClosingTimeID(), daysTileView2.getClosingTimeID(), daysTileView3.getClosingTimeID()})))
+                        .setMultipartParameter("youtubeurl", etYoutubeURL.getText().toString())
+                        .setMultipartParameter("lat", appSharedPreference.getSharedPref(SharedPreferenceConstants.CURRENT_LATTITUDE.toString(), "0"))
+                        .setMultipartParameter("long", appSharedPreference.getSharedPref(SharedPreferenceConstants.CURRENT_LONGITUDE.toString(), "0"))
+                        .addMultipartParts(submitImages())
+                        .asJsonObject()
+                        .setCallback(new FutureCallback<JsonObject>() {
+                            @Override
+                            public void onCompleted(Exception e, JsonObject result) {
+                                progressBarHandler.hide();
+                                if (result != null) {
+                                    AndroidUtils.showErrorLog(context, "result::::::", result.toString());
+                                    if (result.get("error").getAsString().equalsIgnoreCase("false")) {
+                                        if (Validation.containsIgnoreCase(result.get("message").getAsString(), "successfully updated")) {
+                                            AndroidUtils.showErrorLog(context, "result:::success:::", result.toString());
+                                            AndroidUtils.showToast(context, result.get("message").getAsString());
+                                            doExitReveal(findViewById(R.id.mainLayout), false);
+
+                                        } else {
+                                            AndroidUtils.showErrorLog(context, "error::::::TRUE");
+                                        }
 
                                     } else {
                                         AndroidUtils.showErrorLog(context, "error::::::TRUE");
                                     }
 
                                 } else {
-                                    AndroidUtils.showErrorLog(context, "error::::::TRUE");
+                                    AndroidUtils.showErrorLog(context, "result::::::NULL");
                                 }
-
-                            } else {
-                                AndroidUtils.showErrorLog(context, "result::::::NULL");
                             }
-                        }
-                    });
+                        });
+            } else {
+                AndroidUtils.showErrorLog(context, "submitDeletedImages::::else--------------::NULL", submitDeletedImages());
 
-        else
-            Ion.with(context)
-                    .load(getString(R.string.webservice_base_url) + "/addCompany")
-                    .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
-                    .setMultipartParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
-                    .setMultipartParameter("user_id", userId)
-                    .setMultipartParameter("company_name", etCompanyShopName.getText().toString())
-                    .setMultipartParameter("address", etCompanyAddress.getText().toString())
-                    .setMultipartParameter("category_id", categoryID)
-                    .setMultipartParameter("area", etAreaLocation.getText().toString())
-                    .setMultipartParameter("state_id", stateID)
-                    .setMultipartParameter("product_type", serviceType)
-                    .setMultipartParameter("sub_cat_id", subCategoryID)
-                    .setMultipartParameter("city_id", cityID)
-                    .setMultipartParameter("mobile", etMobileNo.getText().toString())
-                    .setMultipartParameter("pincode", etPinCode.getText().toString())
-                    .setMultipartParameter("email_id", etEmail.getText().toString())
-                    .setMultipartParameter("phone", etPhoneNo.getText().toString())
-                    .setMultipartParameter("facebookurl", etFBUrl.getText().toString())
-                    .setMultipartParameter("short_des", etDescription.getText().toString())
-                    .setMultipartParameter("web_url", etWebURL.getText().toString())
-                    .setMultipartParameter("googleplusurl", etGooglePlusURL.getText().toString())
-                    .setMultipartParameter("twitterurl", etTwitterUrl.getText().toString())
-                    .setMultipartParameter("open_id", String.valueOf(ParseUtils.stringArrayToJsonObject(new String[]{daysTileView1.getOpeningTimeID(), daysTileView2.getOpeningTimeID(), daysTileView3.getOpeningTimeID()})))
-                    .setMultipartParameter("close_id", String.valueOf(ParseUtils.stringArrayToJsonObject(new String[]{daysTileView1.getClosingTimeID(), daysTileView2.getClosingTimeID(), daysTileView3.getClosingTimeID()})))
-                    .setMultipartParameter("youtubeurl", etYoutubeURL.getText().toString())
-                    .setMultipartParameter("lat", appSharedPreference.getSharedPref(SharedPreferenceConstants.CURRENT_LATTITUDE.toString(), "0"))
-                    .setMultipartParameter("long", appSharedPreference.getSharedPref(SharedPreferenceConstants.CURRENT_LONGITUDE.toString(), "0"))
-                    .addMultipartParts(submitImages())
-                    .setMultipartFile("shop_video", "application/video", submitVideo())
-                    .asJsonObject()
-                    .setCallback(new FutureCallback<JsonObject>() {
-                        @Override
-                        public void onCompleted(Exception e, JsonObject result) {
-                            progressBarHandler.hide();
-                            if (result != null) {
-                                AndroidUtils.showErrorLog(context, "result::::::", result.toString());
-                                if (result.get("error").getAsString().equalsIgnoreCase("false")) {
-                                    if (Validation.containsIgnoreCase(result.get("message").getAsString().toLowerCase(), "successfully added")) {
-                                        AndroidUtils.showErrorLog(context, "result:::success:::", result.toString());
-                                        AndroidUtils.showToast(context, result.get("message").getAsString());
-                                        doExitReveal(findViewById(R.id.mainLayout), false);
+                Ion.with(context)
+                        .load(getString(R.string.webservice_base_url) + "/addCompany")
+                        .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                        .setMultipartParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                        .setMultipartParameter("shop_id", shopId)
+                        .setMultipartParameter("user_id", userId)
+                        .setMultipartParameter("company_name", etCompanyShopName.getText().toString())
+                        .setMultipartParameter("address", etCompanyAddress.getText().toString())
+                        .setMultipartParameter("category_id", categoryID)
+                        .setMultipartParameter("sub_cat_id", subCategoryID)
+                        .setMultipartParameter("area", etAreaLocation.getText().toString())
+                        .setMultipartParameter("state_id", stateID)
+                        .setMultipartParameter("city_id", cityID)
+                        .setMultipartParameter("product_type", serviceType)
+                        .setMultipartParameter("mobile", etMobileNo.getText().toString())
+                        .setMultipartParameter("pincode", etPinCode.getText().toString())
+                        .setMultipartParameter("email_id", etEmail.getText().toString())
+                        .setMultipartParameter("phone", etPhoneNo.getText().toString())
+                        .setMultipartParameter("facebookurl", etFBUrl.getText().toString())
+                        .setMultipartParameter("short_des", etDescription.getText().toString())
+                        .setMultipartParameter("web_url", etWebURL.getText().toString())
+                        .setMultipartParameter("googleplusurl", etGooglePlusURL.getText().toString())
+                        .setMultipartParameter("twitterurl", etTwitterUrl.getText().toString())
+                        .setMultipartParameter("open_id", String.valueOf(ParseUtils.stringArrayToJsonObject(new String[]{daysTileView1.getOpeningTimeID(), daysTileView2.getOpeningTimeID(), daysTileView3.getOpeningTimeID()})))
+                        .setMultipartParameter("close_id", String.valueOf(ParseUtils.stringArrayToJsonObject(new String[]{daysTileView1.getClosingTimeID(), daysTileView2.getClosingTimeID(), daysTileView3.getClosingTimeID()})))
+                        .setMultipartParameter("youtubeurl", etYoutubeURL.getText().toString())
+                        .setMultipartParameter("lat", appSharedPreference.getSharedPref(SharedPreferenceConstants.CURRENT_LATTITUDE.toString(), "0"))
+                        .setMultipartParameter("long", appSharedPreference.getSharedPref(SharedPreferenceConstants.CURRENT_LONGITUDE.toString(), "0"))
+                        .addMultipartParts(submitImages())
+                        .addMultipartParts(submitDeletedImages())
+                        .asJsonObject()
+                        .setCallback(new FutureCallback<JsonObject>() {
+                            @Override
+                            public void onCompleted(Exception e, JsonObject result) {
+                                progressBarHandler.hide();
+                                if (result != null) {
+                                    AndroidUtils.showErrorLog(context, "result::::::", result.toString());
+                                    if (result.get("error").getAsString().equalsIgnoreCase("false")) {
+                                        if (Validation.containsIgnoreCase(result.get("message").getAsString(), "successfully updated")) {
+                                            AndroidUtils.showErrorLog(context, "result:::success:::", result.toString());
+                                            AndroidUtils.showToast(context, result.get("message").getAsString());
+                                            doExitReveal(findViewById(R.id.mainLayout), false);
+
+                                        } else {
+                                            AndroidUtils.showErrorLog(context, "error::::::TRUE");
+                                        }
+
                                     } else {
                                         AndroidUtils.showErrorLog(context, "error::::::TRUE");
                                     }
 
                                 } else {
-                                    AndroidUtils.showErrorLog(context, "error::::::TRUE");
+                                    AndroidUtils.showErrorLog(context, "result::::::NULL");
                                 }
-
-                            } else {
-                                AndroidUtils.showErrorLog(context, "result::::::NULL");
                             }
-                        }
-                    });
+                        });
+            }
+        } else {
+            if (submitDeletedImages() == null) {
+                Ion.with(context)
+                        .load(getString(R.string.webservice_base_url) + "/editCompany")
+                        .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                        .setMultipartParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                        .setMultipartParameter("user_id", userId)
+                        .setMultipartParameter("shop_id", shopId)
+
+                        .setMultipartParameter("company_name", etCompanyShopName.getText().toString())
+                        .setMultipartParameter("address", etCompanyAddress.getText().toString())
+                        .setMultipartParameter("category_id", categoryID)
+                        .setMultipartParameter("area", etAreaLocation.getText().toString())
+                        .setMultipartParameter("state_id", stateID)
+                        .setMultipartParameter("product_type", serviceType)
+                        .setMultipartParameter("sub_cat_id", subCategoryID)
+                        .setMultipartParameter("city_id", cityID)
+                        .setMultipartParameter("mobile", etMobileNo.getText().toString())
+                        .setMultipartParameter("pincode", etPinCode.getText().toString())
+                        .setMultipartParameter("email_id", etEmail.getText().toString())
+                        .setMultipartParameter("phone", etPhoneNo.getText().toString())
+                        .setMultipartParameter("facebookurl", etFBUrl.getText().toString())
+                        .setMultipartParameter("short_des", etDescription.getText().toString())
+                        .setMultipartParameter("web_url", etWebURL.getText().toString())
+                        .setMultipartParameter("googleplusurl", etGooglePlusURL.getText().toString())
+                        .setMultipartParameter("twitterurl", etTwitterUrl.getText().toString())
+                        .setMultipartParameter("open_id", String.valueOf(ParseUtils.stringArrayToJsonObject(new String[]{daysTileView1.getOpeningTimeID(), daysTileView2.getOpeningTimeID(), daysTileView3.getOpeningTimeID()})))
+                        .setMultipartParameter("close_id", String.valueOf(ParseUtils.stringArrayToJsonObject(new String[]{daysTileView1.getClosingTimeID(), daysTileView2.getClosingTimeID(), daysTileView3.getClosingTimeID()})))
+                        .setMultipartParameter("youtubeurl", etYoutubeURL.getText().toString())
+                        .setMultipartParameter("lat", appSharedPreference.getSharedPref(SharedPreferenceConstants.CURRENT_LATTITUDE.toString(), "0"))
+                        .setMultipartParameter("long", appSharedPreference.getSharedPref(SharedPreferenceConstants.CURRENT_LONGITUDE.toString(), "0"))
+                        .addMultipartParts(submitImages())
+                        .setMultipartFile("shop_video", "application/video", submitVideo())
+
+                        .asJsonObject()
+                        .setCallback(new FutureCallback<JsonObject>() {
+                            @Override
+                            public void onCompleted(Exception e, JsonObject result) {
+                                progressBarHandler.hide();
+                                if (result != null) {
+                                    AndroidUtils.showErrorLog(context, "result::::::", result.toString());
+                                    if (result.get("error").getAsString().equalsIgnoreCase("false")) {
+                                        if (Validation.containsIgnoreCase(result.get("message").getAsString().toLowerCase(), "successfully added")) {
+                                            AndroidUtils.showErrorLog(context, "result:::success:::", result.toString());
+                                            AndroidUtils.showToast(context, result.get("message").getAsString());
+                                            doExitReveal(findViewById(R.id.mainLayout), false);
+                                        } else {
+                                            AndroidUtils.showErrorLog(context, "error::::::TRUE");
+                                        }
+
+                                    } else {
+                                        AndroidUtils.showErrorLog(context, "error::::::TRUE");
+                                    }
+
+                                } else {
+                                    AndroidUtils.showErrorLog(context, "result::::::NULL");
+                                }
+                            }
+                        });
+            } else {
+                Ion.with(context)
+                        .load(getString(R.string.webservice_base_url) + "/editCompany")
+                        .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                        .setMultipartParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                        .setMultipartParameter("user_id", userId)
+                        .setMultipartParameter("shop_id", shopId)
+                        .setMultipartParameter("company_name", etCompanyShopName.getText().toString())
+                        .setMultipartParameter("address", etCompanyAddress.getText().toString())
+                        .setMultipartParameter("category_id", categoryID)
+                        .setMultipartParameter("area", etAreaLocation.getText().toString())
+                        .setMultipartParameter("state_id", stateID)
+                        .setMultipartParameter("product_type", serviceType)
+                        .setMultipartParameter("sub_cat_id", subCategoryID)
+                        .setMultipartParameter("city_id", cityID)
+                        .setMultipartParameter("mobile", etMobileNo.getText().toString())
+                        .setMultipartParameter("pincode", etPinCode.getText().toString())
+                        .setMultipartParameter("email_id", etEmail.getText().toString())
+                        .setMultipartParameter("phone", etPhoneNo.getText().toString())
+                        .setMultipartParameter("facebookurl", etFBUrl.getText().toString())
+                        .setMultipartParameter("short_des", etDescription.getText().toString())
+                        .setMultipartParameter("web_url", etWebURL.getText().toString())
+                        .setMultipartParameter("googleplusurl", etGooglePlusURL.getText().toString())
+                        .setMultipartParameter("twitterurl", etTwitterUrl.getText().toString())
+                        .setMultipartParameter("open_id", String.valueOf(ParseUtils.stringArrayToJsonObject(new String[]{daysTileView1.getOpeningTimeID(), daysTileView2.getOpeningTimeID(), daysTileView3.getOpeningTimeID()})))
+                        .setMultipartParameter("close_id", String.valueOf(ParseUtils.stringArrayToJsonObject(new String[]{daysTileView1.getClosingTimeID(), daysTileView2.getClosingTimeID(), daysTileView3.getClosingTimeID()})))
+                        .setMultipartParameter("youtubeurl", etYoutubeURL.getText().toString())
+                        .setMultipartParameter("lat", appSharedPreference.getSharedPref(SharedPreferenceConstants.CURRENT_LATTITUDE.toString(), "0"))
+                        .setMultipartParameter("long", appSharedPreference.getSharedPref(SharedPreferenceConstants.CURRENT_LONGITUDE.toString(), "0"))
+                        .addMultipartParts(submitImages())
+                        .addMultipartParts(submitDeletedImages())
+                        .setMultipartFile("shop_video", "application/video", submitVideo())
+
+                        .asJsonObject()
+                        .setCallback(new FutureCallback<JsonObject>() {
+                            @Override
+                            public void onCompleted(Exception e, JsonObject result) {
+                                progressBarHandler.hide();
+                                if (result != null) {
+                                    AndroidUtils.showErrorLog(context, "result::::::", result.toString());
+                                    if (result.get("error").getAsString().equalsIgnoreCase("false")) {
+                                        if (Validation.containsIgnoreCase(result.get("message").getAsString().toLowerCase(), "successfully added")) {
+                                            AndroidUtils.showErrorLog(context, "result:::success:::", result.toString());
+                                            AndroidUtils.showToast(context, result.get("message").getAsString());
+                                            doExitReveal(findViewById(R.id.mainLayout), false);
+                                        } else {
+                                            AndroidUtils.showErrorLog(context, "error::::::TRUE");
+                                        }
+
+                                    } else {
+                                        AndroidUtils.showErrorLog(context, "error::::::TRUE");
+                                    }
+
+                                } else {
+                                    AndroidUtils.showErrorLog(context, "result::::::NULL");
+                                }
+                            }
+                        });
+            }
+        }
     }
 
     void doExitReveal(final View view, final boolean isBack) {
@@ -1067,11 +1305,39 @@ public class EditCompanyShopActivity extends AppCompatActivity {
     private ArrayList<Part> submitImages() {
         ArrayList<Part> files = new ArrayList<>();
         if (productMediaDatas != null && productMediaDatas.size() > 0) {
-
             for (ProductMediaData file : productMediaDatas) {
                 if (!file.isVideo) {
+
                     files.add(new FilePart("image[]", savebitmap(file.imagePath)));
                     AndroidUtils.showErrorLog(context, files.toArray().toString());
+                }
+            }
+            return files;
+        }
+        return null;
+    }
+
+    private List<Part> submitDeletedImages() {
+        List<Part> files = Collections.synchronizedList(new ArrayList<Part>());
+
+        if (productMediaDatasDelete != null && productMediaDatasDelete.size() > 0) {
+            for (int k = 0; k < productMediaDatasDelete.size(); k++) {
+                ProductMediaData file = productMediaDatasDelete.get(k);
+                if (!file.isVideo) {
+
+                    for (int i = 0; i < imageUrlList.size(); i++) {
+                        AndroidUtils.showErrorLog(context, "--------------Compare-------------------))))))imageUrlList(((((("+getFileName(imageUrlList.get(i)), "file.imagePath"+file.imagePath);
+
+                        if (!imageUrlList.get(i).split("/")[imageUrlList.get(i).split("/").length - 1].equals(file.imagePath)) {
+//                            productMediaDatasDelete.remove(file);
+//                            files.add(new FilePart("delimg[]", savebitmap(file.imagePath)));
+//                            AndroidUtils.showErrorLog(context, "---------------------------------))))))((((((", files.toArray().toString());
+                                continue;
+                        }
+                        files.add(new FilePart("delimg[]", savebitmap(file.imagePath)));
+                        AndroidUtils.showErrorLog(context, "---------------------------------))))))((((((", files.toArray().toString());
+
+                    }
                 }
             }
             return files;
@@ -1246,9 +1512,8 @@ public class EditCompanyShopActivity extends AppCompatActivity {
     private void uploadImage(int requestCode, int resultCode, Intent data) throws IOException {
         if (data.getClipData() != null) {
 
-            data.getClipData().getItemCount();
 
-            for (int k = 0; k < 4; k++) {
+            for (int k = 0; k < data.getClipData().getItemCount(); k++) {
 
                 Uri selectedImage = data.getClipData().getItemAt(k).getUri();
 

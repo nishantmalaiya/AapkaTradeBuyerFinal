@@ -13,6 +13,7 @@ import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.entity.ProductListData;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.viewholder.ProductListViewHolder;
+import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import java.text.SimpleDateFormat;
@@ -34,7 +35,6 @@ public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     String userId;
     ProgressBarHandler progressBarHandler;
 
-
     public ProductListAdapter(Context context, List<ProductListData> itemList)
     {
         this.itemList = itemList;
@@ -45,12 +45,14 @@ public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         userId = appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), "");
 
         progressBarHandler = new ProgressBarHandler(context);
+
     }
+
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
     {
-        View view = inflater.inflate(R.layout.row_seller_product_list, parent, false);
+        View view = inflater.inflate(R.layout.row_seller_product_list2, parent, false);
 
         viewHolder = new ProductListViewHolder(view);
 
@@ -79,36 +81,23 @@ public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     }
                 });
 
-
-        homeHolder.relativeEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-
-
-            }
-        });
-
-        homeHolder.relativeDelete.setOnClickListener(new View.OnClickListener() {
+        homeHolder.btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
             }
         });
 
-
-        homeHolder.relativeUpdate.setOnClickListener(new View.OnClickListener() {
+        homeHolder.btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-
-
+            public void onClick(View v)
+            {
+                callwebserviceDeleteCart(itemList.get(position).product_id,position);
             }
         });
+
 
     }
-
-
 
     private void showMessage(String s)
     {
@@ -127,7 +116,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
 
-   /* private void callwebserviceDeleteCart(String product_id, final int position)
+    private void callwebserviceDeleteCart(String product_id, final int position)
     {
         progressBarHandler.show();
 
@@ -144,33 +133,13 @@ public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     public void onCompleted(Exception e, JsonObject result) {
                         if (result != null)
                         {
-
                             String error_message = result.get("error").getAsString();
 
-                            if (error_message.equals("false")) {
+                            if (error_message.equals("false"))
+                            {
                                 System.out.println("result--------------" + result);
                                 JsonObject jsonObject = result.getAsJsonObject("result");
-                                String total_amount = jsonObject.get("total_amount").getAsString();
-                                String cart_count = jsonObject.get("total_qty").getAsString();
 
-                                if (cart_count.equals("0")) {
-                                    MyCartActivity.cardviewProductDeatails.setVisibility(View.INVISIBLE);
-                                    MyCartActivity.cardBottom.setVisibility(View.INVISIBLE);
-                                } else {
-                                    MyCartActivity.cardviewProductDeatails.setVisibility(View.VISIBLE);
-                                    MyCartActivity.cardBottom.setVisibility(View.VISIBLE);
-
-                                }
-                                appSharedPreference.setSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), Integer.valueOf(cart_count));
-
-                                HomeActivity.tvCartCount.setText(String.valueOf(appSharedPreference.getSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), 0)));
-
-                                MyCartActivity.tvPriceItemsHeading.setText(new StringBuilder("Price ( ").append(cart_count).append(" Items )"));
-                                MyCartActivity.tvPriceItems.setText(new StringBuilder(context.getResources().getText(R.string.rupay_text)).append(total_amount));
-                                MyCartActivity.tvAmountPayable.setText(new StringBuilder(context.getResources().getText(R.string.rupay_text)).append(total_amount));
-                                MyCartActivity.tvLastPayableAmount.setText(new StringBuilder(context.getResources().getText(R.string.rupay_text)).append(total_amount));
-
-                                place_order.remove(position);
                                 itemList.remove(position);
                                 notifyDataSetChanged();
                                 progressBarHandler.hide();
@@ -187,7 +156,6 @@ public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     }
                 });
 
-    }*/
-
+    }
 
 }

@@ -18,9 +18,14 @@ public class ProductMediaData {
         this.imageUrl = imageUrl;
         this.videoFile = videoFile;
         this.videoThumbnail = videoThumbnail;
-        if (videoFile!=null&& Validation.isNonEmptyStr(videoThumbnail)) {
+        if (videoFile != null && Validation.isNonEmptyStr(videoThumbnail)) {
             isVideo = true;
         }
+    }
+
+    public ProductMediaData(String videoThumbnail) {
+        this.videoThumbnail = videoThumbnail;
+        this.isVideo = true;
     }
 
     @Override

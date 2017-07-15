@@ -2,7 +2,10 @@ package com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement;
 
 import android.content.Context;
 import android.content.Intent;
+
 import android.os.Build;
+
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatImageView;
@@ -86,6 +89,7 @@ public class ProductManagementActivity extends AppCompatActivity
         img_shop_type.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
 Intent addProductIntent=new Intent(context, AddProductActivity.class);
                 startActivity(addProductIntent);
             }
@@ -123,6 +127,10 @@ Intent addProductIntent=new Intent(context, AddProductActivity.class);
 
                 }
 
+
+                Intent addProductIntent=new Intent(context, AddProductActivity.class);
+                startActivity(addProductIntent);
+
             }
 
         });
@@ -136,7 +144,7 @@ Intent addProductIntent=new Intent(context, AddProductActivity.class);
 
         order_list.setLayoutManager(linearLayoutManager);
 
-        productListAdapter = new ProductListAdapter(getApplicationContext(), orderListDatas);
+        productListAdapter = new ProductListAdapter(ProductManagementActivity.this, orderListDatas);
 
         order_list.setAdapter(productListAdapter);
 

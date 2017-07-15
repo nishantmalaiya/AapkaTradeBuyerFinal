@@ -192,9 +192,7 @@ public class ProductDetailActivity extends AppCompatActivity
                 else
                 {
                     callwebservice__add_tocart(productId, "", tvProductName.getText().toString(), singleUnitPrice, tvQuantity.getText().toString());
-
                 }
-
 
             }
         });
@@ -248,6 +246,8 @@ public class ProductDetailActivity extends AppCompatActivity
                 return null;
             }
         };
+
+
 
     }
 
