@@ -15,15 +15,6 @@
         android:background="#e52f17"
         >
 
-        <ImageView
-            android:id="@+id/dialog_close_reason"
-            android:layout_width="@dimen/fourty_dip"
-            android:layout_height="@dimen/fourty_dip"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/ten_dip"
-            android:layout_marginTop="@dimen/ten_dip"
-            android:background="@drawable/delete" />
-
 
         <ImageView
             android:id="@+id/imgCommingSoon"
@@ -88,6 +79,7 @@
 
 
             <Button
+                android:id="@+id/closeButton"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:text="Close"
@@ -98,6 +90,7 @@
                 android:textColor="@color/white"
                 android:paddingRight="@dimen/ten_dip"
                 android:paddingLeft="@dimen/ten_dip"
+                android:layout_marginBottom="@dimen/twenty_dip"
                 />
 
         </RelativeLayout>

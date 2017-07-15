@@ -216,7 +216,7 @@
     <string name="web_live_url">www.aapkatrade.com</string>
     <string name="web_info_live_url">info@aapkatrade.com</string>
     <string name="follow_us">Follow us</string>
-    <string name="customer_care_no">9812345678</string>
+    <string name="customer_care_no">+91 124 414 3324</string>
     <string name="customer_care">Customer Care</string>
     <string name="title_activity_payment_completion">PaymentCompletionActivity</string>
     <string name="payment_success">Payment Successful</string>
