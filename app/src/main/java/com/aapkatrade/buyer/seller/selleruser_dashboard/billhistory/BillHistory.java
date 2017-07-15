@@ -10,15 +10,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 
 import com.aapkatrade.buyer.R;
-import com.aapkatrade.buyer.associate.RegistrationBusinessAssociateActivity;
 import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
@@ -38,7 +36,7 @@ import java.util.Calendar;
 public class BillHistory extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener {
 
     AppSharedPreference appSharedPreference;
-    Context c;
+    Context context;
     ArrayList<String> machineList = new ArrayList<>();
     Spinner SpMachineList;
     CustomSpinnerAdapter customSpinnerAdapter;
@@ -57,7 +55,7 @@ public class BillHistory extends AppCompatActivity implements TimePickerDialog.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bill_history);
-
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
         initView();
         setUpToolBar();
@@ -96,7 +94,7 @@ public class BillHistory extends AppCompatActivity implements TimePickerDialog.O
 
                     } else {
 
-                        AndroidUtils.showToast(c, "Select Machine No");
+                        AndroidUtils.showToast(context, "Select Machine No");
 
                     }
 
@@ -104,7 +102,7 @@ public class BillHistory extends AppCompatActivity implements TimePickerDialog.O
                 } else {
 
 
-                    AndroidUtils.showToast(c, "Invalid Start/End Date");
+                    AndroidUtils.showToast(context, "Invalid Start/End Date");
                 }
 
 
@@ -166,16 +164,16 @@ public class BillHistory extends AppCompatActivity implements TimePickerDialog.O
                         }
 
 
-                        customSpinnerAdapter = new CustomSpinnerAdapter(c, machineList);
+                        customSpinnerAdapter = new CustomSpinnerAdapter(context, machineList);
 
                         SpMachineList.setAdapter(customSpinnerAdapter);
 
-                        AndroidUtils.showErrorLog(c, "responseMachineList", result.toString());
+                        AndroidUtils.showErrorLog(context, "responseMachineList", result.toString());
 
 
                     } else {
 
-                        AndroidUtils.showErrorLog(c, "responseMachineList", result.toString());
+                        AndroidUtils.showErrorLog(context, "responseMachineList", result.toString());
                     }
 
 
@@ -189,7 +187,7 @@ public class BillHistory extends AppCompatActivity implements TimePickerDialog.O
     }
 
     private void initView() {
-        c = this;
+        context = this;
 
         progressBarHandler = new ProgressBarHandler(this);
 
@@ -201,7 +199,7 @@ public class BillHistory extends AppCompatActivity implements TimePickerDialog.O
         etstartdate = (EditText) findViewById(R.id.etstartdate);
 
         etenddate = (EditText) findViewById(R.id.etenddate);
-        linearLayoutManager = new LinearLayoutManager(c, LinearLayoutManager.VERTICAL, false);
+        linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
     }
 
     private void callWebserviceBillHistory(int selectedItemPosition) {
@@ -237,7 +235,7 @@ public class BillHistory extends AppCompatActivity implements TimePickerDialog.O
                         String total_result = pagination_jsonobject.get("total_result").getAsString();
                         if (total_result.contains("0")) {
                             progressBarHandler.hide();
-                            AndroidUtils.showToast(c, "No Bill History Found On selected Dates");
+                            AndroidUtils.showToast(context, "No Bill History Found On selected Dates");
 
 
                         } else {
@@ -266,14 +264,14 @@ public class BillHistory extends AppCompatActivity implements TimePickerDialog.O
                             recycleBillHistory.setAdapter(billHistoryAdapter);
 
 
-                            AndroidUtils.showErrorLog(c, "responseBillPayment2", result.toString());
+                            AndroidUtils.showErrorLog(context, "responseBillPayment2", result.toString());
                             progressBarHandler.hide();
                         }
 
 
                     } else {
                         progressBarHandler.hide();
-                        AndroidUtils.showErrorLog(c, "responseBillPayment2", result.toString());
+                        AndroidUtils.showErrorLog(context, "responseBillPayment2", result.toString());
                     }
 
 
@@ -310,7 +308,7 @@ public class BillHistory extends AppCompatActivity implements TimePickerDialog.O
         ImageView homeIcon = (ImageView) findViewById(R.id.iconHome);
         ImageView back_imagview = (ImageView) findViewById(R.id.back_imagview);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        AndroidUtils.setImageColor(homeIcon, c, R.color.white);
+        AndroidUtils.setImageColor(homeIcon, context, R.color.white);
         back_imagview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -352,7 +350,7 @@ public class BillHistory extends AppCompatActivity implements TimePickerDialog.O
     }
 
     private void callHomeActivity() {
-        Intent intent = new Intent(c, HomeActivity.class);
+        Intent intent = new Intent(context, HomeActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);

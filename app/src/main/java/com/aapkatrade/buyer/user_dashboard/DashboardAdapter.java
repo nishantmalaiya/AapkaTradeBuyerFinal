@@ -212,8 +212,8 @@ public class DashboardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
 
                     } else {
-                        Intent billhistory = new Intent(context, ProductManagementActivity.class);
-                        context.startActivity(billhistory);
+                        Intent productManagementIntent = new Intent(context, ProductManagementActivity.class);
+                        context.startActivity(productManagementIntent);
 
                     }
 

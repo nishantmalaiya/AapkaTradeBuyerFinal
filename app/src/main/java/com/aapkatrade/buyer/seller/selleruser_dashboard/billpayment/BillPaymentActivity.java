@@ -29,22 +29,22 @@ import com.koushikdutta.ion.Ion;
 import java.util.ArrayList;
 
 public class BillPaymentActivity extends AppCompatActivity {
-    Context context;
+    private Context context;
     private AppSharedPreference appSharedPreference;
     private TextView tvStatusTitle, tvStatusMsg, tvHeaderTransaction, tvSubHeaderTransaction,
             tvHeaderAmountPaid, tvSubHeaderAmountPaid, tvReceiptNo, tvDone;
     private ImageView tickImageView, circleImageView1, circleImageView2;
     private LinearLayout circleTile2Layout, circleTile1Layout, paymentCompletionRootLayout;
     private TextView rlSaveLayout;
-    RecyclerView recycleView_bill_payment;
+    private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
-    TextView tv_amount;
+    private TextView tvAmount;
 
-    BillPaymentAdapter billPaymentAdapter;
+    private BillPaymentAdapter billPaymentAdapter;
 
-    ArrayList<BillPaymentListData> billPaymentListDatas = new ArrayList<>();
+    private ArrayList<BillPaymentListData> billPaymentListDatas = new ArrayList<>();
 
-    ProgressBarHandler pbar_handler;
+    private ProgressBarHandler progressBarHandler;
     public static CommonInterface commonInterface;
 
 
@@ -61,7 +61,7 @@ public class BillPaymentActivity extends AppCompatActivity {
 
     private void callBillPayment() {
 
-        recycleView_bill_payment.setLayoutManager(linearLayoutManager);
+        recyclerView.setLayoutManager(linearLayoutManager);
 
 
         String webserviceUrlBillPayment = context.getString(R.string.webservice_base_url) + "/get_bill_payment";
@@ -77,7 +77,7 @@ public class BillPaymentActivity extends AppCompatActivity {
 
 
                 if (result != null) {
-                    pbar_handler.show();
+                    progressBarHandler.show();
                     if (result.get("error").getAsString().contains("false")) {
 
 
@@ -95,29 +95,29 @@ public class BillPaymentActivity extends AppCompatActivity {
 
 
                         }
-                        recycleView_bill_payment.setLayoutManager(linearLayoutManager);
+                        recyclerView.setLayoutManager(linearLayoutManager);
 
                         if (billPaymentAdapter == null) {
 
 
                             billPaymentAdapter = new BillPaymentAdapter(BillPaymentActivity.this, billPaymentListDatas);
-                            recycleView_bill_payment.setAdapter(billPaymentAdapter);
+                            recyclerView.setAdapter(billPaymentAdapter);
                         } else {
                             billPaymentAdapter.notifyDataSetChanged();
 //
                         }
-                        pbar_handler.hide();
+                        progressBarHandler.hide();
 
                     } else {
                         AndroidUtils.showErrorLog(context, "json_return_error", result.get("error").getAsString());
-                        pbar_handler.hide();
+                        progressBarHandler.hide();
                     }
 
 
                 } else {
 
 
-                    pbar_handler.hide();
+                    progressBarHandler.hide();
 
                 }
 
@@ -133,7 +133,7 @@ public class BillPaymentActivity extends AppCompatActivity {
             billPaymentListDatas.add(new BillPaymentListData("MPOS", "537547656", "1250", false, R.drawable.circle_purple));
             billPaymentListDatas.add(new BillPaymentListData("POS", "5375475734", "250", false, R.drawable.circle_sienna));
             billPaymentAdapter = new BillPaymentAdapter(BillPaymentActivity.this, billPaymentListDatas);
-            recycleView_bill_payment.setAdapter(billPaymentAdapter);
+            recyclerView.setAdapter(billPaymentAdapter);
         } else {
             billPaymentAdapter.notifyDataSetChanged();
 //
@@ -145,12 +145,12 @@ public class BillPaymentActivity extends AppCompatActivity {
 
     private void initView() {
         appSharedPreference = new AppSharedPreference(context);
-        pbar_handler = new ProgressBarHandler(context);
+        progressBarHandler = new ProgressBarHandler(context);
         tvStatusTitle = (TextView) findViewById(R.id.tvStatusTitle);
         tvStatusMsg = (TextView) findViewById(R.id.tvStatusMsg);
         tickImageView = (ImageView) findViewById(R.id.tickImageView);
-        tv_amount = (TextView) findViewById(R.id.tv_billing_amount2);
-        recycleView_bill_payment = (RecyclerView) findViewById(R.id.recycleView_bill_payment);
+        tvAmount = (TextView) findViewById(R.id.tv_billing_amount2);
+        recyclerView = (RecyclerView) findViewById(R.id.recycleView_bill_payment);
         rlSaveLayout = (TextView) findViewById(R.id.tvDone);
         linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
 
@@ -160,7 +160,7 @@ public class BillPaymentActivity extends AppCompatActivity {
             public Object getData(Object object) {
 
 
-                tv_amount.setText(new StringBuilder(getString(R.string.rupay_text)).append("  ").append(String.valueOf((Integer) object)));
+                tvAmount.setText(new StringBuilder(getString(R.string.rupay_text)).append("  ").append(String.valueOf((Integer) object)));
 
 
                 return null;
@@ -168,7 +168,7 @@ public class BillPaymentActivity extends AppCompatActivity {
         };
 
 
-        tv_amount.setText(new StringBuilder(getString(R.string.rupay_text)).append("  0"));
+        tvAmount.setText(new StringBuilder(getString(R.string.rupay_text)).append("  0"));
     }
 
     private void setUpToolBar() {
