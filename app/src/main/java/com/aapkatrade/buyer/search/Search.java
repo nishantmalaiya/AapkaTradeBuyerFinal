@@ -361,7 +361,7 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
                 String productname = jsonObject_result.get("name").getAsString();
                 String productid = jsonObject_result.get("id").getAsString();
                 String product_prize = jsonObject_result.get("price").getAsString();
-                String imageurl = jsonObject_result.get("imageUrl").getAsString();
+                String imageurl = jsonObject_result.get("image_url").getAsString();
                 String productlocation = jsonObject_result.get("city_name").getAsString() + "," + jsonObject_result.get("state_name").getAsString() + "," +
                         jsonObject_result.get("country_name").getAsString();
 
