@@ -47,7 +47,7 @@ public class CompanyShopManagementActivity extends AppCompatActivity {
     private RecyclerView recyclerViewCompanyShop;
     private CompanyShopListAdapter companyShopListAdapter;
     private LinkedList<CompanyShopData> companyShopLinkedList = new LinkedList<>();
-    private int page = 0;
+    private int page = 0, totalPage = 0;
     private LinearLayoutManager mLayoutManager;
 
 
@@ -58,7 +58,7 @@ public class CompanyShopManagementActivity extends AppCompatActivity {
         context = CompanyShopManagementActivity.this;
         setUpToolBar();
         initView();
-        callCompanyShopListWebService(page);
+        callCompanyShopListWebService(++page);
 
 
         ImageButton btnAdd_shop = (ImageButton) findViewById(R.id.btnAdd_shop);
@@ -76,9 +76,8 @@ public class CompanyShopManagementActivity extends AppCompatActivity {
                 super.onScrolled(recyclerView, dx, dy);
                 int totalItemCount = linearLayoutManager.getItemCount();
                 int lastVisibleItemCount = linearLayoutManager.findLastVisibleItemPosition();
-                if (totalItemCount > 0) {
+                if (totalItemCount > 0 && totalPage > page) {
                     if ((totalItemCount - 1) == lastVisibleItemCount) {
-                        page = page + 1;
                         callCompanyShopListWebService(++page);
                     }
                 }
@@ -131,6 +130,7 @@ public class CompanyShopManagementActivity extends AppCompatActivity {
 
     private void callCompanyShopListWebService(int page) {
         progressBarHandler.show();
+        AndroidUtils.showErrorLog(context, "________________page_____________________", page);
         Ion.with(context)
                 .load(getString(R.string.webservice_base_url) + "/shoplist")
                 .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
@@ -139,7 +139,7 @@ public class CompanyShopManagementActivity extends AppCompatActivity {
                 .setBodyParameter("seller_id", userId)
                 .setBodyParameter("lat", "0")
                 .setBodyParameter("long", "0")
-                // .setBodyParameter("page", String.valueOf(page))
+                .setBodyParameter("page", String.valueOf(page))
                 .asJsonObject()
                 .setCallback(new FutureCallback<JsonObject>() {
                     @Override
@@ -148,6 +148,7 @@ public class CompanyShopManagementActivity extends AppCompatActivity {
                         if (result != null) {
                             AndroidUtils.showErrorLog(context, "result::::::", result.toString());
                             if (result.get("error").getAsString().equalsIgnoreCase("false")) {
+                                totalPage = result.get("total_page").getAsInt();
 
                                 JsonArray jsonArray = result.get("result").getAsJsonArray();
                                 if (jsonArray != null && jsonArray.size() > 0) {
