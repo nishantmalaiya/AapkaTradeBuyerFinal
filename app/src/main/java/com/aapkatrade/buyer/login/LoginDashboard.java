@@ -27,7 +27,7 @@ import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
  */
 public class LoginDashboard extends AppCompatActivity {
 
-    FrameLayout fl_seller, fl_buyer, fl_business_assoc;
+    FrameLayout fl_seller, fl_buyer;
 
     AppSharedPreference app_sharedpreference;
     private Context context;
@@ -70,18 +70,6 @@ public class LoginDashboard extends AppCompatActivity {
         });
 
 
-        fl_business_assoc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (app_sharedpreference.sharedPreferences != null)
-                    app_sharedpreference.setSharedPref(SharedPreferenceConstants.USER_TYPE.toString(),SharedPreferenceConstants.USER_TYPE_ASSOCIATE.toString());
-                Intent i = new Intent(LoginDashboard.this, LoginActivity.class);
-                i.putExtra("user_login", "BUSINESS ASSOCIATE LOGIN");
-                startActivity(i);
-
-                overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left);
-            }
-        });
 
 
     }
@@ -90,7 +78,7 @@ public class LoginDashboard extends AppCompatActivity {
 
         fl_seller = (FrameLayout) findViewById(R.id.fl_seller);
         fl_buyer = (FrameLayout) findViewById(R.id.fl_buyer);
-        fl_business_assoc = (FrameLayout) findViewById(R.id.fl_business_assoc);
+
         fl_seller = (FrameLayout) findViewById(R.id.fl_seller);
 
 
