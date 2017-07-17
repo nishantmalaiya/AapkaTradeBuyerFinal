@@ -12,7 +12,7 @@ android {
     defaultConfig {
         applicationId "com.aapkatrade.buyer"
         multiDexEnabled true
-        minSdkVersion 19
+        minSdkVersion 16
         targetSdkVersion 25
         versionCode 6
         versionName "1.5"

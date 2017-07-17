@@ -45,7 +45,8 @@ public class ServiceManagementActivity extends AppCompatActivity {
     private LinearLayoutManager linearLayoutManager;
     GridLayoutManager gridLayoutManager;
     ImageView btnAdd_service;
-    int page=0;
+    int page=0,total_page=0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,35 +85,39 @@ public class ServiceManagementActivity extends AppCompatActivity {
         });
 
 
+
+
+
+
         service_list. addOnScrollListener(new RecyclerView.OnScrollListener() {
 
             public void onScrollStateChanged(RecyclerView view, int scrollState) {
 
-                super.onScrollStateChanged(service_list, scrollState);
+               // super.onScrollStateChanged(service_list, scrollState);
+                if (scrollState == RecyclerView.SCROLL_STATE_IDLE && total_page>=page) {
+
+                    get_web_data(++page);
+
+                    //Call your method here for next set of data
+                }
 
             }
+
+
+
+
+
+
+
+
+
+
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
 
-                int totalItemCount = gridLayoutManager.getItemCount();
 
-                int firstVisibleItem = gridLayoutManager.findFirstVisibleItemPosition();
-
-                int lastVisibleItemCount = gridLayoutManager.findLastVisibleItemPosition();
-
-                if (totalItemCount > 0) {
-                    if ((totalItemCount - 1) == lastVisibleItemCount) {
-
-                        page = page + 1;
-
-                        get_web_data(page);
-                    } else {
-                        //loadingProgress.setVisibility(View.GONE);
-                    }
-
-                }
 
             }
 
@@ -198,7 +203,8 @@ public class ServiceManagementActivity extends AppCompatActivity {
 
 
     private void get_web_data(int i) {
-        serviceListDatas.clear();
+        AndroidUtils.showErrorLog(context,"page count",i);
+
         progress_handler.show();
 
         Ion.with(context)
@@ -232,6 +238,10 @@ public class ServiceManagementActivity extends AppCompatActivity {
 
                                     serviceListDatas.add(new ServiceListData(service_id,service_name,service_image,service_category_name,shop_name));
                                 }
+
+                                total_page=result.get("total_page").getAsInt();
+
+
                                 ServiceListAdapter.notifyDataSetChanged();
                                 progress_handler.hide();
 
