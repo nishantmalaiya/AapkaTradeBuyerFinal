@@ -1,6 +1,7 @@
 package com.aapkatrade.buyer.seller.selleruser_dashboard.servicemanagment.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.PopupMenu;
@@ -18,6 +19,7 @@ import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.entity.ProductListData;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.viewholder.ProductListViewHolder;
+import com.aapkatrade.buyer.seller.selleruser_dashboard.servicemanagment.editService.EditServiceActivity;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.servicemanagment.entity.ServiceListData;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.servicemanagment.viewholder.ServiceListViewHolder;
 import com.google.gson.JsonArray;
@@ -126,6 +128,9 @@ public class ServiceListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.service_edit:
+
+
+                                calleditserviceActivity(position);
                                 //handle menu1 click
                                 break;
                             case R.id.service_delete:
@@ -171,6 +176,18 @@ public class ServiceListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
             }
         });*/
+    }
+
+    private void calleditserviceActivity(int position) {
+        Intent editserviceintent = new Intent(context, EditServiceActivity.class);
+        editserviceintent.putExtra("serviceid",itemList.get(position).service_id);
+        editserviceintent.putExtra("servicename",itemList.get(position).service_name);
+        editserviceintent.putExtra("service_category_name",itemList.get(position).service_category_name);
+        editserviceintent.putExtra("service_image",itemList.get(position).service_image);
+        editserviceintent.putExtra("service_shop_name",itemList.get(position).service_shop_name);
+        context.startActivity(editserviceintent);
+
+
     }
 
     private void call_delete_service_webservice(String service_id, final int position) {
