@@ -66,7 +66,7 @@ public class CustomSpinnerAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View view, ViewGroup viewGroup) {
+    public View getView(final int position, View view, ViewGroup viewGroup) {
         view = inflter.inflate(R.layout.row_spinner, null);
         LinearLayout linearLayout = (LinearLayout) view.findViewById(R.id.container_simple_spinner);
         RelativeLayout containershoplist = (RelativeLayout) view.findViewById(R.id.containershoplist);
@@ -75,7 +75,6 @@ public class CustomSpinnerAdapter extends BaseAdapter {
            if(((CompanyDropdownDatas) arrayList.get(position)).comapanyCategory!="") {
                linearLayout.setVisibility(View.GONE);
                containershoplist.setVisibility(View.VISIBLE);
-
 
                CircleImageView circleImageView = (CircleImageView) view.findViewById(R.id.shopimage);
                TextView tvshopdropdownShopname = (TextView) view.findViewById(R.id.tvshopdropdownshopname);
@@ -98,9 +97,13 @@ public class CustomSpinnerAdapter extends BaseAdapter {
                AndroidUtils.showErrorLog(context, position+"position"+arrayList.size()+"arrayList.size()   "+"work1***" + Html.fromHtml(tvData));
                tvshopdropdownShopname.setText(((CompanyDropdownDatas) arrayList.get(position)).companyName);
                tvshopdropdownCategoryname.setText("Category : " + ((CompanyDropdownDatas) arrayList.get(position)).comapanyCategory);
+
               /* if(position == arrayList.size()-1) {
                    AddProductActivity.commonInterface.getData(true);
                }*/
+
+             
+
                return view;
            }
            else{
