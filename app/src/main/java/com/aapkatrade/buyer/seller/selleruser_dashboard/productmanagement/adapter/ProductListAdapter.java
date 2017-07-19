@@ -10,9 +10,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.dialogs.Seller_Update_Product_Policy;
 import com.aapkatrade.buyer.dialogs.ServiceEnquiry;
+import com.aapkatrade.buyer.dialogs.comingsoon.ComingSoonFragmentDialog;
 import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
@@ -34,7 +39,6 @@ import java.util.List;
 
 public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 {
-
     private final LayoutInflater inflater;
     private List<ProductListData> itemList;
     private Context context;
@@ -42,12 +46,18 @@ public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     AppSharedPreference appSharedPreference;
     String userId;
     ProgressBarHandler progressBarHandler;
+    RadioButton selected=null;
+    private int mSelectedVariation;
+
 
     public ProductListAdapter(Context context, List<ProductListData> itemList)
     {
         this.itemList = itemList;
+
         this.context = context;
+
         inflater = LayoutInflater.from(context);
+
         appSharedPreference = new AppSharedPreference(context);
 
         userId = appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), "");
@@ -112,12 +122,51 @@ public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             @Override
             public void onClick(View v)
             {
-                Seller_Update_Product_Policy seller_update_product_policy = new Seller_Update_Product_Policy(itemList.get(position).product_id, context);
-                FragmentManager manager = ((AppCompatActivity)context).getSupportFragmentManager();
-                seller_update_product_policy.show(manager, "enquiry");
+
+                ComingSoonFragmentDialog comingSoonFragmentDialog = new ComingSoonFragmentDialog(context);
+                FragmentManager fm = ((AppCompatActivity) context).getSupportFragmentManager();
+                comingSoonFragmentDialog.show(fm, "enquiry");
 
             }
         });
+
+       /* if(position==mSelectedVariation) homeHolder.radioButtonStatus.setChecked(true);
+        else homeHolder.radioButtonStatus.setChecked(false);
+        */
+
+       if (itemList.get(position).product_status.equals("1"))
+       {
+           AndroidUtils.showErrorLog(context,"item--- true");
+           homeHolder.radioButtonStatus.setChecked(true);
+       }
+       else
+        {
+            AndroidUtils.showErrorLog(context,"item--- false");
+           homeHolder.radioButtonStatus.setChecked(false);
+        }
+
+        homeHolder.radioButtonStatus.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
+        {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+            {
+               if (itemList.get(position).product_status.equals("1"))
+               {
+                   AndroidUtils.showErrorLog(context,"Fist--------------1");
+                /*   itemList.set(position,new ProductListData(itemList.get(position).product_id,itemList.get(position).product_name,itemList.get(position).product_image,itemList.get(position).category_name,itemList.get(position).State_name,itemList.get(position).shop_name,"0"));
+                  // notifyItemChanged(position);*/
+                callwebserviceProductActiveOrInActive(itemList.get(position).product_id,position,"0");
+               }
+               else
+               {
+                   AndroidUtils.showErrorLog(context,"Fist--------------0");
+                   itemList.set(position,new ProductListData(itemList.get(position).product_id,itemList.get(position).product_name,itemList.get(position).product_image,itemList.get(position).category_name,itemList.get(position).State_name,itemList.get(position).shop_name,"1"));
+                   // notifyItemChanged(position);
+                   callwebserviceProductActiveOrInActive(itemList.get(position).product_id,position,"1");
+               }
+            }
+        });
+
 
 
     }
@@ -167,18 +216,64 @@ public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                                 notifyDataSetChanged();
                                 progressBarHandler.hide();
 
-                            } else {
+                            }
+                            else
+                            {
                                 progressBarHandler.hide();
                                 AndroidUtils.showToast(context, "Server is not responding. Please try again.");
                             }
-                        } else {
+                        }
+                        else
+                        {
                             AndroidUtils.showToast(context, "Server is not responding. Please try again.");
                             progressBarHandler.hide();
                         }
-
                     }
                 });
+    }
 
+
+    private void callwebserviceProductActiveOrInActive(String product_id, final int position,String status)
+    {
+        progressBarHandler.show();
+
+        String login_url = context.getResources().getString(R.string.webservice_base_url) + "/update_product_status";
+
+        Ion.with(context)
+                .load(login_url)
+                .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                .setBodyParameter("id", product_id)
+                .setBodyParameter("status",status)
+                .asJsonObject()
+                .setCallback(new FutureCallback<JsonObject>() {
+                    @Override
+                    public void onCompleted(Exception e, JsonObject result) {
+                        if (result != null)
+                        {
+                            String error_message = result.get("error").getAsString();
+
+                            if (error_message.equals("false"))
+                            {
+                                System.out.println("result--------------" + result);
+                                String message = result.get("message").getAsString();
+                                AndroidUtils.showToast(context, message);
+                                progressBarHandler.hide();
+
+                            }
+                            else
+                            {
+                                progressBarHandler.hide();
+                                AndroidUtils.showToast(context, "Server is not responding. Please try again.");
+                            }
+                        }
+                        else
+                        {
+                            AndroidUtils.showToast(context, "Server is not responding. Please try again.");
+                            progressBarHandler.hide();
+                        }
+                    }
+                });
     }
 
 }

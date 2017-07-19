@@ -127,6 +127,27 @@ public class AddProductActivity extends AppCompatActivity {
 
         callCompanyListWebservice(++page);
 
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            spCompanyList.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+                @Override
+                public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+
+                    AndroidUtils.showErrorLog(context,"scrollX--"+scrollX+"scrollY---"+scrollY+"oldScrollX---"+oldScrollX+"oldScrollY---"+oldScrollY);
+
+                    /*int totalItemCount = companyDropdownDatas.size();
+
+                    if (totalItemCount == scrollY) {
+                        if (totalItemCount > 0) {
+                            page = page + 1;
+                            callCompanyListWebservice(++page);
+                        }
+                    }*/
+                }
+            });
+        }
+
         getUnit();
 
     }
