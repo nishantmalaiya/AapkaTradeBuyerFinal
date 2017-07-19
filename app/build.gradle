@@ -102,5 +102,6 @@ dependencies {
     compile 'com.google.firebase:firebase-messaging:10.2.6'
     compile 'swarajsaaj:otpreader:1.1'
     compile 'com.github.rtoshiro.fullscreenvideoview:fullscreenvideoview:1.1.2'
+    compile 'com.github.zcweng:switch-button:0.0.3@aar'
 }
 apply plugin: 'com.google.gms.google-services'

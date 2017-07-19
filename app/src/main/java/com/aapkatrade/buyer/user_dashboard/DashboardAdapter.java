@@ -222,12 +222,12 @@ public class DashboardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
 
                     } else {
-//                        Intent productManagementIntent = new Intent(context, ProductManagementActivity.class);
-//                        context.startActivity(productManagementIntent);
-                        ComingSoonFragmentDialog comingSoonFragmentDialog = new ComingSoonFragmentDialog(context);
+                        Intent productManagementIntent = new Intent(context, ProductManagementActivity.class);
+                       context.startActivity(productManagementIntent);
+                      /*  ComingSoonFragmentDialog comingSoonFragmentDialog = new ComingSoonFragmentDialog(context);
                         FragmentManager fm = ((AppCompatActivity) context).getSupportFragmentManager();
                         comingSoonFragmentDialog.show(fm, "enquiry");
-
+*/
                     }
 
                 }
