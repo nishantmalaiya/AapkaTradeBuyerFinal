@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:id="@+id/popmenu_second_container"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:background="@color/green"
+    android:gravity="center"
+    android:orientation="horizontal">
+
+
+    <ImageView
+        android:id="@+id/delete_services"
+        android:layout_width="@dimen/twenty_dip"
+        android:layout_height="@dimen/twenty_dip"
+        android:adjustViewBounds="true"
+        android:tint="@color/white"
+
+        android:contentDescription="@null"
+
+
+        android:src="@drawable/ic_delete" />
+
+
+    <TextView
+        android:id="@+id/tvCartCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_gravity="center_vertical"
+        android:layout_margin="@dimen/five_dip"
+        android:lines="1"
+        android:fontFamily="sans-serif"
+        android:gravity="center"
+        android:text="@string/service_delete"
+        android:textColor="@android:color/white"
+
+        android:textSize="20dp"
+
+        android:textStyle="bold" />
+
+
+</LinearLayout>

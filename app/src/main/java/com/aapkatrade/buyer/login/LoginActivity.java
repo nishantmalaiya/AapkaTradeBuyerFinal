@@ -270,6 +270,7 @@ public class LoginActivity extends AppCompatActivity {
             appSharedpreference.setSharedPref(SharedPreferenceConstants.ENQUIRY_LIST_COUNT.toString(), webservice_returndata.get("enquiries").getAsString());
             appSharedpreference.setSharedPref(SharedPreferenceConstants.PROFILE_VIDEO.toString(), jsonObject.get("profile_video").getAsString());
             appSharedpreference.setSharedPref(SharedPreferenceConstants.PROFILE_VIDEO_THUMBNAIL.toString(), jsonObject.get("video_thumbnail").getAsString());
+            appSharedpreference.setSharedPref(SharedPreferenceConstants.PROFILE_ViDEO_GIF.toString(), jsonObject.get("video_thumbnail").getAsString());
             Intent Homedashboard = new Intent(context, HomeActivity.class);
             Homedashboard.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(Homedashboard);
