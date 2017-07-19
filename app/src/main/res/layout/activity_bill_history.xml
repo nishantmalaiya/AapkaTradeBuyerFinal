@@ -155,7 +155,8 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="@dimen/five_dip"
                                     android:layout_marginRight="@dimen/five_dip"
-
+                                    android:clickable="false"
+                                    android:focusable="false"
                                     android:hint="@string/startdate"
                                     android:inputType="none"
                                     android:paddingLeft="@dimen/ten_dip"
@@ -199,10 +200,10 @@
                                     android:id="@+id/etenddate"
                                     style="@style/myedittext"
                                     android:layout_width="match_parent"
-
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="@dimen/five_dip"
                                     android:layout_marginRight="@dimen/five_dip"
+                                    android:focusable="false"
 
                                     android:hint="@string/enddate"
                                     android:inputType="none"
