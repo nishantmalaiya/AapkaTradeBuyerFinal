@@ -1070,7 +1070,7 @@ public class ZoomableImageView  extends android.support.v7.widget.AppCompatImage
     /**
      * This function will transform the coordinates in the touch event to the coordinate
      * system of the drawable that the imageview contain
-     * @param x x-coordinate of touch event
+     * @param x PagingSpinnerAdapter-coordinate of touch event
      * @param y y-coordinate of touch event
      * @param clipToBitmap Touch event may occur within view, but outside image content. True, to clip return value
      * 			to the bounds of the bitmap size.
@@ -1096,7 +1096,7 @@ public class ZoomableImageView  extends android.support.v7.widget.AppCompatImage
     /**
      * Inverse of transformCoordTouchToBitmap. This function will transform the coordinates in the
      * drawable's coordinate system to the view's coordinate system.
-     * @param bx x-coordinate in original bitmap coordinate system
+     * @param bx PagingSpinnerAdapter-coordinate in original bitmap coordinate system
      * @param by y-coordinate in original bitmap coordinate system
      * @return Coordinates of the point in the view's coordinate system.
      */

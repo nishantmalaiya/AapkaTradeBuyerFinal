@@ -169,11 +169,11 @@ public class DashboardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
 
                     } else {
-//                        Intent bankDetails = new Intent(context, BankDetailsActivity.class);
-//                        context.startActivity(bankDetails);
-                        ComingSoonFragmentDialog comingSoonFragmentDialog = new ComingSoonFragmentDialog(context);
+                        Intent bankDetails = new Intent(context, BankDetailsActivity.class);
+                        context.startActivity(bankDetails);
+                        /*ComingSoonFragmentDialog comingSoonFragmentDialog = new ComingSoonFragmentDialog(context);
                         FragmentManager fm = ((AppCompatActivity) context).getSupportFragmentManager();
-                        comingSoonFragmentDialog.show(fm, "enquiry");
+                        comingSoonFragmentDialog.show(fm, "enquiry");*/
                     }
 
                 } else if (itemList.get(position).dashboard_name.equals("Company/Shop List")) {
@@ -183,12 +183,12 @@ public class DashboardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
 
                     } else {
-//                        Intent bankDetails = new Intent(context, CompanyShopManagementActivity.class);
-//                        context.startActivity(bankDetails);
+                        Intent bankDetails = new Intent(context, CompanyShopManagementActivity.class);
+                        context.startActivity(bankDetails);
 
-                        ComingSoonFragmentDialog comingSoonFragmentDialog = new ComingSoonFragmentDialog(context);
+                      /*  ComingSoonFragmentDialog comingSoonFragmentDialog = new ComingSoonFragmentDialog(context);
                         FragmentManager fm = ((AppCompatActivity) context).getSupportFragmentManager();
-                        comingSoonFragmentDialog.show(fm, "enquiry");
+                        comingSoonFragmentDialog.show(fm, "enquiry");*/
                     }
 
                 } else if (itemList.get(position).dashboard_name.equals("Bill History")) {
@@ -223,11 +223,9 @@ public class DashboardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
                     } else {
                         Intent productManagementIntent = new Intent(context, ProductManagementActivity.class);
+
                        context.startActivity(productManagementIntent);
-                      /*  ComingSoonFragmentDialog comingSoonFragmentDialog = new ComingSoonFragmentDialog(context);
-                        FragmentManager fm = ((AppCompatActivity) context).getSupportFragmentManager();
-                        comingSoonFragmentDialog.show(fm, "enquiry");
-*/
+        
                     }
 
                 }
@@ -239,11 +237,11 @@ public class DashboardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
 
                     } else {
-//                        Intent billhistory = new Intent(context, ServiceManagementActivity.class);
-//                        context.startActivity(billhistory);
-                        ComingSoonFragmentDialog comingSoonFragmentDialog = new ComingSoonFragmentDialog(context);
+                        Intent billhistory = new Intent(context, ServiceManagementActivity.class);
+                        context.startActivity(billhistory);
+                      /*  ComingSoonFragmentDialog comingSoonFragmentDialog = new ComingSoonFragmentDialog(context);
                         FragmentManager fm = ((AppCompatActivity) context).getSupportFragmentManager();
-                        comingSoonFragmentDialog.show(fm, "enquiry");
+                        comingSoonFragmentDialog.show(fm, "enquiry");*/
                     }
 
                 }

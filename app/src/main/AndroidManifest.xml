@@ -166,9 +166,7 @@
             android:name=".seller.selleruser_dashboard.companyshopmgt.editcompanyshop.EditCompanyShopActivity"
             android:label="@string/title_activity_add_company_shop"
             android:theme="@style/AppTheme" />
-        <activity
-            android:name=".videoplay.VideoPlayActivity"
-            android:configChanges="orientation|screenSize" />
+
         <activity android:name=".seller.selleruser_dashboard.billhistory.BillHistory" />
         <activity android:name=".seller.selleruser_dashboard.salestransaction.SalesTransactionActivity" />
         <activity
@@ -177,15 +175,10 @@
             android:theme="@style/AppTheme" />
         <activity android:name=".seller.selleruser_dashboard.productmanagement.editproduct.EditProductActivity" />
         <activity android:name=".chat.ChatActivity" />
-        <activity android:name=".seller.selleruser_dashboard.productmanagement.ProductManagementActivity"></activity>
-        <activity
-            android:name=".seller.selleruser_dashboard.servicemanagment.ServiceManagementActivity"
-
-
-
-            />
-        <activity android:name=".seller.selleruser_dashboard.servicemanagment.addService.AddServiceActivity"></activity>
-
+        <activity android:name=".seller.selleruser_dashboard.productmanagement.ProductManagementActivity" />
+        <activity android:name=".seller.selleruser_dashboard.servicemanagment.ServiceManagementActivity" />
+        <activity android:name=".seller.selleruser_dashboard.servicemanagment.addService.AddServiceActivity" />
+        <activity android:name=".seller.selleruser_dashboard.servicemanagment.editService.EditServiceActivity"></activity>
     </application>
 
 </manifest>

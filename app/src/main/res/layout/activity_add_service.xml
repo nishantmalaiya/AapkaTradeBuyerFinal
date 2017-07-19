@@ -43,19 +43,21 @@
         android:layout_height="0dp">
 
 <RelativeLayout
-    android:layout_width="@dimen/hundred_dip"
+    android:layout_width="@dimen/one_hundred_five_dip"
     android:layout_centerInParent="true"
 
 android:id="@+id/rl_add_service_image_container"
-    android:layout_height="@dimen/hundred_dip">
+    android:layout_height="@dimen/one_hundred_five_dip">
 
         <ImageView
             android:layout_marginTop="@dimen/ten_dip"
             android:id="@+id/img_add_service"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/hundred_dip"
             android:background="@drawable/ic_add_service_background"
             android:scaleType="fitXY"
-            android:layout_height="wrap_content" />
+            android:layout_marginRight="@dimen/ten_dip"
+            android:layout_alignParentRight="true"
+            android:layout_height="@dimen/hundred_dip" />
     <ImageView
         android:layout_width="wrap_content"
         android:layout_alignParentRight="true"

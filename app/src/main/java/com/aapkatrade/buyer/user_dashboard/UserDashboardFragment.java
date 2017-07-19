@@ -67,12 +67,15 @@ public class UserDashboardFragment extends Fragment
             }
             else
             {
-                Picasso.with(getActivity())
+
+                String profile_video_gif = appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_ViDEO_GIF.toString());
+                Ion.with(imageViewProfileVideo).load(profile_video_gif);
+              /*  Picasso.with(getActivity())
                         .load(appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_VIDEO_THUMBNAIL.toString(), ""))
                         .error(R.drawable.navigation_profile_bg)
                         .placeholder(R.drawable.navigation_profile_bg)
                         .error(R.drawable.navigation_profile_bg)
-                        .into(imageViewProfileVideo);
+                        .into(imageViewProfileVideo);*/
             }
         }
 
