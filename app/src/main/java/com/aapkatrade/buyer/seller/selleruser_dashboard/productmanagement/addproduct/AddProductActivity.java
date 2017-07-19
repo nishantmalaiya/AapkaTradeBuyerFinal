@@ -34,6 +34,7 @@ import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.Utils.adapter.CustomSpinnerAdapter;
 import com.aapkatrade.buyer.general.Validation;
+import com.aapkatrade.buyer.general.interfaces.CommonInterface;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
 import com.aapkatrade.buyer.home.buyerregistration.entity.City;
 import com.aapkatrade.buyer.home.buyerregistration.spinner_adapter.SpCityAdapter;
@@ -79,7 +80,8 @@ public class AddProductActivity extends AppCompatActivity {
     private String cityID, unitID, shopId, dynamicFormData, companyId;
     private ArrayList<DynamicFormEntity> dynamicFormEntityArrayList = new ArrayList<>();
     private LinearLayout llSellerProductDetailContainer;
-    int page = 0;
+    int page = 0, totalPage = 0;
+    public static CommonInterface commonInterface = null;
 
     ArrayList<CompanyDropdownDatas> companyDropdownDatas = new ArrayList<>();
     CustomSpinnerAdapter customSpinnerAdapter;
@@ -100,8 +102,19 @@ public class AddProductActivity extends AppCompatActivity {
         }
         setUpToolBar();
         initView();
-        loadDynamicForm(shopId);
         setupRecyclerView();
+
+        commonInterface = new CommonInterface() {
+            @Override
+            public Object getData(Object object) {
+                if(((boolean) object) && totalPage >= page){
+                    callCompanyListWebservice(++page);
+                }
+
+
+                return null;
+            }
+        };
 
         setupSpinner();
 
@@ -113,28 +126,12 @@ public class AddProductActivity extends AppCompatActivity {
 
         callCompanyListWebservice(++page);
 
-
-       /* if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            spCompanyList.setOnScrollChangeListener(new View.OnScrollChangeListener() {
-                @Override
-                public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                    int totalItemCount = companyDropdownDatas.size();
-
-                    if (totalItemCount == scrollY) {
-                        if (totalItemCount > 0) {
-                            page = page + 1;
-                            callCompanyListWebservice(++page);
-                        }
-                    }
-                }
-            });
-        }*/
         getUnit();
 
     }
 
 
-    private void callCompanyListWebservice(int i) {
+    private void callCompanyListWebservice(final int page) {
 
 
         String CompanyListWebserviceUrl = getString(R.string.webservice_base_url) + "/shoplist";
@@ -149,7 +146,7 @@ public class AddProductActivity extends AppCompatActivity {
                 .setBodyParameter("long", "0")
                 .setBodyParameter("apply", "1")
                 .setBodyParameter("shoptype", "1")
-//                .setBodyParameter("page", i + "")
+                .setBodyParameter("page", String.valueOf(page))
                 .asJsonObject().setCallback(new FutureCallback<JsonObject>() {
             @Override
             public void onCompleted(Exception e, JsonObject result) {
@@ -159,7 +156,10 @@ public class AddProductActivity extends AppCompatActivity {
 
 
                         JsonArray jsonArray_response = result.getAsJsonArray("result");
-                        companyDropdownDatas.add(new CompanyDropdownDatas("", "", "", ""));
+                        totalPage = result.get("total_page").getAsInt();
+                        if(page == 1) {
+                            companyDropdownDatas.add(new CompanyDropdownDatas("", "", "", ""));
+                        }
                         for (int i = 0; i < jsonArray_response.size(); i++) {
 
 
@@ -177,11 +177,14 @@ public class AddProductActivity extends AppCompatActivity {
                         customSpinnerAdapter = new CustomSpinnerAdapter(context, companyDropdownDatas);
 
                         spCompanyList.setAdapter(customSpinnerAdapter);
+
                         spCompanyList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                             @Override
                             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                                 if (position > 0) {
                                     companyId = companyDropdownDatas.get(position).comapanyId;
+                                    loadDynamicForm(companyId);
+
                                 }
                             }
 
@@ -201,11 +204,6 @@ public class AddProductActivity extends AppCompatActivity {
 
             }
         });
-
-
-        // CustomSpinnerAdapter customSpinnerAdapter = new CustomSpinnerAdapter()
-
-
     }
 
 
@@ -223,7 +221,7 @@ public class AddProductActivity extends AppCompatActivity {
                     @Override
                     public void onCompleted(Exception e, JsonObject result) {
                         progressBarHandler.hide();
-
+                        AndroidUtils.showErrorLog(context, "--------list_formdata-------", result);
                         if (result != null) {
                             if (result.get("status").getAsString().contains("true")) {
                                 JsonArray jsonResultArray = result.get("result").getAsJsonArray();
@@ -424,7 +422,16 @@ public class AddProductActivity extends AppCompatActivity {
             dynamicFormData = getDynamicSelectedData();
             if (Validation.isEmptyStr(dynamicFormData)) {
                 AndroidUtils.showErrorLog(context, "isAllFieldsSet.............dynamicFormData" + isAllFieldsSet);
-                isAllFieldsSet = false;
+                if(dynamicFormEntityArrayList != null && dynamicFormEntityArrayList.size() > 0){
+                    isAllFieldsSet = true;
+                    for (DynamicFormEntity dynamicFormEntity : dynamicFormEntityArrayList) {
+                        AndroidUtils.showErrorLog(context, "isAllFieldsSet.............dynamicFormEntity" + dynamicFormEntity);
+
+                    }
+                }else{
+                    AndroidUtils.showErrorLog(context, "isAllFieldsSet.............dynamicFormEntity false");
+                    isAllFieldsSet = false;
+                }
             }
         }
 
@@ -574,7 +581,8 @@ public class AddProductActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setVisibility(View.VISIBLE);
         recyclerView.setAdapter(adapter);
-    }
+
+}
 
     public void picPhoto() {
         String str[] = new String[]{"Camera", "Gallery"};

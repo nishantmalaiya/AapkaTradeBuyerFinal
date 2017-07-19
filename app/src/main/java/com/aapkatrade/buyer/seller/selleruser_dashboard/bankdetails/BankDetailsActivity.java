@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatImageView;
-import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -70,7 +69,7 @@ public class BankDetailsActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String ifscCode = s.toString();
-                if (Validation.isNonEmptyStr(ifscCode) && ifscCode.length() >=11)
+                if (Validation.isNonEmptyStr(ifscCode) && ifscCode.length() >= 11)
                     hitIFSCWebService(ifscCode);
             }
 
@@ -105,7 +104,7 @@ public class BankDetailsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 AndroidUtils.showErrorLog(context, "Clicked Save ");
 
-                if(isAllValidateFields()){
+                if (isAllValidateFields()) {
                     callUpdateBankDetailWebService();
                 } else {
                     AndroidUtils.showSnackBar(coordinateMyprofile, "Invalid Data");
@@ -255,26 +254,34 @@ public class BankDetailsActivity extends AppCompatActivity {
     }
 
     private void callUpdateBankDetailWebService() {
+        AndroidUtils.showErrorLog(context,
+                "-----userID-----" + userId
+                        + "------user_type--------"+ SharedPreferenceConstants.USER_TYPE_SELLER.toString()
+                        + "--------state_id----------- "+ stateID
+                        + "--------beneficiaryBankName---------"+ etBeneficiaryBankName.getText().toString()
+                        + "--------beneficiaryAccount----------- "+ etBeneficiaryAccount.getText().toString()
+                        + "----------beneficiaryName---------- "+ etBeneficiaryName.getText().toString()
+                        + "--------beneficiaryAddress------------"+ etBeneficiaryAddress.getText().toString());
         progressBarHandler.show();
         Ion.with(context)
-                .load(getString(R.string.webservice_base_url) + "/bankdetails")
-                .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
-                .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                .load(getString(R.string.webservice_base_url) + "/bank_detail_update")
+                .setHeader("Authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                .setBodyParameter("Authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                 .setBodyParameter("user_id", userId)
-                .setBodyParameter("user_type ", SharedPreferenceConstants.USER_TYPE_SELLER.toString())
+                .setBodyParameter("user_type", SharedPreferenceConstants.USER_TYPE_SELLER.toString())
                 .setBodyParameter("beneficiaryCode", etBeneficiaryIFSC.getText().toString())
-                .setBodyParameter("beneficiaryAccount ", etBeneficiaryAccount.getText().toString())
-                .setBodyParameter("beneficiaryBankName ", etBeneficiaryBankName.getText().toString())
-                .setBodyParameter("state_id ", stateID)
-                .setBodyParameter("beneficiaryAddress ", etBeneficiaryAddress.getText().toString())
-                .setBodyParameter("beneficiaryName ", etBeneficiaryName.getText().toString())
+                .setBodyParameter("beneficiaryAccount", etBeneficiaryAccount.getText().toString())
+                .setBodyParameter("beneficiaryBankName", etBeneficiaryBankName.getText().toString())
+                .setBodyParameter("state_id", stateID)
+                .setBodyParameter("beneficiaryAddress", etBeneficiaryAddress.getText().toString())
+                .setBodyParameter("beneficiaryName", etBeneficiaryName.getText().toString())
                 .asJsonObject()
                 .setCallback(new FutureCallback<JsonObject>() {
                     @Override
                     public void onCompleted(Exception e, JsonObject result) {
                         progressBarHandler.hide();
                         if (result != null) {
-                            AndroidUtils.showErrorLog(context, "result::::::", result.toString());
+                            AndroidUtils.showErrorLog(context, "result::::::", result);
                             if (result.get("error").getAsString().equalsIgnoreCase("false")) {
                                 if (result.get("message").getAsString().equalsIgnoreCase("Success")) {
                                     disableViews();

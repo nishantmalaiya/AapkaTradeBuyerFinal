@@ -16,7 +16,9 @@ import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Validation;
 import com.aapkatrade.buyer.general.entity.KeyValue;
+import com.aapkatrade.buyer.general.interfaces.CommonInterface;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.CompanyShopData;
+import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.addproduct.AddProductActivity;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.addproduct.CompanyDropdownDatas;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.addproduct.entity.FormValue;
 import com.koushikdutta.ion.Ion;
@@ -64,14 +66,13 @@ public class CustomSpinnerAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
+    public View getView(int position, View view, ViewGroup viewGroup) {
         view = inflter.inflate(R.layout.row_spinner, null);
-
         LinearLayout linearLayout = (LinearLayout) view.findViewById(R.id.container_simple_spinner);
         RelativeLayout containershoplist = (RelativeLayout) view.findViewById(R.id.containershoplist);
         TextView spinnerItemName = (TextView) view.findViewById(R.id.tvSpCategory);
-        if (arrayList.get(i) instanceof CompanyDropdownDatas) {
-           if(((CompanyDropdownDatas) arrayList.get(i)).comapanyCategory!="") {
+        if (arrayList.get(position) instanceof CompanyDropdownDatas) {
+           if(((CompanyDropdownDatas) arrayList.get(position)).comapanyCategory!="") {
                linearLayout.setVisibility(View.GONE);
                containershoplist.setVisibility(View.VISIBLE);
 
@@ -81,9 +82,9 @@ public class CustomSpinnerAdapter extends BaseAdapter {
                TextView tvshopdropdownCategoryname = (TextView) view.findViewById(R.id.tvshopdropdownshopcategory);
 
 
-               if (Validation.isNonEmptyStr(((CompanyDropdownDatas) arrayList.get(i)).companyImageUrl)) {
+               if (Validation.isNonEmptyStr(((CompanyDropdownDatas) arrayList.get(position)).companyImageUrl)) {
                    Picasso.with(context)
-                           .load(((CompanyDropdownDatas) arrayList.get(i)).companyImageUrl)
+                           .load(((CompanyDropdownDatas) arrayList.get(position)).companyImageUrl)
                            .error(R.drawable.banner)
                            .placeholder(R.drawable.default_noimage)
                            .error(R.drawable.default_noimage)
@@ -91,12 +92,15 @@ public class CustomSpinnerAdapter extends BaseAdapter {
                }
 
 
-               StringBuilder stringBuilder_txnamount = new StringBuilder("<font size=\"20\" color=" + "#ffffff>" + ((CompanyDropdownDatas) arrayList.get(i)).companyName +
-                       ((CompanyDropdownDatas) arrayList.get(i)).comapanyCategory + "</font>");
+               StringBuilder stringBuilder_txnamount = new StringBuilder("<font size=\"20\" color=" + "#ffffff>" + ((CompanyDropdownDatas) arrayList.get(position)).companyName +
+                       ((CompanyDropdownDatas) arrayList.get(position)).comapanyCategory + "</font>");
                String tvData = stringBuilder_txnamount.toString();
-               AndroidUtils.showErrorLog(context, "work1***" + Html.fromHtml(tvData));
-               tvshopdropdownShopname.setText(((CompanyDropdownDatas) arrayList.get(i)).companyName);
-               tvshopdropdownCategoryname.setText("Category : " + ((CompanyDropdownDatas) arrayList.get(i)).comapanyCategory);
+               AndroidUtils.showErrorLog(context, position+"position"+arrayList.size()+"arrayList.size()   "+"work1***" + Html.fromHtml(tvData));
+               tvshopdropdownShopname.setText(((CompanyDropdownDatas) arrayList.get(position)).companyName);
+               tvshopdropdownCategoryname.setText("Category : " + ((CompanyDropdownDatas) arrayList.get(position)).comapanyCategory);
+               if(position == arrayList.size()-1) {
+                   AddProductActivity.commonInterface.getData(true);
+               }
                return view;
            }
            else{
@@ -110,15 +114,15 @@ public class CustomSpinnerAdapter extends BaseAdapter {
         } else {
 
 
-            if (arrayList.get(i) instanceof KeyValue) {
-                spinnerItemName.setText(((KeyValue) arrayList.get(i)).value.toString());
+            if (arrayList.get(position) instanceof KeyValue) {
+                spinnerItemName.setText(((KeyValue) arrayList.get(position)).value.toString());
                 spinnerItemName.setTextColor(ContextCompat.getColor(context, R.color.black));
-            } else if (arrayList.get(i) instanceof FormValue) {
+            } else if (arrayList.get(position) instanceof FormValue) {
                 view.findViewById(R.id.view1).setVisibility(View.VISIBLE);
                 view.findViewById(R.id.view2).setVisibility(View.VISIBLE);
-                spinnerItemName.setText(((FormValue) arrayList.get(i)).getValue());
+                spinnerItemName.setText(((FormValue) arrayList.get(position)).getValue());
             } else {
-                spinnerItemName.setText(arrayList.get(i).toString());
+                spinnerItemName.setText(arrayList.get(position).toString());
             }
 
             return view;
