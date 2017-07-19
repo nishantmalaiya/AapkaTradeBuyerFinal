@@ -235,7 +235,6 @@ public class ServiceManagementActivity extends AppCompatActivity {
 
                                     String shop_name = jsonObject.get("company_name").getAsString();
 
-
                                     serviceListDatas.add(new ServiceListData(service_id,service_name,service_image,service_category_name,shop_name));
                                 }
 

@@ -12,6 +12,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
@@ -60,7 +62,7 @@ public class EditServiceActivity extends AppCompatActivity {
 
     private ArrayList<Bitmap> multiple_images;
     private EditText etservicename, etserviceOffers, etProductPriceDiscount, etProductWeight, etDescription, etMaxorderQuantity, etProductLength, etProductWidth, etProductHeight;
-    private TextView save, tv_shopname;
+    private TextView save, tv_shopname,tv_shopCategory;
     private List<Part> files = new ArrayList();
     private AppSharedPreference appSharedpreference;
     private ProgressBarHandler progressBarHandler;
@@ -102,6 +104,46 @@ public class EditServiceActivity extends AppCompatActivity {
 
     }
 
+
+
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_map, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     private void callShopDetailActivity() {
 
 
@@ -126,7 +168,7 @@ public class EditServiceActivity extends AppCompatActivity {
                                 .intoImageView(service_image_container);
 
 
-                        tv_shopname.setText(title_name);
+                        etservicename.setText(title_name);
                         etDescription.setText(description);
                         etserviceOffers.setText(offers);
                         AndroidUtils.showErrorLog(context,result);
@@ -150,18 +192,19 @@ public class EditServiceActivity extends AppCompatActivity {
 
     private void setdefaultvalues() {
 
-        tv_shopname.setText(service_shop_name);
+        tv_shopname.setText("Service Name:"+service_shop_name);
 
 
         Ion.with(context)
                 .load(service_image)
                 .intoImageView(service_image_container);
-
+        tv_shopCategory.setText("Category Name:"+service_category_name);
     }
 
 
     private void initView() {
         tv_shopname = (TextView) findViewById(R.id.tv_shopname);
+        tv_shopCategory= (TextView) findViewById(R.id.tv_shopCategory);
         service_image_container = (ImageView) findViewById(R.id.img_add_service);
         image = (ImageView) findViewById(R.id.add_service_img);
         rl_add_service_image_container = (RelativeLayout) findViewById(R.id.rl_add_service_image_container);

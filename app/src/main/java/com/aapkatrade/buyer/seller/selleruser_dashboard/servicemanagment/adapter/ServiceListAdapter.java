@@ -7,10 +7,14 @@ import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.AppSharedPreference;
@@ -26,6 +30,12 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
+import com.shehabic.droppy.DroppyClickCallbackInterface;
+import com.shehabic.droppy.DroppyMenuCustomItem;
+import com.shehabic.droppy.DroppyMenuItem;
+import com.shehabic.droppy.DroppyMenuPopup;
+import com.shehabic.droppy.animations.DroppyFadeInAnimation;
+import com.shehabic.droppy.animations.DroppyScaleAnimation;
 
 import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
@@ -45,7 +55,9 @@ public class ServiceListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     AppSharedPreference appSharedPreference;
     String userId;
     ProgressBarHandler progressBarHandler;
+    PopupWindow mpopup;
 
+    DroppyMenuPopup droppyMenu;
 
     public ServiceListAdapter(Context context, List<ServiceListData> itemList) {
         this.itemList = itemList;
@@ -93,6 +105,61 @@ public class ServiceListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             @Override
             public void onClick(View v) {
 
+
+           /*     DroppyMenuPopup.Builder droppyBuilder = new DroppyMenuPopup.Builder(context,  homeHolder.imgviewServiceEdit);
+
+                DroppyMenuCustomItem sBarItemfirstItem = new DroppyMenuCustomItem(R.layout.popmenu_itemfirst_row);
+
+                droppyBuilder.addMenuItem(sBarItemfirstItem)
+                        .setOnClick(new DroppyClickCallbackInterface() {
+                            @Override
+                            public void call(View v, int id) {
+                                AndroidUtils.showErrorLog(context,"clicked work1");
+
+                                calleditserviceActivity(position);
+                            }
+                        });
+                DroppyMenuCustomItem sBarItemfirstItem2 = new DroppyMenuCustomItem(R.layout.popmenu_itemsecond_row);
+                droppyBuilder.addMenuItem(sBarItemfirstItem2)
+                        .setOnClick(new DroppyClickCallbackInterface() {
+                            @Override
+                            public void call(View v, int id) {
+                                AndroidUtils.showErrorLog(context,"clicked work");
+
+                                call_delete_service_webservice(itemList.get(position).service_id, position);
+                            }
+                        });
+
+                droppyMenu = droppyBuilder.build();
+
+                droppyMenu.show();*/
+
+                //initDroppyMenuFromXml(homeHolder.imgviewServiceEdit);
+
+
+
+
+
+                                /*new DroppyClickCallbackInterface() {
+                            @Override
+                            public void call(View v, int id) {
+                                Log.d("Id:", String.valueOf(id));
+                            }
+                        })*/
+                        /*setOnDismissCallback(DroppyMenuPopup.OnDismissCallback() {
+                    @Override
+                    public void call()
+                    {
+                        Toast.makeText(context, "Menu dismissed", Toast.LENGTH_SHORT).show();
+                    }
+                })
+    .setPopupAnimation(new DroppyFadeInAnimation())
+                        .setXOffset(5)
+                        .setYOffset(5)
+                        .build();
+                droppyMenu.show();*/
+
+
                 Context wrapper = new ContextThemeWrapper(context, R.style.MyPopupMenu);
                 PopupMenu popup = new PopupMenu(wrapper, homeHolder.imgviewServiceEdit);
                 //inflating menu from xml resource
@@ -116,7 +183,7 @@ public class ServiceListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     // but in the case that they do, we simply can't force icons to display, so log the error and
                     // show the menu normally.
 
-                    Log.w("", "error forcing menu icons to show", e);
+                    Log.e("", "error forcing menu icons to show", e);
                     popup.show();
                     return;
                 }
@@ -151,11 +218,9 @@ public class ServiceListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             }
         });
 
-       /* homeHolder.relativeEdit.setOnClickListener(new View.OnClickListener() {
+   /*     homeHolder.relativeEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
 
 
             }
@@ -167,9 +232,9 @@ public class ServiceListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
             }
         });
+*/
 
-
-        homeHolder.relativeUpdate.setOnClickListener(new View.OnClickListener() {
+       /* homeHolder.relativeUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -180,11 +245,11 @@ public class ServiceListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     private void calleditserviceActivity(int position) {
         Intent editserviceintent = new Intent(context, EditServiceActivity.class);
-        editserviceintent.putExtra("serviceid",itemList.get(position).service_id);
-        editserviceintent.putExtra("servicename",itemList.get(position).service_name);
-        editserviceintent.putExtra("service_category_name",itemList.get(position).service_category_name);
-        editserviceintent.putExtra("service_image",itemList.get(position).service_image);
-        editserviceintent.putExtra("service_shop_name",itemList.get(position).service_shop_name);
+        editserviceintent.putExtra("serviceid", itemList.get(position).service_id);
+        editserviceintent.putExtra("servicename", itemList.get(position).service_name);
+        editserviceintent.putExtra("service_category_name", itemList.get(position).service_category_name);
+        editserviceintent.putExtra("service_image", itemList.get(position).service_image);
+        editserviceintent.putExtra("service_shop_name", itemList.get(position).service_shop_name);
         context.startActivity(editserviceintent);
 
 
@@ -244,6 +309,8 @@ public class ServiceListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public String getCurrentTimeStamp() {
         return new SimpleDateFormat("dd MMM yyyy HH:mm").format(new Date());
     }
+
+
 
 
    /* private void callwebserviceDeleteCart(String product_id, final int position)
@@ -308,5 +375,16 @@ public class ServiceListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     }*/
 
+  /*  private void initDroppyMenuFromXml(View btn)
+    {
+        DroppyMenuPopup.Builder droppyBuilder = new DroppyMenuPopup.Builder(context, btn);
+        DroppyMenuPopup droppyMenu = droppyBuilder.fromMenu(R.menu.edit_service_list)
+                .triggerOnAnchorClick(false)
+                .setOnClick(context)
+                .setOnDismissCallback(this)
 
+                .setPopupAnimation(new DroppyScaleAnimation())
+                .build();
+        droppyMenu.show();
+    }*/
 }

@@ -56,7 +56,7 @@ import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.Validation;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.addproduct.ProductMediaData;
-import com.aapkatrade.buyer.videoplay.VideoPlayActivity;
+
 import com.afollestad.materialcamera.MaterialCamera;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -96,6 +96,7 @@ public class MyProfileActivity extends AppCompatActivity {
     public static String selectedImagePath;
     private final static int SELECT_VIDEO_REQUEST = 100;
     String source_video_folder = null;
+    String my_profile_gif;
     int frameno = 0;
     public static ImageView imageViewProfile, imgEmailEdit, imgMobileEdit;
 
@@ -123,14 +124,19 @@ public class MyProfileActivity extends AppCompatActivity {
         coordinatorlayout_myprofile = (CoordinatorLayout) findViewById(R.id.coordinate_myprofile);
 
         imageViewProfile = (ImageView) findViewById(R.id.imageViewProfile);
+        my_profile_gif=app_sharedpreference.getSharedPref(SharedPreferenceConstants.PROFILE_ViDEO_GIF.toString());
+        Ion.with(imageViewProfile).load(my_profile_gif.concat(".gif"));
 
         imageViewProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
 
-                Intent intent = new Intent(MyProfileActivity.this, VideoPlayActivity.class);
-                intent.putExtra("video_url", app_sharedpreference.getSharedPref(SharedPreferenceConstants.PROFILE_VIDEO.toString(), "").toString());
-                startActivity(intent);
+                intent.setDataAndType(Uri.parse(app_sharedpreference.getSharedPref(SharedPreferenceConstants.PROFILE_VIDEO.toString(), "").toString()), "video/*");
+
+                startActivity(Intent.createChooser(intent, "Complete action using"));
+
+
 
             }
         });
@@ -596,25 +602,31 @@ public class MyProfileActivity extends AppCompatActivity {
                     @Override
                     public void onCompleted(Exception e, JsonObject result) {
 
-                        System.out.println("result------------------------------" + result);
+                       AndroidUtils.showErrorLog(context,"result------------------------------" + result);
 
                         if (result != null) {
                             if (result.get("error").getAsString().contains("false")) {
                                 JsonObject jsonObject_result = result.getAsJsonObject("result");
                                 String profile_video = jsonObject_result.get("profile_video").getAsString();
-
+                                String profile_video_gif = jsonObject_result.get("profile_video").getAsString().concat(".gif");
                                 app_sharedpreference.setSharedPref(SharedPreferenceConstants.PROFILE_VIDEO.toString(), profile_video);
                                 app_sharedpreference.setSharedPref(SharedPreferenceConstants.PROFILE_VIDEO_THUMBNAIL.toString(), jsonObject_result.get("video_thumbnail").getAsString());
+
+                                app_sharedpreference.setSharedPref(SharedPreferenceConstants.PROFILE_ViDEO_GIF.toString(), profile_video_gif);
+
                                 String a = app_sharedpreference.getSharedPref(SharedPreferenceConstants.PROFILE_VIDEO.toString());
 
                                 System.out.println("a------------------------------" + profile_video);
 
-                                Picasso.with(context)
+                             /*   Picasso.with(context)
                                         .load(jsonObject_result.get("video_thumbnail").getAsString())
                                         .error(R.drawable.banner)
                                         .placeholder(R.drawable.default_noimage)
                                         .error(R.drawable.default_noimage)
-                                        .into(imageViewProfile);
+                                        .into(imageViewProfile);*/
+                                Ion.with(imageViewProfile).load(profile_video_gif);
+
+
                                 p_handler.hide();
 
                             }
@@ -772,6 +784,7 @@ public class MyProfileActivity extends AppCompatActivity {
                 video_dailog.dismiss();
                 Intent in = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
                 in.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 120);
+                in.putExtra(android.provider.MediaStore.EXTRA_VIDEO_QUALITY, 0);
                 in.putExtra(MediaStore.EXTRA_OUTPUT, Environment.getExternalStorageDirectory().getPath() + "my_profile_video.mp4");
                 startActivityForResult(Intent.createChooser(in, "Capture Video From Camera"), 13);
 
