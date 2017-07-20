@@ -1,32 +1,84 @@
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/loginWithoutRegistrationContainer"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:layout_gravity="center_vertical|center_horizontal"
+    android:orientation="vertical"
     app:cardBackgroundColor="@color/grey_light3"
     app:cardCornerRadius="@dimen/fifteen_dip">
 
 
-    <android.support.v4.widget.NestedScrollView
+    <RelativeLayout
+        android:id="@+id/headerDialog"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="@dimen/fifty_five_dip"
+        android:background="@color/green">
+
+        <TextView
+            style="@style/myAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+
+            android:text="Select Company/Shop"
+            android:textColor="@color/white"
+            android:textSize="@dimen/textsize_large"
+            android:textStyle="bold" />
+
+        <RelativeLayout
+            android:id="@+id/closeDialog"
+            android:layout_width="@dimen/fifty_five_dip"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:padding="@dimen/ten_dip"
+            android:layout_margin="@dimen/five_dip"
+
+            android:background="@drawable/circle_white"
+
+            >
+
+
+            <TextView
+                style="@style/myAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:text="X"
+                android:textColor="@color/red"
+                android:textSize="@dimen/twenty_five_dip"
+                android:textStyle="bold" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+
+
+        >
 
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
+
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-
-                />
+                android:layout_height="match_parent"
+                android:minHeight="@dimen/three_hundred_dip"
+                android:focusable="false"
+                android:nestedScrollingEnabled="false" />
 
 
         </RelativeLayout>
 
     </android.support.v4.widget.NestedScrollView>
 
-</android.support.v7.widget.CardView>
+</LinearLayout>

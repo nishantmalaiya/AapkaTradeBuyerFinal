@@ -73,7 +73,7 @@ public class EditProductActivity extends AppCompatActivity
     private AppSharedPreference app_sharedpreference;
     private ProgressBarHandler p_handler;
     private Context context;
-    Spinner spCompanyList,spUnitCategory;
+    Spinner spUnitCategory;
     private ArrayList<City> cityList = new ArrayList<>();
     private ArrayList<City> unitList = new ArrayList<>();
     String cityID,unitID;
@@ -144,7 +144,6 @@ public class EditProductActivity extends AppCompatActivity
 
     private void setuplayout()
     {
-        spCompanyList= (Spinner) findViewById(R.id.spCompanyList);
 
         spUnitCategory= (Spinner) findViewById(R.id.spUnitCategory);
 
@@ -562,19 +561,7 @@ public class EditProductActivity extends AppCompatActivity
                             }
 
                             SpCityAdapter spCityAdapter = new SpCityAdapter(context, cityList);
-                            spCompanyList.setAdapter(spCityAdapter);
 
-                            spCompanyList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                                @Override
-                                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                                    cityID = cityList.get(position).cityId;
-                                }
-
-                                @Override
-                                public void onNothingSelected(AdapterView<?> parent) {
-
-                                }
-                            });
                         } else {
                             AndroidUtils.showToast(context, "! Invalid city");
                         }
