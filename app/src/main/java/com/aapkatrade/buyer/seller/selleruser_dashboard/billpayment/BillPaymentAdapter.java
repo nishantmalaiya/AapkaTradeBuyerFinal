@@ -61,10 +61,11 @@ public class BillPaymentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         homeHolder.machineType.setText(itemList.get(position).machineType);
 
         homeHolder.imageView.setBackground(context.getResources().getDrawable(itemList.get(position).background_color));
-        homeHolder.machineSelection.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        homeHolder.machineSelection.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
+        {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+            {
 
                 itemList.get(position).selected = isChecked;
                 if (isChecked) {

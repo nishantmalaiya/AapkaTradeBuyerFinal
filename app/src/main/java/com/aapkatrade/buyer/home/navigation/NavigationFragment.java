@@ -123,7 +123,8 @@ public class NavigationFragment extends Fragment {
                 share.setType("text/plain");
                 // Uri screenshotUri = Uri.parse("android.resource://"+getActivity().getPackageName()+"/" + R.drawable.ic_app_icon);
                 String strShareMessage = "\nLet me recommend you this application\n\n";
-                strShareMessage = strShareMessage + "https://play.google.com/store/apps/details?id=" + getActivity().getPackageName();
+                strShareMessage = strShareMessage + "https://play.google.com/store/apps/details?id=com.aapkatrade.buyer";
+
                 // share.setType("image");
                 //  share.putExtra(Intent.EXTRA_STREAM, screenshotUri);
                 share.putExtra(Intent.EXTRA_TEXT, strShareMessage);

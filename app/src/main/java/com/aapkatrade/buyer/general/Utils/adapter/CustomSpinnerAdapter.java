@@ -97,14 +97,12 @@ public class CustomSpinnerAdapter extends BaseAdapter {
                AndroidUtils.showErrorLog(context, position+"position"+arrayList.size()+"arrayList.size()   "+"work1***" + Html.fromHtml(tvData));
                tvshopdropdownShopname.setText(((CompanyDropdownDatas) arrayList.get(position)).companyName);
                tvshopdropdownCategoryname.setText("Category : " + ((CompanyDropdownDatas) arrayList.get(position)).comapanyCategory);
-               view.setOnClickListener(new View.OnClickListener() {
-                   @Override
-                   public void onClick(View v) {
-                       if(position == arrayList.size()-1) {
-                           AddProductActivity.commonInterface.getData(true);
-                       }
-                   }
-               });
+
+              /* if(position == arrayList.size()-1) {
+                   AddProductActivity.commonInterface.getData(true);
+               }*/
+
+             
 
                return view;
            }

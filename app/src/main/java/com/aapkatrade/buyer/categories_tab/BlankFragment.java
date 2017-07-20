@@ -52,8 +52,14 @@ public class BlankFragment extends Fragment {
 
         setup_layout(view);
 
-        get_web_data();
 
+if(user_type.contains(SharedPreferenceConstants.USER_TYPE_SELLER.toString())) {
+    get_web_data(getResources().getString(R.string.webservice_base_url) + "/seller_order_list","seller_id");
+}
+else if(user_type.contains(SharedPreferenceConstants.USER_TYPE_BUYER.toString()))
+{
+    get_web_data(getResources().getString(R.string.webservice_base_url) + "/buyer_order_list","buyer_id");
+}
         commonInterface = new CommonInterface() {
             @Override
             public Object getData(Object object) {
@@ -81,17 +87,17 @@ public class BlankFragment extends Fragment {
     }
 
 
-    private void get_web_data() {
+    private void get_web_data(String Url,String UserParam) {
         orderListDatas.clear();
         progress_handler.show();
 
 
 
         Ion.with(getActivity())
-                .load(getResources().getString(R.string.webservice_base_url) + "/buyer_order_list")
+                .load(Url)
                 .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                 .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
-                .setBodyParameter("buyer_id", user_id)
+                .setBodyParameter(UserParam, user_id)
                 .setBodyParameter("type", "0")
 
                 .asJsonObject()

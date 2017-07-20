@@ -2,7 +2,9 @@ package com.aapkatrade.buyer.seller.selleruser_dashboard.servicemanagment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.GridLayoutManager;
@@ -13,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.AppSharedPreference;
@@ -45,7 +48,9 @@ public class ServiceManagementActivity extends AppCompatActivity {
     private LinearLayoutManager linearLayoutManager;
     GridLayoutManager gridLayoutManager;
     ImageView btnAdd_service;
-    int page=0,total_page=0;
+    int page = 0, total_page = 0;
+    LinearLayout company_shop_management_container;
+    private int visibleItemCount,totalItemCount,pastVisiblesItems;
 
 
     @Override
@@ -85,18 +90,24 @@ public class ServiceManagementActivity extends AppCompatActivity {
         });
 
 
-
-
-
-
-        service_list. addOnScrollListener(new RecyclerView.OnScrollListener() {
+        service_list.addOnScrollListener(new RecyclerView.OnScrollListener() {
 
             public void onScrollStateChanged(RecyclerView view, int scrollState) {
 
-               // super.onScrollStateChanged(service_list, scrollState);
-                if (scrollState == RecyclerView.SCROLL_STATE_IDLE && total_page>=page) {
+                 super.onScrollStateChanged(service_list, scrollState);
+                if (scrollState == RecyclerView.SCROLL_STATE_IDLE && total_page >= page) {
 
-                    get_web_data(++page);
+
+
+                    visibleItemCount = gridLayoutManager.getChildCount();
+                    totalItemCount = gridLayoutManager.getItemCount();
+                    pastVisiblesItems = gridLayoutManager.findFirstVisibleItemPosition();
+
+                    if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
+                        get_web_data(++page);
+                        //bottom of recyclerview
+                    }
+
 
                     //Call your method here for next set of data
                 }
@@ -104,19 +115,9 @@ public class ServiceManagementActivity extends AppCompatActivity {
             }
 
 
-
-
-
-
-
-
-
-
-
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-
 
 
             }
@@ -126,6 +127,7 @@ public class ServiceManagementActivity extends AppCompatActivity {
 
 
     private void setup_layout() {
+        company_shop_management_container = (LinearLayout) findViewById(R.id.company_shop_management_container);
         service_list = (RecyclerView) findViewById(R.id.recyclerview);
         btnAdd_service = (ImageView) findViewById(R.id.btnAdd_service);
         if (Tabletsize.isTablet(context)) {
@@ -145,13 +147,15 @@ public class ServiceManagementActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent i =new Intent(ServiceManagementActivity.this,AddServiceActivity.class);
+                Intent i = new Intent(ServiceManagementActivity.this, AddServiceActivity.class);
                 startActivity(i);
-
 
 
             }
         });
+
+        AndroidUtils.setGradientColor(service_list, android.graphics.drawable.GradientDrawable.RECTANGLE, ContextCompat.getColor(context, R.color.datanotfound_gradient_bottom), ContextCompat.getColor(context, R.color.datanotfound_gradient_top), android.graphics.drawable.GradientDrawable.Orientation.TOP_BOTTOM, 0);
+
 
     }
 
@@ -203,7 +207,7 @@ public class ServiceManagementActivity extends AppCompatActivity {
 
 
     private void get_web_data(int i) {
-        AndroidUtils.showErrorLog(context,"page count",i);
+        AndroidUtils.showErrorLog(context, "page count", i);
 
         progress_handler.show();
 
@@ -212,12 +216,12 @@ public class ServiceManagementActivity extends AppCompatActivity {
                 .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                 .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                 .setBodyParameter("user_id", appSharedPreference.getSharedPref("userid", user_id))
-                .setBodyParameter("page",""+i)
+                .setBodyParameter("page", "" + i)
                 .asJsonObject()
                 .setCallback(new FutureCallback<JsonObject>() {
                     @Override
                     public void onCompleted(Exception e, JsonObject result) {
-                        AndroidUtils.showErrorLog(context, "order_list_response", result.toString());
+                        AndroidUtils.showErrorLog(context, "order_list_response", result);
 
                         if (result == null) {
                             progress_handler.hide();
@@ -235,10 +239,10 @@ public class ServiceManagementActivity extends AppCompatActivity {
 
                                     String shop_name = jsonObject.get("company_name").getAsString();
 
-                                    serviceListDatas.add(new ServiceListData(service_id,service_name,service_image,service_category_name,shop_name));
+                                    serviceListDatas.add(new ServiceListData(service_id, service_name, service_image, service_category_name, shop_name));
                                 }
 
-                                total_page=result.get("total_page").getAsInt();
+                                total_page = result.get("total_page").getAsInt();
 
 
                                 ServiceListAdapter.notifyDataSetChanged();

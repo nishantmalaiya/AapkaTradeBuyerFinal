@@ -5,8 +5,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -41,6 +43,7 @@ import com.aapkatrade.buyer.home.buyerregistration.entity.City;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.addproduct.CompanyDropdownDatas;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.addproduct.ProductMediaData;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.addproduct.entity.DynamicFormEntity;
+import com.aapkatrade.buyer.welcome.GradientParameters;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
@@ -81,6 +84,7 @@ public class EditServiceActivity extends AppCompatActivity {
     Button saveandupdatebtn;
     private boolean isAllFieldsSet = true;
     RelativeLayout rl_add_service_image_container;
+    LinearLayout mainLayout_editService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -199,6 +203,9 @@ public class EditServiceActivity extends AppCompatActivity {
                 .load(service_image)
                 .intoImageView(service_image_container);
         tv_shopCategory.setText("Category Name:"+service_category_name);
+
+
+        AndroidUtils.setGradientColor(mainLayout_editService, android.graphics.drawable.GradientDrawable.RECTANGLE, R.color.Welcome_screen1_gradient_TopColor,  R.color.Welcome_screen1_gradient_BottomColor, GradientDrawable.Orientation.LEFT_RIGHT,0);
     }
 
 
@@ -208,6 +215,7 @@ public class EditServiceActivity extends AppCompatActivity {
         service_image_container = (ImageView) findViewById(R.id.img_add_service);
         image = (ImageView) findViewById(R.id.add_service_img);
         rl_add_service_image_container = (RelativeLayout) findViewById(R.id.rl_add_service_image_container);
+        mainLayout_editService=(LinearLayout)findViewById(R.id.mainLayout_editService);
         spCompanyListService = (Spinner) findViewById(R.id.spCompanyListService);
         etservicename = (EditText) findViewById(R.id.etservicename);
         etserviceOffers = (EditText) findViewById(R.id.etserviceOffers);
