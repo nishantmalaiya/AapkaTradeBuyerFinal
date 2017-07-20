@@ -17,8 +17,10 @@ import android.widget.ImageView;
 
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
+import com.aapkatrade.buyer.general.interfaces.CommonInterface;
 import com.aapkatrade.buyer.general.progressbar.ProgressDialogHandler;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.CompanyShopListAdapter;
+import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.addproduct.AddProductActivity;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.addproduct.CompanyDropdownDatas;
 import com.aapkatrade.buyer.uicomponent.pagingspinner.adapter.PagingSpinnerAdapter;
 import com.google.gson.JsonArray;
@@ -42,6 +44,7 @@ public class PagingSpinnerDialog extends DialogFragment {
     private RecyclerView recyclerView;
     private PagingSpinnerAdapter companyShopListAdapter;
     private LinearLayoutManager linearLayoutManager;
+    public static CommonInterface commonInterface;
 
     public PagingSpinnerDialog(Context context, String shopType, String sellerId) {
         this.context = context;
@@ -97,7 +100,17 @@ public class PagingSpinnerDialog extends DialogFragment {
 
         });
 
-
+        commonInterface = new CommonInterface() {
+            @Override
+            public Object getData(Object object) {
+                int position = (int) object;
+                if(position >= 0){
+                    CompanyDropdownDatas companyDropdownDatas = (CompanyDropdownDatas) arrayList.get(position);
+                    AddProductActivity.commonInterface.getData(companyDropdownDatas);
+                }
+                return null;
+            }
+        };
 
     }
 

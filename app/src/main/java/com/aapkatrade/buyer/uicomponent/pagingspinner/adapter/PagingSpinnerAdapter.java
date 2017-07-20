@@ -76,7 +76,7 @@ public class PagingSpinnerAdapter extends RecyclerView.Adapter<PagingSpinnnerVie
                     @Override
                     public void onClick(View v) {
 //                        if(position == arrayList.size()-1) {
-//                            AddProductActivity.commonInterface.getData(true);
+                            PagingSpinnerDialog.commonInterface.getData(position);
 //                        }
                     }
                 });

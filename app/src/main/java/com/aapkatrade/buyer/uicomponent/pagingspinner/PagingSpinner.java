@@ -41,7 +41,7 @@ public class PagingSpinner extends RelativeLayout {
     private ProgressBarHandler progressBarHandler;
     private RelativeLayout relativeLayoutRoot;
     private String shopType = "0", sellerId = "0";
-
+    private PagingSpinnerDialog pagingSpinnerDialog;
 
     public PagingSpinner(Context context) {
         super(context);
@@ -84,11 +84,14 @@ public class PagingSpinner extends RelativeLayout {
             @Override
             public void onClick(View v) {
                 AndroidUtils.showErrorLog(context, "relativeLayoutRoot clicked.");
-                PagingSpinnerDialog serviceEnquiry = new PagingSpinnerDialog(context, shopType, sellerId);
+                pagingSpinnerDialog = new PagingSpinnerDialog(context, shopType, sellerId);
                 FragmentManager fm = ((AppCompatActivity) context).getSupportFragmentManager();
-                serviceEnquiry.show(fm, "PagingSpinnerDialog");
+                pagingSpinnerDialog.show(fm, "PagingSpinnerDialog");
             }
         });
+
+
+//        if()
     }
 
 
