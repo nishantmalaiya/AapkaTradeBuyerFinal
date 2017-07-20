@@ -20,6 +20,8 @@ import com.google.firebase.messaging.RemoteMessage;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.Date;
+
 /**
  * Created by PPC16 on 6/3/2017.
  */
@@ -30,28 +32,36 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private static final String TAG = MyFirebaseMessagingService.class.getSimpleName();
 
     private NotificationUtils notificationUtils;
+    Intent resultIntent;
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-
-
 
 
         RemoteMessage.Notification notification = remoteMessage.getNotification();
 
         //showNotification(notification.getTitle(), notification.getBody(), "");
 
-        Intent resultIntent = new Intent(getApplicationContext(), MainActivity.class);
+        resultIntent = new Intent(getApplicationContext(), MainActivity.class);
         resultIntent.putExtra("message", notification.getBody());
 
 //        showNotificationMessage(getApplicationContext(), notification.getTitle(),notification.getBody(),Long.parseLong(String.valueOf(System.currentTimeMillis())), resultIntent);
-        notificationUtils=new NotificationUtils(getApplicationContext(), notification.getTitle(),notification.getBody(),String.valueOf(System.currentTimeMillis()), resultIntent);
+        //  notificationUtils=new NotificationUtils(getApplicationContext(), notification.getTitle(),notification.getBody(),"", resultIntent);
 
 
         // Check if message contains a notification payload.
         if (remoteMessage.getNotification() != null) {
             Log.e(TAG, "Notification Body: " + remoteMessage.getNotification().getBody());
             handleNotification(remoteMessage.getNotification().getBody());
+
+            try {
+                JSONObject json = new JSONObject(notification.getBody());
+                handleDataMessage(json);
+            } catch (Exception e) {
+                Log.e("json Exception", "Exception1: " + e.getMessage());
+            }
+
+
         }
 
         // Check if message contains a data payload.
@@ -62,7 +72,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 JSONObject json = new JSONObject(remoteMessage.getData().toString());
                 handleDataMessage(json);
             } catch (Exception e) {
-                Log.e(TAG, "Exception: " + e.getMessage());
+                Log.e("json Exception", "Exception2: " + e.getMessage());
             }
         }
 
@@ -144,6 +154,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
 
             if (!NotificationUtils.isAppIsInBackground(getApplicationContext())) {
+
+                resultIntent = new Intent(getApplicationContext(), MainActivity.class);
+                resultIntent.putExtra("message", last_message);
+
+                showNotificationMessage(getApplicationContext(), "AapkaTrade", last_message, System.currentTimeMillis() + "", resultIntent);
                 // app is in foreground, broadcast the push message
                 Intent pushNotification = new Intent(AppSharedPreference.PUSH_NOTIFICATION);
                 pushNotification.putExtra("message", last_message);
@@ -156,20 +171,22 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             } else {
 
                 handleNotification(last_message);
-                Intent resultIntent = new Intent(getApplicationContext(), MainActivity.class);
+
+                resultIntent = new Intent(getApplicationContext(), MainActivity.class);
                 resultIntent.putExtra("message", last_message);
 
+                showNotificationMessage(getApplicationContext(), "AapkaTrade", last_message, System.currentTimeMillis() + "", resultIntent);
 
                 handleNotification(last_message);
-                showNotificationMessage(getApplicationContext(), getString(R.string.app_name), last_message, String.valueOf(System.currentTimeMillis()), resultIntent);
+                showNotificationMessage(getApplicationContext(), getString(R.string.app_name), last_message, "", resultIntent);
                 // app is in background, show the notification in notification tray
 
                 // check for image attachment
                 if (TextUtils.isEmpty("")) {
-                    showNotificationMessage(getApplicationContext(), getString(R.string.app_name), last_message, String.valueOf(System.currentTimeMillis()), resultIntent);
+                    showNotificationMessage(getApplicationContext(), getString(R.string.app_name), last_message, "", resultIntent);
                 } else {
                     // image is present, show notification with image
-                    showNotificationMessageWithBigImage(getApplicationContext(), getString(R.string.app_name), last_message, String.valueOf(System.currentTimeMillis()), resultIntent, "");
+                    showNotificationMessageWithBigImage(getApplicationContext(), getString(R.string.app_name), last_message, "", resultIntent, "");
                 }
             }
         } catch (JSONException e) {
@@ -185,7 +202,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private void showNotificationMessage(Context context, String title, String message, String timeStamp, Intent intent) {
         notificationUtils = new NotificationUtils(getApplicationContext(), title, message, timeStamp, intent);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        notificationUtils.showNotificationMessage(title, message, timeStamp, intent,"");
+        notificationUtils.showNotificationMessage(title, message, timeStamp, intent, "");
     }
 
     /**
