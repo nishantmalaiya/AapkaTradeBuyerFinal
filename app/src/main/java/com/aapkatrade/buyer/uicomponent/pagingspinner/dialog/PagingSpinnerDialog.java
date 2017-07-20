@@ -12,6 +12,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.aapkatrade.buyer.R;
@@ -56,7 +57,7 @@ public class PagingSpinnerDialog extends DialogFragment {
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         getDialog().getWindow().setBackgroundDrawableResource(R.drawable.rounded_dialog);
         getDialog().getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
-
+        getDialog().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE|WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
         initView(v);
         callCompanyListWebservice(++page);
         v.findViewById(R.id.closeDialog).setOnClickListener(new View.OnClickListener() {
@@ -71,6 +72,12 @@ public class PagingSpinnerDialog extends DialogFragment {
 
     private void initView(View v) {
         recyclerView = (RecyclerView) v.findViewById(R.id.recyclerView);
+        recyclerView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                AndroidUtils.showErrorLog(getActivity(),"Paging Spinner Dialog",v.getVerticalScrollbarPosition());
+            }
+        });
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {

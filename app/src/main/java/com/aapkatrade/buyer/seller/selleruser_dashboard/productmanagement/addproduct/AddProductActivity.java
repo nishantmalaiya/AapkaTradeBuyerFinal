@@ -113,7 +113,7 @@ public class AddProductActivity extends AppCompatActivity {
     private void setupSpinner() {
 
 
-        callCompanyListWebservice(++page);
+        //callCompanyListWebservice(++page);
 
         getUnit();
 
