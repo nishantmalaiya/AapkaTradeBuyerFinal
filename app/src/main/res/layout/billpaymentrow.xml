@@ -4,12 +4,14 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     app:cardCornerRadius="@dimen/ten_dip"
-    android:layout_margin="@dimen/ten_dip"
+
+    android:layout_margin="@dimen/five_dip"
     app:cardBackgroundColor="@color/white"
     android:layout_height="wrap_content">
 
     <LinearLayout
         android:id="@+id/linearLayout"
+        android:layout_margin="@dimen/five_dip"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -29,9 +31,9 @@
 
                 <ImageView
                     android:id="@+id/machine_img"
-                    android:layout_width="@dimen/thirty_dip"
-                    android:layout_height="@dimen/thirty_dip"
-                    android:layout_margin="@dimen/twenty_dip"
+                    android:layout_width="@dimen/fourty_dip"
+                    android:layout_height="@dimen/fourty_dip"
+                    android:layout_margin="@dimen/ten_dip"
                     android:tint="@color/white"
 
                     android:background="@drawable/circle_purple"
@@ -43,7 +45,8 @@
                     android:id="@+id/tvMachineType"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/twenty_dip"
+                    android:textSize="@dimen/fifteen_dip"
+
                     android:layout_gravity="center_horizontal|center_vertical"
                     android:layout_toRightOf="@+id/machine_img"
                     android:text="@string/pos_machine"
@@ -61,10 +64,10 @@
 
                 <ImageView
                     android:id="@+id/machine_serial_no_img"
-                    android:layout_width="@dimen/thirty_dip"
-                    android:layout_height="@dimen/thirty_dip"
+                    android:layout_width="@dimen/fourty_dip"
+                    android:layout_height="@dimen/fourty_dip"
                     android:layout_below="@+id/machine_img"
-                    android:layout_margin="@dimen/twenty_dip"
+                    android:layout_margin="@dimen/ten_dip"
                     android:background="@drawable/circle_purple"
                     android:padding="@dimen/five_dip"
                     android:tint="@color/white"
@@ -77,7 +80,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tv_pos"
                     android:layout_gravity="center_horizontal|center_vertical"
-                    android:layout_margin="@dimen/twenty_dip"
+                    android:textSize="@dimen/fifteen_dip"
                     android:layout_toRightOf="@+id/machine_serial_no_img"
                     android:text="534545435" />
 
@@ -94,8 +97,8 @@
 
             <CheckBox
                 android:id="@+id/checkedBoxMachineSelection"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/fourty_dip"
+                android:layout_height="@dimen/fourty_dip"
                 android:layout_centerHorizontal="true"
                 android:theme="@style/customCheckBoxStyle"
                 android:layout_centerVertical="true"
@@ -109,7 +112,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
 
-                android:layout_marginBottom="@dimen/twenty_dip"
+                android:layout_marginBottom="@dimen/ten_dip"
                 android:text="1569"
                 android:textColor="@color/color_voilet" />
 

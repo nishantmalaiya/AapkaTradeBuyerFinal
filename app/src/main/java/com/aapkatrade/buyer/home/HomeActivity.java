@@ -20,6 +20,7 @@ import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -294,7 +295,24 @@ public class HomeActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
             case CheckPermission.MULTIPLE_PERMISSIONS: {
+
+
+
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if (appSharedPreference.getSharedPrefInt(SharedPreferenceConstants.IS_FIRST_TIME.toString()) == 1) {
+                        rlTutorial.setVisibility(View.GONE);
+                    } else {
+                        appSharedPreference.setSharedPrefInt(SharedPreferenceConstants.IS_FIRST_TIME.toString(), 1);
+                        rlTutorial.setVisibility(View.VISIBLE);
+
+
+                        rlTutorial.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                rlTutorial.setVisibility(View.GONE);
+                            }
+                        });
+                    }
                     Log.e("permission_granted", "permission_granted");
                     // permissions granted.
                 } else {
@@ -478,7 +496,7 @@ public class HomeActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
         AndroidUtils.showErrorLog(context, "testing", appSharedPreference.getSharedPrefInt(SharedPreferenceConstants.IS_FIRST_TIME.toString()));
-        if (appSharedPreference.getSharedPrefInt(SharedPreferenceConstants.IS_FIRST_TIME.toString()) == 1) {
+      /*  if (appSharedPreference.getSharedPrefInt(SharedPreferenceConstants.IS_FIRST_TIME.toString()) == 1) {
             rlTutorial.setVisibility(View.GONE);
         } else {
             appSharedPreference.setSharedPrefInt(SharedPreferenceConstants.IS_FIRST_TIME.toString(), 1);
@@ -491,7 +509,7 @@ public class HomeActivity extends AppCompatActivity {
                     rlTutorial.setVisibility(View.GONE);
                 }
             });
-        }
+        }*/
 
         if (home_activity == 1) {
 
@@ -507,6 +525,10 @@ public class HomeActivity extends AppCompatActivity {
                         .into(NavigationFragment.profilePic);
             }
         }
+
+        if(NavigationFragment.mDrawerLayout!=null) {
+            NavigationFragment.mDrawerLayout.closeDrawer(Gravity.LEFT, false);
+        }
     }
 
     public void open_chat() {
@@ -520,6 +542,13 @@ public class HomeActivity extends AppCompatActivity {
 
 
     }
+
+
+
+
+
+
+
 
 }
 
