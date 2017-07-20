@@ -1,8 +1,11 @@
 package com.aapkatrade.buyer.uicomponent.pagingspinner;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.RelativeLayout;
 
 import com.aapkatrade.buyer.R;
+import com.aapkatrade.buyer.dialogs.ChatDialogFragment;
 import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
@@ -17,6 +21,7 @@ import com.aapkatrade.buyer.general.Utils.adapter.CustomSpinnerAdapter;
 import com.aapkatrade.buyer.general.Validation;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.addproduct.CompanyDropdownDatas;
+import com.aapkatrade.buyer.uicomponent.pagingspinner.dialog.PagingSpinnerDialog;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
@@ -57,10 +62,12 @@ public class PagingSpinner extends RelativeLayout {
     }
 
     @SuppressLint("NewApi")
-    public PagingSpinner(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public PagingSpinner(final Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         this.context = context;
         init();
+
+
     }
 
     protected void init() {
@@ -71,31 +78,37 @@ public class PagingSpinner extends RelativeLayout {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         view = inflater.inflate(layoutId(), this, true);
         progressBarHandler = new ProgressBarHandler(context);
-        initView();
-    }
-
-    private void initView() {
         relativeLayoutRoot = (RelativeLayout) view.findViewById(R.id.linearLayoutRoot);
-
+        AndroidUtils.setBackgroundStroke(relativeLayoutRoot, context, R.color.green, 10, 3);
+        relativeLayoutRoot.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AndroidUtils.showErrorLog(context, "relativeLayoutRoot clicked.");
+                PagingSpinnerDialog serviceEnquiry = new PagingSpinnerDialog(context, shopType, sellerId);
+                FragmentManager fm = ((AppCompatActivity) context).getSupportFragmentManager();
+                serviceEnquiry.show(fm, "PagingSpinnerDialog");
+            }
+        });
     }
+
 
     private int layoutId() {
         return R.layout.paging_spinner_container;
     }
 
-    private void setShopType(int shopType) {
+    public void setShopType(int shopType) {
         this.shopType = String.valueOf(shopType);
     }
 
-    private String getShopType() {
+    public String getShopType() {
         return Validation.isEmptyStr(this.shopType)?"0": this.shopType;
     }
 
-    private void setSellerId(String sellerId) {
+    public void setSellerId(String sellerId) {
         this.sellerId = sellerId;
     }
 
-    private String getSellerId() {
+    public String getSellerId() {
         return Validation.isEmptyStr(this.sellerId)?"0": this.sellerId;
     }
 

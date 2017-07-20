@@ -2,34 +2,24 @@ package com.aapkatrade.buyer.uicomponent.pagingspinner.dialog;
 
 
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.speech.tts.TextToSpeech;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.aapkatrade.buyer.R;
-import com.aapkatrade.buyer.general.AppConfig;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
-import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
-import com.aapkatrade.buyer.general.Validation;
 import com.aapkatrade.buyer.general.progressbar.ProgressDialogHandler;
-import com.aapkatrade.buyer.login.ActivityOTPVerify;
+import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.CompanyShopListAdapter;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.addproduct.CompanyDropdownDatas;
+import com.aapkatrade.buyer.uicomponent.pagingspinner.adapter.PagingSpinnerAdapter;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
@@ -45,38 +35,63 @@ public class PagingSpinnerDialog extends DialogFragment {
     private Context context;
     private ImageView dialogClose;
     private ProgressDialogHandler progressDialogHandler;
-    private ArrayList arrayList;
+    private ArrayList arrayList = new ArrayList();
     private String shopType = "0", sellerId = "0";
     private int page = 0, totalPage = 0;
+    private RecyclerView recyclerView;
+    private PagingSpinnerAdapter companyShopListAdapter;
+    private LinearLayoutManager linearLayoutManager;
 
     public PagingSpinnerDialog(Context context, String shopType, String sellerId) {
         this.context = context;
         this.shopType = shopType;
         this.sellerId = sellerId;
+        progressDialogHandler = new ProgressDialogHandler(context);
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
-        final View v = inflater.inflate(R.layout.fragment_track_order_dialog, container, false);
+        final View v = inflater.inflate(R.layout.dialog_paging_spinner, container, false);
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         getDialog().getWindow().setBackgroundDrawableResource(R.drawable.rounded_dialog);
         getDialog().getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
 
-        initview(v);
-
-        dialogClose.setOnClickListener(new View.OnClickListener() {
+        initView(v);
+        callCompanyListWebservice(++page);
+        v.findViewById(R.id.closeDialog).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dismiss();
             }
         });
+
         return v;
     }
 
-    private void initview(View v) {
-        progressDialogHandler = new ProgressDialogHandler(context);
-        dialogClose = (ImageView) v.findViewById(R.id.dialog_close);
+    private void initView(View v) {
+        recyclerView = (RecyclerView) v.findViewById(R.id.recyclerView);
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int totalItemCount = linearLayoutManager.getItemCount();
+                int lastVisibleItemCount = linearLayoutManager.findLastVisibleItemPosition();
+                AndroidUtils.showErrorLog(context, "=====================_", "totalItemCount"+totalItemCount
+                        +"lastVisibleItemCount"+lastVisibleItemCount
+                +"totalPage"+totalPage
+                +"page"+page);
+                if (totalItemCount > 0 && totalPage > page) {
+                    if ((totalItemCount - 1) == lastVisibleItemCount) {
+                        callCompanyListWebservice(++page);
+                    }
+                }
+            }
+
+        });
+
+
+
     }
 
 
@@ -100,9 +115,7 @@ public class PagingSpinnerDialog extends DialogFragment {
                     if (result.get("error").getAsString().contains("false")) {
                         JsonArray jsonArray_response = result.getAsJsonArray("result");
                         totalPage = result.get("total_page").getAsInt();
-                        if (page == 1) {
-                            arrayList.add(new CompanyDropdownDatas("", "", "", ""));
-                        }
+
                         for (int i = 0; i < jsonArray_response.size(); i++) {
 
 
@@ -115,11 +128,22 @@ public class PagingSpinnerDialog extends DialogFragment {
                             arrayList.add(new CompanyDropdownDatas(companyId, companyImageUrl, companyName, comapanyCategory));
 
                         }
+                        AndroidUtils.showErrorLog(context, "arrayList.size---------->", arrayList.size());
 
+                        if (companyShopListAdapter == null) {
+                            AndroidUtils.showErrorLog(context, "companyShopListAdapter---------null->");
 
+                            companyShopListAdapter = new PagingSpinnerAdapter(context, arrayList);
+                            linearLayoutManager = new LinearLayoutManager(context);
+                            recyclerView.setLayoutManager(linearLayoutManager);
+                            recyclerView.setAdapter(companyShopListAdapter);
+//                            recyclerView.smoothScrollToPosition(arrayList.size());
+                        } else {
+                            AndroidUtils.showErrorLog(context, "companyShopListAdapter----------else>");
+
+                            companyShopListAdapter.notifyDataSetChanged();
+                        }
                     }
-
-
                 }
 
 

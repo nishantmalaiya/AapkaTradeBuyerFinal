@@ -166,7 +166,7 @@
                             android:layout_marginTop="@dimen/fifteen_dip"
                             android:textColorHint="@color/hint_color">
 
-                            <RelativeLayout
+                            <!--<RelativeLayout
                                 android:id="@+id/spCompanyListLayout"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -191,7 +191,13 @@
                                     android:scaleType="fitXY"
                                     android:src="@drawable/ic_arrow" />
 
-                            </RelativeLayout>
+                            </RelativeLayout>-->
+
+
+                            <com.aapkatrade.buyer.uicomponent.pagingspinner.PagingSpinner
+                                android:id="@+id/pagingSpinner"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/hundred_dip" />
                         </android.support.design.widget.TextInputLayout>
 
 
@@ -254,10 +260,10 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_gravity="center_vertical"
+                            android:layout_marginBottom="@dimen/ten_dip"
                             android:layout_marginLeft="@dimen/twenty_dip"
                             android:layout_marginRight="@dimen/twenty_dip"
                             android:layout_marginTop="@dimen/ten_dip"
-                            android:layout_marginBottom="@dimen/ten_dip"
                             android:textColorHint="@color/hint_color">
 
                             <EditText

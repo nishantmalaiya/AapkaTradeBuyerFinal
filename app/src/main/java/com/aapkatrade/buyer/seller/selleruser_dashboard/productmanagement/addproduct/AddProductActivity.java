@@ -43,6 +43,7 @@ import com.aapkatrade.buyer.home.HomeActivity;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.addproduct.entity.DynamicFormEntity;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.addproduct.entity.FormValue;
 import com.aapkatrade.buyer.uicomponent.customchecklist.CustomCheckList;
+import com.aapkatrade.buyer.uicomponent.pagingspinner.PagingSpinner;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
@@ -74,7 +75,8 @@ public class AddProductActivity extends AppCompatActivity {
     private AppSharedPreference appSharedpreference;
     private ProgressBarHandler progressBarHandler;
     private Context context;
-    private Spinner spCompanyList, spUnitCategory;
+    private Spinner  spUnitCategory;
+    private PagingSpinner pagingSpinner;
     private ArrayList<City> cityList = new ArrayList<>();
     private ArrayList<City> unitList = new ArrayList<>();
     private String cityID, unitID, shopId, dynamicFormData, companyId;
@@ -103,115 +105,17 @@ public class AddProductActivity extends AppCompatActivity {
         setUpToolBar();
         initView();
         setupRecyclerView();
-
-        commonInterface = new CommonInterface() {
-            @Override
-            public Object getData(Object object) {
-                if(((boolean) object) && totalPage >= page){
-                    companyPosition = companyDropdownDatas.size()-1;
-                    callCompanyListWebservice(++page);
-                }
-
-
-                return null;
-            }
-        };
-
         setupSpinner();
 
 
     }
 
     private void setupSpinner() {
-
-
-        callCompanyListWebservice(++page);
-
         getUnit();
 
     }
 
 
-    private void callCompanyListWebservice(final int page) {
-
-
-        String CompanyListWebserviceUrl = getString(R.string.webservice_base_url) + "/shoplist";
-
-
-        Ion.with(context)
-                .load(CompanyListWebserviceUrl)
-                .setHeader("Authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
-                .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
-                .setBodyParameter("seller_id", appSharedpreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString()))
-                .setBodyParameter("lat", "0")
-                .setBodyParameter("long", "0")
-                .setBodyParameter("apply", "1")
-                .setBodyParameter("shoptype", "1")
-                .setBodyParameter("page", String.valueOf(page))
-                .asJsonObject().setCallback(new FutureCallback<JsonObject>() {
-            @Override
-            public void onCompleted(Exception e, JsonObject result) {
-
-                if (result != null) {
-                    if (result.get("error").getAsString().contains("false")) {
-
-
-                        JsonArray jsonArray_response = result.getAsJsonArray("result");
-                        totalPage = result.get("total_page").getAsInt();
-                        if(page == 1) {
-                            companyDropdownDatas.add(new CompanyDropdownDatas("", "", "", ""));
-                        }
-                        for (int i = 0; i < jsonArray_response.size(); i++) {
-
-
-                            JsonObject jsonObject = jsonArray_response.get(i).getAsJsonObject();
-                            String companyId = jsonObject.get("id").getAsString();
-                            String companyImageUrl = jsonObject.get("image_url").getAsString();
-                            String companyName = jsonObject.get("name").getAsString();
-                            String comapanyCategory = jsonObject.get("category_name").getAsString();
-
-                            companyDropdownDatas.add(new CompanyDropdownDatas(companyId, companyImageUrl, companyName, comapanyCategory));
-
-
-                        }
-
-                        if(customSpinnerAdapter == null) {
-                            customSpinnerAdapter = new CustomSpinnerAdapter(context, companyDropdownDatas);
-                        } else {
-                            customSpinnerAdapter.notifyDataSetChanged();
-                            spCompanyList.setSelection(companyPosition);
-                        }
-
-                        spCompanyList.setAdapter(customSpinnerAdapter);
-
-                        spCompanyList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                            @Override
-                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                                if (position > 0) {
-                                    companyId = companyDropdownDatas.get(position).comapanyId;
-                                    loadDynamicForm(companyId);
-
-                                }
-                            }
-
-                            @Override
-                            public void onNothingSelected(AdapterView<?> parent) {
-
-                            }
-                        });
-
-                    }
-
-
-                }
-
-
-                AndroidUtils.showErrorLog(context, "ShopListResponse", result);
-
-
-            }
-        });
-    }
 
 
     private void loadDynamicForm(final String shopId) {
@@ -340,7 +244,6 @@ public class AddProductActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        spCompanyList = (Spinner) findViewById(R.id.spCompanyList);
         spUnitCategory = (Spinner) findViewById(R.id.spUnitCategory);
         etproductname = (EditText) findViewById(R.id.etproductname);
         etProductPrice = (EditText) findViewById(R.id.et_product_price);
@@ -365,7 +268,9 @@ public class AddProductActivity extends AppCompatActivity {
             }
         });
 
-
+        pagingSpinner = (PagingSpinner) findViewById(R.id.pagingSpinner);
+        pagingSpinner.setShopType(1);
+        pagingSpinner.setSellerId(appSharedpreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString()));
     }
 
     private void validateFields() {
