@@ -34,7 +34,7 @@
             android:layout_alignParentRight="true"
             android:padding="@dimen/ten_dip"
             android:layout_margin="@dimen/five_dip"
-
+android:nestedScrollingEnabled="false"
             android:background="@drawable/circle_white"
 
             >
@@ -53,19 +53,10 @@
         </RelativeLayout>
     </RelativeLayout>
 
-    <android.support.v4.widget.NestedScrollView
-        android:id="@+id/nestedScrollView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
 
 
-        >
 
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
 
 
             <android.support.v7.widget.RecyclerView
@@ -74,11 +65,12 @@
                 android:layout_height="match_parent"
                 android:minHeight="@dimen/three_hundred_dip"
                 android:focusable="false"
+                android:overScrollMode="never"
                 android:nestedScrollingEnabled="false" />
 
 
-        </RelativeLayout>
 
-    </android.support.v4.widget.NestedScrollView>
+
+
 
 </LinearLayout>
