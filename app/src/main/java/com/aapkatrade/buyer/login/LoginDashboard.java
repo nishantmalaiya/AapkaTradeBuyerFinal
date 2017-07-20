@@ -28,14 +28,14 @@ import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 public class LoginDashboard extends AppCompatActivity {
 
     FrameLayout fl_seller, fl_buyer;
-
     AppSharedPreference app_sharedpreference;
     private Context context;
     TextView skip;
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_logindashboard);
@@ -70,8 +70,6 @@ public class LoginDashboard extends AppCompatActivity {
         });
 
 
-
-
     }
 
     private void Initview() {
@@ -99,7 +97,6 @@ public class LoginDashboard extends AppCompatActivity {
 
                 Intent i = new Intent(LoginDashboard.this, HomeActivity.class);
 
-
                 startActivity(i);
             }
         });
@@ -107,7 +104,8 @@ public class LoginDashboard extends AppCompatActivity {
 
     }
 
-    private void setUpToolBar() {
+    private void setUpToolBar()
+    {
         ImageView homeIcon = (ImageView) findViewById(R.id.iconHome);
         findViewById(R.id.logoWord).setVisibility(View.INVISIBLE);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -128,6 +126,8 @@ public class LoginDashboard extends AppCompatActivity {
             getSupportActionBar().setTitle(null);
             getSupportActionBar().setElevation(0);
         }
+
+        
     }
 
     @Override

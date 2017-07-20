@@ -315,9 +315,12 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
 
     }
 
-    private void removeUnavailedDays(ArrayList<OpenCloseShopData> openCloseDayArrayList) {
-        for (int i = 0; i < openCloseDayArrayList.size(); i++) {
-            if (Validation.isEmptyStr(openCloseDayArrayList.get(i).openingTime) || Validation.isEmptyStr(openCloseDayArrayList.get(i).closingTime)) {
+    private void removeUnavailedDays(ArrayList<OpenCloseShopData> openCloseDayArrayList)
+    {
+        for (int i = 0; i < openCloseDayArrayList.size(); i++)
+        {
+            if (Validation.isEmptyStr(openCloseDayArrayList.get(i).openingTime) || Validation.isEmptyStr(openCloseDayArrayList.get(i).closingTime))
+            {
                 openCloseDayArrayList.remove(i);
                 i--;
             }
@@ -357,7 +360,8 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
     }
 
 
-    private void initView() {
+    private void initView()
+    {
         //AndroidUtils.showToast(context, "This is my Toast");
         shopProductsLayout = (RelativeLayout) findViewById(R.id.shop_products_relative_layout);
         progress_handler = new ProgressBarHandler(this);

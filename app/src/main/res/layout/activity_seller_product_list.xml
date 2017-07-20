@@ -34,26 +34,25 @@
     </LinearLayout>
 
     <RelativeLayout
-        android:layout_width="@dimen/sixty_dip"
-        android:layout_height="@dimen/sixty_dip"
+        android:layout_width="@dimen/seventy_dip"
+        android:layout_height="@dimen/seventy_dip"
         android:orientation="vertical"
+        android:background="@drawable/ic_add_product"
         android:padding="@dimen/ten_dip"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginBottom="15dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="12dp">
+        android:layout_alignParentRight="true"
+        android:layout_margin="15dp"
+        >
 
         <ImageButton
             android:id="@+id/btnAdd_shop"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:src="@drawable/ic_add_product"
             android:background="@color/transparent"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
+
             />
 
     </RelativeLayout>

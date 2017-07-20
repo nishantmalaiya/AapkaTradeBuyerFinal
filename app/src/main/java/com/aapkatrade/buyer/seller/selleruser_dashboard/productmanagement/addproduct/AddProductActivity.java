@@ -80,7 +80,7 @@ public class AddProductActivity extends AppCompatActivity {
     private String cityID, unitID, shopId, dynamicFormData, companyId;
     private ArrayList<DynamicFormEntity> dynamicFormEntityArrayList = new ArrayList<>();
     private LinearLayout llSellerProductDetailContainer;
-    int page = 0, totalPage = 0;
+    int page = 0, totalPage = 0, companyPosition = 0;
     public static CommonInterface commonInterface = null;
 
     ArrayList<CompanyDropdownDatas> companyDropdownDatas = new ArrayList<>();
@@ -108,6 +108,7 @@ public class AddProductActivity extends AppCompatActivity {
             @Override
             public Object getData(Object object) {
                 if(((boolean) object) && totalPage >= page){
+                    companyPosition = companyDropdownDatas.size()-1;
                     callCompanyListWebservice(++page);
                 }
 
@@ -125,6 +126,27 @@ public class AddProductActivity extends AppCompatActivity {
 
 
         callCompanyListWebservice(++page);
+
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            spCompanyList.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+                @Override
+                public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+
+                    AndroidUtils.showErrorLog(context,"scrollX--"+scrollX+"scrollY---"+scrollY+"oldScrollX---"+oldScrollX+"oldScrollY---"+oldScrollY);
+
+                    /*int totalItemCount = companyDropdownDatas.size();
+
+                    if (totalItemCount == scrollY) {
+                        if (totalItemCount > 0) {
+                            page = page + 1;
+                            callCompanyListWebservice(++page);
+                        }
+                    }*/
+                }
+            });
+        }
 
         getUnit();
 
@@ -174,7 +196,12 @@ public class AddProductActivity extends AppCompatActivity {
 
                         }
 
-                        customSpinnerAdapter = new CustomSpinnerAdapter(context, companyDropdownDatas);
+                        if(customSpinnerAdapter == null) {
+                            customSpinnerAdapter = new CustomSpinnerAdapter(context, companyDropdownDatas);
+                        } else {
+                            customSpinnerAdapter.notifyDataSetChanged();
+                            spCompanyList.setSelection(companyPosition);
+                        }
 
                         spCompanyList.setAdapter(customSpinnerAdapter);
 
@@ -193,6 +220,7 @@ public class AddProductActivity extends AppCompatActivity {
 
                             }
                         });
+
                     }
 
 
@@ -423,14 +451,10 @@ public class AddProductActivity extends AppCompatActivity {
             if (Validation.isEmptyStr(dynamicFormData)) {
                 AndroidUtils.showErrorLog(context, "isAllFieldsSet.............dynamicFormData" + isAllFieldsSet);
                 if(dynamicFormEntityArrayList != null && dynamicFormEntityArrayList.size() > 0){
-                    isAllFieldsSet = true;
-                    for (DynamicFormEntity dynamicFormEntity : dynamicFormEntityArrayList) {
-                        AndroidUtils.showErrorLog(context, "isAllFieldsSet.............dynamicFormEntity" + dynamicFormEntity);
-
-                    }
-                }else{
-                    AndroidUtils.showErrorLog(context, "isAllFieldsSet.............dynamicFormEntity false");
                     isAllFieldsSet = false;
+
+                }else{
+                    isAllFieldsSet = true;
                 }
             }
         }
@@ -769,7 +793,7 @@ public class AddProductActivity extends AppCompatActivity {
                 .setMultipartParameter("length", etProductLength.getText() == null ? "0" : etProductLength.getText().toString())
                 .setMultipartParameter("width", etProductWidth.getText() == null ? "0" : etProductWidth.getText().toString())
                 .setMultipartParameter("height", etProductHeight.getText() == null ? "0" : etProductHeight.getText().toString())
-                .setMultipartParameter("dynamic", dynamicFormData)
+                .setMultipartParameter("dynamic", Validation.isEmptyStr(dynamicFormData)?"[]":dynamicFormData)
 
                 .asJsonObject().setCallback(new FutureCallback<JsonObject>() {
             @Override

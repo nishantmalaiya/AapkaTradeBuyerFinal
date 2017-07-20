@@ -1,11 +1,14 @@
 package com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.viewholder;
 
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SwitchCompat;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.ToggleButton;
+
 import com.aapkatrade.buyer.R;
 /**
  * Created by PPC16 on 7/10/2017.
@@ -17,12 +20,14 @@ public class ProductListViewHolder extends RecyclerView.ViewHolder
     public TextView  productName,tvProductShopName,tvProductCategoryName,tvProductStateName;
     public ImageView imgProduct;
     public Button btnEdit,btnDelete,btnPolicyUpdate;
+    public ToggleButton radioButtonStatus;
+
 
     public ProductListViewHolder(View itemView)
     {
         super(itemView);
 
-       productName = (TextView) itemView.findViewById(R.id.tvProductName);
+        productName = (TextView) itemView.findViewById(R.id.tvProductName);
 
         tvProductShopName = (TextView) itemView.findViewById(R.id.tvCompanyName);
 
@@ -37,6 +42,8 @@ public class ProductListViewHolder extends RecyclerView.ViewHolder
         btnDelete = (Button) itemView.findViewById(R.id.btnDelete);
 
         btnPolicyUpdate = (Button) itemView.findViewById(R.id.btnPolicyUpdate);
+
+        radioButtonStatus = (ToggleButton) itemView.findViewById(R.id.radioButtonStatus);
 
         view = itemView;
     }
