@@ -22,7 +22,6 @@ public class SearchCityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     private ArrayList<String> productDetails=new ArrayList<String>();
     int count;
-
     Context context;
     ArrayList<common_category_search> common_category_searchlist=new ArrayList<>();
     String type,state;

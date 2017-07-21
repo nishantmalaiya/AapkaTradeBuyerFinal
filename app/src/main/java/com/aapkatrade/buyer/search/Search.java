@@ -67,6 +67,7 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
     Adapter_callback_interface callback_interface;
     ArrayList<String> state_names = new ArrayList<>();
     ArrayList<String> SearchSuggestionList = new ArrayList<>();
+    ArrayList<String> productidList = new ArrayList<>();
     ArrayList<String> categoriesList = new ArrayList<>();
     ArrayList<String> DistanceList = new ArrayList<>();
     ArrayList<CommonData> search_productlist = new ArrayList<>();
@@ -109,6 +110,7 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
 
         latitude = i.getStringExtra("latitude");
         longitude = i.getStringExtra("longitude");
+
         Log.e("current_statename_", latitude);
         Log.e("current_latitude", currentlocation_statename);
         Log.e("current_longitude", longitude);
@@ -123,11 +125,13 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
         call_state_webservice(currentlocation_statename);
 
 
+
     }
 
 
     private void setuptoolbar()
     {
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         ImageView imgvew_home_icon = (ImageView) findViewById(R.id.imgvew_home_icon);
         imgvew_home_icon.setOnClickListener(new View.OnClickListener() {
@@ -151,6 +155,7 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
 
     private void initview()
     {
+
         voice_search = (AppCompatImageView) findViewById(R.id.voice_input);
         voice_search.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -160,7 +165,7 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
         });
         progressBarHandler = new ProgressBarHandler(Search.this);
         autocomplete_textview_product = (AutoCompleteTextView) findViewById(R.id.search_autocompletetext_products);
-        autocomplete_textview_product.setThreshold(1);
+        autocomplete_textview_product.setThreshold(0);
         setup_state_spinner();
 
         setup_search_Recyclewview();
@@ -169,15 +174,17 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
 
         autocomplete_textview_product.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            public void beforeTextChanged(CharSequence s, int start, int count, int after)
+            {
 
             }
-
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count)
             {
 
                 String text = s.toString();
+
+                AndroidUtils.showErrorLog(getApplicationContext(),text);
 
                 if (text.length() > 0)
                 {
@@ -199,7 +206,9 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
                         AndroidUtils.showSnackBar(coordinate_search, "Please Select State First");
                     }
 
-                } else {
+                }
+                else
+                {
 
 
                 }
@@ -332,7 +341,6 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
         String message = jsonObject.get("message").getAsString();
         if (error.contains("true")) {
 
-
             AndroidUtils.showSnackBar(coordinate_search, "No Suggesstion found");
             progressBarHandler.hide();
 
@@ -448,7 +456,6 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
 
     }
 
-
     private void call_search_suggest_webservice_product(String product_search_url, String product_search_text, String location_text)
     {
         final Context context = Search.this;
@@ -471,6 +478,7 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
                             System.out.println("result Search______" + result.toString());
                             AndroidUtils.showErrorLog(context, result.toString());
                             SearchSuggestionList.clear();
+                            productidList.clear();
                             categoriesList.clear();
 
                             DistanceList = new ArrayList<String>();
@@ -479,9 +487,8 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
                             String error = jsonObject.get("error").getAsString();
                             if (error.contains("false")) {
                                 String message = jsonObject.get("message").getAsString();
-                                if (message.contains("Failed")) {
-
-
+                                if (message.contains("Failed"))
+                                {
                                     AndroidUtils.showSnackBar(coordinate_search, "No Suggesstion found");
 
                                 } else {
@@ -494,10 +501,13 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
                                     {
 
                                         JsonObject jsonObject_result = (JsonObject) jsonarray_result.get(l);
+
+                                        String product_id = jsonObject_result.get("id").getAsString();
                                         String productname = jsonObject_result.get("name").getAsString();
                                         String distance = jsonObject_result.get("distance").getAsString();
                                         String category_name = jsonObject_result.get("category_name").getAsString();
                                         SearchSuggestionList.add(productname);
+                                        productidList.add(product_id);
                                         DistanceList.add(String.valueOf(distance));
                                         categoriesList.add(category_name);
                                     }
@@ -507,9 +517,9 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
 
                                 if (error.contains("false"))
                                 {
-                                    product_autocompleteadapter = new Webservice_search_autocompleteadapter(c, SearchSuggestionList, DistanceList,categoriesList);
+                                    product_autocompleteadapter = new Webservice_search_autocompleteadapter(c, SearchSuggestionList, DistanceList,categoriesList,productidList);
 
-                                    if (SearchSuggestionList.size() != 0)
+                                   // if (SearchSuggestionList.size() != 0)
                                         autocomplete_textview_product.setAdapter(product_autocompleteadapter);
                                     product_autocompleteadapter.notifyDataSetChanged();
 

@@ -237,7 +237,7 @@ public class CommonAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 @Override
                 public void onClick(View v) {
 
-                    AndroidUtils.showErrorLog(context, "product_id", commonDatas.get(position).id);
+                    AndroidUtils.showErrorLog(context, "product_location", commonDatas.get(position).product_location);
                     Intent intent = new Intent(context, ShopDetailActivity.class);
                     intent.putExtra("product_id", commonDatas.get(position).id);
                     intent.putExtra("product_location", commonDatas.get(position).product_location);
@@ -369,7 +369,6 @@ public class CommonAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 public void onClick(View v)
                 {
 
-
                     Intent intent = new Intent(context, ProductDetailActivity.class);
                     AndroidUtils.showErrorLog(context, "___________PRODUCT ID--(((---------->"+ commonDatas.get(position).id);
 
@@ -481,6 +480,7 @@ public class CommonAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     intent.putExtra("product_image", commonDatas.get(position).imageurl);
                     context.startActivity(intent);
                     ((AppCompatActivity) context).overridePendingTransition(R.anim.enter, R.anim.exit);
+
 
                 }
             });
