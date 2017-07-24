@@ -28,8 +28,7 @@ import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class UserDashboardFragment extends Fragment
-{
+public class UserDashboardFragment extends Fragment {
 
     private RecyclerView dashboardlist;
     private DashboardAdapter dashboardAdapter;
@@ -49,8 +48,7 @@ public class UserDashboardFragment extends Fragment
     }
 
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-    {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.activity_dashboard, container, false);
         appSharedPreference = new AppSharedPreference(getActivity());
         progressBarHandler = new ProgressBarHandler(getActivity());
@@ -58,15 +56,11 @@ public class UserDashboardFragment extends Fragment
 
         imageViewProfileVideo = (ImageView) v.findViewById(R.id.imageViewProfileVideo);
 
-        if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), "").contains("2"))
-        {
-            if(appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_VIDEO_THUMBNAIL.toString(), "").toString().equals(""))
-            {
+        if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), "").contains("2")) {
+            if (appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_VIDEO_THUMBNAIL.toString(), "").toString().equals("")) {
 
-                Log.e("shared-----","");
-            }
-            else
-            {
+                Log.e("shared-----", "");
+            } else {
 
                 String profile_video_gif = appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_ViDEO_GIF.toString());
                 Ion.with(imageViewProfileVideo).load(profile_video_gif);
@@ -89,8 +83,7 @@ public class UserDashboardFragment extends Fragment
         return v;
     }
 
-    private void setup_layout(View v)
-    {
+    private void setup_layout(View v) {
         imageviewpp = (CircleImageView) v.findViewById(R.id.imageviewpp);
 
         String a = appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_PIC.toString(), "demo");
@@ -115,8 +108,7 @@ public class UserDashboardFragment extends Fragment
             }
         });
 
-        if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString(), "not") != null)
-        {
+        if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString(), "not") != null) {
             String Username = appSharedPreference.getSharedPref(SharedPreferenceConstants.FIRST_NAME.toString(), "not");
             String Emailid = appSharedPreference.getSharedPref(SharedPreferenceConstants.EMAIL_ID.toString(), "not");
             if (Username.contains("not")) {
@@ -180,34 +172,34 @@ public class UserDashboardFragment extends Fragment
                             if (appSharedPreference.getSharedPref((SharedPreferenceConstants.USER_TYPE.toString())).equals(SharedPreferenceConstants.USER_TYPE_BUYER.toString())) {
                                 tvUserType.setText("Welcome Buyer");
                                 appSharedPreference.setSharedPref(SharedPreferenceConstants.ORDER_QUANTITY.toString(), order_quantity);
-                                dashboardDatas.add(new DashboardData("", "My Profile", R.drawable.ic_myprofile, R.drawable.circle_teal, false, ""));
-                                dashboardDatas.add(new DashboardData("", "Change Password", R.drawable.ic_chngpswd, R.drawable.circle_purple, false, ""));
-                                dashboardDatas.add(new DashboardData("", "Order", R.drawable.ic_lstprdct, R.drawable.circle_sienna, true, order_quantity));
+                                dashboardDatas.add(new DashboardData("", "My Profile", R.drawable.ic_my_profile, R.drawable.circle_teal, false, ""));
+                                dashboardDatas.add(new DashboardData("", "Change Password", R.drawable.ic_change_password, R.drawable.circle_purple, false, ""));
+                                dashboardDatas.add(new DashboardData("", "Order", R.drawable.ic_my_order, R.drawable.circle_sienna, true, order_quantity));
 
 
                             } else if (appSharedPreference.getSharedPref((SharedPreferenceConstants.USER_TYPE.toString())).equals(SharedPreferenceConstants.USER_TYPE_SELLER.toString())) {
                                 tvUserType.setText("Welcome Seller");
 
                                 appSharedPreference.setSharedPref(SharedPreferenceConstants.ORDER_QUANTITY.toString(), order_quantity);
-                                dashboardDatas.add(new DashboardData("", "My Profile", R.drawable.ic_myprofile, R.drawable.circle_teal, false, ""));
+                                dashboardDatas.add(new DashboardData("", "My Profile", R.drawable.ic_my_profile, R.drawable.circle_teal, false, ""));
 
-                                dashboardDatas.add(new DashboardData("", "Company/Shop List", R.drawable.ic_lstcmpny, R.drawable.circle_deep_pink, true, SharedPreferenceConstants.SHOP_LIST_COUNT.toString()));
+                                dashboardDatas.add(new DashboardData("", "Company/Shop List", R.drawable.ic_company_shop_list, R.drawable.circle_deep_pink, true, SharedPreferenceConstants.SHOP_LIST_COUNT.toString()));
 
 
                                 dashboardDatas.add(new DashboardData("", "Product Management", R.drawable.ic_add_company, R.drawable.circle_purple, false, ""));
-                                dashboardDatas.add(new DashboardData("", "Service Management", R.drawable.ic_lstcmpny, R.drawable.circle_cherry_red, false, ""));
+                                dashboardDatas.add(new DashboardData("", "Service Management", R.drawable.ic_service_management, R.drawable.circle_cherry_red, false, ""));
 
 
-                                dashboardDatas.add(new DashboardData("", "Order", R.drawable.ic_lstprdct, R.drawable.circle_sienna, true, order_quantity));
+                                dashboardDatas.add(new DashboardData("", "Order", R.drawable.ic_my_order, R.drawable.circle_sienna, true, order_quantity));
 
 
-                                dashboardDatas.add(new DashboardData("", "Enquiry Management", R.drawable.ic_svr_enquiry, R.drawable.circle_purple, true, ""));
-                                dashboardDatas.add(new DashboardData("", "Bank Details", R.drawable.ic_add_company, R.drawable.circle_cherry_red, false, ""));
+                                dashboardDatas.add(new DashboardData("", "Enquiry Management", R.drawable.ic_enquiry_management, R.drawable.circle_purple, true, ""));
+                                dashboardDatas.add(new DashboardData("", "Bank Details", R.drawable.ic_bank_details, R.drawable.circle_cherry_red, false, ""));
 
-                                dashboardDatas.add(new DashboardData("", "Sales Transaction", R.drawable.ic_chngpswd, R.drawable.circle_purple, false, ""));
-                                dashboardDatas.add(new DashboardData("", "Bill Payment", R.drawable.ic_lstprdct, R.drawable.circle_purple, false, ""));
-                                dashboardDatas.add(new DashboardData("", "Change Password", R.drawable.ic_chngpswd, R.drawable.circle_purple, false, ""));
-                                dashboardDatas.add(new DashboardData("", "Bill History", R.drawable.ic_lstprdct, R.drawable.circle_purple, false, ""));
+                                dashboardDatas.add(new DashboardData("", "Sales Transaction", R.drawable.ic_sales_transaction, R.drawable.circle_purple, false, ""));
+                                dashboardDatas.add(new DashboardData("", "Bill Payment", R.drawable.ic_bill_payment, R.drawable.circle_purple, false, ""));
+                                dashboardDatas.add(new DashboardData("", "Change Password", R.drawable.ic_change_password, R.drawable.circle_purple, false, ""));
+                                dashboardDatas.add(new DashboardData("", "Bill History", R.drawable.ic_bill_history, R.drawable.circle_purple, false, ""));
 
 
                             }
