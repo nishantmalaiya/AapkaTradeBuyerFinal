@@ -51,6 +51,7 @@
     <dimen name="sixty_dip">120dp</dimen>
     <dimen name="one_hundred_fifty_dip" >300dp</dimen>
     <dimen name="one_hundred_fourty_dip">280dp</dimen>
+    <dimen name="eighty_five_dip">170dp</dimen>
 
 
 </resources>
