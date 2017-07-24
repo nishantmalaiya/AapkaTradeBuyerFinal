@@ -1,6 +1,7 @@
 package com.aapkatrade.buyer.uicomponent.pagingspinner.adapter;
 
 import android.content.Context;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -30,12 +31,17 @@ import java.util.ArrayList;
 public class PagingSpinnerAdapter extends RecyclerView.Adapter<PagingSpinnnerViewHolder> {
     private Context context;
     private ArrayList arrayList;
+    private PagingSpinnerDialog dialogFragment;
 
     public PagingSpinnerAdapter(Context context, ArrayList arrayList) {
         this.context = context;
         this.arrayList = arrayList;
     }
-
+    public PagingSpinnerAdapter(Context context, ArrayList arrayList, PagingSpinnerDialog dialogFragment) {
+        this.context = context;
+        this.arrayList = arrayList;
+        this.dialogFragment = dialogFragment;
+    }
 
     @Override
     public PagingSpinnnerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -76,7 +82,8 @@ public class PagingSpinnerAdapter extends RecyclerView.Adapter<PagingSpinnnerVie
                     @Override
                     public void onClick(View v) {
 //                        if(position == arrayList.size()-1) {
-//                            AddProductActivity.commonInterface.getData(true);
+                            PagingSpinnerDialog.commonInterface.getData(position);
+                        dialogFragment.dismiss();
 //                        }
                     }
                 });

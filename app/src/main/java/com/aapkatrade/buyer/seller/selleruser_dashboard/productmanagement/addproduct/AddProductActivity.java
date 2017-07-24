@@ -79,7 +79,7 @@ public class AddProductActivity extends AppCompatActivity {
     private PagingSpinner pagingSpinner;
     private ArrayList<City> cityList = new ArrayList<>();
     private ArrayList<City> unitList = new ArrayList<>();
-    private String cityID, unitID, shopId, dynamicFormData, companyId;
+    private String cityID, unitID, dynamicFormData;
     private ArrayList<DynamicFormEntity> dynamicFormEntityArrayList = new ArrayList<>();
     private LinearLayout llSellerProductDetailContainer;
     int page = 0, totalPage = 0, companyPosition = 0;
@@ -99,13 +99,14 @@ public class AddProductActivity extends AppCompatActivity {
         context = AddProductActivity.this;
         appSharedpreference = new AppSharedPreference(context);
         progressBarHandler = new ProgressBarHandler(context);
-        if (getIntent() != null) {
-            shopId = getIntent().getStringExtra("shopId");
-        }
+//        if (getIntent() != null) {
+//            shopId = getIntent().getStringExtra("shopId");
+//        }
         setUpToolBar();
         initView();
         setupRecyclerView();
         setupSpinner();
+
 
 
     }
@@ -285,12 +286,12 @@ public class AddProductActivity extends AppCompatActivity {
             AndroidUtils.showErrorLog(context, "isAllFieldsSet.............productImagesDatas" + isAllFieldsSet);
             isAllFieldsSet = false;
 
-        } else if (!Validation.isNumber(companyId)) {
+        } else if (!Validation.isNumber(pagingSpinner.getShopId()) && pagingSpinner.getShopId().equals("0")) {
             AndroidUtils.showSnackBar(llSellerProductDetailContainer, "Please Select Company/Shop.");
             AndroidUtils.showErrorLog(context, "isAllFieldsSet.............companyId" + isAllFieldsSet);
             isAllFieldsSet = false;
         } else if (Validation.isEmptyStr(etproductname.getText().toString())) {
-            AndroidUtils.showErrorLog(context, companyId + "**************************");
+            AndroidUtils.showErrorLog(context, "productname**************************");
             etproductname.setError("Product Name can not be empty.");
             AndroidUtils.showSnackBar(llSellerProductDetailContainer, "Product Name can not be empty.");
             AndroidUtils.showErrorLog(context, "isAllFieldsSet.............etproductname" + isAllFieldsSet);
@@ -669,7 +670,7 @@ public class AddProductActivity extends AppCompatActivity {
                 .addMultipartParts(submitImages())
                 .setMultipartParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                 .setMultipartParameter("name", etproductname.getText().toString())
-                .setMultipartParameter("shop_id", companyId)
+                .setMultipartParameter("shop_id", pagingSpinner.getShopId())
                 .setMultipartParameter("price", etProductPrice.getText().toString())
                 .setMultipartParameter("discount", etProductPriceDiscount.getText().toString())
                 .setMultipartParameter("unit_id", unitID)
