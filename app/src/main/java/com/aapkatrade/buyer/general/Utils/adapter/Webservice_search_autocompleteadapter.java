@@ -30,19 +30,23 @@ public class Webservice_search_autocompleteadapter extends BaseAdapter implement
     ArrayList<String> distance_data;
     LayoutInflater inflter;
     private ArrayList<String> categoriesList = new ArrayList<>();
+    ArrayList<String> LocationList = new ArrayList<>();
     private ArrayList<String> filteredData;
     private ArrayList<String> originalData;
-    String product_id;
     private ValueFilter valueFilter;
     public ArrayList<String> productIdList = new ArrayList<>();
+    TextView names;
 
-    public Webservice_search_autocompleteadapter(Context applicationContext, ArrayList<String> names_data,ArrayList<String> distance_data,ArrayList<String> categoriesList,ArrayList<String> productIdList)
+
+
+    public Webservice_search_autocompleteadapter(Context applicationContext, ArrayList<String> names_data,ArrayList<String> distance_data,ArrayList<String> categoriesList,ArrayList<String> productIdList,ArrayList<String> LocationList)
     {
         this.context = applicationContext;
         this.names_data = names_data;
         this.distance_data=distance_data;
         this.categoriesList = categoriesList;
         this.productIdList = productIdList;
+        this.LocationList = LocationList;
         inflter = (LayoutInflater.from(applicationContext));
     }
 
@@ -62,29 +66,30 @@ public class Webservice_search_autocompleteadapter extends BaseAdapter implement
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup)
+    public View getView(final int i, View view, ViewGroup viewGroup)
     {
         view = inflter.inflate(R.layout.search_suggestion_row, null);
         RelativeLayout relativeLayout = (RelativeLayout) view.findViewById(R.id.relativeLayoutSearch);
-        TextView names = (TextView) view.findViewById(R.id.tv_shop_name);
+         names = (TextView) view.findViewById(R.id.tv_shop_name);
         TextView distance = (TextView) view.findViewById(R.id.tvDistance);
         TextView category_name = (TextView) view.findViewById(R.id.tvCategoryName);
         Log.e("names", names_data.get(i));
         names.setText(names_data.get(i));
         distance.setText(distance_data.get(i));
         category_name.setText(categoriesList.get(i));
-        product_id =  productIdList.get(i);
+
+        //AndroidUtils.showToast(context,String.valueOf(i));
 
         relativeLayout.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
-
+                AndroidUtils.showToast(context, LocationList.get(i));
 
                 Intent intent = new Intent(context, ShopDetailActivity.class);
-                intent.putExtra("product_id",product_id);
-                intent.putExtra("product_location", "");
+                intent.putExtra("product_id",productIdList.get(i));
+                intent.putExtra("product_location", LocationList.get(i));
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
 
@@ -92,6 +97,7 @@ public class Webservice_search_autocompleteadapter extends BaseAdapter implement
         });
 
         return view;
+
     }
 
     @Override
@@ -106,10 +112,11 @@ public class Webservice_search_autocompleteadapter extends BaseAdapter implement
 
     public class ValueFilter extends Filter {
         @Override
-        protected FilterResults performFiltering(CharSequence constraint) {
+        protected FilterResults performFiltering(CharSequence constraint)
+        {
             FilterResults results = new FilterResults();
 
-            if (constraint != null && constraint.length() > 0) {
+            if (constraint != null && constraint.length() == 0) {
                 ArrayList<String> filterList = new ArrayList<>();
                 for (int i = 0; i < names_data.size(); i++) {
                     String contact = names_data.get(i);
@@ -142,11 +149,5 @@ public class Webservice_search_autocompleteadapter extends BaseAdapter implement
 
 
     }
-
-
-
-
-
-
 
 }
