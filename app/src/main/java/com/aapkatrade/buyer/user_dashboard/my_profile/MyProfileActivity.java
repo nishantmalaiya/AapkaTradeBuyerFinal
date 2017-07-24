@@ -124,8 +124,7 @@ public class MyProfileActivity extends AppCompatActivity {
         coordinatorlayout_myprofile = (CoordinatorLayout) findViewById(R.id.coordinate_myprofile);
 
         imageViewProfile = (ImageView) findViewById(R.id.imageViewProfile);
-        my_profile_gif=app_sharedpreference.getSharedPref(SharedPreferenceConstants.PROFILE_ViDEO_GIF.toString());
-        Ion.with(imageViewProfile).load(my_profile_gif.concat(".gif"));
+
 
         imageViewProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,7 +134,6 @@ public class MyProfileActivity extends AppCompatActivity {
                 intent.setDataAndType(Uri.parse(app_sharedpreference.getSharedPref(SharedPreferenceConstants.PROFILE_VIDEO.toString(), "").toString()), "video/*");
 
                 startActivity(Intent.createChooser(intent, "Complete action using"));
-
 
 
             }
@@ -230,12 +228,24 @@ public class MyProfileActivity extends AppCompatActivity {
 
                 Log.e("shared-----", "");
             } else {
-                Picasso.with(context)
+
+
+                my_profile_gif = app_sharedpreference.getSharedPref(SharedPreferenceConstants.PROFILE_ViDEO_GIF.toString());
+                Ion.with(imageViewProfile).load(my_profile_gif);
+
+
+
+
+
+
+
+
+               /* Picasso.with(context)
                         .load(app_sharedpreference.getSharedPref(SharedPreferenceConstants.PROFILE_VIDEO_THUMBNAIL.toString(), ""))
                         .error(R.drawable.navigation_profile_bg)
                         .placeholder(R.drawable.navigation_profile_bg)
                         .error(R.drawable.navigation_profile_bg)
-                        .into(imageViewProfile);
+                        .into(imageViewProfile);*/
             }
 
         }
@@ -602,7 +612,7 @@ public class MyProfileActivity extends AppCompatActivity {
                     @Override
                     public void onCompleted(Exception e, JsonObject result) {
 
-                       AndroidUtils.showErrorLog(context,"result------------------------------" + result);
+                        AndroidUtils.showErrorLog(context, "result------------------------------" + result);
 
                         if (result != null) {
                             if (result.get("error").getAsString().contains("false")) {

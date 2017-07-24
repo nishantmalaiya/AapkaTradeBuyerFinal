@@ -40,13 +40,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         RemoteMessage.Notification notification = remoteMessage.getNotification();
 
-        //showNotification(notification.getTitle(), notification.getBody(), "");
+
 
         resultIntent = new Intent(getApplicationContext(), MainActivity.class);
         resultIntent.putExtra("message", notification.getBody());
 
-//        showNotificationMessage(getApplicationContext(), notification.getTitle(),notification.getBody(),Long.parseLong(String.valueOf(System.currentTimeMillis())), resultIntent);
-        //  notificationUtils=new NotificationUtils(getApplicationContext(), notification.getTitle(),notification.getBody(),"", resultIntent);
+//
 
 
         // Check if message contains a notification payload.
@@ -79,51 +78,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
 
 
-
-
-
-
-
-
-
-
-
-  /*      if (remoteMessage == null)
-            return;
-
-        System.out.println("remoteMessage-----------------" + remoteMessage);
-
-
-        Log.e(TAG, "From: " + remoteMessage.getFrom());
-
-
-        // Check if message contains a notification payload.
-        if (remoteMessage.getNotification() != null) {
-            Log.e(TAG, "Notification Body: " + remoteMessage.getNotification().getBody());
-
-            try {
-                JSONObject json = new JSONObject(remoteMessage.getNotification().getBody());
-
-
-                Log.e(TAG, "JSONObject_chat: " + json.toString());
-                handleDataMessage(json);
-            } catch (Exception e) {
-                Log.e(TAG, "Exception: " + e.getMessage());
-            }
-             handleNotification(remoteMessage.getNotification().getBody());
-        }
-
-        // Check if message contains a data payload.
-        if (remoteMessage.getData().size() > 0) {
-            Log.e(TAG, "Data Payload: " + remoteMessage.getData().toString());
-
-            try {
-                JSONObject json = new JSONObject(remoteMessage.getData().toString());
-                handleDataMessage(json);
-            } catch (Exception e) {
-                Log.e(TAG, "Exception: " + e.getMessage());
-            }
-        }*/
     }
 
     private void handleNotification(String message) {
@@ -215,67 +169,4 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     }
 
 
-    private void showNotification(String title, String body, String imageUrl) {
-
-        System.out.println("title-----------" + title + "body------" + body);
-
-        if (title == null) {
-            title = getApplicationContext().getString(R.string.app_name);
-        }
-        if (body == null) {
-            body = "";
-        }
-
-        NotificationCompat.Builder mBuilder = null;
-
-        mBuilder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.drawable.ic_app_icon)
-                .setContentTitle(title)
-                .setContentText(body);
-
-
-
-     /*   if (imageUrl == null) {
-            mBuilder = new NotificationCompat.Builder(this)
-                    .setSmallIcon(R.mipmap.ic_launcher)
-                    .setContentTitle(title)
-                    .setContentText(body);
-        }
-        else
-        {
-            Bitmap bmp = getImage(imageUrl);
-            mBuilder = new NotificationCompat.Builder(this)
-                    .setSmallIcon(R.mipmap.ic_launcher)
-                    .setContentTitle(title)
-                    .setStyle(new NotificationCompat.BigPictureStyle()
-                            .bigPicture(bmp)
-                            .setSummaryText(body)
-                    )
-                    .setContentText(body);
-        }*/
-
-        // Creates an explicit intent for an Activity in your app
-        // Intent resultIntent = new Intent(this, HomeActivity.class);
-
-        // The stack builder object will contain an artificial back stack for the
-        // started Activity.
-        // This ensures that navigating backward from the Activity leads out of
-        // your application to the Home screen.
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-        // Adds the back stack for the Intent (but not the Intent itself)
-        // stackBuilder.addParentStack(ResultActivity.class);
-        // Adds the Intent that starts the Activity to the top of the stack
-        //stackBuilder.addNextIntent(resultIntent);
-        PendingIntent resultPendingIntent =
-                stackBuilder.getPendingIntent(0,
-                        PendingIntent.FLAG_UPDATE_CURRENT
-                );
-        mBuilder.setContentIntent(resultPendingIntent);
-        NotificationManager mNotificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        // mId allows you to update the notification later on.
-        mNotificationManager.notify(1, mBuilder.build());
-
-
-    }
 }

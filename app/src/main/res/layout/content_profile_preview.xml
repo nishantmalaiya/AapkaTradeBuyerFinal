@@ -1,10 +1,8 @@
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
 
     <com.github.florent37.parallax.ScrollView
         android:layout_width="match_parent"
@@ -29,17 +27,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="SHARE AAPKA TRADE /INVITE YOUR FRIENDS"
-                    android:textColor="@color/black"
-                    />
+                    android:textColor="@color/black" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
                     android:layout_marginTop="5dp"
-                    >
+                    android:orientation="horizontal">
 
                     <ImageView
+                        android:id="@+id/imgvew_fb"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_margin="6dp"
@@ -47,6 +44,7 @@
                         android:src="@drawable/facebook_icon" />
 
                     <ImageView
+                        android:id="@+id/imgvew_twitter"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_margin="6dp"
@@ -54,6 +52,7 @@
                         android:src="@drawable/twittericon" />
 
                     <ImageView
+                        android:id="@+id/imgvew_whatsapp"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_margin="6dp"
@@ -61,6 +60,7 @@
                         android:src="@drawable/icon_whatapp" />
 
                     <ImageView
+                        android:id="@+id/imgvew_google_plus"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_margin="6dp"
@@ -69,18 +69,13 @@
                         android:src="@drawable/gplus" />
 
                     <ImageView
+                        android:id="@+id/img_sms"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_margin="6dp"
                         android:scaleType="fitXY"
                         android:src="@drawable/sms_icon" />
 
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_margin="6dp"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/email_icon" />
 
                 </LinearLayout>
 
@@ -92,63 +87,63 @@
                 android:background="@color/white"
                 android:orientation="vertical">
 
-             <!--   <com.balysv.materialripple.MaterialRippleLayout
+                <!--   <com.balysv.materialripple.MaterialRippleLayout
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:layout_marginLeft="10dp"
+                       >
+
+                       <LinearLayout
+                           android:id="@+id/linearLayoutAddress"
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content"
+                           android:orientation="horizontal"
+                           android:padding="10dp">
+
+                           <ImageView
+                               android:layout_width="55dp"
+                               android:layout_height="55dp"
+                               android:src="@drawable/ic_save_address" />
+
+                           <LinearLayout
+                               android:layout_width="match_parent"
+                               android:layout_height="wrap_content"
+                               android:layout_marginLeft="16dp"
+                               android:gravity="center_vertical"
+                               android:orientation="vertical">
+
+                               <TextView
+                                   android:layout_width="wrap_content"
+                                   android:layout_height="wrap_content"
+                                   android:text="Saved Address"
+                                   android:textSize="16sp"
+                                   android:textColor="@color/black" />
+
+                               <TextView
+                                   android:layout_width="wrap_content"
+                                   android:layout_height="wrap_content"
+                                   android:layout_marginTop="6dp"
+                                   android:text="Add Address"
+                                   android:textSize="14sp" />
+                           </LinearLayout>
+
+                       </LinearLayout>
+                   </com.balysv.materialripple.MaterialRippleLayout>
+
+                   <View
+                       android:layout_width="match_parent"
+                       android:layout_height="0.7dp"
+                       android:background="#E1E1E1"
+                       android:layout_below="@+id/relativedata"
+                       android:layout_marginLeft="65dp"
+                       />
+
+   -->
+                <com.balysv.materialripple.MaterialRippleLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    >
-
-                    <LinearLayout
-                        android:id="@+id/linearLayoutAddress"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:padding="10dp">
-
-                        <ImageView
-                            android:layout_width="55dp"
-                            android:layout_height="55dp"
-                            android:src="@drawable/ic_save_address" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="16dp"
-                            android:gravity="center_vertical"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Saved Address"
-                                android:textSize="16sp"
-                                android:textColor="@color/black" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="6dp"
-                                android:text="Add Address"
-                                android:textSize="14sp" />
-                        </LinearLayout>
-
-                    </LinearLayout>
-                </com.balysv.materialripple.MaterialRippleLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.7dp"
-                    android:background="#E1E1E1"
-                    android:layout_below="@+id/relativedata"
-                    android:layout_marginLeft="65dp"
-                    />
-
--->
-                <com.balysv.materialripple.MaterialRippleLayout
-                    android:layout_width="match_parent"
-                    android:layout_marginLeft="10dp"
-                    android:visibility="gone"
-                    android:layout_height="wrap_content">
+                    android:visibility="gone">
 
                     <LinearLayout
                         android:id="@+id/linearLayoutResetpassword"
@@ -173,8 +168,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Reset Password"
-                                android:textSize="16sp"
-                                android:textColor="@color/black" />
+                                android:textColor="@color/black"
+                                android:textSize="16sp" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -190,16 +185,15 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.7dp"
-                    android:background="#E1E1E1"
                     android:layout_below="@+id/relativedata"
                     android:layout_marginLeft="65dp"
-                    ></View>
+                    android:background="#E1E1E1"></View>
 
 
                 <com.balysv.materialripple.MaterialRippleLayout
                     android:layout_width="match_parent"
-                    android:layout_marginLeft="10dp"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp">
 
                     <LinearLayout
                         android:id="@+id/linearLayoutLogout"
@@ -209,11 +203,11 @@
                         android:padding="10dp">
 
 
-                            <ImageView
-                                android:layout_width="55dp"
-                                android:layout_height="55dp"
-                                android:scaleType="fitXY"
-                                android:src="@drawable/ic_logout" />
+                        <ImageView
+                            android:layout_width="55dp"
+                            android:layout_height="55dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/ic_logout" />
 
 
                         <LinearLayout
@@ -227,8 +221,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Log out"
-                                android:textSize="16sp"
-                                android:textColor="@color/black" />
+                                android:textColor="@color/black"
+                                android:textSize="16sp" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -240,7 +234,6 @@
 
                     </LinearLayout>
                 </com.balysv.materialripple.MaterialRippleLayout>
-
 
 
             </LinearLayout>

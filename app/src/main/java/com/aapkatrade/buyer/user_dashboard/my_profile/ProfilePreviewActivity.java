@@ -1,4 +1,5 @@
 package com.aapkatrade.buyer.user_dashboard.my_profile;
+
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -14,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.aapkatrade.buyer.home.HomeActivity;
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.AppSharedPreference;
@@ -23,15 +25,15 @@ import com.aapkatrade.buyer.general.Validation;
 import com.aapkatrade.buyer.user_dashboard.changepassword.ChangePassword;
 
 import com.squareup.picasso.Picasso;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class ProfilePreviewActivity extends AppCompatActivity
-{
+public class ProfilePreviewActivity extends AppCompatActivity {
 
-    private TextView  textViewName, tvMobile, tvEmail, tvUserType;
-    private LinearLayout linearLayoutLagout, linearLayoutResetpassword,linearLayoutProfileVideo;
+    private TextView textViewName, tvMobile, tvEmail, tvUserType;
+    private LinearLayout linearLayoutLagout, linearLayoutResetpassword, linearLayoutProfileVideo;
     private AppSharedPreference appSharedPreference;
-    private ImageView btnEdit,imageViewProfileVideo;
+    private ImageView btnEdit, imageViewProfileVideo, imgvew_fb, imgvew_twitter, imgvew_whatsapp, imgvew_google_plus, img_sms;
     private Context context;
     private CircleImageView userimage;
     String usertype;
@@ -40,8 +42,7 @@ public class ProfilePreviewActivity extends AppCompatActivity
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_profile_preview);
@@ -56,12 +57,51 @@ public class ProfilePreviewActivity extends AppCompatActivity
 
     }
 
-    private void setup_layout()
-    {
+    private void setup_layout() {
 
         relativeLayoutProfile = (RelativeLayout) findViewById(R.id.relativeLayoutProfile);
 
-        imageViewProfileVideo = (ImageView)  findViewById(R.id.imageViewProfileVideo);
+        imageViewProfileVideo = (ImageView) findViewById(R.id.imageViewProfileVideo);
+        imgvew_fb = (ImageView) findViewById(R.id.imgvew_fb);
+        imgvew_twitter = (ImageView) findViewById(R.id.imgvew_fb);
+        imgvew_whatsapp = (ImageView) findViewById(R.id.imgvew_whatsapp);
+        imgvew_google_plus = (ImageView) findViewById(R.id.imgvew_google_plus);
+        img_sms = (ImageView) findViewById(R.id.img_sms);
+        img_sms.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                call_share("com.android.sms");
+            }
+        });
+        imgvew_google_plus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                call_share("com.google.android.apps.plus");
+            }
+        });
+
+        imgvew_whatsapp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                call_share("com.whatsapp");
+            }
+        });
+
+        imgvew_fb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                call_share("com.facebook.katana");
+
+            }
+        });
+        imgvew_twitter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                call_share("com.twitter.android");
+            }
+        });
+
 
         userimage = (CircleImageView) findViewById(R.id.imageviewpp);
 
@@ -104,14 +144,13 @@ public class ProfilePreviewActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
 
-                save_shared_pref("notlogin", "notlogin", "notlogin", "profile_pic","");
+                save_shared_pref("notlogin", "notlogin", "notlogin", "profile_pic", "");
                 Intent Homedashboard = new Intent(ProfilePreviewActivity.this, HomeActivity.class);
                 Homedashboard.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(Homedashboard);
 
             }
         });
-
 
 
         linearLayoutResetpassword.setOnClickListener(new View.OnClickListener() {
@@ -131,8 +170,7 @@ public class ProfilePreviewActivity extends AppCompatActivity
         tvEmail = (TextView) findViewById(R.id.tvEmail);
         tvUserType = (TextView) findViewById(R.id.tvUserType);
 
-        if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString(), "notlogin") != null )
-        {
+        if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString(), "notlogin") != null) {
             String Username = appSharedPreference.getSharedPref(SharedPreferenceConstants.FIRST_NAME.toString(), "not");
             String Emailid = appSharedPreference.getSharedPref(SharedPreferenceConstants.EMAIL_ID.toString(), "not");
 
@@ -140,17 +178,12 @@ public class ProfilePreviewActivity extends AppCompatActivity
 
             if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), "").contains("1")) {
                 usertype = "Buyer";
-            }
-            else if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), "").contains("2"))
-            {
+            } else if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), "").contains("2")) {
 
-                if(appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_VIDEO_THUMBNAIL.toString(), "").toString().equals(""))
-                {
+                if (appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_VIDEO_THUMBNAIL.toString(), "").toString().equals("")) {
 
-                    Log.e("shared-----","");
-                }
-                else
-                    {
+                    Log.e("shared-----", "");
+                } else {
                     Picasso.with(context)
                             .load(appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_VIDEO_THUMBNAIL.toString(), ""))
                             .error(R.drawable.navigation_profile_bg)
@@ -170,23 +203,41 @@ public class ProfilePreviewActivity extends AppCompatActivity
 
             tvEmail.setText(Emailid);
 
-                Log.e("user_image2", user_image);
-                tvUserType.setText(usertype);
-            AndroidUtils.showErrorLog(context, "Image URL onCreate" , appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_PIC.toString(), ""));
+            Log.e("user_image2", user_image);
+            tvUserType.setText(usertype);
+            AndroidUtils.showErrorLog(context, "Image URL onCreate", appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_PIC.toString(), ""));
 
 
-            if (Validation.isNonEmptyStr(appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_PIC.toString(), ""))){
+            if (Validation.isNonEmptyStr(appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_PIC.toString(), ""))) {
 
                 Picasso.with(context).load(appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_PIC.toString(), ""))
                         .error(R.drawable.ic_profile_user)
                         .into(userimage);
             }
 
-         }
+        }
     }
 
-    private void setUpToolBar()
-    {
+    private void call_share(String s) {
+
+        Intent share = new Intent(Intent.ACTION_SEND);
+        share.setType("text/plain");
+        // Uri screenshotUri = Uri.parse("android.resource://"+getActivity().getPackageName()+"/" + R.drawable.ic_app_icon);
+        String strShareMessage = "\nLet me recommend you this application\n\n";
+        strShareMessage = strShareMessage + "https://play.google.com/store/apps/details?id=com.aapkatrade.buyer";
+
+        // share.setType("image");
+        //  share.putExtra(Intent.EXTRA_STREAM, screenshotUri);
+        // share.setPackage(s);
+        share.putExtra(Intent.EXTRA_TEXT, strShareMessage);
+
+
+        startActivity(Intent.createChooser(share, "Share using"));
+
+
+    }
+
+    private void setUpToolBar() {
         ImageView homeIcon = (ImageView) findViewById(R.id.iconHome);
         AppCompatImageView back_imagview = (AppCompatImageView) findViewById(R.id.back_imagview);
         back_imagview.setVisibility(View.VISIBLE);
@@ -216,15 +267,13 @@ public class ProfilePreviewActivity extends AppCompatActivity
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
+    public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_map, menu);
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
+    public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
@@ -236,8 +285,7 @@ public class ProfilePreviewActivity extends AppCompatActivity
     }
 
 
-    public void save_shared_pref(String user_id, String user_name, String email_id, String profile_pic,String user_type)
-    {
+    public void save_shared_pref(String user_id, String user_name, String email_id, String profile_pic, String user_type) {
         appSharedPreference.setSharedPref(SharedPreferenceConstants.USER_ID.toString(), user_id);
         appSharedPreference.setSharedPref(SharedPreferenceConstants.USER_NAME.toString(), user_name);
         appSharedPreference.setSharedPref(SharedPreferenceConstants.EMAIL_ID.toString(), email_id);
@@ -263,22 +311,16 @@ public class ProfilePreviewActivity extends AppCompatActivity
       }*/
 
 
-
-
     @Override
-    protected void onResume()
-    {
+    protected void onResume() {
         super.onResume();
 
         if (profile_preview_activity == 1) {
 
             profile_preview_activity = 2;
-        }
-        else
-            {
+        } else {
 
-            if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString(), "notlogin") != null )
-            {
+            if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString(), "notlogin") != null) {
 
                 String Username = appSharedPreference.getSharedPref(SharedPreferenceConstants.FIRST_NAME.toString(), "not");
 
@@ -300,14 +342,10 @@ public class ProfilePreviewActivity extends AppCompatActivity
 
                 tvEmail.setText(Emailid);
 
-                if (usertype.equals("Seller"))
-                {
-                    if(appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_VIDEO_THUMBNAIL.toString(), "").toString().equals(""))
-                    {
-                        Log.e("shared-----","");
-                    }
-                    else
-                    {
+                if (usertype.equals("Seller")) {
+                    if (appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_VIDEO_THUMBNAIL.toString(), "").toString().equals("")) {
+                        Log.e("shared-----", "");
+                    } else {
                         Picasso.with(context)
                                 .load(appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_VIDEO_THUMBNAIL.toString(), ""))
                                 .error(R.drawable.navigation_profile_bg)
@@ -319,11 +357,10 @@ public class ProfilePreviewActivity extends AppCompatActivity
 
                 Log.e("user_image2", user_image);
                 tvUserType.setText(usertype);
-                AndroidUtils.showErrorLog(context, "Image URL onCreate" , appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_PIC.toString(), ""));
+                AndroidUtils.showErrorLog(context, "Image URL onCreate", appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_PIC.toString(), ""));
 
 
-                if (Validation.isNonEmptyStr(appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_PIC.toString(), "")))
-                {
+                if (Validation.isNonEmptyStr(appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_PIC.toString(), ""))) {
 
                     Picasso.with(context).load(appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_PIC.toString(), ""))
                             .error(R.drawable.ic_profile_user)
