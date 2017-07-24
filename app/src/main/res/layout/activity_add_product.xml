@@ -166,38 +166,10 @@
                             android:layout_marginTop="@dimen/fifteen_dip"
                             android:textColorHint="@color/hint_color">
 
-                            <!--<RelativeLayout
-                                android:id="@+id/spCompanyListLayout"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginBottom="@dimen/five_dip"
-                                android:layout_marginTop="@dimen/five_dip">
-
-
-                                <Spinner
-                                    android:id="@+id/spCompanyList"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_alignParentLeft="true"
-                                    android:background="@drawable/simple_spinner_back"
-                                    android:gravity="center_horizontal" />
-
-                                <ImageView
-                                    android:layout_width="@dimen/twenty_dip"
-                                    android:layout_height="@dimen/twenty_dip"
-                                    android:layout_alignParentRight="true"
-                                    android:layout_centerVertical="true"
-                                    android:layout_marginRight="@dimen/ten_dip"
-                                    android:scaleType="fitXY"
-                                    android:src="@drawable/ic_arrow" />
-
-                            </RelativeLayout>-->
-
-
                             <com.aapkatrade.buyer.uicomponent.pagingspinner.PagingSpinner
                                 android:id="@+id/pagingSpinner"
                                 android:layout_width="match_parent"
-                                android:layout_height="@dimen/hundred_dip" />
+                                android:layout_height="@dimen/eighty_five_dip" />
                         </android.support.design.widget.TextInputLayout>
 
 

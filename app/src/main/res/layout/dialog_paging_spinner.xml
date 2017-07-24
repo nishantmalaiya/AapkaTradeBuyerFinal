@@ -13,7 +13,7 @@
         android:id="@+id/headerDialog"
         android:layout_width="match_parent"
         android:layout_height="@dimen/fifty_five_dip"
-        android:background="@color/green">
+        android:background="@color/green" >
 
         <TextView
             style="@style/myAddress"
