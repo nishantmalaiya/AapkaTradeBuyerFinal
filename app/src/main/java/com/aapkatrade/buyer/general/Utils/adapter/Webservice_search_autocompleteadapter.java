@@ -102,10 +102,7 @@ public class Webservice_search_autocompleteadapter extends BaseAdapter implement
 
     @Override
     public Filter getFilter() {
-        if (valueFilter == null) {
             valueFilter = new ValueFilter();
-
-        }
         return valueFilter;
     }
 
@@ -116,7 +113,9 @@ public class Webservice_search_autocompleteadapter extends BaseAdapter implement
         {
             FilterResults results = new FilterResults();
 
-            if (constraint != null && constraint.length() == 0) {
+            AndroidUtils.showErrorLog(context,constraint.length());
+
+            if (constraint != null) {
                 ArrayList<String> filterList = new ArrayList<>();
                 for (int i = 0; i < names_data.size(); i++) {
                     String contact = names_data.get(i);
@@ -132,7 +131,7 @@ public class Webservice_search_autocompleteadapter extends BaseAdapter implement
             } else {
                 results.count = names_data.size();
                 results.values = names_data;
-                Log.e("results<0",results.values.toString());
+                Log.e("results<2",results.values.toString());
             }
             return results;
         }
@@ -141,11 +140,9 @@ public class Webservice_search_autocompleteadapter extends BaseAdapter implement
         protected void publishResults(CharSequence constraint, FilterResults results)
         {
             originalData = (ArrayList<String>) results.values;
-            notifyDataSetInvalidated();
-           //notifyDataSetChanged();
+           // notifyDataSetInvalidated();
+           notifyDataSetChanged();
         }
-
-
 
 
     }
