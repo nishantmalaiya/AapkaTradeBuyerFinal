@@ -30,6 +30,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.aapkatrade.buyer.general.Utils.adapter.Webservice_search_autocompleteadapter;
 import com.aapkatrade.buyer.home.CommonAdapter;
 import com.aapkatrade.buyer.home.CommonData;
 import com.aapkatrade.buyer.home.HomeActivity;
@@ -40,7 +41,7 @@ import com.aapkatrade.buyer.general.AppConfig;
 import com.aapkatrade.buyer.general.interfaces.Adapter_callback_interface;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.adapter.CustomAutocompleteAdapter;
-import com.aapkatrade.buyer.general.Utils.adapter.Webservice_search_autocompleteadapter;
+
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -67,6 +68,7 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
     Adapter_callback_interface callback_interface;
     ArrayList<String> state_names = new ArrayList<>();
     ArrayList<String> SearchSuggestionList = new ArrayList<>();
+    ArrayList<String> LocationList = new ArrayList<>();
     ArrayList<String> productidList = new ArrayList<>();
     ArrayList<String> categoriesList = new ArrayList<>();
     ArrayList<String> DistanceList = new ArrayList<>();
@@ -165,7 +167,7 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
         });
         progressBarHandler = new ProgressBarHandler(Search.this);
         autocomplete_textview_product = (AutoCompleteTextView) findViewById(R.id.search_autocompletetext_products);
-        autocomplete_textview_product.setThreshold(0);
+       // autocomplete_textview_product.setThreshold(0);
         setup_state_spinner();
 
         setup_search_Recyclewview();
@@ -194,14 +196,18 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
 
                         call_search_suggest_webservice_product(product_search_url, text, state_list_spinner.getSelectedItem().toString());
 
-                        autocomplete_textview_product.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        autocomplete_textview_product.setOnItemClickListener(new AdapterView.OnItemClickListener()
+                        {
                             @Override
-                            public void onItemClick(AdapterView<?> p, View v, int pos, long id) {
+                            public void onItemClick(AdapterView<?> p, View v, int pos, long id)
+                            {
                                 Log.e("search_click_data", p.getItemAtPosition(pos).toString());
                             }
                         });
 
-                    } else {
+                    }
+                    else
+                        {
 
                         AndroidUtils.showSnackBar(coordinate_search, "Please Select State First");
                     }
@@ -209,7 +215,6 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
                 }
                 else
                 {
-
 
                 }
 
@@ -317,8 +322,6 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
                         } else {
                             progressBarHandler.hide();
                         }
-
-
 //
                     }
 
@@ -351,8 +354,6 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
             if (jsonObject.get("result") == null) {
                 Log.e("data_jsonArray null", "NULLLLL");
             }
-
-
             JsonArray jsonarray_result = jsonObject.getAsJsonArray("result");
 
             JsonArray filterArray = result.getAsJsonArray("filter");
@@ -469,17 +470,19 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
                 .setBodyParameter("long", longitude)
                 .setBodyParameter("location", state_list_spinner.getSelectedItem().toString())
                 .asJsonObject()
-                .setCallback(new FutureCallback<JsonObject>() {
+                .setCallback(new FutureCallback<JsonObject>()
+                {
                     @Override
-                    public void onCompleted(Exception e, JsonObject result) {
-
-
-                        if (result != null) {
+                    public void onCompleted(Exception e, JsonObject result)
+                    {
+                        if (result != null)
+                        {
                             System.out.println("result Search______" + result.toString());
                             AndroidUtils.showErrorLog(context, result.toString());
                             SearchSuggestionList.clear();
                             productidList.clear();
                             categoriesList.clear();
+                            LocationList.clear();
 
                             DistanceList = new ArrayList<String>();
                             JsonObject jsonObject = result.getAsJsonObject();
@@ -490,8 +493,9 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
                                 if (message.contains("Failed"))
                                 {
                                     AndroidUtils.showSnackBar(coordinate_search, "No Suggesstion found");
-
-                                } else {
+                                }
+                                else
+                                {
 
                                     Log.e("data2", result.toString());
 
@@ -506,21 +510,25 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
                                         String productname = jsonObject_result.get("name").getAsString();
                                         String distance = jsonObject_result.get("distance").getAsString();
                                         String category_name = jsonObject_result.get("category_name").getAsString();
+                                        String shopLocation = jsonObject_result.get("state_name").getAsString() + "," + jsonObject_result.get("country_name").getAsString();
+
                                         SearchSuggestionList.add(productname);
                                         productidList.add(product_id);
                                         DistanceList.add(String.valueOf(distance));
                                         categoriesList.add(category_name);
-                                    }
+                                        LocationList.add(shopLocation);
 
+                                    }
 
                                 }
 
                                 if (error.contains("false"))
                                 {
-                                    product_autocompleteadapter = new Webservice_search_autocompleteadapter(c, SearchSuggestionList, DistanceList,categoriesList,productidList);
+                                    product_autocompleteadapter = new Webservice_search_autocompleteadapter(c, SearchSuggestionList, DistanceList,categoriesList,productidList,LocationList);
 
                                    // if (SearchSuggestionList.size() != 0)
-                                        autocomplete_textview_product.setAdapter(product_autocompleteadapter);
+                                    autocomplete_textview_product.setAdapter(product_autocompleteadapter);
+                                    product_autocompleteadapter.notifyDataSetInvalidated();
                                     product_autocompleteadapter.notifyDataSetChanged();
 
                                 }
@@ -535,8 +543,6 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
                     }
 
                 });
-
-
     }
 
 
@@ -589,7 +595,6 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
 
     @Override
     public void callback(String id, String type) {
-
 
     }
 
