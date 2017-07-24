@@ -8,17 +8,20 @@
     android:orientation="vertical">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/linearLayout"
+        android:id="@+id/linearLayoutMain"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
         tools:ignore="RtlCompat"
         android:layout_marginEnd="@dimen/thirty_dip"
         android:orientation="vertical">
 
+        <include layout="@layout/row_spinner" />
 
     </LinearLayout>
+
+
 
     <ImageView
         android:layout_width="@dimen/thirty_dip"

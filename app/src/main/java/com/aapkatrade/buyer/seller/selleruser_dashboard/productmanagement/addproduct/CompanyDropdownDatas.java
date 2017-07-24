@@ -37,6 +37,16 @@ public class CompanyDropdownDatas {
         result = 31 * result + comapanyCategory.hashCode();
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "CompanyDropdownDatas{" +
+                "comapanyId='" + comapanyId + '\'' +
+                ", companyImageUrl='" + companyImageUrl + '\'' +
+                ", companyName='" + companyName + '\'' +
+                ", comapanyCategory='" + comapanyCategory + '\'' +
+                '}';
+    }
 }
 
 

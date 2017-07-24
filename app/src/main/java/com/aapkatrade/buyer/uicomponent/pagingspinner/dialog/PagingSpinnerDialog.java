@@ -22,6 +22,7 @@ import com.aapkatrade.buyer.general.progressbar.ProgressDialogHandler;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.CompanyShopListAdapter;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.addproduct.AddProductActivity;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.addproduct.CompanyDropdownDatas;
+import com.aapkatrade.buyer.uicomponent.pagingspinner.PagingSpinner;
 import com.aapkatrade.buyer.uicomponent.pagingspinner.adapter.PagingSpinnerAdapter;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -106,7 +107,7 @@ public class PagingSpinnerDialog extends DialogFragment {
                 int position = (int) object;
                 if(position >= 0){
                     CompanyDropdownDatas companyDropdownDatas = (CompanyDropdownDatas) arrayList.get(position);
-                    AddProductActivity.commonInterface.getData(companyDropdownDatas);
+                    PagingSpinner.commonInterface.getData(companyDropdownDatas);
                 }
                 return null;
             }
@@ -153,7 +154,7 @@ public class PagingSpinnerDialog extends DialogFragment {
                         if (companyShopListAdapter == null) {
                             AndroidUtils.showErrorLog(context, "companyShopListAdapter---------null->");
 
-                            companyShopListAdapter = new PagingSpinnerAdapter(context, arrayList);
+                            companyShopListAdapter = new PagingSpinnerAdapter(context, arrayList, PagingSpinnerDialog.this);
                             linearLayoutManager = new LinearLayoutManager(context);
                             recyclerView.setLayoutManager(linearLayoutManager);
                             recyclerView.setAdapter(companyShopListAdapter);

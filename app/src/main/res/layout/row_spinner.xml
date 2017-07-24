@@ -51,10 +51,10 @@
         android:id="@+id/containershoplist"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-android:visibility="gone"
         android:layout_centerVertical="true"
+        android:gravity="center_vertical"
 
-        android:gravity="center_vertical">
+        android:visibility="gone">
 
 
         <de.hdodenhof.circleimageview.CircleImageView
