@@ -30,6 +30,8 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.aapkatrade.buyer.general.Utils.adapter.SearchAutoCompleteData;
+import com.aapkatrade.buyer.general.Utils.adapter.Webservice_Search_AutoCompleteAdapterNew;
 import com.aapkatrade.buyer.general.Utils.adapter.Webservice_search_autocompleteadapter;
 import com.aapkatrade.buyer.home.CommonAdapter;
 import com.aapkatrade.buyer.home.CommonData;
@@ -57,6 +59,7 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
 {
 
     AutoCompleteTextView autocomplete_textview_state, autocomplete_textview_product;
+    private ArrayList<SearchAutoCompleteData> searchAutoCompleteDatas = new ArrayList<>();
     CustomAutocompleteAdapter categoryadapter;
     Context c;
     GridLayoutManager gridLayoutManager;
@@ -78,6 +81,7 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
     ArrayList<common_city_search> common_city_searchlist = new ArrayList<>();
     Toolbar toolbar;
     Webservice_search_autocompleteadapter product_autocompleteadapter;
+    Webservice_Search_AutoCompleteAdapterNew webservice_search_autoCompleteAdapterNew;
     ProgressBarHandler progressBarHandler;
     CoordinatorLayout coordinate_search;
     private Adapter_callback_interface callback_listener;
@@ -159,15 +163,24 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
     {
 
         voice_search = (AppCompatImageView) findViewById(R.id.voice_input);
+
         voice_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startSpeechToText();
             }
         });
+
         progressBarHandler = new ProgressBarHandler(Search.this);
+
         autocomplete_textview_product = (AutoCompleteTextView) findViewById(R.id.search_autocompletetext_products);
-       // autocomplete_textview_product.setThreshold(0);
+
+        webservice_search_autoCompleteAdapterNew = new Webservice_Search_AutoCompleteAdapterNew(c,R.layout.activity_search,searchAutoCompleteDatas);
+
+        autocomplete_textview_product.setAdapter(webservice_search_autoCompleteAdapterNew);
+
+        autocomplete_textview_product.setThreshold(1);
+
         setup_state_spinner();
 
         setup_search_Recyclewview();
@@ -196,11 +209,9 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
 
                         call_search_suggest_webservice_product(product_search_url, text, state_list_spinner.getSelectedItem().toString());
 
-                        autocomplete_textview_product.setOnItemClickListener(new AdapterView.OnItemClickListener()
-                        {
+                        autocomplete_textview_product.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
-                            public void onItemClick(AdapterView<?> p, View v, int pos, long id)
-                            {
+                            public void onItemClick(AdapterView<?> p, View v, int pos, long id) {
                                 Log.e("search_click_data", p.getItemAtPosition(pos).toString());
                             }
                         });
@@ -215,6 +226,7 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
                 }
                 else
                 {
+
 
                 }
 
@@ -322,6 +334,8 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
                         } else {
                             progressBarHandler.hide();
                         }
+
+
 //
                     }
 
@@ -354,6 +368,8 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
             if (jsonObject.get("result") == null) {
                 Log.e("data_jsonArray null", "NULLLLL");
             }
+
+
             JsonArray jsonarray_result = jsonObject.getAsJsonArray("result");
 
             JsonArray filterArray = result.getAsJsonArray("filter");
@@ -470,19 +486,23 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
                 .setBodyParameter("long", longitude)
                 .setBodyParameter("location", state_list_spinner.getSelectedItem().toString())
                 .asJsonObject()
-                .setCallback(new FutureCallback<JsonObject>()
-                {
+                .setCallback(new FutureCallback<JsonObject>() {
                     @Override
                     public void onCompleted(Exception e, JsonObject result)
                     {
+
                         if (result != null)
                         {
                             System.out.println("result Search______" + result.toString());
+
                             AndroidUtils.showErrorLog(context, result.toString());
-                            SearchSuggestionList.clear();
+
+                            searchAutoCompleteDatas.clear();
+
+                           /* SearchSuggestionList.clear();
                             productidList.clear();
                             categoriesList.clear();
-                            LocationList.clear();
+                            LocationList.clear();*/
 
                             DistanceList = new ArrayList<String>();
                             JsonObject jsonObject = result.getAsJsonObject();
@@ -493,9 +513,10 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
                                 if (message.contains("Failed"))
                                 {
                                     AndroidUtils.showSnackBar(coordinate_search, "No Suggesstion found");
+
                                 }
                                 else
-                                {
+                                    {
 
                                     Log.e("data2", result.toString());
 
@@ -512,37 +533,34 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
                                         String category_name = jsonObject_result.get("category_name").getAsString();
                                         String shopLocation = jsonObject_result.get("state_name").getAsString() + "," + jsonObject_result.get("country_name").getAsString();
 
-                                        SearchSuggestionList.add(productname);
+                                        searchAutoCompleteDatas.add(new SearchAutoCompleteData(product_id,productname,distance,category_name,shopLocation));
+                                       /* SearchSuggestionList.add(productname);
                                         productidList.add(product_id);
                                         DistanceList.add(String.valueOf(distance));
                                         categoriesList.add(category_name);
-                                        LocationList.add(shopLocation);
+                                        LocationList.add(shopLocation);*/
 
                                     }
 
                                 }
-
                                 if (error.contains("false"))
                                 {
-                                    product_autocompleteadapter = new Webservice_search_autocompleteadapter(c, SearchSuggestionList, DistanceList,categoriesList,productidList,LocationList);
+                                        // product_autocompleteadapter = new Webservice_search_autocompleteadapter(c, SearchSuggestionList, DistanceList,categoriesList,productidList,LocationList);
+                                         autocomplete_textview_product.setAdapter(webservice_search_autoCompleteAdapterNew);
 
-                                   // if (SearchSuggestionList.size() != 0)
-                                    autocomplete_textview_product.setAdapter(product_autocompleteadapter);
-                                    product_autocompleteadapter.notifyDataSetInvalidated();
-                                    product_autocompleteadapter.notifyDataSetChanged();
-
+                                     //   AndroidUtils.showToast(context,"hi bhaiya");
+                                    webservice_search_autoCompleteAdapterNew.notifyDataSetChanged();
                                 }
-
 
                             }
 
-
                         }
-
 
                     }
 
                 });
+
+
     }
 
 
@@ -595,6 +613,7 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
 
     @Override
     public void callback(String id, String type) {
+
 
     }
 
