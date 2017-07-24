@@ -75,7 +75,7 @@ public class AddProductActivity extends AppCompatActivity {
     private AppSharedPreference appSharedpreference;
     private ProgressBarHandler progressBarHandler;
     private Context context;
-    private Spinner  spUnitCategory;
+    private Spinner spUnitCategory;
     private PagingSpinner pagingSpinner;
     private ArrayList<City> cityList = new ArrayList<>();
     private ArrayList<City> unitList = new ArrayList<>();
@@ -118,8 +118,6 @@ public class AddProductActivity extends AppCompatActivity {
         getUnit();
 
     }
-
-
 
 
     private void loadDynamicForm(final String shopId) {
@@ -338,10 +336,10 @@ public class AddProductActivity extends AppCompatActivity {
             dynamicFormData = getDynamicSelectedData();
             if (Validation.isEmptyStr(dynamicFormData)) {
                 AndroidUtils.showErrorLog(context, "isAllFieldsSet.............dynamicFormData" + isAllFieldsSet);
-                if(dynamicFormEntityArrayList != null && dynamicFormEntityArrayList.size() > 0){
+                if (dynamicFormEntityArrayList != null && dynamicFormEntityArrayList.size() > 0) {
                     isAllFieldsSet = false;
 
-                }else{
+                } else {
                     isAllFieldsSet = true;
                 }
             }
@@ -494,7 +492,7 @@ public class AddProductActivity extends AppCompatActivity {
         recyclerView.setVisibility(View.VISIBLE);
         recyclerView.setAdapter(adapter);
 
-}
+    }
 
     public void picPhoto() {
         String str[] = new String[]{"Camera", "Gallery"};
@@ -681,19 +679,19 @@ public class AddProductActivity extends AppCompatActivity {
                 .setMultipartParameter("length", etProductLength.getText() == null ? "0" : etProductLength.getText().toString())
                 .setMultipartParameter("width", etProductWidth.getText() == null ? "0" : etProductWidth.getText().toString())
                 .setMultipartParameter("height", etProductHeight.getText() == null ? "0" : etProductHeight.getText().toString())
-                .setMultipartParameter("dynamic", Validation.isEmptyStr(dynamicFormData)?"[]":dynamicFormData)
+                .setMultipartParameter("dynamic", Validation.isEmptyStr(dynamicFormData) ? "[]" : dynamicFormData)
 
                 .asJsonObject().setCallback(new FutureCallback<JsonObject>() {
             @Override
             public void onCompleted(Exception e, JsonObject result) {
 
-                AndroidUtils.showErrorLog(context, "result----------" + context.getClass().getSimpleName() + "------"+result);
+                AndroidUtils.showErrorLog(context, "result----------" + context.getClass().getSimpleName() + "------" + result);
 
                 progressBarHandler.hide();
                 if (result != null) {
                     if (result.get("error").getAsString().contains("false")) {
                         AndroidUtils.showToast(context, result.get("message").getAsString());
-                        if(Validation.containsIgnoreCase(result.get("message").getAsString(), "Added") || Validation.containsIgnoreCase(result.get("message").getAsString(), "Successfully")){
+                        if (Validation.containsIgnoreCase(result.get("message").getAsString(), "Added") || Validation.containsIgnoreCase(result.get("message").getAsString(), "Successfully")) {
                             onBackPressed();
                         }
                     }
