@@ -144,7 +144,8 @@ public class UserDashboardFragment extends Fragment {
 
     }
 
-    public void userdata_webservice(String url, final String user_type, String user_id) {
+    public void userdata_webservice(String url, final String user_type, String user_id)
+    {
         Log.e("url", url);
         Log.e("user_type", user_type);
         Log.e("user_id", user_id);
@@ -159,8 +160,9 @@ public class UserDashboardFragment extends Fragment {
                 .setCallback(new FutureCallback<JsonObject>() {
                     @Override
                     public void onCompleted(Exception e, JsonObject result) {
+                        Log.e("result_myProfile", result.toString());
                         if (result == null) {
-                            Log.e("result_myProfile", "result_myProfile is null ");
+                            Log.e("result_myProfile", result.toString());
                             progressBarHandler.hide();
                         } else {
 
@@ -169,7 +171,8 @@ public class UserDashboardFragment extends Fragment {
                             String order_quantity = result.get("order").getAsString();
 
 
-                            if (appSharedPreference.getSharedPref((SharedPreferenceConstants.USER_TYPE.toString())).equals(SharedPreferenceConstants.USER_TYPE_BUYER.toString())) {
+                            if (appSharedPreference.getSharedPref((SharedPreferenceConstants.USER_TYPE.toString())).equals(SharedPreferenceConstants.USER_TYPE_BUYER.toString()))
+                            {
                                 tvUserType.setText("Welcome Buyer");
                                 appSharedPreference.setSharedPref(SharedPreferenceConstants.ORDER_QUANTITY.toString(), order_quantity);
                                 dashboardDatas.add(new DashboardData("", "My Profile", R.drawable.ic_my_profile, R.drawable.circle_teal, false, ""));
@@ -177,23 +180,25 @@ public class UserDashboardFragment extends Fragment {
                                 dashboardDatas.add(new DashboardData("", "Order", R.drawable.ic_my_order, R.drawable.circle_sienna, true, order_quantity));
 
 
-                            } else if (appSharedPreference.getSharedPref((SharedPreferenceConstants.USER_TYPE.toString())).equals(SharedPreferenceConstants.USER_TYPE_SELLER.toString())) {
+                            }
+                            else if (appSharedPreference.getSharedPref((SharedPreferenceConstants.USER_TYPE.toString())).equals(SharedPreferenceConstants.USER_TYPE_SELLER.toString()))
+                            {
                                 tvUserType.setText("Welcome Seller");
 
                                 appSharedPreference.setSharedPref(SharedPreferenceConstants.ORDER_QUANTITY.toString(), order_quantity);
                                 dashboardDatas.add(new DashboardData("", "My Profile", R.drawable.ic_my_profile, R.drawable.circle_teal, false, ""));
 
-                                dashboardDatas.add(new DashboardData("", "Company/Shop List", R.drawable.ic_company_shop_list, R.drawable.circle_deep_pink, true, SharedPreferenceConstants.SHOP_LIST_COUNT.toString()));
+                                dashboardDatas.add(new DashboardData("", "Company/Shop List", R.drawable.ic_company_shop_list, R.drawable.circle_deep_pink, true, result.get("company").getAsString()));
 
 
-                                dashboardDatas.add(new DashboardData("", "Product Management", R.drawable.ic_add_company, R.drawable.circle_purple, false, ""));
+                                dashboardDatas.add(new DashboardData("", "Product Management", R.drawable.ic_add_company, R.drawable.circle_purple, true, result.get("product").getAsString()));
                                 dashboardDatas.add(new DashboardData("", "Service Management", R.drawable.ic_service_management, R.drawable.circle_cherry_red, false, ""));
 
 
                                 dashboardDatas.add(new DashboardData("", "Order", R.drawable.ic_my_order, R.drawable.circle_sienna, true, order_quantity));
 
 
-                                dashboardDatas.add(new DashboardData("", "Enquiry Management", R.drawable.ic_enquiry_management, R.drawable.circle_purple, true, ""));
+                                dashboardDatas.add(new DashboardData("", "Enquiry Management", R.drawable.ic_enquiry_management, R.drawable.circle_purple, true, result.get("enquiry").getAsString()));
                                 dashboardDatas.add(new DashboardData("", "Bank Details", R.drawable.ic_bank_details, R.drawable.circle_cherry_red, false, ""));
 
                                 dashboardDatas.add(new DashboardData("", "Sales Transaction", R.drawable.ic_sales_transaction, R.drawable.circle_purple, false, ""));
