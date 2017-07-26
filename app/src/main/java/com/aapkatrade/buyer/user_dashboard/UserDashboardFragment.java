@@ -64,6 +64,7 @@ public class UserDashboardFragment extends Fragment {
 
                 String profile_video_gif = appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_ViDEO_GIF.toString());
                 Ion.with(imageViewProfileVideo).load(profile_video_gif);
+                Log.e("profile_video_gif-----", profile_video_gif+"");
               /*  Picasso.with(getActivity())
                         .load(appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_VIDEO_THUMBNAIL.toString(), ""))
                         .error(R.drawable.navigation_profile_bg)
@@ -211,6 +212,8 @@ public class UserDashboardFragment extends Fragment {
                             dashboardlist.setLayoutManager(layoutManager);
                             dashboardAdapter = new DashboardAdapter(getActivity(), dashboardDatas);
                             dashboardlist.setAdapter(dashboardAdapter);
+
+
                         }
                     }
 

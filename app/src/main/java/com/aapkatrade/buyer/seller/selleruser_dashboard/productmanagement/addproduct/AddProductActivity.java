@@ -63,7 +63,8 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddProductActivity extends AppCompatActivity {
+public class AddProductActivity extends AppCompatActivity
+{
     private File docFile = new File("");
     private ArrayList<ProductMediaData> productImagesDatas = new ArrayList<>();
     private RecyclerView recyclerView;
@@ -538,9 +539,9 @@ public class AddProductActivity extends AppCompatActivity {
 
                     for (int k = 0; k < 4; k++) {
 
-                        Uri selectedImage = data.getClipData().getItemAt(k).getUri();
+                       // Uri selectedImage = data.getClipData().getItemAt(k).getUri();
 
-                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
+                       /* Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
                         multiple_images.add(bitmap);
 
                         AndroidUtils.showErrorLog(context, "doc", "***START.****** ");
@@ -553,10 +554,12 @@ public class AddProductActivity extends AppCompatActivity {
                             AndroidUtils.showErrorLog(context, "doc", " else doc file path 1");
                             docFile = ImageUtils.getFile(context, bitmap);
                             AndroidUtils.showErrorLog(context, "doc", " else doc file path" + docFile.getAbsolutePath());
-                        }
+                        }*/
 
-                        productImagesDatas.add(new ProductMediaData(docFile.getAbsolutePath(), "", null, ""));
-                        AndroidUtils.showErrorLog(context, "docfile", docFile.getAbsolutePath());
+                        File finalFile = new File(ImageUtils.getRealPathFromURI(context, data.getClipData().getItemAt(k).getUri()));
+
+                        productImagesDatas.add(new ProductMediaData(finalFile.getAbsolutePath(), "", null, ""));
+                        AndroidUtils.showErrorLog(context, "docfile", finalFile.getAbsolutePath());
 
                         adapter.notifyDataSetChanged();
 
@@ -568,13 +571,13 @@ public class AddProductActivity extends AppCompatActivity {
                     }
 
                 } else {
-                    try {
-                        InputStream inputStream = getContentResolver().openInputStream(data.getData());
+
+                       /* InputStream inputStream = getContentResolver().openInputStream(data.getData());
                         Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
                         Uri tempUri = ImageUtils.getImageUri(context, bitmap);
-
+                       */
                         // CALL THIS METHOD TO GET THE ACTUAL PATH
-                        File finalFile = new File(ImageUtils.getRealPathFromURI(context, tempUri));
+                        File finalFile = new File(ImageUtils.getRealPathFromURI(context, data.getData()));
 
                         productImagesDatas.add(new ProductMediaData(finalFile.getAbsolutePath(), "", null, ""));
 
@@ -587,9 +590,7 @@ public class AddProductActivity extends AppCompatActivity {
 
                         }
 
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
+
                 }
             }
             if (requestCode == 10) {

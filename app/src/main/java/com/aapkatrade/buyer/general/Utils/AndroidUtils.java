@@ -79,8 +79,8 @@ public class AndroidUtils {
     }
 
 
-    public static String formateDateFromstring(String inputDate) {
-
+    public static String formateDateFromstring(String inputDate)
+    {
 
         Date parsed = null;
         String outputDate = "";
@@ -99,8 +99,6 @@ public class AndroidUtils {
         return outputDate;
 
     }
-
-
 
     public static void setBackgroundSolid(View layout, Context context, int bgColor, int cornerRadius, int oval) {
         GradientDrawable shape = new GradientDrawable();
