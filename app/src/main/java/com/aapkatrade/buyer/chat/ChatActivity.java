@@ -7,10 +7,14 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.AppSharedPreference;
@@ -19,6 +23,8 @@ import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.Validation;
 import com.aapkatrade.buyer.general.interfaces.CommonInterface;
 import com.aapkatrade.buyer.home.HomeActivity;
+import com.aapkatrade.buyer.home.cart.MyCartActivity;
+import com.aapkatrade.buyer.shopdetail.ShopDetailActivity;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
@@ -62,6 +68,9 @@ public class ChatActivity extends AppCompatActivity {
                 JSONArray list = new JSONArray(jsonarray_string.toString());
 
 
+
+
+
                 for (int k = 0; k < list.length(); k++) {
 
 
@@ -97,9 +106,12 @@ public class ChatActivity extends AppCompatActivity {
 
         }
 
+if(getIntent().getStringExtra("name")!=null ||getIntent().getStringExtra("message")!=null)
+{
+    name = getIntent().getStringExtra("name");
+    message = getIntent().getStringExtra("message");
+}
 
-        name = getIntent().getStringExtra("name");
-        message = getIntent().getStringExtra("message");
 
 
         setupToolBar();
@@ -251,7 +263,34 @@ public class ChatActivity extends AppCompatActivity {
 
 
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
 
+        getMenuInflater().inflate(R.menu.home_menu, menu);
+
+       
+
+
+
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+        switch (id) {
+
+            case android.R.id.home:
+                finish();
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
 
 

@@ -32,6 +32,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.aapkatrade.buyer.chat.ChatActivity;
 import com.aapkatrade.buyer.dialogs.ChatDialogFragment;
 import com.aapkatrade.buyer.dialogs.ServiceEnquiry;
 import com.aapkatrade.buyer.dialogs.track_order.TrackOrderDialog;
@@ -54,6 +55,10 @@ import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
 import com.aapkatrade.buyer.location.Mylocation;
 import com.aapkatrade.buyer.user_dashboard.UserDashboardFragment;
 import com.aapkatrade.buyer.user_dashboard.my_profile.ProfilePreviewActivity;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Ion;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -89,6 +94,7 @@ public class HomeActivity extends AppCompatActivity {
     int home_activity = 1;
     ImageView logoWord;
     RelativeLayout ChatContainer;
+    String chatid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -161,28 +167,6 @@ public class HomeActivity extends AppCompatActivity {
 
         drawer.setup(R.id.fragment, (DrawerLayout) findViewById(R.id.drawer), toolbar);
 
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        getMenuInflater().inflate(R.menu.home_menu, menu);
-
-        final MenuItem alertMenuItem = menu.findItem(R.id.cart_total_item);
-
-        RelativeLayout badgeLayout = (RelativeLayout) alertMenuItem.getActionView();
-
-        tvCartCount = (TextView) badgeLayout.findViewById(R.id.tvCartCount);
-
-        badgeLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onOptionsItemSelected(alertMenuItem);
-            }
-        });
-
-
-        return true;
     }
 
 
@@ -295,7 +279,6 @@ public class HomeActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
             case CheckPermission.MULTIPLE_PERMISSIONS: {
-
 
 
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -515,7 +498,9 @@ public class HomeActivity extends AppCompatActivity {
 
             home_activity = 2;
         } else {
-            tvCartCount.setText(String.valueOf(appSharedPreference.getSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), 0)));
+            if (tvCartCount != null) {
+                tvCartCount.setText(String.valueOf(appSharedPreference.getSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), 0)));
+            }
         }
 
         if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString(), "notlogin") != null) {
@@ -526,7 +511,7 @@ public class HomeActivity extends AppCompatActivity {
             }
         }
 
-        if(NavigationFragment.mDrawerLayout!=null) {
+        if (NavigationFragment.mDrawerLayout != null) {
             NavigationFragment.mDrawerLayout.closeDrawer(Gravity.LEFT, false);
         }
     }
@@ -534,20 +519,76 @@ public class HomeActivity extends AppCompatActivity {
     public void open_chat() {
 
 
-        ChatDialogFragment serviceEnquiry = new ChatDialogFragment(context);
+        chatid = appSharedPreference.getSharedPref(SharedPreferenceConstants.TEMP_CHAT_ID.toString(), "");
+        AndroidUtils.showErrorLog(HomeActivity.this, "%%%%%%%%" + chatid);
+        if (chatid.contains("")) {
+
+            callChatListWebService(chatid);
+
+        } else {
+
+            ChatDialogFragment serviceEnquiry = new ChatDialogFragment(context);
 
 
-        FragmentManager fm = getSupportFragmentManager();
-        serviceEnquiry.show(fm, "enquiry");
+            FragmentManager fm = getSupportFragmentManager();
+            serviceEnquiry.show(fm, "enquiry");
+        }
 
 
     }
 
 
+    private void callChatListWebService(String ChatId) {
 
 
+        progressBarHandler.show();
+
+        String urlValidateUser = getResources().getString(R.string.webservice_base_url) + "/chat_list";
 
 
+        Ion.with(context)
+                .load(urlValidateUser)
+                .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                .setBodyParameter("chat_id", ChatId)
+                .asJsonObject()
+                .setCallback(new FutureCallback<JsonObject>() {
+                    @Override
+                    public void onCompleted(Exception e, JsonObject result) {
+
+
+                        if (result != null) {
+
+                            AndroidUtils.showErrorLog(context, result.toString());
+                            progressBarHandler.hide();
+
+
+                            if (result.get("error").getAsString().contains("false")) {
+
+                                JsonArray jsonarray_result = result.getAsJsonArray("result");
+                                String jsonarray_string = jsonarray_result.toString();
+                                AndroidUtils.showErrorLog(context, "Data Stored", jsonarray_string);
+                                appSharedPreference.setSharedPref(SharedPreferenceConstants.TEMP_CHAT_ID.toString(), chatid);
+
+
+                                Intent i = new Intent(context, ChatActivity.class);
+                                i.putExtra("chatid", chatid);
+                                i.putExtra("className", "");
+                                i.putExtra("jsonarray_string", jsonarray_string);
+
+                                startActivity(i);
+                            }
+
+                        } else {
+                            AndroidUtils.showErrorLog(context, e.toString());
+                            progressBarHandler.hide();
+                        }
+
+                    }
+                });
+
+
+    }
 
 
 }

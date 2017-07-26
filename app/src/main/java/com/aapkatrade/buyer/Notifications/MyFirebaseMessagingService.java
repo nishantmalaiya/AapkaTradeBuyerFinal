@@ -155,6 +155,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 chatDatasNotification.add(new ChatDatas(last_message, name, System.currentTimeMillis(), false));
 
                 ChatActivity.commonInterface.getData(chatDatasNotification);
+                notificationUtils.playNotificationSound();
 
 
             } else {
