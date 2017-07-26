@@ -420,6 +420,7 @@ public class ChatDialogFragment extends DialogFragment {
                                 i.putExtra("token", FirebaseTokenId);
                                 i.putExtra("name", Name);
                                 i.putExtra("message", Questions);
+                                i.putExtra("className", getActivity().getClass().getSimpleName());
 
 
                                 startActivity(i);

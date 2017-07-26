@@ -17,50 +17,128 @@ import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.Validation;
+import com.aapkatrade.buyer.general.interfaces.CommonInterface;
 import com.aapkatrade.buyer.home.HomeActivity;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 public class ChatActivity extends AppCompatActivity {
     RecyclerView recyclerView;
-    ChatAdapter chatAdapter;
+   public static ChatAdapter chatAdapter;
     Context context;
-    ArrayList<ChatDatas> chatDatas = new ArrayList<>();
+   public static ArrayList<ChatDatas> chatDatas = new ArrayList<>();
+    ArrayList<ChatDatas> chatDatas2 = new ArrayList<>();
+    ArrayList<ChatDatas> chatDatasN = new ArrayList<>();
     EditText etchatmessage;
     Button btnSend;
-    String chatid, emailphone, token, name, message;
+    String chatid, chat_ids, name, message, jsonarray_string, className;
+
+    public static CommonInterface commonInterface;
 
     AppSharedPreference appSharedPreference;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+        context = this;
         chatid = getIntent().getStringExtra("chatid");
+        className = getIntent().getStringExtra("className");
+        AndroidUtils.showErrorLog(context, "className", className);
 
-        emailphone = getIntent().getStringExtra("emailphone");
-        token = getIntent().getStringExtra("token");
+
+        if (getIntent().getStringExtra("jsonarray_string") != null) {
+            jsonarray_string = getIntent().getStringExtra("jsonarray_string");
+            AndroidUtils.showErrorLog(context, "jsonarray_string", jsonarray_string);
+            try {
+                JSONArray list = new JSONArray(jsonarray_string.toString());
+
+
+                for (int k = 0; k < list.length(); k++) {
+
+
+                    JSONObject jsonObject = list.getJSONObject(k);
+
+                    String message = jsonObject.get("msg").toString();
+                    name = jsonObject.get("name_support").toString();
+                    String user_id = jsonObject.get("user_id").toString();
+                    chat_ids = jsonObject.get("chat_id").toString();
+
+                    boolean you;
+
+                    if (user_id.contains("1")) {
+
+                        you = true;
+
+
+                    } else {
+
+                        you = false;
+
+                    }
+                    long time = Long.parseLong(jsonObject.get("time").toString());
+
+                    chatDatas.add(new ChatDatas(message, name, time, you));
+                    chatAdapter = new ChatAdapter(context, chatDatas);
+                    chatAdapter.notifyDataSetChanged();
+
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+
         name = getIntent().getStringExtra("name");
         message = getIntent().getStringExtra("message");
 
-        context = this;
+
         setupToolBar();
 
         initView();
 
         setupRecyclerView();
+        if (className.contains("HomeActivity")) {
 
+            initChat();
+
+        }
 
         clickEvents();
-        initChat();
+
+
+        commonInterface = new CommonInterface() {
+            @Override
+            public Object getData(Object object) {
+
+
+                chatDatas2 = (ArrayList<ChatDatas>) object;
+
+                chatDatas.add(new ChatDatas(chatDatas2.get(0).message, chatDatas2.get(0).name, chatDatas2.get(0).timestamp, false));
+                chatAdapter.notifyDataSetChanged();
+                recyclerView.smoothScrollToPosition(chatDatas.size());
+                AndroidUtils.showErrorLog(context, "***************", chatDatas.size() + chatDatas.toString());
+
+
+                return null;
+            }
+        };
+
     }
+
 
     private void initChat() {
 
-        ChatDatas myData = new ChatDatas(message, name, Long.parseLong("" + System.currentTimeMillis()), true, token, emailphone);
+        ChatDatas myData = new ChatDatas(message, name, Long.parseLong("" + System.currentTimeMillis()), false);
         chatDatas.add(myData);
         add_message(chatDatas);
     }
@@ -92,10 +170,9 @@ public class ChatActivity extends AppCompatActivity {
                 .load(callwebservicechat)
                 .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                 .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
-                .setBodyParameter("emailphone", emailphone)
-                .setBodyParameter("name", name)
+
                 .setBodyParameter("message", s)
-                .setBodyParameter("token", token)
+
                 .setBodyParameter("chat_id", chatid)
                 .asJsonObject()
                 .setCallback(new FutureCallback<JsonObject>() {
@@ -106,8 +183,8 @@ public class ChatActivity extends AppCompatActivity {
                         if (result != null) {
 
                             AndroidUtils.showErrorLog(ChatActivity.this, "Response Chat Activity", result.toString());
-                            ChatDatas myData = new ChatDatas(s, name, Long.parseLong("" + System.currentTimeMillis()), true, token, emailphone);
-                            chatDatas.add(myData);
+
+                            chatDatas.add(new ChatDatas(s, name, Long.parseLong("" + System.currentTimeMillis()), false));
                             add_message(chatDatas);
 
 
@@ -162,17 +239,20 @@ public class ChatActivity extends AppCompatActivity {
     }
 
 
-    public void add_message(ArrayList<ChatDatas> chatDatas)
+    public void add_message(ArrayList<ChatDatas> chatDatas2)
 
 
     {
+        if (chatAdapter != null) {
 
-
-        chatAdapter.notifyDataSetChanged();
-        recyclerView.smoothScrollToPosition(this.chatDatas.size());
+            chatAdapter.notifyDataSetChanged();
+            recyclerView.smoothScrollToPosition(chatDatas2.size());
+        }
 
 
     }
+
+
 
 
 }

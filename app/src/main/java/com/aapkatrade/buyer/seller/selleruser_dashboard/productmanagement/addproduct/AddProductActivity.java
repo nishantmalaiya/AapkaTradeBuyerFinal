@@ -108,7 +108,6 @@ public class AddProductActivity extends AppCompatActivity {
         setupSpinner();
 
 
-
     }
 
     private void setupSpinner() {
