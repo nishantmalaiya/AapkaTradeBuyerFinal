@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.AppSharedPreference;
 
+import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.Validation;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
@@ -64,7 +65,7 @@ public class UserDashboardFragment extends Fragment {
 
                 String profile_video_gif = appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_ViDEO_GIF.toString());
                 Ion.with(imageViewProfileVideo).load(profile_video_gif);
-                Log.e("profile_video_gif-----", profile_video_gif+"");
+                Log.e("profile_video_gif-----", profile_video_gif + "");
               /*  Picasso.with(getActivity())
                         .load(appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_VIDEO_THUMBNAIL.toString(), ""))
                         .error(R.drawable.navigation_profile_bg)
@@ -145,8 +146,7 @@ public class UserDashboardFragment extends Fragment {
 
     }
 
-    public void userdata_webservice(String url, final String user_type, String user_id)
-    {
+    public void userdata_webservice(String url, final String user_type, String user_id) {
         Log.e("url", url);
         Log.e("user_type", user_type);
         Log.e("user_id", user_id);
@@ -161,19 +161,14 @@ public class UserDashboardFragment extends Fragment {
                 .setCallback(new FutureCallback<JsonObject>() {
                     @Override
                     public void onCompleted(Exception e, JsonObject result) {
-                        Log.e("result_myProfile", result.toString());
-                        if (result == null) {
-                            Log.e("result_myProfile", result.toString());
-                            progressBarHandler.hide();
-                        } else {
-
-                            progressBarHandler.hide();
-                            Log.e("result_myProfile", "result_myProfile is not null ");
+                        AndroidUtils.showErrorLog(getContext(), "result_myProfile", result);
+                        progressBarHandler.hide();
+                        if (result != null) {
+                            AndroidUtils.showErrorLog(getContext(), "result_myProfile", "result_myProfile is not null ");
                             String order_quantity = result.get("order").getAsString();
 
 
-                            if (appSharedPreference.getSharedPref((SharedPreferenceConstants.USER_TYPE.toString())).equals(SharedPreferenceConstants.USER_TYPE_BUYER.toString()))
-                            {
+                            if (appSharedPreference.getSharedPref((SharedPreferenceConstants.USER_TYPE.toString())).equals(SharedPreferenceConstants.USER_TYPE_BUYER.toString())) {
                                 tvUserType.setText("Welcome Buyer");
                                 appSharedPreference.setSharedPref(SharedPreferenceConstants.ORDER_QUANTITY.toString(), order_quantity);
                                 dashboardDatas.add(new DashboardData("", "My Profile", R.drawable.ic_my_profile, R.drawable.circle_teal, false, ""));
@@ -181,9 +176,7 @@ public class UserDashboardFragment extends Fragment {
                                 dashboardDatas.add(new DashboardData("", "Order", R.drawable.ic_my_order, R.drawable.circle_sienna, true, order_quantity));
 
 
-                            }
-                            else if (appSharedPreference.getSharedPref((SharedPreferenceConstants.USER_TYPE.toString())).equals(SharedPreferenceConstants.USER_TYPE_SELLER.toString()))
-                            {
+                            } else if (appSharedPreference.getSharedPref((SharedPreferenceConstants.USER_TYPE.toString())).equals(SharedPreferenceConstants.USER_TYPE_SELLER.toString())) {
                                 tvUserType.setText("Welcome Seller");
 
                                 appSharedPreference.setSharedPref(SharedPreferenceConstants.ORDER_QUANTITY.toString(), order_quantity);

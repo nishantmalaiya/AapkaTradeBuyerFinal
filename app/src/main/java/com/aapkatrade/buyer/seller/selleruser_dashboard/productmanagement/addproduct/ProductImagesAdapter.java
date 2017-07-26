@@ -83,7 +83,7 @@ public class ProductImagesAdapter extends RecyclerView.Adapter<RecyclerView.View
                             ((AddCompanyShopActivity) activity).picPhoto();
                         } else if (activity instanceof EditCompanyShopActivity) {
                             ((EditCompanyShopActivity) activity).picPhoto();
-                        }else if (activity instanceof EditProductActivity) {
+                        } else if (activity instanceof EditProductActivity) {
                             ((EditProductActivity) activity).picPhoto();
                         }
 
@@ -138,10 +138,16 @@ public class ProductImagesAdapter extends RecyclerView.Adapter<RecyclerView.View
                 homeHolder.cancelImage.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        EditCompanyShopActivity.productMediaDatasDelete.add(itemList.get(position));
-                        itemList.remove(position);
-                        notifyDataSetChanged();
-//                        commonInterface.getData();
+                        if (activity instanceof EditCompanyShopActivity) {
+                            EditCompanyShopActivity.productMediaDatasDelete.add(itemList.get(position));
+                            itemList.remove(position);
+                            notifyDataSetChanged();
+                        } else if (activity instanceof EditProductActivity) {
+                            EditProductActivity.productMediaDatasDelete.add(itemList.get(position));
+                            itemList.remove(position);
+                            notifyDataSetChanged();
+                        }
+
                     }
                 });
                 AndroidUtils.showErrorLog(context, "data-----------" + itemList);

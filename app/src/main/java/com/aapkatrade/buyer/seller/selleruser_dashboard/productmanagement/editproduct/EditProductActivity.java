@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
@@ -59,9 +60,13 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 public class EditProductActivity extends AppCompatActivity {
@@ -78,17 +83,12 @@ public class EditProductActivity extends AppCompatActivity {
     private Context context;
     private Spinner spUnitCategory;
     private PagingSpinner pagingSpinner;
-    private ArrayList<City> cityList = new ArrayList<>();
     private ArrayList<City> unitList = new ArrayList<>();
     private String unitID, dynamicFormData, productId = "0", productName, price, discount, shortDescription, maxOrderQuantity, weight, width, height, length;
     private ArrayList<DynamicFormEntity> dynamicFormEntityArrayList = new ArrayList<>();
     private LinearLayout llSellerProductDetailContainer;
-    int page = 0, totalPage = 0, companyPosition = 0;
-    public static CommonInterface commonInterface = null;
-
-    ArrayList<CompanyDropdownDatas> companyDropdownDatas = new ArrayList<>();
-    CustomSpinnerAdapter customSpinnerAdapter;
-
+    public static ArrayList<ProductMediaData> productMediaDatasDelete = new ArrayList<>();
+    private ArrayList<String> imageUrlList = new ArrayList<>();
     private boolean isAllFieldsSet = true;
 
 
@@ -146,23 +146,65 @@ public class EditProductActivity extends AppCompatActivity {
                                 etProductWidth.setText(width);
                                 etProductLength.setText(length);
                                 etDescription.setText(shortDescription);
-                                if(Validation.isNumber(unitID) && unitList.size()>=(Integer.valueOf(unitID)-1)){
+                                if (Validation.isNumber(unitID) && unitList.size() >= (Integer.valueOf(unitID) - 1)) {
                                     spUnitCategory.setSelection(Integer.valueOf(unitID));
                                 }
 
                                 JsonArray imageJsonArray = jsonObject.get("images").getAsJsonArray();
-                                if (imageJsonArray != null && imageJsonArray.size() > 0) {
-                                    for (int i = 0; i < imageJsonArray.size(); i++) {
-                                        JsonObject imageObject = imageJsonArray.get(i).getAsJsonObject();
-                                        String imageUrl = imageObject.get("image_url").getAsString();
-                                        if(Validation.isNonEmptyStr(imageUrl)) {
-                                            productImagesDataArrayList.add(new ProductMediaData("", imageUrl, null, ""));
-                                        }
-                                    }
-                                    if(adapter != null) {
-                                        adapter.notifyDataSetChanged();
+
+
+                                for (int i = 0; i < imageJsonArray.size(); i++) {
+                                    JsonObject imageObject = imageJsonArray.get(i).getAsJsonObject();
+                                    String imageUrl = imageObject.get("image_url").getAsString();
+                                    if (Validation.isNonEmptyStr(imageUrl)) {
+                                        AndroidUtils.showErrorLog(context, "imagepathurl---------------------" + imageUrl);
+                                        imageUrlList.add(imageUrl);
                                     }
                                 }
+
+                                if (imageUrlList.size() > 0) {
+                                    for (int i = 0; i < imageUrlList.size(); i++) {
+                                        AndroidUtils.showErrorLog(context, "downloadImage---------------------" + imageUrlList.get(i));
+                                        downloadImage(i);
+                                    }
+                                }
+
+
+                                JsonArray jsonResultArray = jsonObject.get("dynamic").getAsJsonArray();
+                                if (jsonResultArray != null && jsonResultArray.size() > 0) {
+
+                                    for (int i = 0; i < jsonResultArray.size(); i++) {
+                                        JsonObject jsonObject1 = (JsonObject) jsonResultArray.get(i);
+                                        DynamicFormEntity dynamicFormEntity = new DynamicFormEntity();
+                                        dynamicFormEntity.setMultiple(false);
+                                        dynamicFormEntity.setName(jsonObject1.get("name").getAsString());
+                                        dynamicFormEntity.setLabel(jsonObject1.get("label").getAsString());
+                                        dynamicFormEntity.setType(jsonObject1.get("type").getAsString());
+                                        if (jsonObject1.get("is_multiple").getAsString().contains("true")) {
+                                            dynamicFormEntity.setMultiple(true);
+                                            if (jsonObject1.get("value") != null) {
+                                                JsonArray multipleValueArray = jsonObject1
+                                                        .get("value").getAsJsonArray();
+                                                if (multipleValueArray != null && multipleValueArray.size() > 0) {
+                                                    for (int j = 0; j < multipleValueArray.size(); j++) {
+                                                        JsonObject jsonObject2 = (JsonObject) multipleValueArray.get(j);
+                                                        dynamicFormEntity.addToFormValueArrayList(new FormValue(jsonObject2.get("name").getAsString(), jsonObject2.get("value").getAsString()));
+                                                    }
+                                                }
+                                            }
+                                        } else {
+                                            dynamicFormEntity.addToFormValueArrayList(new FormValue(jsonObject1.get("label") == null ? "" : jsonObject1.get("label").getAsString(), jsonObject1.get("value") == null ? "" : jsonObject1.get("value").getAsString()));
+                                        }
+                                        dynamicFormEntityArrayList.add(dynamicFormEntity);
+                                    }
+                                    AndroidUtils.showErrorLog(context, "dynamicFormEntityArrayList size : " + dynamicFormEntityArrayList.size(), dynamicFormEntityArrayList.toString());
+
+                                } else {
+                                    AndroidUtils.showErrorLog(context, "jsonResultArray is null or jsonResultArray.size == 0");
+                                }
+                                createDynamicForm();
+
+
                             } else {
                                 AndroidUtils.showErrorLog(context, "loadProductDataWebService -----> error -> true");
                             }
@@ -173,64 +215,94 @@ public class EditProductActivity extends AppCompatActivity {
     }
 
 
-    private void loadDynamicForm(final String shopId) {
-
-        AndroidUtils.showErrorLog(context, "     shop_id     ", shopId == null ? "0" : shopId);
+    private void downloadImage(final int index) {
         progressBarHandler.show();
-        Ion.with(context)
-                .load(new StringBuilder(getString(R.string.webservice_base_url)).append("/list_formdata").toString())
-                .setHeader("Authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
-                .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
-                .setBodyParameter("shop_id", shopId == null ? "0" : shopId)
-                .asJsonObject()
-                .setCallback(new FutureCallback<JsonObject>() {
+
+        Ion.with(this).load(imageUrlList.get(index)).withBitmap().asBitmap()
+                .setCallback(new FutureCallback<Bitmap>() {
                     @Override
-                    public void onCompleted(Exception e, JsonObject result) {
+                    public void onCompleted(Exception e, Bitmap result) {
                         progressBarHandler.hide();
-                        AndroidUtils.showErrorLog(context, "--------list_formdata-------", result);
-                        if (result != null) {
-                            if (result.get("status").getAsString().contains("true")) {
-                                JsonArray jsonResultArray = result.get("result").getAsJsonArray();
-                                AndroidUtils.showErrorLog(context, "YYYYYYYYYYYYYYYYYYYYYYYYY" + shopId, jsonResultArray);
-                                if (jsonResultArray != null && jsonResultArray.size() > 0) {
-
-                                    for (int i = 0; i < jsonResultArray.size(); i++) {
-                                        JsonObject jsonObject = (JsonObject) jsonResultArray.get(i);
-                                        DynamicFormEntity dynamicFormEntity = new DynamicFormEntity();
-                                        dynamicFormEntity.setMultiple(false);
-                                        dynamicFormEntity.setName(jsonObject.get("name").getAsString());
-                                        dynamicFormEntity.setLabel(jsonObject.get("label").getAsString());
-                                        dynamicFormEntity.setType(jsonObject.get("type").getAsString());
-                                        if (jsonObject.get("is_multiple").getAsString().contains("true")) {
-                                            dynamicFormEntity.setMultiple(true);
-                                            if (jsonObject.get("value") != null) {
-                                                JsonArray multipleValueArray = jsonObject
-                                                        .get("value").getAsJsonArray();
-                                                if (multipleValueArray != null && multipleValueArray.size() > 0) {
-                                                    for (int j = 0; j < multipleValueArray.size(); j++) {
-                                                        JsonObject jsonObject1 = (JsonObject) multipleValueArray.get(j);
-                                                        dynamicFormEntity.addToFormValueArrayList(new FormValue(jsonObject1.get("name").getAsString(), jsonObject1.get("value").getAsString()));
-                                                    }
-                                                }
-                                            }
-                                        } else {
-                                            dynamicFormEntity.addToFormValueArrayList(new FormValue(jsonObject.get("label") == null ? "" : jsonObject.get("label").getAsString(), jsonObject.get("value") == null ? "" : jsonObject.get("value").getAsString()));
-                                        }
-                                        dynamicFormEntityArrayList.add(dynamicFormEntity);
-                                    }
-                                    AndroidUtils.showErrorLog(context, "dynamicFormEntityArrayList size : " + dynamicFormEntityArrayList.size(), dynamicFormEntityArrayList.toString());
-
-                                } else {
-                                    AndroidUtils.showErrorLog(context, "jsonResultArray is null or jsonResultArray.size == 0");
-                                }
-                            }
-                            createDynamicForm();
+                        // do something with your bitmap
+                        if (result == null) {
+                            AndroidUtils.showErrorLog(context, "Problems in downloading image result == null.");
                         } else {
-                            AndroidUtils.showErrorLog(context, "list formdata showErrorLog", e.toString());
+                            storeImage(result, index);
                         }
                     }
                 });
+
+
     }
+
+
+    private void storeImage(Bitmap image, int index) {
+        File pictureFile = getOutputMediaFile(index);
+        if (pictureFile == null) {
+            AndroidUtils.showErrorLog(context, "Error creating media file, check storage permissions: ");// e.getMessage());
+            return;
+        }
+        try {
+            FileOutputStream fos = new FileOutputStream(pictureFile);
+            image.compress(Bitmap.CompressFormat.PNG, 100, fos);
+            fos.close();
+        } catch (FileNotFoundException e) {
+            AndroidUtils.showErrorLog(context, "File not found: " + e.getMessage());
+        } catch (IOException e) {
+            AndroidUtils.showErrorLog(context, "Error accessing file: " + e.getMessage());
+        }
+        AndroidUtils.showErrorLog(context, "Image file exists with path-------------- : ", pictureFile.getAbsolutePath());// e.getMessage());
+
+        productImagesDataArrayList.add(new ProductMediaData(pictureFile.getAbsolutePath(), "", null, ""));
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        AndroidUtils.showErrorLog(context, "________________^^^^^^^onDestroyonDestroyonDestroy^^^^^^^^^_________________");
+        File mediaStorageDir = new File(Environment.getExternalStorageDirectory()
+                + "/Android/data/"
+                + getApplicationContext().getPackageName()
+                + "/Files");
+
+        if (mediaStorageDir.isDirectory()) {
+            String[] children = mediaStorageDir.list();
+            for (String aChildren : children) {
+                AndroidUtils.showErrorLog(context, "________________^^^^^^^onDestroyonDestroyonDestroy^^^^^^^^^Entry_________________");
+
+                new File(mediaStorageDir, aChildren).delete();
+            }
+        }
+    }
+
+    private File getOutputMediaFile(int index) {
+        File mediaStorageDir = new File(Environment.getExternalStorageDirectory()
+                + "/Android/data/"
+                + getApplicationContext().getPackageName()
+                + "/Files");
+
+        if (!mediaStorageDir.exists()) {
+            if (!mediaStorageDir.mkdirs()) {
+                return null;
+            }
+        }
+        File mediaFile;
+        String mImageName = getFileName(imageUrlList.get(index));
+        mediaFile = new File(mediaStorageDir.getPath() + File.separator + mImageName);
+        return mediaFile;
+    }
+
+    private String getFileName(String s) {
+        if (Validation.isNonEmptyStr(s)) {
+            String s1[] = s.split("/");
+            String s2 = s1[s1.length - 1];
+            return s2;
+        }
+        return new SimpleDateFormat("ddMMyyyy_HHmm").format(new Date());
+    }
+
+
 
     private void createDynamicForm() {
         if (dynamicFormEntityArrayList != null && dynamicFormEntityArrayList.size() > 0) {
@@ -314,11 +386,13 @@ public class EditProductActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                validateFields();
-                AndroidUtils.showErrorLog(context, "isAllFieldsSet............." + isAllFieldsSet);
-                if (isAllFieldsSet) {
-                    callAddProductWebservice();
-                }
+               /* validateFields();
+                AndroidUtils.showErrorLog(context, "isAllFieldsSet............." + isAllFieldsSet);*/
+                AndroidUtils.showErrorLog(context, "productImagesDataArrayList............." + submitImages().size());
+
+                AndroidUtils.showErrorLog(context, "productMediaDatasDeleteList............." ,  submitDeletedImages() == null? "no delter list":submitDeletedImages().size());
+                AndroidUtils.showErrorLog(context, "getDynamicSelectedData............." +  getDynamicSelectedData());
+
             }
         });
 
@@ -326,6 +400,8 @@ public class EditProductActivity extends AppCompatActivity {
         pagingSpinner.setShopType(1);
         pagingSpinner.setSellerId(appSharedpreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString()));
         pagingSpinner.setShopData(productId);
+
+
     }
 
     private void validateFields() {
@@ -592,7 +668,7 @@ public class EditProductActivity extends AppCompatActivity {
 
                         Uri selectedImage = data.getClipData().getItemAt(k).getUri();
 
-                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
+                   /*     Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
                         multiple_images.add(bitmap);
 
                         AndroidUtils.showErrorLog(context, "doc", "***START.****** ");
@@ -605,10 +681,12 @@ public class EditProductActivity extends AppCompatActivity {
                             AndroidUtils.showErrorLog(context, "doc", " else doc file path 1");
                             docFile = ImageUtils.getFile(context, bitmap);
                             AndroidUtils.showErrorLog(context, "doc", " else doc file path" + docFile.getAbsolutePath());
-                        }
+                        }*/
 
-                        productImagesDataArrayList.add(new ProductMediaData(docFile.getAbsolutePath(), "", null, ""));
-                        AndroidUtils.showErrorLog(context, "docfile", docFile.getAbsolutePath());
+                        File finalFile = new File(ImageUtils.getRealPathFromURI(context, data.getClipData().getItemAt(k).getUri()));
+
+                        productImagesDataArrayList.add(new ProductMediaData(finalFile.getAbsolutePath(), "", null, ""));
+                        AndroidUtils.showErrorLog(context, "docfile", finalFile.getAbsolutePath());
 
                         adapter.notifyDataSetChanged();
 
@@ -620,13 +698,12 @@ public class EditProductActivity extends AppCompatActivity {
                     }
 
                 } else {
-                    try {
-                        InputStream inputStream = getContentResolver().openInputStream(data.getData());
+                       /* InputStream inputStream = getContentResolver().openInputStream(data.getData());
                         Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
                         Uri tempUri = ImageUtils.getImageUri(context, bitmap);
-
+*/
                         // CALL THIS METHOD TO GET THE ACTUAL PATH
-                        File finalFile = new File(ImageUtils.getRealPathFromURI(context, tempUri));
+                        File finalFile = new File(ImageUtils.getRealPathFromURI(context, data.getData()));
 
                         productImagesDataArrayList.add(new ProductMediaData(finalFile.getAbsolutePath(), "", null, ""));
 
@@ -638,21 +715,17 @@ public class EditProductActivity extends AppCompatActivity {
                             recyclerView.setVisibility(View.VISIBLE);
 
                         }
-
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
                 }
             }
             if (requestCode == 10) {
-                AndroidUtils.showErrorLog(context, "docfile10", "Sachin sdnsdfjsd fsdjfsd fnmsdabf");
+                /*AndroidUtils.showErrorLog(context, "docfile10", "Sachin sdnsdfjsd fsdjfsd fnmsdabf");
 
                 Bitmap photo = (Bitmap) data.getExtras().get("data");
 
                 Uri tempUri = ImageUtils.getImageUri(context, photo);
-
+*/
                 // CALL THIS METHOD TO GET THE ACTUAL PATH
-                File finalFile = new File(ImageUtils.getRealPathFromURI(context, tempUri));
+                File finalFile = new File(ImageUtils.getRealPathFromURI(context, data.getData()));
 
                 productImagesDataArrayList.add(new ProductMediaData(finalFile.getAbsolutePath(), "", null, ""));
                 AndroidUtils.showErrorLog(context, "docfile", finalFile.getAbsolutePath());
@@ -668,6 +741,32 @@ public class EditProductActivity extends AppCompatActivity {
         }
 
     }
+
+    private List<Part> submitDeletedImages() {
+        List<Part> files = Collections.synchronizedList(new ArrayList<Part>());
+
+        if (productMediaDatasDelete != null && productMediaDatasDelete.size() > 0) {
+            for (int k = 0; k < productMediaDatasDelete.size(); k++) {
+                ProductMediaData file = productMediaDatasDelete.get(k);
+                if (!file.isVideo) {
+
+                    for (int i = 0; i < imageUrlList.size(); i++) {
+                        AndroidUtils.showErrorLog(context, "------Compare--imageUrlList.get(i)------->"+imageUrlList.get(i).split("/")[imageUrlList.get(i).split("/").length - 1]+ "-------file.imagePath---------->"+file.imagePath.split("/")[file.imagePath.split("/").length - 1]);
+
+                        if (!file.imagePath.split("/")[file.imagePath.split("/").length - 1].equals(imageUrlList.get(i).split("/")[imageUrlList.get(i).split("/").length - 1])) {
+                            continue;
+                        }
+                        files.add(new FilePart("delimg[]", savebitmap(file.imagePath)));
+                        AndroidUtils.showErrorLog(context, "---------------------------------))))))((((((", files.toArray());
+
+                    }
+                }
+            }
+            return files;
+        }
+        return null;
+    }
+
 
     private File savebitmap(String filePath) {
         File file = new File(filePath);
@@ -702,7 +801,7 @@ public class EditProductActivity extends AppCompatActivity {
                 ProductMediaData file = productImagesDataArrayList.get(i);
                 if (!file.isVideo) {
                     files.add(new FilePart("image[]", savebitmap(file.imagePath)));
-                    AndroidUtils.showErrorLog(context, files.toArray().toString());
+                    AndroidUtils.showErrorLog(context, files.toArray());
                 }
             }
             return files;
