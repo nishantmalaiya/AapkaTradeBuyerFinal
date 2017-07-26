@@ -39,14 +39,18 @@ public class AndroidUtils {
     public static String BaseUrl = "https://aapkatrade.com";
 
     public static void showSnackBar(ViewGroup layout, String message) {
-        CustomSnackBar snackbar = CustomSnackBar.Builder(layout.getContext())
-                .layout(R.layout.my_toast)
-                .background(R.color.green)
-                .duration(CustomSnackBar.LENGTH.SHORT)
-                .swipe(true)
-                .build(layout);
-        snackbar.setText(message);
-        snackbar.show();
+        if(layout!=null) {
+            CustomSnackBar snackbar = CustomSnackBar.Builder(layout.getContext())
+                    .layout(R.layout.my_toast)
+                    .background(R.color.green)
+                    .duration(CustomSnackBar.LENGTH.SHORT)
+                    .swipe(true)
+                    .build(layout);
+            snackbar.setText(message);
+            snackbar.show();
+        } else {
+            Log.e("showSnackBarError", " : showSnackBar Layout is Null.");
+        }
     }
 
 

@@ -16,7 +16,6 @@ import android.widget.ImageView;
 
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.dialogs.Seller_Update_Product_Policy;
-import com.aapkatrade.buyer.dialogs.ServiceEnquiry;
 import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
@@ -34,7 +33,7 @@ import java.util.ArrayList;
 
 public class ProductManagementActivity extends AppCompatActivity {
 
-    private ArrayList<ProductListData> productListDataArrayList = new ArrayList<>();
+    private ArrayList<ProductListData> productArrayList = new ArrayList<>();
     private RecyclerView recyclerView;
     private ProductListAdapter productListAdapter;
     private ProgressBarHandler progressBarHandler;
@@ -54,14 +53,13 @@ public class ProductManagementActivity extends AppCompatActivity {
         context = ProductManagementActivity.this;
         setUpToolBar();
         initview();
-        setUpRecyclerView();
         hitProductListWebService(++page);
         onScrollEvents();
     }
 
     private void setUpRecyclerView() {
         recyclerView.setLayoutManager(linearLayoutManager);
-        productListAdapter = new ProductListAdapter(ProductManagementActivity.this, productListDataArrayList);
+        productListAdapter = new ProductListAdapter(context, productArrayList);
         recyclerView.setAdapter(productListAdapter);
     }
 
@@ -69,7 +67,7 @@ public class ProductManagementActivity extends AppCompatActivity {
         progressBarHandler = new ProgressBarHandler(context);
         appSharedPreference = new AppSharedPreference(context);
         userID = appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), "");
-        AndroidUtils.showErrorLog(context, "+++++++++++++-----------USERID----------------++++++++++"+userID);
+        AndroidUtils.showErrorLog(context, "+++++++++++++-----------USERID----------------++++++++++" + userID);
         imgShopType = (ImageView) findViewById(R.id.btnAdd_shop);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
         linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
@@ -90,8 +88,8 @@ public class ProductManagementActivity extends AppCompatActivity {
                 super.onScrolled(recyclerView, dx, dy);
                 int totalItemCount = linearLayoutManager.getItemCount();
                 int lastVisibleItemCount = linearLayoutManager.findLastVisibleItemPosition();
-                AndroidUtils.showErrorLog(context, "++++++totalItemCount++++++"+totalItemCount, "_________lastVisibleItemCount___________"+lastVisibleItemCount);
-                if (totalItemCount > 0 && totalPage>page) {
+                AndroidUtils.showErrorLog(context, "++++++totalItemCount++++++" + totalItemCount, "_________lastVisibleItemCount___________" + lastVisibleItemCount);
+                if (totalItemCount > 0 && totalPage > page) {
                     if ((totalItemCount - 1) == lastVisibleItemCount) {
                         hitProductListWebService(++page);
                     }
@@ -169,10 +167,16 @@ public class ProductManagementActivity extends AppCompatActivity {
 
                                 for (int i = 0; i < jsonArray.size(); i++) {
                                     JsonObject jsonObject = (JsonObject) jsonArray.get(i);
-                                    productListDataArrayList.add(new ProductListData(jsonObject.get("id").getAsString(), jsonObject.get("name").getAsString(), jsonObject.get("image_url").getAsString(), jsonObject.get("category_name").getAsString(), jsonObject.get("state_name").getAsString(), jsonObject.get("company_name").getAsString(), jsonObject.get("status").getAsString()));
+                                    productArrayList.add(new ProductListData(jsonObject.get("id").getAsString(), jsonObject.get("name").getAsString(), jsonObject.get("image_url").getAsString(), jsonObject.get("category_name").getAsString(), jsonObject.get("state_name").getAsString(), jsonObject.get("company_name").getAsString(), jsonObject.get("status").getAsString()));
                                 }
-                                productListAdapter.notifyDataSetChanged();
-                                totalPage = result.get("total_page").getAsInt();
+
+                                if (productListAdapter == null) {
+                                    setUpRecyclerView();
+                                    totalPage = result.get("total_page").getAsInt();
+                                } else {
+                                    productListAdapter.notifyDataSetChanged();
+                                }
+
                             }
                         }
 
@@ -183,11 +187,5 @@ public class ProductManagementActivity extends AppCompatActivity {
 
     }
 
-    public  void fragment_call(String product_id)
-    {
-        Seller_Update_Product_Policy seller_update_product_policy = new Seller_Update_Product_Policy(product_id, context);
-        FragmentManager fm = getSupportFragmentManager();
-        seller_update_product_policy.show(fm, "enquiry");
-    }
 
 }

@@ -87,7 +87,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         homeHolder.tvProductCategoryName.setText(itemList.get(position).category_name);
         homeHolder.tvProductShopName.setText(itemList.get(position).shop_name);
         homeHolder.tvProductStateName.setText(itemList.get(position).State_name);
-
+        AndroidUtils.showErrorLog(context, "--------------------------------url"+itemList.get(position).product_image);
         Ion.with(context)
                 .load(itemList.get(position).product_image)
                 .withBitmap().asBitmap()
@@ -104,8 +104,9 @@ public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             @Override
             public void onClick(View v)
             {
-                Intent edit_product = new Intent(context, EditProductActivity.class);
-                context.startActivity(edit_product);
+                Intent editProductIntent = new Intent(context, EditProductActivity.class);
+                editProductIntent.putExtra("productId", itemList.get(position).product_id);
+                context.startActivity(editProductIntent);
             }
         });
 

@@ -40,6 +40,7 @@ import com.aapkatrade.buyer.home.buyerregistration.entity.City;
 import com.aapkatrade.buyer.home.buyerregistration.spinner_adapter.SpCityAdapter;
 import com.aapkatrade.buyer.general.Utils.ImageUtils;
 import com.aapkatrade.buyer.home.HomeActivity;
+import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.ProductManagementActivity;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.addproduct.entity.DynamicFormEntity;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.addproduct.entity.FormValue;
 import com.aapkatrade.buyer.uicomponent.customchecklist.CustomCheckList;
@@ -682,7 +683,6 @@ public class AddProductActivity extends AppCompatActivity
                 .setMultipartParameter("width", etProductWidth.getText() == null ? "0" : etProductWidth.getText().toString())
                 .setMultipartParameter("height", etProductHeight.getText() == null ? "0" : etProductHeight.getText().toString())
                 .setMultipartParameter("dynamic", Validation.isEmptyStr(dynamicFormData) ? "[]" : dynamicFormData)
-
                 .asJsonObject().setCallback(new FutureCallback<JsonObject>() {
             @Override
             public void onCompleted(Exception e, JsonObject result) {
@@ -694,7 +694,9 @@ public class AddProductActivity extends AppCompatActivity
                     if (result.get("error").getAsString().contains("false")) {
                         AndroidUtils.showToast(context, result.get("message").getAsString());
                         if (Validation.containsIgnoreCase(result.get("message").getAsString(), "Added") || Validation.containsIgnoreCase(result.get("message").getAsString(), "Successfully")) {
-                            onBackPressed();
+                            finish();
+                            Intent intent = new Intent(context, ProductManagementActivity.class);
+                            startActivity(intent);
                         }
                     }
                 } else {
