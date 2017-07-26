@@ -19,7 +19,12 @@ import com.aapkatrade.buyer.general.Validation;
 import com.aapkatrade.buyer.general.interfaces.CommonInterface;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.addproduct.CompanyDropdownDatas;
+import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.addproduct.ProductMediaData;
 import com.aapkatrade.buyer.uicomponent.pagingspinner.dialog.PagingSpinnerDialog;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Ion;
 import com.squareup.picasso.Picasso;
 
 /**
@@ -60,8 +65,6 @@ public class PagingSpinner extends RelativeLayout {
         super(context, attrs, defStyleAttr, defStyleRes);
         this.context = context;
         init();
-
-
     }
 
     protected void init() {
@@ -152,6 +155,54 @@ public class PagingSpinner extends RelativeLayout {
 
     public String getShopId() {
         return Validation.isEmptyStr(this.shopId) ? "0" : this.shopId;
+    }
+
+    public void setShopData(String productId) {
+        AndroidUtils.showErrorLog(context, "     productId     ", productId);
+        progressBarHandler.show();
+        Ion.with(context)
+                .load(context.getString(R.string.webservice_base_url).concat("/shop_short_details"))
+                .setHeader("Authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                .setBodyParameter("id", productId)
+                .asJsonObject()
+                .setCallback(new FutureCallback<JsonObject>() {
+                    @Override
+                    public void onCompleted(Exception e, JsonObject result) {
+                        AndroidUtils.showErrorLog(context, "result shop_short_details -----> ", result);
+                        progressBarHandler.hide();
+                        if (result != null) {
+                            if (result.get("error").getAsString().contains("true")) {
+                                JsonObject jsonObject = result.get("result").getAsJsonObject();
+
+                                CompanyDropdownDatas companyDropdownDatas = new CompanyDropdownDatas(jsonObject.get("id").getAsString(), jsonObject.get("image_url").getAsString(), jsonObject.get("name").getAsString(), jsonObject.get("category_name").getAsString());
+                                shopId = companyDropdownDatas.comapanyId;
+                                linearLayoutMain.findViewById(R.id.rootContainer).setVisibility(VISIBLE);
+                                linearLayoutMain.findViewById(R.id.container_simple_spinner).setVisibility(View.GONE);
+                                linearLayoutMain.findViewById(R.id.containershoplist).setVisibility(View.VISIBLE);
+
+                                AndroidUtils.showErrorLog(context, "2222 Object received with value : " + companyDropdownDatas.toString());
+
+
+                                if (Validation.isNonEmptyStr(companyDropdownDatas.companyImageUrl)) {
+                                    Picasso.with(context)
+                                            .load(companyDropdownDatas.companyImageUrl)
+                                            .error(R.drawable.banner)
+                                            .placeholder(R.drawable.default_noimage)
+                                            .error(R.drawable.default_noimage)
+                                            .into((de.hdodenhof.circleimageview.CircleImageView) linearLayoutMain.findViewById(R.id.shopimage));
+                                }
+
+
+                                StringBuilder stringBuilder_txnamount = new StringBuilder("<font size=\"20\" color=" + "#ffffff>" + companyDropdownDatas.companyName +
+                                        companyDropdownDatas.comapanyCategory + "</font>");
+//                AndroidUtils.showErrorLog(context, position+"position"+arrayList.size()+"arrayList.size()   "+"work1***" + Html.fromHtml(tvData));
+                                ((TextView) linearLayoutMain.findViewById(R.id.tvshopdropdownshopname)).setText(companyDropdownDatas.companyName);
+                                ((TextView) linearLayoutMain.findViewById(R.id.tvshopdropdownshopcategory)).setText("Category : " + companyDropdownDatas.comapanyCategory);
+                            }
+                        }
+                    }
+                });
     }
 
 }
