@@ -1070,7 +1070,7 @@ public class AddCompanyShopActivity extends AppCompatActivity
 
             for (int k = 0; k < data.getClipData().getItemCount(); k++) {
 
-                Uri selectedImage = data.getClipData().getItemAt(k).getUri();
+               /* Uri selectedImage = data.getClipData().getItemAt(k).getUri();
 
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
                 multipleImages.add(bitmap);
@@ -1085,10 +1085,12 @@ public class AddCompanyShopActivity extends AppCompatActivity
                     AndroidUtils.showErrorLog(context, "doc", " else doc file path 1");
                     docFile = ImageUtils.getFile(context, bitmap);
                     AndroidUtils.showErrorLog(context, "doc", " else doc file path" + docFile.getAbsolutePath());
-                }
+                }*/
 
-                productMediaDatas.add(new ProductMediaData(docFile.getAbsolutePath(), "", null, ""));
-                AndroidUtils.showErrorLog(context, "docfile", docFile.getAbsolutePath());
+                File finalFile = new File(ImageUtils.getRealPathFromURI(context, data.getClipData().getItemAt(k).getUri()));
+
+                productMediaDatas.add(new ProductMediaData(finalFile.getAbsolutePath(), "", null, ""));
+                AndroidUtils.showErrorLog(context, "docfile", finalFile.getAbsolutePath());
 
                 adapter.notifyDataSetChanged();
                 if (productMediaDatas.size() > 0) {
