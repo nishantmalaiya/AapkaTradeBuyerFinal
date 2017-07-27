@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.util.ArrayMap;
 import android.support.v7.app.AppCompatActivity;
@@ -17,10 +18,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.aapkatrade.buyer.general.LocationManagerCheck;
 import com.aapkatrade.buyer.home.HomeActivity;
 import com.aapkatrade.buyer.home.cart.MyCartActivity;
 import com.aapkatrade.buyer.home.buyerregistration.entity.State;
@@ -31,6 +34,8 @@ import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
+import com.aapkatrade.buyer.search.Search;
+import com.aapkatrade.buyer.service.GpsLocationService;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
@@ -45,7 +50,7 @@ public class ShopListByCategoryActivity extends AppCompatActivity {
     private CategoriesListAdapter categoriesListAdapter;
     private ArrayList<CategoriesListData> shopArrayListByCategory = new ArrayList<>();
     ProgressBarHandler progress_handler;
-    private FrameLayout layout_container;
+    private CoordinatorLayout layout_container;
     private static String category_id, latitude = "0.0", longitude = "0.0";
     private AppSharedPreference appSharedPreference;
     private ArrayList<State> productAvailableStateList = new ArrayList<>();
@@ -58,7 +63,8 @@ public class ShopListByCategoryActivity extends AppCompatActivity {
     public static TextView tvCartCount;
     private int categoryListActivity = 1;
     CardView cardview_list_container;
-
+    GpsLocationService gps;
+    ImageButton btnsearch;
     RelativeLayout rl_tryagain, ll_data_not_found;
 
     com.aapkatrade.buyer.uicomponent.customcardview.CustomCardViewHeader customCardViewHeader_business_detail, customCardViewHeader_personal_detail, customCardViewHeader_newUser;
@@ -108,7 +114,52 @@ public class ShopListByCategoryActivity extends AppCompatActivity {
         cardview_list_container = (CardView) view.findViewById(R.id.cardview_list_container);
         ll_data_not_found = (RelativeLayout) view.findViewById(R.id.ll_data_not_found);
 
+        btnsearch = (ImageButton) view.findViewById(R.id.btnsearch);
+        btnsearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+
+                LocationManagerCheck locationManagerCheck = new LocationManagerCheck(context);
+
+                if (locationManagerCheck.isLocationServiceAvailable()) {
+                    progress_handler.show();
+
+
+                    gps = new GpsLocationService(context);
+
+                    // check if GPS enabled
+                    if (gps.canGetLocation()) {
+
+
+                        double latitude = gps.getLatitude();
+                        double longitude = gps.getLongitude();
+                        String statename = gps.getStaeName();
+
+                        Intent intentAsync = new Intent(ShopListByCategoryActivity.this, Search.class);
+                        intentAsync.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        intentAsync.putExtra("classname", "homeactivity");
+                        intentAsync.putExtra("state_name", statename);
+                        intentAsync.putExtra("latitude", String.valueOf(latitude));
+                        intentAsync.putExtra("longitude", String.valueOf(longitude));
+                        startActivity(intentAsync);
+
+                        progress_handler.hide();
+                    } else {
+                        // can't get location
+                        // GPS or Network is not enabled
+                        // Ask user to enable GPS/network in settings
+                        gps.showSettingsAlert();
+                    }
+
+
+                } else {
+                    locationManagerCheck.createLocationServiceError(ShopListByCategoryActivity.this);
+                }
+
+
+            }
+        });
 
 
         AndroidUtils.setGradientColor(ll_data_not_found, android.graphics.drawable.GradientDrawable.RECTANGLE, ContextCompat.getColor(context, R.color.datanotfound_gradient_bottom), ContextCompat.getColor(context, R.color.datanotfound_gradient_top), android.graphics.drawable.GradientDrawable.Orientation.TOP_BOTTOM, 0);
@@ -125,7 +176,7 @@ public class ShopListByCategoryActivity extends AppCompatActivity {
         });
 
         progress_handler = new ProgressBarHandler(this);
-        layout_container = (FrameLayout) view.findViewById(R.id.layout_container);
+        layout_container = (CoordinatorLayout) view.findViewById(R.id.layout_container);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
         listfootername = (TextView) view.findViewById(R.id.listfootername);
         tv_list_quantity = (TextView) view.findViewById(R.id.tv_list_quantity);
@@ -219,7 +270,7 @@ public class ShopListByCategoryActivity extends AppCompatActivity {
                                     } else {
                                         Log.e("data----------1", "No record found list");
                                         layout_container.setVisibility(View.GONE);
-                                        findViewById(R.id.filter) .setVisibility(View.GONE);
+                                        findViewById(R.id.filter).setVisibility(View.GONE);
                                         cardview_list_container.setVisibility(View.GONE);
                                         progress_handler.hide();
                                     }
@@ -322,7 +373,7 @@ public class ShopListByCategoryActivity extends AppCompatActivity {
                                         layout_container.setVisibility(View.INVISIBLE);
                                         cardview_list_container.setVisibility(View.GONE);
                                         ll_data_not_found.setVisibility(View.VISIBLE);
-                                        findViewById(R.id.filter) .setVisibility(View.GONE);
+                                        findViewById(R.id.filter).setVisibility(View.GONE);
                                         progress_handler.hide();
                                     }
 
@@ -428,7 +479,7 @@ public class ShopListByCategoryActivity extends AppCompatActivity {
                                         cardview_list_container.setVisibility(View.GONE);
                                         ll_data_not_found.setVisibility(View.VISIBLE);
                                         layout_container.setVisibility(View.INVISIBLE);
-                                        findViewById(R.id.filter) .setVisibility(View.GONE);
+                                        findViewById(R.id.filter).setVisibility(View.GONE);
                                         progress_handler.hide();
                                     }
                                 } else {

@@ -8,13 +8,18 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaMetadataRetriever;
+import android.media.MediaPlayer;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -34,8 +39,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -43,6 +47,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.aapkatrade.buyer.dialogs.UpdateUserDataVerifyDialog;
+import com.aapkatrade.buyer.dialogs.loginwithoutregistration.LoginWithoutRegistrationDialog;
 import com.aapkatrade.buyer.general.Utils.ImageUtils;
 import com.aapkatrade.buyer.home.HomeActivity;
 import com.aapkatrade.buyer.R;
@@ -51,6 +56,7 @@ import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.Validation;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
+import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.addproduct.ProductMediaData;
 
 import com.afollestad.materialcamera.MaterialCamera;
 import com.afollestad.materialdialogs.DialogAction;
@@ -62,8 +68,14 @@ import com.koushikdutta.ion.Ion;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
+import java.io.FileDescriptor;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+
+import static android.R.attr.animation;
 
 public class MyProfileActivity extends AppCompatActivity {
 
@@ -118,7 +130,12 @@ public class MyProfileActivity extends AppCompatActivity {
         imageViewProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
+
+
+                if (app_sharedpreference.getSharedPref(SharedPreferenceConstants.PROFILE_VIDEO.toString()).contains("")) {
+
+                } else {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
 
                 intent.setDataAndType(Uri.parse(app_sharedpreference.getSharedPref(SharedPreferenceConstants.PROFILE_VIDEO.toString(), "").toString()), "video/*");
 
@@ -218,9 +235,14 @@ public class MyProfileActivity extends AppCompatActivity {
                 Log.e("shared-----", "");
             } else {
 
-
+                p_handler.show();
                 my_profile_gif = app_sharedpreference.getSharedPref(SharedPreferenceConstants.PROFILE_ViDEO_GIF.toString());
-                Ion.with(imageViewProfile).load(my_profile_gif);
+                Ion.with(imageViewProfile).load(my_profile_gif).setCallback(new FutureCallback<ImageView>() {
+                    @Override
+                    public void onCompleted(Exception e, ImageView result) {
+                        p_handler.hide();
+                    }
+                });
 
 
 
@@ -469,6 +491,7 @@ public class MyProfileActivity extends AppCompatActivity {
 
                 break;
 
+
             case CAMERA_RQ:
 
                 System.out.println("Saved Video =================");
@@ -603,10 +626,7 @@ public class MyProfileActivity extends AppCompatActivity {
                         AndroidUtils.showErrorLog(context, "result------------------------------" + result);
 
                         if (result != null) {
-                            if (result.get("error").getAsString().contains("false"))
-                            {
-
-                                String message = result.get("message").getAsString();
+                            if (result.get("error").getAsString().contains("false")) {
                                 JsonObject jsonObject_result = result.getAsJsonObject("result");
                                 String profile_video = jsonObject_result.get("profile_video").getAsString();
                                 String profile_video_gif = jsonObject_result.get("profile_video").getAsString().concat(".gif");
@@ -625,10 +645,14 @@ public class MyProfileActivity extends AppCompatActivity {
                                         .placeholder(R.drawable.default_noimage)
                                         .error(R.drawable.default_noimage)
                                         .into(imageViewProfile);*/
+                                Ion.with(imageViewProfile).load(profile_video_gif).setCallback(new FutureCallback<ImageView>() {
+                                    @Override
+                                    public void onCompleted(Exception e, ImageView result) {
+                                        p_handler.hide();
+                                        AndroidUtils.showToast(context, "Sucessfully Video Updated !");
+                                    }
+                                });
 
-                                Ion.with(imageViewProfile).load(profile_video_gif);
-
-                                p_handler.hide();
 
                                 ErrorFragmentDialog comingSoonFragmentDialog = new ErrorFragmentDialog(context);
                                 FragmentManager fm = ((AppCompatActivity) context).getSupportFragmentManager();
@@ -664,8 +688,8 @@ public class MyProfileActivity extends AppCompatActivity {
     }
 
 
-    private void call_myprofile_webservice(File imagefile)
-    {
+    private void call_myprofile_webservice(File imagefile) {
+
         p_handler.show();
 
         String url = getResources().getString(R.string.webservice_base_url) + "/profilepic_update";

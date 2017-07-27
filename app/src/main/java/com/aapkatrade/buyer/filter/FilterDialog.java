@@ -1,6 +1,8 @@
 package com.aapkatrade.buyer.filter;
 
+import android.app.Activity;
 import android.app.Dialog;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
@@ -119,6 +121,8 @@ public class FilterDialog extends Dialog {
         }
 
         if(selectedHashMap.size()!=0){
+            ((Activity)context).finish();
+            dismiss();
             Intent intent = new Intent(context, ShopListByCategoryActivity.class);
             context.startActivity(intent);
         }

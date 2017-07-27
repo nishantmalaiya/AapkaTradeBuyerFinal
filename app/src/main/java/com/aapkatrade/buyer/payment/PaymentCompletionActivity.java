@@ -99,6 +99,7 @@ public class PaymentCompletionActivity extends AppCompatActivity {
         ((TextView) circleTile2Layout.findViewById(R.id.tvHeader)).setText("Amount Paid");
         ((TextView) circleTile2Layout.findViewById(R.id.tvSubHeader)).setText("APKTRADE23548464");
         tvDone = (TextView) findViewById(R.id.tvDone);
+
         paymentCompletionRootLayout = (LinearLayout) findViewById(R.id.paymentCompletionRootLayout);
 
         tvReceiptNo = (TextView) findViewById(R.id.tvReceiptNo);

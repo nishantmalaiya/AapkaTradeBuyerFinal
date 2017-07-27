@@ -240,8 +240,11 @@ public class NavigationFragment extends Fragment {
                 hideSoftKeyboard(getActivity());
                 super.onDrawerOpened(drawerView);
                 if (appSharedpreference != null) {
+
+                    if(HomeActivity.tvCartCount!=null)
                     HomeActivity.tvCartCount.setText(String.valueOf(appSharedpreference.getSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), 0)));
                 } else {
+                    if(HomeActivity.tvCartCount!=null)
                     HomeActivity.tvCartCount.setText("0");
                 }
             }
@@ -250,8 +253,13 @@ public class NavigationFragment extends Fragment {
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
                 if (appSharedpreference != null) {
-                    HomeActivity.tvCartCount.setText(String.valueOf(appSharedpreference.getSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), 0)));
-                    System.out.println("hi I am Sachin" + String.valueOf(appSharedpreference.getSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), 0)));
+                    if(HomeActivity.tvCartCount!=null)
+
+
+                    {
+                        HomeActivity.tvCartCount.setText(String.valueOf(appSharedpreference.getSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), 0)));
+                        System.out.println("hi I am Sachin" + String.valueOf(appSharedpreference.getSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), 0)));
+                    }
                 } else {
                     HomeActivity.tvCartCount.setText("0");
                 }
