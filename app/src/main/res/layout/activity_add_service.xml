@@ -20,7 +20,12 @@
             <include layout="@layout/toolbar_layout" />
 
         </RelativeLayout>
+        <include layout="@layout/list_header" />
 
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:fitsSystemWindows="true"
+            android:layout_height="match_parent">
 
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
@@ -229,6 +234,7 @@ android:id="@+id/rl_add_service_image_container"
     android:layout_marginTop="@dimen/twenty_dip"
     android:fontFamily="@string/library_AndroidIconics_isOpenSource"
     android:layout_below="@+id/textinputlayout_description"
+    android:layout_marginBottom="@dimen/twenty_dip"
     android:layout_height="wrap_content" />
 
 
@@ -241,7 +247,7 @@ android:id="@+id/rl_add_service_image_container"
 
         </android.support.v7.widget.CardView>
 
-
+</android.support.v4.widget.NestedScrollView>
     </LinearLayout>
 
 

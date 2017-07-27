@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.AppSharedPreference;
@@ -50,8 +51,8 @@ public class ServiceManagementActivity extends AppCompatActivity {
     ImageView btnAdd_service;
     int page = 0, total_page = 0;
     LinearLayout company_shop_management_container;
-    private int visibleItemCount,totalItemCount,pastVisiblesItems;
-
+    private int visibleItemCount, totalItemCount, pastVisiblesItems;
+    TextView tvHeading;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,9 +95,8 @@ public class ServiceManagementActivity extends AppCompatActivity {
 
             public void onScrollStateChanged(RecyclerView view, int scrollState) {
 
-                 super.onScrollStateChanged(service_list, scrollState);
+                super.onScrollStateChanged(service_list, scrollState);
                 if (scrollState == RecyclerView.SCROLL_STATE_IDLE && total_page >= page) {
-
 
 
                     visibleItemCount = gridLayoutManager.getChildCount();
@@ -155,6 +155,8 @@ public class ServiceManagementActivity extends AppCompatActivity {
         });
 
         AndroidUtils.setGradientColor(service_list, android.graphics.drawable.GradientDrawable.RECTANGLE, ContextCompat.getColor(context, R.color.datanotfound_gradient_bottom), ContextCompat.getColor(context, R.color.datanotfound_gradient_top), android.graphics.drawable.GradientDrawable.Orientation.TOP_BOTTOM, 0);
+        tvHeading = (TextView) findViewById(R.id.listfootername);
+        tvHeading.setText("Service Managment");
 
 
     }

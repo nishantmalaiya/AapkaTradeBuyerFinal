@@ -13,7 +13,7 @@
         android:id="@+id/headerDialog"
         android:layout_width="match_parent"
         android:layout_height="@dimen/fifty_five_dip"
-        android:background="@color/green" >
+        android:background="@color/green">
 
         <TextView
             style="@style/myAddress"
@@ -29,13 +29,14 @@
 
         <RelativeLayout
             android:id="@+id/closeDialog"
-            android:layout_width="@dimen/fifty_five_dip"
-            android:layout_height="match_parent"
+            android:layout_width="@dimen/fourty_dip"
+            android:layout_height="@dimen/fourty_dip"
             android:layout_alignParentRight="true"
-            android:padding="@dimen/ten_dip"
+android:layout_centerVertical="true"
+            android:gravity="center_vertical"
             android:layout_margin="@dimen/five_dip"
-android:nestedScrollingEnabled="false"
             android:background="@drawable/circle_white"
+            android:nestedScrollingEnabled="false"
 
             >
 
@@ -48,29 +49,20 @@ android:nestedScrollingEnabled="false"
                 android:layout_centerVertical="true"
                 android:text="X"
                 android:textColor="@color/red"
-                android:textSize="@dimen/twenty_five_dip"
+                android:textSize="@dimen/twenty_dip"
                 android:textStyle="bold" />
         </RelativeLayout>
     </RelativeLayout>
 
 
-
-
-
-
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:minHeight="@dimen/three_hundred_dip"
-                android:focusable="false"
-                android:overScrollMode="never"
-                android:nestedScrollingEnabled="false" />
-
-
-
-
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:focusable="false"
+        android:minHeight="@dimen/three_hundred_dip"
+        android:nestedScrollingEnabled="false"
+        android:overScrollMode="never" />
 
 
 </LinearLayout>

@@ -75,7 +75,7 @@ public class AddServiceActivity extends AppCompatActivity {
     private PagingSpinner pagingSpinner;
     private ArrayList<Bitmap> multiple_images;
     private EditText etservicename, etserviceOffers, etProductPriceDiscount, etProductWeight, etDescription, etMaxorderQuantity, etProductLength, etProductWidth, etProductHeight;
-    private TextView save;
+    private TextView save,tvHeading;
     private List<Part> files = new ArrayList();
     private AppSharedPreference appSharedpreference;
     private ProgressBarHandler progressBarHandler;
@@ -136,6 +136,8 @@ public class AddServiceActivity extends AppCompatActivity {
         etDescription = (EditText) findViewById(R.id.etDescription);
         saveandupdatebtn = (Button) findViewById(R.id.saveandupdatebtn);
         mainLayout = (LinearLayout) findViewById(R.id.mainLayout);
+        tvHeading=(TextView) findViewById(R.id.listfootername);
+        tvHeading.setText("Add Service");
         HandleClickEvent();
 
 

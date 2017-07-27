@@ -65,7 +65,7 @@ public class EditServiceActivity extends AppCompatActivity {
 
     private ArrayList<Bitmap> multiple_images;
     private EditText etservicename, etserviceOffers, etProductPriceDiscount, etProductWeight, etDescription, etMaxorderQuantity, etProductLength, etProductWidth, etProductHeight;
-    private TextView save, tv_shopname, tv_shopCategory;
+    private TextView save, tv_shopname, tv_shopCategory, tvHeading;
     private List<Part> files = new ArrayList();
     private AppSharedPreference appSharedpreference;
     private ProgressBarHandler progressBarHandler;
@@ -185,7 +185,7 @@ public class EditServiceActivity extends AppCompatActivity {
         tv_shopCategory.setText("Category Name:" + service_category_name);
 
 
-        AndroidUtils.setGradientColor(mainLayout_editService, android.graphics.drawable.GradientDrawable.RECTANGLE, R.color.Welcome_screen1_gradient_TopColor, R.color.Welcome_screen1_gradient_BottomColor, GradientDrawable.Orientation.LEFT_RIGHT, 0);
+
     }
 
 
@@ -201,6 +201,8 @@ public class EditServiceActivity extends AppCompatActivity {
         etserviceOffers = (EditText) findViewById(R.id.etserviceOffers);
         etDescription = (EditText) findViewById(R.id.etDescription);
         saveandupdatebtn = (Button) findViewById(R.id.saveandupdatebtn);
+        tvHeading=(TextView) findViewById(R.id.listfootername);
+        tvHeading.setText("Edit Service");
 
         HandleClickEvent();
 

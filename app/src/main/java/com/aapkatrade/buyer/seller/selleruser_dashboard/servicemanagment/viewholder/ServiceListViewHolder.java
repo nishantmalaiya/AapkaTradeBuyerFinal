@@ -17,7 +17,7 @@ public class ServiceListViewHolder extends RecyclerView.ViewHolder
     public View view;
     public TextView  serviceName,tvServiceShopName,tvServiceCategoryName,tvServiceStateName;
     public ImageView imgService,imgviewServiceEdit;
-    public RelativeLayout relativeEdit,relativeDelete,relativeUpdate;
+    public RelativeLayout rl_ServiceEdit,relativeDelete,relativeUpdate;
 
     public ServiceListViewHolder(View itemView)
     {
@@ -35,9 +35,10 @@ public class ServiceListViewHolder extends RecyclerView.ViewHolder
         imgService = (ImageView) itemView.findViewById(R.id.imgService);
         imgviewServiceEdit = (ImageView) itemView.findViewById(R.id.imgviewServiceEdit);
 
-      /*  relativeEdit = (RelativeLayout) itemView.findViewById(R.id.relativeEdit);
 
-        relativeDelete = (RelativeLayout) itemView.findViewById(R.id.relativeDelete);
+        rl_ServiceEdit = (RelativeLayout) itemView.findViewById(R.id.rl_ServiceEdit);
+
+      /*  relativeDelete = (RelativeLayout) itemView.findViewById(R.id.relativeDelete);
 
         relativeUpdate = (RelativeLayout) itemView.findViewById(R.id.relativeUpdate);*/
 

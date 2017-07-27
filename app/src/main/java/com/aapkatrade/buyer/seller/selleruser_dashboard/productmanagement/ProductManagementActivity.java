@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.dialogs.Seller_Update_Product_Policy;
@@ -45,6 +46,7 @@ public class ProductManagementActivity extends AppCompatActivity {
     private LinearLayoutManager linearLayoutManager;
     private ImageView imgShopType;
     private int page = 0;
+    private TextView tvHeading;
 
 
     @Override
@@ -69,7 +71,7 @@ public class ProductManagementActivity extends AppCompatActivity {
         progressBarHandler = new ProgressBarHandler(context);
         appSharedPreference = new AppSharedPreference(context);
         userID = appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), "");
-        AndroidUtils.showErrorLog(context, "+++++++++++++-----------USERID----------------++++++++++"+userID);
+        AndroidUtils.showErrorLog(context, "+++++++++++++-----------USERID----------------++++++++++" + userID);
         imgShopType = (ImageView) findViewById(R.id.btnAdd_shop);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
         linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
@@ -80,6 +82,9 @@ public class ProductManagementActivity extends AppCompatActivity {
                 startActivity(addProductIntent);
             }
         });
+
+        tvHeading = (TextView) findViewById(R.id.listfootername);
+        tvHeading.setText("Product Managment");
     }
 
     private void onScrollEvents() {
@@ -90,8 +95,8 @@ public class ProductManagementActivity extends AppCompatActivity {
                 super.onScrolled(recyclerView, dx, dy);
                 int totalItemCount = linearLayoutManager.getItemCount();
                 int lastVisibleItemCount = linearLayoutManager.findLastVisibleItemPosition();
-                AndroidUtils.showErrorLog(context, "++++++totalItemCount++++++"+totalItemCount, "_________lastVisibleItemCount___________"+lastVisibleItemCount);
-                if (totalItemCount > 0 && totalPage>page) {
+                AndroidUtils.showErrorLog(context, "++++++totalItemCount++++++" + totalItemCount, "_________lastVisibleItemCount___________" + lastVisibleItemCount);
+                if (totalItemCount > 0 && totalPage > page) {
                     if ((totalItemCount - 1) == lastVisibleItemCount) {
                         hitProductListWebService(++page);
                     }
@@ -183,8 +188,7 @@ public class ProductManagementActivity extends AppCompatActivity {
 
     }
 
-    public  void fragment_call(String product_id)
-    {
+    public void fragment_call(String product_id) {
         Seller_Update_Product_Policy seller_update_product_policy = new Seller_Update_Product_Policy(product_id, context);
         FragmentManager fm = getSupportFragmentManager();
         seller_update_product_policy.show(fm, "enquiry");
