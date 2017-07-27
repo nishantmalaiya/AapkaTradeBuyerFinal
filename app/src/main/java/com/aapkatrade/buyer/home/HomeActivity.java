@@ -297,7 +297,6 @@ public class HomeActivity extends AppCompatActivity {
             case CheckPermission.MULTIPLE_PERMISSIONS: {
 
 
-
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     if (appSharedPreference.getSharedPrefInt(SharedPreferenceConstants.IS_FIRST_TIME.toString()) == 1) {
                         rlTutorial.setVisibility(View.GONE);
@@ -515,7 +514,9 @@ public class HomeActivity extends AppCompatActivity {
 
             home_activity = 2;
         } else {
-            tvCartCount.setText(String.valueOf(appSharedPreference.getSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), 0)));
+            if (tvCartCount != null) {
+                tvCartCount.setText(String.valueOf(appSharedPreference.getSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), 0)));
+            }
         }
 
         if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString(), "notlogin") != null) {
@@ -526,7 +527,7 @@ public class HomeActivity extends AppCompatActivity {
             }
         }
 
-        if(NavigationFragment.mDrawerLayout!=null) {
+        if (NavigationFragment.mDrawerLayout != null) {
             NavigationFragment.mDrawerLayout.closeDrawer(Gravity.LEFT, false);
         }
     }
@@ -542,12 +543,6 @@ public class HomeActivity extends AppCompatActivity {
 
 
     }
-
-
-
-
-
-
 
 
 }

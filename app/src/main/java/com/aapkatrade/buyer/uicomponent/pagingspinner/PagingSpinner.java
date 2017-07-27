@@ -41,6 +41,7 @@ public class PagingSpinner extends RelativeLayout {
     private String shopType = "0", sellerId = "0", shopId = "0";
     private PagingSpinnerDialog pagingSpinnerDialog;
     public static CommonInterface commonInterface;
+    public CommonInterface commonInterfaceOuter;
 
     public PagingSpinner(Context context) {
         super(context);
@@ -98,6 +99,7 @@ public class PagingSpinner extends RelativeLayout {
                 if (object != null) {
                     CompanyDropdownDatas companyDropdownDatas = (CompanyDropdownDatas) object;
                     shopId = companyDropdownDatas.comapanyId;
+                    commonInterfaceOuter.getData(shopId);
                     linearLayoutMain.findViewById(R.id.rootContainer).setVisibility(VISIBLE);
                     linearLayoutMain.findViewById(R.id.container_simple_spinner).setVisibility(View.GONE);
                     linearLayoutMain.findViewById(R.id.containershoplist).setVisibility(View.VISIBLE);

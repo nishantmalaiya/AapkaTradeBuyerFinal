@@ -107,19 +107,7 @@ public class AddProductActivity extends AppCompatActivity
         setUpToolBar();
         initView();
         setupRecyclerView();
-        setupSpinner();
-
-
-
-    }
-
-    private void setupSpinner() {
-
-
-        //callCompanyListWebservice(++page);
-
         getUnit();
-
     }
 
 
@@ -276,6 +264,13 @@ public class AddProductActivity extends AppCompatActivity
         pagingSpinner = (PagingSpinner) findViewById(R.id.pagingSpinner);
         pagingSpinner.setShopType(1);
         pagingSpinner.setSellerId(appSharedpreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString()));
+        pagingSpinner.commonInterfaceOuter = new CommonInterface() {
+            @Override
+            public Object getData(Object object) {
+                loadDynamicForm((String) object);
+                return null;
+            }
+        };
     }
 
     private void validateFields() {
