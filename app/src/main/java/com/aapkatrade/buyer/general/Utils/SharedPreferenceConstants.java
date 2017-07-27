@@ -48,6 +48,7 @@ public enum SharedPreferenceConstants {
     EMAIL_SMALL("email"),
     PASSWORD_SMALL("password"),
     CART_COUNT("CART_COUNT"),
+    TEMP_CHAT_ID("TEMP_CHAT_ID"),
     FIREBASE_REG_ID("FIREBASE_REG_ID"),
     CLIENT_ID("CLIENT_ID"),
     OTP_ID("OTP_ID"),

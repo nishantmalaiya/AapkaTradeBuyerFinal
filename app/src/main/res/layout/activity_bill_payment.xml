@@ -166,15 +166,15 @@
                     tools:ignore="RtlCompat" />
 
                 <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/fifty_dip"
+                    android:layout_width="@dimen/fourty_dip"
+                    android:layout_height="@dimen/fourty_dip"
                     android:layout_alignParentRight="true"
-android:layout_centerHorizontal="true"
+                    android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
                     android:layout_margin="@dimen/five_dip"
 
                     android:background="@drawable/spinner_green_back2"
-                    android:gravity="center_horizontal|fill_horizontal"
+                    android:gravity="center_horizontal|center_vertical"
                     android:padding="@dimen/ten_dip">
 
 
@@ -182,8 +182,10 @@ android:layout_centerHorizontal="true"
                         android:id="@+id/tv_billing_amount2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-
                         android:layout_centerHorizontal="true"
+                        android:layout_centerInParent="true"
+                        android:gravity="center_vertical|center_horizontal"
+
 
                         android:text="0"
                         android:textColor="@color/color_voilet" />

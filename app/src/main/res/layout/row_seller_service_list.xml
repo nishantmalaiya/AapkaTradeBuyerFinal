@@ -25,7 +25,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
 
-                android:layout_height="wrap_content">
+                android:layout_height="@dimen/thirty_dip">
 
 
                 <TextView
@@ -43,19 +43,27 @@
                     android:layout_margin="5dp"
                     android:maxLines="1"
                     />
+<RelativeLayout
+    android:layout_width="@dimen/fifty_dip"
+    android:layout_alignParentRight="true"
+    android:id="@+id/rl_ServiceEdit"
 
+    android:layout_centerVertical="true"
+
+    android:layout_height="match_parent">
                 <ImageView
                     android:layout_width="wrap_content"
-                    android:layout_alignParentRight="true"
 
+                    android:layout_alignParentRight="true"
                     android:src="@drawable/ic_round_circle"
-                    android:layout_centerVertical="true"
+
                     android:scaleType="fitCenter"
-                    android:paddingTop="@dimen/five_dip"
-                    android:paddingBottom="@dimen/five_dip"
+
+
                     android:rotation="90"
                     android:id="@+id/imgviewServiceEdit"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="match_parent" />
+</RelativeLayout>
 
             </RelativeLayout>
 

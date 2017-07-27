@@ -26,9 +26,11 @@ import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.Produc
 import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.editproduct.EditProductActivity;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.entity.ProductListData;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.viewholder.ProductListViewHolder;
+import com.aapkatrade.buyer.shopdetail.productdetail.ProductDetailActivity;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -37,8 +39,7 @@ import java.util.List;
  * Created by PPC16 on 7/10/2017.
  */
 
-public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
-{
+public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final LayoutInflater inflater;
     private List<ProductListData> itemList;
     private Context context;
@@ -46,12 +47,11 @@ public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     AppSharedPreference appSharedPreference;
     String userId;
     ProgressBarHandler progressBarHandler;
-    RadioButton selected=null;
+    RadioButton selected = null;
     private int mSelectedVariation;
 
 
-    public ProductListAdapter(Context context, List<ProductListData> itemList)
-    {
+    public ProductListAdapter(Context context, List<ProductListData> itemList) {
         this.itemList = itemList;
 
         this.context = context;
@@ -68,8 +68,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
-    {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.row_seller_product_list2, parent, false);
 
         viewHolder = new ProductListViewHolder(view);
@@ -78,10 +77,22 @@ public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position)
-    {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
 
         final ProductListViewHolder homeHolder = (ProductListViewHolder) holder;
+
+        homeHolder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, ProductDetailActivity.class);
+
+                intent.putExtra("productId", itemList.get(position).product_id);
+
+                context.startActivity(intent);
+                ((AppCompatActivity) context).overridePendingTransition(R.anim.enter, R.anim.exit);
+
+            }
+        });
 
         homeHolder.productName.setText(itemList.get(position).product_name);
         homeHolder.tvProductCategoryName.setText(itemList.get(position).category_name);
@@ -99,30 +110,31 @@ public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     }
                 });
 
-        homeHolder.btnEdit.setOnClickListener(new View.OnClickListener()
-        {
+        homeHolder.btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
+
+          
+
+       public void onClick(View v)
             {
                 Intent editProductIntent = new Intent(context, EditProductActivity.class);
                 editProductIntent.putExtra("productId", itemList.get(position).product_id);
                 context.startActivity(editProductIntent);
+
             }
         });
 
         homeHolder.btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
-                callwebserviceDeleteCart(itemList.get(position).product_id,position);
+            public void onClick(View v) {
+                callwebserviceDeleteCart(itemList.get(position).product_id, position);
             }
         });
 
 
         homeHolder.btnPolicyUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
 
                 ComingSoonFragmentDialog comingSoonFragmentDialog = new ComingSoonFragmentDialog(context);
                 FragmentManager fm = ((AppCompatActivity) context).getSupportFragmentManager();
@@ -135,62 +147,49 @@ public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         else homeHolder.radioButtonStatus.setChecked(false);
         */
 
-       if (itemList.get(position).product_status.equals("1"))
-       {
-           AndroidUtils.showErrorLog(context,"item--- true");
-           homeHolder.radioButtonStatus.setChecked(true);
-       }
-       else
-        {
-            AndroidUtils.showErrorLog(context,"item--- false");
-           homeHolder.radioButtonStatus.setChecked(false);
+        if (itemList.get(position).product_status.equals("1")) {
+            AndroidUtils.showErrorLog(context, "item--- true");
+            homeHolder.radioButtonStatus.setChecked(true);
+        } else {
+            AndroidUtils.showErrorLog(context, "item--- false");
+            homeHolder.radioButtonStatus.setChecked(false);
         }
 
-        homeHolder.radioButtonStatus.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
-        {
+        homeHolder.radioButtonStatus.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
-            {
-               if (itemList.get(position).product_status.equals("1"))
-               {
-                   AndroidUtils.showErrorLog(context,"Fist--------------1");
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (itemList.get(position).product_status.equals("1")) {
+                    AndroidUtils.showErrorLog(context, "Fist--------------1");
                 /*   itemList.set(position,new ProductListData(itemList.get(position).product_id,itemList.get(position).product_name,itemList.get(position).product_image,itemList.get(position).category_name,itemList.get(position).State_name,itemList.get(position).shop_name,"0"));
                   // notifyItemChanged(position);*/
-                callwebserviceProductActiveOrInActive(itemList.get(position).product_id,position,"0");
-               }
-               else
-               {
-                   AndroidUtils.showErrorLog(context,"Fist--------------0");
-                   itemList.set(position,new ProductListData(itemList.get(position).product_id,itemList.get(position).product_name,itemList.get(position).product_image,itemList.get(position).category_name,itemList.get(position).State_name,itemList.get(position).shop_name,"1"));
-                   // notifyItemChanged(position);
-                   callwebserviceProductActiveOrInActive(itemList.get(position).product_id,position,"1");
-               }
+                    callwebserviceProductActiveOrInActive(itemList.get(position).product_id, position, "0");
+                } else {
+                    AndroidUtils.showErrorLog(context, "Fist--------------0");
+                    itemList.set(position, new ProductListData(itemList.get(position).product_id, itemList.get(position).product_name, itemList.get(position).product_image, itemList.get(position).category_name, itemList.get(position).State_name, itemList.get(position).shop_name, "1"));
+                    // notifyItemChanged(position);
+                    callwebserviceProductActiveOrInActive(itemList.get(position).product_id, position, "1");
+                }
             }
         });
 
 
-
     }
 
-    private void showMessage(String s)
-    {
+    private void showMessage(String s) {
         AndroidUtils.showToast(context, s);
     }
 
     @Override
-    public int getItemCount()
-    {
+    public int getItemCount() {
         return itemList.size();
     }
 
-    public String getCurrentTimeStamp()
-    {
+    public String getCurrentTimeStamp() {
         return new SimpleDateFormat("dd MMM yyyy HH:mm").format(new Date());
     }
 
 
-    private void callwebserviceDeleteCart(String product_id, final int position)
-    {
+    private void callwebserviceDeleteCart(String product_id, final int position) {
         progressBarHandler.show();
 
         String login_url = context.getResources().getString(R.string.webservice_base_url) + "/delete_product";
@@ -204,12 +203,10 @@ public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 .setCallback(new FutureCallback<JsonObject>() {
                     @Override
                     public void onCompleted(Exception e, JsonObject result) {
-                        if (result != null)
-                        {
+                        if (result != null) {
                             String error_message = result.get("error").getAsString();
 
-                            if (error_message.equals("false"))
-                            {
+                            if (error_message.equals("false")) {
                                 System.out.println("result--------------" + result);
                                 JsonObject jsonObject = result.getAsJsonObject("result");
 
@@ -217,15 +214,11 @@ public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                                 notifyDataSetChanged();
                                 progressBarHandler.hide();
 
-                            }
-                            else
-                            {
+                            } else {
                                 progressBarHandler.hide();
                                 AndroidUtils.showToast(context, "Server is not responding. Please try again.");
                             }
-                        }
-                        else
-                        {
+                        } else {
                             AndroidUtils.showToast(context, "Server is not responding. Please try again.");
                             progressBarHandler.hide();
                         }
@@ -234,8 +227,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
 
-    private void callwebserviceProductActiveOrInActive(String product_id, final int position,String status)
-    {
+    private void callwebserviceProductActiveOrInActive(String product_id, final int position, String status) {
         progressBarHandler.show();
 
         String login_url = context.getResources().getString(R.string.webservice_base_url) + "/update_product_status";
@@ -245,36 +237,31 @@ public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                 .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                 .setBodyParameter("id", product_id)
-                .setBodyParameter("status",status)
+                .setBodyParameter("status", status)
                 .asJsonObject()
                 .setCallback(new FutureCallback<JsonObject>() {
                     @Override
                     public void onCompleted(Exception e, JsonObject result) {
-                        if (result != null)
-                        {
+                        if (result != null) {
                             String error_message = result.get("error").getAsString();
 
-                            if (error_message.equals("false"))
-                            {
+                            if (error_message.equals("false")) {
                                 System.out.println("result--------------" + result);
                                 String message = result.get("message").getAsString();
                                 AndroidUtils.showToast(context, message);
                                 progressBarHandler.hide();
 
-                            }
-                            else
-                            {
+                            } else {
                                 progressBarHandler.hide();
                                 AndroidUtils.showToast(context, "Server is not responding. Please try again.");
                             }
-                        }
-                        else
-                        {
+                        } else {
                             AndroidUtils.showToast(context, "Server is not responding. Please try again.");
                             progressBarHandler.hide();
                         }
                     }
                 });
     }
+
 
 }

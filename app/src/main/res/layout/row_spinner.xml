@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/fifty_dip"
         android:background="@color/white"
-
+android:gravity="center_vertical"
         android:orientation="vertical">
 
 

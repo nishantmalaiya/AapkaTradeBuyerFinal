@@ -50,7 +50,7 @@ public class NotificationUtils {
 
     private Context mContext;
 
-    public NotificationUtils(Context mContext,String title, String message, String timeStamp, Intent intent) {
+    public NotificationUtils(Context mContext, String title, String message, String timeStamp, Intent intent) {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         this.mContext = mContext;
         AndroidUtils.showErrorLog(mContext, "NotificationUtils", "mcontext received");
@@ -101,7 +101,7 @@ public class NotificationUtils {
             showSmallNotification(mBuilder, icon, title, message, timeStamp, resultPendingIntent, alarmSound);
             playNotificationSound();
         }
-      //  getComplexNotificationView();
+        //  getComplexNotificationView();
 
 
     }
@@ -230,7 +230,6 @@ public class NotificationUtils {
     }
 
 
-
     private RemoteViews getComplexNotificationView() {
         // Using RemoteViews to bind custom layouts into Notification
         RemoteViews notificationView = new RemoteViews(
@@ -292,21 +291,7 @@ public class NotificationUtils {
         notificationmanager.notify(0, builder.build());*/
 
 
-
-
-
     }
-
-
-
-
-
-
-
-
-
-
-
 
 
 }

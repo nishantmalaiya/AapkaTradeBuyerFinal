@@ -65,7 +65,7 @@ public class EditServiceActivity extends AppCompatActivity {
 
     private ArrayList<Bitmap> multiple_images;
     private EditText etservicename, etserviceOffers, etProductPriceDiscount, etProductWeight, etDescription, etMaxorderQuantity, etProductLength, etProductWidth, etProductHeight;
-    private TextView save, tv_shopname,tv_shopCategory;
+    private TextView save, tv_shopname, tv_shopCategory, tvHeading;
     private List<Part> files = new ArrayList();
     private AppSharedPreference appSharedpreference;
     private ProgressBarHandler progressBarHandler;
@@ -75,7 +75,7 @@ public class EditServiceActivity extends AppCompatActivity {
     private ArrayList<City> unitList = new ArrayList<>();
     private String servicename, service_category_name, serviceid, service_image, companyId, service_shop_name;
     private ArrayList<DynamicFormEntity> dynamicFormEntityArrayList = new ArrayList<>();
-    private LinearLayout mainLayout;
+
     int page = 0;
     ImageView image, service_image_container;
     ArrayList<CompanyDropdownDatas> companyDropdownDatas = new ArrayList<>();
@@ -109,9 +109,6 @@ public class EditServiceActivity extends AppCompatActivity {
     }
 
 
-
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_map, menu);
@@ -129,23 +126,6 @@ public class EditServiceActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     private void callShopDetailActivity() {
@@ -175,11 +155,11 @@ public class EditServiceActivity extends AppCompatActivity {
                         etservicename.setText(title_name);
                         etDescription.setText(description);
                         etserviceOffers.setText(offers);
-                        AndroidUtils.showErrorLog(context,result);
+                        AndroidUtils.showErrorLog(context, result);
                         AndroidUtils.showToast(context, result.get("message").getAsString());
 
                     } else {
-                        AndroidUtils.showErrorLog(context, "error",result.get("message").getAsString());
+                        AndroidUtils.showErrorLog(context, "error", result.get("message").getAsString());
 
                     }
 
@@ -196,32 +176,34 @@ public class EditServiceActivity extends AppCompatActivity {
 
     private void setdefaultvalues() {
 
-        tv_shopname.setText("Service Name:"+service_shop_name);
+        tv_shopname.setText("Service Name:" + service_shop_name);
 
 
         Ion.with(context)
                 .load(service_image)
                 .intoImageView(service_image_container);
-        tv_shopCategory.setText("Category Name:"+service_category_name);
+        tv_shopCategory.setText("Category Name:" + service_category_name);
 
 
-        AndroidUtils.setGradientColor(mainLayout_editService, android.graphics.drawable.GradientDrawable.RECTANGLE, R.color.Welcome_screen1_gradient_TopColor,  R.color.Welcome_screen1_gradient_BottomColor, GradientDrawable.Orientation.LEFT_RIGHT,0);
+
     }
 
 
     private void initView() {
         tv_shopname = (TextView) findViewById(R.id.tv_shopname);
-        tv_shopCategory= (TextView) findViewById(R.id.tv_shopCategory);
+        tv_shopCategory = (TextView) findViewById(R.id.tv_shopCategory);
         service_image_container = (ImageView) findViewById(R.id.img_add_service);
         image = (ImageView) findViewById(R.id.add_service_img);
         rl_add_service_image_container = (RelativeLayout) findViewById(R.id.rl_add_service_image_container);
-        mainLayout_editService=(LinearLayout)findViewById(R.id.mainLayout_editService);
-        spCompanyListService = (Spinner) findViewById(R.id.spCompanyListService);
+        mainLayout_editService = (LinearLayout) findViewById(R.id.mainLayout_editService);
+        //spCompanyListService = (Spinner) findViewById(R.id.spCompanyListService);
         etservicename = (EditText) findViewById(R.id.etservicename);
         etserviceOffers = (EditText) findViewById(R.id.etserviceOffers);
         etDescription = (EditText) findViewById(R.id.etDescription);
         saveandupdatebtn = (Button) findViewById(R.id.saveandupdatebtn);
-        mainLayout = (LinearLayout) findViewById(R.id.mainLayout);
+        tvHeading=(TextView) findViewById(R.id.listfootername);
+        tvHeading.setText("Edit Service");
+
         HandleClickEvent();
 
 
@@ -259,13 +241,11 @@ public class EditServiceActivity extends AppCompatActivity {
 
         if (docFile == null) {
 
-            AndroidUtils.showSnackBar(mainLayout, "Please Upload/Capture Service Image.");
+            AndroidUtils.showSnackBar(mainLayout_editService, "Please Upload/Capture Service Image.");
             AndroidUtils.showErrorLog(context, "isAllFieldsSet.............productImagesDatas" + isAllFieldsSet);
             isAllFieldsSet = false;
-        }
-
-       else if (!ConnetivityCheck.isNetworkAvailable(context)) {
-            AndroidUtils.showSnackBar(mainLayout, "No Internet Connection available.");
+        } else if (!ConnetivityCheck.isNetworkAvailable(context)) {
+            AndroidUtils.showSnackBar(mainLayout_editService, "No Internet Connection available.");
             AndroidUtils.showErrorLog(context, "isAllFieldsSet.............isNetworkAvailable" + isAllFieldsSet);
             isAllFieldsSet = false;
 

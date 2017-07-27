@@ -48,6 +48,7 @@ import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.addpro
 import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.addproduct.entity.DynamicFormEntity;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.addproduct.entity.FormValue;
 import com.aapkatrade.buyer.uicomponent.customchecklist.CustomCheckList;
+import com.aapkatrade.buyer.uicomponent.pagingspinner.PagingSpinner;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
@@ -71,15 +72,15 @@ public class AddServiceActivity extends AppCompatActivity {
     private File docFile;
     private ArrayList<ProductMediaData> productImagesDatas = new ArrayList<>();
     private RecyclerView recyclerView;
-
+    private PagingSpinner pagingSpinner;
     private ArrayList<Bitmap> multiple_images;
     private EditText etservicename, etserviceOffers, etProductPriceDiscount, etProductWeight, etDescription, etMaxorderQuantity, etProductLength, etProductWidth, etProductHeight;
-    private TextView save;
+    private TextView save,tvHeading;
     private List<Part> files = new ArrayList();
     private AppSharedPreference appSharedpreference;
     private ProgressBarHandler progressBarHandler;
     private Context context;
-    private Spinner spCompanyListService;
+   // private Spinner spCompanyListService;
     private ArrayList<City> cityList = new ArrayList<>();
     private ArrayList<City> unitList = new ArrayList<>();
     private String cityID, unitID, shopId, dynamicFormData, companyId;
@@ -114,72 +115,12 @@ public class AddServiceActivity extends AppCompatActivity {
 
     private void setupSpinner() {
 
-        String CompanyListWebserviceUrl = getString(R.string.webservice_base_url) + "/shoplist";
+
+        pagingSpinner = (PagingSpinner) findViewById(R.id.pagingSpinner);
+        pagingSpinner.setShopType(0);
+        pagingSpinner.setSellerId(appSharedpreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString()));
 
 
-        Ion.with(context)
-                .load(CompanyListWebserviceUrl)
-                .setHeader("Authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
-                .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
-                .setBodyParameter("seller_id", appSharedpreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString()))
-                .setBodyParameter("lat", "0")
-                .setBodyParameter("long", "0")
-                .setBodyParameter("shop_type", "2")
-                .setBodyParameter("apply", "1")
-
-
-//                .setBodyParameter("page", i + "")
-                .asJsonObject().setCallback(new FutureCallback<JsonObject>() {
-            @Override
-            public void onCompleted(Exception e, JsonObject result) {
-
-                if (result != null) {
-                    if (result.get("error").getAsString().contains("false")) {
-
-
-                        JsonArray jsonArray_response = result.getAsJsonArray("result");
-                        companyDropdownDatas.add(new CompanyDropdownDatas("", "", "", ""));
-                        for (int i = 0; i < jsonArray_response.size(); i++) {
-
-
-                            JsonObject jsonObject = jsonArray_response.get(i).getAsJsonObject();
-                            String companyId = jsonObject.get("id").getAsString();
-                            String companyImageUrl = jsonObject.get("image_url").getAsString();
-                            String companyName = jsonObject.get("name").getAsString();
-                            String comapanyCategory = jsonObject.get("category_name").getAsString();
-
-                            companyDropdownDatas.add(new CompanyDropdownDatas(companyId, companyImageUrl, companyName, comapanyCategory));
-
-
-                        }
-
-                        customSpinnerAdapter = new CustomSpinnerAdapter(context, companyDropdownDatas);
-
-                        spCompanyListService.setAdapter(customSpinnerAdapter);
-                        spCompanyListService.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                            @Override
-                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                                if (position > 0) {
-                                    companyId = companyDropdownDatas.get(position).comapanyId;
-                                }
-                            }
-
-                            @Override
-                            public void onNothingSelected(AdapterView<?> parent) {
-
-                            }
-                        });
-                    }
-
-
-                }
-
-
-                AndroidUtils.showErrorLog(context, "ShopListResponse", result);
-
-
-            }
-        });
 
 
     }
@@ -189,12 +130,14 @@ public class AddServiceActivity extends AppCompatActivity {
         service_image_container = (ImageView) findViewById(R.id.img_add_service);
         image = (ImageView) findViewById(R.id.add_service_img);
         rl_add_service_image_container = (RelativeLayout) findViewById(R.id.rl_add_service_image_container);
-        spCompanyListService = (Spinner) findViewById(R.id.spCompanyListService);
+        //spCompanyListService = (Spinner) findViewById(R.id.spCompanyListService);
         etservicename = (EditText) findViewById(R.id.etservicename);
         etserviceOffers = (EditText) findViewById(R.id.etserviceOffers);
         etDescription = (EditText) findViewById(R.id.etDescription);
         saveandupdatebtn = (Button) findViewById(R.id.saveandupdatebtn);
         mainLayout = (LinearLayout) findViewById(R.id.mainLayout);
+        tvHeading=(TextView) findViewById(R.id.listfootername);
+        tvHeading.setText("Add Service");
         HandleClickEvent();
 
 
@@ -236,7 +179,15 @@ public class AddServiceActivity extends AppCompatActivity {
             AndroidUtils.showErrorLog(context, "isAllFieldsSet.............productImagesDatas" + isAllFieldsSet);
             isAllFieldsSet = false;
 
-        } else if (!Validation.isNumber(companyId)) {
+        }
+        else if (!Validation.isNumber(pagingSpinner.getShopId()) && pagingSpinner.getShopId().equals("0")) {
+            AndroidUtils.showSnackBar(mainLayout, "Please Select Company/Shop.");
+            AndroidUtils.showErrorLog(context, "isAllFieldsSet.............companyId" + isAllFieldsSet);
+            isAllFieldsSet = false;
+        }
+
+
+        else if (!Validation.isNumber(companyId)) {
             AndroidUtils.showSnackBar(mainLayout, "Please Select Company/Shop.");
             AndroidUtils.showErrorLog(context, "isAllFieldsSet.............companyId" + isAllFieldsSet);
             isAllFieldsSet = false;

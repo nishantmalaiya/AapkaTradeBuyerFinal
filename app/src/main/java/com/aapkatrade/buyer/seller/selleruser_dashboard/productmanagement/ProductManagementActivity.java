@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.dialogs.Seller_Update_Product_Policy;
@@ -44,6 +45,7 @@ public class ProductManagementActivity extends AppCompatActivity {
     private LinearLayoutManager linearLayoutManager;
     private ImageView imgShopType;
     private int page = 0;
+    private TextView tvHeading;
 
 
     @Override
@@ -78,6 +80,9 @@ public class ProductManagementActivity extends AppCompatActivity {
                 startActivity(addProductIntent);
             }
         });
+
+        tvHeading = (TextView) findViewById(R.id.listfootername);
+        tvHeading.setText("Product Managment");
     }
 
     private void onScrollEvents() {
@@ -185,6 +190,13 @@ public class ProductManagementActivity extends AppCompatActivity {
                 });
 
 
+    }
+
+
+    public void fragment_call(String product_id) {
+        Seller_Update_Product_Policy seller_update_product_policy = new Seller_Update_Product_Policy(product_id, context);
+        FragmentManager fm = getSupportFragmentManager();
+        seller_update_product_policy.show(fm, "enquiry");
     }
 
 

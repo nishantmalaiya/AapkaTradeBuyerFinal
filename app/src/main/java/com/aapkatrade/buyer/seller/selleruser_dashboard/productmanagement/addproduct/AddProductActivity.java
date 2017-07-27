@@ -107,8 +107,13 @@ public class AddProductActivity extends AppCompatActivity
         setUpToolBar();
         initView();
         setupRecyclerView();
-        getUnit();
+
+       getUnit();
+
+
     }
+
+   
 
 
     private void loadDynamicForm(final String shopId) {

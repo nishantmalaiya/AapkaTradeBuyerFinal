@@ -44,17 +44,16 @@ public class LoginActivity extends AppCompatActivity {
     String usertype, refreshedToken;
 
 
-
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_login);
-        if(FirebaseInstanceId.getInstance().getToken()!=null){
+        if (FirebaseInstanceId.getInstance().getToken() != null) {
 
-        refreshedToken = FirebaseInstanceId.getInstance().getToken();}
+            refreshedToken = FirebaseInstanceId.getInstance().getToken();
+        }
 
         context = LoginActivity.this;
 
@@ -64,7 +63,7 @@ public class LoginActivity extends AppCompatActivity {
 
         usertype = b.getString("user_login");
 
-        System.out.println("userType"+usertype);
+        System.out.println("userType" + usertype);
 
         appSharedpreference = new AppSharedPreference(context);
         progressBarHandler = new ProgressBarHandler(context);
@@ -222,8 +221,7 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
-    private void saveDataInSharedPreference(JsonObject webservice_returndata)
-    {
+    private void saveDataInSharedPreference(JsonObject webservice_returndata) {
 
         appSharedpreference.setSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), webservice_returndata.get("user_type").getAsString());
 
@@ -247,8 +245,7 @@ public class LoginActivity extends AppCompatActivity {
         appSharedpreference.setSharedPref(SharedPreferenceConstants.CREATED_AT.toString(), webservice_returndata.get("createdAt").getAsString());
 
 
-        if (usertype.contains("BUYER"))
-        {
+        if (usertype.contains("BUYER")) {
 
             appSharedpreference.setSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS.toString(), jsonObject.get("sh_address").getAsString());
             appSharedpreference.setSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS_PHONE.toString(), jsonObject.get("sh_phone").getAsString());
@@ -262,16 +259,14 @@ public class LoginActivity extends AppCompatActivity {
 
             appSharedpreference.setSharedPref(SharedPreferenceConstants.ORDER_LIST_COUNT.toString(), webservice_returndata.get("order").getAsString());
             callwebserviceUpdateCart();
-
-        } else if (usertype.contains("SELLER"))
-        {
+        } else if (usertype.contains("SELLER")) {
             appSharedpreference.setSharedPref(SharedPreferenceConstants.PROFILE_PIC.toString(), jsonObject.get("profile_pick").getAsString());
             appSharedpreference.setSharedPref(SharedPreferenceConstants.ORDER_LIST_COUNT.toString(), webservice_returndata.get("order").getAsString());
             appSharedpreference.setSharedPref(SharedPreferenceConstants.SHOP_LIST_COUNT.toString(), webservice_returndata.get("shops").getAsString());
             appSharedpreference.setSharedPref(SharedPreferenceConstants.ENQUIRY_LIST_COUNT.toString(), webservice_returndata.get("enquiries").getAsString());
             appSharedpreference.setSharedPref(SharedPreferenceConstants.PROFILE_VIDEO.toString(), jsonObject.get("profile_video").getAsString());
             appSharedpreference.setSharedPref(SharedPreferenceConstants.PROFILE_VIDEO_THUMBNAIL.toString(), jsonObject.get("video_thumbnail").getAsString());
-            appSharedpreference.setSharedPref(SharedPreferenceConstants.PROFILE_ViDEO_GIF.toString(), jsonObject.get("video_thumbnail").getAsString().concat(".gif"));
+            appSharedpreference.setSharedPref(SharedPreferenceConstants.PROFILE_ViDEO_GIF.toString(), jsonObject.get("profile_video").getAsString().concat(".gif"));
             Intent Homedashboard = new Intent(context, HomeActivity.class);
             Homedashboard.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(Homedashboard);
@@ -307,8 +302,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-    private void callwebserviceUpdateCart()
-    {
+    private void callwebserviceUpdateCart() {
         progressBarHandler.show();
 
         String login_url = context.getResources().getString(R.string.webservice_base_url) + "/update_cart_user";
@@ -326,7 +320,7 @@ public class LoginActivity extends AppCompatActivity {
                 .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                 .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                 .setBodyParameter("user_id", user_id)
-                .setBodyParameter("user_type",appSharedpreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), ""))
+                .setBodyParameter("user_type", appSharedpreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), ""))
                 .setBodyParameter("device_id", AppConfig.getCurrentDeviceId(context))
                 .setBodyParameter("platform", "Android")
                 .asJsonObject()

@@ -1,5 +1,6 @@
 package com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.viewholder;
 
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SwitchCompat;
 import android.view.View;
@@ -22,12 +23,13 @@ public class ProductListViewHolder extends RecyclerView.ViewHolder
     public ImageView imgProduct;
     public Button btnEdit,btnDelete,btnPolicyUpdate;
     public ToggleButton radioButtonStatus;
+    public CardView cardView;
 
 
     public ProductListViewHolder(View itemView)
     {
         super(itemView);
-
+        cardView=(CardView)itemView.findViewById(R.id. card_view);
         productName = (TextView) itemView.findViewById(R.id.tvProductName);
 
         tvProductShopName = (TextView) itemView.findViewById(R.id.tvCompanyName);

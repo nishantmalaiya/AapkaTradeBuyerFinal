@@ -71,6 +71,7 @@ public class CustomSpinnerAdapter extends BaseAdapter {
         LinearLayout linearLayout = (LinearLayout) view.findViewById(R.id.container_simple_spinner);
         RelativeLayout containershoplist = (RelativeLayout) view.findViewById(R.id.containershoplist);
         TextView spinnerItemName = (TextView) view.findViewById(R.id.tvSpCategory);
+       View  view2=(View)view.findViewById(R.id.view2);
         if (arrayList.get(position) instanceof CompanyDropdownDatas) {
            if(((CompanyDropdownDatas) arrayList.get(position)).comapanyCategory!="") {
                linearLayout.setVisibility(View.GONE);
@@ -118,6 +119,7 @@ public class CustomSpinnerAdapter extends BaseAdapter {
 
 
             if (arrayList.get(position) instanceof KeyValue) {
+                view2.setVisibility(View.GONE);
                 spinnerItemName.setText(((KeyValue) arrayList.get(position)).value.toString());
                 spinnerItemName.setTextColor(ContextCompat.getColor(context, R.color.black));
             } else if (arrayList.get(position) instanceof FormValue) {

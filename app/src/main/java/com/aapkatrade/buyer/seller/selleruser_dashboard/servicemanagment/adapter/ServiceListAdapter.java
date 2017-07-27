@@ -161,7 +161,7 @@ public class ServiceListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
 
                 Context wrapper = new ContextThemeWrapper(context, R.style.MyPopupMenu);
-                PopupMenu popup = new PopupMenu(wrapper, homeHolder.imgviewServiceEdit);
+                PopupMenu popup = new PopupMenu(wrapper, homeHolder.rl_ServiceEdit);
                 //inflating menu from xml resource
                 popup.inflate(R.menu.edit_service_list);
 

@@ -148,7 +148,7 @@ public class ChatDialogFragment extends DialogFragment {
                 if (Validation.isValidEmail(s.toString()) || Validation.isValidNumber(s.toString(), Validation.getNumberPrefix(s.toString()))) {
 
 
-                    callWebserviceValidateUser(EmailOrPhone.getText().toString());
+                    //callWebserviceValidateUser(EmailOrPhone.getText().toString());
 
 
                 } else {
@@ -412,6 +412,8 @@ public class ChatDialogFragment extends DialogFragment {
 
 
                                 String chatid = result.get("chat_id").getAsString();
+                                appSharedPreference.setSharedPref(SharedPreferenceConstants.TEMP_CHAT_ID.toString(), chatid);
+
 
                                 Intent i = new Intent(getActivity(), ChatActivity.class);
                                 i.putExtra("chatid", chatid);
@@ -420,6 +422,7 @@ public class ChatDialogFragment extends DialogFragment {
                                 i.putExtra("token", FirebaseTokenId);
                                 i.putExtra("name", Name);
                                 i.putExtra("message", Questions);
+                                i.putExtra("className", getActivity().getClass().getSimpleName());
 
 
                                 startActivity(i);
