@@ -123,7 +123,8 @@
                     android:imeOptions="actionSearch"
                     android:inputType="textAutoComplete|textAutoCorrect"
                     android:textSize="@dimen/textsize_small"
-
+                    android:ems="10"
+                    android:completionThreshold="1"
                     >
 
                     <requestFocus />

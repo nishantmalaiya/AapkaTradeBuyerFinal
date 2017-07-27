@@ -7,251 +7,595 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
-import android.provider.Telephony;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.ConnetivityCheck;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
+import com.aapkatrade.buyer.general.Utils.adapter.CustomSpinnerAdapter;
 import com.aapkatrade.buyer.general.Validation;
+import com.aapkatrade.buyer.general.interfaces.CommonInterface;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
 import com.aapkatrade.buyer.home.buyerregistration.entity.City;
 import com.aapkatrade.buyer.home.buyerregistration.spinner_adapter.SpCityAdapter;
 import com.aapkatrade.buyer.general.Utils.ImageUtils;
 import com.aapkatrade.buyer.home.HomeActivity;
-import com.aapkatrade.buyer.location.GeoCoderAddress;
-import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.CompanyShopData;
+import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.addproduct.CompanyDropdownDatas;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.addproduct.ProductImagesAdapter;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.addproduct.ProductMediaData;
+import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.addproduct.entity.DynamicFormEntity;
+import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.addproduct.entity.FormValue;
+import com.aapkatrade.buyer.uicomponent.customchecklist.CustomCheckList;
+import com.aapkatrade.buyer.uicomponent.pagingspinner.PagingSpinner;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.async.http.body.FilePart;
 import com.koushikdutta.async.http.body.Part;
 import com.koushikdutta.ion.Ion;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
-public class EditProductActivity extends AppCompatActivity
-{
-
-    private TextView btnUpload;
-    private int count = -1;
-    private ArrayList<CompanyShopData> companyList = new ArrayList<>();
-    File docFile = new File("");
-    public ArrayList<ProductMediaData> productImagesDatas = new ArrayList<>();
-    RecyclerView recyclerView;
-    ProductImagesAdapter adapter;
-    ArrayList<Bitmap> multiple_images;
-    List<Telephony.Mms.Part> files_image = new ArrayList();
-    private GeoCoderAddress GeocoderAsync;
-    private int current_state_index;
-    private int step1FieldsSet=-1;
-    RelativeLayout relativeImage;
-    EditText etproductname,et_product_price,et_product_price_discount,et__product_weight,et_description,et_maxorderquantity,et_product_length,et_product_width,et_product_height;
-    TextView tvplaceOrder;
-    List<Part> files = new ArrayList();
-    private AppSharedPreference app_sharedpreference;
-    private ProgressBarHandler p_handler;
+public class EditProductActivity extends AppCompatActivity {
+    private File docFile = new File("");
+    private ArrayList<ProductMediaData> productImagesDataArrayList = new ArrayList<>();
+    private RecyclerView recyclerView;
+    private ProductImagesAdapter adapter;
+    private ArrayList<Bitmap> multiple_images;
+    private EditText etProductName, etProductPrice, etProductPriceDiscount, etProductWeight, etDescription, etMaxorderQuantity, etProductLength, etProductWidth, etProductHeight;
+    private TextView save;
+    private List<Part> files = new ArrayList();
+    private AppSharedPreference appSharedpreference;
+    private ProgressBarHandler progressBarHandler;
     private Context context;
-    Spinner spUnitCategory;
-    private ArrayList<City> cityList = new ArrayList<>();
+    private Spinner spUnitCategory;
+    private PagingSpinner pagingSpinner;
     private ArrayList<City> unitList = new ArrayList<>();
-    String cityID,unitID;
-
-
+    private String unitID, dynamicFormData, productId = "0", productName, price, discount, shortDescription, maxOrderQuantity, weight, width, height, length;
+    private ArrayList<DynamicFormEntity> dynamicFormEntityArrayList = new ArrayList<>();
+    private LinearLayout llSellerProductDetailContainer;
+    public static ArrayList<ProductMediaData> productMediaDatasDelete = new ArrayList<>();
+    private ArrayList<String> imageUrlList = new ArrayList<>();
+    private boolean isAllFieldsSet = true;
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_add_product);
-
-
         context = EditProductActivity.this;
+        appSharedpreference = new AppSharedPreference(context);
+        progressBarHandler = new ProgressBarHandler(context);
+        if (getIntent() != null) {
+            productId = getIntent().getStringExtra("productId") == null ? "0" : getIntent().getStringExtra("productId");
+        }
+        setUpToolBar();
+        initView();
+        setupRecyclerView();
+        loadUnitWebService();
+    }
 
-        app_sharedpreference = new AppSharedPreference(context);
+    private void loadProductDataWebService() {
+        AndroidUtils.showErrorLog(context, "     productId     ", productId);
+        progressBarHandler.show();
+        Ion.with(context)
+                .load(getString(R.string.webservice_base_url).concat("/edit_product_data"))
+                .setHeader("Authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                .setBodyParameter("id", productId)
+                .asJsonObject()
+                .setCallback(new FutureCallback<JsonObject>() {
+                    @Override
+                    public void onCompleted(Exception e, JsonObject result) {
+                        AndroidUtils.showErrorLog(context, "result loadProductDataWebService -----> ", result);
+                        progressBarHandler.hide();
+                        if (result != null) {
+                            if (result.get("error").getAsString().contains("false")) {
+                                JsonObject jsonObject = result.get("result").getAsJsonObject();
+                                productName = jsonObject.get("name").getAsString();
+                                price = jsonObject.get("price").getAsString();
+                                discount = jsonObject.get("discount").getAsString();
+                                unitID = jsonObject.get("unit_id").getAsString();
+                                shortDescription = jsonObject.get("short_des").getAsString();
+                                maxOrderQuantity = jsonObject.get("max_order_qty").getAsString();
+                                weight = jsonObject.get("weight").getAsString();
+                                width = jsonObject.get("width").getAsString();
+                                height = jsonObject.get("height").getAsString();
+                                length = jsonObject.get("length").getAsString();
 
-        p_handler = new ProgressBarHandler(context);
+                                etProductName.setText(productName);
+                                etProductPrice.setText(price);
+                                etProductPriceDiscount.setText(discount);
+                                etMaxorderQuantity.setText(maxOrderQuantity);
+                                etProductWeight.setText(weight);
+                                etProductHeight.setText(height);
+                                etProductWidth.setText(width);
+                                etProductLength.setText(length);
+                                etDescription.setText(shortDescription);
+                                if (Validation.isNumber(unitID) && unitList.size() >= (Integer.valueOf(unitID) - 1)) {
+                                    spUnitCategory.setSelection(Integer.valueOf(unitID));
+                                }
 
-//        daysTileView = (DaysTileView) findViewById(R.id.daysTileView);
-//        daysTileView.setBackgroundColor(R.color.green);
-//        daysTileView.setDayName("Mon - Fri");
-
-//        daysTileView2 = (DaysTileView) findViewById(R.id.daysTileView2);
-//        daysTileView2.setBackgroundColor(R.color.md_material_blue_600);
-//        daysTileView2.setDayName("Saturday");
-
-//        daysTileView3 = (DaysTileView) findViewById(R.id.daysTileView3);
-//        daystileview3.setbackgroundcolor(r.color.red);
-//        daystileview3.setDayName("Sunday");
+                                JsonArray imageJsonArray = jsonObject.get("images").getAsJsonArray();
 
 
-//        findViewById(R.id.btnSave).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                AndroidUtils.showToast(AddProductActivity.this, daysTileView.getOpeningTime()+"   "+daysTileView.getClosingTime());
-//                AndroidUtils.showToast(AddProductActivity.this, daysTileView2.getOpeningTime()+"   "+daysTileView2.getClosingTime());
-//
-//            }
-//        });
+                                for (int i = 0; i < imageJsonArray.size(); i++) {
+                                    JsonObject imageObject = imageJsonArray.get(i).getAsJsonObject();
+                                    String imageUrl = imageObject.get("image_url").getAsString();
+                                    if (Validation.isNonEmptyStr(imageUrl)) {
+                                        AndroidUtils.showErrorLog(context, "imagepathurl---------------------" + imageUrl);
+                                        imageUrlList.add(imageUrl);
+                                    }
+                                }
 
-        context = EditProductActivity.this;
+                                if (imageUrlList.size() > 0) {
+                                    for (int i = 0; i < imageUrlList.size(); i++) {
+                                        AndroidUtils.showErrorLog(context, "downloadImage---------------------" + imageUrlList.get(i));
+                                        downloadImage(i);
+                                    }
+                                }
 
-       /* relativeImage = (RelativeLayout) findViewById(R.id.relativeImage);
 
-        relativeImage.setOnClickListener(new View.OnClickListener() {
+                                JsonArray jsonResultArray = jsonObject.get("dynamic").getAsJsonArray();
+                                if (jsonResultArray != null && jsonResultArray.size() > 0) {
+
+                                    for (int i = 0; i < jsonResultArray.size(); i++) {
+                                        JsonObject jsonObject1 = (JsonObject) jsonResultArray.get(i);
+                                        DynamicFormEntity dynamicFormEntity = new DynamicFormEntity();
+                                        dynamicFormEntity.setMultiple(false);
+                                        dynamicFormEntity.setName(jsonObject1.get("name").getAsString());
+                                        dynamicFormEntity.setLabel(jsonObject1.get("label").getAsString());
+                                        dynamicFormEntity.setType(jsonObject1.get("type").getAsString());
+                                        if (jsonObject1.get("is_multiple").getAsString().contains("true")) {
+                                            dynamicFormEntity.setMultiple(true);
+                                            if (jsonObject1.get("value") != null) {
+                                                JsonArray multipleValueArray = jsonObject1
+                                                        .get("value").getAsJsonArray();
+                                                if (multipleValueArray != null && multipleValueArray.size() > 0) {
+                                                    for (int j = 0; j < multipleValueArray.size(); j++) {
+                                                        JsonObject jsonObject2 = (JsonObject) multipleValueArray.get(j);
+                                                        dynamicFormEntity.addToFormValueArrayList(new FormValue(jsonObject2.get("name").getAsString(), jsonObject2.get("value").getAsString()));
+                                                    }
+                                                }
+                                            }
+                                        } else {
+                                            dynamicFormEntity.addToFormValueArrayList(new FormValue(jsonObject1.get("label") == null ? "" : jsonObject1.get("label").getAsString(), jsonObject1.get("value") == null ? "" : jsonObject1.get("value").getAsString()));
+                                        }
+                                        dynamicFormEntityArrayList.add(dynamicFormEntity);
+                                    }
+                                    AndroidUtils.showErrorLog(context, "dynamicFormEntityArrayList size : " + dynamicFormEntityArrayList.size(), dynamicFormEntityArrayList.toString());
+
+                                } else {
+                                    AndroidUtils.showErrorLog(context, "jsonResultArray is null or jsonResultArray.size == 0");
+                                }
+                                createDynamicForm();
+
+
+                            } else {
+                                AndroidUtils.showErrorLog(context, "loadProductDataWebService -----> error -> true");
+                            }
+                        }
+                    }
+                });
+
+    }
+
+
+    private void downloadImage(final int index) {
+        progressBarHandler.show();
+
+        Ion.with(this).load(imageUrlList.get(index)).withBitmap().asBitmap()
+                .setCallback(new FutureCallback<Bitmap>() {
+                    @Override
+                    public void onCompleted(Exception e, Bitmap result) {
+                        progressBarHandler.hide();
+                        // do something with your bitmap
+                        if (result == null) {
+                            AndroidUtils.showErrorLog(context, "Problems in downloading image result == null.");
+                        } else {
+                            storeImage(result, index);
+                        }
+                    }
+                });
+
+
+    }
+
+
+    private void storeImage(Bitmap image, int index) {
+        File pictureFile = getOutputMediaFile(index);
+        if (pictureFile == null) {
+            AndroidUtils.showErrorLog(context, "Error creating media file, check storage permissions: ");// e.getMessage());
+            return;
+        }
+        try {
+            FileOutputStream fos = new FileOutputStream(pictureFile);
+            image.compress(Bitmap.CompressFormat.PNG, 100, fos);
+            fos.close();
+        } catch (FileNotFoundException e) {
+            AndroidUtils.showErrorLog(context, "File not found: " + e.getMessage());
+        } catch (IOException e) {
+            AndroidUtils.showErrorLog(context, "Error accessing file: " + e.getMessage());
+        }
+        AndroidUtils.showErrorLog(context, "Image file exists with path-------------- : ", pictureFile.getAbsolutePath());// e.getMessage());
+
+        productImagesDataArrayList.add(new ProductMediaData(pictureFile.getAbsolutePath(), "", null, ""));
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        AndroidUtils.showErrorLog(context, "________________^^^^^^^onDestroyonDestroyonDestroy^^^^^^^^^_________________");
+        File mediaStorageDir = new File(Environment.getExternalStorageDirectory()
+                + "/Android/data/"
+                + getApplicationContext().getPackageName()
+                + "/Files");
+
+        if (mediaStorageDir.isDirectory()) {
+            String[] children = mediaStorageDir.list();
+            for (String aChildren : children) {
+                AndroidUtils.showErrorLog(context, "________________^^^^^^^onDestroyonDestroyonDestroy^^^^^^^^^Entry_________________");
+
+                new File(mediaStorageDir, aChildren).delete();
+            }
+        }
+    }
+
+    private File getOutputMediaFile(int index) {
+        File mediaStorageDir = new File(Environment.getExternalStorageDirectory()
+                + "/Android/data/"
+                + getApplicationContext().getPackageName()
+                + "/Files");
+
+        if (!mediaStorageDir.exists()) {
+            if (!mediaStorageDir.mkdirs()) {
+                return null;
+            }
+        }
+        File mediaFile;
+        String mImageName = getFileName(imageUrlList.get(index));
+        mediaFile = new File(mediaStorageDir.getPath() + File.separator + mImageName);
+        return mediaFile;
+    }
+
+    private String getFileName(String s) {
+        if (Validation.isNonEmptyStr(s)) {
+            String s1[] = s.split("/");
+            String s2 = s1[s1.length - 1];
+            return s2;
+        }
+        return new SimpleDateFormat("ddMMyyyy_HHmm").format(new Date());
+    }
+
+
+
+    private void createDynamicForm() {
+        if (dynamicFormEntityArrayList != null && dynamicFormEntityArrayList.size() > 0) {
+            for (DynamicFormEntity dynamicFormEntity : dynamicFormEntityArrayList) {
+                String title = dynamicFormEntity.getLabel();
+                String type = dynamicFormEntity.getType();
+                if (dynamicFormEntity.isMultiple() && type.equalsIgnoreCase("dropdown")) {
+                    createDynamicSpinner(title, type, dynamicFormEntity.getFormValueArrayList());
+                } else if (dynamicFormEntity.isMultiple() && type.equalsIgnoreCase("checkbox")) {
+                    createDynamicCheckList(title, type, dynamicFormEntity.getFormValueArrayList());
+                } else if (dynamicFormEntity.isMultiple() && type.equalsIgnoreCase("radio")) {
+                    createDynamicRadioGroup(title, type, dynamicFormEntity.getFormValueArrayList());
+                } else if (type.equalsIgnoreCase("text") || type.equalsIgnoreCase("number") || type.equalsIgnoreCase("textarea")) {
+                    createDynamicEditText(title, type);
+                }
+            }
+        }
+    }
+
+    private void createDynamicRadioGroup(String title, String type, ArrayList<FormValue> formValueArrayList) {
+        View view = LayoutInflater.from(context).inflate(R.layout.layout_custom_check_list, null, false);
+        CustomCheckList customCheckList = (CustomCheckList) view.findViewById(R.id.customCheckList);
+        customCheckList.setTag(title);
+        customCheckList.setBasicRequiredValues(title, formValueArrayList, true);
+        llSellerProductDetailContainer.addView(view);
+    }
+
+    private void createDynamicCheckList(String title, String type, ArrayList<FormValue> formValueArrayList) {
+        View view = LayoutInflater.from(context).inflate(R.layout.layout_custom_check_list, null, false);
+        CustomCheckList customCheckList = (CustomCheckList) view.findViewById(R.id.customCheckList);
+        customCheckList.setTag(title);
+        customCheckList.setBasicRequiredValues(title, formValueArrayList, false);
+        llSellerProductDetailContainer.addView(view);
+
+        AndroidUtils.showErrorLog(context, "+++++++++++customCheckList.getTag(" + title + ")++++++++++++", null == customCheckList.findViewWithTag(title));
+    }
+
+    private void createDynamicSpinner(String title, String type, ArrayList<FormValue> formValueArrayList) {
+        View view = LayoutInflater.from(context).inflate(R.layout.layout_dynamic_spinner, null, false);
+        Spinner spinner = (Spinner) view.findViewById(R.id.spinner);
+        spinner.setTag(title);
+        if (type.equalsIgnoreCase("dropdown")) {
+            formValueArrayList.add(0, new FormValue("", "Please Select " + title));
+            CustomSpinnerAdapter spinnerArrayAdapter = new CustomSpinnerAdapter(context, formValueArrayList);
+            spinner.setAdapter(spinnerArrayAdapter);
+        }
+
+        llSellerProductDetailContainer.addView(view);
+
+    }
+
+    private void createDynamicEditText(String title, String type) {
+        View view = LayoutInflater.from(context).inflate(R.layout.layout_dynamic_edittext, null, false);
+        EditText editText = (EditText) view.findViewById(R.id.edittext);
+        TextInputLayout textInputLayout = (TextInputLayout) view.findViewById(R.id.input_layout);
+        editText.setTag(title);
+        if (type.equalsIgnoreCase("text") || type.equalsIgnoreCase("textarea")) {
+            editText.setInputType(InputType.TYPE_CLASS_TEXT);
+        } else if (type.equalsIgnoreCase("number")) {
+            editText.setInputType(InputType.TYPE_CLASS_NUMBER);
+        }
+
+        textInputLayout.setHint(title);
+        llSellerProductDetailContainer.addView(view);
+    }
+
+    private void initView() {
+        spUnitCategory = (Spinner) findViewById(R.id.spUnitCategory);
+        etProductName = (EditText) findViewById(R.id.etproductname);
+        etProductPrice = (EditText) findViewById(R.id.et_product_price);
+        etProductPriceDiscount = (EditText) findViewById(R.id.et_product_price_discount);
+        etDescription = (EditText) findViewById(R.id.et_description);
+        etProductWeight = (EditText) findViewById(R.id.et__product_weight);
+        etMaxorderQuantity = (EditText) findViewById(R.id.et_maxorderquantity);
+        etProductLength = (EditText) findViewById(R.id.et_product_length);
+        etProductWidth = (EditText) findViewById(R.id.et_product_width);
+        etProductHeight = (EditText) findViewById(R.id.et_product_height);
+        save = (TextView) findViewById(R.id.tvSaveButton);
+        llSellerProductDetailContainer = (LinearLayout) findViewById(R.id.llSellerProductDetailContainer);
+        save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                picPhoto();
-            }
-        });
-      */
 
+               /* validateFields();
+                AndroidUtils.showErrorLog(context, "isAllFieldsSet............." + isAllFieldsSet);*/
+                AndroidUtils.showErrorLog(context, "productImagesDataArrayList............." + submitImages().size());
 
-        setUpToolBar();
-
-        setuplayout();
-
-        setupRecyclerView();
-
-        getCity("");
-
-        getUnit();
-
-    }
-
-    private void setuplayout()
-    {
-
-        spUnitCategory= (Spinner) findViewById(R.id.spUnitCategory);
-
-        etproductname = (EditText) findViewById(R.id.etproductname);
-
-        et_product_price = (EditText) findViewById(R.id.et_product_price);
-
-        et_product_price_discount = (EditText) findViewById(R.id.et_product_price_discount);
-
-        et_description = (EditText) findViewById(R.id.et_description);
-
-        et__product_weight = (EditText) findViewById(R.id.et__product_weight);
-
-        et_maxorderquantity = (EditText) findViewById(R.id.et_maxorderquantity);
-
-        et_product_length = (EditText) findViewById(R.id.et_product_length);
-
-        et_product_width = (EditText) findViewById(R.id.et_product_width);
-
-        et_product_height = (EditText) findViewById(R.id.et_product_height);
-
-        tvplaceOrder = (TextView) findViewById(R.id.tvSaveButton);
-
-        tvplaceOrder.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                if (Validation.isNonEmptyStr(etproductname.getText().toString()))
-                {
-
-                    if (Validation.isNonEmptyStr(et_product_price.getText().toString()))
-                    {
-
-                        if (Validation.isNonEmptyStr(et_product_price_discount.getText().toString())){
-
-
-                            if (Validation.isNonEmptyStr(et_description.getText().toString()))
-                            {
-
-                                if (Validation.isNonEmptyStr(et__product_weight.getText().toString()))
-                                {
-
-                                    if (Validation.isNonEmptyStr(et_maxorderquantity.getText().toString()))
-                                    {
-
-                                        if (ConnetivityCheck.isNetworkAvailable(context)){
-                                            call_add_product_webservice();
-                                        }
-                                        else {
-
-                                            AndroidUtils.showToast(context,"Please Connect Netwrok");
-                                        }
-
-                                    }
-                                    else
-                                    {
-
-                                        AndroidUtils.showToast(context,"Please Enter Product Max Order Quantity");
-                                    }
-
-                                }
-                                else
-                                {
-
-                                    AndroidUtils.showToast(context,"Please Enter Product Weight");
-                                }
-
-
-                            }
-                            else
-                            {
-
-                                AndroidUtils.showToast(context,"Please Enter Product Description");
-                            }
-
-                        }
-                        else
-                        {
-
-                            AndroidUtils.showToast(context,"Please Enter Product Discount");
-                        }
-
-                    }
-                    else
-                    {
-
-                        AndroidUtils.showToast(context,"Please Enter Product Price");
-                    }
-
-                }
-                else
-                {
-                    AndroidUtils.showToast(context,"Please Enter Product Name");
-                }
-
+                AndroidUtils.showErrorLog(context, "productMediaDatasDeleteList............." ,  submitDeletedImages() == null? "no delter list":submitDeletedImages().size());
+                AndroidUtils.showErrorLog(context, "getDynamicSelectedData............." +  getDynamicSelectedData());
 
             }
         });
 
+        pagingSpinner = (PagingSpinner) findViewById(R.id.pagingSpinner);
+        pagingSpinner.setShopType(1);
+        pagingSpinner.setSellerId(appSharedpreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString()));
+        pagingSpinner.setShopData(productId);
+
 
     }
 
-    private void setUpToolBar()
-    {
+    private void validateFields() {
+
+        isAllFieldsSet = true;
+
+        if (productImagesDataArrayList.size() <= 1) {
+
+            AndroidUtils.showSnackBar(llSellerProductDetailContainer, "Please Upload/Capture at least one Image.");
+            AndroidUtils.showErrorLog(context, "isAllFieldsSet.............productImagesDataArrayList" + isAllFieldsSet);
+            isAllFieldsSet = false;
+
+        } else if (!Validation.isNumber(pagingSpinner.getShopId()) && pagingSpinner.getShopId().equals("0")) {
+            AndroidUtils.showSnackBar(llSellerProductDetailContainer, "Please Select Company/Shop.");
+            AndroidUtils.showErrorLog(context, "isAllFieldsSet.............companyId" + isAllFieldsSet);
+            isAllFieldsSet = false;
+        } else if (Validation.isEmptyStr(etProductName.getText().toString())) {
+            AndroidUtils.showErrorLog(context, "productname**************************");
+            etProductName.setError("Product Name can not be empty.");
+            AndroidUtils.showSnackBar(llSellerProductDetailContainer, "Product Name can not be empty.");
+            AndroidUtils.showErrorLog(context, "isAllFieldsSet.............etProductName" + isAllFieldsSet);
+            isAllFieldsSet = false;
+        } else if (Validation.isEmptyStr(etProductPrice.getText().toString())) {
+            etProductPrice.setError("Product Price can not be empty.");
+            AndroidUtils.showSnackBar(llSellerProductDetailContainer, "Product Price can not be empty.");
+            AndroidUtils.showErrorLog(context, "isAllFieldsSet.............etProductPrice" + isAllFieldsSet);
+            isAllFieldsSet = false;
+        } else if (Validation.isEmptyStr(etProductPriceDiscount.getText().toString())) {
+            etProductPriceDiscount.setError("Product Discount can not be empty.");
+            AndroidUtils.showSnackBar(llSellerProductDetailContainer, "Product Discount can not be empty.");
+            AndroidUtils.showErrorLog(context, "isAllFieldsSet.............etProductPriceDiscount" + isAllFieldsSet);
+            isAllFieldsSet = false;
+        } else if (!Validation.isNumber(unitID)) {
+            AndroidUtils.showSnackBar(llSellerProductDetailContainer, "Please Select Unit.");
+            AndroidUtils.showErrorLog(context, "isAllFieldsSet.............unitID" + isAllFieldsSet);
+            isAllFieldsSet = false;
+        } else if (Validation.isEmptyStr(etDescription.getText().toString())) {
+            etDescription.setError("Product Description can not be empty.");
+            AndroidUtils.showSnackBar(llSellerProductDetailContainer, "Product Description can not be empty.");
+            AndroidUtils.showErrorLog(context, "isAllFieldsSet.............etDescription" + isAllFieldsSet);
+            isAllFieldsSet = false;
+
+        } else if (Validation.isEmptyStr(etProductWeight.getText().toString())) {
+            etProductWeight.setError("Product Weight can not be empty.");
+            AndroidUtils.showSnackBar(llSellerProductDetailContainer, "Product Weight can not be empty.");
+            AndroidUtils.showErrorLog(context, "isAllFieldsSet.............etProductWeight" + isAllFieldsSet);
+            isAllFieldsSet = false;
+
+        } else if (Validation.isEmptyStr(etMaxorderQuantity.getText().toString())) {
+            etMaxorderQuantity.setError("Product Quantity can not be empty.");
+            AndroidUtils.showSnackBar(llSellerProductDetailContainer, "Product Quantity can not be empty.");
+            AndroidUtils.showErrorLog(context, "isAllFieldsSet.............etMaxorderQuantity" + isAllFieldsSet);
+            isAllFieldsSet = false;
+
+        } else if (!ConnetivityCheck.isNetworkAvailable(context)) {
+            AndroidUtils.showSnackBar(llSellerProductDetailContainer, "No Internet Connection available.");
+            AndroidUtils.showErrorLog(context, "isAllFieldsSet.............isNetworkAvailable" + isAllFieldsSet);
+            isAllFieldsSet = false;
+
+        } else {
+            dynamicFormData = getDynamicSelectedData();
+            if (Validation.isEmptyStr(dynamicFormData)) {
+                AndroidUtils.showErrorLog(context, "isAllFieldsSet.............dynamicFormData" + isAllFieldsSet);
+                if (dynamicFormEntityArrayList != null && dynamicFormEntityArrayList.size() > 0) {
+                    isAllFieldsSet = false;
+
+                } else {
+                    isAllFieldsSet = true;
+                }
+            }
+        }
+
+
+    }
+
+
+    private String getDynamicSelectedData() {
+
+        if (dynamicFormEntityArrayList != null && dynamicFormEntityArrayList.size() > 0) {
+
+            JSONArray jsonArray = new JSONArray();
+            for (DynamicFormEntity dynamicFormEntity : dynamicFormEntityArrayList) {
+                String title = dynamicFormEntity.getLabel();
+                String type = dynamicFormEntity.getType();
+                JSONObject jsonObject = new JSONObject();
+                if (dynamicFormEntity.isMultiple() && type.equalsIgnoreCase("dropdown")) {
+                    Spinner spinner = (Spinner) llSellerProductDetailContainer.findViewWithTag(title);
+                    AndroidUtils.showErrorLog(context, "*(((((((((((((((((Spinner)))))))))*", dynamicFormEntity.getFormValueArrayList().get(spinner.getSelectedItemPosition()));
+
+
+                    if (spinner.getSelectedItemPosition() < 1) {
+                        AndroidUtils.showSnackBar(llSellerProductDetailContainer, "Please Select " + title + ".");
+                        AndroidUtils.showErrorLog(context, "isAllFieldsSet.............dropdown" + isAllFieldsSet);
+                        isAllFieldsSet = false;
+                    }
+
+
+                    try {
+                        jsonObject.put(title, dynamicFormEntity.getFormValueArrayList().get(spinner.getSelectedItemPosition()).getValue());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                } else if (dynamicFormEntity.isMultiple() && type.equalsIgnoreCase("checkbox")) {
+                    CustomCheckList customCheckList = (CustomCheckList) llSellerProductDetailContainer.findViewWithTag(title);
+                    AndroidUtils.showErrorLog(context, "+++++++++++customCheckList.getTag(" + title + ")2++++++++++++", null == customCheckList.findViewWithTag(title));
+
+                    AndroidUtils.showErrorLog(context, "*(((((((((((((((((CheckList)))))))))*", customCheckList.getSelectedCheckList());
+
+                    JSONArray jsonArray1 = new JSONArray();
+                    for (FormValue formValue : customCheckList.getSelectedCheckList()) {
+                        jsonArray1.put(formValue.getValue());
+                    }
+
+                    if (customCheckList.getSelectedCheckList() != null && customCheckList.getSelectedCheckList().size() == 0) {
+                        AndroidUtils.showSnackBar(llSellerProductDetailContainer, "Please Select at least one " + title + ".");
+                        AndroidUtils.showErrorLog(context, "isAllFieldsSet.............CheckList" + isAllFieldsSet);
+                        isAllFieldsSet = false;
+                    }
+
+
+                    try {
+                        jsonObject.put(title, jsonArray1);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                } else if (dynamicFormEntity.isMultiple() && type.equalsIgnoreCase("radio")) {
+                    CustomCheckList customCheckList = (CustomCheckList) llSellerProductDetailContainer.findViewWithTag(title);
+                    AndroidUtils.showErrorLog(context, "*(((((((((((((((((RadioGroup)))))))))*", customCheckList.getSelectedCheckList());
+
+                    JSONArray jsonArray1 = new JSONArray();
+                    for (FormValue formValue : customCheckList.getSelectedCheckList()) {
+                        jsonArray1.put(formValue.getValue());
+                    }
+
+                    if (customCheckList.getSelectedCheckList() != null && customCheckList.getSelectedCheckList().size() == 0) {
+                        AndroidUtils.showSnackBar(llSellerProductDetailContainer, "Please Select " + title + ".");
+                        AndroidUtils.showErrorLog(context, "isAllFieldsSet.............radio" + isAllFieldsSet);
+                        isAllFieldsSet = false;
+                    }
+
+                    try {
+                        jsonObject.put(title, customCheckList.getSelectedCheckList().get(0).getValue());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+
+                } else if (type.equalsIgnoreCase("text") || type.equalsIgnoreCase("number") || type.equalsIgnoreCase("textarea")) {
+                    EditText editText = (EditText) llSellerProductDetailContainer.findViewWithTag(title);
+
+                    AndroidUtils.showErrorLog(context, "*(((((((((((((((((Edit Text)))))))))*", editText.getText());
+
+                    if (Validation.isEmptyStr(editText.getText().toString())) {
+                        editText.setError(title + " can not be empty.");
+                        AndroidUtils.showSnackBar(llSellerProductDetailContainer, title + " can not be empty.");
+                        AndroidUtils.showErrorLog(context, "isAllFieldsSet.............editText.getText().toString()" + isAllFieldsSet);
+                        isAllFieldsSet = false;
+
+                    }
+                    try {
+                        jsonObject.put(title, editText.getText().toString());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                jsonArray.put(jsonObject);
+            }
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put("dynamic_data", jsonArray.toString());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            AndroidUtils.showErrorLog(context, jsonObject);
+            return jsonObject.toString();
+        }
+
+
+        return null;
+    }
+
+
+    private void setUpToolBar() {
         ImageView homeIcon = (ImageView) findViewById(R.id.iconHome);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        AppCompatImageView back_imagview = (AppCompatImageView) findViewById(R.id.back_imagview);
         AndroidUtils.setImageColor(homeIcon, context, R.color.white);
+        back_imagview.setVisibility(View.VISIBLE);
+        back_imagview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
         homeIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -260,40 +604,26 @@ public class EditProductActivity extends AppCompatActivity
                 startActivity(intent);
             }
         });
-        setSupportActionBar(toolbar);
-
-        if (getSupportActionBar() != null)
-        {
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayShowTitleEnabled(false);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setTitle(null);
             getSupportActionBar().setElevation(0);
         }
-
-
-
     }
 
-    private void setupRecyclerView()
-    {
+    private void setupRecyclerView() {
         recyclerView = (RecyclerView) findViewById(R.id.recycler);
-
-        productImagesDatas.add(new ProductMediaData("first", "",null,""));
-
-        adapter = new ProductImagesAdapter(EditProductActivity.this, productImagesDatas,this);
-
+        productImagesDataArrayList.add(new ProductMediaData("first", "", null, ""));
+        adapter = new ProductImagesAdapter(context, productImagesDataArrayList, this);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
-
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setVisibility(View.VISIBLE);
-
         recyclerView.setAdapter(adapter);
 
     }
 
-
-    public void picPhoto()
-    {
+    public void picPhoto() {
         String str[] = new String[]{"Camera", "Gallery"};
         new AlertDialog.Builder(this).setItems(str,
                 new DialogInterface.OnClickListener() {
@@ -305,8 +635,7 @@ public class EditProductActivity extends AppCompatActivity
 
     }
 
-    void performImgPicAction(int which)
-    {
+    void performImgPicAction(int which) {
         Intent in;
         if (which == 1) {
             in = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -321,109 +650,84 @@ public class EditProductActivity extends AppCompatActivity
         }
     }
 
-
-   /* @Override
-    protected void onResume() {
-        super.onResume();
-      //  spService_type.setSelection(0);
-        AndroidUtils.showErrorLog(context, "onResume");
-    }*/
-
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         multiple_images = new ArrayList<>();
 
         AndroidUtils.showErrorLog(context, "hi", "requestCode : " + requestCode + "result code : " + resultCode);
 
-        try
-        {
-            if (requestCode == 11)
-            {
-                if (data.getClipData() != null)
-                {
+        try {
+            if (requestCode == 11) {
+                if (data.getClipData() != null) {
 
                     data.getClipData().getItemCount();
 
-                    for (int k = 0; k < 4; k++)
-                    {
+                    for (int k = 0; k < 4; k++) {
 
                         Uri selectedImage = data.getClipData().getItemAt(k).getUri();
 
-                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
+                   /*     Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
                         multiple_images.add(bitmap);
 
                         AndroidUtils.showErrorLog(context, "doc", "***START.****** ");
 
-                        if (ImageUtils.sizeOf(bitmap) > 2048)
-                        {
+                        if (ImageUtils.sizeOf(bitmap) > 2048) {
                             AndroidUtils.showErrorLog(context, "doc", "if doc file path 1");
                             docFile = ImageUtils.getFile(context, ImageUtils.resize(bitmap, bitmap.getHeight() / 2, bitmap.getWidth() / 2));
                             AndroidUtils.showErrorLog(context, "doc", "if doc file path" + docFile.getAbsolutePath());
-                        }
-                        else
-                        {
+                        } else {
                             AndroidUtils.showErrorLog(context, "doc", " else doc file path 1");
                             docFile = ImageUtils.getFile(context, bitmap);
                             AndroidUtils.showErrorLog(context, "doc", " else doc file path" + docFile.getAbsolutePath());
-                        }
+                        }*/
 
-                        productImagesDatas.add(new ProductMediaData(docFile.getAbsolutePath(), "",null,""));
-                        AndroidUtils.showErrorLog(context, "docfile", docFile.getAbsolutePath());
+                        File finalFile = new File(ImageUtils.getRealPathFromURI(context, data.getClipData().getItemAt(k).getUri()));
+
+                        productImagesDataArrayList.add(new ProductMediaData(finalFile.getAbsolutePath(), "", null, ""));
+                        AndroidUtils.showErrorLog(context, "docfile", finalFile.getAbsolutePath());
 
                         adapter.notifyDataSetChanged();
 
-                        if (productImagesDatas.size() > 0)
-                        {
+                        if (productImagesDataArrayList.size() > 0) {
                             recyclerView.setVisibility(View.VISIBLE);
 
                         }
 
                     }
 
-                }
-                else
-                {
-                    try
-                    {
-                        InputStream inputStream = getContentResolver().openInputStream(data.getData());
+                } else {
+                       /* InputStream inputStream = getContentResolver().openInputStream(data.getData());
                         Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
                         Uri tempUri = ImageUtils.getImageUri(context, bitmap);
-
+*/
                         // CALL THIS METHOD TO GET THE ACTUAL PATH
-                        File finalFile = new File(ImageUtils.getRealPathFromURI(context, tempUri));
+                        File finalFile = new File(ImageUtils.getRealPathFromURI(context, data.getData()));
 
-                        productImagesDatas.add(new ProductMediaData(finalFile.getAbsolutePath(), "",null,""));
+                        productImagesDataArrayList.add(new ProductMediaData(finalFile.getAbsolutePath(), "", null, ""));
 
                         AndroidUtils.showErrorLog(context, "docfile", finalFile.getAbsolutePath());
 
                         adapter.notifyDataSetChanged();
 
-                        if (productImagesDatas.size() > 0)
-                        {
+                        if (productImagesDataArrayList.size() > 0) {
                             recyclerView.setVisibility(View.VISIBLE);
 
                         }
-
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
                 }
             }
-            if (requestCode == 10)
-            {
-                AndroidUtils.showErrorLog(context, "docfile10", "Sachin sdnsdfjsd fsdjfsd fnmsdabf");
+            if (requestCode == 10) {
+                /*AndroidUtils.showErrorLog(context, "docfile10", "Sachin sdnsdfjsd fsdjfsd fnmsdabf");
 
                 Bitmap photo = (Bitmap) data.getExtras().get("data");
 
-                Uri tempUri = ImageUtils.getImageUri(EditProductActivity.this, photo);
-
+                Uri tempUri = ImageUtils.getImageUri(context, photo);
+*/
                 // CALL THIS METHOD TO GET THE ACTUAL PATH
-                File finalFile = new File(ImageUtils.getRealPathFromURI(context, tempUri));
+                File finalFile = new File(ImageUtils.getRealPathFromURI(context, data.getData()));
 
-                productImagesDatas.add(new ProductMediaData(finalFile.getAbsolutePath(), "",null,""));
+                productImagesDataArrayList.add(new ProductMediaData(finalFile.getAbsolutePath(), "", null, ""));
                 AndroidUtils.showErrorLog(context, "docfile", finalFile.getAbsolutePath());
 
                 adapter.notifyDataSetChanged();
@@ -432,15 +736,39 @@ public class EditProductActivity extends AppCompatActivity
             }
 
 
-
-
         } catch (Exception e) {
             AndroidUtils.showErrorLog(context, "Exception", e.toString());
         }
 
     }
-    private File savebitmap(String filePath)
-    {
+
+    private List<Part> submitDeletedImages() {
+        List<Part> files = Collections.synchronizedList(new ArrayList<Part>());
+
+        if (productMediaDatasDelete != null && productMediaDatasDelete.size() > 0) {
+            for (int k = 0; k < productMediaDatasDelete.size(); k++) {
+                ProductMediaData file = productMediaDatasDelete.get(k);
+                if (!file.isVideo) {
+
+                    for (int i = 0; i < imageUrlList.size(); i++) {
+                        AndroidUtils.showErrorLog(context, "------Compare--imageUrlList.get(i)------->"+imageUrlList.get(i).split("/")[imageUrlList.get(i).split("/").length - 1]+ "-------file.imagePath---------->"+file.imagePath.split("/")[file.imagePath.split("/").length - 1]);
+
+                        if (!file.imagePath.split("/")[file.imagePath.split("/").length - 1].equals(imageUrlList.get(i).split("/")[imageUrlList.get(i).split("/").length - 1])) {
+                            continue;
+                        }
+                        files.add(new FilePart("delimg[]", savebitmap(file.imagePath)));
+                        AndroidUtils.showErrorLog(context, "---------------------------------))))))((((((", files.toArray());
+
+                    }
+                }
+            }
+            return files;
+        }
+        return null;
+    }
+
+
+    private File savebitmap(String filePath) {
         File file = new File(filePath);
         String extension = filePath.substring(filePath.lastIndexOf(".") + 1, filePath.length());
         BitmapFactory.Options bmOptions = new BitmapFactory.Options();
@@ -465,118 +793,69 @@ public class EditProductActivity extends AppCompatActivity
         return file;
     }
 
+    private ArrayList<Part> submitImages() {
+        ArrayList<Part> files = new ArrayList<>();
 
-
-    private void call_add_product_webservice()
-    {
-        p_handler.show();
-
-        for (int i = 0; i <productImagesDatas.size(); i++)
-        {
-            if (i==0){
-
+        if (productImagesDataArrayList != null && productImagesDataArrayList.size() > 0) {
+            for (int i = 1; i < productImagesDataArrayList.size(); i++) {
+                ProductMediaData file = productImagesDataArrayList.get(i);
+                if (!file.isVideo) {
+                    files.add(new FilePart("image[]", savebitmap(file.imagePath)));
+                    AndroidUtils.showErrorLog(context, files.toArray());
+                }
             }
-            else
-            {
-                files.add(new FilePart("image[]", savebitmap(productImagesDatas.get(i).imagePath)));
-                Log.e("sellDatas",files.toArray().toString());
-            }
-
+            return files;
         }
+        return null;
+    }
 
-        String url = getResources().getString(R.string.webservice_base_url) + "/add_product";
+    private void callAddProductWebservice() {
+        progressBarHandler.show();
 
-        Ion.with(EditProductActivity.this)
-                .load(url)
+        AndroidUtils.showErrorLog(context, "callAddProductWebservice----------called");
+
+        Ion.with(context)
+                .load(getString(R.string.webservice_base_url) + "/add_product")
                 .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
-                .addMultipartParts(files)
+                .addMultipartParts(submitImages())
                 .setMultipartParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
-                .setMultipartParameter("user_id", "3")
-                .setMultipartParameter("name", etproductname.getText().toString())
-                .setMultipartParameter("company_id", cityID)
-                .setMultipartParameter("price", et_product_price.getText().toString())
+                .setMultipartParameter("name", etProductName.getText().toString())
+                .setMultipartParameter("shop_id", pagingSpinner.getShopId())
+                .setMultipartParameter("price", etProductPrice.getText().toString())
+                .setMultipartParameter("discount", etProductPriceDiscount.getText().toString())
                 .setMultipartParameter("unit_id", unitID)
-                .setMultipartParameter("max_order_qty", et_maxorderquantity.getText().toString())
-                .setMultipartParameter("product_weight", app_sharedpreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), ""))
-                .setMultipartParameter("length", et_product_length.getText().toString())
-                .setMultipartParameter("width", et_product_width.getText().toString())
-                .setMultipartParameter("height", et_product_height.getText().toString())
-                .setMultipartParameter("discount", et_product_price_discount.getText().toString())
+                .setMultipartParameter("short_des", etDescription.getText().toString())
+                .setMultipartParameter("max_order_qty", etMaxorderQuantity.getText().toString())
+                .setMultipartParameter("weight", etProductWeight.getText().toString())
+                .setMultipartParameter("length", etProductLength.getText() == null ? "0" : etProductLength.getText().toString())
+                .setMultipartParameter("width", etProductWidth.getText() == null ? "0" : etProductWidth.getText().toString())
+                .setMultipartParameter("height", etProductHeight.getText() == null ? "0" : etProductHeight.getText().toString())
+                .setMultipartParameter("dynamic", Validation.isEmptyStr(dynamicFormData) ? "[]" : dynamicFormData)
+
                 .asJsonObject().setCallback(new FutureCallback<JsonObject>() {
             @Override
             public void onCompleted(Exception e, JsonObject result) {
 
-                System.out.println("result------------------------------" + result);
+                AndroidUtils.showErrorLog(context, "result----------" + context.getClass().getSimpleName() + "------" + result);
 
-                p_handler.hide();
-                if (result != null)
-                {
-                    if (result.get("error").getAsString().contains("false"))
-                    {
-                        AndroidUtils.showToast(context,result.get("message").getAsString());
+                progressBarHandler.hide();
+                if (result != null) {
+                    if (result.get("error").getAsString().contains("false")) {
+                        AndroidUtils.showToast(context, result.get("message").getAsString());
+                        if (Validation.containsIgnoreCase(result.get("message").getAsString(), "Added") || Validation.containsIgnoreCase(result.get("message").getAsString(), "Successfully")) {
+                            onBackPressed();
+                        }
                     }
-                }
-                else
-                {
+                } else {
                     AndroidUtils.showErrorLog(context, "hello2", e.toString());
-                    p_handler.hide();
                 }
             }
         });
     }
 
-
-
-
-
-
-    private void getCity(String stateId)
-    {
-        p_handler.show();
-        // findViewById(R.id.input_layout_city).setVisibility(View.VISIBLE);
-        Ion.with(context)
-                .load("http://aapkatrade.com/slim/listCompany")
-                .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
-                .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
-                .setBodyParameter("type", "company")
-                .setBodyParameter("user_id", "3")
-                .asJsonObject()
-                .setCallback(new FutureCallback<JsonObject>() {
-                    @Override
-                    public void onCompleted(Exception e, JsonObject result)
-                    {
-                        p_handler.hide();
-                        Log.e("city result ", result == null ? "null" : result.toString());
-
-                        if (result != null) {
-                            JsonArray jsonResultArray = result.getAsJsonArray("result");
-
-                            City cityEntity_init = new City("-1", "Please Select Company");
-                            cityList.add(cityEntity_init);
-
-                            for (int i = 0; i < jsonResultArray.size(); i++) {
-                                JsonObject jsonObject1 = (JsonObject) jsonResultArray.get(i);
-                                City cityEntity = new City(jsonObject1.get("companyId").getAsString(), jsonObject1.get("name").getAsString());
-                                cityList.add(cityEntity);
-                            }
-
-                            SpCityAdapter spCityAdapter = new SpCityAdapter(context, cityList);
-
-                        } else {
-                            AndroidUtils.showToast(context, "! Invalid city");
-                        }
-                    }
-
-                });
-    }
-
-
-
-    private void getUnit()
-    {
+    private void loadUnitWebService() {
         unitList.clear();
-        p_handler.show();
-        // findViewById(R.id.input_layout_city).setVisibility(View.VISIBLE);
+        progressBarHandler.show();
         Ion.with(context)
                 .load("http://staging.aapkatrade.com/slim/dropdown")
                 .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
@@ -585,14 +864,14 @@ public class EditProductActivity extends AppCompatActivity
                 .asJsonObject()
                 .setCallback(new FutureCallback<JsonObject>() {
                     @Override
-                    public void onCompleted(Exception e, JsonObject result)
-                    {
-                        p_handler.hide();
+                    public void onCompleted(Exception e, JsonObject result) {
+                        progressBarHandler.hide();
                         Log.e("city result ", result == null ? "null" : result.toString());
 
                         if (result != null) {
                             JsonArray jsonResultArray = result.getAsJsonArray("result");
 
+                            unitList.add(new City("-1", "Please Select Unit"));
 
                             for (int i = 0; i < jsonResultArray.size(); i++) {
                                 JsonObject jsonObject1 = (JsonObject) jsonResultArray.get(i);
@@ -607,20 +886,24 @@ public class EditProductActivity extends AppCompatActivity
                                 @Override
                                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                                     unitID = unitList.get(position).cityId;
+                                    AndroidUtils.showErrorLog(context, "Unit id is : ", unitID);
                                 }
 
                                 @Override
-                                public void onNothingSelected(AdapterView<?> parent)
-                                {
+                                public void onNothingSelected(AdapterView<?> parent) {
 
                                 }
                             });
                         } else {
-                            AndroidUtils.showToast(context, "! Invalid city");
+                            AndroidUtils.showToast(context, "! Invalid Unit");
                         }
+
+                        loadProductDataWebService();
                     }
 
                 });
     }
 
 }
+
+

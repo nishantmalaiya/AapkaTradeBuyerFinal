@@ -40,6 +40,7 @@ import com.aapkatrade.buyer.home.buyerregistration.entity.City;
 import com.aapkatrade.buyer.home.buyerregistration.spinner_adapter.SpCityAdapter;
 import com.aapkatrade.buyer.general.Utils.ImageUtils;
 import com.aapkatrade.buyer.home.HomeActivity;
+import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.ProductManagementActivity;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.addproduct.entity.DynamicFormEntity;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.addproduct.entity.FormValue;
 import com.aapkatrade.buyer.uicomponent.customchecklist.CustomCheckList;
@@ -63,7 +64,8 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddProductActivity extends AppCompatActivity {
+public class AddProductActivity extends AppCompatActivity
+{
     private File docFile = new File("");
     private ArrayList<ProductMediaData> productImagesDatas = new ArrayList<>();
     private RecyclerView recyclerView;
@@ -105,19 +107,13 @@ public class AddProductActivity extends AppCompatActivity {
         setUpToolBar();
         initView();
         setupRecyclerView();
-        setupSpinner();
+
+       getUnit();
 
 
     }
 
-    private void setupSpinner() {
-
-
-        //callCompanyListWebservice(++page);
-
-        getUnit();
-
-    }
+   
 
 
     private void loadDynamicForm(final String shopId) {
@@ -273,6 +269,13 @@ public class AddProductActivity extends AppCompatActivity {
         pagingSpinner = (PagingSpinner) findViewById(R.id.pagingSpinner);
         pagingSpinner.setShopType(1);
         pagingSpinner.setSellerId(appSharedpreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString()));
+        pagingSpinner.commonInterfaceOuter = new CommonInterface() {
+            @Override
+            public Object getData(Object object) {
+                loadDynamicForm((String) object);
+                return null;
+            }
+        };
     }
 
     private void validateFields() {
@@ -537,9 +540,9 @@ public class AddProductActivity extends AppCompatActivity {
 
                     for (int k = 0; k < 4; k++) {
 
-                        Uri selectedImage = data.getClipData().getItemAt(k).getUri();
+                       // Uri selectedImage = data.getClipData().getItemAt(k).getUri();
 
-                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
+                       /* Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
                         multiple_images.add(bitmap);
 
                         AndroidUtils.showErrorLog(context, "doc", "***START.****** ");
@@ -552,10 +555,12 @@ public class AddProductActivity extends AppCompatActivity {
                             AndroidUtils.showErrorLog(context, "doc", " else doc file path 1");
                             docFile = ImageUtils.getFile(context, bitmap);
                             AndroidUtils.showErrorLog(context, "doc", " else doc file path" + docFile.getAbsolutePath());
-                        }
+                        }*/
 
-                        productImagesDatas.add(new ProductMediaData(docFile.getAbsolutePath(), "", null, ""));
-                        AndroidUtils.showErrorLog(context, "docfile", docFile.getAbsolutePath());
+                        File finalFile = new File(ImageUtils.getRealPathFromURI(context, data.getClipData().getItemAt(k).getUri()));
+
+                        productImagesDatas.add(new ProductMediaData(finalFile.getAbsolutePath(), "", null, ""));
+                        AndroidUtils.showErrorLog(context, "docfile", finalFile.getAbsolutePath());
 
                         adapter.notifyDataSetChanged();
 
@@ -567,13 +572,13 @@ public class AddProductActivity extends AppCompatActivity {
                     }
 
                 } else {
-                    try {
-                        InputStream inputStream = getContentResolver().openInputStream(data.getData());
+
+                       /* InputStream inputStream = getContentResolver().openInputStream(data.getData());
                         Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
                         Uri tempUri = ImageUtils.getImageUri(context, bitmap);
-
+                       */
                         // CALL THIS METHOD TO GET THE ACTUAL PATH
-                        File finalFile = new File(ImageUtils.getRealPathFromURI(context, tempUri));
+                        File finalFile = new File(ImageUtils.getRealPathFromURI(context, data.getData()));
 
                         productImagesDatas.add(new ProductMediaData(finalFile.getAbsolutePath(), "", null, ""));
 
@@ -586,9 +591,7 @@ public class AddProductActivity extends AppCompatActivity {
 
                         }
 
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
+
                 }
             }
             if (requestCode == 10) {
@@ -680,7 +683,6 @@ public class AddProductActivity extends AppCompatActivity {
                 .setMultipartParameter("width", etProductWidth.getText() == null ? "0" : etProductWidth.getText().toString())
                 .setMultipartParameter("height", etProductHeight.getText() == null ? "0" : etProductHeight.getText().toString())
                 .setMultipartParameter("dynamic", Validation.isEmptyStr(dynamicFormData) ? "[]" : dynamicFormData)
-
                 .asJsonObject().setCallback(new FutureCallback<JsonObject>() {
             @Override
             public void onCompleted(Exception e, JsonObject result) {
@@ -692,7 +694,9 @@ public class AddProductActivity extends AppCompatActivity {
                     if (result.get("error").getAsString().contains("false")) {
                         AndroidUtils.showToast(context, result.get("message").getAsString());
                         if (Validation.containsIgnoreCase(result.get("message").getAsString(), "Added") || Validation.containsIgnoreCase(result.get("message").getAsString(), "Successfully")) {
-                            onBackPressed();
+                            finish();
+                            Intent intent = new Intent(context, ProductManagementActivity.class);
+                            startActivity(intent);
                         }
                     }
                 } else {

@@ -1,0 +1,94 @@
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:id="@+id/cardViewCancelDialog"
+    android:layout_height="match_parent"
+    app:cardBackgroundColor="@color/grey_light3"
+    app:cardCornerRadius="@dimen/ten_dip"
+    tools:context="com.aapkatrade.buyer.dialogs.track_order.TrackOrderDialog">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+
+        <ImageView
+            android:id="@+id/imgCommingSoon"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/ic_error"
+            android:layout_marginTop="30dp"
+            android:paddingBottom="@dimen/twenty_dip"
+            />
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:layout_below="@+id/imgCommingSoon"
+
+            >
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Aapka Trade"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/ten_dip"
+                android:textColor="#e52f17"
+                android:textSize="@dimen/twenty_five_dip"
+                tools:ignore="HardcodedText,SpUsage" />
+
+            <TextView
+                android:id="@+id/tvTitle2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:text="The Page is under construction"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/ten_dip"
+                android:layout_below="@+id/tvTitle"
+
+                android:textColor="@color/black"
+                tools:ignore="HardcodedText,SpUsage" />
+
+
+            <TextView
+                android:id="@+id/tvTitle3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="The Page is under construction"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/ten_dip"
+                android:layout_below="@+id/tvTitle"
+                android:textColor="@color/black"
+                tools:ignore="HardcodedText,SpUsage" />
+
+
+            <Button
+                android:id="@+id/closeButton"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="Close"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/tvTitle3"
+                android:layout_marginTop="@dimen/twenty_dip"
+                android:background="@drawable/close_popup_button"
+                android:textColor="@color/white"
+                android:paddingRight="@dimen/ten_dip"
+                android:paddingLeft="@dimen/ten_dip"
+                android:layout_marginBottom="@dimen/twenty_dip"
+                />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+
+</android.support.v7.widget.CardView>

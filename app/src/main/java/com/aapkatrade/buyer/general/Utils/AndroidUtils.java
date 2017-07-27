@@ -98,12 +98,13 @@ public class AndroidUtils {
             outputDate = df_output.format(parsed);
 
         } catch (ParseException e) {
-            Log.e("ParseE_Fromstring", e.toString());
+       Log.e("ParseE_Fromstring",e.toString());
         }
 
         return outputDate;
 
     }
+
 
 
     public static void setBackgroundSolid(View layout, Context context, int bgColor, int cornerRadius, int oval) {
@@ -227,6 +228,8 @@ public class AndroidUtils {
         toast.setView(v);
         toast.show();
     }
+
+
 
 
 }
