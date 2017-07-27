@@ -89,6 +89,9 @@ public class EditProductActivity extends AppCompatActivity {
     private LinearLayout llSellerProductDetailContainer;
     public static ArrayList<ProductMediaData> productMediaDatasDelete = new ArrayList<>();
     private ArrayList<String> imageUrlList = new ArrayList<>();
+    private  ArrayList<Part> submitImgList = new ArrayList<>();
+    private  ArrayList<Part> submitImgDelList = new ArrayList<>();
+    
     private boolean isAllFieldsSet = true;
 
 
@@ -260,7 +263,7 @@ public class EditProductActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        AndroidUtils.showErrorLog(context, "________________^^^^^^^onDestroyonDestroyonDestroy^^^^^^^^^_________________");
+   /*     AndroidUtils.showErrorLog(context, "________________^^^^^^^onDestroyonDestroyonDestroy^^^^^^^^^_________________");
         File mediaStorageDir = new File(Environment.getExternalStorageDirectory()
                 + "/Android/data/"
                 + getApplicationContext().getPackageName()
@@ -273,7 +276,7 @@ public class EditProductActivity extends AppCompatActivity {
 
                 new File(mediaStorageDir, aChildren).delete();
             }
-        }
+        }*/
     }
 
     private File getOutputMediaFile(int index) {
@@ -301,7 +304,6 @@ public class EditProductActivity extends AppCompatActivity {
         }
         return new SimpleDateFormat("ddMMyyyy_HHmm").format(new Date());
     }
-
 
 
     private void createDynamicForm() {
@@ -385,14 +387,20 @@ public class EditProductActivity extends AppCompatActivity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                submitImgList.clear();
+                submitImgDelList.clear();
+                submitImgList = submitImages();
+                submitImgDelList = submitDeletedImages();
 
                /* validateFields();
                 AndroidUtils.showErrorLog(context, "isAllFieldsSet............." + isAllFieldsSet);*/
-                AndroidUtils.showErrorLog(context, "productImagesDataArrayList............." + submitImages().size());
+                AndroidUtils.showErrorLog(context, "productImagesDataArrayList............." + submitImgList.size());
 
-                AndroidUtils.showErrorLog(context, "productMediaDatasDeleteList............." ,  submitDeletedImages() == null? "no delter list":submitDeletedImages().size());
-                AndroidUtils.showErrorLog(context, "getDynamicSelectedData............." +  getDynamicSelectedData());
-
+                AndroidUtils.showErrorLog(context, "productMediaDatasDeleteList.............", submitImgDelList == null ? "no delter list" : submitImgDelList.size());
+                AndroidUtils.showErrorLog(context, "getDynamicSelectedData............." + dynamicFormData);
+                if(isAllFieldsSet){
+                    hitUpdateProductWebservice();
+                }
             }
         });
 
@@ -400,7 +408,6 @@ public class EditProductActivity extends AppCompatActivity {
         pagingSpinner.setShopType(1);
         pagingSpinner.setSellerId(appSharedpreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString()));
         pagingSpinner.setShopData(productId);
-
 
     }
 
@@ -544,8 +551,10 @@ public class EditProductActivity extends AppCompatActivity {
                     }
 
                     try {
-                        jsonObject.put(title, customCheckList.getSelectedCheckList().get(0).getValue());
-                    } catch (JSONException e) {
+                        if (customCheckList.getSelectedCheckList() != null && customCheckList.getSelectedCheckList().size() > 0) {
+                            jsonObject.put(title, customCheckList.getSelectedCheckList().get(0).getValue());
+                        }
+                    } catch (ArrayIndexOutOfBoundsException | JSONException e) {
                         e.printStackTrace();
                     }
 
@@ -702,19 +711,19 @@ public class EditProductActivity extends AppCompatActivity {
                         Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
                         Uri tempUri = ImageUtils.getImageUri(context, bitmap);
 */
-                        // CALL THIS METHOD TO GET THE ACTUAL PATH
-                        File finalFile = new File(ImageUtils.getRealPathFromURI(context, data.getData()));
+                    // CALL THIS METHOD TO GET THE ACTUAL PATH
+                    File finalFile = new File(ImageUtils.getRealPathFromURI(context, data.getData()));
 
-                        productImagesDataArrayList.add(new ProductMediaData(finalFile.getAbsolutePath(), "", null, ""));
+                    productImagesDataArrayList.add(new ProductMediaData(finalFile.getAbsolutePath(), "", null, ""));
 
-                        AndroidUtils.showErrorLog(context, "docfile", finalFile.getAbsolutePath());
+                    AndroidUtils.showErrorLog(context, "docfile", finalFile.getAbsolutePath());
 
-                        adapter.notifyDataSetChanged();
+                    adapter.notifyDataSetChanged();
 
-                        if (productImagesDataArrayList.size() > 0) {
-                            recyclerView.setVisibility(View.VISIBLE);
+                    if (productImagesDataArrayList.size() > 0) {
+                        recyclerView.setVisibility(View.VISIBLE);
 
-                        }
+                    }
                 }
             }
             if (requestCode == 10) {
@@ -742,24 +751,14 @@ public class EditProductActivity extends AppCompatActivity {
 
     }
 
-    private List<Part> submitDeletedImages() {
-        List<Part> files = Collections.synchronizedList(new ArrayList<Part>());
-
+    private ArrayList<Part> submitDeletedImages() {
+        ArrayList<Part> files = new ArrayList<>();
         if (productMediaDatasDelete != null && productMediaDatasDelete.size() > 0) {
             for (int k = 0; k < productMediaDatasDelete.size(); k++) {
                 ProductMediaData file = productMediaDatasDelete.get(k);
-                if (!file.isVideo) {
-
-                    for (int i = 0; i < imageUrlList.size(); i++) {
-                        AndroidUtils.showErrorLog(context, "------Compare--imageUrlList.get(i)------->"+imageUrlList.get(i).split("/")[imageUrlList.get(i).split("/").length - 1]+ "-------file.imagePath---------->"+file.imagePath.split("/")[file.imagePath.split("/").length - 1]);
-
-                        if (!file.imagePath.split("/")[file.imagePath.split("/").length - 1].equals(imageUrlList.get(i).split("/")[imageUrlList.get(i).split("/").length - 1])) {
-                            continue;
-                        }
-                        files.add(new FilePart("delimg[]", savebitmap(file.imagePath)));
-                        AndroidUtils.showErrorLog(context, "---------------------------------))))))((((((", files.toArray());
-
-                    }
+                if (!file.isVideo && isExistingImage(file) && savebitmap(file.imagePath)!=null) {
+                    files.add(new FilePart("delimg[]", savebitmap(file.imagePath)));
+                    AndroidUtils.showErrorLog(context, "---------------------------------))))))((((((", files.get(0).getFilename());
                 }
             }
             return files;
@@ -795,13 +794,12 @@ public class EditProductActivity extends AppCompatActivity {
 
     private ArrayList<Part> submitImages() {
         ArrayList<Part> files = new ArrayList<>();
-
         if (productImagesDataArrayList != null && productImagesDataArrayList.size() > 0) {
             for (int i = 1; i < productImagesDataArrayList.size(); i++) {
                 ProductMediaData file = productImagesDataArrayList.get(i);
-                if (!file.isVideo) {
-                    files.add(new FilePart("image[]", savebitmap(file.imagePath)));
-                    AndroidUtils.showErrorLog(context, files.toArray());
+                if (!file.isVideo && !isExistingImage(file) && savebitmap(file.imagePath)!=null) {
+                    files.add(new FilePart("image", savebitmap(file.imagePath)));
+                    AndroidUtils.showErrorLog(context, "----------------submitImages--->", files.toArray());
                 }
             }
             return files;
@@ -809,48 +807,347 @@ public class EditProductActivity extends AppCompatActivity {
         return null;
     }
 
-    private void callAddProductWebservice() {
+    private boolean isExistingImage(ProductMediaData file) {
+        for (int i = 0; i < imageUrlList.size(); i++) {
+            AndroidUtils.showErrorLog(context, "------isExistingImage--imageUrlList.get(i)------->" + imageUrlList.get(i).split("/")[imageUrlList.get(i).split("/").length - 1] + "-------file.imagePath---------->" + file.imagePath.split("/")[file.imagePath.split("/").length - 1]);
+            if (file.imagePath.split("/")[file.imagePath.split("/").length - 1].equals(imageUrlList.get(i).split("/")[imageUrlList.get(i).split("/").length - 1])) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+   /* private ArrayList<Part> getImagesData(String key, ArrayList<Part> partArrayList){
+        ArrayList<Part> localPartArrayList = new ArrayList<>();
+        if(partArrayList == null){
+            localPartArrayList.add(new FilePart("image", savebitmap("[]")));
+        }
+        return localPartArrayList;
+    }
+*/
+    private void hitUpdateProductWebservice() {
         progressBarHandler.show();
 
-        AndroidUtils.showErrorLog(context, "callAddProductWebservice----------called");
+        AndroidUtils.showErrorLog(context, "hitUpdateProductWebservice----------called");
 
-        Ion.with(context)
-                .load(getString(R.string.webservice_base_url) + "/add_product")
-                .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
-                .addMultipartParts(submitImages())
-                .setMultipartParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
-                .setMultipartParameter("name", etProductName.getText().toString())
-                .setMultipartParameter("shop_id", pagingSpinner.getShopId())
-                .setMultipartParameter("price", etProductPrice.getText().toString())
-                .setMultipartParameter("discount", etProductPriceDiscount.getText().toString())
-                .setMultipartParameter("unit_id", unitID)
-                .setMultipartParameter("short_des", etDescription.getText().toString())
-                .setMultipartParameter("max_order_qty", etMaxorderQuantity.getText().toString())
-                .setMultipartParameter("weight", etProductWeight.getText().toString())
-                .setMultipartParameter("length", etProductLength.getText() == null ? "0" : etProductLength.getText().toString())
-                .setMultipartParameter("width", etProductWidth.getText() == null ? "0" : etProductWidth.getText().toString())
-                .setMultipartParameter("height", etProductHeight.getText() == null ? "0" : etProductHeight.getText().toString())
-                .setMultipartParameter("dynamic", Validation.isEmptyStr(dynamicFormData) ? "[]" : dynamicFormData)
 
-                .asJsonObject().setCallback(new FutureCallback<JsonObject>() {
-            @Override
-            public void onCompleted(Exception e, JsonObject result) {
 
-                AndroidUtils.showErrorLog(context, "result----------" + context.getClass().getSimpleName() + "------" + result);
 
-                progressBarHandler.hide();
-                if (result != null) {
-                    if (result.get("error").getAsString().contains("false")) {
-                        AndroidUtils.showToast(context, result.get("message").getAsString());
-                        if (Validation.containsIgnoreCase(result.get("message").getAsString(), "Added") || Validation.containsIgnoreCase(result.get("message").getAsString(), "Successfully")) {
-                            onBackPressed();
+          if (submitImgList == null || submitImgList.size() == 0) {
+            if (submitImgDelList == null || submitImgDelList.size() == 0) {
+                Ion.with(context)
+                        .load(getString(R.string.webservice_base_url).concat("/edit_product/").concat(productId))
+                        .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                        .setMultipartParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                        .setMultipartParameter("name", etProductName.getText().toString())
+                        .setMultipartParameter("shop_id", pagingSpinner.getShopId())
+                        .setMultipartParameter("price", etProductPrice.getText().toString())
+                        .setMultipartParameter("discount", etProductPriceDiscount.getText().toString())
+                        .setMultipartParameter("unit_id", unitID)
+                        .setMultipartParameter("short_des", etDescription.getText().toString())
+                        .setMultipartParameter("max_order_qty", etMaxorderQuantity.getText().toString())
+                        .setMultipartParameter("weight", etProductWeight.getText().toString())
+                        .setMultipartParameter("length", etProductLength.getText() == null ? "0" : etProductLength.getText().toString())
+                        .setMultipartParameter("width", etProductWidth.getText() == null ? "0" : etProductWidth.getText().toString())
+                        .setMultipartParameter("height", etProductHeight.getText() == null ? "0" : etProductHeight.getText().toString())
+                        .setMultipartParameter("dynamic", Validation.isEmptyStr(dynamicFormData) ? "[]" : dynamicFormData)
+                        .setMultipartParameter("image", "[]")
+                        .setMultipartParameter("delimg", "[]")
+                        .asString().setCallback(new FutureCallback<String>() {
+                    @Override
+                    public void onCompleted(Exception e, String result) {
+                        AndroidUtils.showErrorLog(context, "result--1--------" + context.getClass().getSimpleName() + "------" + result);
+
+                    }
+                });
+            } else {
+                AndroidUtils.showErrorLog(context, "data printing--->"+submitImgDelList.size());
+
+                for(int i = 0; i < submitImgDelList.size(); i++){
+                    AndroidUtils.showErrorLog(context, "submitImgList.get(i).getFilename()--->",submitImgDelList.get(i).getFilename());
+                }
+
+
+                Ion.with(context)
+                        .load(getString(R.string.webservice_base_url).concat("/edit_product/").concat(productId))
+                        .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                        .addMultipartParts(submitImgDelList)
+                        .setMultipartParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                        .setMultipartParameter("name", etProductName.getText().toString())
+                        .setMultipartParameter("shop_id", pagingSpinner.getShopId())
+                        .setMultipartParameter("price", etProductPrice.getText().toString())
+                        .setMultipartParameter("discount", etProductPriceDiscount.getText().toString())
+                        .setMultipartParameter("unit_id", unitID)
+                        .setMultipartParameter("short_des", etDescription.getText().toString())
+                        .setMultipartParameter("max_order_qty", etMaxorderQuantity.getText().toString())
+                        .setMultipartParameter("weight", etProductWeight.getText().toString())
+                        .setMultipartParameter("length", etProductLength.getText() == null ? "0" : etProductLength.getText().toString())
+                        .setMultipartParameter("width", etProductWidth.getText() == null ? "0" : etProductWidth.getText().toString())
+                        .setMultipartParameter("height", etProductHeight.getText() == null ? "0" : etProductHeight.getText().toString())
+                        .setMultipartParameter("dynamic", Validation.isEmptyStr(dynamicFormData) ? "[]" : dynamicFormData)
+                        .setMultipartParameter("image", "[]")
+                        .asString().setCallback(new FutureCallback<String>() {
+                    @Override
+                    public void onCompleted(Exception e, String result) {
+                        AndroidUtils.showErrorLog(context, "result--2--------" + context.getClass().getSimpleName() + "------" + result);
+
+                    }
+                });
+            }
+        } else {
+            if (submitImgDelList == null || submitImgDelList.size() == 0) {
+                Ion.with(context)
+                        .load(getString(R.string.webservice_base_url).concat("/edit_product/").concat(productId))
+                        .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                        .addMultipartParts(submitImgList)
+                        .setMultipartParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                        .setMultipartParameter("name", etProductName.getText().toString())
+                        .setMultipartParameter("shop_id", pagingSpinner.getShopId())
+                        .setMultipartParameter("price", etProductPrice.getText().toString())
+                        .setMultipartParameter("discount", etProductPriceDiscount.getText().toString())
+                        .setMultipartParameter("unit_id", unitID)
+                        .setMultipartParameter("short_des", etDescription.getText().toString())
+                        .setMultipartParameter("max_order_qty", etMaxorderQuantity.getText().toString())
+                        .setMultipartParameter("weight", etProductWeight.getText().toString())
+                        .setMultipartParameter("length", etProductLength.getText() == null ? "0" : etProductLength.getText().toString())
+                        .setMultipartParameter("width", etProductWidth.getText() == null ? "0" : etProductWidth.getText().toString())
+                        .setMultipartParameter("height", etProductHeight.getText() == null ? "0" : etProductHeight.getText().toString())
+                        .setMultipartParameter("dynamic", Validation.isEmptyStr(dynamicFormData) ? "[]" : dynamicFormData)
+                        .setMultipartParameter("delimg", "[]")
+                        .asString().setCallback(new FutureCallback<String>() {
+                    @Override
+                    public void onCompleted(Exception e, String result) {
+                        AndroidUtils.showErrorLog(context, "result--3--------" + context.getClass().getSimpleName() + "------" + result);
+
+                    }
+                });
+            } else {
+                Ion.with(context)
+                        .load(getString(R.string.webservice_base_url).concat("/edit_product/").concat(productId))
+                        .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                        .addMultipartParts(submitImgList)
+                        .addMultipartParts(submitImgDelList)
+                        .setMultipartParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                        .setMultipartParameter("name", etProductName.getText().toString())
+                        .setMultipartParameter("shop_id", pagingSpinner.getShopId())
+                        .setMultipartParameter("price", etProductPrice.getText().toString())
+                        .setMultipartParameter("discount", etProductPriceDiscount.getText().toString())
+                        .setMultipartParameter("unit_id", unitID)
+                        .setMultipartParameter("short_des", etDescription.getText().toString())
+                        .setMultipartParameter("max_order_qty", etMaxorderQuantity.getText().toString())
+                        .setMultipartParameter("weight", etProductWeight.getText().toString())
+                        .setMultipartParameter("length", etProductLength.getText() == null ? "0" : etProductLength.getText().toString())
+                        .setMultipartParameter("width", etProductWidth.getText() == null ? "0" : etProductWidth.getText().toString())
+                        .setMultipartParameter("height", etProductHeight.getText() == null ? "0" : etProductHeight.getText().toString())
+                        .setMultipartParameter("dynamic", Validation.isEmptyStr(dynamicFormData) ? "[]" : dynamicFormData)
+                        .asString().setCallback(new FutureCallback<String>() {
+                    @Override
+                    public void onCompleted(Exception e, String result) {
+                        AndroidUtils.showErrorLog(context, "result--4--------" + context.getClass().getSimpleName() + "------" + result);
+
+                    }
+                });
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      /*  if (submitImgList == null) {
+            if (submitImgDelList == null) {
+                Ion.with(context)
+                        .load(getString(R.string.webservice_base_url).concat("/edit_product/").concat(productId))
+                        .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                        .setMultipartParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                        .setMultipartParameter("name", etProductName.getText().toString())
+                        .setMultipartParameter("shop_id", pagingSpinner.getShopId())
+                        .setMultipartParameter("price", etProductPrice.getText().toString())
+                        .setMultipartParameter("discount", etProductPriceDiscount.getText().toString())
+                        .setMultipartParameter("unit_id", unitID)
+                        .setMultipartParameter("short_des", etDescription.getText().toString())
+                        .setMultipartParameter("max_order_qty", etMaxorderQuantity.getText().toString())
+                        .setMultipartParameter("weight", etProductWeight.getText().toString())
+                        .setMultipartParameter("length", etProductLength.getText() == null ? "0" : etProductLength.getText().toString())
+                        .setMultipartParameter("width", etProductWidth.getText() == null ? "0" : etProductWidth.getText().toString())
+                        .setMultipartParameter("height", etProductHeight.getText() == null ? "0" : etProductHeight.getText().toString())
+                        .setMultipartParameter("dynamic", Validation.isEmptyStr(dynamicFormData) ? "[]" : dynamicFormData)
+                        .setMultipartParameter("image", "[]")
+                        .setMultipartParameter("delimg", "[]")
+                        .asJsonObject().setCallback(new FutureCallback<JsonObject>() {
+                    @Override
+                    public void onCompleted(Exception e, JsonObject result) {
+
+                        AndroidUtils.showErrorLog(context, "result----------" + context.getClass().getSimpleName() + "------" + result);
+
+                        progressBarHandler.hide();
+                        if (result != null) {
+                            if (result.get("error").getAsString().contains("false")) {
+                                AndroidUtils.showToast(context, result.get("message").getAsString());
+                                if (Validation.containsIgnoreCase(result.get("message").getAsString(), "Added") || Validation.containsIgnoreCase(result.get("message").getAsString(), "Successfully")) {
+                                    onBackPressed();
+                                }
+                            }
+                        } else {
+                            AndroidUtils.showErrorLog(context, "hello2", e.toString());
                         }
                     }
-                } else {
-                    AndroidUtils.showErrorLog(context, "hello2", e.toString());
-                }
+                });
+            } else {
+                Ion.with(context)
+                        .load(getString(R.string.webservice_base_url).concat("/edit_product/").concat(productId))
+                        .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                        .addMultipartParts(submitDeletedImages())
+                        .setMultipartParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                        .setMultipartParameter("name", etProductName.getText().toString())
+                        .setMultipartParameter("shop_id", pagingSpinner.getShopId())
+                        .setMultipartParameter("price", etProductPrice.getText().toString())
+                        .setMultipartParameter("discount", etProductPriceDiscount.getText().toString())
+                        .setMultipartParameter("unit_id", unitID)
+                        .setMultipartParameter("short_des", etDescription.getText().toString())
+                        .setMultipartParameter("max_order_qty", etMaxorderQuantity.getText().toString())
+                        .setMultipartParameter("weight", etProductWeight.getText().toString())
+                        .setMultipartParameter("length", etProductLength.getText() == null ? "0" : etProductLength.getText().toString())
+                        .setMultipartParameter("width", etProductWidth.getText() == null ? "0" : etProductWidth.getText().toString())
+                        .setMultipartParameter("height", etProductHeight.getText() == null ? "0" : etProductHeight.getText().toString())
+                        .setMultipartParameter("dynamic", Validation.isEmptyStr(dynamicFormData) ? "[]" : dynamicFormData)
+                        .setMultipartParameter("image", "[]")
+                        .asJsonObject().setCallback(new FutureCallback<JsonObject>() {
+                    @Override
+                    public void onCompleted(Exception e, JsonObject result) {
+
+                        AndroidUtils.showErrorLog(context, "result----------" + context.getClass().getSimpleName() + "------" + result);
+
+                        progressBarHandler.hide();
+                        if (result != null) {
+                            if (result.get("error").getAsString().contains("false")) {
+                                AndroidUtils.showToast(context, result.get("message").getAsString());
+                                if (Validation.containsIgnoreCase(result.get("message").getAsString(), "Added") || Validation.containsIgnoreCase(result.get("message").getAsString(), "Successfully")) {
+                                    onBackPressed();
+                                }
+                            }
+                        } else {
+                            AndroidUtils.showErrorLog(context, "hello2", e.toString());
+                        }
+                    }
+                });
             }
-        });
+        } else {
+            if (submitImgDelList == null) {
+                Ion.with(context)
+                        .load(getString(R.string.webservice_base_url).concat("/edit_product/").concat(productId))
+                        .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                        .addMultipartParts(submitImages())
+                        .setMultipartParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                        .setMultipartParameter("name", etProductName.getText().toString())
+                        .setMultipartParameter("shop_id", pagingSpinner.getShopId())
+                        .setMultipartParameter("price", etProductPrice.getText().toString())
+                        .setMultipartParameter("discount", etProductPriceDiscount.getText().toString())
+                        .setMultipartParameter("unit_id", unitID)
+                        .setMultipartParameter("short_des", etDescription.getText().toString())
+                        .setMultipartParameter("max_order_qty", etMaxorderQuantity.getText().toString())
+                        .setMultipartParameter("weight", etProductWeight.getText().toString())
+                        .setMultipartParameter("length", etProductLength.getText() == null ? "0" : etProductLength.getText().toString())
+                        .setMultipartParameter("width", etProductWidth.getText() == null ? "0" : etProductWidth.getText().toString())
+                        .setMultipartParameter("height", etProductHeight.getText() == null ? "0" : etProductHeight.getText().toString())
+                        .setMultipartParameter("dynamic", Validation.isEmptyStr(dynamicFormData) ? "[]" : dynamicFormData)
+                        .setMultipartParameter("delimg", "[]")
+                        .asJsonObject().setCallback(new FutureCallback<JsonObject>() {
+                    @Override
+                    public void onCompleted(Exception e, JsonObject result) {
+
+                        AndroidUtils.showErrorLog(context, "result----------" + context.getClass().getSimpleName() + "------" + result);
+
+                        progressBarHandler.hide();
+                        if (result != null) {
+                            if (result.get("error").getAsString().contains("false")) {
+                                AndroidUtils.showToast(context, result.get("message").getAsString());
+                                if (Validation.containsIgnoreCase(result.get("message").getAsString(), "Added") || Validation.containsIgnoreCase(result.get("message").getAsString(), "Successfully")) {
+                                    onBackPressed();
+                                }
+                            }
+                        } else {
+                            AndroidUtils.showErrorLog(context, "hello2", e.toString());
+                        }
+                    }
+                });
+            } else {
+                Ion.with(context)
+                        .load(getString(R.string.webservice_base_url).concat("/edit_product/").concat(productId))
+                        .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                        .addMultipartParts(submitImages())
+                        .addMultipartParts(submitDeletedImages())
+                        .setMultipartParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                        .setMultipartParameter("name", etProductName.getText().toString())
+                        .setMultipartParameter("shop_id", pagingSpinner.getShopId())
+                        .setMultipartParameter("price", etProductPrice.getText().toString())
+                        .setMultipartParameter("discount", etProductPriceDiscount.getText().toString())
+                        .setMultipartParameter("unit_id", unitID)
+                        .setMultipartParameter("short_des", etDescription.getText().toString())
+                        .setMultipartParameter("max_order_qty", etMaxorderQuantity.getText().toString())
+                        .setMultipartParameter("weight", etProductWeight.getText().toString())
+                        .setMultipartParameter("length", etProductLength.getText() == null ? "0" : etProductLength.getText().toString())
+                        .setMultipartParameter("width", etProductWidth.getText() == null ? "0" : etProductWidth.getText().toString())
+                        .setMultipartParameter("height", etProductHeight.getText() == null ? "0" : etProductHeight.getText().toString())
+                        .setMultipartParameter("dynamic", Validation.isEmptyStr(dynamicFormData) ? "[]" : dynamicFormData)
+                        .asJsonObject().setCallback(new FutureCallback<JsonObject>() {
+                    @Override
+                    public void onCompleted(Exception e, JsonObject result) {
+
+                        AndroidUtils.showErrorLog(context, "result----------" + context.getClass().getSimpleName() + "------" + result);
+
+                        progressBarHandler.hide();
+                        if (result != null) {
+                            if (result.get("error").getAsString().contains("false")) {
+                                AndroidUtils.showToast(context, result.get("message").getAsString());
+                                if (Validation.containsIgnoreCase(result.get("message").getAsString(), "Added") || Validation.containsIgnoreCase(result.get("message").getAsString(), "Successfully")) {
+                                    onBackPressed();
+                                }
+                            }
+                        } else {
+                            AndroidUtils.showErrorLog(context, "hello2", e.toString());
+                        }
+                    }
+                });
+            }
+        }
+*/
+
     }
 
     private void loadUnitWebService() {

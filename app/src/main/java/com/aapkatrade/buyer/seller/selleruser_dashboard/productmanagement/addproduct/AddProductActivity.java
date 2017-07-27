@@ -678,7 +678,14 @@ public class AddProductActivity extends AppCompatActivity
                 .setMultipartParameter("width", etProductWidth.getText() == null ? "0" : etProductWidth.getText().toString())
                 .setMultipartParameter("height", etProductHeight.getText() == null ? "0" : etProductHeight.getText().toString())
                 .setMultipartParameter("dynamic", Validation.isEmptyStr(dynamicFormData) ? "[]" : dynamicFormData)
-                .asJsonObject().setCallback(new FutureCallback<JsonObject>() {
+                .asString().setCallback(new FutureCallback<String>() {
+            @Override
+            public void onCompleted(Exception e, String result) {
+                AndroidUtils.showErrorLog(context, "result--add produvy-" + context.getClass().getSimpleName() + "------" + result);
+
+            }
+        });
+                /*.asJsonObject().setCallback(new FutureCallback<JsonObject>() {
             @Override
             public void onCompleted(Exception e, JsonObject result) {
 
@@ -698,7 +705,7 @@ public class AddProductActivity extends AppCompatActivity
                     AndroidUtils.showErrorLog(context, "hello2", e.toString());
                 }
             }
-        });
+        });*/
     }
 
 

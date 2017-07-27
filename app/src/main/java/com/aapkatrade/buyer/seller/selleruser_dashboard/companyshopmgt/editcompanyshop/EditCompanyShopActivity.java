@@ -1327,13 +1327,13 @@ public class EditCompanyShopActivity extends AppCompatActivity {
                 if (!file.isVideo) {
 
                     for (int i = 0; i < imageUrlList.size(); i++) {
-                        AndroidUtils.showErrorLog(context, "--------------Compare-------------------))))))imageUrlList(((((("+getFileName(imageUrlList.get(i)), "file.imagePath"+file.imagePath);
+                        AndroidUtils.showErrorLog(context, "--------------Compare-------------------))))))imageUrlList((((((" + getFileName(imageUrlList.get(i)), "file.imagePath" + file.imagePath);
 
                         if (!imageUrlList.get(i).split("/")[imageUrlList.get(i).split("/").length - 1].equals(file.imagePath)) {
 //                            productMediaDatasDelete.remove(file);
 //                            files.add(new FilePart("delimg[]", savebitmap(file.imagePath)));
 //                            AndroidUtils.showErrorLog(context, "---------------------------------))))))((((((", files.toArray().toString());
-                                continue;
+                            continue;
                         }
                         files.add(new FilePart("delimg[]", savebitmap(file.imagePath)));
                         AndroidUtils.showErrorLog(context, "---------------------------------))))))((((((", files.toArray().toString());
