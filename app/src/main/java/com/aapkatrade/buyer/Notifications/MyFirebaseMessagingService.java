@@ -49,11 +49,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     ArrayList<ChatDatas> chatDatasNotification = new ArrayList<>();
     String chat_id, name;
     TimerTask timerTask;
+    Context mcontext;
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
 
-
+        mcontext = getApplicationContext();
         // Check if message contains a notification payload.
         if (remoteMessage.getNotification() != null) {
             // RemoteMessage.Notification notification = remoteMessage.getNotification();
@@ -151,13 +152,17 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             if (isRunning()) {
 
 
+
+                notificationUtils = new NotificationUtils(getApplicationContext());
+                    notificationUtils.playNotificationSound(mcontext);
+
+
+
+
                 chatDatasNotification.clear();
                 chatDatasNotification.add(new ChatDatas(last_message, name, System.currentTimeMillis(), false));
 
                 ChatActivity.commonInterface.getData(chatDatasNotification);
-                notificationUtils.playNotificationSound();
-
-
             } else {
 
                 showNotificationMessage(getApplicationContext(), "AapkaTrade", last_message, System.currentTimeMillis() + "", resultIntent);
@@ -184,7 +189,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         LocalBroadcastManager.getInstance(this).sendBroadcast(pushNotification);
 
 
-        notificationUtils.playNotificationSound();
+        notificationUtils.playNotificationSound(context);
 
     }
 

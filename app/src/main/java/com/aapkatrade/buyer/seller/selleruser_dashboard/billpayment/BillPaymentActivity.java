@@ -49,8 +49,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Map;
 
-public class BillPaymentActivity extends AppCompatActivity
-{
+public class BillPaymentActivity extends AppCompatActivity {
     private Context context;
     private AppSharedPreference appSharedPreference;
     private TextView tvStatusTitle, tvStatusMsg, tvHeaderTransaction, tvSubHeaderTransaction,
@@ -64,18 +63,16 @@ public class BillPaymentActivity extends AppCompatActivity
     private BillPaymentAdapter billPaymentAdapter;
     private ArrayList<BillPaymentListData> billPaymentListDatas = new ArrayList<>();
 
-    private ArrayList<String> SelectedMachineNos=new ArrayList<>();
+    private ArrayList<String> SelectedMachineNos = new ArrayList<>();
     private ProgressBarHandler progressBarHandler;
     public static CommonInterface commonInterface;
     public static final String TAG = "PayUMoneySDK Sample";
     String order_number;
-    ArrayList<MachineTotalBillDatas> machineTotalBillDatases=new ArrayList<>();
-
+    ArrayList<MachineTotalBillDatas> machineTotalBillDatases = new ArrayList<>();
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bill_payment);
         context = BillPaymentActivity.this;
@@ -85,8 +82,7 @@ public class BillPaymentActivity extends AppCompatActivity
         callBillPayment();
     }
 
-    private void callBillPayment()
-    {
+    private void callBillPayment() {
 
         recyclerView.setLayoutManager(linearLayoutManager);
 
@@ -168,8 +164,7 @@ public class BillPaymentActivity extends AppCompatActivity
     }
 
 
-    private void initView()
-    {
+    private void initView() {
         appSharedPreference = new AppSharedPreference(context);
         progressBarHandler = new ProgressBarHandler(context);
         tvStatusTitle = (TextView) findViewById(R.id.tvStatusTitle);
@@ -184,7 +179,16 @@ public class BillPaymentActivity extends AppCompatActivity
         rlSaveLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                makePayment();
+
+                if (tvAmount.getText().toString().contains(new StringBuilder(getString(R.string.rupay_text)).append("  0"))) {
+
+                    AndroidUtils.showToast(context, "Select Atleast One Machine");
+                } else {
+
+                    makePayment();
+
+                }
+
 
             }
         });
@@ -194,19 +198,15 @@ public class BillPaymentActivity extends AppCompatActivity
             public Object getData(Object object) {
 
 
-
-     machineTotalBillDatases= (ArrayList<MachineTotalBillDatas>) object;
-                for(int i=0;i<machineTotalBillDatases.size();i++)
-                {
+                machineTotalBillDatases = (ArrayList<MachineTotalBillDatas>) object;
+                for (int i = 0; i < machineTotalBillDatases.size(); i++) {
 
                     SelectedMachineNos.add(machineTotalBillDatases.get(i).toString());
 
                 }
 
 
-
-
-                tvAmount.setText(new StringBuilder(getString(R.string.rupay_text)).append("  ").append(machineTotalBillDatases.get(machineTotalBillDatases.size()-1).TotalAmount));
+                tvAmount.setText(new StringBuilder(getString(R.string.rupay_text)).append("  ").append(machineTotalBillDatases.get(machineTotalBillDatases.size() - 1).TotalAmount));
 
                 return null;
             }
@@ -318,21 +318,19 @@ public class BillPaymentActivity extends AppCompatActivity
     }
 
 
-    private double getAmount()
-    {
+    private double getAmount() {
         Double amount = 10.0;
         return amount;
     }
 
 
-    public void makePayment()
-    {
+    public void makePayment() {
 
         String phone = "8882434664";
         String productName = "product_name";
         String firstName = "piyush";
         String txnId = "0nf7" + System.currentTimeMillis();
-        String email="piyush.jain@payu.in";
+        String email = "piyush.jain@payu.in";
         String sUrl = "https://test.payumoney.com/mobileapp/payumoney/success.php";
         String fUrl = "https://test.payumoney.com/mobileapp/payumoney/failure.php";
         String udf1 = "";
@@ -342,11 +340,11 @@ public class BillPaymentActivity extends AppCompatActivity
         String udf5 = "";
         boolean isDebug = true;
         String key = "dRQuiA";
-        String merchantId = "4928174" ;
+        String merchantId = "4928174";
 
         PayUmoneySdkInitilizer.PaymentParam.Builder builder = new PayUmoneySdkInitilizer.PaymentParam.Builder();
 
-        builder.setAmount(Double.valueOf(tvAmount.getText().toString().replace(getApplicationContext().getResources().getText(R.string.rupay_text),"")))
+        builder.setAmount(Double.valueOf(tvAmount.getText().toString().replace(getApplicationContext().getResources().getText(R.string.rupay_text), "")))
                 .setTnxId(txnId)
                 .setPhone(phone)
                 .setProductName(productName)
@@ -388,11 +386,9 @@ public class BillPaymentActivity extends AppCompatActivity
         PayUmoneySdkInitilizer.startPaymentActivityForResult(MyActivity.this, paymentParam);*/
 
 
-
     }
 
-    private void calculateServerSideHashAndInitiatePayment(final PayUmoneySdkInitilizer.PaymentParam paymentParam)
-    {
+    private void calculateServerSideHashAndInitiatePayment(final PayUmoneySdkInitilizer.PaymentParam paymentParam) {
         // Replace your server side hash generator API URL
         String url = "https://test.payumoney.com/payment/op/calculateHashForTest";
 
@@ -452,15 +448,12 @@ public class BillPaymentActivity extends AppCompatActivity
         Volley.newRequestQueue(this).add(jsonObjectRequest);
 
 
-
-
     }
 
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if (requestCode == PayUmoneySdkInitilizer.PAYU_SDK_PAYMENT_REQUEST_CODE)
-        {
+        if (requestCode == PayUmoneySdkInitilizer.PAYU_SDK_PAYMENT_REQUEST_CODE) {
             /*if(data != null && data.hasExtra("result")){
               String responsePayUmoney = data.getStringExtra("result");
                 if(SdkHelper.checkForValidString(responsePayUmoney))
@@ -468,23 +461,19 @@ public class BillPaymentActivity extends AppCompatActivity
             } else {
                 showDialogMessage("Unable to get Status of Payment");
             }*/
-            if (resultCode == RESULT_OK)
-            {
+            if (resultCode == RESULT_OK) {
                 Log.i(TAG, "Success - Payment ID : " + data.getStringExtra(SdkConstants.PAYMENT_ID));
                 String paymentId = data.getStringExtra(SdkConstants.PAYMENT_ID);
                 // showDialogMessage("Payment Success Id : " + paymentId);
-                callWebServiceMakePayment(paymentId,"true");
+                callWebServiceMakePayment(paymentId, "true");
 
-            } else if (resultCode == RESULT_CANCELED)
-            {
+            } else if (resultCode == RESULT_CANCELED) {
                 Log.i(TAG, "failure");
                 //String paymentId = data.getStringExtra(SdkConstants.PAYMENT_ID);
                 // callWebServiceMakePayment(paymentId,"false");
                 showDialogMessage("Payment Cancelled");
 
-            }
-            else if (resultCode == PayUmoneySdkInitilizer.RESULT_FAILED)
-            {
+            } else if (resultCode == PayUmoneySdkInitilizer.RESULT_FAILED) {
                 Log.i("app_activity", "failure");
 
                 if (data != null) {
@@ -502,8 +491,7 @@ public class BillPaymentActivity extends AppCompatActivity
         }
     }
 
-    private void showDialogMessage(String message)
-    {
+    private void showDialogMessage(String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Aapka Trade");
         builder.setMessage(message);
@@ -528,8 +516,8 @@ public class BillPaymentActivity extends AppCompatActivity
         System.out.println("order_number--------------" + order_number + status + transactionId + "fgdfgb----");
 
         if (SelectedMachineNos.size() != 0) {
-         String  jsonArrayMachineNOs= String.valueOf(ParseUtils.ArrayListToJsonObject( SelectedMachineNos));
-            AndroidUtils.showErrorLog(context,"machine_numers",jsonArrayMachineNOs);
+            String jsonArrayMachineNOs = String.valueOf(ParseUtils.ArrayListToJsonObject(SelectedMachineNos));
+            AndroidUtils.showErrorLog(context, "machine_numers", jsonArrayMachineNOs);
 
             Ion.with(context)
                     .load(login_url)
@@ -582,11 +570,10 @@ public class BillPaymentActivity extends AppCompatActivity
                             //Toast.makeText(getApplicationContext(),result.toString(),Toast.LENGTH_SHORT).show();
                         }
                     });
-        }
-        else{
+        } else {
 
 
-            AndroidUtils.showErrorLog(context,"SelectedMachineNos","SelectedMachineNos size 0");
+            AndroidUtils.showErrorLog(context, "SelectedMachineNos", "SelectedMachineNos size 0");
         }
 
     }

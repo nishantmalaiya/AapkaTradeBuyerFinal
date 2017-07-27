@@ -129,12 +129,17 @@ public class MyProfileActivity extends AppCompatActivity {
         imageViewProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
 
-                intent.setDataAndType(Uri.parse(app_sharedpreference.getSharedPref(SharedPreferenceConstants.PROFILE_VIDEO.toString(), "").toString()), "video/*");
 
-                startActivity(Intent.createChooser(intent, "Complete action using"));
+                if (app_sharedpreference.getSharedPref(SharedPreferenceConstants.PROFILE_VIDEO.toString()).contains("")) {
 
+                } else {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+
+                    intent.setDataAndType(Uri.parse(app_sharedpreference.getSharedPref(SharedPreferenceConstants.PROFILE_VIDEO.toString(), "").toString()), "video/*");
+
+                    startActivity(Intent.createChooser(intent, "Complete action using"));
+                }
 
             }
         });
@@ -229,9 +234,14 @@ public class MyProfileActivity extends AppCompatActivity {
                 Log.e("shared-----", "");
             } else {
 
-
+                p_handler.show();
                 my_profile_gif = app_sharedpreference.getSharedPref(SharedPreferenceConstants.PROFILE_ViDEO_GIF.toString());
-                Ion.with(imageViewProfile).load(my_profile_gif);
+                Ion.with(imageViewProfile).load(my_profile_gif).setCallback(new FutureCallback<ImageView>() {
+                    @Override
+                    public void onCompleted(Exception e, ImageView result) {
+                        p_handler.hide();
+                    }
+                });
 
 
 
@@ -634,10 +644,14 @@ public class MyProfileActivity extends AppCompatActivity {
                                         .placeholder(R.drawable.default_noimage)
                                         .error(R.drawable.default_noimage)
                                         .into(imageViewProfile);*/
-                                Ion.with(imageViewProfile).load(profile_video_gif);
+                                Ion.with(imageViewProfile).load(profile_video_gif).setCallback(new FutureCallback<ImageView>() {
+                                    @Override
+                                    public void onCompleted(Exception e, ImageView result) {
+                                        p_handler.hide();
+                                        AndroidUtils.showToast(context, "Sucessfully Video Updated !");
+                                    }
+                                });
 
-
-                                p_handler.hide();
 
                             }
                         } else {

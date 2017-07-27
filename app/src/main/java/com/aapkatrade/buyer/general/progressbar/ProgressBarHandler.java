@@ -35,7 +35,7 @@ public class ProgressBarHandler {
             mDialog.getWindow().setBackgroundDrawableResource(R.color.transparent);
 
             mDialog.setContentView(R.layout.progessdialoglayout);
-            mDialog.setCanceledOnTouchOutside(true);
+            mDialog.setCanceledOnTouchOutside(false);
             mDialog.getWindow().setGravity(Gravity.CENTER);
 
 

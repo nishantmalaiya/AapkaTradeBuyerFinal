@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/coordinate_myprofile"
     android:layout_width="match_parent"
-    android:background="#f7f7f7f7"
     android:layout_height="match_parent"
+    android:background="#f7f7f7f7"
     android:orientation="vertical">
 
 
@@ -20,7 +20,8 @@
         <android.support.v4.widget.NestedScrollView
             android:id="@+id/layout_scrollview"
             android:layout_width="match_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
             android:gravity="center_horizontal|center_vertical">
 
             <LinearLayout
@@ -60,27 +61,15 @@
                             android:id="@+id/editDetails"
                             android:layout_width="@dimen/seventy_dip"
                             android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
                             android:layout_centerHorizontal="true"
-                            android:gravity="end"
+                            android:layout_centerVertical="true"
                             android:layout_marginRight="@dimen/five_dip"
+                            android:gravity="end"
                             android:padding="@dimen/ten_dip"
                             android:text="@string/edit"
                             android:textColor="@color/orange"
                             android:textSize="@dimen/textsize_large"
                             android:textStyle="bold"
-                            tools:ignore="RtlCompat" />
-
-                        <ImageView
-                            android:id="@+id/editDetailsIcon"
-                            android:layout_width="@dimen/fifty_dip"
-                            android:layout_height="@dimen/fifty_dip"
-                            android:padding="@dimen/ten_dip"
-                            android:layout_marginRight="@dimen/ten_dip"
-                            android:src="@drawable/ic_edit"
-                            android:layout_toEndOf="@+id/editDetails"
-                            android:background="@drawable/circle_green_back"
-                            android:contentDescription="@string/nointernetconnection2"
                             tools:ignore="RtlCompat" />
 
 
@@ -99,13 +88,34 @@
 
     </LinearLayout>
 
+<RelativeLayout
+    android:layout_width="wrap_content"
+    android:layout_height="@dimen/one_hundred_fifty_dip"
+    android:layout_alignParentBottom="true"
+    android:gravity="bottom">
 
+    <ImageView
+        android:id="@+id/editDetailsIcon"
+        android:layout_width="@dimen/fifty_dip"
+        android:layout_height="@dimen/fifty_dip"
+        android:layout_alignParentRight="true"
+      android:layout_margin="@dimen/ten_dip"
+        android:background="@drawable/circle_green_back"
+        android:contentDescription="@string/nointernetconnection2"
+        android:gravity="bottom"
+        android:padding="@dimen/ten_dip"
+        android:layout_alignParentBottom="true"
+        android:src="@drawable/ic_edit"
+        tools:ignore="RtlCompat" />
     <RelativeLayout
         android:id="@+id/saveButtonLayout"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/sixty_dip"
         android:layout_alignParentBottom="true"
         android:gravity="bottom">
+
+
+
 
         <Button
             android:id="@+id/btnSave"
@@ -120,5 +130,6 @@
 
 
     </RelativeLayout>
+</RelativeLayout>
 
 </RelativeLayout>

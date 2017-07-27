@@ -99,7 +99,7 @@ public class NotificationUtils {
             }
         } else {
             showSmallNotification(mBuilder, icon, title, message, timeStamp, resultPendingIntent, alarmSound);
-            playNotificationSound();
+            playNotificationSound(mContext);
         }
         //  getComplexNotificationView();
 
@@ -172,7 +172,7 @@ public class NotificationUtils {
     }
 
     // Playing notification sound
-    public void playNotificationSound() {
+    public void playNotificationSound(Context mContext) {
         try {
             Uri alarmSound = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE
                     + "://" + mContext.getPackageName() + "/raw/notificationsound");

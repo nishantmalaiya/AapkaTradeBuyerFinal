@@ -227,6 +227,19 @@ public class UserDashboardFragment extends Fragment {
                         .into(imageviewpp);
             }
 
+            if (Validation.isNonEmptyStr(appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_ViDEO_GIF.toString(),"")))
+            {
+
+                progressBarHandler.show();
+                Ion.with(imageViewProfileVideo).load(appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_ViDEO_GIF.toString(),"")).setCallback(new FutureCallback<ImageView>() {
+                    @Override
+                    public void onCompleted(Exception e, ImageView result) {
+                        progressBarHandler.hide();
+                    }
+                });
+
+            }
+
             if (Username.equals("notlogin")) {
                 textViewName.setText("");
                 tvEmail.setText("");

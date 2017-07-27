@@ -39,14 +39,19 @@ public class AndroidUtils {
     public static String BaseUrl = "https://aapkatrade.com";
 
     public static void showSnackBar(ViewGroup layout, String message) {
-        CustomSnackBar snackbar = CustomSnackBar.Builder(layout.getContext())
-                .layout(R.layout.my_toast)
-                .background(R.color.green)
-                .duration(CustomSnackBar.LENGTH.SHORT)
-                .swipe(true)
-                .build(layout);
-        snackbar.setText(message);
-        snackbar.show();
+        if (layout != null) {
+            CustomSnackBar snackbar = CustomSnackBar.Builder(layout.getContext())
+                    .layout(R.layout.my_toast)
+                    .background(R.color.green)
+                    .duration(CustomSnackBar.LENGTH.SHORT)
+                    .swipe(true)
+                    .build(layout);
+            snackbar.setText(message);
+            snackbar.show();
+        }
+        else {
+            Log.e("showSnackBarError", " : showSnackBar Layout is Null.");
+        }
     }
 
 
@@ -93,13 +98,12 @@ public class AndroidUtils {
             outputDate = df_output.format(parsed);
 
         } catch (ParseException e) {
-       Log.e("ParseE_Fromstring",e.toString());
+            Log.e("ParseE_Fromstring", e.toString());
         }
 
         return outputDate;
 
     }
-
 
 
     public static void setBackgroundSolid(View layout, Context context, int bgColor, int cornerRadius, int oval) {
@@ -223,8 +227,6 @@ public class AndroidUtils {
         toast.setView(v);
         toast.show();
     }
-
-
 
 
 }

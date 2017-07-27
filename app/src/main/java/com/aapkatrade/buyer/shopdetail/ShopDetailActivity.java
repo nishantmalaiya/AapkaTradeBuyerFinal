@@ -443,11 +443,18 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
         linearlayoutShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String message = "Text I want to share.";
                 Intent share = new Intent(Intent.ACTION_SEND);
                 share.setType("text/plain");
-                share.putExtra(Intent.EXTRA_TEXT, message);
-                startActivity(Intent.createChooser(share, "Title of the dialog the system will open"));
+                // Uri screenshotUri = Uri.parse("android.resource://"+getActivity().getPackageName()+"/" + R.drawable.ic_app_icon);
+                String strShareMessage = "\nLet me recommend you this application\n\n";
+                strShareMessage = strShareMessage + "https://play.google.com/store/apps/details?id=com.aapkatrade.buyer";
+
+                // share.setType("image");
+                //  share.putExtra(Intent.EXTRA_STREAM, screenshotUri);
+                share.putExtra(Intent.EXTRA_TEXT, strShareMessage);
+
+
+                startActivity(Intent.createChooser(share, "Share using"));
             }
         });
 

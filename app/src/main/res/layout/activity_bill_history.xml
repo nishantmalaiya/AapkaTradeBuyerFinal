@@ -235,6 +235,7 @@
                             android:layout_marginBottom="@dimen/ten_dip"
                             android:layout_marginTop="@dimen/ten_dip"
                             android:background="@drawable/img_voilet_box"
+                            android:minHeight="@dimen/fifty_dip"
                             android:text="@string/search"
                             android:textColor="@color/white" />
 

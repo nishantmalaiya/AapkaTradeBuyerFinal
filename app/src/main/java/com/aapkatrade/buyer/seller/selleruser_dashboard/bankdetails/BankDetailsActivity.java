@@ -376,6 +376,7 @@ public class BankDetailsActivity extends AppCompatActivity {
         etBeneficiaryAccount.setEnabled(true);
         spState.setEnabled(true);
         saveButton.setVisibility(View.VISIBLE);
+        editDetailsIcon.setVisibility(View.GONE);
     }
 
     private void disableViews() {
@@ -386,5 +387,6 @@ public class BankDetailsActivity extends AppCompatActivity {
         etBeneficiaryAccount.setEnabled(false);
         spState.setEnabled(false);
         saveButton.setVisibility(View.GONE);
+        editDetailsIcon.setVisibility(View.VISIBLE);
     }
 }

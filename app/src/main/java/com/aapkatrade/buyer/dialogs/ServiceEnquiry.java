@@ -40,7 +40,7 @@ public class ServiceEnquiry extends DialogFragment {
     String shopid;
     private RelativeLayout dialogue_toolbar, startDateLayout, endDateLayout, rl_imgview_enquiry;
     private ImageView openStartDateCal, openEndDateCal;
-
+RelativeLayout rl_dialog_enquiry_container;
     ProgressDialogHandler progressDialogHandler;
     View v;
     ViewGroup viewgrp;
@@ -71,7 +71,7 @@ public class ServiceEnquiry extends DialogFragment {
 
 
     private void initView(View v) {
-
+        rl_dialog_enquiry_container=(RelativeLayout)v.findViewById(R.id.rl_dialog_enquiry_container);
         rl_imgview_enquiry = (RelativeLayout) v.findViewById(R.id.rl_imgview_enquiry);
         dialogue_toolbar = (RelativeLayout) v.findViewById(R.id.dialogue_toolbar);
 
@@ -165,7 +165,9 @@ public class ServiceEnquiry extends DialogFragment {
 
 
                         if (result.get("error").getAsString().contains("false")) {
-                            AndroidUtils.showSnackBar(viewgrp, result.get("message").getAsString());
+
+
+                            AndroidUtils.showSnackBar(rl_dialog_enquiry_container, result.get("message").getAsString());
                             AndroidUtils.showErrorLog(getActivity(), result.toString());
 
                             progressDialogHandler.hide();
