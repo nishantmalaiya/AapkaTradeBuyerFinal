@@ -158,7 +158,6 @@ public class PagingSpinnerDialog extends DialogFragment {
                             linearLayoutManager = new LinearLayoutManager(context);
                             recyclerView.setLayoutManager(linearLayoutManager);
                             recyclerView.setAdapter(companyShopListAdapter);
-//                            recyclerView.smoothScrollToPosition(arrayList.size());
                         } else {
                             AndroidUtils.showErrorLog(context, "companyShopListAdapter----------else>");
 

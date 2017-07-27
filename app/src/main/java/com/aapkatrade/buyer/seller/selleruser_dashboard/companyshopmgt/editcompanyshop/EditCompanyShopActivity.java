@@ -885,7 +885,7 @@ public class EditCompanyShopActivity extends AppCompatActivity {
                 AndroidUtils.showErrorLog(context, "submitDeletedImages::::if--------------::NULL", submitDeletedImages());
 
                 Ion.with(context)
-                        .load(getString(R.string.webservice_base_url) + "/addCompany")
+                        .load(getString(R.string.webservice_base_url) + "/editCompany")
                         .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                         .setMultipartParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                         .setMultipartParameter("shop_id", shopId)
@@ -943,7 +943,7 @@ public class EditCompanyShopActivity extends AppCompatActivity {
                 AndroidUtils.showErrorLog(context, "submitDeletedImages::::else--------------::NULL", submitDeletedImages());
 
                 Ion.with(context)
-                        .load(getString(R.string.webservice_base_url) + "/addCompany")
+                        .load(getString(R.string.webservice_base_url) + "/editCompany")
                         .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                         .setMultipartParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                         .setMultipartParameter("shop_id", shopId)
@@ -1244,6 +1244,7 @@ public class EditCompanyShopActivity extends AppCompatActivity {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 1) {
@@ -1436,6 +1437,7 @@ public class EditCompanyShopActivity extends AppCompatActivity {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private void uploadVideo(int requestCode, int resultCode, Intent data) {
         Uri selectedImage = data.getData();
 
@@ -1637,6 +1639,7 @@ public class EditCompanyShopActivity extends AppCompatActivity {
         return filePath;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public static String getPath(final Context context, final Uri uri) {
 
         final boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
@@ -1658,7 +1661,10 @@ public class EditCompanyShopActivity extends AppCompatActivity {
             // DownloadsProvider
             else if (isDownloadsDocument(uri)) {
 
-                final String id = DocumentsContract.getDocumentId(uri);
+                String id = "0";
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+                    id = DocumentsContract.getDocumentId(uri);
+                }
                 final Uri contentUri = ContentUris.withAppendedId(
                         Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
 

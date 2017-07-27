@@ -17,6 +17,7 @@ import com.aapkatrade.buyer.R;
 
 public class ProductListViewHolder extends RecyclerView.ViewHolder
 {
+
     public View view;
     public TextView  productName,tvProductShopName,tvProductCategoryName,tvProductStateName;
     public ImageView imgProduct;

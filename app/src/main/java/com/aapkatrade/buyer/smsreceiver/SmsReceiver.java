@@ -50,7 +50,9 @@ public class SmsReceiver extends BroadcastReceiver
                     String messageBody = smsMessage.getMessageBody();
                     System.out.println("messageBody2------------"+messageBody);
                     //Pass on the text to our listener.
-                    mListener.messageReceived(messageBody);
+                    if(mListener != null) {
+                        mListener.messageReceived(messageBody);
+                    }
                 }
             }
         }

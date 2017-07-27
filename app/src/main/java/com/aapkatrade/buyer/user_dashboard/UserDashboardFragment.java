@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.AppSharedPreference;
 
+import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.Validation;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
@@ -64,6 +65,7 @@ public class UserDashboardFragment extends Fragment {
 
                 String profile_video_gif = appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_ViDEO_GIF.toString());
                 Ion.with(imageViewProfileVideo).load(profile_video_gif);
+                Log.e("profile_video_gif-----", profile_video_gif + "");
               /*  Picasso.with(getActivity())
                         .load(appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_VIDEO_THUMBNAIL.toString(), ""))
                         .error(R.drawable.navigation_profile_bg)
@@ -159,13 +161,10 @@ public class UserDashboardFragment extends Fragment {
                 .setCallback(new FutureCallback<JsonObject>() {
                     @Override
                     public void onCompleted(Exception e, JsonObject result) {
-                        if (result == null) {
-                            Log.e("result_myProfile", "result_myProfile is null ");
-                            progressBarHandler.hide();
-                        } else {
-
-                            progressBarHandler.hide();
-                            Log.e("result_myProfile", "result_myProfile is not null ");
+                        AndroidUtils.showErrorLog(getContext(), "result_myProfile", result);
+                        progressBarHandler.hide();
+                        if (result != null) {
+                            AndroidUtils.showErrorLog(getContext(), "result_myProfile", "result_myProfile is not null ");
                             String order_quantity = result.get("order").getAsString();
 
 
@@ -183,17 +182,17 @@ public class UserDashboardFragment extends Fragment {
                                 appSharedPreference.setSharedPref(SharedPreferenceConstants.ORDER_QUANTITY.toString(), order_quantity);
                                 dashboardDatas.add(new DashboardData("", "My Profile", R.drawable.ic_my_profile, R.drawable.circle_teal, false, ""));
 
-                                dashboardDatas.add(new DashboardData("", "Company/Shop List", R.drawable.ic_company_shop_list, R.drawable.circle_deep_pink, true, SharedPreferenceConstants.SHOP_LIST_COUNT.toString()));
+                                dashboardDatas.add(new DashboardData("", "Company/Shop List", R.drawable.ic_company_shop_list, R.drawable.circle_deep_pink, true, result.get("company").getAsString()));
 
 
-                                dashboardDatas.add(new DashboardData("", "Product Management", R.drawable.ic_add_company, R.drawable.circle_purple, false, ""));
+                                dashboardDatas.add(new DashboardData("", "Product Management", R.drawable.ic_add_company, R.drawable.circle_purple, true, result.get("product").getAsString()));
                                 dashboardDatas.add(new DashboardData("", "Service Management", R.drawable.ic_service_management, R.drawable.circle_cherry_red, false, ""));
 
 
                                 dashboardDatas.add(new DashboardData("", "Order", R.drawable.ic_my_order, R.drawable.circle_sienna, true, order_quantity));
 
 
-                                dashboardDatas.add(new DashboardData("", "Enquiry Management", R.drawable.ic_enquiry_management, R.drawable.circle_purple, true, ""));
+                                dashboardDatas.add(new DashboardData("", "Enquiry Management", R.drawable.ic_enquiry_management, R.drawable.circle_purple, true, result.get("enquiry").getAsString()));
                                 dashboardDatas.add(new DashboardData("", "Bank Details", R.drawable.ic_bank_details, R.drawable.circle_cherry_red, false, ""));
 
                                 dashboardDatas.add(new DashboardData("", "Sales Transaction", R.drawable.ic_sales_transaction, R.drawable.circle_purple, false, ""));
@@ -206,6 +205,8 @@ public class UserDashboardFragment extends Fragment {
                             dashboardlist.setLayoutManager(layoutManager);
                             dashboardAdapter = new DashboardAdapter(getActivity(), dashboardDatas);
                             dashboardlist.setAdapter(dashboardAdapter);
+
+
                         }
                     }
 

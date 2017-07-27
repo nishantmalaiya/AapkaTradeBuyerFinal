@@ -8,37 +8,34 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaMetadataRetriever;
-import android.media.MediaPlayer;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
-import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -46,7 +43,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.aapkatrade.buyer.dialogs.UpdateUserDataVerifyDialog;
-import com.aapkatrade.buyer.dialogs.loginwithoutregistration.LoginWithoutRegistrationDialog;
 import com.aapkatrade.buyer.general.Utils.ImageUtils;
 import com.aapkatrade.buyer.home.HomeActivity;
 import com.aapkatrade.buyer.R;
@@ -55,7 +51,6 @@ import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.Validation;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
-import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.addproduct.ProductMediaData;
 
 import com.afollestad.materialcamera.MaterialCamera;
 import com.afollestad.materialdialogs.DialogAction;
@@ -67,14 +62,8 @@ import com.koushikdutta.ion.Ion;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
-import java.io.FileDescriptor;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-
-import static android.R.attr.animation;
 
 public class MyProfileActivity extends AppCompatActivity {
 
@@ -480,7 +469,6 @@ public class MyProfileActivity extends AppCompatActivity {
 
                 break;
 
-
             case CAMERA_RQ:
 
                 System.out.println("Saved Video =================");
@@ -615,7 +603,10 @@ public class MyProfileActivity extends AppCompatActivity {
                         AndroidUtils.showErrorLog(context, "result------------------------------" + result);
 
                         if (result != null) {
-                            if (result.get("error").getAsString().contains("false")) {
+                            if (result.get("error").getAsString().contains("false"))
+                            {
+
+                                String message = result.get("message").getAsString();
                                 JsonObject jsonObject_result = result.getAsJsonObject("result");
                                 String profile_video = jsonObject_result.get("profile_video").getAsString();
                                 String profile_video_gif = jsonObject_result.get("profile_video").getAsString().concat(".gif");
@@ -628,22 +619,30 @@ public class MyProfileActivity extends AppCompatActivity {
 
                                 System.out.println("a------------------------------" + profile_video);
 
-                             /*   Picasso.with(context)
+                               /*Picasso.with(context)
                                         .load(jsonObject_result.get("video_thumbnail").getAsString())
                                         .error(R.drawable.banner)
                                         .placeholder(R.drawable.default_noimage)
                                         .error(R.drawable.default_noimage)
                                         .into(imageViewProfile);*/
-                                Ion.with(imageViewProfile).load(profile_video_gif);
 
+                                Ion.with(imageViewProfile).load(profile_video_gif);
 
                                 p_handler.hide();
 
-                            }
-                        } else {
+                                ErrorFragmentDialog comingSoonFragmentDialog = new ErrorFragmentDialog(context);
+                                FragmentManager fm = ((AppCompatActivity) context).getSupportFragmentManager();
+                                comingSoonFragmentDialog.show(fm, "enquiry");
+                                comingSoonFragmentDialog.setError(message);
 
+
+                            }
+                        }
+                        else
+                        {
                             AndroidUtils.showErrorLog(context, "hello2", e.toString());
                             p_handler.hide();
+
                         }
 
                     }
@@ -651,7 +650,8 @@ public class MyProfileActivity extends AppCompatActivity {
 
     }
 
-    public String getPath(Uri uri) {
+    public String getPath(Uri uri)
+    {
         Cursor cursor = getContentResolver().query(uri, new String[]{MediaStore.Video.Media.DATA}, null, null, null);
         if (cursor != null) {
             int column_index = cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DATA);
@@ -664,8 +664,8 @@ public class MyProfileActivity extends AppCompatActivity {
     }
 
 
-    private void call_myprofile_webservice(File imagefile) {
-
+    private void call_myprofile_webservice(File imagefile)
+    {
         p_handler.show();
 
         String url = getResources().getString(R.string.webservice_base_url) + "/profilepic_update";
@@ -949,5 +949,58 @@ AndroidUtils.showErrorLog(context,"frame_size",frames.size());
         canvas.drawText("Frame " + frameNumber, 40, 220, paint);
         return new BitmapDrawable(getResources(), bitmap);
     }
+
+
+    public static class ErrorFragmentDialog extends DialogFragment
+    {
+
+        public Context context;
+        public Button closeButton;
+        public TextView tvTitle3;
+
+
+        public ErrorFragmentDialog(Context context)
+        {
+            super();
+            this.context = context;
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState)
+        {
+            View view = inflater.inflate(R.layout.fragment_error_dailog, container, false);
+            //noinspection ConstantConditions
+            getDialog().getWindow().setBackgroundDrawableResource(R.drawable.rounded_dialog);
+            getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+            getDialog().getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+            initView(view);
+
+            closeButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dismiss();
+                }
+            });
+
+
+            return view;
+        }
+
+
+        public void initView(View v)
+        {
+            closeButton = (Button) v.findViewById(R.id.closeButton);
+
+        }
+
+        public void setError(String message) {
+            tvTitle3 = (TextView)getActivity().findViewById(R.id.tvTitle3);
+            //error.setText(message);
+        }
+
+
+
+    }
+
 
 }
