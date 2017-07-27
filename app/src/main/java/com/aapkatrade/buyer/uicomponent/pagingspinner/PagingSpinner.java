@@ -99,7 +99,9 @@ public class PagingSpinner extends RelativeLayout {
                 if (object != null) {
                     CompanyDropdownDatas companyDropdownDatas = (CompanyDropdownDatas) object;
                     shopId = companyDropdownDatas.comapanyId;
-                    commonInterfaceOuter.getData(shopId);
+                    if(commonInterfaceOuter!=null){
+                        commonInterfaceOuter.getData(shopId);
+                    }
                     linearLayoutMain.findViewById(R.id.rootContainer).setVisibility(VISIBLE);
                     linearLayoutMain.findViewById(R.id.container_simple_spinner).setVisibility(View.GONE);
                     linearLayoutMain.findViewById(R.id.containershoplist).setVisibility(View.VISIBLE);
