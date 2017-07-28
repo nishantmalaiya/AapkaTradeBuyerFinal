@@ -137,11 +137,12 @@ public class MyProfileActivity extends AppCompatActivity {
                 } else {
                     Intent intent = new Intent(Intent.ACTION_VIEW);
 
-                intent.setDataAndType(Uri.parse(app_sharedpreference.getSharedPref(SharedPreferenceConstants.PROFILE_VIDEO.toString(), "").toString()), "video/*");
+                    intent.setDataAndType(Uri.parse(app_sharedpreference.getSharedPref(SharedPreferenceConstants.PROFILE_VIDEO.toString(), "").toString()), "video/*");
 
-                startActivity(Intent.createChooser(intent, "Complete action using"));
+                    startActivity(Intent.createChooser(intent, "Complete action using"));
 
 
+                }
             }
         });
 
@@ -654,19 +655,11 @@ public class MyProfileActivity extends AppCompatActivity {
                                 });
 
 
-                                ErrorFragmentDialog comingSoonFragmentDialog = new ErrorFragmentDialog(context);
-                                FragmentManager fm = ((AppCompatActivity) context).getSupportFragmentManager();
-                                comingSoonFragmentDialog.show(fm, "enquiry");
-                                comingSoonFragmentDialog.setError(message);
-
-
                             }
-                        }
-                        else
-                        {
+                        } else {
+
                             AndroidUtils.showErrorLog(context, "hello2", e.toString());
                             p_handler.hide();
-
                         }
 
                     }
@@ -674,8 +667,7 @@ public class MyProfileActivity extends AppCompatActivity {
 
     }
 
-    public String getPath(Uri uri)
-    {
+    public String getPath(Uri uri) {
         Cursor cursor = getContentResolver().query(uri, new String[]{MediaStore.Video.Media.DATA}, null, null, null);
         if (cursor != null) {
             int column_index = cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DATA);
@@ -973,58 +965,5 @@ AndroidUtils.showErrorLog(context,"frame_size",frames.size());
         canvas.drawText("Frame " + frameNumber, 40, 220, paint);
         return new BitmapDrawable(getResources(), bitmap);
     }
-
-
-    public static class ErrorFragmentDialog extends DialogFragment
-    {
-
-        public Context context;
-        public Button closeButton;
-        public TextView tvTitle3;
-
-
-        public ErrorFragmentDialog(Context context)
-        {
-            super();
-            this.context = context;
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState)
-        {
-            View view = inflater.inflate(R.layout.fragment_error_dailog, container, false);
-            //noinspection ConstantConditions
-            getDialog().getWindow().setBackgroundDrawableResource(R.drawable.rounded_dialog);
-            getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-            getDialog().getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
-            initView(view);
-
-            closeButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dismiss();
-                }
-            });
-
-
-            return view;
-        }
-
-
-        public void initView(View v)
-        {
-            closeButton = (Button) v.findViewById(R.id.closeButton);
-
-        }
-
-        public void setError(String message) {
-            tvTitle3 = (TextView)getActivity().findViewById(R.id.tvTitle3);
-            //error.setText(message);
-        }
-
-
-
-    }
-
 
 }
