@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.aapkatrade.buyer.home.HomeActivity;
@@ -50,7 +51,7 @@ public class CompanyShopManagementActivity extends AppCompatActivity {
     private int page = 0, totalPage = 0;
     private LinearLayoutManager mLayoutManager;
 
-
+    RelativeLayout rlSearchContainer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -193,6 +194,8 @@ public class CompanyShopManagementActivity extends AppCompatActivity {
         progressBarHandler = new ProgressBarHandler(context);
         appSharedPreference = new AppSharedPreference(context);
         linearLayoutManager = new LinearLayoutManager(context);
+        rlSearchContainer=(RelativeLayout)findViewById(R.id.rlSearchContainer);
+        rlSearchContainer.setVisibility(View.GONE);
         userId = appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString());
         listFooterName = (TextView) findViewById(R.id.listfootername);
         recyclerViewCompanyShop = (RecyclerView) findViewById(R.id.recyclerview);
