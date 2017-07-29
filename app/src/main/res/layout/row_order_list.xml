@@ -161,7 +161,7 @@
                     android:layout_width="match_parent"
                     android:layout_weight="1"
                     android:id="@+id/btn_cancel_order"
-android:text="@string/cancel"
+                     android:text="@string/cancel"
                     android:textColor="@color/white"
                     android:layout_margin="@dimen/two_dip"
                     android:background="@color/greenshad_Order"
@@ -181,7 +181,6 @@ android:text="@string/cancel"
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-
         android:layout_below="@+id/relativeOrderDetail"
         android:background="#D2D0D0"
         android:id="@+id/view"></View>

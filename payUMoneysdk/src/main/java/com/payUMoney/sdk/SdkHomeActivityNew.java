@@ -373,7 +373,7 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
     public void check_login()
     {     // Function to check login and if yes then initiate the payment
 
-        System.out.println("logged in already--------------");
+       /* System.out.println("logged in already--------------");
         SdkSession.getInstance(getApplicationContext()).setLoginMode("guestLogin");
         SdkSession.getInstance(getApplicationContext()).setGuestEmail("arvindkumaryadav937@gmail.com");
 
@@ -384,9 +384,24 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
         mIsLoginInitiated = false;
 
         System.out.println("sdkSession ----------------------");
+        initLayout();*/
+
+      /*  SdkSession.getInstance(getApplicationContext()).setLoginMode("guestLogin");
+        SdkSession.getInstance(getApplicationContext()).setGuestEmail("arvindkumaryadav937@gmail.com");
+        Intent intent = new Intent();
+        intent.putExtra(SdkConstants.AMOUNT, getIntent().getStringExtra(SdkConstants.AMOUNT));
+        intent.putExtra(SdkConstants.MERCHANTID, getIntent().getStringExtra(SdkConstants.MERCHANTID));
+        intent.putExtra(SdkConstants.PARAMS, getIntent().getSerializableExtra(SdkConstants.PARAMS));
+        //c.setAccountAuthenticatorResult(intent.getExtras());
+        setResult(Activity.RESULT_OK, intent);
+        finish();*/
+
+        System.out.println("logged in already--------------");
+        SdkSession.getInstance(getApplicationContext()).setLoginMode("guestLogin");
+        SdkSession.getInstance(getApplicationContext()).setGuestEmail("arvindkumaryadav937@gmail.com");
         initLayout();
 
-        /*SdkLogger.d(SdkConstants.TAG, "entered in check login()");
+      /*  SdkLogger.d(SdkConstants.TAG, "entered in check login()");
         if (!sdkSession.isLoggedIn() && !guestCheckOut)  //Not logged in
         {
             if (!sdkSession.isLoggedIn() && !mIsLoginInitiated)
@@ -421,6 +436,8 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
             SdkSession.getInstance(getApplicationContext()).setGuestEmail("arvindkumaryadav937@gmail.com");
             initLayout();
         }*/
+
+
     }
 
     public void initLayout() {

@@ -182,6 +182,7 @@
         <activity android:name=".seller.selleruser_dashboard.servicemanagment.ServiceManagementActivity" />
         <activity android:name=".seller.selleruser_dashboard.servicemanagment.addService.AddServiceActivity" />
         <activity android:name=".seller.selleruser_dashboard.servicemanagment.editService.EditServiceActivity"></activity>
+        <activity android:name=".payumoney_paymentgatway.PayMentGateWay"></activity>
     </application>
 
 </manifest>
