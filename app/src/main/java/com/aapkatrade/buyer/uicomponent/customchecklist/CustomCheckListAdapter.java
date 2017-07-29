@@ -27,7 +27,10 @@ public class CustomCheckListAdapter extends RecyclerView.Adapter<FilterColumn2Vi
     private String title;
     public CommonInterface commonInterface;
     private CustomCheckListAdapter customCheckListAdapter;
-    private boolean isRadio;
+    private boolean isRadio;/*
+    private int saveSelectedRadioPosition = -1;
+    private ArrayList<Integer> saveSelectedCheckListPosition = new ArrayList<>();*/
+
 
 
     public CustomCheckListAdapter(Context context, String title, CommonInterface commonInterface, ArrayList<FormValue> formValueArrayList, boolean isRadio) {
@@ -36,7 +39,30 @@ public class CustomCheckListAdapter extends RecyclerView.Adapter<FilterColumn2Vi
         this.isRadio = isRadio;
         this.title = title;
         this.commonInterface = commonInterface;
+      /*  if(isRadio){
+            saveSelectedPosition();
+        } else {
+            saveSelectedPositionCheckList();
+        }*/
     }
+/*
+    private void saveSelectedPositionCheckList() {
+        for(int i = 0; i < formValueArrayList.size(); i++){
+            FormValue formValue = formValueArrayList.get(i);
+            if(formValue.isSelected()){
+                saveSelectedCheckListPosition.add(i);
+            }
+        }
+    }
+
+    private void saveSelectedPosition() {
+        for(int i = 0; i < formValueArrayList.size(); i++){
+            FormValue formValue = formValueArrayList.get(i);
+            if(formValue.isSelected()){
+                saveSelectedRadioPosition = i;
+            }
+        }
+    }*/
 
     @Override
     public FilterColumn2ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -75,6 +101,9 @@ public class CustomCheckListAdapter extends RecyclerView.Adapter<FilterColumn2Vi
                         commonInterface.getData(selectedItemsArrayList);
                     }
                 });
+                if(formValueArrayList.get(position).isSelected()){
+                    holder.radioButton.setChecked(true);
+                }
 
             }
         } else {
@@ -91,6 +120,7 @@ public class CustomCheckListAdapter extends RecyclerView.Adapter<FilterColumn2Vi
                         }
                     }
                 });
+
                 holder.checkFilterValue.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -101,6 +131,10 @@ public class CustomCheckListAdapter extends RecyclerView.Adapter<FilterColumn2Vi
                         }
                     }
                 });
+
+                if(formValueArrayList.get(position).isSelected()){
+                    holder.checkFilterValue.setChecked(true);
+                }
 
             }
         }

@@ -7,7 +7,7 @@ import java.util.ArrayList;
  */
 
 public class DynamicFormEntity {
-    private String name, label, type;
+    private String name, label, type, value;
     private boolean isMultiple;
     private ArrayList<FormValue> formValueArrayList = new ArrayList<>();
 
@@ -51,6 +51,14 @@ public class DynamicFormEntity {
         this.formValueArrayList.add(formValue);
     }
 
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
+
     public void addToFormValueArrayList(int position, FormValue formValue) {
         if(position >= 0){
             this.formValueArrayList.add(position, formValue);
@@ -63,6 +71,7 @@ public class DynamicFormEntity {
                 "name='" + name + '\'' +
                 ", label='" + label + '\'' +
                 ", type='" + type + '\'' +
+                ", value='" + value + '\'' +
                 ", isMultiple=" + isMultiple +
                 ", formValueArrayList=" + formValueArrayList +
                 '}';

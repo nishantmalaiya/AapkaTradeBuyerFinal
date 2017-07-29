@@ -488,7 +488,6 @@ public class HomeActivity extends AppCompatActivity {
             AndroidUtils.showToast(context, "Please click BACK again to exit");
 
             new Handler().postDelayed(new Runnable() {
-
                 @Override
                 public void run() {
                     doubleBackToExitPressedOnce = false;

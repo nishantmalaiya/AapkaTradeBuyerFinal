@@ -39,6 +39,8 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.EditText;
@@ -653,6 +655,13 @@ public class MyProfileActivity extends AppCompatActivity {
                                         AndroidUtils.showToast(context, "Sucessfully Video Updated !");
                                     }
                                 });
+
+
+
+                                ErrorFragmentDialog comingSoonFragmentDialog = new ErrorFragmentDialog(context);
+                                FragmentManager fm = ((AppCompatActivity) context).getSupportFragmentManager();
+                                comingSoonFragmentDialog.show(fm, "enquiry");
+//                          comingSoonFragmentDialog.setError(message);
 
 
                             }
