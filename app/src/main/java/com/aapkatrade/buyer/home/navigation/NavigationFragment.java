@@ -175,7 +175,9 @@ public class NavigationFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 mDrawerLayout.closeDrawers();
-                HomeActivity.tvCartCount.setText(String.valueOf(appSharedpreference.getSharedPrefInt("cart_count", 0)));
+                if(HomeActivity.tvCartCount!=null) {
+                    HomeActivity.tvCartCount.setText(String.valueOf(appSharedpreference.getSharedPrefInt("cart_count", 0)));
+                }
             }
         });
         categoryname = new ArrayList<>();

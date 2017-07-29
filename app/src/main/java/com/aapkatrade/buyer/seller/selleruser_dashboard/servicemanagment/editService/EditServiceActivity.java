@@ -185,7 +185,6 @@ public class EditServiceActivity extends AppCompatActivity {
         tv_shopCategory.setText("Category Name:" + service_category_name);
 
 
-
     }
 
 
@@ -201,7 +200,7 @@ public class EditServiceActivity extends AppCompatActivity {
         etserviceOffers = (EditText) findViewById(R.id.etserviceOffers);
         etDescription = (EditText) findViewById(R.id.etDescription);
         saveandupdatebtn = (Button) findViewById(R.id.saveandupdatebtn);
-        tvHeading=(TextView) findViewById(R.id.listfootername);
+        tvHeading = (TextView) findViewById(R.id.listfootername);
         tvHeading.setText("Edit Service");
 
         HandleClickEvent();
@@ -239,12 +238,7 @@ public class EditServiceActivity extends AppCompatActivity {
 
         isAllFieldsSet = true;
 
-        if (docFile == null) {
-
-            AndroidUtils.showSnackBar(mainLayout_editService, "Please Upload/Capture Service Image.");
-            AndroidUtils.showErrorLog(context, "isAllFieldsSet.............productImagesDatas" + isAllFieldsSet);
-            isAllFieldsSet = false;
-        } else if (!ConnetivityCheck.isNetworkAvailable(context)) {
+        if (!ConnetivityCheck.isNetworkAvailable(context)) {
             AndroidUtils.showSnackBar(mainLayout_editService, "No Internet Connection available.");
             AndroidUtils.showErrorLog(context, "isAllFieldsSet.............isNetworkAvailable" + isAllFieldsSet);
             isAllFieldsSet = false;
@@ -402,47 +396,91 @@ public class EditServiceActivity extends AppCompatActivity {
     }
 
     private void callEditServiceWebservice() {
+
+
         progressBarHandler.show();
 
         AndroidUtils.showErrorLog(context, "callAddProductWebservice----------called");
 
-        Ion.with(context)
-                .load(getString(R.string.webservice_base_url) + "/edit_service")
-                .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
-                .setMultipartFile("image", "image/jpg", docFile)
-                .setMultipartParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
-                .setMultipartParameter("service_id", serviceid)
+        if (docFile != null)
 
-                .setMultipartParameter("service_name", servicename)
+        {
+            Ion.with(context)
+                    .load(getString(R.string.webservice_base_url) + "/edit_service")
+                    .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                    .setMultipartFile("image", "image/jpg", docFile)
+                    .setMultipartParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                    .setMultipartParameter("service_id", serviceid)
 
-
-                .setMultipartParameter("offers", etserviceOffers.getText().toString())
-
-                .setMultipartParameter("description", etDescription.getText().toString())
+                    .setMultipartParameter("service_name", servicename)
 
 
-                .asJsonObject().setCallback(new FutureCallback<JsonObject>() {
-            @Override
-            public void onCompleted(Exception e, JsonObject result) {
-                AndroidUtils.showErrorLog(context, "result----------" + context.getClass().getSimpleName() + "------" + result);
+                    .setMultipartParameter("offers", etserviceOffers.getText().toString())
+
+                    .setMultipartParameter("description", etDescription.getText().toString())
 
 
-                AndroidUtils.showErrorLog(context, "result----------" + context.getClass().getSimpleName() + "------" + result);
+                    .asJsonObject().setCallback(new FutureCallback<JsonObject>() {
+                @Override
+                public void onCompleted(Exception e, JsonObject result) {
+                    AndroidUtils.showErrorLog(context, "result----------" + context.getClass().getSimpleName() + "------" + result);
 
-                progressBarHandler.hide();
-                if (result != null) {
-                    if (result.get("error").getAsString().contains("false")) {
-                        AndroidUtils.showToast(context, result.get("message").getAsString());
-                        if (Validation.containsIgnoreCase(result.get("message").getAsString(), "Added") || Validation.containsIgnoreCase(result.get("message").getAsString(), "Successfully")) {
-                            onBackPressed();
+
+                    AndroidUtils.showErrorLog(context, "result----------" + context.getClass().getSimpleName() + "------" + result);
+
+                    progressBarHandler.hide();
+                    if (result != null) {
+                        if (result.get("error").getAsString().contains("false")) {
+                            AndroidUtils.showToast(context, result.get("message").getAsString());
+                            if (Validation.containsIgnoreCase(result.get("message").getAsString(), "Added") || Validation.containsIgnoreCase(result.get("message").getAsString(), "Successfully")) {
+                                onBackPressed();
+                            }
                         }
+                    } else {
+                        AndroidUtils.showErrorLog(context, "hello2", e.toString());
                     }
-                } else {
-                    AndroidUtils.showErrorLog(context, "hello2", e.toString());
                 }
-            }
-        });
+            });
+        } else {
+
+
+            Ion.with(context)
+                    .load(getString(R.string.webservice_base_url) + "/edit_service")
+                    .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                    .setMultipartParameter("image", "")
+                    .setMultipartParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                    .setMultipartParameter("service_id", serviceid)
+
+                    .setMultipartParameter("service_name", servicename)
+
+
+                    .setMultipartParameter("offers", etserviceOffers.getText().toString())
+
+                    .setMultipartParameter("description", etDescription.getText().toString())
+
+
+                    .asJsonObject().setCallback(new FutureCallback<JsonObject>() {
+                @Override
+                public void onCompleted(Exception e, JsonObject result) {
+                    AndroidUtils.showErrorLog(context, "result----------" + context.getClass().getSimpleName() + "------" + result);
+
+
+                    AndroidUtils.showErrorLog(context, "result----------" + context.getClass().getSimpleName() + "------" + result);
+
+                    progressBarHandler.hide();
+                    if (result != null) {
+                        if (result.get("error").getAsString().contains("false")) {
+                            AndroidUtils.showToast(context, result.get("message").getAsString());
+                            if (Validation.containsIgnoreCase(result.get("message").getAsString(), "Added") || Validation.containsIgnoreCase(result.get("message").getAsString(), "Successfully")) {
+                                onBackPressed();
+                            }
+                        }
+                    } else {
+                        AndroidUtils.showErrorLog(context, "hello2", e.toString());
+                    }
+                }
+            });
+        }
+
     }
-
-
 }

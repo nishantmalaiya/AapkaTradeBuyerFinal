@@ -170,6 +170,31 @@ public class HomeActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.home_menu, menu);
+
+        final MenuItem alertMenuItem = menu.findItem(R.id.cart_total_item);
+
+        RelativeLayout badgeLayout = (RelativeLayout) alertMenuItem.getActionView();
+
+        tvCartCount = (TextView) badgeLayout.findViewById(R.id.tvCartCount);
+
+        badgeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onOptionsItemSelected(alertMenuItem);
+            }
+        });
+
+
+        return true;
+    }
+
+
+
+
     private void setupToolBar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

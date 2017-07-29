@@ -80,11 +80,7 @@ public class AddServiceActivity extends AppCompatActivity {
     private AppSharedPreference appSharedpreference;
     private ProgressBarHandler progressBarHandler;
     private Context context;
-   // private Spinner spCompanyListService;
-    private ArrayList<City> cityList = new ArrayList<>();
-    private ArrayList<City> unitList = new ArrayList<>();
-    private String cityID, unitID, shopId, dynamicFormData, companyId;
-    private ArrayList<DynamicFormEntity> dynamicFormEntityArrayList = new ArrayList<>();
+
     private LinearLayout mainLayout;
     int page = 0;
     ImageView image, service_image_container;
@@ -104,9 +100,7 @@ public class AddServiceActivity extends AppCompatActivity {
         context = AddServiceActivity.this;
         appSharedpreference = new AppSharedPreference(context);
         progressBarHandler = new ProgressBarHandler(context);
-        if (getIntent() != null) {
-            shopId = getIntent().getStringExtra("shopId");
-        }
+
         setUpToolBar();
         initView();
         setupSpinner();
@@ -186,13 +180,14 @@ public class AddServiceActivity extends AppCompatActivity {
             isAllFieldsSet = false;
         }
 
-
-        else if (!Validation.isNumber(companyId)) {
+        else if (!Validation.isNumber(pagingSpinner.getShopId()) && pagingSpinner.getShopId().equals("0")) {
             AndroidUtils.showSnackBar(mainLayout, "Please Select Company/Shop.");
             AndroidUtils.showErrorLog(context, "isAllFieldsSet.............companyId" + isAllFieldsSet);
             isAllFieldsSet = false;
-        } else if (Validation.isEmptyStr(etservicename.getText().toString())) {
-            AndroidUtils.showErrorLog(context, companyId + "**************************");
+        }
+
+        else if (Validation.isEmptyStr(etservicename.getText().toString())) {
+            AndroidUtils.showErrorLog(context, "Service Name Blank" + "**************************");
             etservicename.setError("Service Name can not be empty.");
             AndroidUtils.showSnackBar(mainLayout, "Product Name can not be empty.");
             AndroidUtils.showErrorLog(context, "isAllFieldsSet.............etproductname" + isAllFieldsSet);
@@ -378,7 +373,7 @@ public class AddServiceActivity extends AppCompatActivity {
                 .setMultipartParameter("user_id", appSharedpreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString()))
 
                 .setMultipartParameter("service_name", etservicename.getText().toString())
-                .setMultipartParameter("shop_id", companyId)
+                .setMultipartParameter("shop_id", pagingSpinner.getShopId())
 
                 .setMultipartParameter("offers", etserviceOffers.getText().toString())
 

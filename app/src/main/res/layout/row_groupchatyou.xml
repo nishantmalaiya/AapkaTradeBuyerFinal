@@ -34,7 +34,7 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_margin="4dp"
-                android:src="@drawable/ic_error" />
+                android:src="@drawable/ic_chat_user" />
 
             <TextView
                 android:textSize="10sp"

@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.aapkatrade.buyer.R;
@@ -53,6 +54,7 @@ public class ServiceManagementActivity extends AppCompatActivity {
     LinearLayout company_shop_management_container;
     private int visibleItemCount, totalItemCount, pastVisiblesItems;
     TextView tvHeading;
+    RelativeLayout rlSearchContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,7 +139,8 @@ public class ServiceManagementActivity extends AppCompatActivity {
             gridLayoutManager = new GridLayoutManager(context, 2);
         }
 
-
+        rlSearchContainer=(RelativeLayout)findViewById(R.id.rlSearchContainer);
+        rlSearchContainer.setVisibility(View.GONE);
         service_list.setLayoutManager(gridLayoutManager);
 
         ServiceListAdapter = new ServiceListAdapter(context, serviceListDatas);
