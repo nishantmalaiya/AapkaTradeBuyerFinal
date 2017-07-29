@@ -21,6 +21,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.aapkatrade.buyer.general.Validation;
 import com.aapkatrade.buyer.home.cart.CartData;
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.AppConfig;
@@ -364,11 +365,37 @@ public class CartCheckoutActivity extends AppCompatActivity
 
 
     public void open_payumoney_webview()
+
     {
-        String getFname = app_sharedpreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString());
-        String getPhone = app_sharedpreference.getSharedPref(SharedPreferenceConstants.MOBILE.toString());;
-        String getEmail =app_sharedpreference.getSharedPref(SharedPreferenceConstants.EMAIL_ID.toString());;
-        String getAmt   = tvAmountPayable.getText().toString().replace(getApplicationContext().getResources().getText(R.string.rupay_text),"");//rechargeAmt.getText().toString().trim();
+        String getFname,getPhone,getEmail,getAmt;
+
+        if(Validation.isNonEmptyStr(app_sharedpreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString(),"Aapka Trade")))
+        {
+           getFname = app_sharedpreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString(), "Aapka Trade");
+        }
+        else {
+        getFname = "Aapka Trade";
+        }
+
+        if(Validation.isNonEmptyStr(app_sharedpreference.getSharedPref(SharedPreferenceConstants.MOBILE.toString())))
+        {
+            getPhone = app_sharedpreference.getSharedPref(SharedPreferenceConstants.MOBILE.toString());
+        }
+        else {
+            getPhone = getApplicationContext().getResources().getText(R.string.customer_care_no).toString();
+        }
+
+        if(Validation.isNonEmptyStr(app_sharedpreference.getSharedPref(SharedPreferenceConstants.EMAIL_ID.toString())))
+        {
+            getEmail = app_sharedpreference.getSharedPref(SharedPreferenceConstants.EMAIL_ID.toString());
+        }
+        else {
+            getEmail = "info@aapkatrade.com";
+        }
+
+         getAmt   = tvAmountPayable.getText().toString().replace(getApplicationContext().getResources().getText(R.string.rupay_text),"");//rechargeAmt.getText().toString().trim();
+
+        AndroidUtils.showErrorLog(context,"Fname--"+getFname +"Phone"+getPhone +"Email--"+getEmail+"Amit--"+getAmt);
 
         Intent intent = new Intent(CartCheckoutActivity.this, PayMentGateWay.class);
         intent.putExtra("FIRST_NAME",getFname);

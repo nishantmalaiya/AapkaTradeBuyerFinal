@@ -657,13 +657,6 @@ public class MyProfileActivity extends AppCompatActivity {
                                 });
 
 
-
-                                ErrorFragmentDialog comingSoonFragmentDialog = new ErrorFragmentDialog(context);
-                                FragmentManager fm = ((AppCompatActivity) context).getSupportFragmentManager();
-                                comingSoonFragmentDialog.show(fm, "enquiry");
-//                          comingSoonFragmentDialog.setError(message);
-
-
                             }
                         } else {
 
