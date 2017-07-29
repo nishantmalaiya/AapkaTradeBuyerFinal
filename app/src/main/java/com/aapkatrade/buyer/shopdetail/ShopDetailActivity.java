@@ -408,12 +408,16 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
                 if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString(), "not").contains("not")) {
                     startActivity(new Intent(ShopDetailActivity.this, LoginDashboard.class));
                 } else {
-                    Intent rate_us = new Intent(ShopDetailActivity.this, RateUsActivity.class);
-                    rate_us.putExtra("product_id", product_id);
-                    rate_us.putExtra("product_name", tvshopName.getText().toString());
-                    rate_us.putExtra("product_price", "");
-                    rate_us.putExtra("product_image", imageList.get(0));
-                    startActivity(rate_us);
+                    if (!appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), "not").equals(SharedPreferenceConstants.USER_TYPE_BUYER.toString())) {
+                        AndroidUtils.showToast(context, "Only buyer can rate or write reviews");
+                    } else {
+                        Intent rate_us = new Intent(ShopDetailActivity.this, RateUsActivity.class);
+                        rate_us.putExtra("product_id", product_id);
+                        rate_us.putExtra("product_name", tvshopName.getText().toString());
+                        rate_us.putExtra("product_price", "");
+                        rate_us.putExtra("product_image", imageList.get(0));
+                        startActivity(rate_us);
+                    }
                 }
             }
         });
