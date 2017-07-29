@@ -31,6 +31,7 @@ import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
 
 import com.aapkatrade.buyer.payment.PaymentActivity;
 import com.aapkatrade.buyer.payment.PaymentCompletionActivity;
+import com.aapkatrade.buyer.payumoney_paymentgatway.PayMentGateWay;
 import com.android.volley.AuthFailureError;
 import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
@@ -51,6 +52,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import static com.payUMoney.sdk.SdkSession.hashCal;
 
 public class CartCheckoutActivity extends AppCompatActivity
 {
@@ -330,7 +333,8 @@ public class CartCheckoutActivity extends AppCompatActivity
                             JsonObject jsonObject = result.getAsJsonObject("result");
                             order_number = jsonObject.get("tracking_no").getAsString();
                             progressBarHandler.hide();
-                            makePayment();
+                            //makePayment();
+                            open_payumoney_webview();
                         }
                         else
                         {
@@ -359,6 +363,23 @@ public class CartCheckoutActivity extends AppCompatActivity
     }
 
 
+    public void open_payumoney_webview()
+    {
+        String getFname = app_sharedpreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString());
+        String getPhone = app_sharedpreference.getSharedPref(SharedPreferenceConstants.MOBILE.toString());;
+        String getEmail =app_sharedpreference.getSharedPref(SharedPreferenceConstants.EMAIL_ID.toString());;
+        String getAmt   = tvAmountPayable.getText().toString().replace(getApplicationContext().getResources().getText(R.string.rupay_text),"");//rechargeAmt.getText().toString().trim();
+
+        Intent intent = new Intent(CartCheckoutActivity.this, PayMentGateWay.class);
+        intent.putExtra("FIRST_NAME",getFname);
+        intent.putExtra("PHONE_NUMBER",getPhone);
+        intent.putExtra("EMAIL_ADDRESS",getEmail);
+        intent.putExtra("RECHARGE_AMT",getAmt);
+        intent.putExtra("ORDER_NUMBER",order_number);
+        startActivity(intent);
+
+    }
+
     public void makePayment()
     {
 
@@ -367,20 +388,20 @@ public class CartCheckoutActivity extends AppCompatActivity
         String firstName = "piyush";
         String txnId = "0nf7" + System.currentTimeMillis();
         String email="piyush.jain@payu.in";
-        String sUrl = "https://test.payumoney.com/mobileapp/payumoney/success.php";
-        String fUrl = "https://test.payumoney.com/mobileapp/payumoney/failure.php";
+        String sUrl = "https://www.payumoney.com/mobileapp/payumoney/success.php";
+        String fUrl = "https://www.payumoney.com/mobileapp/payumoney/failure.php";
         String udf1 = "";
         String udf2 = "";
         String udf3 = "";
         String udf4 = "";
         String udf5 = "";
-        boolean isDebug = true;
-        String key = "dRQuiA";
-        String merchantId = "4928174" ;
+        boolean isDebug = false;
+        String key = "rrPYm3Tz";
+        String merchantId = "5704896" ;
 
         PayUmoneySdkInitilizer.PaymentParam.Builder builder = new PayUmoneySdkInitilizer.PaymentParam.Builder();
 
-        builder.setAmount(Double.valueOf(tvAmountPayable.getText().toString().replace(getApplicationContext().getResources().getText(R.string.rupay_text),"")))
+        builder.setAmount(Double.valueOf("1.00"))
                 .setTnxId(txnId)
                 .setPhone(phone)
                 .setProductName(productName)
@@ -409,17 +430,17 @@ public class CartCheckoutActivity extends AppCompatActivity
         // Recommended
 
 
-        calculateServerSideHashAndInitiatePayment(paymentParam);
+      // calculateServerSideHashAndInitiatePayment(paymentParam);
 
        // testing purpose
 
-       /* String salt = "";
+        String salt = "QjMbJt8I7V";
         String serverCalculatedHash=hashCal(key+"|"+txnId+"|"+getAmount()+"|"+productName+"|"
                 +firstName+"|"+email+"|"+udf1+"|"+udf2+"|"+udf3+"|"+udf4+"|"+udf5+"|"+salt);
 
         paymentParam.setMerchantHash(serverCalculatedHash);
 
-        PayUmoneySdkInitilizer.startPaymentActivityForResult(MyActivity.this, paymentParam);*/
+        PayUmoneySdkInitilizer.startPaymentActivityForResult(CartCheckoutActivity.this, paymentParam);
 
 
 
@@ -507,7 +528,7 @@ public class CartCheckoutActivity extends AppCompatActivity
                 Log.i(TAG, "Success - Payment ID : " + data.getStringExtra(SdkConstants.PAYMENT_ID));
                 String paymentId = data.getStringExtra(SdkConstants.PAYMENT_ID);
                // showDialogMessage("Payment Success Id : " + paymentId);
-                callWebServiceMakePayment(paymentId,"true");
+                 callWebServiceMakePayment(paymentId,"true");
 
             } else if (resultCode == RESULT_CANCELED)
             {
