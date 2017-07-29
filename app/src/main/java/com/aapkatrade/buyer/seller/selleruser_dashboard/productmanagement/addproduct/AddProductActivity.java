@@ -64,8 +64,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddProductActivity extends AppCompatActivity
-{
+public class AddProductActivity extends AppCompatActivity {
     private File docFile = new File("");
     private ArrayList<ProductMediaData> productImagesDatas = new ArrayList<>();
     private RecyclerView recyclerView;
@@ -108,12 +107,10 @@ public class AddProductActivity extends AppCompatActivity
         initView();
         setupRecyclerView();
 
-       getUnit();
+        getUnit();
 
 
     }
-
-   
 
 
     private void loadDynamicForm(final String shopId) {
@@ -540,7 +537,7 @@ public class AddProductActivity extends AppCompatActivity
 
                     for (int k = 0; k < 4; k++) {
 
-                       // Uri selectedImage = data.getClipData().getItemAt(k).getUri();
+                        // Uri selectedImage = data.getClipData().getItemAt(k).getUri();
 
                        /* Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
                         multiple_images.add(bitmap);
@@ -577,19 +574,19 @@ public class AddProductActivity extends AppCompatActivity
                         Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
                         Uri tempUri = ImageUtils.getImageUri(context, bitmap);
                        */
-                        // CALL THIS METHOD TO GET THE ACTUAL PATH
-                        File finalFile = new File(ImageUtils.getRealPathFromURI(context, data.getData()));
+                    // CALL THIS METHOD TO GET THE ACTUAL PATH
+                    File finalFile = new File(ImageUtils.getRealPathFromURI(context, data.getData()));
 
-                        productImagesDatas.add(new ProductMediaData(finalFile.getAbsolutePath(), "", null, ""));
+                    productImagesDatas.add(new ProductMediaData(finalFile.getAbsolutePath(), "", null, ""));
 
-                        AndroidUtils.showErrorLog(context, "docfile", finalFile.getAbsolutePath());
+                    AndroidUtils.showErrorLog(context, "docfile", finalFile.getAbsolutePath());
 
-                        adapter.notifyDataSetChanged();
+                    adapter.notifyDataSetChanged();
 
-                        if (productImagesDatas.size() > 0) {
-                            recyclerView.setVisibility(View.VISIBLE);
+                    if (productImagesDatas.size() > 0) {
+                        recyclerView.setVisibility(View.VISIBLE);
 
-                        }
+                    }
 
 
                 }
@@ -683,13 +680,6 @@ public class AddProductActivity extends AppCompatActivity
                 .setMultipartParameter("width", etProductWidth.getText() == null ? "0" : etProductWidth.getText().toString())
                 .setMultipartParameter("height", etProductHeight.getText() == null ? "0" : etProductHeight.getText().toString())
                 .setMultipartParameter("dynamic", Validation.isEmptyStr(dynamicFormData) ? "[]" : dynamicFormData)
-               /* .asString().setCallback(new FutureCallback<String>() {
-            @Override
-            public void onCompleted(Exception e, String result) {
-                AndroidUtils.showErrorLog(context, "result--add produvy-" + context.getClass().getSimpleName() + "------" + result);
-
-            }
-        });*/
                 .asJsonObject().setCallback(new FutureCallback<JsonObject>() {
             @Override
             public void onCompleted(Exception e, JsonObject result) {

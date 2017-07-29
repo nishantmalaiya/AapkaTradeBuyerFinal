@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.aapkatrade.buyer.R;
@@ -46,6 +47,8 @@ public class ProductManagementActivity extends AppCompatActivity {
     private ImageView imgShopType;
     private int page = 0;
     private TextView tvHeading;
+
+    RelativeLayout rlSearchContainer;
 
 
     @Override
@@ -83,6 +86,10 @@ public class ProductManagementActivity extends AppCompatActivity {
 
         tvHeading = (TextView) findViewById(R.id.listfootername);
         tvHeading.setText("Product Managment");
+        rlSearchContainer=(RelativeLayout)findViewById(R.id.rlSearchContainer);
+        rlSearchContainer.setVisibility(View.GONE);
+
+
     }
 
     private void onScrollEvents() {

@@ -60,7 +60,7 @@ public class ShopListByCategoryActivity extends AppCompatActivity {
     private ViewGroup view;
     private LinearLayoutManager linearLayoutManager;
     private int page = 1;
-    public static TextView tvCartCount;
+    public static TextView tvCartCount,tvfilter;
     private int categoryListActivity = 1;
     CardView cardview_list_container;
     GpsLocationService gps;
@@ -540,6 +540,7 @@ public class ShopListByCategoryActivity extends AppCompatActivity {
                                 layout_container.setVisibility(View.INVISIBLE);
                                 progress_handler.hide();
 
+
                             } else {
 
                                 Log.e(AndroidUtils.getTag(context), result.toString());
@@ -564,6 +565,10 @@ public class ShopListByCategoryActivity extends AppCompatActivity {
                                         if (message_data.equals("No record found")) {
                                             layout_container.setVisibility(View.INVISIBLE);
                                             progress_handler.hide();
+                                            if(tvfilter!=null)
+                                            {
+                                                tvfilter.setVisibility(View.GONE);
+                                            }
                                         } else {
                                             JsonArray resultJsonArray = result.getAsJsonArray("result");
                                             JsonArray filterArray = result.getAsJsonArray("filter");
@@ -678,6 +683,8 @@ public class ShopListByCategoryActivity extends AppCompatActivity {
         RelativeLayout badgeLayout = (RelativeLayout) alertMenuItem.getActionView();
 
         tvCartCount = (TextView) badgeLayout.findViewById(R.id.tvCartCount);
+        tvfilter= (TextView) badgeLayout.findViewById(R.id.filter);
+
 
         tvCartCount.setText(String.valueOf(appSharedPreference.getSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), 0)));
 
