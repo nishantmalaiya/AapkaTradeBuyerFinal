@@ -235,7 +235,7 @@ public class MyProfileActivity extends AppCompatActivity {
 
             if (app_sharedpreference.getSharedPref(SharedPreferenceConstants.PROFILE_VIDEO_THUMBNAIL.toString(), "").toString().equals("")) {
 
-                Log.e("shared-----", "");
+                Log.e("shared-1----", app_sharedpreference.getSharedPref(SharedPreferenceConstants.PROFILE_VIDEO_THUMBNAIL.toString(), "").toString());
             } else {
 
                 p_handler.show();
@@ -247,7 +247,7 @@ public class MyProfileActivity extends AppCompatActivity {
                     }
                 });
 
-
+                Log.e("shared-2----", app_sharedpreference.getSharedPref(SharedPreferenceConstants.PROFILE_VIDEO_THUMBNAIL.toString(), "").toString());
 
 
 
@@ -658,10 +658,7 @@ public class MyProfileActivity extends AppCompatActivity {
 
 
 
-                                ErrorFragmentDialog comingSoonFragmentDialog = new ErrorFragmentDialog(context);
-                                FragmentManager fm = ((AppCompatActivity) context).getSupportFragmentManager();
-                                comingSoonFragmentDialog.show(fm, "enquiry");
-//                          comingSoonFragmentDialog.setError(message);
+
 
 
                             }

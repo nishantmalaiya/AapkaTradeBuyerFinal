@@ -366,8 +366,8 @@ public class CartCheckoutActivity extends AppCompatActivity
     public void open_payumoney_webview()
     {
         String getFname = app_sharedpreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString());
-        String getPhone = app_sharedpreference.getSharedPref(SharedPreferenceConstants.MOBILE.toString());;
-        String getEmail =app_sharedpreference.getSharedPref(SharedPreferenceConstants.EMAIL_ID.toString());;
+        String getPhone = app_sharedpreference.getSharedPref(SharedPreferenceConstants.MOBILE.toString(),getResources().getString(R.string.customer_care_no));;
+        String getEmail =app_sharedpreference.getSharedPref(SharedPreferenceConstants.EMAIL_ID.toString(),"info@aapkatrade.com");;
         String getAmt   = tvAmountPayable.getText().toString().replace(getApplicationContext().getResources().getText(R.string.rupay_text),"");//rechargeAmt.getText().toString().trim();
 
         Intent intent = new Intent(CartCheckoutActivity.this, PayMentGateWay.class);

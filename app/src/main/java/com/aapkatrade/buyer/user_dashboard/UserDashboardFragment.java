@@ -180,25 +180,28 @@ public class UserDashboardFragment extends Fragment {
                                 tvUserType.setText("Welcome Seller");
 
                                 appSharedPreference.setSharedPref(SharedPreferenceConstants.ORDER_QUANTITY.toString(), order_quantity);
-                                dashboardDatas.add(new DashboardData("", "My Profile", R.drawable.ic_my_profile, R.drawable.circle_teal, false, ""));
+                                dashboardDatas.add(new DashboardData("", "My Profile", R.drawable.ic_my_profile, R.drawable.circle_random_color1_sellerdashboard, false, ""));
 
-                                dashboardDatas.add(new DashboardData("", "Company/Shop List", R.drawable.ic_company_shop_list, R.drawable.circle_deep_pink, true, result.get("company").getAsString()));
-
-
-                                dashboardDatas.add(new DashboardData("", "Product Management", R.drawable.ic_add_company, R.drawable.circle_purple, true, result.get("product").getAsString()));
-                                dashboardDatas.add(new DashboardData("", "Service Management", R.drawable.ic_service_management, R.drawable.circle_cherry_red, false, ""));
+                                dashboardDatas.add(new DashboardData("", "Company/Shop List", R.drawable.ic_company_shop_list, R.drawable.circle_random_color2_sellerdashboard, true, result.get("company").getAsString()));
 
 
-                                dashboardDatas.add(new DashboardData("", "Order", R.drawable.ic_my_order, R.drawable.circle_sienna, true, order_quantity));
+                                dashboardDatas.add(new DashboardData("", "Product Management", R.drawable.ic_add_company,R.drawable.circle_random_color3_sellerdashboard, true, result.get("product").getAsString()));
 
 
-                                dashboardDatas.add(new DashboardData("", "Enquiry Management", R.drawable.ic_enquiry_management, R.drawable.circle_purple, true, result.get("enquiry").getAsString()));
-                                dashboardDatas.add(new DashboardData("", "Bank Details", R.drawable.ic_bank_details, R.drawable.circle_cherry_red, false, ""));
 
-                                dashboardDatas.add(new DashboardData("", "Sales Transaction", R.drawable.ic_sales_transaction, R.drawable.circle_purple, false, ""));
-                                dashboardDatas.add(new DashboardData("", "Bill Payment", R.drawable.ic_bill_payment, R.drawable.circle_purple, false, ""));
-                                dashboardDatas.add(new DashboardData("", "Change Password", R.drawable.ic_change_password, R.drawable.circle_purple, false, ""));
-                                dashboardDatas.add(new DashboardData("", "Bill History", R.drawable.ic_bill_history, R.drawable.circle_purple, false, ""));
+                                dashboardDatas.add(new DashboardData("", "Service Management", R.drawable.ic_service_management,R.drawable.circle_random_color4_sellerdashboard, false, ""));
+
+
+                                dashboardDatas.add(new DashboardData("", "Order", R.drawable.ic_my_order,R.drawable.circle_random_color5_sellerdashboard, true, order_quantity));
+
+
+                                dashboardDatas.add(new DashboardData("", "Enquiry Management", R.drawable.ic_enquiry_management, R.drawable.circle_random_color6_sellerdashboard, true, result.get("enquiry").getAsString()));
+                                dashboardDatas.add(new DashboardData("", "Bank Details", R.drawable.ic_bank_details, R.drawable.circle_random_color7_sellerdashboard, false, ""));
+
+                                dashboardDatas.add(new DashboardData("", "Sales Transaction", R.drawable.ic_sales_transaction, R.drawable.circle_random_color8_sellerdashboard, false, ""));
+                                dashboardDatas.add(new DashboardData("", "Bill Payment", R.drawable.ic_bill_payment,R.drawable.circle_random_color9_sellerdashboard, false, ""));
+                                dashboardDatas.add(new DashboardData("", "Change Password", R.drawable.ic_change_password,R.drawable.circle_random_color4_sellerdashboard, false, ""));
+                                dashboardDatas.add(new DashboardData("", "Bill History", R.drawable.ic_bill_history,R.drawable.circle_random_color7_sellerdashboard, false, ""));
 
 
                             }
@@ -228,11 +231,10 @@ public class UserDashboardFragment extends Fragment {
                         .into(imageviewpp);
             }
 
-            if (Validation.isNonEmptyStr(appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_ViDEO_GIF.toString(),"")))
-            {
+            if (Validation.isNonEmptyStr(appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_ViDEO_GIF.toString(), ""))) {
 
 
-                Ion.with(imageViewProfileVideo).load(appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_ViDEO_GIF.toString(),"")).setCallback(new FutureCallback<ImageView>() {
+                Ion.with(imageViewProfileVideo).load(appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_ViDEO_GIF.toString(), "")).setCallback(new FutureCallback<ImageView>() {
                     @Override
                     public void onCompleted(Exception e, ImageView result) {
 
