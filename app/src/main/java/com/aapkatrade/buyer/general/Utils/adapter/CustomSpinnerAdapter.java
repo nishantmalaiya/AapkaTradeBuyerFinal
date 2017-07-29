@@ -126,6 +126,7 @@ public class CustomSpinnerAdapter extends BaseAdapter {
                 view.findViewById(R.id.view1).setVisibility(View.VISIBLE);
                 view.findViewById(R.id.view2).setVisibility(View.VISIBLE);
                 spinnerItemName.setText(((FormValue) arrayList.get(position)).getValue());
+
             } else {
                 spinnerItemName.setText(arrayList.get(position).toString());
             }

@@ -33,6 +33,7 @@ import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.Utils.adapter.CustomSpinnerAdapter;
 import com.aapkatrade.buyer.general.Validation;
+import com.aapkatrade.buyer.general.entity.KeyValue;
 import com.aapkatrade.buyer.general.interfaces.CommonInterface;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
 import com.aapkatrade.buyer.home.buyerregistration.entity.City;
@@ -88,9 +89,9 @@ public class EditProductActivity extends AppCompatActivity {
     private ArrayList<DynamicFormEntity> dynamicFormEntityArrayList = new ArrayList<>();
     private LinearLayout llSellerProductDetailContainer;
     public static ArrayList<ProductMediaData> productMediaDatasDelete = new ArrayList<>();
-    private ArrayList<String> imageUrlList = new ArrayList<>();
-    private  ArrayList<Part> submitImgList = new ArrayList<>();
-    private  ArrayList<Part> submitImgDelList = new ArrayList<>();
+    private ArrayList<KeyValue> imageUrlList = new ArrayList<>();
+    private ArrayList<Part> submitImgList = new ArrayList<>();
+    private ArrayList<String> submitImgDelList = new ArrayList<>();
     
     private boolean isAllFieldsSet = true;
 
@@ -158,10 +159,11 @@ public class EditProductActivity extends AppCompatActivity {
 
                                 for (int i = 0; i < imageJsonArray.size(); i++) {
                                     JsonObject imageObject = imageJsonArray.get(i).getAsJsonObject();
+                                    String imageId = imageObject.get("id").getAsString();
                                     String imageUrl = imageObject.get("image_url").getAsString();
                                     if (Validation.isNonEmptyStr(imageUrl)) {
                                         AndroidUtils.showErrorLog(context, "imagepathurl---------------------" + imageUrl);
-                                        imageUrlList.add(imageUrl);
+                                        imageUrlList.add(new KeyValue(imageId, imageUrl));
                                     }
                                 }
 
@@ -186,16 +188,17 @@ public class EditProductActivity extends AppCompatActivity {
                                         if (jsonObject1.get("is_multiple").getAsString().contains("true")) {
                                             dynamicFormEntity.setMultiple(true);
                                             if (jsonObject1.get("value") != null) {
-                                                JsonArray multipleValueArray = jsonObject1
-                                                        .get("value").getAsJsonArray();
+                                                JsonArray multipleValueArray = jsonObject1.get("value").getAsJsonArray();
                                                 if (multipleValueArray != null && multipleValueArray.size() > 0) {
                                                     for (int j = 0; j < multipleValueArray.size(); j++) {
                                                         JsonObject jsonObject2 = (JsonObject) multipleValueArray.get(j);
-                                                        dynamicFormEntity.addToFormValueArrayList(new FormValue(jsonObject2.get("name").getAsString(), jsonObject2.get("value").getAsString()));
+                                                        dynamicFormEntity.addToFormValueArrayList(new FormValue(jsonObject2.get("name").getAsString(), jsonObject2.get("value").getAsString(), jsonObject2.get("checked").getAsBoolean()));
                                                     }
                                                 }
                                             }
                                         } else {
+
+                                            dynamicFormEntity.setValue(jsonObject1.get("value").getAsString());
                                             dynamicFormEntity.addToFormValueArrayList(new FormValue(jsonObject1.get("label") == null ? "" : jsonObject1.get("label").getAsString(), jsonObject1.get("value") == null ? "" : jsonObject1.get("value").getAsString()));
                                         }
                                         dynamicFormEntityArrayList.add(dynamicFormEntity);
@@ -221,7 +224,7 @@ public class EditProductActivity extends AppCompatActivity {
     private void downloadImage(final int index) {
         progressBarHandler.show();
 
-        Ion.with(this).load(imageUrlList.get(index)).withBitmap().asBitmap()
+        Ion.with(this).load(imageUrlList.get(index).value.toString()).withBitmap().asBitmap()
                 .setCallback(new FutureCallback<Bitmap>() {
                     @Override
                     public void onCompleted(Exception e, Bitmap result) {
@@ -263,7 +266,7 @@ public class EditProductActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-   /*     AndroidUtils.showErrorLog(context, "________________^^^^^^^onDestroyonDestroyonDestroy^^^^^^^^^_________________");
+        AndroidUtils.showErrorLog(context, "________________^^^^^^^onDestroyonDestroyonDestroy^^^^^^^^^_________________");
         File mediaStorageDir = new File(Environment.getExternalStorageDirectory()
                 + "/Android/data/"
                 + getApplicationContext().getPackageName()
@@ -276,7 +279,7 @@ public class EditProductActivity extends AppCompatActivity {
 
                 new File(mediaStorageDir, aChildren).delete();
             }
-        }*/
+        }
     }
 
     private File getOutputMediaFile(int index) {
@@ -291,7 +294,7 @@ public class EditProductActivity extends AppCompatActivity {
             }
         }
         File mediaFile;
-        String mImageName = getFileName(imageUrlList.get(index));
+        String mImageName = getFileName(imageUrlList.get(index).value.toString());
         mediaFile = new File(mediaStorageDir.getPath() + File.separator + mImageName);
         return mediaFile;
     }
@@ -309,7 +312,7 @@ public class EditProductActivity extends AppCompatActivity {
     private void createDynamicForm() {
         if (dynamicFormEntityArrayList != null && dynamicFormEntityArrayList.size() > 0) {
             for (DynamicFormEntity dynamicFormEntity : dynamicFormEntityArrayList) {
-                String title = dynamicFormEntity.getLabel();
+                String title = dynamicFormEntity.getName();
                 String type = dynamicFormEntity.getType();
                 if (dynamicFormEntity.isMultiple() && type.equalsIgnoreCase("dropdown")) {
                     createDynamicSpinner(title, type, dynamicFormEntity.getFormValueArrayList());
@@ -318,7 +321,7 @@ public class EditProductActivity extends AppCompatActivity {
                 } else if (dynamicFormEntity.isMultiple() && type.equalsIgnoreCase("radio")) {
                     createDynamicRadioGroup(title, type, dynamicFormEntity.getFormValueArrayList());
                 } else if (type.equalsIgnoreCase("text") || type.equalsIgnoreCase("number") || type.equalsIgnoreCase("textarea")) {
-                    createDynamicEditText(title, type);
+                    createDynamicEditText(title, type, dynamicFormEntity.getValue());
                 }
             }
         }
@@ -350,13 +353,18 @@ public class EditProductActivity extends AppCompatActivity {
             formValueArrayList.add(0, new FormValue("", "Please Select " + title));
             CustomSpinnerAdapter spinnerArrayAdapter = new CustomSpinnerAdapter(context, formValueArrayList);
             spinner.setAdapter(spinnerArrayAdapter);
+            for(int i = 0; i < formValueArrayList.size(); i++){
+                if(formValueArrayList.get(i).isSelected()){
+                    spinner.setSelection(i);
+                }
+            }
         }
 
         llSellerProductDetailContainer.addView(view);
 
     }
 
-    private void createDynamicEditText(String title, String type) {
+    private void createDynamicEditText(String title, String type, String value) {
         View view = LayoutInflater.from(context).inflate(R.layout.layout_dynamic_edittext, null, false);
         EditText editText = (EditText) view.findViewById(R.id.edittext);
         TextInputLayout textInputLayout = (TextInputLayout) view.findViewById(R.id.input_layout);
@@ -368,6 +376,9 @@ public class EditProductActivity extends AppCompatActivity {
         }
 
         textInputLayout.setHint(title);
+        if(Validation.isNonEmptyStr(value)){
+            editText.setText(value);
+        }
         llSellerProductDetailContainer.addView(view);
     }
 
@@ -388,16 +399,17 @@ public class EditProductActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 submitImgList.clear();
+                if(submitImgDelList!=null)
                 submitImgDelList.clear();
                 submitImgList = submitImages();
                 submitImgDelList = submitDeletedImages();
 
-               /* validateFields();
-                AndroidUtils.showErrorLog(context, "isAllFieldsSet............." + isAllFieldsSet);*/
                 AndroidUtils.showErrorLog(context, "productImagesDataArrayList............." + submitImgList.size());
-
                 AndroidUtils.showErrorLog(context, "productMediaDatasDeleteList.............", submitImgDelList == null ? "no delter list" : submitImgDelList.size());
                 AndroidUtils.showErrorLog(context, "getDynamicSelectedData............." + dynamicFormData);
+
+                validateFields();
+                AndroidUtils.showErrorLog(context, "isAllFieldsSet............****>>>>." + isAllFieldsSet);
                 if(isAllFieldsSet){
                     hitUpdateProductWebservice();
                 }
@@ -491,7 +503,7 @@ public class EditProductActivity extends AppCompatActivity {
 
             JSONArray jsonArray = new JSONArray();
             for (DynamicFormEntity dynamicFormEntity : dynamicFormEntityArrayList) {
-                String title = dynamicFormEntity.getLabel();
+                String title = dynamicFormEntity.getName();
                 String type = dynamicFormEntity.getType();
                 JSONObject jsonObject = new JSONObject();
                 if (dynamicFormEntity.isMultiple() && type.equalsIgnoreCase("dropdown")) {
@@ -751,14 +763,13 @@ public class EditProductActivity extends AppCompatActivity {
 
     }
 
-    private ArrayList<Part> submitDeletedImages() {
-        ArrayList<Part> files = new ArrayList<>();
+    private ArrayList<String> submitDeletedImages() {
+        ArrayList<String> files = new ArrayList<>();
         if (productMediaDatasDelete != null && productMediaDatasDelete.size() > 0) {
             for (int k = 0; k < productMediaDatasDelete.size(); k++) {
                 ProductMediaData file = productMediaDatasDelete.get(k);
                 if (!file.isVideo && isExistingImage(file) && savebitmap(file.imagePath)!=null) {
-                    files.add(new FilePart("delimg[]", savebitmap(file.imagePath)));
-                    AndroidUtils.showErrorLog(context, "---------------------------------))))))((((((", files.get(0).getFilename());
+                    files.add(imageUrlList.get(getPositionOfExistingImage(file)).key.toString());
                 }
             }
             return files;
@@ -809,15 +820,26 @@ public class EditProductActivity extends AppCompatActivity {
 
     private boolean isExistingImage(ProductMediaData file) {
         for (int i = 0; i < imageUrlList.size(); i++) {
-            AndroidUtils.showErrorLog(context, "------isExistingImage--imageUrlList.get(i)------->" + imageUrlList.get(i).split("/")[imageUrlList.get(i).split("/").length - 1] + "-------file.imagePath---------->" + file.imagePath.split("/")[file.imagePath.split("/").length - 1]);
-            if (file.imagePath.split("/")[file.imagePath.split("/").length - 1].equals(imageUrlList.get(i).split("/")[imageUrlList.get(i).split("/").length - 1])) {
+            AndroidUtils.showErrorLog(context, "------isExistingImage--imageUrlList.get(i)------->" + imageUrlList.get(i).value.toString().split("/")[imageUrlList.get(i).value.toString().split("/").length - 1] + "-------file.imagePath---------->" + file.imagePath.split("/")[file.imagePath.split("/").length - 1]);
+            if (file.imagePath.split("/")[file.imagePath.split("/").length - 1].equals(imageUrlList.get(i).value.toString().split("/")[imageUrlList.get(i).value.toString().split("/").length - 1])) {
                 return true;
             }
         }
         return false;
     }
 
-   /* private ArrayList<Part> getImagesData(String key, ArrayList<Part> partArrayList){
+    private int getPositionOfExistingImage(ProductMediaData file) {
+        for (int i = 0; i < imageUrlList.size(); i++) {
+            AndroidUtils.showErrorLog(context, "------isExistingImage--imageUrlList.get(i)------->" + imageUrlList.get(i).value.toString().split("/")[imageUrlList.get(i).value.toString().split("/").length - 1] + "-------file.imagePath---------->" + file.imagePath.split("/")[file.imagePath.split("/").length - 1]);
+            if (file.imagePath.split("/")[file.imagePath.split("/").length - 1].equals(imageUrlList.get(i).value.toString().split("/")[imageUrlList.get(i).value.toString().split("/").length - 1])) {
+                return i;
+            }
+        }
+        return 0;
+    }
+
+
+    /* private ArrayList<Part> getImagesData(String key, ArrayList<Part> partArrayList){
         ArrayList<Part> localPartArrayList = new ArrayList<>();
         if(partArrayList == null){
             localPartArrayList.add(new FilePart("image", savebitmap("[]")));
@@ -831,6 +853,7 @@ public class EditProductActivity extends AppCompatActivity {
         AndroidUtils.showErrorLog(context, "hitUpdateProductWebservice----------called");
 
 
+/*
 
 
           if (submitImgList == null || submitImgList.size() == 0) {
@@ -861,17 +884,11 @@ public class EditProductActivity extends AppCompatActivity {
                     }
                 });
             } else {
-                AndroidUtils.showErrorLog(context, "data printing--->"+submitImgDelList.size());
-
-                for(int i = 0; i < submitImgDelList.size(); i++){
-                    AndroidUtils.showErrorLog(context, "submitImgList.get(i).getFilename()--->",submitImgDelList.get(i).getFilename());
-                }
-
 
                 Ion.with(context)
                         .load(getString(R.string.webservice_base_url).concat("/edit_product/").concat(productId))
                         .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
-                        .addMultipartParts(submitImgDelList)
+                        .setMultipartParameter("delimg", submitImgDelList.toString())
                         .setMultipartParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                         .setMultipartParameter("name", etProductName.getText().toString())
                         .setMultipartParameter("shop_id", pagingSpinner.getShopId())
@@ -926,7 +943,7 @@ public class EditProductActivity extends AppCompatActivity {
                         .load(getString(R.string.webservice_base_url).concat("/edit_product/").concat(productId))
                         .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                         .addMultipartParts(submitImgList)
-                        .addMultipartParts(submitImgDelList)
+                        .setMultipartParameter("delimg", submitImgDelList.toString())
                         .setMultipartParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                         .setMultipartParameter("name", etProductName.getText().toString())
                         .setMultipartParameter("shop_id", pagingSpinner.getShopId())
@@ -951,6 +968,7 @@ public class EditProductActivity extends AppCompatActivity {
         }
 
 
+*/
 
 
 
@@ -987,9 +1005,7 @@ public class EditProductActivity extends AppCompatActivity {
 
 
 
-
-
-      /*  if (submitImgList == null) {
+        if (submitImgList == null) {
             if (submitImgDelList == null) {
                 Ion.with(context)
                         .load(getString(R.string.webservice_base_url).concat("/edit_product/").concat(productId))
@@ -1013,7 +1029,7 @@ public class EditProductActivity extends AppCompatActivity {
                     @Override
                     public void onCompleted(Exception e, JsonObject result) {
 
-                        AndroidUtils.showErrorLog(context, "result----------" + context.getClass().getSimpleName() + "------" + result);
+                        AndroidUtils.showErrorLog(context, "result-----1-----" + context.getClass().getSimpleName() + "------" + result);
 
                         progressBarHandler.hide();
                         if (result != null) {
@@ -1032,7 +1048,7 @@ public class EditProductActivity extends AppCompatActivity {
                 Ion.with(context)
                         .load(getString(R.string.webservice_base_url).concat("/edit_product/").concat(productId))
                         .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
-                        .addMultipartParts(submitDeletedImages())
+                        .setMultipartParameter("delimg", submitImgDelList.toString())
                         .setMultipartParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                         .setMultipartParameter("name", etProductName.getText().toString())
                         .setMultipartParameter("shop_id", pagingSpinner.getShopId())
@@ -1051,7 +1067,7 @@ public class EditProductActivity extends AppCompatActivity {
                     @Override
                     public void onCompleted(Exception e, JsonObject result) {
 
-                        AndroidUtils.showErrorLog(context, "result----------" + context.getClass().getSimpleName() + "------" + result);
+                        AndroidUtils.showErrorLog(context, "result----2------" + context.getClass().getSimpleName() + "------" + result);
 
                         progressBarHandler.hide();
                         if (result != null) {
@@ -1091,7 +1107,7 @@ public class EditProductActivity extends AppCompatActivity {
                     @Override
                     public void onCompleted(Exception e, JsonObject result) {
 
-                        AndroidUtils.showErrorLog(context, "result----------" + context.getClass().getSimpleName() + "------" + result);
+                        AndroidUtils.showErrorLog(context, "result----3------" + context.getClass().getSimpleName() + "------" + result);
 
                         progressBarHandler.hide();
                         if (result != null) {
@@ -1111,7 +1127,7 @@ public class EditProductActivity extends AppCompatActivity {
                         .load(getString(R.string.webservice_base_url).concat("/edit_product/").concat(productId))
                         .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                         .addMultipartParts(submitImages())
-                        .addMultipartParts(submitDeletedImages())
+                        .setMultipartParameter("delimg", submitImgDelList.toString())
                         .setMultipartParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                         .setMultipartParameter("name", etProductName.getText().toString())
                         .setMultipartParameter("shop_id", pagingSpinner.getShopId())
@@ -1129,7 +1145,7 @@ public class EditProductActivity extends AppCompatActivity {
                     @Override
                     public void onCompleted(Exception e, JsonObject result) {
 
-                        AndroidUtils.showErrorLog(context, "result----------" + context.getClass().getSimpleName() + "------" + result);
+                        AndroidUtils.showErrorLog(context, "result---4-------" + context.getClass().getSimpleName() + "------" + result);
 
                         progressBarHandler.hide();
                         if (result != null) {
@@ -1146,7 +1162,6 @@ public class EditProductActivity extends AppCompatActivity {
                 });
             }
         }
-*/
 
     }
 
@@ -1202,5 +1217,3 @@ public class EditProductActivity extends AppCompatActivity {
     }
 
 }
-
-

@@ -39,6 +39,8 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.EditText;
@@ -137,11 +139,11 @@ public class MyProfileActivity extends AppCompatActivity {
                 } else {
                     Intent intent = new Intent(Intent.ACTION_VIEW);
 
-                intent.setDataAndType(Uri.parse(app_sharedpreference.getSharedPref(SharedPreferenceConstants.PROFILE_VIDEO.toString(), "").toString()), "video/*");
+                    intent.setDataAndType(Uri.parse(app_sharedpreference.getSharedPref(SharedPreferenceConstants.PROFILE_VIDEO.toString(), "").toString()), "video/*");
 
-                startActivity(Intent.createChooser(intent, "Complete action using"));
+                    startActivity(Intent.createChooser(intent, "Complete action using"));
 
-
+                }
             }
         });
 
@@ -657,7 +659,7 @@ public class MyProfileActivity extends AppCompatActivity {
                                 ErrorFragmentDialog comingSoonFragmentDialog = new ErrorFragmentDialog(context);
                                 FragmentManager fm = ((AppCompatActivity) context).getSupportFragmentManager();
                                 comingSoonFragmentDialog.show(fm, "enquiry");
-                                comingSoonFragmentDialog.setError(message);
+//                                comingSoonFragmentDialog.setError(message);
 
 
                             }

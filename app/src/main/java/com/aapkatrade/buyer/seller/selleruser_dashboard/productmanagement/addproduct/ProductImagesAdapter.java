@@ -8,11 +8,13 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.support.v4.content.FileProvider;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.aapkatrade.buyer.BuildConfig;
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Validation;
@@ -167,9 +169,15 @@ public class ProductImagesAdapter extends RecyclerView.Adapter<RecyclerView.View
                         } else {
                             File file = new File(itemList.get(position).imagePath);
                             Intent intent = new Intent(android.content.Intent.ACTION_VIEW);
-                            Uri data = Uri.parse("file://" + file.getAbsolutePath());
-                            intent.setDataAndType(data, "image/*");
+                            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//                            Uri data = Uri.parse("file://" + file.getAbsolutePath());
+                            Uri data = FileProvider.getUriForFile(context,
+                                    "com.aapkatrade.buyer.provider",
+                                    file);
+                            intent.setDataAndType(data, "image");
                             context.startActivity(intent);
+
+
                         }
                     }
                 });

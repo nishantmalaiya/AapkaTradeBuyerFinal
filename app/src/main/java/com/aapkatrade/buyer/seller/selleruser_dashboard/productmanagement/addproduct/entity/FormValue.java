@@ -6,10 +6,18 @@ package com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.addpr
 
 public class FormValue {
     private String title, value;
+    private boolean isSelected = false;
 
     public FormValue(String title, String value) {
         this.title = title;
         this.value = value;
+    }
+
+
+    public FormValue(String title, String value, boolean isSelected) {
+        this.title = title;
+        this.value = value;
+        this.isSelected = isSelected;
     }
 
     public String getTitle() {
@@ -26,6 +34,14 @@ public class FormValue {
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
     }
 
     @Override
@@ -52,6 +68,7 @@ public class FormValue {
         return "FormValue{" +
                 "title='" + title + '\'' +
                 ", value='" + value + '\'' +
+                ", isSelected=" + isSelected +
                 '}';
     }
 }
