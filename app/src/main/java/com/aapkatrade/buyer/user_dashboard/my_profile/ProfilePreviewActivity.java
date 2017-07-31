@@ -46,7 +46,6 @@ public class ProfilePreviewActivity extends AppCompatActivity {
     private ProgressBarHandler p_handler;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,9 +74,7 @@ public class ProfilePreviewActivity extends AppCompatActivity {
             if (appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_ViDEO_GIF.toString(), "").toString().equals("")) {
 
                 Log.e("shared-----", "");
-            }
-            else
-            {
+            } else {
 
                 p_handler.show();
                 my_profile_gif = appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_ViDEO_GIF.toString());
@@ -388,13 +385,10 @@ public class ProfilePreviewActivity extends AppCompatActivity {
                 if (usertype.equals("Seller")) {
 
 
-
                     if (appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_ViDEO_GIF.toString(), "").toString().equals("")) {
 
                         Log.e("shared-----", "");
-                    }
-                    else
-                    {
+                    } else {
 
                         p_handler.show();
                         my_profile_gif = appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_ViDEO_GIF.toString());
