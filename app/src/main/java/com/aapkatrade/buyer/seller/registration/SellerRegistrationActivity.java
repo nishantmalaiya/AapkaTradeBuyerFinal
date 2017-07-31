@@ -1,7 +1,5 @@
 package com.aapkatrade.buyer.seller.registration;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -26,7 +24,6 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -107,8 +104,8 @@ public class SellerRegistrationActivity extends AppCompatActivity implements Tim
     private RelativeLayout relativeCompanyListheader;
     private Context context;
     private CheckBox agreement_check;
-    CustomCardViewHeader customCardViewHeader_business_detail, customCardViewHeader_personal_detail, customCardViewHeader_newUser;
-    private ImageView collapseoropenim_business, collapseoropenim_personal, collapseoropenim_user;
+    CustomCardViewHeader customCardViewHeaderBusinessDetail, customCardViewHeaderPersonalDetail, customCardViewHeaderSignUpDetails;
+//    private ImageView collapseoropenim_business, collapseoropenim_personal, collapseoropenim_user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -488,8 +485,7 @@ public class SellerRegistrationActivity extends AppCompatActivity implements Tim
     }
 
 
-    private void getCity(String stateId)
-    {
+    private void getCity(String stateId) {
         progressBarHandler.show();
         findViewById(R.id.input_layout_city).setVisibility(View.VISIBLE);
         Ion.with(context)
@@ -540,8 +536,7 @@ public class SellerRegistrationActivity extends AppCompatActivity implements Tim
     }
 
 
-    private void setUpToolBar()
-    {
+    private void setUpToolBar() {
 
         ImageView homeIcon = (ImageView) findViewById(R.id.iconHome);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -649,36 +644,46 @@ public class SellerRegistrationActivity extends AppCompatActivity implements Tim
 
         //// Business Detail
 
-        customCardViewHeader_business_detail = (CustomCardViewHeader) findViewById(R.id.customCardviewBusinessDetails);
+        customCardViewHeaderBusinessDetail = (CustomCardViewHeader) findViewById(R.id.customCardviewBusinessDetails);
 
-        collapseoropenim_business = (ImageView) customCardViewHeader_business_detail.findViewById(R.id.cardview_header_icon_right);
         llSellerBusinessDetailContainer = (LinearLayout) findViewById(R.id.llSellerBusinessDetailContainer);
 
-        collapseoropenim_business.setOnClickListener(new View.OnClickListener() {
+        customCardViewHeaderBusinessDetail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (llSellerBusinessDetailContainer.getVisibility() == View.VISIBLE) {
-                    collapseoropenim_business.setImageDrawable(ContextCompat.getDrawable(SellerRegistrationActivity.this, R.drawable.ic_down));
-
-
-                    Animations.expand(llSellerBusinessDetailContainer, 300);
-
-
-                } else {
+                    customCardViewHeaderBusinessDetail.setImageRightRotation(180);
                     Animations.collapse(llSellerBusinessDetailContainer, 300);
-
-
-                    collapseoropenim_business.setImageDrawable(ContextCompat.getDrawable(SellerRegistrationActivity.this, R.drawable.ic_up_arrow));
+                } else {
+                    customCardViewHeaderBusinessDetail.setImageRightRotation(0);
+                    Animations.expand(llSellerBusinessDetailContainer, 300);
                 }
-
             }
         });
 
 
 /////////////// personal Detail
 
-        customCardViewHeader_personal_detail = (CustomCardViewHeader) findViewById(R.id.customCardviewPersonalDetails);
-        collapseoropenim_personal = (ImageView) customCardViewHeader_personal_detail.findViewById(R.id.cardview_header_icon_right);
+        customCardViewHeaderPersonalDetail = (CustomCardViewHeader) findViewById(R.id.customCardviewPersonalDetails);
+
+        llSellerPersonalDetailContainer = (LinearLayout) findViewById(R.id.llSellerPersonalDetailContainer);
+
+        customCardViewHeaderPersonalDetail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (llSellerPersonalDetailContainer.getVisibility() == View.VISIBLE) {
+                    customCardViewHeaderPersonalDetail.setImageRightRotation(180);
+                    Animations.collapse(llSellerPersonalDetailContainer, 300);
+                } else {
+                    customCardViewHeaderPersonalDetail.setImageRightRotation(0);
+                    Animations.expand(llSellerPersonalDetailContainer, 300);
+                }
+            }
+        });
+/*
+
+        customCardViewHeaderPersonalDetail = (CustomCardViewHeader) findViewById(R.id.customCardviewPersonalDetails);
+        collapseoropenim_personal = (ImageView) customCardViewHeaderPersonalDetail.findViewById(R.id.cardview_header_icon_right);
 
         llSellerPersonalDetailContainer = (LinearLayout) findViewById(R.id.llSellerPersonalDetailContainer);
 
@@ -738,13 +743,33 @@ public class SellerRegistrationActivity extends AppCompatActivity implements Tim
 
             }
         });
+*/
 
 
 /////////////// User Detail
 
-        customCardViewHeader_newUser = (CustomCardViewHeader) findViewById(R.id.customCardviewHeader_newUser);
+        customCardViewHeaderSignUpDetails = (CustomCardViewHeader) findViewById(R.id.customCardviewHeader_newUser);
 
-        collapseoropenim_user = (ImageView) customCardViewHeader_newUser.findViewById(R.id.cardview_header_icon_right);
+        llSellerUserDetailContainer = (LinearLayout) findViewById(R.id.llSellerUserDetailContainer);
+
+
+        customCardViewHeaderSignUpDetails.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (llSellerUserDetailContainer.getVisibility() == View.VISIBLE) {
+                    customCardViewHeaderSignUpDetails.setImageRightRotation(180);
+                    Animations.collapse(llSellerUserDetailContainer, 300);
+                } else {
+                    customCardViewHeaderSignUpDetails.setImageRightRotation(0);
+                    Animations.expand(llSellerUserDetailContainer, 300);
+                }
+            }
+        });
+
+
+        /*customCardViewHeaderSignUpDetails = (CustomCardViewHeader) findViewById(R.id.customCardviewHeader_newUser);
+
+        collapseoropenim_user = (ImageView) customCardViewHeaderSignUpDetails.findViewById(R.id.cardview_header_icon_right);
 
         llSellerUserDetailContainer = (LinearLayout) findViewById(R.id.llSellerUserDetailContainer);
 
@@ -763,7 +788,7 @@ public class SellerRegistrationActivity extends AppCompatActivity implements Tim
                 }
 
             }
-        });
+        });*/
 
 
     }
@@ -1076,8 +1101,7 @@ public class SellerRegistrationActivity extends AppCompatActivity implements Tim
     }
 
 
-    public void setSellerFormData()
-    {
+    public void setSellerFormData() {
         formSellerData.setBusinessType(busiType);
         formSellerData.setCompanyName(etProductName.getText().toString());
         formSellerData.setShopName(etProductName.getText().toString());
@@ -1097,17 +1121,14 @@ public class SellerRegistrationActivity extends AppCompatActivity implements Tim
 
 
     @Override
-    public void onTimeSet(TimePickerDialog view, int hourOfDay, int minute, int second)
-    {
+    public void onTimeSet(TimePickerDialog view, int hourOfDay, int minute, int second) {
 
     }
 
     @Override
-    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth)
-    {
+    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
         showDate(year, monthOfYear + 1, dayOfMonth);
     }
-
 
 
 }
