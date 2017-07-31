@@ -290,7 +290,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
                 .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                 .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                 .setBodyParameter("city_id", "")
-                .setBodyParameter("user_type",appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE .toString(), "notlogin"))
+                .setBodyParameter("user_type", appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), "notlogin"))
                 .setBodyParameter("user_id", user_id)
                 .setBodyParameter("device_id", AppConfig.getCurrentDeviceId(context))
                 .asJsonObject()
@@ -350,7 +350,9 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
 
                                 String imageurl = jsonObject_latest_post.get("image_url").getAsString();
 
-                                System.out.println("imageurl--------------" + imageurl);
+                                System.out.println("imageurl--------------" + imageurl+product_name);
+
+                                AndroidUtils.showErrorLog(context,"Product_iamge",imageurl);
 
                                 String productlocation = jsonObject_latest_post.get("city_name").getAsString() + "," +
                                         jsonObject_latest_post.get("state_name").getAsString() + "," +

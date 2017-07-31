@@ -386,7 +386,35 @@ public class ProfilePreviewActivity extends AppCompatActivity {
                 tvEmail.setText(Emailid);
 
                 if (usertype.equals("Seller")) {
-                    if (appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_VIDEO_THUMBNAIL.toString(), "").toString().equals("")) {
+
+
+
+                    if (appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_ViDEO_GIF.toString(), "").toString().equals("")) {
+
+                        Log.e("shared-----", "");
+                    }
+                    else
+                    {
+
+                        p_handler.show();
+                        my_profile_gif = appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_ViDEO_GIF.toString());
+                        Ion.with(imageViewProfileVideo).load(my_profile_gif).setCallback(new FutureCallback<ImageView>() {
+                            @Override
+                            public void onCompleted(Exception e, ImageView result) {
+                                p_handler.hide();
+                            }
+                        });
+
+               /* Picasso.with(context)
+                        .load(app_sharedpreference.getSharedPref(SharedPreferenceConstants.PROFILE_VIDEO_THUMBNAIL.toString(), ""))
+                        .error(R.drawable.navigation_profile_bg)
+                        .placeholder(R.drawable.navigation_profile_bg)
+                        .error(R.drawable.navigation_profile_bg)
+                        .into(imageViewProfile);*/
+                    }
+
+
+                   /* if (appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_VIDEO_THUMBNAIL.toString(), "").toString().equals("")) {
                         Log.e("shared-----", "");
                     } else {
                         Picasso.with(context)
@@ -395,7 +423,7 @@ public class ProfilePreviewActivity extends AppCompatActivity {
                                 .placeholder(R.drawable.navigation_profile_bg)
                                 .error(R.drawable.navigation_profile_bg)
                                 .into(imageViewProfileVideo);
-                    }
+                    }*/
                 }
 
                 Log.e("user_image2", user_image);
