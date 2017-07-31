@@ -140,6 +140,7 @@
                                 android:layout_marginRight="@dimen/five_dip"
                                 android:hint="@string/company_name_heading"
                                 android:inputType="text"
+                                android:imeOptions="actionNext"
                                 android:paddingLeft="@dimen/ten_dip"
                                 android:textColorHint="@color/green"
                                 android:theme="@style/myedittext" />
@@ -192,6 +193,7 @@
                                 android:hint="@string/tan_number"
                                 android:inputType="number"
                                 android:paddingLeft="@dimen/ten_dip"
+                                android:imeOptions="actionNext"
                                 android:textColorHint="@color/green"
                                 android:theme="@style/myedittext"
                                 tools:ignore="RtlSymmetry" />
@@ -487,6 +489,7 @@ android:id="@+id/llSellerPersonalDetailContainer"
                                 android:layout_marginRight="@dimen/five_dip"
                                 android:hint="@string/ref_number"
                                 android:inputType="text"
+                                android:imeOptions="actionNext"
                                 android:paddingLeft="@dimen/ten_dip"
                                 android:textColorHint="@color/green"
                                 android:theme="@style/myedittext" />

@@ -34,7 +34,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/img_txn_id"
-                android:textSize="@dimen/sixteen"
+                android:textSize="@dimen/fifteen_dip"
                 android:layout_marginLeft="@dimen/five_dip"
                 android:layout_marginTop="@dimen/five_dip"
                 android:textColor="#33B8B3"
@@ -65,7 +65,7 @@
                 android:layout_alignParentLeft="true"
                 android:text="COMPLETE"
                 android:textStyle="bold"
-                android:textSize="@dimen/sixteen"
+                android:textSize="@dimen/fifteen_dip"
                 android:textColor="@color/green" />
 
             <TextView
@@ -73,7 +73,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:textSize="@dimen/sixteen"
+                android:textSize="@dimen/fifteen_dip"
                 android:textStyle="bold"
                 android:textColor="#F8670E" />
         </RelativeLayout>

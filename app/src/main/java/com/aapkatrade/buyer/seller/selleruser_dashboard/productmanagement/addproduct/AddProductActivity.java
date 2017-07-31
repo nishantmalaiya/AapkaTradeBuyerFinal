@@ -693,6 +693,7 @@ public class AddProductActivity extends AppCompatActivity {
                         if (Validation.containsIgnoreCase(result.get("message").getAsString(), "Added") || Validation.containsIgnoreCase(result.get("message").getAsString(), "Successfully")) {
                             finish();
                             Intent intent = new Intent(context, ProductManagementActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(intent);
                         }
                     }

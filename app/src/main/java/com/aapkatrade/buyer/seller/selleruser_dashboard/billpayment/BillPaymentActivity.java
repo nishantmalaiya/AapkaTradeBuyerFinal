@@ -29,20 +29,10 @@ import com.aapkatrade.buyer.payment.PaymentCompletionActivity;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.billpayment.adapter.BillPaymentAdapter;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.billpayment.entity.BillPayment;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.billpayment.entity.BillPaymentList;
-import com.android.volley.AuthFailureError;
-import com.android.volley.NoConnectionError;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
-import com.payUMoney.sdk.PayUmoneySdkInitilizer;
-import com.payUMoney.sdk.SdkConstants;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -270,7 +260,7 @@ public class BillPaymentActivity extends AppCompatActivity {
     }*/
 
 
-    public void makePayment() {
+   /* public void makePayment() {
 
         String phone = "8882434664";
         String productName = "product_name";
@@ -311,11 +301,11 @@ public class BillPaymentActivity extends AppCompatActivity {
 
         // server side call required to calculate hash with the help of <salt>
         //  <salt> is already shared along with merchant <key>
-         /*        serverCalculatedHash =sha512(key|txnid|amount|productinfo|firstname|email|udf1|udf2|udf3|udf4|udf5|<salt>)
+         *//*        serverCalculatedHash =sha512(key|txnid|amount|productinfo|firstname|email|udf1|udf2|udf3|udf4|udf5|<salt>)
              (e.g.)
              sha512(FCstqb|0nf7|10.0|product_name|piyush|piyush.jain@payu.in||||||MBgjYaFG)
              9f1ce50ba8995e970a23c33e665a990e648df8de3baf64a33e19815acd402275617a16041e421cfa10b7532369f5f12725c7fcf69e8d10da64c59087008590fc
-        */
+        *//*
         // Recommended
 
 
@@ -323,13 +313,13 @@ public class BillPaymentActivity extends AppCompatActivity {
 
         // testing purpose
 
-       /* String salt = "";
+       *//* String salt = "";
         String serverCalculatedHash=hashCal(key+"|"+txnId+"|"+getAmount()+"|"+productName+"|"
                 +firstName+"|"+email+"|"+udf1+"|"+udf2+"|"+udf3+"|"+udf4+"|"+udf5+"|"+salt);
 
         paymentParam.setMerchantHash(serverCalculatedHash);
 
-        PayUmoneySdkInitilizer.startPaymentActivityForResult(MyActivity.this, paymentParam);*/
+        PayUmoneySdkInitilizer.startPaymentActivityForResult(MyActivity.this, paymentParam);*//*
 
 
     }
@@ -396,7 +386,7 @@ public class BillPaymentActivity extends AppCompatActivity {
 
     }
 
-
+*/
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if (resultCode == RESULT_OK) {

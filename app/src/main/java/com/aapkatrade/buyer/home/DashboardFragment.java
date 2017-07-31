@@ -69,7 +69,6 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
     ArrayList<CommonData> commonDatas_latestpost = new ArrayList<>();
     ArrayList<CommonData> commonDatas_latestupdate = new ArrayList<>();
     private CommonAdapter commonAdapter_latestpost, commonAdapter_latestproduct;
-    //public latestproductadapter latestproductadapter;
     ProgressBarHandler progress_handler;
     private int dotsCount;
     private ArrayList<String> imageIdList;

@@ -110,8 +110,8 @@
                         android:inputType="textEmailAddress"
                         android:maxLines="1"
                         android:paddingLeft="@dimen/ten_dip"
-                        android:paddingTop="@dimen/eight"
-                        android:paddingBottom="@dimen/eight"
+                        android:paddingTop="@dimen/ten_dip"
+                        android:paddingBottom="@dimen/ten_dip"
                         android:textColor="@color/dialog_text"
                         android:textColorHint="@color/dialog_text" />
 
@@ -144,8 +144,8 @@
                         android:maxLines="1"
                         android:background="@null"
                         android:paddingLeft="@dimen/ten_dip"
-                        android:paddingTop="@dimen/eight"
-                        android:paddingBottom="@dimen/eight"
+                        android:paddingTop="@dimen/ten_dip"
+                        android:paddingBottom="@dimen/ten_dip"
                         android:textColor="@color/dialog_text"
                         android:textColorHint="@color/dialog_text" />
 
@@ -181,8 +181,8 @@
                         android:inputType="textEmailAddress"
                         android:maxLines="1"
                         android:paddingLeft="@dimen/ten_dip"
-                        android:paddingTop="@dimen/eight"
-                        android:paddingBottom="@dimen/eight"
+                        android:paddingTop="@dimen/ten_dip"
+                        android:paddingBottom="@dimen/ten_dip"
                         android:textColor="@color/dialog_text"
                         android:textColorHint="@color/dialog_text" />
 
@@ -226,8 +226,8 @@
                         android:inputType="number"
                         android:maxLines="10"
                         android:paddingLeft="@dimen/ten_dip"
-                        android:paddingTop="@dimen/eight"
-                        android:paddingBottom="@dimen/eight"
+                        android:paddingTop="@dimen/ten_dip"
+                        android:paddingBottom="@dimen/ten_dip"
                         android:textColor="@color/dialog_text"
                         android:textColorHint="@color/dialog_text" />
 
@@ -272,8 +272,8 @@
                         android:inputType="text"
                         android:maxLines="10"
                         android:paddingLeft="@dimen/ten_dip"
-                        android:paddingTop="@dimen/eight"
-                        android:paddingBottom="@dimen/eight"
+                        android:paddingTop="@dimen/ten_dip"
+                        android:paddingBottom="@dimen/ten_dip"
                         android:textColor="@color/dialog_text"
                         android:textColorHint="@color/dialog_text" />
 
