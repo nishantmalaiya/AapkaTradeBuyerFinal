@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.aapkatrade.buyer.general.AppConfig;
 import com.aapkatrade.buyer.general.Utils.ParseUtils;
+import com.aapkatrade.buyer.general.Validation;
 import com.aapkatrade.buyer.home.HomeActivity;
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.AppSharedPreference;
@@ -28,6 +29,7 @@ import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.interfaces.CommonInterface;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
 import com.aapkatrade.buyer.payment.PaymentCompletionActivity;
+import com.aapkatrade.buyer.payumoney_paymentgatway.PayMentGateWay;
 import com.aapkatrade.buyer.user_dashboard.address.viewpager.CartCheckoutActivity;
 import com.android.volley.AuthFailureError;
 import com.android.volley.NoConnectionError;
@@ -62,12 +64,12 @@ public class BillPaymentActivity extends AppCompatActivity {
     private TextView tvAmount;
     private BillPaymentAdapter billPaymentAdapter;
     private ArrayList<BillPaymentListData> billPaymentListDatas = new ArrayList<>();
-
+    AppSharedPreference app_sharedpreference;
     private ArrayList<String> SelectedMachineNos = new ArrayList<>();
     private ProgressBarHandler progressBarHandler;
     public static CommonInterface commonInterface;
     public static final String TAG = "PayUMoneySDK Sample";
-    String order_number;
+
     ArrayList<MachineTotalBillDatas> machineTotalBillDatases = new ArrayList<>();
 
 
@@ -78,6 +80,9 @@ public class BillPaymentActivity extends AppCompatActivity {
         context = BillPaymentActivity.this;
         setUpToolBar();
         initView();
+
+        app_sharedpreference = new AppSharedPreference(getApplicationContext());
+
 
         callBillPayment();
     }
@@ -185,8 +190,8 @@ public class BillPaymentActivity extends AppCompatActivity {
                     AndroidUtils.showToast(context, "Select Atleast One Machine");
                 } else {
 
-                    makePayment();
-
+                    //makePayment();
+                    open_payumoney_webview();
                 }
 
 
@@ -199,12 +204,15 @@ public class BillPaymentActivity extends AppCompatActivity {
 
 
                 machineTotalBillDatases = (ArrayList<MachineTotalBillDatas>) object;
+
+                SelectedMachineNos.add(machineTotalBillDatases.get(machineTotalBillDatases.size() - 1).MachineNo.toString());
+                AndroidUtils.showErrorLog(context, "data get2", SelectedMachineNos.toString());
+
                 for (int i = 0; i < machineTotalBillDatases.size(); i++) {
 
-                    SelectedMachineNos.add(machineTotalBillDatases.get(i).toString());
-
+                    SelectedMachineNos.add(machineTotalBillDatases.get(i).MachineNo.toString());
+                    AndroidUtils.showErrorLog(context, "data get", machineTotalBillDatases.get(i).MachineNo.toString());
                 }
-
 
                 tvAmount.setText(new StringBuilder(getString(R.string.rupay_text)).append("  ").append(machineTotalBillDatases.get(machineTotalBillDatases.size() - 1).TotalAmount));
 
@@ -453,14 +461,28 @@ public class BillPaymentActivity extends AppCompatActivity {
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if (requestCode == PayUmoneySdkInitilizer.PAYU_SDK_PAYMENT_REQUEST_CODE) {
-            /*if(data != null && data.hasExtra("result")){
+        if (resultCode == RESULT_OK) {
+            Log.i(TAG, "Success - Payment ID : " + data.getStringExtra(Constants.PAYMENT_ID));
+            String paymentId = data.getStringExtra(Constants.PAYMENT_ID);
+            // showDialogMessage("Payment Success Id : " + paymentId);
+            callWebServiceMakePayment(paymentId, "true");
+
+        } else if (resultCode == RESULT_CANCELED) {
+            Log.i(TAG, "failure");
+            //String paymentId = data.getStringExtra(SdkConstants.PAYMENT_ID);
+            // callWebServiceMakePayment(paymentId,"false");
+            showDialogMessage("Payment Cancelled");
+
+        }
+
+       /* if (requestCode == PayUmoneySdkInitilizer.PAYU_SDK_PAYMENT_REQUEST_CODE) {
+            *//*if(data != null && data.hasExtra("result")){
               String responsePayUmoney = data.getStringExtra("result");
                 if(SdkHelper.checkForValidString(responsePayUmoney))
                     showDialogMessage(responsePayUmoney);
             } else {
                 showDialogMessage("Unable to get Status of Payment");
-            }*/
+            }*//*
             if (resultCode == RESULT_OK) {
                 Log.i(TAG, "Success - Payment ID : " + data.getStringExtra(SdkConstants.PAYMENT_ID));
                 String paymentId = data.getStringExtra(SdkConstants.PAYMENT_ID);
@@ -488,7 +510,7 @@ public class BillPaymentActivity extends AppCompatActivity {
                 Log.i(TAG, "User returned without login");
                 showDialogMessage("User returned without login");
             }
-        }
+        }*/
     }
 
     private void showDialogMessage(String message) {
@@ -513,7 +535,7 @@ public class BillPaymentActivity extends AppCompatActivity {
 
         String login_url = context.getResources().getString(R.string.webservice_base_url) + "/payment_bill";
 
-        System.out.println("order_number--------------" + order_number + status + transactionId + "fgdfgb----");
+        System.out.println("order_number--------------" + status + transactionId + "fgdfgb----");
 
         if (SelectedMachineNos.size() != 0) {
             String jsonArrayMachineNOs = String.valueOf(ParseUtils.ArrayListToJsonObject(SelectedMachineNos));
@@ -524,7 +546,6 @@ public class BillPaymentActivity extends AppCompatActivity {
                     .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                     .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                     //.setBodyParameter("data_n", params.toString())
-                    .setBodyParameter("order_id", order_number)
                     .setBodyParameter("transactionid", transactionId)
                     .setBodyParameter("status", status)
                     .setBodyParameter("machine_num", jsonArrayMachineNOs)
@@ -571,10 +592,50 @@ public class BillPaymentActivity extends AppCompatActivity {
                         }
                     });
         } else {
-
-
             AndroidUtils.showErrorLog(context, "SelectedMachineNos", "SelectedMachineNos size 0");
         }
 
+
     }
+
+    public void open_payumoney_webview()
+
+    {
+        String getFname, getPhone, getEmail, getAmt;
+
+        if (Validation.isNonEmptyStr(app_sharedpreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString(), "Aapka Trade"))) {
+            getFname = app_sharedpreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString(), "Aapka Trade");
+        } else {
+            getFname = "Aapka Trade";
+        }
+
+        if (Validation.isNonEmptyStr(app_sharedpreference.getSharedPref(SharedPreferenceConstants.MOBILE.toString()))) {
+            getPhone = app_sharedpreference.getSharedPref(SharedPreferenceConstants.MOBILE.toString());
+        } else {
+            getPhone = getApplicationContext().getResources().getText(R.string.customer_care_no).toString();
+        }
+
+        if (Validation.isNonEmptyStr(app_sharedpreference.getSharedPref(SharedPreferenceConstants.EMAIL_ID.toString()))) {
+            getEmail = app_sharedpreference.getSharedPref(SharedPreferenceConstants.EMAIL_ID.toString());
+        } else {
+            getEmail = "info@aapkatrade.com";
+        }
+
+        getAmt = tvAmount.getText().toString().replace(getApplicationContext().getResources().getText(R.string.rupay_text), "");//rechargeAmt.getText().toString().trim();
+
+        AndroidUtils.showErrorLog(context, "Fname--" + getFname + "Phone" + getPhone + "Email--" + getEmail + "Amit--" + getAmt);
+
+        String jsonArrayMachineNOs = String.valueOf(ParseUtils.ArrayListToJsonObject(SelectedMachineNos));
+        Intent intent = new Intent(BillPaymentActivity.this, BillPaymentPaymentGatway.class);
+        intent.putExtra("FIRST_NAME", getFname);
+        intent.putExtra("PHONE_NUMBER", getPhone);
+        intent.putExtra("EMAIL_ADDRESS", getEmail);
+        intent.putExtra("RECHARGE_AMT", getAmt);
+        intent.putExtra("MACHINE_ARRAY", jsonArrayMachineNOs);
+        startActivity(intent);
+
+
+    }
+
+
 }

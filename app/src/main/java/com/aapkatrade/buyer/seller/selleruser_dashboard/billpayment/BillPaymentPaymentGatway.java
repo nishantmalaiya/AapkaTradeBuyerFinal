@@ -1,5 +1,4 @@
-package com.aapkatrade.buyer.payumoney_paymentgatway;
-
+package com.aapkatrade.buyer.seller.selleruser_dashboard.billpayment;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -18,9 +17,9 @@ import android.widget.Toast;
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
+import com.aapkatrade.buyer.general.Utils.ParseUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.payment.PaymentCompletionActivity;
-import com.aapkatrade.buyer.user_dashboard.address.viewpager.CartCheckoutActivity;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
@@ -33,32 +32,36 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import static com.aapkatrade.buyer.home.cart.CartAdapter.appSharedPreference;
+
+
 /**
  * Created by varun Kumar on 23/1/16.
  */
-public class PayMentGateWay extends Activity {
+public class BillPaymentPaymentGatway extends Activity {
 
     private ArrayList<String> post_val = new ArrayList<String>();
     private String post_Data="";
     WebView webView ;
     final Activity activity = this;
-    private String tag = "PayMentGateWay";
+    private String tag = "BillPaymentPaymentGatway";
     private String hash,hashSequence;
     ProgressDialog progressDialog ;
 
 //    String merchant_key="zBxSQi"; // live
 //    String salt="ZhraT96O"; // live
 
-   String merchant_key="Gb2Yti8E"; // comapny
-   String salt="o7wK8tcxmC"; // comapny
+  /*  String merchant_key="Y9TTGAD1"; // comapny
+   String salt="9Q1J4MqWWd"; // comapny
+*/
 
 
-   /* String merchant_key="kYz2vV"; // test
-    String salt="zhoXe53j"; // test*/
-	 	String action1 ="";
-   // String base_url="https://test.payu.in";
-     //https://secure.payu.in
-    String base_url="https://secure.payu.in";//
+    String merchant_key="kYz2vV"; // test
+    String salt="zhoXe53j"; // test
+    String action1 ="";
+    String base_url="https://test.payu.in";
+    //https://secure.payu.in
+    // String base_url="https://secure.payu.in";//
     int error=0;
     String hashString="";
     Map<String,String> params;
@@ -69,14 +72,15 @@ public class PayMentGateWay extends Activity {
     AppSharedPreference app_sharedpreference;
     Handler mHandler = new Handler();
     String order_number;
-
+    String jsonArrayMachineNOs;
     static String getFirstName, getNumber, getEmailAddress, getRechargeAmt;
-
-
     ProgressDialog pDialog ;
 
+
+
     @SuppressLint("JavascriptInterface") @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
 
@@ -95,8 +99,9 @@ public class PayMentGateWay extends Activity {
         getNumber       = oIntent.getExtras().getString("PHONE_NUMBER");
         getEmailAddress = oIntent.getExtras().getString("EMAIL_ADDRESS");
         getRechargeAmt  = oIntent.getExtras().getString("RECHARGE_AMT");
-        order_number = oIntent.getExtras().getString("ORDER_NUMBER");
+        jsonArrayMachineNOs = oIntent.getExtras().getString("MACHINE_ARRAY");
 
+        Log.e("jsonArrayMachineNOs",jsonArrayMachineNOs);
 
         //post_val = getIntent().getStringArrayListExtra("post_val");
         //Log.d(tag, "post_val: "+post_val);
@@ -181,7 +186,7 @@ public class PayMentGateWay extends Activity {
             action1=base_url.concat("/_payment");
         }
 
-        webView.setWebViewClient(new MyWebViewClient(){
+        webView.setWebViewClient(new BillPaymentPaymentGatway.MyWebViewClient(){
 
             public void onPageFinished(WebView view, final String url) {
                 progressDialog.dismiss();
@@ -218,7 +223,7 @@ public class PayMentGateWay extends Activity {
 					Toast
 
 					.makeText(activity, "Payment Successful! " + url, Toast.LENGTH_SHORT).show();
-					 Intent intent = new Intent(PayMentGateWay.this, MainActivity.class);
+					 Intent intent = new Intent(BillPaymentPaymentGatway.this, MainActivity.class);
 					    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |Intent.FLAG_ACTIVITY_SINGLE_TOP);
 					    startActivity(intent);
 					    finish();
@@ -249,38 +254,38 @@ public class PayMentGateWay extends Activity {
         webView.getSettings().setLoadWithOverviewMode(false);
 
         //webView.addJavascriptInterface(new PayUJavaScriptInterface(getApplicationContext()), "PayUMoney");
-        webView.addJavascriptInterface(new PayUJavaScriptInterface(), "PayUMoney");
+        webView.addJavascriptInterface(new BillPaymentPaymentGatway.PayUJavaScriptInterface(), "PayUMoney");
         Map<String, String> mapParams = new HashMap<String, String>();
         mapParams.put("key",merchant_key);
-        mapParams.put("hash",PayMentGateWay.this.hash);
-        mapParams.put("txnid",(empty(PayMentGateWay.this.params.get("txnid"))) ? "" : PayMentGateWay.this.params.get("txnid"));
-        Log.d(tag, "txnid: "+PayMentGateWay.this.params.get("txnid"));
+        mapParams.put("hash", BillPaymentPaymentGatway.this.hash);
+        mapParams.put("txnid",(empty(BillPaymentPaymentGatway.this.params.get("txnid"))) ? "" : BillPaymentPaymentGatway.this.params.get("txnid"));
+        Log.d(tag, "txnid: "+ BillPaymentPaymentGatway.this.params.get("txnid"));
         mapParams.put("service_provider","payu_paisa");
 
-        mapParams.put("amount",(empty(PayMentGateWay.this.params.get("amount"))) ? "" : PayMentGateWay.this.params.get("amount"));
-        mapParams.put("firstname",(empty(PayMentGateWay.this.params.get("firstname"))) ? "" : PayMentGateWay.this.params.get("firstname"));
-        mapParams.put("email",(empty(PayMentGateWay.this.params.get("email"))) ? "" : PayMentGateWay.this.params.get("email"));
-        mapParams.put("phone",(empty(PayMentGateWay.this.params.get("phone"))) ? "" : PayMentGateWay.this.params.get("phone"));
+        mapParams.put("amount",(empty(BillPaymentPaymentGatway.this.params.get("amount"))) ? "" : BillPaymentPaymentGatway.this.params.get("amount"));
+        mapParams.put("firstname",(empty(BillPaymentPaymentGatway.this.params.get("firstname"))) ? "" : BillPaymentPaymentGatway.this.params.get("firstname"));
+        mapParams.put("email",(empty(BillPaymentPaymentGatway.this.params.get("email"))) ? "" : BillPaymentPaymentGatway.this.params.get("email"));
+        mapParams.put("phone",(empty(BillPaymentPaymentGatway.this.params.get("phone"))) ? "" : BillPaymentPaymentGatway.this.params.get("phone"));
 
-        mapParams.put("productinfo",(empty(PayMentGateWay.this.params.get("productinfo"))) ? "" : PayMentGateWay.this.params.get("productinfo"));
-        mapParams.put("surl",(empty(PayMentGateWay.this.params.get("surl"))) ? "" : PayMentGateWay.this.params.get("surl"));
-        mapParams.put("furl",(empty(PayMentGateWay.this.params.get("furl"))) ? "" : PayMentGateWay.this.params.get("furl"));
-        mapParams.put("lastname",(empty(PayMentGateWay.this.params.get("lastname"))) ? "" : PayMentGateWay.this.params.get("lastname"));
+        mapParams.put("productinfo",(empty(BillPaymentPaymentGatway.this.params.get("productinfo"))) ? "" : BillPaymentPaymentGatway.this.params.get("productinfo"));
+        mapParams.put("surl",(empty(BillPaymentPaymentGatway.this.params.get("surl"))) ? "" : BillPaymentPaymentGatway.this.params.get("surl"));
+        mapParams.put("furl",(empty(BillPaymentPaymentGatway.this.params.get("furl"))) ? "" : BillPaymentPaymentGatway.this.params.get("furl"));
+        mapParams.put("lastname",(empty(BillPaymentPaymentGatway.this.params.get("lastname"))) ? "" : BillPaymentPaymentGatway.this.params.get("lastname"));
 
-        mapParams.put("address1",(empty(PayMentGateWay.this.params.get("address1"))) ? "" : PayMentGateWay.this.params.get("address1"));
-        mapParams.put("address2",(empty(PayMentGateWay.this.params.get("address2"))) ? "" : PayMentGateWay.this.params.get("address2"));
-        mapParams.put("city",(empty(PayMentGateWay.this.params.get("city"))) ? "" : PayMentGateWay.this.params.get("city"));
-        mapParams.put("state",(empty(PayMentGateWay.this.params.get("state"))) ? "" : PayMentGateWay.this.params.get("state"));
+        mapParams.put("address1",(empty(BillPaymentPaymentGatway.this.params.get("address1"))) ? "" : BillPaymentPaymentGatway.this.params.get("address1"));
+        mapParams.put("address2",(empty(BillPaymentPaymentGatway.this.params.get("address2"))) ? "" : BillPaymentPaymentGatway.this.params.get("address2"));
+        mapParams.put("city",(empty(BillPaymentPaymentGatway.this.params.get("city"))) ? "" : BillPaymentPaymentGatway.this.params.get("city"));
+        mapParams.put("state",(empty(BillPaymentPaymentGatway.this.params.get("state"))) ? "" : BillPaymentPaymentGatway.this.params.get("state"));
 
-        mapParams.put("country",(empty(PayMentGateWay.this.params.get("country"))) ? "" : PayMentGateWay.this.params.get("country"));
-        mapParams.put("zipcode",(empty(PayMentGateWay.this.params.get("zipcode"))) ? "" : PayMentGateWay.this.params.get("zipcode"));
-        mapParams.put("udf1",(empty(PayMentGateWay.this.params.get("udf1"))) ? "" : PayMentGateWay.this.params.get("udf1"));
-        mapParams.put("udf2",(empty(PayMentGateWay.this.params.get("udf2"))) ? "" : PayMentGateWay.this.params.get("udf2"));
+        mapParams.put("country",(empty(BillPaymentPaymentGatway.this.params.get("country"))) ? "" : BillPaymentPaymentGatway.this.params.get("country"));
+        mapParams.put("zipcode",(empty(BillPaymentPaymentGatway.this.params.get("zipcode"))) ? "" : BillPaymentPaymentGatway.this.params.get("zipcode"));
+        mapParams.put("udf1",(empty(BillPaymentPaymentGatway.this.params.get("udf1"))) ? "" : BillPaymentPaymentGatway.this.params.get("udf1"));
+        mapParams.put("udf2",(empty(BillPaymentPaymentGatway.this.params.get("udf2"))) ? "" : BillPaymentPaymentGatway.this.params.get("udf2"));
 
-        mapParams.put("udf3",(empty(PayMentGateWay.this.params.get("udf3"))) ? "" : PayMentGateWay.this.params.get("udf3"));
-        mapParams.put("udf4",(empty(PayMentGateWay.this.params.get("udf4"))) ? "" : PayMentGateWay.this.params.get("udf4"));
-        mapParams.put("udf5",(empty(PayMentGateWay.this.params.get("udf5"))) ? "" : PayMentGateWay.this.params.get("udf5"));
-        mapParams.put("pg",(empty(PayMentGateWay.this.params.get("pg"))) ? "" : PayMentGateWay.this.params.get("pg"));
+        mapParams.put("udf3",(empty(BillPaymentPaymentGatway.this.params.get("udf3"))) ? "" : BillPaymentPaymentGatway.this.params.get("udf3"));
+        mapParams.put("udf4",(empty(BillPaymentPaymentGatway.this.params.get("udf4"))) ? "" : BillPaymentPaymentGatway.this.params.get("udf4"));
+        mapParams.put("udf5",(empty(BillPaymentPaymentGatway.this.params.get("udf5"))) ? "" : BillPaymentPaymentGatway.this.params.get("udf5"));
+        mapParams.put("pg",(empty(BillPaymentPaymentGatway.this.params.get("pg"))) ? "" : BillPaymentPaymentGatway.this.params.get("pg"));
         webview_ClientPost(webView, action1, mapParams.entrySet());
 
     }
@@ -318,16 +323,17 @@ public class PayMentGateWay extends Activity {
                 public void run() {
                     mHandler = null;
 
-	                    /*Intent intent = new Intent();
+	                  /*  Intent intent = new Intent();
 	                    intent.putExtra(Constants.RESULT, "success");
 	                    intent.putExtra(Constants.PAYMENT_ID, paymentId);
 	                    setResult(RESULT_OK, intent);
 	                    finish();*/
-                   // new PostRechargeData().execute();
+                    // new PostRechargeData().execute();
 
-                    callWebServiceMakePayment(paymentId,"true");
+                    Log.e("bill_payment_id",paymentId);
+                   callWebServiceMakePayment(paymentId,"success");
 
-                    /*Intent intent=new Intent(PayMentGateWay.this,CartCheckoutActivity.class);
+                    /*Intent intent=new Intent(BillPaymentPaymentGatway.this,CartCheckoutActivity.class);
                     intent.putExtra("test",getFirstName);
                     startActivity(intent);
 
@@ -396,7 +402,7 @@ public class PayMentGateWay extends Activity {
             public void run() {
                 mHandler = null;
 
-              //  new PostRechargeData().execute();
+                //  new PostRechargeData().execute();
 
                 Toast.makeText(getApplicationContext(),"Successfully payment\n redirect from Success Function" , Toast.LENGTH_LONG).show();
 
@@ -473,7 +479,7 @@ public class PayMentGateWay extends Activity {
         protected void onPreExecute()
         {
             super.onPreExecute();
-            pDialog = new ProgressDialog(PayMentGateWay.this);
+            pDialog = new ProgressDialog(BillPaymentPaymentGatway.this);
             pDialog.setMessage("Please wait...");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(false);
@@ -483,7 +489,7 @@ public class PayMentGateWay extends Activity {
         protected String doInBackground(String... args)
         {
             String strStatus = null;
-            ProfileSessionManager ProSessionManager = new ProfileSessionManager(PayMentGateWay.this);
+            ProfileSessionManager ProSessionManager = new ProfileSessionManager(BillPaymentPaymentGatway.this);
 
             String getUserid   = ProSessionManager.getSpeculatorId();
             String getSpeculationId  = "0";
@@ -536,71 +542,76 @@ public class PayMentGateWay extends Activity {
 
     /******************************************* closed send record to back end ************************************/
 
+
     private void callWebServiceMakePayment(String transactionId, String status)
     {
 
-       // progressBarHandler.show();
+        String login_url = getApplicationContext().getResources().getString(R.string.webservice_base_url) + "/payment_bill";
 
-        String login_url = getApplicationContext().getResources().getString(R.string.webservice_base_url) + "/make_payment";
+        System.out.println("order_number--------------" +  status + transactionId + "fgdfgb----");
 
-        System.out.println("order_number--------------" + order_number+status+transactionId+"fgdfgb----");
+        String userid = app_sharedpreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), "");
 
-        Ion.with(PayMentGateWay.this)
-                .load(login_url)
-                .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
-                .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
-                //.setBodyParameter("data_n", params.toString())
-                .setBodyParameter("order_id", order_number)
-                .setBodyParameter("transactionid", transactionId)
-                .setBodyParameter("status", status)
-                .asJsonObject()
-                .setCallback(new FutureCallback<JsonObject>() {
-                    @Override
-                    public void onCompleted(Exception e, JsonObject result) {
-                        //  AndroidUtils.showErrorLog(context,result,"dghdfghsaf dawbnedvhaewnbedvsab dsadduyf");
-                       // progressBarHandler.hide();
-
-                        System.out.println("result--------------" + result);
-                        if (result.get("error").getAsString().contains("false"))
+            Ion.with(BillPaymentPaymentGatway.this)
+                    .load(login_url)
+                    .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                    .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                    .setBodyParameter("seller_id",userid)
+                    //.setBodyParameter("data_n", params.toString())
+                    .setBodyParameter("transactionID", transactionId)
+                    .setBodyParameter("status", status)
+                    .setBodyParameter("machine_num", jsonArrayMachineNOs)
+                    .setBodyParameter("payment", getRechargeAmt)
+                    .asJsonObject()
+                    .setCallback(new FutureCallback<JsonObject>() {
+                        @Override
+                        public void onCompleted(Exception e, JsonObject result)
                         {
-                            String payment_status;
-                            JsonObject jsonObject = result.getAsJsonObject("result");
+                             //  AndroidUtils.showErrorLog(context,result,"dghdfghsaf dawbnedvhaewnbedvsab dsadduyf");
+                             // progressBarHandler.hide();
+                             System.out.println("result--------------" + result);
 
-                            if(result.get("payment_status").getAsString().contains("false"))
+                            if (result.get("error").getAsString().contains("false"))
                             {
-                                payment_status = "false";
-                                app_sharedpreference.setSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), 0);
+                                String payment_status;
+                                JsonObject jsonObject = result.getAsJsonObject("result");
+
+                                if (result.get("payment_status").getAsString().contains("false"))
+                                {
+                                    payment_status = "false";
+                                    appSharedPreference.setSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), 0);
+                                }
+                                else
+                                {
+                                    payment_status = "true";
+                                    String cart_count = jsonObject.get("cart_item").getAsString();
+                                    appSharedPreference.setSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), Integer.valueOf(cart_count));
+                                }
+
+                                AndroidUtils.showErrorLog(BillPaymentPaymentGatway.this, result.toString());
+
+                                Intent intent = new Intent(BillPaymentPaymentGatway.this, PaymentCompletionActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                intent.putExtra("isSuccess", payment_status);
+                                intent.putExtra("vpc_Amount", jsonObject.get("amount").getAsString());
+                                intent.putExtra("vpc_TransactionNo", jsonObject.get("transactionID").getAsString());
+                                intent.putExtra("vpc_ReceiptNo", jsonObject.get("order_id").getAsString());
+                                startActivity(intent);
+
+
                             }
                             else
                             {
-                                payment_status = "true";
-                                String cart_count = jsonObject.get("cart_item").getAsString();
-                                app_sharedpreference.setSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), Integer.valueOf(cart_count));
+
+                                Intent intent = new Intent(BillPaymentPaymentGatway.this, PaymentCompletionActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                intent.putExtra("isSuccess", "false");
+                                startActivity(intent);
+
                             }
-
-                            AndroidUtils.showErrorLog(getApplicationContext(), result.toString());
-
-                            Intent intent = new Intent(PayMentGateWay.this, PaymentCompletionActivity.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            intent.putExtra("isSuccess", payment_status);
-                            intent.putExtra("vpc_Amount", jsonObject.get("amount").getAsString());
-                            intent.putExtra("vpc_TransactionNo", jsonObject.get("transactionID").getAsString());
-                            intent.putExtra("vpc_ReceiptNo", jsonObject.get("order_id").getAsString());
-                            startActivity(intent);
-
-
-                        } else {
-                            Intent intent = new Intent(PayMentGateWay.this, PaymentCompletionActivity.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            intent.putExtra("isSuccess", "false");
-                            startActivity(intent);
+                            //Toast.makeText(getApplicationContext(),result.toString(),Toast.LENGTH_SHORT).show();
                         }
-                        //Toast.makeText(getApplicationContext(),result.toString(),Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
-
-
-
+                    });
+        }
 
 }

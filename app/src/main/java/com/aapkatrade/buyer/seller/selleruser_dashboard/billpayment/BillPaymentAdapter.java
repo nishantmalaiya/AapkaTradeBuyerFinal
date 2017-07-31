@@ -26,11 +26,10 @@ public class BillPaymentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private BillPaymentListHolder viewHolder;
     private ProgressBarHandler progressBarHandler;
 
-    ArrayList<MachineTotalBillDatas> machineTotalBillDatases=new ArrayList<>();
-    ArrayList<String> machineNos=new ArrayList<>();
+    ArrayList<MachineTotalBillDatas> machineTotalBillDatases = new ArrayList<>();
+    String machineNo;
 
     int totalBillAmount = 0;
-
 
 
     public BillPaymentAdapter(Activity context, List<BillPaymentListData> itemList) {
@@ -61,23 +60,27 @@ public class BillPaymentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         homeHolder.machineType.setText(itemList.get(position).machineType);
 
         homeHolder.imageView.setBackground(context.getResources().getDrawable(itemList.get(position).background_color));
-        homeHolder.machineSelection.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
-        {
+        homeHolder.machineSelection.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
-            {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
                 itemList.get(position).selected = isChecked;
                 if (isChecked) {
                     totalBillAmount = totalBillAmount + Integer.parseInt(itemList.get(position).machineCost);
-                    machineNos.add(itemList.get(position).machineNo);
+                    machineNo = itemList.get(position).machineNo;
+                    machineTotalBillDatases.add(new MachineTotalBillDatas(String.valueOf(totalBillAmount), machineNo));
                 } else {
-                    totalBillAmount = totalBillAmount - Integer.parseInt(itemList.get(position).machineCost);
-                    machineNos.remove(itemList.get(position).machineNo);
-                }
-                machineTotalBillDatases.add(new MachineTotalBillDatas(String.valueOf(totalBillAmount),machineNos));
 
-                BillPaymentActivity.commonInterface.getData(machineTotalBillDatases);
+                        totalBillAmount = totalBillAmount - Integer.parseInt(itemList.get(position).machineCost);
+
+                        machineTotalBillDatases.remove(position);
+
+                }
+                if (machineTotalBillDatases.size() != 0) {
+
+                    BillPaymentActivity.commonInterface.getData(machineTotalBillDatases);
+                }
+
             }
 
 
@@ -86,7 +89,7 @@ public class BillPaymentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         homeHolder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(((BillPaymentListHolder) holder).machineSelection.isChecked()){
+                if (((BillPaymentListHolder) holder).machineSelection.isChecked()) {
                     ((BillPaymentListHolder) holder).machineSelection.setChecked(false);
                 } else {
                     ((BillPaymentListHolder) holder).machineSelection.setChecked(true);

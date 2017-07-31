@@ -44,12 +44,8 @@
 
         <android.support.v7.widget.AppCompatImageView
             android:id="@+id/logoWord"
-            android:layout_width="@dimen/seventy_dip"
-            android:layout_height="@dimen/thirty_dip"
-            android:layout_centerVertical="true"
-            android:adjustViewBounds="true"
-            android:scaleType="fitCenter"
-
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/iconHome"
           app:srcCompat="@drawable/ic_app_logo" />
 

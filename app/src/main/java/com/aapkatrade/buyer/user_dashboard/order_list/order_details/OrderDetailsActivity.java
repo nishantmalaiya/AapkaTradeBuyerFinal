@@ -127,7 +127,8 @@ else {
 
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
         getMenuInflater().inflate(R.menu.user, menu);
         return true;
     }
@@ -211,7 +212,7 @@ else {
 
 
                                     String product_qty = jsonObject2.get("product_qty").getAsString();
-                                    String product_image = jsonObject2.get("imageUrl").getAsString();
+                                    String product_image = jsonObject2.get("image_url").getAsString();
 
                                     String OrderStatus = jsonObject2.get("status").getAsString();
                                     String discount = jsonObject2.get("discount").getAsString() + "%";

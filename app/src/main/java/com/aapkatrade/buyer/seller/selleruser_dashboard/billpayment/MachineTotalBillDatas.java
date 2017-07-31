@@ -9,9 +9,9 @@ import java.util.ArrayList;
 public class MachineTotalBillDatas {
 
     String  TotalAmount;
-    ArrayList<String> MachineNo;
+  String MachineNo;
 
-    public MachineTotalBillDatas(String totalAmount, ArrayList<String> machineNo) {
+    public MachineTotalBillDatas(String totalAmount, String machineNo) {
         TotalAmount = totalAmount;
         MachineNo = machineNo;
     }
