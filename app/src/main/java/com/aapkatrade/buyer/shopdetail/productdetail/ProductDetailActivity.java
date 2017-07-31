@@ -53,7 +53,7 @@ import java.util.TimerTask;
 
 import me.relex.circleindicator.CircleIndicator;
 
-public class ProductDetailActivity extends AppCompatActivity
+public class  ProductDetailActivity extends AppCompatActivity
 {
     private int productDetailActivity = 1;
     private Context context;
