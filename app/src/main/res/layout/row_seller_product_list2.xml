@@ -24,7 +24,7 @@
             android:id="@+id/card_view"
             xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/ten_dip"
             android:layout_marginLeft="@dimen/ten_dip"
@@ -32,9 +32,9 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             android:layout_marginTop="25dp"
+            android:layout_marginBottom="@dimen/ten_dip"
             android:paddingBottom="@dimen/ten_dip"
-            android:layout_marginStart="@dimen/ten_dip"
-            android:layout_marginEnd="@dimen/ten_dip">
+            >
 
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/constraint_layout"
@@ -45,21 +45,21 @@
                 >
 
 
-              <ToggleButton
-                  android:id="@+id/radioButtonStatus"
-                  android:layout_width="88dp"
-                  android:layout_height="48dp"
-                  app:layout_constraintTop_toTopOf="parent"
-                  app:layout_constraintLeft_toLeftOf="parent"
-                  android:layout_marginTop="@dimen/ten_dip"
-                  android:button="@drawable/radio_button_toggle"
-                  android:textOn=""
-                  android:background="@null"
-                  android:textOff=""
-                  android:focusable="false"
-                  android:focusableInTouchMode="false"
-                  android:layout_centerVertical="true"
-                  />
+                <ToggleButton
+                    android:id="@+id/radioButtonStatus"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_marginTop="@dimen/ten_dip"
+                    android:button="@drawable/radio_button_toggle"
+                    android:textOn=""
+                    android:background="@null"
+                    android:textOff=""
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:layout_centerVertical="true"
+                    />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -70,12 +70,12 @@
                     android:text="Status"
                     android:textColor="@color/black"
                     android:layout_marginTop="@dimen/twelve_dip"
-                    android:layout_marginStart="@dimen/twenty_five_dip" />
+                    />
 
                 <Button
                     android:id="@+id/btnPolicyUpdate"
                     android:layout_width="wrap_content"
-                    android:layout_height="48dp"
+                    android:layout_height="@dimen/thirty_dip"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     android:text="Policy Update"
@@ -106,37 +106,37 @@
                     app:layout_constraintTop_toBottomOf="@+id/btnPolicyUpdate"
                     app:layout_constraintLeft_toLeftOf="parent"
                     android:layout_marginTop="10dp"
+                    android:layout_marginRight="@dimen/ten_dip"
                     android:layout_marginLeft="100dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginStart="100dp">
+                    >
 
                     <TextView
                         android:id="@+id/tvProductName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="JK Light"
-                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintLeft_toLeftOf="@+id/contraint_textView"
                         android:textColor="@color/black"
                         android:layout_marginLeft="10dp"
                         android:textSize="18sp"
 
-                        android:layout_marginStart="10dp"
-                        tools:layout_editor_absoluteY="0dp" />
+                        />
 
 
                     <TextView
                         android:id="@+id/tvCompanyName"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintLeft_toLeftOf="@+id/contraint_textView"
                         android:text="Syska Led"
                         android:textColor="@color/orange"
                         app:layout_constraintTop_toBottomOf="@+id/tvProductName"
                         android:layout_marginLeft="10dp"
                         android:textSize="16sp"
                         android:maxLines="1"
-                        android:layout_marginStart="10dp" />
+                        />
 
                     <TextView
                         android:id="@+id/tvCategoryName"
@@ -145,10 +145,10 @@
                         android:text="Electronics"
                         android:layout_marginLeft="10dp"
                         android:textSize="16sp"
-                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintLeft_toLeftOf="@+id/contraint_textView"
                         app:layout_constraintTop_toBottomOf="@+id/tvCompanyName"
                         android:maxLines="1"
-                        android:layout_marginStart="10dp" />
+                        />
 
                     <TextView
                         android:id="@+id/tvStateName"
@@ -157,7 +157,7 @@
                         android:text="Electronics"
                         android:textSize="16sp"
                         android:layout_marginLeft="10dp"
-                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintLeft_toLeftOf="@+id/contraint_textView"
                         app:layout_constraintTop_toBottomOf="@+id/tvCategoryName"
                         android:layout_marginStart="10dp"
                         android:maxLines="1"
@@ -171,7 +171,7 @@
                 <Button
                     android:id="@+id/btnEdit"
                     android:layout_width="wrap_content"
-                    android:layout_height="48dp"
+                    android:layout_height="@dimen/thirty_dip"
                     app:layout_constraintTop_toBottomOf="@+id/imgProduct"
                     app:layout_constraintRight_toRightOf="parent"
                     android:text="Edit"
@@ -180,12 +180,12 @@
                     android:background="@drawable/blue_button_selector"
                     android:layout_marginRight="10dp"
 
-                    android:layout_marginEnd="10dp" />
+                    />
 
                 <Button
                     android:id="@+id/btnDelete"
                     android:layout_width="wrap_content"
-                    android:layout_height="48dp"
+                    android:layout_height="@dimen/thirty_dip"
                     app:layout_constraintTop_toBottomOf="@+id/imgProduct"
                     app:layout_constraintRight_toLeftOf="@+id/btnEdit"
                     android:text="Delete"
@@ -194,7 +194,7 @@
                     android:background="@drawable/blue_button_selector"
                     android:layout_marginRight="10dp"
 
-                    android:layout_marginEnd="10dp" />
+                    />
 
 
 
@@ -214,7 +214,7 @@
         android:background="@drawable/half_circle_new"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        tools:layout_editor_absoluteY="0dp">
+        >
 
 
     </android.support.constraint.ConstraintLayout>
@@ -225,16 +225,16 @@
         android:layout_height="50dp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        tools:layout_editor_absoluteY="0dp">
+        >
 
-      <ImageView
-          android:layout_width="0dp"
-          android:layout_height="wrap_content"
-          app:layout_constraintRight_toRightOf="parent"
-          app:layout_constraintLeft_toLeftOf="parent"
-          android:src="@drawable/ic_seller_product"
-          android:padding="6dp"
-          tools:layout_editor_absoluteY="38dp" />
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintRight_toRightOf="@+id/circle_constaraint_layout2"
+            app:layout_constraintLeft_toLeftOf="@+id/circle_constaraint_layout2"
+            android:src="@drawable/ic_seller_product"
+            android:padding="6dp"
+            />
 
     </android.support.constraint.ConstraintLayout>
 

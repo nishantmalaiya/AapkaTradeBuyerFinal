@@ -657,10 +657,6 @@ public class MyProfileActivity extends AppCompatActivity {
                                 });
 
 
-
-
-
-
                             }
                         } else {
 
