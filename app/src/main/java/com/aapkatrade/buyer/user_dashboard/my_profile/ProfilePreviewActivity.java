@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
 import com.aapkatrade.buyer.home.HomeActivity;
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.AppSharedPreference;
@@ -24,6 +25,8 @@ import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.Validation;
 import com.aapkatrade.buyer.user_dashboard.changepassword.ChangePassword;
 
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Ion;
 import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -39,7 +42,9 @@ public class ProfilePreviewActivity extends AppCompatActivity {
     String usertype;
     int profile_preview_activity;
     RelativeLayout relativeLayoutProfile;
+    private String my_profile_gif;
 
+    private ProgressBarHandler p_handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +67,42 @@ public class ProfilePreviewActivity extends AppCompatActivity {
         relativeLayoutProfile = (RelativeLayout) findViewById(R.id.relativeLayoutProfile);
 
         imageViewProfileVideo = (ImageView) findViewById(R.id.imageViewProfileVideo);
+        p_handler = new ProgressBarHandler(context);
+
+        if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), "").contains("2")) {
+
+            if (appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_ViDEO_GIF.toString(), "").toString().equals("")) {
+
+                Log.e("shared-----", "");
+            } else {
+
+                p_handler.show();
+                my_profile_gif = appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_ViDEO_GIF.toString());
+                Ion.with(imageViewProfileVideo).load(my_profile_gif).setCallback(new FutureCallback<ImageView>() {
+                    @Override
+                    public void onCompleted(Exception e, ImageView result) {
+                        p_handler.hide();
+                    }
+                });
+
+
+
+
+
+
+
+
+               /* Picasso.with(context)
+                        .load(app_sharedpreference.getSharedPref(SharedPreferenceConstants.PROFILE_VIDEO_THUMBNAIL.toString(), ""))
+                        .error(R.drawable.navigation_profile_bg)
+                        .placeholder(R.drawable.navigation_profile_bg)
+                        .error(R.drawable.navigation_profile_bg)
+                        .into(imageViewProfile);*/
+            }
+
+        }
+
+
         imgvew_fb = (ImageView) findViewById(R.id.imgvew_fb);
         imgvew_twitter = (ImageView) findViewById(R.id.imgvew_fb);
         imgvew_whatsapp = (ImageView) findViewById(R.id.imgvew_whatsapp);
@@ -176,23 +217,29 @@ public class ProfilePreviewActivity extends AppCompatActivity {
 
             String user_image = appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_PIC.toString(), "");
 
-            if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), "").contains("1")) {
+            if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), "").contains(SharedPreferenceConstants.USER_TYPE_BUYER.toString())) {
                 usertype = "Buyer";
-            } else if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), "").contains("2")) {
+            }
 
-                if (appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_VIDEO_THUMBNAIL.toString(), "").toString().equals("")) {
+            if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), "").contains(SharedPreferenceConstants.USER_TYPE_SELLER.toString())) {
+
+                if (appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_ViDEO_GIF.toString(), "").toString().equals("")) {
 
                     Log.e("shared-----", "");
                 } else {
-                    Picasso.with(context)
-                            .load(appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_VIDEO_THUMBNAIL.toString(), ""))
-                            .error(R.drawable.navigation_profile_bg)
-                            .placeholder(R.drawable.navigation_profile_bg)
-                            .error(R.drawable.navigation_profile_bg)
-                            .into(imageViewProfileVideo);
+
+                    p_handler.show();
+                    my_profile_gif = appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_ViDEO_GIF.toString());
+                    Ion.with(imageViewProfileVideo).load(my_profile_gif).setCallback(new FutureCallback<ImageView>() {
+                        @Override
+                        public void onCompleted(Exception e, ImageView result) {
+                            p_handler.hide();
+                        }
+                    });
+
+
                 }
                 usertype = "Seller";
-
             } else if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), "").contains("3")) {
                 usertype = "Associate";
             }
