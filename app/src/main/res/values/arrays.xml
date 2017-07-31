@@ -154,6 +154,25 @@
     </integer-array>
 
 
+    <integer-array name="random_color_sellerDashboard">
+
+
+        <item>@color/random_color1_sellerdashboard</item>
+        <item>@color/random_color2_sellerdashboard</item>
+        <item>@color/random_color3_sellerdashboard</item>
+
+        <item>@color/random_color4_sellerdashboard</item>
+        <item>@color/random_color5_sellerdashboard</item>
+
+        <item>@color/random_color6_sellerdashboard</item>
+        <item>@color/random_color7_sellerdashboard</item>
+        <item>@color/random_color8_sellerdashboard</item>
+        <item>@color/random_color9_sellerdashboard</item>
+
+
+    </integer-array>
+
+
     <integer-array name="welcome_screen">
         <item>@drawable/welcome_slide_one</item>
         <item>@drawable/welcome_slide_two</item>
@@ -189,4 +208,13 @@
     </string-array>
 
 
+    <color name="random_color1_sellerdashboard">#FFB901</color>
+    <color name="random_color2_sellerdashboard">#E64856</color>
+    <color name="random_color3_sellerdashboard">#0078D7</color>
+    <color name="random_color4_sellerdashboard">#0099BB</color>
+    <color name="random_color5_sellerdashboard">#767676</color>
+    <color name="random_color6_sellerdashboard">#D33683</color>
+    <color name="random_color7_sellerdashboard">#B58A00</color>
+    <color name="random_color8_sellerdashboard">#29A198</color>
+    <color name="random_color9_sellerdashboard">#6C71C3</color>
 </resources>

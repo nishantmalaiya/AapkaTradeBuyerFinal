@@ -289,29 +289,49 @@ public class AddCompanyShopActivity extends AppCompatActivity
         llShopDetailsContainer.setVisibility(View.GONE);
         generalDetailsHeader.setImageRightRotation(180);
 
-        generalDetailsHeader.getRightImageView().setOnClickListener(new View.OnClickListener() {
+        generalDetailsHeader.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(llGeneralContainer.getVisibility() == View.VISIBLE){
                     llGeneralContainer.setVisibility(View.GONE);
                     generalDetailsHeader.setImageRightRotation(0);
+                    llShopDetailsContainer.setVisibility(View.VISIBLE);
+                    shopDetailsHeader.setImageRightRotation(180);
                 }else {
                     llGeneralContainer.setVisibility(View.VISIBLE);
                     generalDetailsHeader.setImageRightRotation(180);
+                    llShopDetailsContainer.setVisibility(View.GONE);
+                    shopDetailsHeader.setImageRightRotation(0);
                 }
             }
         });
 
-        shopDetailsHeader.getRightImageView().setOnClickListener(new View.OnClickListener() {
+        shopDetailsHeader.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(llShopDetailsContainer.getVisibility() == View.VISIBLE){
                     llShopDetailsContainer.setVisibility(View.GONE);
                     shopDetailsHeader.setImageRightRotation(0);
+                    llGeneralContainer.setVisibility(View.VISIBLE);
+                    generalDetailsHeader.setImageRightRotation(180);
                 }else {
                     llShopDetailsContainer.setVisibility(View.VISIBLE);
                     shopDetailsHeader.setImageRightRotation(180);
+                    llGeneralContainer.setVisibility(View.GONE);
+                    generalDetailsHeader.setImageRightRotation(0);
                 }
+            }
+        });
+
+
+        etCompanyAddress.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus){
+                    llGeneralContainer.setVisibility(View.GONE);
+                    generalDetailsHeader.setImageRightRotation(0);
+                }
+
             }
         });
 
@@ -323,9 +343,9 @@ public class AddCompanyShopActivity extends AppCompatActivity
                     llShopDetailsContainer.setVisibility(View.VISIBLE);
                     shopDetailsHeader.setImageRightRotation(180);
                     etCompanyAddress.requestFocus();
-                    return true; 
+                    return true;
                 }
-                return false;  
+                return false;
             }
         });
 

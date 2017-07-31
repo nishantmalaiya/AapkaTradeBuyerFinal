@@ -367,6 +367,7 @@ public class CartCheckoutActivity extends AppCompatActivity
     public void open_payumoney_webview()
 
     {
+
         String getFname,getPhone,getEmail,getAmt;
 
         if(Validation.isNonEmptyStr(app_sharedpreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString(),"Aapka Trade")))
@@ -396,6 +397,7 @@ public class CartCheckoutActivity extends AppCompatActivity
          getAmt   = tvAmountPayable.getText().toString().replace(getApplicationContext().getResources().getText(R.string.rupay_text),"");//rechargeAmt.getText().toString().trim();
 
         AndroidUtils.showErrorLog(context,"Fname--"+getFname +"Phone"+getPhone +"Email--"+getEmail+"Amit--"+getAmt);
+
 
         Intent intent = new Intent(CartCheckoutActivity.this, PayMentGateWay.class);
         intent.putExtra("FIRST_NAME",getFname);

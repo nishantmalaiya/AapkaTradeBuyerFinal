@@ -41,6 +41,7 @@ import com.aapkatrade.buyer.location.GeoCoderAddress;
 import com.aapkatrade.buyer.location.Mylocation;
 import com.aapkatrade.buyer.search.Search;
 import com.aapkatrade.buyer.service.GpsLocationService;
+import com.aapkatrade.buyer.uicomponent.customviewpager.WrappingViewPager;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
@@ -80,7 +81,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
     private StikkyHeaderBuilder.ScrollViewBuilder stikkyHeader;
     RelativeLayout view_all_latest_post, view_all_latest_update;
     LinearLayout rl_retry;
-    ViewPager vp;
+    WrappingViewPager vp;
     NestedScrollView scrollView;
     Timer banner_timer = new Timer();
     CoordinatorLayout coordinatorLayout;
@@ -154,7 +155,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
 
 
         circleIndicator = (CircleIndicator) view.findViewById(R.id.indicator_custom);
-        vp = (ViewPager) view.findViewById(R.id.viewpager_custom);
+        vp = (WrappingViewPager) view.findViewById(R.id.viewpager_custom);
         context = getActivity();
 
         llManagerEclipseCollection = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
@@ -290,7 +291,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
                 .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                 .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                 .setBodyParameter("city_id", "")
-                .setBodyParameter("user_type",appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE .toString(), "notlogin"))
+                .setBodyParameter("user_type", appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), "notlogin"))
                 .setBodyParameter("user_id", user_id)
                 .setBodyParameter("device_id", AppConfig.getCurrentDeviceId(context))
                 .asJsonObject()

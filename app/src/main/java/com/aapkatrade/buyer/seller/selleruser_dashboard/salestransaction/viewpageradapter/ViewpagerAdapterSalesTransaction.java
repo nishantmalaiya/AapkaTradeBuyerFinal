@@ -23,11 +23,6 @@ import android.widget.TextView;
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.interfaces.CommonInterface;
-import com.aapkatrade.buyer.seller.selleruser_dashboard.billpayment.BillPaymentActivity;
-import com.aapkatrade.buyer.seller.selleruser_dashboard.billpayment.BillPaymentAdapter;
-import com.aapkatrade.buyer.seller.selleruser_dashboard.salestransaction.SalesTransactionData;
-import com.aapkatrade.buyer.seller.selleruser_dashboard.salestransaction.SalesTransactionMachine;
-import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

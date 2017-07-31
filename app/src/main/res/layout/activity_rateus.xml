@@ -32,8 +32,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@color/white"
-                    app:cardBackgroundColor="@color/white"
-                    android:elevation="4dp">
+                    android:elevation="4dp"
+                    app:cardBackgroundColor="@color/white">
 
 
                     <RelativeLayout
@@ -69,22 +69,36 @@
                             android:text="Electronics Repair" />
 
 
-                        <com.hedgehog.ratingbar.RatingBar
-                            android:id="@+id/ratingbar"
+                        <LinearLayout
+                            android:id="@+id/ratingbarLayout"
+
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/tvCategoriesName"
-                            android:layout_marginTop="-5dp"
                             android:layout_toRightOf="@+id/imgProduct"
-                            hedgehog:clickable="true"
-                            hedgehog:halfstart="true"
-                            hedgehog:starCount="5"
-                            hedgehog:starEmpty="@drawable/ic_white_star"
-                            hedgehog:starFill="@drawable/ic_orange_star"
-                            hedgehog:starHalf="@drawable/ic_orange_star"
-                            hedgehog:starImageHeight="40dp"
-                            hedgehog:starImagePadding="20dp"
-                            hedgehog:starImageWidth="60dp" />
+                            android:layout_marginRight="@dimen/ten_dip"
+                            android:layout_marginTop="@dimen/five_dip"
+                            >
+
+                            <com.hedgehog.ratingbar.RatingBar
+                                android:id="@+id/ratingbar"
+                                android:layout_width="@dimen/two_hundreds_fifty_dip"
+                                android:layout_height="match_parent"
+                                android:layout_marginTop="-5dp"
+                                android:gravity="left"
+                                android:padding="@dimen/five_dip"
+                                hedgehog:clickable="true"
+                                hedgehog:halfstart="true"
+                                hedgehog:starCount="5"
+                                hedgehog:starEmpty="@drawable/ic_white_star"
+                                hedgehog:starFill="@drawable/ic_orange_star"
+                                hedgehog:starHalf="@drawable/ic_orange_star"
+                                hedgehog:starImageHeight="@dimen/thirty_dip"
+                                hedgehog:starImagePadding="@dimen/five_dip"
+                                hedgehog:starImageWidth="@dimen/thirty_dip" />
+
+                        </LinearLayout>
+
 
                     </RelativeLayout>
 
@@ -104,8 +118,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@color/white"
-                    app:cardBackgroundColor="@color/white"
-                    android:elevation="4dp">
+                    android:elevation="4dp"
+                    app:cardBackgroundColor="@color/white">
 
 
                     <RelativeLayout
