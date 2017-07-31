@@ -82,13 +82,13 @@ public class CommonAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         CategoriesListHolder categoriesListHolder;
 
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        if (arrangementtype == "list")
+        if (arrangementtype .equals("list"))
         {
             v = inflater.inflate(R.layout.row_dashboard, parent, false);
             viewHolder2 = new CommonHolderGrid(v);
             return viewHolder2;
         }
-        else if (arrangementtype == "search_list")
+        else if (arrangementtype.equals("search_list"))
         {
 
             System.out.println("search_list-------------");
@@ -97,14 +97,14 @@ public class CommonAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             return categoriesListHolder;
 
         }
-        else if (arrangementtype == "list_product")
+        else if (arrangementtype.equals("list_product"))
         {
             v = inflater.inflate(R.layout.row_dashboard_product_track_list, parent, false);
 
             viewHolder_listProduct = new CommonHolder_listProduct(v);
             return viewHolder_listProduct;
         }
-        else if (arrangementtype == "OrderedProductList")
+        else if (arrangementtype.equals("OrderedProductList"))
         {
             v = inflater.inflate(R.layout.activity_order, parent, false);
             viewHolder_listProduct = new CommonHolder_listProduct(v);
@@ -123,7 +123,7 @@ public class CommonAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewholder, final int position)
     {
-        if (arrangementtype == "list")
+        if (arrangementtype.equals("list"))
         {
 
             final CommonHolder holder = new CommonHolder(v);
@@ -182,7 +182,7 @@ public class CommonAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.tvProductName.setText(commonDatas.get(position).name);
 
         }
-        else if (arrangementtype == "search_list")
+        else if (arrangementtype.equals("search_list"))
         {
 
             final CategoriesListHolder homeHolder = new CategoriesListHolder(v);
@@ -290,7 +290,7 @@ public class CommonAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
 
         }
-        else if (arrangementtype == "list_product") {
+        else if (  arrangementtype.equals("list_product")   ) {
 
 
             final CommonHolder_listProduct viewHolder_listProduct = new CommonHolder_listProduct(v);
@@ -402,7 +402,11 @@ public class CommonAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 }
             });
 
-        } else if (arrangementtype == "OrderedProductList") {
+        }
+
+
+
+        else if (arrangementtype.equals("OrderedProductList")) {
 
             CommonHolder_listProduct viewHolder_listProduct = new CommonHolder_listProduct(v);
 

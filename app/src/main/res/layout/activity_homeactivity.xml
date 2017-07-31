@@ -99,6 +99,7 @@
         android:layout_alignTop="@id/img_chat"
         android:layout_alignRight="@id/img_chat"
         android:text="10"
+        android:visibility="gone"
         android:textColor="#FFF"
         android:textSize="16sp"
         android:textStyle="bold"

@@ -3,6 +3,7 @@ package com.aapkatrade.buyer.categories_tab.particular_data;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -38,13 +39,13 @@ public class ParticularActivity extends AppCompatActivity {
     CategoriesListAdapter categoriesListAdapter;
     ArrayList<CategoriesListData> shopListDatas = new ArrayList<>();
     ProgressBarHandler progress_handler;
-    FrameLayout layout_container, layout_container_relativeSearch;
+    CoordinatorLayout layout_container, layout_container_relativeSearch;
     MyRecyclerViewEffect myRecyclerViewEffect;
     JsonObject home_data;
-    String url,latitude = "0.0", longitude = "0.0";
+    String url, latitude = "0.0", longitude = "0.0";
     Mylocation mylocation;
     private Context context;
-    TextView listfootername,tv_list_quantity;
+    TextView listfootername, tv_list_quantity;
 
 
     @Override
@@ -57,19 +58,17 @@ public class ParticularActivity extends AppCompatActivity {
         Intent intent = getIntent();
 
         Bundle b = intent.getExtras();
-        if (b != null)
-        {
+        if (b != null) {
             url = intent.getStringExtra("url");
             latitude = b.getString("latitude");
             longitude = b.getString("longitude");
-            AndroidUtils.showErrorLog(context, "_______________latitude"+latitude+"longitude"+longitude);
+            AndroidUtils.showErrorLog(context, "_______________latitude" + latitude + "longitude" + longitude);
         }
 
        /* Intent intent = getIntent();
 
         url = intent.getStringExtra("url");
       */
-
 
 
         System.out.println("url---------------" + url);
@@ -81,14 +80,13 @@ public class ParticularActivity extends AppCompatActivity {
 
         progress_handler = new ProgressBarHandler(this);
 
-        layout_container = (FrameLayout) view.findViewById(R.id.layout_container);
+        layout_container = (CoordinatorLayout) view.findViewById(R.id.layout_container);
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
-        listfootername=(TextView)view.findViewById(R.id.listfootername);
-        tv_list_quantity=(TextView)view.findViewById(R.id.tv_list_quantity);
+        listfootername = (TextView) view.findViewById(R.id.listfootername);
+        tv_list_quantity = (TextView) view.findViewById(R.id.tv_list_quantity);
         mRecyclerView.setHasFixedSize(true);
-
 
 
         get_web_data();
@@ -131,10 +129,9 @@ public class ParticularActivity extends AppCompatActivity {
 
                             } else {
                                 JsonArray jsonArray = jsonObject.getAsJsonArray("result");
-                                tv_list_quantity.setText(jsonArray.size()+"");
+                                tv_list_quantity.setText(jsonArray.size() + "");
 
-                                for (int i = 0; i < jsonArray.size(); i++)
-                                {
+                                for (int i = 0; i < jsonArray.size(); i++) {
                                     JsonObject jsonObject2 = (JsonObject) jsonArray.get(i);
 
                                     String shopId = jsonObject2.get("id").getAsString();
@@ -153,9 +150,9 @@ public class ParticularActivity extends AppCompatActivity {
 
                                     String category_name = jsonObject2.get("category_name").getAsString();
 
-                                    System.out.println("distance-------------"+distance);
+                                    System.out.println("distance-------------" + distance);
 
-                                    shopListDatas.add(new CategoriesListData(shopId, shopName, shopImage, shopLocation, distance,category_name));
+                                    shopListDatas.add(new CategoriesListData(shopId, shopName, shopImage, shopLocation, distance, category_name));
 
                                 }
                                 categoriesListAdapter = new CategoriesListAdapter(ParticularActivity.this, shopListDatas);

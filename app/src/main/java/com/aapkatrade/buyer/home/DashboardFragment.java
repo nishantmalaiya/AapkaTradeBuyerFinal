@@ -8,14 +8,12 @@ import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,9 +61,9 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
     Context context;
     int currentPage = 0;
     LinearLayout viewpagerindicator;
-    private RecyclerView recyclerlatestpost, recyclerlatestupdate;
+    private RecyclerView recyclerLatestDeals, recyclerlatestupdate;
     private LinearLayoutManager llManagerEclipseCollection;
-    ArrayList<CommonData> commonDatas = new ArrayList<>();
+
     ArrayList<CommonData> commonDatas_latestpost = new ArrayList<>();
     ArrayList<CommonData> commonDatas_latestupdate = new ArrayList<>();
     private CommonAdapter commonAdapter_latestpost, commonAdapter_latestproduct;
@@ -162,8 +160,8 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
 
         viewpagerindicator = (LinearLayout) view.findViewById(R.id.viewpagerindicator);
         // latestproductadapter = new latestproductadapter(context, commonDatas);
-        recyclerlatestpost = (RecyclerView) view.findViewById(R.id.recyclerlatestpost);
-        recyclerlatestpost.setLayoutManager(llManagerEclipseCollection);
+        recyclerLatestDeals = (RecyclerView) view.findViewById(R.id.recyclerlatestDeals);
+        recyclerLatestDeals.setLayoutManager(llManagerEclipseCollection);
 
         rl_retry = (LinearLayout) view.findViewById(R.id.rl_retry);
         scrollView = (NestedScrollView) view.findViewById(R.id.scrollView);
@@ -285,7 +283,8 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
             user_id = "";
         }
 
-
+        commonDatas_latestpost.clear();
+        commonDatas_latestupdate.clear();
         Ion.with(getActivity())
                 .load(getResources().getString(R.string.webservice_base_url) + "/home")
                 .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
@@ -304,6 +303,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
                             if (rl_retry.getVisibility() == View.VISIBLE) {
                                 rl_retry.setVisibility(View.GONE);
                             }
+
                          /*   Log.e(AppConfig.getCurrentDeviceId(context)+"-data===============", result.toString().substring(0,4000));
                             Log.e(AppConfig.getCurrentDeviceId(context)+"-data===============", result.toString().substring(4000, result.toString().length()-1));
                          */
@@ -333,15 +333,16 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
 
                             setupviewpager(imageIdList);
 
-                            JsonArray latest_post = jsonResult.getAsJsonArray("latest_post");
+                            JsonArray latest_deals = jsonResult.getAsJsonArray("latest_post");
 
                             JsonArray latest_update = jsonResult.getAsJsonArray("latest_update");
 
                             System.out.println("latest_update---------" + latest_update.toString());
+                            System.out.println("latest_deals---------" + latest_deals.toString());
 
-                            for (int i = 0; i < latest_post.size(); i++) {
+                            for (int i = 0; i < latest_deals.size(); i++) {
 
-                                JsonObject jsonObject_latest_post = (JsonObject) latest_post.get(i);
+                                JsonObject jsonObject_latest_post = (JsonObject) latest_deals.get(i);
 
                                 System.out.println("jsonArray jsonObject2" + jsonObject_latest_post.toString());
 
@@ -351,9 +352,9 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
 
                                 String imageurl = jsonObject_latest_post.get("image_url").getAsString();
 
-                                System.out.println("imageurl--------------" + imageurl+product_name);
+                                System.out.println("imageurl--------------" + imageurl + product_name);
 
-                                AndroidUtils.showErrorLog(context,"Product_iamge",imageurl);
+                                AndroidUtils.showErrorLog(context, "Product_iamge", imageurl);
 
                                 String productlocation = jsonObject_latest_post.get("city_name").getAsString() + "," +
                                         jsonObject_latest_post.get("state_name").getAsString() + "," +
@@ -364,7 +365,8 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
                             }
 
                             commonAdapter_latestpost = new CommonAdapter(context, commonDatas_latestpost, "list", "latestdeals");
-                            recyclerlatestpost.setAdapter(commonAdapter_latestpost);
+                            recyclerLatestDeals.setAdapter(commonAdapter_latestpost);
+
 
                             commonAdapter_latestpost.notifyDataSetChanged();
 
