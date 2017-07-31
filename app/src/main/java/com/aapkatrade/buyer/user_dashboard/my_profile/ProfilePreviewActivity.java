@@ -43,8 +43,9 @@ public class ProfilePreviewActivity extends AppCompatActivity {
     int profile_preview_activity;
     RelativeLayout relativeLayoutProfile;
     private String my_profile_gif;
-
     private ProgressBarHandler p_handler;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +75,9 @@ public class ProfilePreviewActivity extends AppCompatActivity {
             if (appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_ViDEO_GIF.toString(), "").toString().equals("")) {
 
                 Log.e("shared-----", "");
-            } else {
+            }
+            else
+            {
 
                 p_handler.show();
                 my_profile_gif = appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_ViDEO_GIF.toString());
@@ -84,13 +87,6 @@ public class ProfilePreviewActivity extends AppCompatActivity {
                         p_handler.hide();
                     }
                 });
-
-
-
-
-
-
-
 
                /* Picasso.with(context)
                         .load(app_sharedpreference.getSharedPref(SharedPreferenceConstants.PROFILE_VIDEO_THUMBNAIL.toString(), ""))
