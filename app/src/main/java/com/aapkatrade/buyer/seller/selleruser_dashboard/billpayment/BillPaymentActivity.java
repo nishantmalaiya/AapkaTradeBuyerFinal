@@ -204,14 +204,15 @@ public class BillPaymentActivity extends AppCompatActivity {
 
 
                 machineTotalBillDatases = (ArrayList<MachineTotalBillDatas>) object;
-                AndroidUtils.showErrorLog(context,"data get",machineTotalBillDatases.toString());
-                SelectedMachineNos.add(machineTotalBillDatases.get(machineTotalBillDatases.size()-1).MachineNo.toString());
-                /*for (int i = 0; i < machineTotalBillDatases.size(); i++) {
+
+                SelectedMachineNos.add(machineTotalBillDatases.get(machineTotalBillDatases.size() - 1).MachineNo.toString());
+                AndroidUtils.showErrorLog(context, "data get2", SelectedMachineNos.toString());
+
+                for (int i = 0; i < machineTotalBillDatases.size(); i++) {
 
                     SelectedMachineNos.add(machineTotalBillDatases.get(i).MachineNo.toString());
-
-                }*/
-
+                    AndroidUtils.showErrorLog(context, "data get", machineTotalBillDatases.get(i).MachineNo.toString());
+                }
 
                 tvAmount.setText(new StringBuilder(getString(R.string.rupay_text)).append("  ").append(machineTotalBillDatases.get(machineTotalBillDatases.size() - 1).TotalAmount));
 
@@ -460,15 +461,13 @@ public class BillPaymentActivity extends AppCompatActivity {
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if (resultCode == RESULT_OK)
-        {
+        if (resultCode == RESULT_OK) {
             Log.i(TAG, "Success - Payment ID : " + data.getStringExtra(Constants.PAYMENT_ID));
             String paymentId = data.getStringExtra(Constants.PAYMENT_ID);
             // showDialogMessage("Payment Success Id : " + paymentId);
             callWebServiceMakePayment(paymentId, "true");
 
-        } else if (resultCode == RESULT_CANCELED)
-        {
+        } else if (resultCode == RESULT_CANCELED) {
             Log.i(TAG, "failure");
             //String paymentId = data.getStringExtra(SdkConstants.PAYMENT_ID);
             // callWebServiceMakePayment(paymentId,"false");
@@ -530,17 +529,15 @@ public class BillPaymentActivity extends AppCompatActivity {
     }
 
 
-    private void callWebServiceMakePayment(String transactionId, String status)
-    {
+    private void callWebServiceMakePayment(String transactionId, String status) {
 
         progressBarHandler.show();
 
         String login_url = context.getResources().getString(R.string.webservice_base_url) + "/payment_bill";
 
-        System.out.println("order_number--------------" +  status + transactionId + "fgdfgb----");
+        System.out.println("order_number--------------" + status + transactionId + "fgdfgb----");
 
-        if (SelectedMachineNos.size() != 0)
-        {
+        if (SelectedMachineNos.size() != 0) {
             String jsonArrayMachineNOs = String.valueOf(ParseUtils.ArrayListToJsonObject(SelectedMachineNos));
             AndroidUtils.showErrorLog(context, "machine_numers", jsonArrayMachineNOs);
 
@@ -594,12 +591,9 @@ public class BillPaymentActivity extends AppCompatActivity {
                             //Toast.makeText(getApplicationContext(),result.toString(),Toast.LENGTH_SHORT).show();
                         }
                     });
-        }
-        else
-        {
+        } else {
             AndroidUtils.showErrorLog(context, "SelectedMachineNos", "SelectedMachineNos size 0");
         }
-
 
 
     }
@@ -607,51 +601,41 @@ public class BillPaymentActivity extends AppCompatActivity {
     public void open_payumoney_webview()
 
     {
-        String getFname,getPhone,getEmail,getAmt;
+        String getFname, getPhone, getEmail, getAmt;
 
-        if(Validation.isNonEmptyStr(app_sharedpreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString(),"Aapka Trade")))
-        {
+        if (Validation.isNonEmptyStr(app_sharedpreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString(), "Aapka Trade"))) {
             getFname = app_sharedpreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString(), "Aapka Trade");
-        }
-        else {
+        } else {
             getFname = "Aapka Trade";
         }
 
-        if(Validation.isNonEmptyStr(app_sharedpreference.getSharedPref(SharedPreferenceConstants.MOBILE.toString())))
-        {
+        if (Validation.isNonEmptyStr(app_sharedpreference.getSharedPref(SharedPreferenceConstants.MOBILE.toString()))) {
             getPhone = app_sharedpreference.getSharedPref(SharedPreferenceConstants.MOBILE.toString());
-        }
-        else {
+        } else {
             getPhone = getApplicationContext().getResources().getText(R.string.customer_care_no).toString();
         }
 
-        if(Validation.isNonEmptyStr(app_sharedpreference.getSharedPref(SharedPreferenceConstants.EMAIL_ID.toString())))
-        {
+        if (Validation.isNonEmptyStr(app_sharedpreference.getSharedPref(SharedPreferenceConstants.EMAIL_ID.toString()))) {
             getEmail = app_sharedpreference.getSharedPref(SharedPreferenceConstants.EMAIL_ID.toString());
-        }
-        else {
+        } else {
             getEmail = "info@aapkatrade.com";
         }
 
-        getAmt   = tvAmount.getText().toString().replace(getApplicationContext().getResources().getText(R.string.rupay_text),"");//rechargeAmt.getText().toString().trim();
+        getAmt = tvAmount.getText().toString().replace(getApplicationContext().getResources().getText(R.string.rupay_text), "");//rechargeAmt.getText().toString().trim();
 
-        AndroidUtils.showErrorLog(context,"Fname--"+getFname +"Phone"+getPhone +"Email--"+getEmail+"Amit--"+getAmt);
+        AndroidUtils.showErrorLog(context, "Fname--" + getFname + "Phone" + getPhone + "Email--" + getEmail + "Amit--" + getAmt);
 
         String jsonArrayMachineNOs = String.valueOf(ParseUtils.ArrayListToJsonObject(SelectedMachineNos));
         Intent intent = new Intent(BillPaymentActivity.this, BillPaymentPaymentGatway.class);
-        intent.putExtra("FIRST_NAME",getFname);
-        intent.putExtra("PHONE_NUMBER",getPhone);
-        intent.putExtra("EMAIL_ADDRESS",getEmail);
-        intent.putExtra("RECHARGE_AMT",getAmt);
-        intent.putExtra("MACHINE_ARRAY",jsonArrayMachineNOs);
+        intent.putExtra("FIRST_NAME", getFname);
+        intent.putExtra("PHONE_NUMBER", getPhone);
+        intent.putExtra("EMAIL_ADDRESS", getEmail);
+        intent.putExtra("RECHARGE_AMT", getAmt);
+        intent.putExtra("MACHINE_ARRAY", jsonArrayMachineNOs);
         startActivity(intent);
 
 
-
     }
-
-
-
 
 
 }
