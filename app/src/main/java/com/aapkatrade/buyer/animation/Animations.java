@@ -42,29 +42,6 @@ public class Animations {
 
 
     public static void expand(final View v, int duration) {
-
-        if (v != null)
-
-        {
-            v.animate()
-                    .translationY(v.getHeight())
-                    .alpha(0.0f)
-                    .setDuration(duration)
-                    .setListener(new AnimatorListenerAdapter() {
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            super.onAnimationEnd(animation);
-                            v.setVisibility(View.GONE);
-                        }
-
-
-                    });
-        }
-        Log.e("Animation_error_extend", "view null");
-    }
-
-    public static void collapse(final View v, int duration) {
-
         if (v != null)
 
         {
@@ -86,6 +63,31 @@ public class Animations {
 
 
         Log.e("Animation_error_collap", "view null");
+
+    }
+
+    public static void collapse(final View v, int duration) {
+
+        if (v != null)
+
+        {
+            v.animate()
+                    .translationY(v.getHeight())
+                    .alpha(0.0f)
+                    .setDuration(duration)
+                    .setListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            super.onAnimationEnd(animation);
+                            v.setVisibility(View.GONE);
+                        }
+
+
+                    });
+        }
+        Log.e("Animation_error_extend", "view null");
+
+
     }
 
 
