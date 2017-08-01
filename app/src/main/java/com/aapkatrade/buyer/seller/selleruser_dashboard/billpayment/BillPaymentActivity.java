@@ -537,7 +537,6 @@ public class BillPaymentActivity extends AppCompatActivity
     }
 */
     public void openPayuMoneyWebview()
-
     {
         String getFname,getPhone,getEmail,getAmt;
 
