@@ -7,6 +7,7 @@ import com.aapkatrade.buyer.filter.entity.FilterObject;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -18,33 +19,33 @@ import java.util.HashMap;
  */
 
 public class ParseUtils {
-    public static HashMap<String, String> mapToJsonString(ArrayMap arrayMap){
+    public static HashMap<String, String> mapToJsonString(ArrayMap arrayMap) {
         HashMap<String, String> map = new HashMap<>();
-        for (Object obj :  arrayMap.keySet()){
+        for (Object obj : arrayMap.keySet()) {
             String key = (String) obj;
             ArrayList<String> arrayList = new ArrayList<>();
             ArrayList<FilterObject> tempArrayList = (ArrayList<FilterObject>) arrayMap.get(key);
-            for (int i = 0; i < tempArrayList.size(); i++){
+            for (int i = 0; i < tempArrayList.size(); i++) {
                 FilterObject filterObject = tempArrayList.get(i);
                 arrayList.add(filterObject.name.value.toString().replaceAll("\\\"", "\""));
 //                arrayList.add(filterObject.name.key.toString()+" : "+filterObject.name.value.toString());
             }
             map.put(key, new Gson().toJson(arrayList));
 
-            Log.e("parsing", "OOOOOOOOOOOO@@@!!!        "+map.get(key));
+            Log.e("parsing", "OOOOOOOOOOOO@@@!!!        " + map.get(key));
         }
         return map;
     }
 
-    public static String mapToJson(HashMap<String, String> hashMap){
+    public static String mapToJson(HashMap<String, String> hashMap) {
         return new Gson().toJson(hashMap)/*.replaceAll("\\\\\"", "\"")*/;
     }
 
-    public static JSONObject stringArrayToJsonObject(String[] strings){
+    public static JSONObject stringArrayToJsonObject(String[] strings) {
         int index = 0;
         JSONObject jsonObject = new JSONObject();
         try {
-            for (String s: strings) {
+            for (String s : strings) {
                 jsonObject.put(String.valueOf(index), s);
                 index++;
             }
@@ -54,29 +55,19 @@ public class ParseUtils {
         return jsonObject;
     }
 
-    public static JSONObject ArrayListToJsonObject(ArrayList arrayList){
-
-        JSONObject jsonObject = new JSONObject();
-
+    public static String ArrayListToJsonObject(ArrayList arrayList) {
+        JSONArray jsonArray = new JSONArray();
         try {
-        for(int i=0;i<arrayList.size();i++)
-        {
-
-
-            jsonObject.put(String.valueOf(i), arrayList.get(i));
-
-        }
-
-
+            for (int i = 0; i < arrayList.size(); i++) {
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put(String.valueOf(i), arrayList.get(i));
+                jsonArray.put(jsonObject);
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return jsonObject;
+        return jsonArray.toString();
     }
-
-
-
-
 
 
 }

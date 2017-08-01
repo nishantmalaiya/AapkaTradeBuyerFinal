@@ -53,8 +53,7 @@ import java.util.TimerTask;
 
 import me.relex.circleindicator.CircleIndicator;
 
-public class  ProductDetailActivity extends AppCompatActivity
-{
+public class ProductDetailActivity extends AppCompatActivity {
     private int productDetailActivity = 1;
     private Context context;
     private ProgressBarHandler progressBarHandler;
@@ -106,12 +105,17 @@ public class  ProductDetailActivity extends AppCompatActivity
                 if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString(), "not").contains("not")) {
                     startActivity(new Intent(context, LoginDashboard.class));
                 } else {
-                    Intent rate_us = new Intent(context, RateUsActivity.class);
-                    rate_us.putExtra("product_id", productId);
-                    rate_us.putExtra("product_name", tvProductName.getText().toString());
-                    rate_us.putExtra("product_price", tvProductPrice.getText().toString());
-                    rate_us.putExtra("product_image", imageUrlArrayList.get(0));
-                    startActivity(rate_us);
+                    if (!appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), "not").equals(SharedPreferenceConstants.USER_TYPE_BUYER.toString())) {
+                        AndroidUtils.showToast(context, "Only buyer can rate or write reviews");
+                    } else {
+                        Intent rate_us = new Intent(context, RateUsActivity.class);
+                        rate_us.putExtra("product_id", productId);
+                        rate_us.putExtra("product_name", tvProductName.getText().toString());
+                        rate_us.putExtra("product_price", tvProductPrice.getText().toString());
+                        rate_us.putExtra("product_image", imageUrlArrayList.get(0));
+                        startActivity(rate_us);
+                    }
+
                 }
 
 
@@ -169,12 +173,10 @@ public class  ProductDetailActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
 
-                if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), "").equals("2"))
-                {
-                    AndroidUtils.showToast(context,"Oops Not Buyer Account");
+                if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), "").equals("2")) {
+                    AndroidUtils.showToast(context, "Oops Not Buyer Account");
 
-                }
-                else {
+                } else {
                     callwebservice__add_tocart_buy(productId, "", tvProductName.getText().toString(), singleUnitPrice, tvQuantity.getText().toString());
                 }
             }
@@ -184,13 +186,10 @@ public class  ProductDetailActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
 
-                if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), "").equals("2"))
-                {
-                    AndroidUtils.showToast(context,"Oops Not Buyer Account");
+                if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), "").equals("2")) {
+                    AndroidUtils.showToast(context, "Oops Not Buyer Account");
 
-                }
-                else
-                {
+                } else {
                     callwebservice__add_tocart(productId, "", tvProductName.getText().toString(), singleUnitPrice, tvQuantity.getText().toString());
                 }
 
@@ -246,7 +245,6 @@ public class  ProductDetailActivity extends AppCompatActivity
                 return null;
             }
         };
-
 
 
     }
@@ -669,8 +667,7 @@ public class  ProductDetailActivity extends AppCompatActivity
 
 
     @Override
-    public void onResume()
-    {
+    public void onResume() {
         super.onResume();
 
         if (productDetailActivity == 1) {

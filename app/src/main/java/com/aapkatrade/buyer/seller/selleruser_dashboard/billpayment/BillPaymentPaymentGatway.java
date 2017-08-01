@@ -186,7 +186,7 @@ public class BillPaymentPaymentGatway extends Activity {
             action1=base_url.concat("/_payment");
         }
 
-        webView.setWebViewClient(new BillPaymentPaymentGatway.MyWebViewClient(){
+        webView.setWebViewClient(new MyWebViewClient(){
 
             public void onPageFinished(WebView view, final String url) {
                 progressDialog.dismiss();
@@ -254,7 +254,7 @@ public class BillPaymentPaymentGatway extends Activity {
         webView.getSettings().setLoadWithOverviewMode(false);
 
         //webView.addJavascriptInterface(new PayUJavaScriptInterface(getApplicationContext()), "PayUMoney");
-        webView.addJavascriptInterface(new BillPaymentPaymentGatway.PayUJavaScriptInterface(), "PayUMoney");
+        webView.addJavascriptInterface(new PayUJavaScriptInterface(), "PayUMoney");
         Map<String, String> mapParams = new HashMap<String, String>();
         mapParams.put("key",merchant_key);
         mapParams.put("hash", BillPaymentPaymentGatway.this.hash);

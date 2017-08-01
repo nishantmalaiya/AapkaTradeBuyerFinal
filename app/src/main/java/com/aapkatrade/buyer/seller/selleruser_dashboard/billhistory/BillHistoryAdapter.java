@@ -11,9 +11,6 @@ import android.widget.CompoundButton;
 
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
-import com.aapkatrade.buyer.seller.selleruser_dashboard.billpayment.BillPaymentActivity;
-import com.aapkatrade.buyer.seller.selleruser_dashboard.billpayment.BillPaymentListData;
-import com.aapkatrade.buyer.seller.selleruser_dashboard.billpayment.BillPaymentListHolder;
 
 import java.util.List;
 
