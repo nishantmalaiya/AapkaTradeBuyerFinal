@@ -51,6 +51,8 @@ public class MyCartActivity extends AppCompatActivity {
     LinearLayoutManager linearLayoutManager;
 
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -183,8 +185,10 @@ public class MyCartActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
             case android.R.id.home:
                 finish();
                 break;
