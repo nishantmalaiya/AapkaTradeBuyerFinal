@@ -254,6 +254,13 @@ public class ServiceManagementActivity extends AppCompatActivity {
 
 
                             }
+                            else{
+
+                                progress_handler.hide();
+                                AndroidUtils.showToast(context,"No Service Present in your Account please add first");
+
+
+                            }
                         }
 
 

@@ -72,16 +72,8 @@
             </RelativeLayout>
 
             <include
-                android:id="@+id/toolbar"
                 layout="@layout/toolbar_layout"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="@color/green"
-                android:elevation="0dp"
-                android:minHeight="?attr/actionBarSize"
-                android:titleTextColor="@color/white"
-                app:layout_collapseMode="pin"
-                tools:targetApi="m" />
+                />
 
 
         </android.support.design.widget.CollapsingToolbarLayout>
