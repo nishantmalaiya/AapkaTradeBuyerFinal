@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -60,6 +61,7 @@ public class ChatActivity extends AppCompatActivity {
         className = getIntent().getStringExtra("className");
         AndroidUtils.showErrorLog(context, "className", className);
         chatDatas.clear();
+        setupToolBar();
 
         initView();
 
@@ -219,10 +221,19 @@ public class ChatActivity extends AppCompatActivity {
 
 
     private void setupToolBar() {
-
-        ImageView homeIcon = (ImageView) findViewById(R.id.iconHome);
+        AppCompatImageView homeIcon = (AppCompatImageView) findViewById(R.id.logoWord);
+        AppCompatImageView back_imagview = (AppCompatImageView) findViewById(R.id.back_imagview);
+        back_imagview.setVisibility(View.VISIBLE);
+        back_imagview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        TextView header_name = (TextView) findViewById(R.id.header_name);
+        header_name.setVisibility(View.VISIBLE);
+        header_name.setText(getResources().getString(R.string.privacy_policy));
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        AndroidUtils.setImageColor(homeIcon, context, R.color.white);
         homeIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -234,7 +245,7 @@ public class ChatActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayShowTitleEnabled(false);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
             getSupportActionBar().setTitle(null);
             getSupportActionBar().setElevation(0);
         }
