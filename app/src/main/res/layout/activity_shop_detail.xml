@@ -137,8 +137,8 @@
                         android:layout_marginLeft="@dimen/ten_dip"
                         android:layout_marginRight="@dimen/ten_dip"
                         android:layout_marginTop="@dimen/fifty_dip"
-                        app:cardBackgroundColor="@color/white"
                         android:background="@color/grey_light"
+                        app:cardBackgroundColor="@color/white"
 
                         >
 
@@ -297,11 +297,11 @@
                                 <ImageView
                                     android:id="@+id/img_mobile"
                                     android:layout_width="@dimen/twenty_dip"
-                                    android:tint="@color/black"
                                     android:layout_height="@dimen/twenty_dip"
                                     android:layout_below="@+id/tvShopAddress"
                                     android:layout_marginTop="@dimen/five_dip"
-                                    android:src="@drawable/ic_phone" />
+                                    android:src="@drawable/ic_phone"
+                                    android:tint="@color/black" />
 
                                 <TextView
                                     android:id="@+id/tvMobile"
@@ -329,10 +329,10 @@
                                     android:layout_width="@dimen/twenty_dip"
                                     android:layout_height="@dimen/twenty_dip"
                                     android:layout_below="@+id/tvMobile"
-                                    android:backgroundTintMode="src_in"
-                                    android:tint="@color/black"
                                     android:layout_marginTop="@dimen/five_dip"
-                                    android:src="@drawable/ic_mobile" />
+                                    android:backgroundTintMode="src_in"
+                                    android:src="@drawable/ic_mobile"
+                                    android:tint="@color/black" />
 
                             </RelativeLayout>
 
@@ -356,10 +356,10 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/ten_dip"
                         android:layout_marginRight="@dimen/ten_dip"
-                        app:cardBackgroundColor="@color/white"
                         android:layout_marginTop="@dimen/fourty_dip"
                         android:layout_weight="8"
-                        android:background="@color/grey_light">
+                        android:background="@color/grey_light"
+                        app:cardBackgroundColor="@color/white">
 
 
                         <RelativeLayout
@@ -418,8 +418,8 @@
                     android:layout_marginLeft="@dimen/ten_dip"
                     android:layout_marginRight="@dimen/ten_dip"
                     android:layout_marginTop="@dimen/ten_dip"
-                    app:cardBackgroundColor="@color/white"
-                    android:visibility="gone">
+                    android:visibility="gone"
+                    app:cardBackgroundColor="@color/white">
 
 
                     <RelativeLayout
@@ -580,9 +580,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/ten_dip"
-                        app:cardBackgroundColor="@color/white"
                         android:layout_marginRight="@dimen/ten_dip"
-                        android:layout_marginTop="@dimen/fourty_dip">
+                        android:layout_marginTop="@dimen/fourty_dip"
+                        app:cardBackgroundColor="@color/white">
 
                         <RelativeLayout
                             android:layout_width="match_parent"
@@ -677,9 +677,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/ten_dip"
                         android:layout_marginLeft="@dimen/ten_dip"
-                        app:cardBackgroundColor="@color/white"
                         android:layout_marginRight="@dimen/ten_dip"
-                        android:layout_marginTop="@dimen/fifty_dip">
+                        android:layout_marginTop="@dimen/fifty_dip"
+                        app:cardBackgroundColor="@color/white">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -963,49 +963,47 @@
         </android.support.v4.widget.NestedScrollView>
 
 
-       <!-- <RelativeLayout
-            android:id="@+id/relativeService_enquiry"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_gravity="bottom"
-            android:background="@color/color_voilet"
+        <!-- <RelativeLayout
+             android:id="@+id/relativeService_enquiry"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_alignParentBottom="true"
+             android:layout_gravity="bottom"
+             android:background="@color/color_voilet"
 
 
-            app:layout_behavior="com.aapkatrade.buyer.general.BottomNavigationBehavior">
+             app:layout_behavior="com.aapkatrade.buyer.general.BottomNavigationBehavior">
 
-            <Button
-                android:id="@+id/btnService_enquiry"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/sixty_dip"
-                android:background="@color/color_voilet"
-                android:text="@string/service_enquiry"
-                android:textColor="@color/white" />
+             <Button
+                 android:id="@+id/btnService_enquiry"
+                 android:layout_width="match_parent"
+                 android:layout_height="@dimen/sixty_dip"
+                 android:background="@color/color_voilet"
+                 android:text="@string/service_enquiry"
+                 android:textColor="@color/white" />
 
 
-        </RelativeLayout>-->
+         </RelativeLayout>-->
 
 
         <RelativeLayout
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:orientation="vertical"
-            android:background="@drawable/circle_orange_back"
-            android:padding="@dimen/ten_dip"
             android:layout_gravity="bottom|right"
             android:layout_margin="15dp"
-            >
+            android:background="@drawable/circle_orange_back"
+            android:orientation="vertical"
+            android:padding="@dimen/ten_dip">
 
             <ImageButton
                 android:id="@+id/btnService_enquiry"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:src="@drawable/ic_enquiry"
-                android:background="@color/transparent"
-                android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true"
-                />
+                android:layout_centerVertical="true"
+                android:background="@color/transparent"
+                android:orientation="vertical"
+                android:src="@drawable/ic_enquiry" />
 
         </RelativeLayout>
 

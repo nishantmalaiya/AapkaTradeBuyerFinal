@@ -3,13 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/grey_light2"
     tools:context="com.aapkatrade.buyer.categories_tab.BlankFragment">
 
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
-        android:background="@color/white"
         >
 
         <LinearLayout
@@ -18,7 +18,6 @@
             android:layout_height="fill_parent"
             android:orientation="vertical"
             android:descendantFocusability="blocksDescendants"
-            android:background="@color/white"
             >
 
             <RelativeLayout
@@ -74,7 +73,6 @@
                 android:id="@+id/order_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
                 >
 
             </android.support.v7.widget.RecyclerView>

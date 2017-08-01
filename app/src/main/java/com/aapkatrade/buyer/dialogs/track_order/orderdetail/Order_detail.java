@@ -143,7 +143,7 @@ public class Order_detail extends AppCompatActivity {
                     String product_price_order = jsonObject_product.get("product_price").toString();
                     String product_net_price = jsonObject_product.get("product_net_price").toString();
                     String discount = jsonObject_product.get("discount").toString();
-                    String image_url = jsonObject_product.get("imageUrl").toString();
+                    String image_url = jsonObject_product.get("image_url").toString();
                     String product_id = jsonObject_product.get("product_id").toString();
                     imageUrlArrayList.add(image_url);
 

@@ -112,7 +112,7 @@ public class ShippedFragment extends Fragment {
                                     String product_price = jsonObject2.get("product_price").getAsString();
 
                                     String product_qty = jsonObject2.get("product_qty").getAsString();
-                                    String image_url = jsonObject2.get("imageUrl").getAsString();
+                                    String image_url = jsonObject2.get("image_url").getAsString();
 
                                     String orderid = jsonObject2.get("ORDER_ID").getAsString();
 
