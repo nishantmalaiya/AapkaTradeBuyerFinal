@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.aapkatrade.buyer.general.Utils.ParseUtils;
+import com.aapkatrade.buyer.general.Validation;
 import com.aapkatrade.buyer.home.HomeActivity;
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.AppSharedPreference;
@@ -49,7 +50,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Map;
 
-public class BillPaymentActivity extends AppCompatActivity {
+public class BillPaymentActivity extends AppCompatActivity
+{
     private Context context;
     private AppSharedPreference appSharedPreference;
     private TextView rlSaveLayout;
@@ -111,7 +113,6 @@ public class BillPaymentActivity extends AppCompatActivity {
                                 AndroidUtils.showErrorLog(context, "json_return_error", result.get("error").getAsString());
                             }
 
-
                         }
                     }
                 });
@@ -119,7 +120,8 @@ public class BillPaymentActivity extends AppCompatActivity {
     }
 
 
-    private void initView() {
+    private void initView()
+    {
         appSharedPreference = new AppSharedPreference(context);
         progressBarHandler = new ProgressBarHandler(context);
         tvAmount = (TextView) findViewById(R.id.tv_billing_amount2);
@@ -131,10 +133,16 @@ public class BillPaymentActivity extends AppCompatActivity {
         rlSaveLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (billPaymentArrayList.size() == 0) {
+                if (billPaymentArrayList.size() == 0)
+                {
                     AndroidUtils.showToast(context, "You don't have any machine.");
-                } else if (tvAmount.getText().toString().contains(new StringBuilder(getString(R.string.rupay_text)).append("  0"))) {
+                }
+                else if (tvAmount.getText().toString().contains(new StringBuilder(getString(R.string.rupay_text)).append("  0"))) {
                     AndroidUtils.showToast(context, "No machine Selected");
+                }
+                else
+                {
+                    openPayuMoneyWebview();
                 }
             }
         });
@@ -144,6 +152,7 @@ public class BillPaymentActivity extends AppCompatActivity {
             public Object getData(Object object) {
                 if((boolean) object){
                     tvAmount.setText(new StringBuilder(getString(R.string.rupay_text)).append("  ").append(calculateTotalAmountToPay()));
+
                 }
                 return null;
             }
@@ -206,9 +215,11 @@ public class BillPaymentActivity extends AppCompatActivity {
 
     private double calculateTotalAmountToPay() {
         double sum = 0;
+        selectedMachineNoArrayList.clear();
         for (int i = 0; i < billPaymentArrayList.size(); i++) {
             if (billPaymentArrayList.get(i).isSelected()) {
                 sum += Double.parseDouble(billPaymentArrayList.get(i).getMachineCost());
+                selectedMachineNoArrayList.add(billPaymentArrayList.get(i).getMachineNo());
             }
         }
         return sum;
@@ -403,7 +414,7 @@ public class BillPaymentActivity extends AppCompatActivity {
             Log.i(TAG, "Success - Payment ID : " + data.getStringExtra(Constants.PAYMENT_ID));
             String paymentId = data.getStringExtra(Constants.PAYMENT_ID);
             // showDialogMessage("Payment Success Id : " + paymentId);
-            callWebServiceMakePayment(paymentId, "true");
+          //  callWebServiceMakePayment(paymentId, "true");
 
         } else if (resultCode == RESULT_CANCELED) {
             Log.i(TAG, "failure");
@@ -467,7 +478,7 @@ public class BillPaymentActivity extends AppCompatActivity {
     }
 
 
-    private void callWebServiceMakePayment(String transactionId, String status) {
+   /* private void callWebServiceMakePayment(String transactionId, String status) {
 
         progressBarHandler.show();
 
@@ -534,41 +545,43 @@ public class BillPaymentActivity extends AppCompatActivity {
 
 
     }
-
-    /*public void openPayuMoneyWebview()
+*/
+    public void openPayuMoneyWebview()
 
     {
         String getFname,getPhone,getEmail,getAmt;
 
-        if(Validation.isNonEmptyStr(app_sharedpreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString(),"Aapka Trade")))
+        if(Validation.isNonEmptyStr(appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString(),"Aapka Trade")))
         {
-            getFname = app_sharedpreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString(), "Aapka Trade");
+            getFname = appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString(), "Aapka Trade");
         }
         else {
             getFname = "Aapka Trade";
         }
 
-        if(Validation.isNonEmptyStr(app_sharedpreference.getSharedPref(SharedPreferenceConstants.MOBILE.toString())))
+        if(Validation.isNonEmptyStr(appSharedPreference.getSharedPref(SharedPreferenceConstants.MOBILE.toString())))
         {
-            getPhone = app_sharedpreference.getSharedPref(SharedPreferenceConstants.MOBILE.toString());
+            getPhone = appSharedPreference.getSharedPref(SharedPreferenceConstants.MOBILE.toString());
         }
         else {
             getPhone = getApplicationContext().getResources().getText(R.string.customer_care_no).toString();
         }
 
-        if(Validation.isNonEmptyStr(app_sharedpreference.getSharedPref(SharedPreferenceConstants.EMAIL_ID.toString())))
+        if(Validation.isNonEmptyStr(appSharedPreference.getSharedPref(SharedPreferenceConstants.EMAIL_ID.toString())))
         {
-            getEmail = app_sharedpreference.getSharedPref(SharedPreferenceConstants.EMAIL_ID.toString());
+            getEmail = appSharedPreference.getSharedPref(SharedPreferenceConstants.EMAIL_ID.toString());
         }
         else {
             getEmail = "info@aapkatrade.com";
         }
 
-        getAmt   = tvAmount.getText().toString().replace(getApplicationContext().getResources().getText(R.string.rupay_text),"");//rechargeAmt.getText().toString().trim();
+            String jsonArrayMachineNOs = ParseUtils.ArrayListToJsonObject(selectedMachineNoArrayList);
+            AndroidUtils.showErrorLog(context, "machine_numbers", jsonArrayMachineNOs);
+
+         getAmt   = tvAmount.getText().toString().replace(getApplicationContext().getResources().getText(R.string.rupay_text),"");//rechargeAmt.getText().toString().trim();
 
         AndroidUtils.showErrorLog(context,"Fname--"+getFname +"Phone"+getPhone +"Email--"+getEmail+"Amit--"+getAmt);
 
-        String jsonArrayMachineNOs = String.valueOf(ParseUtils.ArrayListToJsonObject(selectedMachineNoArrayList));
         Intent intent = new Intent(BillPaymentActivity.this, BillPaymentPaymentGatway.class);
         intent.putExtra("FIRST_NAME",getFname);
         intent.putExtra("PHONE_NUMBER",getPhone);
@@ -580,7 +593,7 @@ public class BillPaymentActivity extends AppCompatActivity {
 
 
     }
-*/
+
 
 
 }

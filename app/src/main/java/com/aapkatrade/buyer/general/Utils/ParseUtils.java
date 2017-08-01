@@ -60,7 +60,7 @@ public class ParseUtils {
         try {
             for (int i = 0; i < arrayList.size(); i++) {
                 JSONObject jsonObject = new JSONObject();
-                jsonObject.put(String.valueOf(i), arrayList.get(i));
+                jsonObject.put("machine", arrayList.get(i));
                 jsonArray.put(jsonObject);
             }
         } catch (JSONException e) {

@@ -543,7 +543,7 @@ public class BillPaymentPaymentGatway extends Activity {
     /******************************************* closed send record to back end ************************************/
 
 
-    private void callWebServiceMakePayment(String transactionId, String status)
+    private void callWebServiceMakePayment(final String transactionId, final String status)
     {
 
         String login_url = getApplicationContext().getResources().getString(R.string.webservice_base_url) + "/payment_bill";
@@ -570,46 +570,32 @@ public class BillPaymentPaymentGatway extends Activity {
                              //  AndroidUtils.showErrorLog(context,result,"dghdfghsaf dawbnedvhaewnbedvsab dsadduyf");
                              // progressBarHandler.hide();
                              System.out.println("result--------------" + result);
+                            Log.e("resutm--",result.toString());
 
                             if (result.get("error").getAsString().contains("false"))
                             {
-                                String payment_status;
-                                JsonObject jsonObject = result.getAsJsonObject("result");
-
-                                if (result.get("payment_status").getAsString().contains("false"))
-                                {
-                                    payment_status = "false";
-                                    appSharedPreference.setSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), 0);
-                                }
-                                else
-                                {
-                                    payment_status = "true";
-                                    String cart_count = jsonObject.get("cart_item").getAsString();
-                                    appSharedPreference.setSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), Integer.valueOf(cart_count));
-                                }
 
                                 AndroidUtils.showErrorLog(BillPaymentPaymentGatway.this, result.toString());
 
                                 Intent intent = new Intent(BillPaymentPaymentGatway.this, PaymentCompletionActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                intent.putExtra("isSuccess", payment_status);
-                                intent.putExtra("vpc_Amount", jsonObject.get("amount").getAsString());
-                                intent.putExtra("vpc_TransactionNo", jsonObject.get("transactionID").getAsString());
-                                intent.putExtra("vpc_ReceiptNo", jsonObject.get("order_id").getAsString());
+                                intent.putExtra("isSuccess","true");
+                                intent.putExtra("vpc_Amount", getRechargeAmt);
+                                intent.putExtra("vpc_TransactionNo",transactionId);
+                                intent.putExtra("vpc_ReceiptNo", "");
                                 startActivity(intent);
-
 
                             }
                             else
                             {
-
                                 Intent intent = new Intent(BillPaymentPaymentGatway.this, PaymentCompletionActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 intent.putExtra("isSuccess", "false");
                                 startActivity(intent);
-
                             }
+
                             //Toast.makeText(getApplicationContext(),result.toString(),Toast.LENGTH_SHORT).show();
+
                         }
                     });
         }
