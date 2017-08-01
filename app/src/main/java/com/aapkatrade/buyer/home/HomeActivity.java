@@ -541,7 +541,7 @@ public class HomeActivity extends AppCompatActivity {
 
         chatid = appSharedPreference.getSharedPref(SharedPreferenceConstants.TEMP_CHAT_ID.toString(), "");
         AndroidUtils.showErrorLog(HomeActivity.this, "%%%%%%%%" + chatid);
-        if (chatid.contains("")) {
+        if (Validation.isEmptyStr(chatid)) {
             ChatDialogFragment serviceEnquiry = new ChatDialogFragment(context);
 
 

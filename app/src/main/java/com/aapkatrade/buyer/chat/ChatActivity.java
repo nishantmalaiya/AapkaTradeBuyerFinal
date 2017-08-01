@@ -38,13 +38,13 @@ import java.util.ArrayList;
 
 public class ChatActivity extends AppCompatActivity {
     RecyclerView recyclerView;
-   public static ChatAdapter chatAdapter;
+    public static ChatAdapter chatAdapter;
     Context context;
-   public static ArrayList<ChatDatas> chatDatas = new ArrayList<>();
+    public static ArrayList<ChatDatas> chatDatas = new ArrayList<>();
     ArrayList<ChatDatas> chatDatas2 = new ArrayList<>();
     ArrayList<ChatDatas> chatDatasN = new ArrayList<>();
     EditText etchatmessage;
-    Button btnSend;
+    ImageView btnSend;
     String chatid, chat_ids, name, message, jsonarray_string, className;
 
     public static CommonInterface commonInterface;
@@ -60,16 +60,17 @@ public class ChatActivity extends AppCompatActivity {
         chatid = getIntent().getStringExtra("chatid");
         className = getIntent().getStringExtra("className");
         AndroidUtils.showErrorLog(context, "className", className);
+        chatDatas.clear();
+        setupToolBar();
 
+        initView();
 
+        setupRecyclerView();
         if (getIntent().getStringExtra("jsonarray_string") != null) {
             jsonarray_string = getIntent().getStringExtra("jsonarray_string");
             AndroidUtils.showErrorLog(context, "jsonarray_string", jsonarray_string);
             try {
                 JSONArray list = new JSONArray(jsonarray_string.toString());
-
-
-
 
 
                 for (int k = 0; k < list.length(); k++) {
@@ -78,48 +79,47 @@ public class ChatActivity extends AppCompatActivity {
                     JSONObject jsonObject = list.getJSONObject(k);
 
                     String message = jsonObject.get("msg").toString();
-                    name = jsonObject.get("name_support").toString();
+                    //name = jsonObject.get("name_support").toString();
                     String user_id = jsonObject.get("user_id").toString();
                     chat_ids = jsonObject.get("chat_id").toString();
 
                     boolean you;
 
                     if (user_id.contains("1")) {
-
+                        name = "Admin";
                         you = true;
 
 
                     } else {
-
+                        name = "You";
                         you = false;
 
                     }
                     long time = Long.parseLong(jsonObject.get("time").toString());
 
                     chatDatas.add(new ChatDatas(message, name, time, you));
-                    chatAdapter = new ChatAdapter(context, chatDatas);
+                    //  chatAdapter = new ChatAdapter(context, chatDatas);
                     chatAdapter.notifyDataSetChanged();
 
+
                 }
+
+                recyclerView.smoothScrollToPosition(chatDatas.size());
+
             } catch (JSONException e) {
-                e.printStackTrace();
+
+                AndroidUtils.showErrorLog(context, "JsonProblem in Activity", e.toString());
+
             }
 
         }
 
-if(getIntent().getStringExtra("name")!=null ||getIntent().getStringExtra("message")!=null)
-{
-    name = getIntent().getStringExtra("name");
-    message = getIntent().getStringExtra("message");
-}
+       /* if (getIntent().getStringExtra("name") != null || getIntent().getStringExtra("message") != null) {
+            name = "You";
+            message = getIntent().getStringExtra("message");
+        }*/
 
 
-
-        setupToolBar();
-
-        initView();
-
-        setupRecyclerView();
         if (className.contains("HomeActivity")) {
 
             initChat();
@@ -136,7 +136,8 @@ if(getIntent().getStringExtra("name")!=null ||getIntent().getStringExtra("messag
 
                 chatDatas2 = (ArrayList<ChatDatas>) object;
 
-                chatDatas.add(new ChatDatas(chatDatas2.get(0).message, chatDatas2.get(0).name, chatDatas2.get(0).timestamp, false));
+                chatDatas.add(new ChatDatas(chatDatas2.get(0).message, chatDatas2.get(0).name, chatDatas2.get(0).timestamp, true));
+                //chatAdapter = new ChatAdapter(context, chatDatas);
                 chatAdapter.notifyDataSetChanged();
                 recyclerView.smoothScrollToPosition(chatDatas.size());
                 AndroidUtils.showErrorLog(context, "***************", chatDatas.size() + chatDatas.toString());
@@ -197,7 +198,7 @@ if(getIntent().getStringExtra("name")!=null ||getIntent().getStringExtra("messag
 
                             AndroidUtils.showErrorLog(ChatActivity.this, "Response Chat Activity", result.toString());
 
-                            chatDatas.add(new ChatDatas(s, name, Long.parseLong("" + System.currentTimeMillis()), false));
+                            chatDatas.add(new ChatDatas(s, "You", Long.parseLong("" + System.currentTimeMillis()), false));
                             add_message(chatDatas);
 
 
@@ -214,14 +215,24 @@ if(getIntent().getStringExtra("name")!=null ||getIntent().getStringExtra("messag
     private void initView() {
         appSharedPreference = new AppSharedPreference(context);
         etchatmessage = (EditText) findViewById(R.id.et_message);
-        btnSend = (Button) findViewById(R.id.buttonSend);
+        btnSend = (ImageView) findViewById(R.id.buttonSend);
 
     }
 
 
     private void setupToolBar() {
-
         AppCompatImageView homeIcon = (AppCompatImageView) findViewById(R.id.logoWord);
+        AppCompatImageView back_imagview = (AppCompatImageView) findViewById(R.id.back_imagview);
+        back_imagview.setVisibility(View.VISIBLE);
+        back_imagview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        TextView header_name = (TextView) findViewById(R.id.header_name);
+        header_name.setVisibility(View.VISIBLE);
+        header_name.setText(getResources().getString(R.string.privacy_policy));
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         homeIcon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -234,7 +245,7 @@ if(getIntent().getStringExtra("name")!=null ||getIntent().getStringExtra("messag
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayShowTitleEnabled(false);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
             getSupportActionBar().setTitle(null);
             getSupportActionBar().setElevation(0);
         }
@@ -263,14 +274,11 @@ if(getIntent().getStringExtra("name")!=null ||getIntent().getStringExtra("messag
 
 
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
         getMenuInflater().inflate(R.menu.home_menu, menu);
-
-       
-
-
 
 
         return true;
@@ -291,7 +299,6 @@ if(getIntent().getStringExtra("name")!=null ||getIntent().getStringExtra("messag
         }
         return super.onOptionsItemSelected(item);
     }
-
 
 
 }

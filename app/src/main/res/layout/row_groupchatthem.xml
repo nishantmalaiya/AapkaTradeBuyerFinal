@@ -11,6 +11,8 @@
         android:id="@+id/textViewDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="10sp"
         android:text="Today" />
 
 
@@ -23,39 +25,78 @@
         android:weightSum="100">
 
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="7dp"
             android:layout_weight="80"
-            android:gravity=""
+
             android:orientation="vertical">
+
 
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/edit_grey_background"
-                android:orientation="vertical"
-                android:padding="7dp">
 
-                <TextView
-                    android:id="@+id/textViewName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="asdfsdafsdfa"
-                    android:textSize="16sp" />
+                android:background="@drawable/editext_background_chat_them"
+                android:id="@+id/ll_content_chat_them"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:padding="7dp"
+                android:paddingLeft="@dimen/thirty_dip"
+                android:layout_alignParentTop="true"
+                android:layout_marginRight="@dimen/twenty_dip"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/textViewName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="asdfsdafsdfa"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:textSize="10sp"
+                        android:id="@+id/textViewTime"
+                        android:layout_toRightOf="@+id/textViewName"
+                        android:textColor="#797A7F"
+                        android:layout_marginLeft="@dimen/ten_dip"
+                        android:layout_centerVertical="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="24:00 Pm" />
+
+                </RelativeLayout>
+
+
 
                 <TextView
                     android:id="@+id/textViewMessage"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="asdfsadf"
                     android:textSize="14sp" />
             </LinearLayout>
+            <ImageView
+                android:id="@+id/imageView7"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+android:tint="#E9F1FE"
+android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
 
 
-        </LinearLayout>
+                android:layout_weight="1"
+                android:src="@drawable/ic_right_arrow" />
+
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="0dp"
@@ -69,14 +110,9 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_margin="4dp"
-                android:src="@drawable/ic_chat_user" />
+                android:src="@drawable/ic_profile_user" />
 
-            <TextView
-                android:textSize="10sp"
-                android:id="@+id/textViewTime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="24:00 Pm" />
+
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
