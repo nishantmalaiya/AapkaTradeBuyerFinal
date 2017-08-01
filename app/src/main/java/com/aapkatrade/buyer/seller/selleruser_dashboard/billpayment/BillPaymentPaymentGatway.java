@@ -19,6 +19,7 @@ import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.ParseUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
+import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
 import com.aapkatrade.buyer.payment.PaymentCompletionActivity;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
@@ -75,7 +76,7 @@ public class BillPaymentPaymentGatway extends Activity {
     String jsonArrayMachineNOs;
     static String getFirstName, getNumber, getEmailAddress, getRechargeAmt;
     ProgressDialog pDialog ;
-
+    ProgressBarHandler progressBarHandler;
 
 
     @SuppressLint("JavascriptInterface") @Override
@@ -86,6 +87,7 @@ public class BillPaymentPaymentGatway extends Activity {
 
         progressDialog = new ProgressDialog(activity);
 
+        progressBarHandler = new ProgressBarHandler(BillPaymentPaymentGatway.this);
 
         app_sharedpreference = new AppSharedPreference(getApplicationContext());
 
@@ -545,7 +547,7 @@ public class BillPaymentPaymentGatway extends Activity {
 
     private void callWebServiceMakePayment(final String transactionId, final String status)
     {
-
+        progressBarHandler.show();
         String login_url = getApplicationContext().getResources().getString(R.string.webservice_base_url) + "/payment_bill";
 
         System.out.println("order_number--------------" +  status + transactionId + "fgdfgb----");
@@ -575,6 +577,7 @@ public class BillPaymentPaymentGatway extends Activity {
                             if (result.get("error").getAsString().contains("false"))
                             {
 
+                                progressBarHandler.show();
                                 AndroidUtils.showErrorLog(BillPaymentPaymentGatway.this, result.toString());
 
                                 Intent intent = new Intent(BillPaymentPaymentGatway.this, PaymentCompletionActivity.class);
@@ -588,6 +591,7 @@ public class BillPaymentPaymentGatway extends Activity {
                             }
                             else
                             {
+                                progressBarHandler.hide();
                                 Intent intent = new Intent(BillPaymentPaymentGatway.this, PaymentCompletionActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 intent.putExtra("isSuccess", "false");

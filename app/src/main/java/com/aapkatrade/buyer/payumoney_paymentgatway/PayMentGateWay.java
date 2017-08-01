@@ -19,7 +19,9 @@ import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
+import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
 import com.aapkatrade.buyer.payment.PaymentCompletionActivity;
+import com.aapkatrade.buyer.seller.selleruser_dashboard.billpayment.BillPaymentPaymentGatway;
 import com.aapkatrade.buyer.user_dashboard.address.viewpager.CartCheckoutActivity;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
@@ -49,21 +51,21 @@ public class PayMentGateWay extends Activity {
 //    String merchant_key="zBxSQi"; // live
 //    String salt="ZhraT96O"; // live
 
-   String merchant_key="Gb2Yti8E"; // comapny
+  /* String merchant_key="Gb2Yti8E"; // comapny
    String salt="o7wK8tcxmC"; // comapny
+*/
 
-
-   /* String merchant_key="kYz2vV"; // test
-    String salt="zhoXe53j"; // test*/
+    String merchant_key="kYz2vV"; // test
+    String salt="zhoXe53j"; // test
 	 	String action1 ="";
-   // String base_url="https://test.payu.in";
+    String base_url="https://test.payu.in";
      //https://secure.payu.in
-    String base_url="https://secure.payu.in";//
+ //   String base_url="https://secure.payu.in";//
     int error=0;
     String hashString="";
     Map<String,String> params;
     String txnid ="";
-
+    ProgressBarHandler progressBarHandler;
     String SUCCESS_URL = "https://www.payumoney.com/mobileapp/payumoney/success.php" ; // failed
     String FAILED_URL = "https://www.payumoney.com/mobileapp/payumoney/failure.php" ;
     AppSharedPreference app_sharedpreference;
@@ -82,6 +84,7 @@ public class PayMentGateWay extends Activity {
 
         progressDialog = new ProgressDialog(activity);
 
+        progressBarHandler = new ProgressBarHandler(PayMentGateWay.this);
 
         app_sharedpreference = new AppSharedPreference(getApplicationContext());
 
@@ -539,7 +542,7 @@ public class PayMentGateWay extends Activity {
     private void callWebServiceMakePayment(String transactionId, String status)
     {
 
-       // progressBarHandler.show();
+        progressBarHandler.show();
 
         String login_url = getApplicationContext().getResources().getString(R.string.webservice_base_url) + "/make_payment";
 
@@ -563,6 +566,7 @@ public class PayMentGateWay extends Activity {
                         System.out.println("result--------------" + result);
                         if (result.get("error").getAsString().contains("false"))
                         {
+                            progressBarHandler.hide();
                             String payment_status;
                             JsonObject jsonObject = result.getAsJsonObject("result");
 
@@ -590,6 +594,7 @@ public class PayMentGateWay extends Activity {
 
 
                         } else {
+                            progressBarHandler.hide();
                             Intent intent = new Intent(PayMentGateWay.this, PaymentCompletionActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             intent.putExtra("isSuccess", "false");

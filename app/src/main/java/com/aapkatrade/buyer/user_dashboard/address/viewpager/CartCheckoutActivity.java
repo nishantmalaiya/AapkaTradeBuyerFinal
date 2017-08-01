@@ -182,12 +182,29 @@ public class CartCheckoutActivity extends AppCompatActivity
 
         cartList("0");
 
-       relativePayment.setOnClickListener(new View.OnClickListener() {
+       relativePayment.setOnClickListener(new View.OnClickListener()
+       {
             @Override
             public void onClick(View v)
             {
                 String userid = app_sharedpreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), "");
-                callwebservice__save_order(userid);
+
+                for (int i=0 ; i< cartDataArrayList.size(); i++)
+                {
+                    if (cartDataArrayList.get(i).available_status.toString().equals("false"))
+                    {
+                       AndroidUtils.showToast(context,"Please Remove Items those not deliver to this pincode");
+                        break;
+                    }
+
+                    if (i== cartDataArrayList.size()-1)
+                    {
+                        callwebservice__save_order(userid);
+                        break;
+                    }
+
+                }
+
                //     makePayment();
             }
         });

@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:text="Flower Shop"
-            android:textColor="@color/black"
+            android:textColor="@color/green"
             android:textStyle="bold"
             android:textSize="16sp"
             />
@@ -36,6 +36,7 @@
             android:layout_alignParentRight="true"
             android:text="Rs.500"
             android:textColor="@color/orange"
+            android:visibility="invisible"
             />
 
         <TextView
@@ -46,6 +47,7 @@
             android:layout_below="@+id/tvPrice"
             android:text="Music Art"
             android:layout_marginTop="5dp"
+            android:textColor="@color/black"
             />
 
         <TextView
@@ -55,7 +57,7 @@
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/tvCategoryName"
             android:text="Annu Raghav"
-
+            android:textColor="@color/black"
             />
 
         <ImageView
@@ -77,7 +79,7 @@
             android:layout_toRightOf="@+id/imgEmail"
             android:layout_marginTop="5dp"
             android:layout_marginLeft="5dp"
-            android:textColor="@color/black"
+            android:textColor="@color/orange"
             />
 
 
@@ -99,7 +101,7 @@
             android:layout_toRightOf="@+id/imgMobile"
             android:layout_marginTop="3dp"
             android:layout_marginLeft="5dp"
-            android:textColor="@color/black"
+            android:textColor="@color/orange"
             />
 
         <TextView
@@ -110,6 +112,7 @@
             android:layout_below="@+id/imgEmail"
             android:layout_alignParentRight="true"
             android:layout_marginTop="3dp"
+            android:textColor="@color/black"
             />
 
         <TextView
