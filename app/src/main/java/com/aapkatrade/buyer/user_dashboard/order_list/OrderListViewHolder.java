@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.aapkatrade.buyer.R;
@@ -17,6 +18,7 @@ public class OrderListViewHolder extends RecyclerView.ViewHolder {
     public TextView tvOrderDate, tvOrderPrice, productName;
     public Button buttonTrackOrder, buttonCancelOrder;
     public ImageView productImage, imgOrderDetail;
+    public LinearLayout buttonStripLayout;
 
     public OrderListViewHolder(View itemView) {
         super(itemView);
@@ -27,6 +29,7 @@ public class OrderListViewHolder extends RecyclerView.ViewHolder {
         tvOrderDate = (TextView) itemView.findViewById(R.id.tvOrderDate);
         tvOrderPrice = (TextView) itemView.findViewById(R.id.tvOrderPrize);
         productImage = (ImageView) itemView.findViewById(R.id.image_view);
+        buttonStripLayout = (LinearLayout) itemView.findViewById(R.id.buttonStripLayout);
         view = itemView;
     }
 }

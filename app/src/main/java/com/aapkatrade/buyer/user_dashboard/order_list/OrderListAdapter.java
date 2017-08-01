@@ -3,6 +3,7 @@ package com.aapkatrade.buyer.user_dashboard.order_list;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,6 +19,7 @@ import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
+import com.aapkatrade.buyer.user_dashboard.order_list.cancel_order_fragment.CancelOrderFragment;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
@@ -30,6 +32,7 @@ import java.util.List;
  */
 
 public class OrderListAdapter extends RecyclerView.Adapter<OrderListViewHolder> {
+    private Fragment fragment;
     private List<OrderListData> itemList;
     private Context context;
     OrderListViewHolder viewHolder;
@@ -45,6 +48,14 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListViewHolder> 
         userId = appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), "");
         progressBarHandler = new ProgressBarHandler(context);
     }
+    public OrderListAdapter(Context context, List<OrderListData> itemList, Fragment fragment) {
+        this.itemList = itemList;
+        this.context = context;
+        appSharedPreference = new AppSharedPreference(context);
+        userId = appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), "");
+        progressBarHandler = new ProgressBarHandler(context);
+        this.fragment = fragment;
+    }
 
     @Override
     public OrderListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -57,6 +68,9 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListViewHolder> 
         holder.tvOrderDate.setText(itemList.get(position).order_date);
         holder.tvOrderPrice.setText(itemList.get(position).product_price);
         holder.imgOrderDetail.setVisibility(View.GONE);
+        if(fragment!=null && fragment instanceof CancelOrderFragment){
+            holder.buttonStripLayout.setVisibility(View.GONE);
+        }
 
         AndroidUtils.setBackgroundSolidEachRadius(holder.buttonTrackOrder, context, R.color.greenshad_Order, 20, 0, 0, 20, GradientDrawable.RECTANGLE);
         AndroidUtils.setBackgroundSolidEachRadius(holder.buttonCancelOrder, context, R.color.greenshad_Order, 0, 20, 20, 0, GradientDrawable.RECTANGLE);
@@ -64,7 +78,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListViewHolder> 
         Picasso.with(context).load(itemList.get(position).image_url)
 
                 .error(R.drawable.ic_profile_user)
-                .into(holder.productImage);
+                .into (holder.productImage);
 
 
         holder.buttonCancelOrder.setOnClickListener(new View.OnClickListener() {

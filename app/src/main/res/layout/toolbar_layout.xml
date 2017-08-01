@@ -30,32 +30,21 @@
             android:visibility="gone"/>
 
 
-        <ImageView
-
-            android:layout_width="@dimen/twenty_five_dip"
-            android:layout_height="@dimen/twenty_five_dip"
-            android:layout_centerVertical="true"
-            android:adjustViewBounds="true"
-            android:id="@+id/iconHome"
-            android:layout_toRightOf="@+id/back_imagview"
-            android:scaleType="fitCenter"
-            android:layout_marginLeft="@dimen/ten_dip"
-            android:src="@drawable/ic_navigation_home" />
 
         <android.support.v7.widget.AppCompatImageView
             android:id="@+id/logoWord"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/iconHome"
-          app:srcCompat="@drawable/ic_app_logo" />
+            android:layout_toRightOf="@+id/back_imagview"
+            app:srcCompat="@drawable/ic_app_logo" />
 
 
         <TextView
             android:id="@+id/header_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/iconHome"
-            android:layout_marginLeft="@dimen/thirty_five_dip"
+            android:layout_toRightOf="@+id/logoWord"
+            android:layout_marginLeft="@dimen/five_dip"
             android:textColor="@color/white"
             android:textSize="@dimen/textsize_medium"
             android:textStyle="bold"

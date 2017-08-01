@@ -150,6 +150,7 @@ else if(user_type.contains(SharedPreferenceConstants.USER_TYPE_BUYER.toString())
                                 order_list.setAdapter(orderListAdapter);
                                 orderListAdapter.notifyDataSetChanged();
                                 progress_handler.hide();
+                                order_list.smoothScrollToPosition(orderListDatas.size());
                             }
                         }
                     }
