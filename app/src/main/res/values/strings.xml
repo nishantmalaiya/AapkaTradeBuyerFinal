@@ -246,7 +246,7 @@
     <string name="navigation">Navigation</string>
     <string name="got_it"> Thanks Got it</string>
     <string name="tap_anywhere">Tap anywhere  to dismiss</string>
-
+    <string name="some_data">V</string>
     <string name="asset_statements">[{\n  \"relation\": [\"delegate_permission/common.handle_all_urls\"],\n  \"target\": {\n    \"namespace\": \"web\",\n    \"site\": \"https://www.aapkatrade.com\",\n  }\n}]</string>
     <string name="slide_1_title">Welcome to</string>
     <string name="slide_1_description">AapkaTrade is India\'s uniques business platform where everybody can do the business</string>
