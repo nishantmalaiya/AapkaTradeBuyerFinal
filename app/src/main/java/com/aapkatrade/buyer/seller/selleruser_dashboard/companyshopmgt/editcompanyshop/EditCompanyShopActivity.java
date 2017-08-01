@@ -598,9 +598,8 @@ public class EditCompanyShopActivity extends AppCompatActivity {
     }
 
     private void setUpToolBar() {
-        ImageView homeIcon = (ImageView) findViewById(R.id.iconHome);
+        AppCompatImageView homeIcon = (AppCompatImageView) findViewById(R.id.logoWord);
         AppCompatImageView back_imagview = (AppCompatImageView) findViewById(R.id.back_imagview);
-        AndroidUtils.setImageColor(homeIcon, context, R.color.white);
         back_imagview.setVisibility(View.VISIBLE);
         back_imagview.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -807,7 +806,7 @@ public class EditCompanyShopActivity extends AppCompatActivity {
 
 
                         progressBarHandler.hide();
-                        AndroidUtils.showErrorLog(context, "city result ", result == null ? "null" : result.toString());
+                        AndroidUtils.showErrorLog(context, "city result ", result == null ? "null" : result);
 
                         if (result != null) {
                             JsonArray jsonResultArray = result.getAsJsonArray("result");
@@ -940,12 +939,12 @@ public class EditCompanyShopActivity extends AppCompatActivity {
                             public void onCompleted(Exception e, JsonObject result) {
                                 progressBarHandler.hide();
                                 if (result != null) {
-                                    AndroidUtils.showErrorLog(context, "result::::::", result.toString());
+                                    AndroidUtils.showErrorLog(context, "result::::::", result);
                                     if (result.get("error").getAsString().equalsIgnoreCase("false")) {
                                         if (Validation.containsIgnoreCase(result.get("message").getAsString(), "successfully updated")) {
-                                            AndroidUtils.showErrorLog(context, "result:::success:::", result.toString());
+                                            AndroidUtils.showErrorLog(context, "result:::success:::", result);
                                             AndroidUtils.showToast(context, result.get("message").getAsString());
-                                            doExitReveal(findViewById(R.id.mainLayout), false);
+                                            doExitReveal(false);
 
                                         } else {
                                             AndroidUtils.showErrorLog(context, "error::::::TRUE");
@@ -999,12 +998,12 @@ public class EditCompanyShopActivity extends AppCompatActivity {
                             public void onCompleted(Exception e, JsonObject result) {
                                 progressBarHandler.hide();
                                 if (result != null) {
-                                    AndroidUtils.showErrorLog(context, "result::::::", result.toString());
+                                    AndroidUtils.showErrorLog(context, "result::::::", result);
                                     if (result.get("error").getAsString().equalsIgnoreCase("false")) {
                                         if (Validation.containsIgnoreCase(result.get("message").getAsString(), "successfully updated")) {
-                                            AndroidUtils.showErrorLog(context, "result:::success:::", result.toString());
+                                            AndroidUtils.showErrorLog(context, "result:::success:::", result);
                                             AndroidUtils.showToast(context, result.get("message").getAsString());
-                                            doExitReveal(findViewById(R.id.mainLayout), false);
+                                            doExitReveal(false);
 
                                         } else {
                                             AndroidUtils.showErrorLog(context, "error::::::TRUE");
@@ -1060,12 +1059,12 @@ public class EditCompanyShopActivity extends AppCompatActivity {
                             public void onCompleted(Exception e, JsonObject result) {
                                 progressBarHandler.hide();
                                 if (result != null) {
-                                    AndroidUtils.showErrorLog(context, "result::::::", result.toString());
+                                    AndroidUtils.showErrorLog(context, "result::::::", result);
                                     if (result.get("error").getAsString().equalsIgnoreCase("false")) {
                                         if (Validation.containsIgnoreCase(result.get("message").getAsString().toLowerCase(), "successfully added")) {
-                                            AndroidUtils.showErrorLog(context, "result:::success:::", result.toString());
+                                            AndroidUtils.showErrorLog(context, "result:::success:::", result);
                                             AndroidUtils.showToast(context, result.get("message").getAsString());
-                                            doExitReveal(findViewById(R.id.mainLayout), false);
+                                            doExitReveal(false);
                                         } else {
                                             AndroidUtils.showErrorLog(context, "error::::::TRUE");
                                         }
@@ -1118,12 +1117,12 @@ public class EditCompanyShopActivity extends AppCompatActivity {
                             public void onCompleted(Exception e, JsonObject result) {
                                 progressBarHandler.hide();
                                 if (result != null) {
-                                    AndroidUtils.showErrorLog(context, "result::::::", result.toString());
+                                    AndroidUtils.showErrorLog(context, "result::::::", result);
                                     if (result.get("error").getAsString().equalsIgnoreCase("false")) {
                                         if (Validation.containsIgnoreCase(result.get("message").getAsString().toLowerCase(), "successfully added")) {
-                                            AndroidUtils.showErrorLog(context, "result:::success:::", result.toString());
+                                            AndroidUtils.showErrorLog(context, "result:::success:::", result);
                                             AndroidUtils.showToast(context, result.get("message").getAsString());
-                                            doExitReveal(findViewById(R.id.mainLayout), false);
+                                            doExitReveal(false);
                                         } else {
                                             AndroidUtils.showErrorLog(context, "error::::::TRUE");
                                         }
@@ -1141,52 +1140,19 @@ public class EditCompanyShopActivity extends AppCompatActivity {
         }
     }
 
-    void doExitReveal(final View view, final boolean isBack) {
-
-        int centerX = view.getLeft();
-        int centerY = view.getTop();
-
-        int startRadius = 0;
-        // get the final radius for the clipping circle
-        int endRadius = Math.max(view.getWidth(), view.getHeight());
-
-        // create the animator for this view (the start radius is zero)
-        Animator anim = null;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            anim = ViewAnimationUtils.createCircularReveal(view,
-                    centerX, centerY, startRadius, endRadius);
+    void doExitReveal(final boolean isBack) {
+        if (!isBack) {
+            Intent bankDetails = new Intent(context, CompanyShopManagementActivity.class);
+            bankDetails.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            context.startActivity(bankDetails);
+        } else {
+            finish();
         }
-        if (anim != null) {
-            anim.setDuration(1000);
-            // make the view invisible when the animation is done
-            anim.addListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    super.onAnimationEnd(animation);
-                    if (!isBack) {
-                        Intent bankDetails = new Intent(context, CompanyShopManagementActivity.class);
-                        bankDetails.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        context.startActivity(bankDetails);
-                    } else {
-                        finish();
-                    }
-                }
-            });
-            view.animate().alpha(1.0f).setDuration(2000).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    super.onAnimationEnd(animation);
-
-                }
-            });
-            anim.start();
-        }
-
     }
 
     @Override
     public void onBackPressed() {
-        doExitReveal(findViewById(R.id.mainLayout), true);
+        doExitReveal(true);
     }
 
     private void setupRecyclerView() {

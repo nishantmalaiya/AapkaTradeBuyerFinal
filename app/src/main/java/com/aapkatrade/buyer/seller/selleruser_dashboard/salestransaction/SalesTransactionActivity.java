@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -367,10 +368,9 @@ public class SalesTransactionActivity extends AppCompatActivity implements TimeP
 
 
     private void setUpToolBar() {
-        ImageView homeIcon = (ImageView) findViewById(R.id.iconHome);
+        AppCompatImageView homeIcon = (AppCompatImageView) findViewById(R.id.logoWord);
         ImageView back_imagview = (ImageView) findViewById(R.id.back_imagview);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        AndroidUtils.setImageColor(homeIcon, context, R.color.white);
         back_imagview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -235,7 +235,7 @@ public class PaymentActivity extends AppCompatActivity implements TabLayout.OnTa
     }
 
     private void setUpToolBar() {
-        ImageView homeIcon = (ImageView) findViewById(R.id.iconHome);
+        AppCompatImageView homeIcon = (AppCompatImageView) findViewById(R.id.logoWord);
         AppCompatImageView back_imagview = (AppCompatImageView) findViewById(R.id.back_imagview);
 
         back_imagview.setVisibility(View.VISIBLE);
@@ -262,13 +262,11 @@ public class PaymentActivity extends AppCompatActivity implements TabLayout.OnTa
                         .show();
             }
         });
-        findViewById(R.id.logoWord).setVisibility(View.GONE);
 
         TextView header_name = (TextView) findViewById(R.id.header_name);
         header_name.setVisibility(View.VISIBLE);
         header_name.setText(getResources().getString(R.string.select_payment_mode_title));
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        AndroidUtils.setImageColor(homeIcon, context, R.color.white);
         homeIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

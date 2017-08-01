@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -364,8 +365,7 @@ public class GoogleMapActivity extends AppCompatActivity implements OnMapReadyCa
 
     private void setUpToolBar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        ImageView homeIcon = (ImageView) findViewById(R.id.iconHome);
-        AndroidUtils.setImageColor(homeIcon, context, R.color.white);
+        AppCompatImageView homeIcon = (AppCompatImageView) findViewById(R.id.logoWord);
         homeIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

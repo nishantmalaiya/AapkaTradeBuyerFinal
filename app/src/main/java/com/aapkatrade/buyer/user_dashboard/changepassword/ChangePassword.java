@@ -154,7 +154,7 @@ public class ChangePassword extends AppCompatActivity {
     }
 
     private void setUpToolBar() {
-        ImageView homeIcon = (ImageView) findViewById(R.id.iconHome);
+        AppCompatImageView homeIcon = (AppCompatImageView) findViewById(R.id.logoWord);
         AppCompatImageView back_imagview = (AppCompatImageView) findViewById(R.id.back_imagview);
         back_imagview.setVisibility(View.VISIBLE);
         back_imagview.setOnClickListener(new View.OnClickListener() {
@@ -163,12 +163,10 @@ public class ChangePassword extends AppCompatActivity {
                 finish();
             }
         });
-        findViewById(R.id.logoWord).setVisibility(View.GONE);
         TextView header_name = (TextView) findViewById(R.id.header_name);
         header_name.setVisibility(View.VISIBLE);
         header_name.setText(getResources().getString(R.string.change_password_heading));
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        AndroidUtils.setImageColor(homeIcon, context, R.color.white);
         homeIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

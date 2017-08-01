@@ -6,6 +6,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -96,10 +97,9 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void setUpToolBar() {
-        ImageView homeIcon = (ImageView) findViewById(R.id.iconHome);
+        AppCompatImageView homeIcon = (AppCompatImageView) findViewById(R.id.logoWord);
         findViewById(R.id.logoWord).setVisibility(View.INVISIBLE);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        AndroidUtils.setImageColor(homeIcon, context, R.color.white);
         homeIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

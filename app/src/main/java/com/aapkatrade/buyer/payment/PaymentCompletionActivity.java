@@ -6,6 +6,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -108,10 +109,9 @@ public class PaymentCompletionActivity extends AppCompatActivity {
     }
 
     private void setUpToolBar() {
-        ImageView homeIcon = (ImageView) findViewById(R.id.iconHome);
+        AppCompatImageView homeIcon = (AppCompatImageView) findViewById(R.id.logoWord);
         ImageView back_imagview = (ImageView) findViewById(R.id.back_imagview);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        AndroidUtils.setImageColor(homeIcon, context, R.color.white);
         back_imagview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

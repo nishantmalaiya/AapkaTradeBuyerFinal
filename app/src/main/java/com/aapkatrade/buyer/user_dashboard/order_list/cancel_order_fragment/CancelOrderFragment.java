@@ -124,7 +124,7 @@ public class CancelOrderFragment extends Fragment {
                                 }
 
 
-                                orderListAdapter = new OrderListAdapter(getActivity(), orderListDatas);
+                                orderListAdapter = new OrderListAdapter(getActivity(), orderListDatas, CancelOrderFragment.this);
                                 order_list.setAdapter(orderListAdapter);
                                 orderListAdapter.notifyDataSetChanged();
                                 progress_handler.hide();

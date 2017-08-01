@@ -144,6 +144,7 @@
             </RelativeLayout>
 
             <LinearLayout
+                android:id="@+id/buttonStripLayout"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/fourty_dip"
                 android:layout_below="@+id/relativeContainer"
