@@ -24,6 +24,8 @@ import com.aapkatrade.buyer.general.ConnetivityCheck;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
+import com.aapkatrade.buyer.shopdetail.ShopDetailActivity;
+import com.aapkatrade.buyer.shopdetail.productdetail.ProductDetailActivity;
 import com.google.gson.JsonObject;
 import com.hedgehog.ratingbar.RatingBar;
 import com.koushikdutta.async.future.FutureCallback;
@@ -43,6 +45,7 @@ public class RateUsActivity extends AppCompatActivity {
     private ImageView imgProduct;
     public static float rating_count;
     private CoordinatorLayout coordinationRateus;
+    private boolean isShopDetail = false;
 
 
     @Override
@@ -56,6 +59,8 @@ public class RateUsActivity extends AppCompatActivity {
         Bundle b = intent.getExtras();
 
         product_id = b.getString("product_id");
+
+        isShopDetail = b.getBoolean("isShopDetail");
 
         product_name = b.getString("product_name");
 
@@ -219,14 +224,24 @@ public class RateUsActivity extends AppCompatActivity {
                                 if (message.equals("Your review already submitted!")) {
                                     progress_handler.hide();
                                     AndroidUtils.showSnackBar(coordinationRateus, message);
-
+                                    AndroidUtils.showToast(context, message);
                                 } else {
                                     progress_handler.hide();
                                     etMessage.setText("");
                                     etTitle.setText("");
                                     AndroidUtils.showSnackBar(coordinationRateus, message);
                                 }
-                                finish();
+                                Intent intent = null;
+
+                                 if(isShopDetail){
+                                     intent= new Intent(context, ShopDetailActivity.class);
+                                     intent.putExtra("product_id", product_id);
+                                 } else {
+                                     intent= new Intent(context, ProductDetailActivity.class);
+                                     intent.putExtra("productId", product_id);
+                                 }
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intent);
                             }
                         }
 

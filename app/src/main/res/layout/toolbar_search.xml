@@ -23,15 +23,15 @@
 
         <ImageView
             android:id="@+id/imgvew_home_icon"
-            android:layout_width="@dimen/twenty_five_dip"
-            android:layout_height="@dimen/twenty_five_dip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
 
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
 
-            android:src="@drawable/ic_navigation_home" />
+            app:srcCompat="@drawable/ic_app_logo" />
 
 
         <RelativeLayout
