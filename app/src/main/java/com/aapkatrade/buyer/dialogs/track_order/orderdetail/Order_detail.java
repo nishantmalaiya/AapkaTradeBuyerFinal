@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -143,7 +144,7 @@ public class Order_detail extends AppCompatActivity {
                     String product_price_order = jsonObject_product.get("product_price").toString();
                     String product_net_price = jsonObject_product.get("product_net_price").toString();
                     String discount = jsonObject_product.get("discount").toString();
-                    String image_url = jsonObject_product.get("imageUrl").toString();
+                    String image_url = jsonObject_product.get("image_url").toString();
                     String product_id = jsonObject_product.get("product_id").toString();
                     imageUrlArrayList.add(image_url);
 
@@ -180,9 +181,8 @@ public class Order_detail extends AppCompatActivity {
 
 
     private void setUpToolBar() {
-        ImageView homeIcon = (ImageView) findViewById(R.id.iconHome);
+        AppCompatImageView homeIcon = (AppCompatImageView) findViewById(R.id.logoWord);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        AndroidUtils.setImageColor(homeIcon, context, R.color.white);
         homeIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

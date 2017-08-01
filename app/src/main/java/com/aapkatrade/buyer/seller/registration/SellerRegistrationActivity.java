@@ -15,15 +15,18 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -538,9 +541,8 @@ public class SellerRegistrationActivity extends AppCompatActivity implements Tim
 
     private void setUpToolBar() {
 
-        ImageView homeIcon = (ImageView) findViewById(R.id.iconHome);
+        AppCompatImageView homeIcon = (AppCompatImageView) findViewById(R.id.logoWord);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        AndroidUtils.setImageColor(homeIcon, context, R.color.white);
         homeIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -645,150 +647,112 @@ public class SellerRegistrationActivity extends AppCompatActivity implements Tim
         //// Business Detail
 
         customCardViewHeaderBusinessDetail = (CustomCardViewHeader) findViewById(R.id.customCardviewBusinessDetails);
-
         llSellerBusinessDetailContainer = (LinearLayout) findViewById(R.id.llSellerBusinessDetailContainer);
+
+        customCardViewHeaderPersonalDetail = (CustomCardViewHeader) findViewById(R.id.customCardviewPersonalDetails);
+        llSellerPersonalDetailContainer = (LinearLayout) findViewById(R.id.llSellerPersonalDetailContainer);
+
+        customCardViewHeaderSignUpDetails = (CustomCardViewHeader) findViewById(R.id.customCardviewHeader_newUser);
+        llSellerUserDetailContainer = (LinearLayout) findViewById(R.id.llSellerUserDetailContainer);
+
+        customCardViewHeaderBusinessDetail.setImageRightRotation(180);
+        Animations.expand(llSellerBusinessDetailContainer, 300);
+
+        customCardViewHeaderPersonalDetail.setImageRightRotation(0);
+        Animations.collapse(llSellerPersonalDetailContainer, 300);
+
+        customCardViewHeaderSignUpDetails.setImageRightRotation(0);
+        Animations.collapse(llSellerUserDetailContainer, 300);
 
         customCardViewHeaderBusinessDetail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (llSellerBusinessDetailContainer.getVisibility() == View.VISIBLE) {
-                    customCardViewHeaderBusinessDetail.setImageRightRotation(180);
+                    customCardViewHeaderBusinessDetail.setImageRightRotation(0);
                     Animations.collapse(llSellerBusinessDetailContainer, 300);
                 } else {
-                    customCardViewHeaderBusinessDetail.setImageRightRotation(0);
+                    customCardViewHeaderBusinessDetail.setImageRightRotation(180);
                     Animations.expand(llSellerBusinessDetailContainer, 300);
+
+                    customCardViewHeaderPersonalDetail.setImageRightRotation(0);
+                    Animations.collapse(llSellerPersonalDetailContainer, 300);
+
+                    customCardViewHeaderSignUpDetails.setImageRightRotation(0);
+                    Animations.collapse(llSellerUserDetailContainer, 300);
                 }
             }
         });
-
-
-/////////////// personal Detail
-
-        customCardViewHeaderPersonalDetail = (CustomCardViewHeader) findViewById(R.id.customCardviewPersonalDetails);
-
-        llSellerPersonalDetailContainer = (LinearLayout) findViewById(R.id.llSellerPersonalDetailContainer);
 
         customCardViewHeaderPersonalDetail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (llSellerPersonalDetailContainer.getVisibility() == View.VISIBLE) {
-                    customCardViewHeaderPersonalDetail.setImageRightRotation(180);
-                    Animations.collapse(llSellerPersonalDetailContainer, 300);
-                } else {
                     customCardViewHeaderPersonalDetail.setImageRightRotation(0);
-                    Animations.expand(llSellerPersonalDetailContainer, 300);
-                }
-            }
-        });
-/*
-
-        customCardViewHeaderPersonalDetail = (CustomCardViewHeader) findViewById(R.id.customCardviewPersonalDetails);
-        collapseoropenim_personal = (ImageView) customCardViewHeaderPersonalDetail.findViewById(R.id.cardview_header_icon_right);
-
-        llSellerPersonalDetailContainer = (LinearLayout) findViewById(R.id.llSellerPersonalDetailContainer);
-
-        collapseoropenim_personal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (llSellerPersonalDetailContainer.getVisibility() == View.VISIBLE) {
-                    collapseoropenim_personal.setImageDrawable(ContextCompat.getDrawable(SellerRegistrationActivity.this, R.drawable.ic_down));
-                    Animations.expand(llSellerPersonalDetailContainer, 300);
-                } else {
-
                     Animations.collapse(llSellerPersonalDetailContainer, 300);
-                    collapseoropenim_personal.setImageDrawable(ContextCompat.getDrawable(SellerRegistrationActivity.this, R.drawable.ic_up_arrow));
+                } else {
+                    customCardViewHeaderPersonalDetail.setImageRightRotation(180);
+                    Animations.expand(llSellerPersonalDetailContainer, 300);
+
+                    customCardViewHeaderBusinessDetail.setImageRightRotation(0);
+                    Animations.collapse(llSellerBusinessDetailContainer, 300);
+
+                    customCardViewHeaderSignUpDetails.setImageRightRotation(0);
+                    Animations.collapse(llSellerUserDetailContainer, 300);
                 }
-
             }
         });
-
-        ((EditText) findViewById(R.id.etFirstName)).addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                if (llSellerBusinessDetailContainer.getVisibility() == View.VISIBLE)
-
-                    llSellerBusinessDetailContainer.setVisibility(View.GONE);
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-        ((EditText) findViewById(R.id.etEmail)).addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                if (llSellerBusinessDetailContainer.getVisibility() == View.VISIBLE)
-
-                    llSellerBusinessDetailContainer.setVisibility(View.GONE);
-                llSellerPersonalDetailContainer.setVisibility(View.GONE);
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-*/
-
-
-/////////////// User Detail
-
-        customCardViewHeaderSignUpDetails = (CustomCardViewHeader) findViewById(R.id.customCardviewHeader_newUser);
-
-        llSellerUserDetailContainer = (LinearLayout) findViewById(R.id.llSellerUserDetailContainer);
-
 
         customCardViewHeaderSignUpDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (llSellerUserDetailContainer.getVisibility() == View.VISIBLE) {
-                    customCardViewHeaderSignUpDetails.setImageRightRotation(180);
+                    customCardViewHeaderSignUpDetails.setImageRightRotation(0);
                     Animations.collapse(llSellerUserDetailContainer, 300);
                 } else {
-                    customCardViewHeaderSignUpDetails.setImageRightRotation(0);
+                    customCardViewHeaderSignUpDetails.setImageRightRotation(180);
                     Animations.expand(llSellerUserDetailContainer, 300);
+
+                    customCardViewHeaderBusinessDetail.setImageRightRotation(0);
+                    Animations.collapse(llSellerBusinessDetailContainer, 300);
+
+                    customCardViewHeaderPersonalDetail.setImageRightRotation(0);
+                    Animations.collapse(llSellerPersonalDetailContainer, 300);
                 }
             }
         });
 
-
-        /*customCardViewHeaderSignUpDetails = (CustomCardViewHeader) findViewById(R.id.customCardviewHeader_newUser);
-
-        collapseoropenim_user = (ImageView) customCardViewHeaderSignUpDetails.findViewById(R.id.cardview_header_icon_right);
-
-        llSellerUserDetailContainer = (LinearLayout) findViewById(R.id.llSellerUserDetailContainer);
-
-        collapseoropenim_user.setOnClickListener(new View.OnClickListener() {
+       et_tan_number.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
-            public void onClick(View v) {
-                if (llSellerUserDetailContainer.getVisibility() == View.VISIBLE) {
-                    collapseoropenim_user.setImageDrawable(ContextCompat.getDrawable(SellerRegistrationActivity.this, R.drawable.ic_down));
-                    Animations.expand(llSellerUserDetailContainer, 300);
-
-                } else {
-
-                    Animations.collapse(llSellerUserDetailContainer, 300);
-
-                    collapseoropenim_user.setImageDrawable(ContextCompat.getDrawable(SellerRegistrationActivity.this, R.drawable.ic_up_arrow));
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event){
+                if (actionId == EditorInfo.IME_ACTION_NEXT) {
+                    customCardViewHeaderPersonalDetail.performClick();
+                    return true;
                 }
-
+                return false;
             }
-        });*/
+        });
+
+        etProductName.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event){
+                if (actionId == EditorInfo.IME_ACTION_NEXT) {
+                    customCardViewHeaderPersonalDetail.performClick();
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        etReferenceNo.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event){
+                if (actionId == EditorInfo.IME_ACTION_NEXT) {
+                    customCardViewHeaderSignUpDetails.performClick();
+                    return true;
+                }
+                return false;
+            }
+        });
 
 
     }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -410,8 +411,7 @@ public class AddAddressActivity extends AppCompatActivity
     private void setuptoolbar()
     {
 
-        ImageView homeIcon = (ImageView) findViewById(R.id.iconHome);
-        findViewById(R.id.logoWord).setVisibility(View.GONE);
+        AppCompatImageView homeIcon = (AppCompatImageView) findViewById(R.id.logoWord);
 
         TextView header_name = (TextView) findViewById(R.id.header_name);
         header_name.setVisibility(View.VISIBLE);
@@ -419,7 +419,6 @@ public class AddAddressActivity extends AppCompatActivity
         header_name.setText(getResources().getString(R.string.add_address_heading));
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
-        AndroidUtils.setImageColor(homeIcon, this, R.color.white);
 
         homeIcon.setOnClickListener(new View.OnClickListener() {
             @Override

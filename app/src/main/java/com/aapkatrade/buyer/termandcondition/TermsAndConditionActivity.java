@@ -80,8 +80,7 @@ public class TermsAndConditionActivity extends AppCompatActivity {
     }
 
     private void setUpToolBar() {
-        ImageView homeIcon = (ImageView) findViewById(R.id.iconHome);
-        AndroidUtils.setImageColor(homeIcon, context, R.color.white);
+        AppCompatImageView homeIcon = (AppCompatImageView) findViewById(R.id.logoWord);
         AppCompatImageView back_imagview = (AppCompatImageView) findViewById(R.id.back_imagview);
         back_imagview.setVisibility(View.VISIBLE);
         back_imagview.setOnClickListener(new View.OnClickListener() {
@@ -90,7 +89,6 @@ public class TermsAndConditionActivity extends AppCompatActivity {
                 finish();
             }
         });
-        findViewById(R.id.logoWord).setVisibility(View.GONE);
         TextView header_name = (TextView) findViewById(R.id.header_name);
         header_name.setVisibility(View.VISIBLE);
         header_name.setText(getResources().getString(R.string.terms));

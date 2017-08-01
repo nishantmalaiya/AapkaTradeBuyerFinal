@@ -200,10 +200,6 @@ public class HomeActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setTitle(null);
-        ImageView home_link = (ImageView) toolbar.findViewById(R.id.iconHome);
-        AndroidUtils.setImageColor(home_link, context, R.color.white);
-        home_link.setVisibility(View.GONE);
-
         logoWord = (ImageView) toolbar.findViewById(R.id.logoWord);
     }
 

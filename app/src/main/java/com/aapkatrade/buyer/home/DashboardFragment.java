@@ -66,8 +66,8 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
 
     ArrayList<CommonData> commonDatas_latestpost = new ArrayList<>();
     ArrayList<CommonData> commonDatas_latestupdate = new ArrayList<>();
-    private CommonAdapter commonAdapter_latestpost, commonAdapter_latestproduct;
-    //public latestproductadapter latestproductadapter;
+    private CommonAdapter commonAdapter_latestproduct;
+    LatestDealsAdapter  commonAdapter_latestpost;
     ProgressBarHandler progress_handler;
     private int dotsCount;
     private ArrayList<String> imageIdList;
@@ -361,10 +361,11 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
                                         jsonObject_latest_post.get("country_name").getAsString();
                                 String categoryName = jsonObject_latest_post.get("category_name").getAsString();
                                 commonDatas_latestpost.add(new CommonData(product_id, product_name, "", imageurl, productlocation, categoryName));
-
+                                AndroidUtils.showErrorLog(context, "-------------888888888888888++++++++++++>>>>>",commonDatas_latestpost);
                             }
 
-                            commonAdapter_latestpost = new CommonAdapter(context, commonDatas_latestpost, "list", "latestdeals");
+
+                            commonAdapter_latestpost = new LatestDealsAdapter(context, commonDatas_latestpost);
                             recyclerLatestDeals.setAdapter(commonAdapter_latestpost);
 
 

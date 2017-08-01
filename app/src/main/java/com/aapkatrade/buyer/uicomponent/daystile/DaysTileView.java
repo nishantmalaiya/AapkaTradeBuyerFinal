@@ -160,7 +160,7 @@ public class DaysTileView extends RelativeLayout {
                                 spOpenTime.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                                     @Override
                                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                                        if (position > 0) {
+                                        if (position >= 0) {
                                             openTime = openTimingList.get(position);
                                         }
                                     }
@@ -212,7 +212,7 @@ public class DaysTileView extends RelativeLayout {
                                 spCloseTime.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                                     @Override
                                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                                        if (position > 0) {
+                                        if (position >= 0) {
                                             closeTime = closeTimingList.get(position);
                                         }
                                     }

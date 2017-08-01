@@ -19,6 +19,7 @@ import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.ParseUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
+import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
 import com.aapkatrade.buyer.payment.PaymentCompletionActivity;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
@@ -75,7 +76,7 @@ public class BillPaymentPaymentGatway extends Activity {
     String jsonArrayMachineNOs;
     static String getFirstName, getNumber, getEmailAddress, getRechargeAmt;
     ProgressDialog pDialog ;
-
+    ProgressBarHandler progressBarHandler;
 
 
     @SuppressLint("JavascriptInterface") @Override
@@ -86,6 +87,7 @@ public class BillPaymentPaymentGatway extends Activity {
 
         progressDialog = new ProgressDialog(activity);
 
+        progressBarHandler = new ProgressBarHandler(BillPaymentPaymentGatway.this);
 
         app_sharedpreference = new AppSharedPreference(getApplicationContext());
 
@@ -543,9 +545,9 @@ public class BillPaymentPaymentGatway extends Activity {
     /******************************************* closed send record to back end ************************************/
 
 
-    private void callWebServiceMakePayment(String transactionId, String status)
+    private void callWebServiceMakePayment(final String transactionId, final String status)
     {
-
+        progressBarHandler.show();
         String login_url = getApplicationContext().getResources().getString(R.string.webservice_base_url) + "/payment_bill";
 
         System.out.println("order_number--------------" +  status + transactionId + "fgdfgb----");
@@ -570,46 +572,34 @@ public class BillPaymentPaymentGatway extends Activity {
                              //  AndroidUtils.showErrorLog(context,result,"dghdfghsaf dawbnedvhaewnbedvsab dsadduyf");
                              // progressBarHandler.hide();
                              System.out.println("result--------------" + result);
+                            Log.e("resutm--",result.toString());
 
                             if (result.get("error").getAsString().contains("false"))
                             {
-                                String payment_status;
-                                JsonObject jsonObject = result.getAsJsonObject("result");
 
-                                if (result.get("payment_status").getAsString().contains("false"))
-                                {
-                                    payment_status = "false";
-                                    appSharedPreference.setSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), 0);
-                                }
-                                else
-                                {
-                                    payment_status = "true";
-                                    String cart_count = jsonObject.get("cart_item").getAsString();
-                                    appSharedPreference.setSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), Integer.valueOf(cart_count));
-                                }
-
+                                progressBarHandler.show();
                                 AndroidUtils.showErrorLog(BillPaymentPaymentGatway.this, result.toString());
 
                                 Intent intent = new Intent(BillPaymentPaymentGatway.this, PaymentCompletionActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                intent.putExtra("isSuccess", payment_status);
-                                intent.putExtra("vpc_Amount", jsonObject.get("amount").getAsString());
-                                intent.putExtra("vpc_TransactionNo", jsonObject.get("transactionID").getAsString());
-                                intent.putExtra("vpc_ReceiptNo", jsonObject.get("order_id").getAsString());
+                                intent.putExtra("isSuccess","true");
+                                intent.putExtra("vpc_Amount", getRechargeAmt);
+                                intent.putExtra("vpc_TransactionNo",transactionId);
+                                intent.putExtra("vpc_ReceiptNo", "");
                                 startActivity(intent);
-
 
                             }
                             else
                             {
-
+                                progressBarHandler.hide();
                                 Intent intent = new Intent(BillPaymentPaymentGatway.this, PaymentCompletionActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 intent.putExtra("isSuccess", "false");
                                 startActivity(intent);
-
                             }
+
                             //Toast.makeText(getApplicationContext(),result.toString(),Toast.LENGTH_SHORT).show();
+
                         }
                     });
         }

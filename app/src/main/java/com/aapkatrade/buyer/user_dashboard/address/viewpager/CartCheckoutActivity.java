@@ -21,6 +21,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.aapkatrade.buyer.general.Utils.ParseUtils;
 import com.aapkatrade.buyer.general.Validation;
 import com.aapkatrade.buyer.home.cart.CartData;
 import com.aapkatrade.buyer.R;
@@ -78,7 +79,7 @@ public class CartCheckoutActivity extends AppCompatActivity
     public static final String TAG = "PayUMoneySDK Sample";
     String order_number,phone_number;
     Button button_changeAddress;
-
+    ArrayList<String> shippingcost = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -156,9 +157,9 @@ public class CartCheckoutActivity extends AppCompatActivity
 
         tvDelivery = (TextView) findViewById(R.id.tvDelivery);
 
-        tvPriceItems.setText(getApplicationContext().getResources().getText(R.string.rupay_text) + "4251");
+        tvPriceItems.setText("");
 
-        tvAmountPayable.setText(getApplicationContext().getResources().getText(R.string.rupay_text) + "4251");
+        tvAmountPayable.setText("");
 
         AndroidUtils.setImageColor(locationImageView, context, R.color.green);
 
@@ -182,12 +183,29 @@ public class CartCheckoutActivity extends AppCompatActivity
 
         cartList("0");
 
-       relativePayment.setOnClickListener(new View.OnClickListener() {
+       relativePayment.setOnClickListener(new View.OnClickListener()
+       {
             @Override
             public void onClick(View v)
             {
                 String userid = app_sharedpreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), "");
-                callwebservice__save_order(userid);
+
+                for (int i=0 ; i< cartDataArrayList.size(); i++)
+                {
+                    if (cartDataArrayList.get(i).available_status.toString().equals("false"))
+                    {
+                       AndroidUtils.showToast(context,"Please Remove Items those not deliver to this pincode");
+                        break;
+                    }
+
+                    if (i== cartDataArrayList.size()-1)
+                    {
+                        callwebservice__save_order(userid,tvAmountPayable.getText().toString().replace(getApplicationContext().getResources().getText(R.string.rupay_text),""));
+                        break;
+                    }
+
+                }
+
                //     makePayment();
             }
         });
@@ -287,6 +305,8 @@ public class CartCheckoutActivity extends AppCompatActivity
                                     String available_status = jsonproduct.get("available_status").getAsString();
                                     String shipping_cost = jsonproduct.get("shipping_cost").getAsString();
 
+                                    shippingcost.add(shipping_cost);
+
                                     cartDataArrayList.add(new CartData(Id, productName, productqty, price, productImage, product_id, subtotal_price,available_status,shipping_cost));
                                 }
                                 RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
@@ -307,10 +327,15 @@ public class CartCheckoutActivity extends AppCompatActivity
     }
 
 
-    private void callwebservice__save_order(String buyer_id)
+    private void callwebservice__save_order(String buyer_id,String total_amount)
     {
+        //AndroidUtils.showToast(context,total_amount);
+        String jsonArrayShippingCharge = ParseUtils.ShippingChargeArrayListToJsonObject(shippingcost);
+
+        AndroidUtils.showErrorLog(context,jsonArrayShippingCharge);
 
         progressBarHandler.show();
+
         String user_id = app_sharedpreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), "notlogin");
         String login_url = context.getResources().getString(R.string.webservice_base_url) + "/save_order";
         Ion.with(context)
@@ -319,15 +344,18 @@ public class CartCheckoutActivity extends AppCompatActivity
                 .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                 .setBodyParameter("buyer_id", buyer_id)
                 .setBodyParameter("user_id",user_id)
+                .setBodyParameter("total_amount",total_amount)
+                .setBodyParameter("shipping_charge_json",jsonArrayShippingCharge)
                 .setBodyParameter("device_id", AppConfig.getCurrentDeviceId(context))
-                .asJsonObject()
-                .setCallback(new FutureCallback<JsonObject>() {
+                .asString()
+                .setCallback(new FutureCallback<String>() {
                     @Override
-                    public void onCompleted(Exception e, JsonObject result) {
+                    public void onCompleted(Exception e, String result)
+                    {
                         //  AndroidUtils.showErrorLog(context,result,"dghdfghsaf dawbnedvhaewnbedvsab dsadduyf");
-                       // System.out.println("result-----------" + result.toString());
+                       System.out.println("result-----------" + result.toString());
 
-                        String message = result.get("message").getAsString();
+                        /*String message = result.get("message").getAsString();
                         if (message.equals("Order Saved Successfully!"))
                         {
 
@@ -341,7 +369,7 @@ public class CartCheckoutActivity extends AppCompatActivity
                         {
                             progressBarHandler.hide();
                             AndroidUtils.showToast(context, message );
-                        }
+                        }*/
 
                     }
                 });
