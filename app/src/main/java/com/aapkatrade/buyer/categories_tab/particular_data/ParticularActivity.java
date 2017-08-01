@@ -158,7 +158,6 @@ public class ParticularActivity extends AppCompatActivity {
                                 categoriesListAdapter = new CategoriesListAdapter(ParticularActivity.this, shopListDatas);
                                 myRecyclerViewEffect = new MyRecyclerViewEffect(ParticularActivity.this);
                                 mRecyclerView.setAdapter(categoriesListAdapter);
-                                listfootername.setText(shopListDatas.get(0).shopCategory);
 
                             }
 ////                                categoriesListAdapter = new BillPaymentAdapter(ParticularActivity.this, productListDatas);
@@ -188,7 +187,6 @@ public class ParticularActivity extends AppCompatActivity {
             }
         });
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        AndroidUtils.setImageColor(homeIcon, context, R.color.white);
         homeIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

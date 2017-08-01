@@ -138,7 +138,7 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
 
         product_id = b.getString("product_id");
 
-        Log.e("product_id", product_id);
+        AndroidUtils.showErrorLog(context, "product_id", product_id);
 
 
         progressBarHandler = new ProgressBarHandler(context);
@@ -167,7 +167,7 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
         AndroidUtils.showErrorLog(context, "data_productdetail", getResources().getString(R.string.webservice_base_url) + "     " + product_id);
 
         Ion.with(getApplicationContext())
-                .load(getResources().getString(R.string.webservice_base_url) + "/shop_detail/" + product_id)
+                .load(getResources().getString(R.string.webservice_base_url).concat("/shop_detail/").concat(product_id))
                 .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                 .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                 //.setBodyParameter("id", "0")
@@ -176,8 +176,8 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
                     @Override
                     public void onCompleted(Exception e, JsonObject result) {
                         if (result != null) {
-                            Log.e("result---------", result.toString());
-                            JsonObject json_result = result.getAsJsonObject("result");
+                            AndroidUtils.showErrorLog(context, "result---------", result);
+                            JsonObject json_result = result.get("result").getAsJsonObject();
                             shopId = json_result.get("id").getAsString();
                             JsonObject json_total_rating = result.getAsJsonObject("total_rating");
                             String avg_rating = json_total_rating.get("avg_rating").getAsString();
@@ -426,6 +426,7 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
                         AndroidUtils.showToast(context, "Only buyer can rate or write reviews");
                     } else {
                         Intent rate_us = new Intent(ShopDetailActivity.this, RateUsActivity.class);
+                        rate_us.putExtra("isShopDetail", true);
                         rate_us.putExtra("product_id", product_id);
                         rate_us.putExtra("product_name", tvshopName.getText().toString());
                         rate_us.putExtra("product_price", "");
