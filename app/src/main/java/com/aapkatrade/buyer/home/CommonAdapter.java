@@ -41,8 +41,7 @@ import java.util.ArrayList;
 /**
  * Created by Shankit on 7/25/2016.
  */
-public class CommonAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
-{
+public class CommonAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public Context context;
     private ArrayList<CommonData> commonDatas;
@@ -55,9 +54,7 @@ public class CommonAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private ProgressBarHandler progressBarHandler;
 
 
-
-    public CommonAdapter(Context context, ArrayList<CommonData> commonDatas, String arrangementtype, String categorytype)
-    {
+    public CommonAdapter(Context context, ArrayList<CommonData> commonDatas, String arrangementtype, String categorytype) {
         this.context = context;
         this.commonDatas = commonDatas;
         this.arrangementtype = arrangementtype;
@@ -68,13 +65,12 @@ public class CommonAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         appSharedPreference = new AppSharedPreference(context);
         progressBarHandler = new ProgressBarHandler(context);
 
-        System.out.println("search_list----------"+arrangementtype);
+        System.out.println("search_list----------" + arrangementtype);
 
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
-    {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         CommonHolder viewHolder1;
         CommonHolderGrid viewHolder2;
@@ -82,36 +78,27 @@ public class CommonAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         CategoriesListHolder categoriesListHolder;
 
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        if (arrangementtype .equals("list"))
-        {
+        if (arrangementtype.equals("list1")) {
             v = inflater.inflate(R.layout.row_dashboard, parent, false);
             viewHolder2 = new CommonHolderGrid(v);
             return viewHolder2;
-        }
-        else if (arrangementtype.equals("search_list"))
-        {
+        } else if (arrangementtype.equals("search_list")) {
 
             System.out.println("search_list-------------");
             v = inflater.inflate(R.layout.product_list_item2, parent, false);
             categoriesListHolder = new CategoriesListHolder(v);
             return categoriesListHolder;
 
-        }
-        else if (arrangementtype.equals("list_product"))
-        {
+        } else if (arrangementtype.equals("list_product")) {
             v = inflater.inflate(R.layout.row_dashboard_product_track_list, parent, false);
 
             viewHolder_listProduct = new CommonHolder_listProduct(v);
             return viewHolder_listProduct;
-        }
-        else if (arrangementtype.equals("OrderedProductList"))
-        {
+        } else if (arrangementtype.equals("OrderedProductList")) {
             v = inflater.inflate(R.layout.activity_order, parent, false);
             viewHolder_listProduct = new CommonHolder_listProduct(v);
             return viewHolder_listProduct;
-        }
-        else
-        {
+        } else {
             v = inflater.inflate(R.layout.row_dashboard_grid, parent, false);
             viewHolder1 = new CommonHolder(v);
             return viewHolder1;
@@ -121,14 +108,16 @@ public class CommonAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder viewholder, final int position)
-    {
-        if (arrangementtype.equals("list"))
-        {
+    public void onBindViewHolder(RecyclerView.ViewHolder viewholder, final int position) {
+        if (arrangementtype.equals("list1")) {
 
+            AndroidUtils.showErrorLog(context, "------->>>>>>>>>&&&&&&&&"+commonDatas.size(), commonDatas.get(position));
             final CommonHolder holder = new CommonHolder(v);
-
-            if (Tabletsize.isTablet(context)) {
+            Ion.with(holder.cimageview)
+                    .error(ContextCompat.getDrawable(context, R.drawable.ic_applogo1))
+                    .placeholder(ContextCompat.getDrawable(context, R.drawable.ic_applogo1))
+                    .load(commonDatas.get(position).imageurl);
+        /*    if (Tabletsize.isTablet(context)) {
                 Picasso.with(context)
                         .load(commonDatas.get(position).imageurl)
                         .error(R.drawable.banner)
@@ -161,7 +150,7 @@ public class CommonAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         .load(product_imageurl);
 
                 Log.e("image_small", "image_small");
-            }
+            }*/
 
 
             Log.e("imageurl", commonDatas.get(0).imageurl);
@@ -181,9 +170,7 @@ public class CommonAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             });
             holder.tvProductName.setText(commonDatas.get(position).name);
 
-        }
-        else if (arrangementtype.equals("search_list"))
-        {
+        } else if (arrangementtype.equals("search_list")) {
 
             final CategoriesListHolder homeHolder = new CategoriesListHolder(v);
 
@@ -204,7 +191,7 @@ public class CommonAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         .error(ContextCompat.getDrawable(context, R.drawable.ic_applogo1))
                         .placeholder(ContextCompat.getDrawable(context, R.drawable.ic_applogo1))
                         .load(product_imageurl);
-                Log.e("image_large", "image_large"+product_imageurl);
+                Log.e("image_large", "image_large" + product_imageurl);
 
             } else if (Tabletsize.isMedium(context)) {
                 String product_imageurl = commonDatas.get(position).imageurl == null ? "" : commonDatas.get(position).imageurl.replace("small", "medium");
@@ -256,16 +243,13 @@ public class CommonAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
                     boolean permission_status = CheckPermission.checkPermissions((Activity) context);
 
-                    if (permission_status)
-                    {
+                    if (permission_status) {
 
                         LocationManagerCheck locationManagerCheck = new LocationManagerCheck(context);
                         Location location = null;
-                        if (locationManagerCheck.isLocationServiceAvailable())
-                        {
+                        if (locationManagerCheck.isLocationServiceAvailable()) {
 
-                            if (Looper.myLooper() == null)
-                            {
+                            if (Looper.myLooper() == null) {
                                 Looper.prepare();
 
                             }
@@ -289,8 +273,7 @@ public class CommonAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             });
 
 
-        }
-        else if (  arrangementtype.equals("list_product")   ) {
+        } else if (arrangementtype.equals("list_product")) {
 
 
             final CommonHolder_listProduct viewHolder_listProduct = new CommonHolder_listProduct(v);
@@ -348,13 +331,10 @@ public class CommonAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 @Override
                 public void onClick(View v) {
 
-                    if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), "").equals("2"))
-                    {
-                        AndroidUtils.showToast(context,"Oops Not Buyer Account");
+                    if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), "").equals("2")) {
+                        AndroidUtils.showToast(context, "Oops Not Buyer Account");
 
-                    }
-                    else
-                        {
+                    } else {
                         String product_id = commonDatas.get(position).id;
                         String product_name = commonDatas.get(position).name;
                         String price = commonDatas.get(position).price;
@@ -366,11 +346,10 @@ public class CommonAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             });
             viewHolder_listProduct.product_addcard.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v)
-                {
+                public void onClick(View v) {
 
                     Intent intent = new Intent(context, ProductDetailActivity.class);
-                    AndroidUtils.showErrorLog(context, "___________PRODUCT ID--(((---------->"+ commonDatas.get(position).id);
+                    AndroidUtils.showErrorLog(context, "___________PRODUCT ID--(((---------->" + commonDatas.get(position).id);
 
                     intent.putExtra("productId", commonDatas.get(position).id);
                     intent.putExtra("product_id", commonDatas.get(position).id);
@@ -402,11 +381,7 @@ public class CommonAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 }
             });
 
-        }
-
-
-
-        else if (arrangementtype.equals("OrderedProductList")) {
+        } else if (arrangementtype.equals("OrderedProductList")) {
 
             CommonHolder_listProduct viewHolder_listProduct = new CommonHolder_listProduct(v);
 
@@ -490,10 +465,9 @@ public class CommonAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             });
 
 //
-        } else
-        {
+        } else {
 
-            System.out.println("grid data-----------------"+ commonDatas.get(position).name);
+            System.out.println("grid data-----------------" + commonDatas.get(position).name);
 
             final CommonHolderGrid grid_holder = new CommonHolderGrid(v);
 
@@ -542,26 +516,23 @@ public class CommonAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     @Override
-    public int getItemCount()
-    {
+    public int getItemCount() {
         return commonDatas.size();
     }
 
-       private void callwebservice__add_tocart(String product_id, String device_id, String product_name, String price, String qty)
-       {
+    private void callwebservice__add_tocart(String product_id, String device_id, String product_name, String price, String qty) {
 
-           progressBarHandler.show();
-           System.out.println("price-----------------------" + price);
+        progressBarHandler.show();
+        System.out.println("price-----------------------" + price);
 
-           String login_url = context.getResources().getString(R.string.webservice_base_url) + "/add_cart";
+        String login_url = context.getResources().getString(R.string.webservice_base_url) + "/add_cart";
 
-           String user_id = appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), "notlogin");
-           if (user_id.equals("notlogin"))
-           {
-               user_id="";
-           }
+        String user_id = appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), "notlogin");
+        if (user_id.equals("notlogin")) {
+            user_id = "";
+        }
 
-           Ion.with(context)
+        Ion.with(context)
                 .load(login_url)
                 .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                 .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
@@ -574,37 +545,29 @@ public class CommonAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 .asJsonObject()
                 .setCallback(new FutureCallback<JsonObject>() {
                     @Override
-                    public void onCompleted(Exception e, JsonObject result)
-                    {
+                    public void onCompleted(Exception e, JsonObject result) {
 
-                        System.out.println("result-----------"+result);
+                        System.out.println("result-----------" + result);
 
-                        if (result!=null)
-                        {
+                        if (result != null) {
 
                             String error_message = result.get("error").getAsString();
 
-                            if (error_message.equals("false"))
-                            {
+                            if (error_message.equals("false")) {
 
                                 System.out.println("result--------------" + result);
                                 String message = result.get("message").getAsString();
                                 JsonObject jsonObject = result.getAsJsonObject("result");
 
-                                if (message.equals("This Item Already Exist....."))
-                                {
+                                if (message.equals("This Item Already Exist.....")) {
                                     progressBarHandler.hide();
                                     AndroidUtils.showToast(context, "This Item Already Exist in Cart");
-                                }
-                                else if (message.equals("Product Quantity exceeded."))
-                                {
+                                } else if (message.equals("Product Quantity exceeded.")) {
 
                                     progressBarHandler.hide();
-                                    AndroidUtils.showToast(context,"Product Quantity exceeded");
-                                }
-                                else
-                                {
-                                    AndroidUtils.showToast(context,"Product Successfully Added on Cart.");
+                                    AndroidUtils.showToast(context, "Product Quantity exceeded");
+                                } else {
+                                    AndroidUtils.showToast(context, "Product Successfully Added on Cart.");
                                     String cart_count = jsonObject.get("total_qty").getAsString();
 
                                     appSharedPreference.setSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), Integer.valueOf(cart_count));
@@ -613,19 +576,15 @@ public class CommonAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                     progressBarHandler.hide();
                                 }
 
-                            }
-                            else
-                            {
-                                 progressBarHandler.hide();
-                                AndroidUtils.showToast(context,"Server is not responding. Please try again.");
+                            } else {
+                                progressBarHandler.hide();
+                                AndroidUtils.showToast(context, "Server is not responding. Please try again.");
                             }
 
-                        }
-                        else
-                        {
+                        } else {
 
                             progressBarHandler.hide();
-                            AndroidUtils.showToast(context,"Server is not responding. Please try again.");
+                            AndroidUtils.showToast(context, "Server is not responding. Please try again.");
                         }
 
                     }
