@@ -201,36 +201,43 @@ public class ServiceEnquiryActivity extends AppCompatActivity implements SwipeRe
 
                             JsonArray jsonArray = jsonObject.getAsJsonArray("result");
 
-                            for (int i = 0; i < jsonArray.size(); i++) {
-                                JsonObject jsonObject2 = (JsonObject) jsonArray.get(i);
+                            if (jsonArray.size()!=0) {
+                                for (int i = 0; i < jsonArray.size(); i++) {
+                                    JsonObject jsonObject2 = (JsonObject) jsonArray.get(i);
 
-                                String service_enquiry_id = jsonObject2.get("id").getAsString();
+                                    String service_enquiry_id = jsonObject2.get("id").getAsString();
 
-                                String product_name = jsonObject2.get("product_name").getAsString();
+                                    String product_name = jsonObject2.get("product_name").getAsString();
 
-                                String product_price = jsonObject2.get("price").getAsString();
+                                    String product_price = jsonObject2.get("price").getAsString();
 
-                                String user_name = jsonObject2.get("name").getAsString();
+                                    String user_name = jsonObject2.get("name").getAsString();
 
-                                String user_email = jsonObject2.get("email").getAsString();
+                                    String user_email = jsonObject2.get("email").getAsString();
 
-                                String user_mobile = jsonObject2.get("mobile").getAsString();
+                                    String user_mobile = jsonObject2.get("mobile").getAsString();
 
-                                String description = jsonObject2.get("short_des").getAsString();
+                                    String description = jsonObject2.get("short_des").getAsString();
 
-                                String created_date = jsonObject2.get("created_at").getAsString();
+                                    String created_date = jsonObject2.get("created_at").getAsString();
 
-                                String category_name = jsonObject2.get("category_name").getAsString();
+                                    String category_name = jsonObject2.get("category_name").getAsString();
 
-                                serviceEnquiryDatas.add(new ServiceEnquiryData(service_enquiry_id, product_name, product_price, user_name, user_email, user_mobile, description, created_date, category_name));
+                                    serviceEnquiryDatas.add(new ServiceEnquiryData(service_enquiry_id, product_name, product_price, user_name, user_email, user_mobile, description, created_date, category_name));
 
+                                }
+
+                                serviceEnquiryAdapter.notifyDataSetChanged();
+
+                                // progressView.setVisibility(View.INVISIBLE);
+                                relativeCompanylist.setVisibility(View.VISIBLE);
+                                mSwipyRefreshLayout.setRefreshing(false);
                             }
 
-                            serviceEnquiryAdapter.notifyDataSetChanged();
-
-                            // progressView.setVisibility(View.INVISIBLE);
-                            relativeCompanylist.setVisibility(View.VISIBLE);
-                            mSwipyRefreshLayout.setRefreshing(false);
+                            else{
+                                mSwipyRefreshLayout.setRefreshing(false);
+                                AndroidUtils.showToast(context,"No Service Enquiry  Found in Your Account");
+                            }
                         }
 
                     }

@@ -47,6 +47,7 @@
             android:layout_marginLeft="@dimen/five_dip"
             android:textColor="@color/white"
             android:textSize="@dimen/textsize_medium"
+            android:layout_centerVertical="true"
             android:textStyle="bold"
             android:visibility="gone"
             />

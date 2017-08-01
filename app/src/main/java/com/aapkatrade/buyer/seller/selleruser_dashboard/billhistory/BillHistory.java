@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.AppSharedPreference;
@@ -307,24 +308,30 @@ public class BillHistory extends AppCompatActivity implements TimePickerDialog.O
 
     private void setUpToolBar() {
         AppCompatImageView homeIcon = (AppCompatImageView) findViewById(R.id.logoWord);
-        ImageView back_imagview = (ImageView) findViewById(R.id.back_imagview);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        AppCompatImageView back_imagview = (AppCompatImageView) findViewById(R.id.back_imagview);
+        back_imagview.setVisibility(View.VISIBLE);
         back_imagview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                callHomeActivity();
+                finish();
             }
         });
+        TextView header_name = (TextView) findViewById(R.id.header_name);
+        header_name.setVisibility(View.VISIBLE);
+        header_name.setText("");
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         homeIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                callHomeActivity();
+                Intent intent = new Intent(context, HomeActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
             }
         });
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayShowTitleEnabled(false);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
             getSupportActionBar().setTitle(null);
             getSupportActionBar().setElevation(0);
         }

@@ -124,33 +124,39 @@ else if(user_type.contains(SharedPreferenceConstants.USER_TYPE_BUYER.toString())
 
                                 JsonArray list = jsonObject1.getAsJsonArray("list");
 
+                                if (list.size() != 0) {
 
-                                for (int i = 0; i < list.size(); i++) {
-                                    JsonObject jsonObject2 = (JsonObject) list.get(i);
-                                    String product_name = jsonObject2.get("product_name").getAsString();
+                                    for (int i = 0; i < list.size(); i++) {
+                                        JsonObject jsonObject2 = (JsonObject) list.get(i);
+                                        String product_name = jsonObject2.get("product_name").getAsString();
 
-                                    String orderid = jsonObject2.get("ORDER_ID").getAsString();
+                                        String orderid = jsonObject2.get("ORDER_ID").getAsString();
 
-                                    String product_price = jsonObject2.get("product_price").getAsString();
+                                        String product_price = jsonObject2.get("product_price").getAsString();
 
-                                    String product_qty = jsonObject2.get("product_qty").getAsString();
-                                    String image_url = jsonObject2.get("image_url").getAsString();
+                                        String product_qty = jsonObject2.get("product_qty").getAsString();
+                                        String image_url = jsonObject2.get("image_url").getAsString();
 
-                                    Log.e("image_url_orderList", image_url);
+                                        Log.e("image_url_orderList", image_url);
 
-                                    String created_at = jsonObject2.get("created_at").getAsString();
+                                        String created_at = jsonObject2.get("created_at").getAsString();
 
 
-                                    orderListDatas.add(new OrderListData(orderid, product_name, product_price, product_qty, created_at, image_url));
+                                        orderListDatas.add(new OrderListData(orderid, product_name, product_price, product_qty, created_at, image_url));
 
+                                    }
+
+
+                                    orderListAdapter = new OrderListAdapter(getActivity(), orderListDatas);
+                                    order_list.setAdapter(orderListAdapter);
+                                    orderListAdapter.notifyDataSetChanged();
+                                    progress_handler.hide();
+                                    order_list.smoothScrollToPosition(orderListDatas.size());
                                 }
-
-
-                                orderListAdapter = new OrderListAdapter(getActivity(), orderListDatas);
-                                order_list.setAdapter(orderListAdapter);
-                                orderListAdapter.notifyDataSetChanged();
-                                progress_handler.hide();
-                                order_list.smoothScrollToPosition(orderListDatas.size());
+                                else{
+                                    progress_handler.hide();
+                                    AndroidUtils.showToast(getActivity(),"No Order Present in Your Account ");
+                                }
                             }
                         }
                     }

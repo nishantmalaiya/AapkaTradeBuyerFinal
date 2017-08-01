@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.dialogs.Seller_Update_Product_Policy;
@@ -86,7 +87,7 @@ public class ProductManagementActivity extends AppCompatActivity {
 
         tvHeading = (TextView) findViewById(R.id.listfootername);
         tvHeading.setText("Product Managment");
-        rlSearchContainer=(RelativeLayout)findViewById(R.id.rlSearchContainer);
+        rlSearchContainer = (RelativeLayout) findViewById(R.id.rlSearchContainer);
         rlSearchContainer.setVisibility(View.GONE);
 
 
@@ -174,7 +175,10 @@ public class ProductManagementActivity extends AppCompatActivity {
 
                         if (result != null) {
                             if (result.get("error").getAsString().contains("false")) {
+
+
                                 JsonArray jsonArray = result.getAsJsonArray("result");
+
 
                                 for (int i = 0; i < jsonArray.size(); i++) {
                                     JsonObject jsonObject = (JsonObject) jsonArray.get(i);
@@ -187,6 +191,11 @@ public class ProductManagementActivity extends AppCompatActivity {
                                 } else {
                                     productListAdapter.notifyDataSetChanged();
                                 }
+
+
+                            } else {
+
+                                AndroidUtils.showToast(context, "No Product in Your Shop/Company");
 
                             }
                         }
