@@ -2,6 +2,7 @@ package com.aapkatrade.buyer.chat;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
@@ -19,6 +20,8 @@ public class ChatHolder extends RecyclerView.ViewHolder {
     TextView textViewName,textViewDate,textViewTime,textViewMessage;
     View view;
 
+
+
     public ChatHolder(View itemView) {
         super(itemView);
         //implementing onClickListener
@@ -28,6 +31,7 @@ public class ChatHolder extends RecyclerView.ViewHolder {
         textViewName= (TextView) view.findViewById(R.id.textViewName);
         textViewMessage= (TextView) view.findViewById(R.id.textViewMessage);
         imageViewDp= (CircleImageView) view.findViewById(R.id.imageViewDp);
+
       /*  RotateAnimation ranim = (RotateAnimation) AnimationUtils.loadAnimation(view.getContext(), R.anim.rotate);
         ranim.setFillAfter(true); //For the textview to remain at the same place after the rotation
         textViewTime.setAnimation(ranim);*/

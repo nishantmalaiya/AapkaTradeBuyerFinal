@@ -11,6 +11,8 @@
         android:id="@+id/textViewDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="10sp"
         android:text="Today" />
 
 
@@ -34,51 +36,77 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_margin="4dp"
-                android:src="@drawable/ic_chat_user" />
+                android:src="@drawable/ic_profile_user" />
 
-            <TextView
-                android:textSize="10sp"
-                android:id="@+id/textViewTime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="24:00 PM" />
+
         </LinearLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="7dp"
             android:layout_weight="80"
-            android:gravity=""
+
             android:orientation="vertical">
 
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/editext_background_filled"
+                android:background="@drawable/editext_background_chat_you"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="@dimen/twenty_dip"
                 android:orientation="vertical"
                 android:padding="7dp">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-                <TextView
-                    android:id="@+id/textViewName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="asdfsdafsdfa"
-                    android:textColor="@color/white"
-                    android:textSize="16sp" />
+                    <TextView
+                        android:id="@+id/textViewName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="asdfsdafsdfa"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+                    <TextView
+                        android:textSize="10sp"
+                        android:id="@+id/textViewTime"
+
+                        android:layout_marginLeft="@dimen/ten_dip"
+                        android:layout_toRightOf="@+id/textViewName"
+                        android:layout_width="wrap_content"
+            android:layout_centerVertical="true"
+                        android:layout_height="wrap_content"
+                        android:text="24:00 PM" />
+
+                </RelativeLayout>
+
 
                 <TextView
                     android:id="@+id/textViewMessage"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="asdfsadf"
-                    android:textColor="@color/white"
+
+
                     android:textSize="14sp" />
             </LinearLayout>
 
+            <ImageView
+                android:id="@+id/imageView7"
+                android:layout_width="30dp"
+                android:tint="@color/white"
+                android:layout_height="30dp"
 
-        </LinearLayout>
+android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+
+
+                android:layout_weight="1"
+                android:src="@drawable/ic_left_arrow" />
+        </RelativeLayout>
 
 
     </LinearLayout>

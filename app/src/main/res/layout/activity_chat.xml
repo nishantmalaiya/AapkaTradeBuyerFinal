@@ -9,26 +9,10 @@
         android:id="@+id/ll_toolbar_container_home"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+
         android:orientation="vertical">
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <android.support.design.widget.AppBarLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/toolbarsize"
-                android:background="@color/colorPrimary">
-
-                <include layout="@layout/toolbar_layout" />
-
-
-            </android.support.design.widget.AppBarLayout>
-
-
-        </LinearLayout>
 
 
         <RelativeLayout
@@ -39,40 +23,56 @@
                 android:id="@+id/recycler"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="#E9EAEC"
                 android:layout_above="@+id/linearLayout"
                 android:layout_alignParentTop="true"
-                android:background="@color/mcam_color_light">
+           >
 
             </android.support.v7.widget.RecyclerView>
 
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:layout_margin="@dimen/five_dip"
+    android:background="@drawable/round_border"
+    android:orientation="horizontal"
+    android:weightSum="10">
 
+
+</RelativeLayout>
             <LinearLayout
                 android:id="@+id/linearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:background="@color/white"
-                android:orientation="vertical">
+                android:layout_margin="@dimen/five_dip"
+                android:background="@drawable/round_border"
+                android:orientation="horizontal"
+                android:weightSum="10"
+               >
 
                 <EditText
                     android:id="@+id/et_message"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_weight="9"
+                    android:backgroundTint="@android:color/transparent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="7dp"
-                    android:background="@drawable/round_border"
-
-                    android:gravity="start"
+                    android:layout_margin="@dimen/seven_dip"
                     android:hint="Enter Message here"
                     android:inputType="textMultiLine"
-                    android:padding="13dp" />
+                    android:padding="@dimen/twelve_dip" />
 
-                <Button
+                <ImageView
                     android:id="@+id/buttonSend"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/green"
-                    android:text="Send"
-                    android:textColor="@color/white" />
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="@dimen/thirty_dip"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_send_button"
+                    android:layout_gravity="center_vertical"
+                    />
+
             </LinearLayout>
         </RelativeLayout>
 

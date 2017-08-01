@@ -116,19 +116,19 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 JSONObject jsonObject = list.getJSONObject(k);
 
                 String message = jsonObject.get("msg").toString();
-                name = jsonObject.get("name_support").toString();
+               // name = jsonObject.get("name_support").toString();
                 String user_id = jsonObject.get("user_id").toString();
                 chat_id = jsonObject.get("chat_id").toString();
 
                 boolean you;
 
                 if (user_id.contains("1")) {
-
+                    name="Admin";
                     you = true;
 
 
                 } else {
-
+                    name="You";
                     you = false;
 
                 }
