@@ -201,7 +201,7 @@ public class ServiceEnquiryActivity extends AppCompatActivity implements SwipeRe
 
                             JsonArray jsonArray = jsonObject.getAsJsonArray("result");
 
-                            if (jsonArray.size()!=0) {
+                            if (jsonArray.size() != 0) {
                                 for (int i = 0; i < jsonArray.size(); i++) {
                                     JsonObject jsonObject2 = (JsonObject) jsonArray.get(i);
 
@@ -232,11 +232,9 @@ public class ServiceEnquiryActivity extends AppCompatActivity implements SwipeRe
                                 // progressView.setVisibility(View.INVISIBLE);
                                 relativeCompanylist.setVisibility(View.VISIBLE);
                                 mSwipyRefreshLayout.setRefreshing(false);
-                            }
-
-                            else{
+                            } else {
                                 mSwipyRefreshLayout.setRefreshing(false);
-                                AndroidUtils.showToast(context,"No Service Enquiry  Found in Your Account");
+                                AndroidUtils.showToast(context, "No Service Enquiry  Found in Your Account");
                             }
                         }
 
