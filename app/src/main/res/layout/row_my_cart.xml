@@ -245,9 +245,10 @@
                 android:layout_toRightOf="@+id/imgCardView"
                 android:layout_marginTop="@dimen/ten_dip"
                 android:layout_marginLeft="@dimen/ten_dip"
-                android:text="Seller does not exits deliver this item to 224176"
+                android:text="Seller doesn't deliver to 224176"
                 android:textColor="@color/red"
                 android:visibility="gone"
+                android:textSize="@dimen/twelve_dip"
                 />
 
 

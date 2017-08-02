@@ -469,11 +469,9 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
                     i.putExtra("longitude", currentLongitude);
                     context.startActivity(i);
                     ((AppCompatActivity) context).overridePendingTransition(R.anim.enter, R.anim.exit);
-
                 } else {
                     locationManagerCheck.createLocationServiceError((Activity) context);
                 }
-
             } else {
                 AndroidUtils.showErrorLog(context, "error in permission");
             }

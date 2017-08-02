@@ -113,6 +113,7 @@ public class ProductDetailActivity extends AppCompatActivity {
                     } else {
                         Intent rate_us = new Intent(context, RateUsActivity.class);
                         rate_us.putExtra("product_id", productId);
+                        rate_us.putExtra("isShopDetail", false);
                         rate_us.putExtra("product_name", tvProductName.getText().toString());
                         rate_us.putExtra("product_price", tvProductPrice.getText().toString());
                         rate_us.putExtra("product_image", imageUrlArrayList.get(0));
