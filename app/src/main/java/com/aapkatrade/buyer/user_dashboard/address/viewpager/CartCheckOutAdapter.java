@@ -105,7 +105,7 @@ public class CartCheckOutAdapter extends RecyclerView.Adapter<CartHolder> implem
         if (itemList.get(position).available_status.equals("false"))
         {
             holder.tvAvailableProduct.setVisibility(View.VISIBLE);
-            holder.tvAvailableProduct.setText("Seller does not exits deliver this item to "+appSharedPreference.getSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS_PINCODE.toString(), ""));
+            holder.tvAvailableProduct.setText("Seller does'nt  deliver item to "+appSharedPreference.getSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS_PINCODE.toString(), ""));
             holder.tvProductShippingCharge.setVisibility(View.INVISIBLE);
         }
         else
