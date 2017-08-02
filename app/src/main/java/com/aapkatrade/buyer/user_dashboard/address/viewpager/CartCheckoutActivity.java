@@ -347,18 +347,17 @@ public class CartCheckoutActivity extends AppCompatActivity
                 .setBodyParameter("total_amount",total_amount)
                 .setBodyParameter("shipping_charge_json",jsonArrayShippingCharge)
                 .setBodyParameter("device_id", AppConfig.getCurrentDeviceId(context))
-                .asString()
-                .setCallback(new FutureCallback<String>() {
+                .asJsonObject()
+                .setCallback(new FutureCallback<JsonObject>() {
                     @Override
-                    public void onCompleted(Exception e, String result)
+                    public void onCompleted(Exception e, JsonObject result)
                     {
                         //  AndroidUtils.showErrorLog(context,result,"dghdfghsaf dawbnedvhaewnbedvsab dsadduyf");
-                       System.out.println("result-----------" + result.toString());
+                        System.out.println("result-----------" + result);
 
-                        /*String message = result.get("message").getAsString();
+                        String message = result.get("message").getAsString();
                         if (message.equals("Order Saved Successfully!"))
                         {
-
                             JsonObject jsonObject = result.getAsJsonObject("result");
                             order_number = jsonObject.get("tracking_no").getAsString();
                             progressBarHandler.hide();
@@ -369,7 +368,7 @@ public class CartCheckoutActivity extends AppCompatActivity
                         {
                             progressBarHandler.hide();
                             AndroidUtils.showToast(context, message );
-                        }*/
+                        }
 
                     }
                 });
