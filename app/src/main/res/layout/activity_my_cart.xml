@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F1F5F8"
+    android:background="@color/grey_light2"
     android:fitsSystemWindows="true">
 
     <RelativeLayout
@@ -105,7 +105,7 @@
             android:layout_above="@+id/cardBottom"
             android:layout_below="@+id/View1"
             android:layout_marginBottom="@dimen/ten_dip"
-            android:background="#F1F5F8">
+            android:background="@color/grey_light2">
 
             <LinearLayout
                 android:id="@+id/layout_container"
