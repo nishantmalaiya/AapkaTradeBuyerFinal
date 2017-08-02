@@ -23,8 +23,7 @@ import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.smsreceiver.SmsListener;
 import com.aapkatrade.buyer.smsreceiver.SmsReceiver;
 
-import swarajsaaj.smscodereader.interfaces.OTPListener;
-import swarajsaaj.smscodereader.receivers.OtpReader;
+
 
 public class ForgotPassword extends AppCompatActivity
 {

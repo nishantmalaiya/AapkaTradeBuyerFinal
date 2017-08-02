@@ -98,7 +98,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="@dimen/ten_dip"
-                        android:textSize="@dimen/evp_text_size_medium"
+                        android:textSize="@dimen/textsize_medium"
                         android:text="Fri,12th may 2017" />
 
                     <ImageView
