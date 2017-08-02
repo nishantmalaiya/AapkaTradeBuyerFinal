@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/grey_light"
+    android:background="@color/grey_light2"
     android:orientation="vertical"
     android:weightSum="15"
     tools:context="com.aapkatrade.buyer.shopdetail.productdetail.ProductDetailActivity">
@@ -46,6 +46,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_marginTop="@dimen/ten_dip"
+                            android:layout_marginLeft="@dimen/ten_dip"
+                            android:layout_marginRight="@dimen/ten_dip"
 
                             />
 
@@ -570,6 +572,7 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_marginLeft="@dimen/five_dip"
+                                        android:layout_marginBottom="@dimen/ten_dip"
                                         android:layout_weight="1.19">
 
                                         <TextView
