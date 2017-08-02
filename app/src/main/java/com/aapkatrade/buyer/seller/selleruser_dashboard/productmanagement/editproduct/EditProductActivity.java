@@ -1168,7 +1168,7 @@ public class EditProductActivity extends AppCompatActivity {
         unitList.clear();
         progressBarHandler.show();
         Ion.with(context)
-                .load("http://staging.aapkatrade.com/slim/dropdown")
+                .load(getString(R.string.webservice_base_url).concat("/").concat("dropdown"))
                 .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                 .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                 .setBodyParameter("type", "unit")

@@ -3,6 +3,7 @@ package com.aapkatrade.buyer.shopdetail.reviewlist;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.aapkatrade.buyer.R;
 
@@ -15,6 +16,7 @@ public class ReviewListHolder extends RecyclerView.ViewHolder
     View view;
     TextView title ,message_description, username, deliver_date,tvRating;
     ImageView imgStar;
+    RelativeLayout relativeRating;
 
 
     public ReviewListHolder(View itemView)
@@ -34,6 +36,8 @@ public class ReviewListHolder extends RecyclerView.ViewHolder
         imgStar = (ImageView) itemView.findViewById(R.id.imgStar);
 
         deliver_date = (TextView) itemView.findViewById(R.id.deliver_date);
+
+        relativeRating = (RelativeLayout) itemView.findViewById(R.id.relativeRating);
 
         view = itemView;
 

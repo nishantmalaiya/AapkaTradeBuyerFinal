@@ -215,6 +215,8 @@ public class RateUsActivity extends AppCompatActivity {
                     .setCallback(new FutureCallback<JsonObject>() {
                         @Override
                         public void onCompleted(Exception e, JsonObject result) {
+
+                            AndroidUtils.showErrorLog(context,"review",result);
                             if (result == null) {
                                 progress_handler.hide();
                             } else {

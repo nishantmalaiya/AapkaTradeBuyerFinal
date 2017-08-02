@@ -1,6 +1,8 @@
 package com.aapkatrade.buyer.shopdetail.reviewlist;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.drawable.GradientDrawable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -70,7 +72,19 @@ public class ReviewListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         homeHolder.tvRating.setText(itemList.get(position).rating);
 
-        SimpleDateFormat form = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        if(Integer.valueOf(itemList.get(position).rating)== 5){
+            AndroidUtils.setBackgroundSolid(homeHolder.relativeRating, context, R.color.color_progress1, 10, GradientDrawable.RECTANGLE);
+        } else if(Integer.valueOf(itemList.get(position).rating)==4){
+            AndroidUtils.setBackgroundSolid(homeHolder.relativeRating, context, R.color.color_progress2, 10, GradientDrawable.RECTANGLE);
+        } else if(Integer.valueOf(itemList.get(position).rating)==3){
+            AndroidUtils.setBackgroundSolid(homeHolder.relativeRating, context, R.color.color_progress3, 10, GradientDrawable.RECTANGLE);
+        } else if(Integer.valueOf(itemList.get(position).rating)==2){
+            AndroidUtils.setBackgroundSolid(homeHolder.relativeRating, context, R.color.color_progress4, 10, GradientDrawable.RECTANGLE);
+        } else if(Integer.valueOf(itemList.get(position).rating)==1){
+            AndroidUtils.setBackgroundSolid(homeHolder.relativeRating, context, R.color.color_progress5, 10, GradientDrawable.RECTANGLE);
+        }
+
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat form = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         java.util.Date date = null;
 
         try {
@@ -81,7 +95,7 @@ public class ReviewListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             e.printStackTrace();
         }
 
-        SimpleDateFormat postFormater = new SimpleDateFormat("MMMM dd, yyyy");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat postFormater = new SimpleDateFormat("MMMM dd, yyyy");
         String newDateStr = postFormater.format(date);
 
         homeHolder.deliver_date.setText(newDateStr);
@@ -89,20 +103,9 @@ public class ReviewListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     }
 
-    private void showMessage(String s) {
-        AndroidUtils.showToast(context, s);
-    }
-
-
     @Override
     public int getItemCount() {
         return itemList.size();
-        //return itemList.size();
     }
-
-    public String getCurrentTimeStamp() {
-        return new SimpleDateFormat("dd MMM yyyy HH:mm").format(new Date());
-    }
-
 
 }
