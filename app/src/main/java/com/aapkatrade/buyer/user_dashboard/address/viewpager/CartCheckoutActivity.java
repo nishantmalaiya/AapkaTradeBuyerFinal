@@ -194,7 +194,7 @@ public class CartCheckoutActivity extends AppCompatActivity
                 {
                     if (cartDataArrayList.get(i).available_status.toString().equals("false"))
                     {
-                       AndroidUtils.showToast(context,"Please Remove Items those not deliver to this pincode");
+                       AndroidUtils.showToast(context,"Please Change Pincode Or Remove Items those not deliver to this pincode");
                         break;
                     }
 
