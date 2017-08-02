@@ -1,4 +1,4 @@
-package com.aapkatrade.buyer.user_dashboard.order_list;
+package com.aapkatrade.buyer.user_dashboard.order_list.order_details.adapter;
 
 /**
  * Created by PPC17 on 15-May-17.

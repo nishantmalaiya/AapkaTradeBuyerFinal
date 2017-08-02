@@ -1,4 +1,4 @@
-package com.aapkatrade.buyer.user_dashboard.order_list;
+package com.aapkatrade.buyer.user_dashboard.order_list.order_details.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;

@@ -15,8 +15,8 @@ import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
-import com.aapkatrade.buyer.user_dashboard.order_list.OrderListAdapter;
-import com.aapkatrade.buyer.user_dashboard.order_list.OrderListData;
+import com.aapkatrade.buyer.user_dashboard.order_list.new_order.NewOrderListData;
+import com.aapkatrade.buyer.user_dashboard.order_list.new_order.NewOrderListAdapter;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
@@ -27,9 +27,9 @@ import java.util.ArrayList;
 
 public class ShippedFragment extends Fragment {
 
-    private ArrayList<OrderListData> orderListDatas = new ArrayList<>();
+    private ArrayList<NewOrderListData> newOrderListDatas = new ArrayList<>();
     private RecyclerView order_list;
-    private OrderListAdapter orderListAdapter;
+    private NewOrderListAdapter newOrderListAdapter;
     private ProgressBarHandler progress_handler;
     private LinearLayout layout_container;
     private AppSharedPreference appSharedPreference;
@@ -74,7 +74,7 @@ public class ShippedFragment extends Fragment {
 
 
     private void get_web_data() {
-        orderListDatas.clear();
+        newOrderListDatas.clear();
         progress_handler.show();
         Log.e("hi1234", user_id + "##cancel##" + AndroidUtils.getUserType(user_type) + "@@@@" + user_type);
 
@@ -120,15 +120,15 @@ public class ShippedFragment extends Fragment {
                                     String created_at = jsonObject2.get("created_at").getAsString();
 
 
-                                    orderListDatas.add(new OrderListData(orderid, product_name, product_price, product_qty, created_at, image_url));
+                                    newOrderListDatas.add(new NewOrderListData(orderid, product_name, product_price, product_qty, created_at, image_url));
 
 
                                 }
 
 
-                                orderListAdapter = new OrderListAdapter(getActivity(), orderListDatas);
-                                order_list.setAdapter(orderListAdapter);
-                                orderListAdapter.notifyDataSetChanged();
+                                newOrderListAdapter = new NewOrderListAdapter(getActivity(), newOrderListDatas);
+                                order_list.setAdapter(newOrderListAdapter);
+                                newOrderListAdapter.notifyDataSetChanged();
                                 progress_handler.hide();
                             }
                         }

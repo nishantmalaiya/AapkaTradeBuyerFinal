@@ -1,4 +1,4 @@
-package com.aapkatrade.buyer.user_dashboard.order_list;
+package com.aapkatrade.buyer.user_dashboard.order_list.new_order;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -13,14 +13,14 @@ import com.aapkatrade.buyer.R;
  * Created by PPC16 on 17-Jan-17.
  */
 
-public class OrderListViewHolder extends RecyclerView.ViewHolder {
+public class NewOrderListViewHolder extends RecyclerView.ViewHolder {
     public View view;
     public TextView tvOrderDate, tvOrderPrice, productName;
     public Button buttonTrackOrder, buttonCancelOrder;
     public ImageView productImage, imgOrderDetail;
     public LinearLayout buttonStripLayout;
 
-    public OrderListViewHolder(View itemView) {
+    public NewOrderListViewHolder(View itemView) {
         super(itemView);
         productName = (TextView) itemView.findViewById(R.id.productName);
         imgOrderDetail = (ImageView) itemView.findViewById(R.id.img_order_detail);

@@ -19,8 +19,8 @@ import com.aapkatrade.buyer.dialogs.CancelOrderDialog;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.interfaces.CommonInterface;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
-import com.aapkatrade.buyer.user_dashboard.order_list.OrderDetailAdapter;
-import com.aapkatrade.buyer.user_dashboard.order_list.OrderDetailData;
+import com.aapkatrade.buyer.user_dashboard.order_list.order_details.adapter.OrderDetailAdapter;
+import com.aapkatrade.buyer.user_dashboard.order_list.order_details.adapter.OrderDetailData;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
@@ -184,7 +184,12 @@ else {
                                 String email = jsonObject_order.get("email").getAsString();
                                 String phone = jsonObject_order.get("phone").getAsString();
                                 String pincode = jsonObject_order.get("pincode").getAsString();
+
+
                                 String status = jsonObject_order.get("status").getAsString();
+
+
+
                                 String OrderAddress = jsonObject_order.get("address").getAsString();
 
                                 String created_at = jsonObject_order.get("created_at").getAsString();

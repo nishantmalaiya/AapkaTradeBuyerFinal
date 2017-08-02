@@ -1,4 +1,4 @@
-package com.aapkatrade.buyer.user_dashboard.order_list;
+package com.aapkatrade.buyer.user_dashboard.order_list.order_details.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -8,13 +8,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.dialogs.CancelOrderDialog;
 import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
+
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;

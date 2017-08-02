@@ -15,8 +15,8 @@ import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
-import com.aapkatrade.buyer.user_dashboard.order_list.OrderListAdapter;
-import com.aapkatrade.buyer.user_dashboard.order_list.OrderListData;
+import com.aapkatrade.buyer.user_dashboard.order_list.new_order.NewOrderListAdapter;
+import com.aapkatrade.buyer.user_dashboard.order_list.new_order.NewOrderListData;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
@@ -27,9 +27,9 @@ import java.util.ArrayList;
 
 public class CancelOrderFragment extends Fragment {
 
-    private ArrayList<OrderListData> orderListDatas = new ArrayList<>();
+    private ArrayList<NewOrderListData> newOrderListDatas = new ArrayList<>();
     private RecyclerView order_list;
-    private OrderListAdapter orderListAdapter;
+    private NewOrderListAdapter newOrderListAdapter;
     private ProgressBarHandler progress_handler;
     private LinearLayout layout_container;
     private AppSharedPreference appSharedPreference;
@@ -68,7 +68,7 @@ public class CancelOrderFragment extends Fragment {
 
 
     private void get_web_data() {
-        orderListDatas.clear();
+        newOrderListDatas.clear();
         progress_handler.show();
 
         Log.e("hi1234", user_id + "##blank##" + AndroidUtils.getUserType(user_type) + "@@@@@@@" + user_type);
@@ -107,7 +107,7 @@ public class CancelOrderFragment extends Fragment {
 
                                     String orderid = jsonObject2.get("ORDER_ID").getAsString();
 
-                                    String product_price = jsonObject2.get("product_price").getAsString();
+                                    String product_price = jsonObject2.get("product_net_price").getAsString();
 
                                     String product_qty = jsonObject2.get("product_qty").getAsString();
                                     String image_url = jsonObject2.get("image_url").getAsString();
@@ -118,15 +118,15 @@ public class CancelOrderFragment extends Fragment {
                                     String created_at = jsonObject2.get("created_at").getAsString();
 
 
-                                    orderListDatas.add(new OrderListData(orderid, product_name, product_price, product_qty, created_at, image_url));
+                                    newOrderListDatas.add(new NewOrderListData(orderid, product_name, product_price, product_qty, created_at, image_url));
 
 
                                 }
 
 
-                                orderListAdapter = new OrderListAdapter(getActivity(), orderListDatas, CancelOrderFragment.this);
-                                order_list.setAdapter(orderListAdapter);
-                                orderListAdapter.notifyDataSetChanged();
+                                newOrderListAdapter = new NewOrderListAdapter(getActivity(), newOrderListDatas, CancelOrderFragment.this);
+                                order_list.setAdapter(newOrderListAdapter);
+                                newOrderListAdapter.notifyDataSetChanged();
                                 progress_handler.hide();
                             }
                         }
