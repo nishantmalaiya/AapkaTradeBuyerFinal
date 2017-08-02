@@ -101,7 +101,7 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
     private Dialog dialog;
     private Context context;
     private ArrayList<CommonData> productlist = new ArrayList<>();
-    private String product_name;
+    private String product_name, productUrlPart;
     private DroppyMenuPopup droppyMenu;
     private AppSharedPreference appSharedPreference;
     private RecyclerView reviewList, openShopList, productRecyclerView;
@@ -117,7 +117,6 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
     private CustomBottomNavigationView bottomNavigationShop;
     private CoordinatorLayout coordinatorLayout;
     ImageButton btnServiceEnquiry;
-
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -179,6 +178,7 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
                             AndroidUtils.showErrorLog(context, "result---------", result);
                             JsonObject json_result = result.get("result").getAsJsonObject();
                             shopId = json_result.get("id").getAsString();
+                            productUrlPart = json_result.get("product_url").getAsString();
                             JsonObject json_total_rating = result.getAsJsonObject("total_rating");
                             String avg_rating = json_total_rating.get("avg_rating").getAsString();
                             tvRatingAverage.setText(avg_rating);
@@ -466,7 +466,7 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
                 share.setType("text/plain");
                 // Uri screenshotUri = Uri.parse("android.resource://"+getActivity().getPackageName()+"/" + R.drawable.ic_app_icon);
                 String strShareMessage = "\nLet me recommend you this application\n\n";
-                strShareMessage = strShareMessage + "https://play.google.com/store/apps/details?id=com.aapkatrade.buyer";
+                strShareMessage = strShareMessage.concat(getString(R.string.share_base_url)).concat("/").concat(productUrlPart);
 
                 // share.setType("image");
                 //  share.putExtra(Intent.EXTRA_STREAM, screenshotUri);

@@ -52,8 +52,6 @@ public class MyCartActivity extends AppCompatActivity {
     LinearLayoutManager linearLayoutManager;
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -182,10 +180,8 @@ public class MyCartActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch (item.getItemId())
-        {
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
                 break;
@@ -195,8 +191,7 @@ public class MyCartActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void cartList(String pageNumber)
-    {
+    private void cartList(String pageNumber) {
         //cartDataArrayList.clear();
         progressBarHandler.show();
 
@@ -207,7 +202,7 @@ public class MyCartActivity extends AppCompatActivity {
 
         System.out.println("deveice -id----------" + user_id + "ghsdfs" + AppConfig.getCurrentDeviceId(context));
 
-        System.out.println("cart_item------------"+app_sharedpreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), ""));
+        System.out.println("cart_item------------" + app_sharedpreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), ""));
 
         Ion.with(MyCartActivity.this)
                 .load(getResources().getString(R.string.webservice_base_url) + "/list_cart")
@@ -215,17 +210,16 @@ public class MyCartActivity extends AppCompatActivity {
                 .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                 .setBodyParameter("user_id", user_id)
                 .setBodyParameter("page", pageNumber)
-                .setBodyParameter("user_type",app_sharedpreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), ""))
+                .setBodyParameter("user_type", app_sharedpreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), ""))
                 .setBodyParameter("device_id", AppConfig.getCurrentDeviceId(context))
                 .asJsonObject()
                 .setCallback(new FutureCallback<JsonObject>() {
                     @Override
                     public void onCompleted(Exception e, JsonObject result) {
 
-                        Log.e("my_cart--------",result.toString());
+                        AndroidUtils.showErrorLog(context, "my_cart--------", result);
 
                         if (result != null) {
-                            AndroidUtils.showErrorLog(context, "-jsonObject------------" + result.toString());
 
                             JsonObject jsonObject = result.getAsJsonObject("result");
 
@@ -239,11 +233,9 @@ public class MyCartActivity extends AppCompatActivity {
 
                             JsonArray jsonProductList = jsonObject.getAsJsonArray("items");
 
-                            if (jsonProductList != null && jsonProductList.size() > 0)
-                            {
+                            if (jsonProductList != null && jsonProductList.size() > 0) {
 
-                                for (int i = 0; i < jsonProductList.size(); i++)
-                                {
+                                for (int i = 0; i < jsonProductList.size(); i++) {
                                     JsonObject jsonproduct = (JsonObject) jsonProductList.get(i);
                                     String Id = jsonproduct.get("id").getAsString();
                                     String productName = jsonproduct.get("name").getAsString();
@@ -254,7 +246,7 @@ public class MyCartActivity extends AppCompatActivity {
                                     System.out.println("price--------------------" + price);
                                     String productImage = jsonproduct.get("image_url").getAsString();
                                     String product_id = jsonproduct.get("product_id").getAsString();
-                                    cartDataArrayList.add(new CartData(Id, productName, productqty, price, productImage, product_id, subtotal_price,"",""));
+                                    cartDataArrayList.add(new CartData(Id, productName, productqty, price, productImage, product_id, subtotal_price, "", ""));
 
 
                                 }
@@ -274,17 +266,9 @@ public class MyCartActivity extends AppCompatActivity {
                             }
 
                         }
-                        else
-                        {
-                            progressBarHandler.hide();
-
-                            AndroidUtils.showErrorLog(context, "-jsonObject------------NULL RESULT FOUND");
-
-                        }
-
                     }
                 });
-                }
+    }
 }
 
 
