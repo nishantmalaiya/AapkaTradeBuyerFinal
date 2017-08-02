@@ -1,4 +1,4 @@
-package com.aapkatrade.buyer.user_dashboard.order_list;
+package com.aapkatrade.buyer.user_dashboard.order_list.new_order;
 
 import android.content.Context;
 import android.content.Intent;
@@ -32,24 +32,24 @@ import java.util.List;
  * Created by PPC16 on 17-Jan-17.
  */
 
-public class OrderListAdapter extends RecyclerView.Adapter<OrderListViewHolder> {
+public class NewOrderListAdapter extends RecyclerView.Adapter<NewOrderListViewHolder> {
     private Fragment fragment;
-    private List<OrderListData> itemList;
+    private List<NewOrderListData> itemList;
     private Context context;
-    OrderListViewHolder viewHolder;
+    NewOrderListViewHolder viewHolder;
     AppSharedPreference appSharedPreference;
     String userId;
-    private List<OrderListData> orderListDatas;
+    private List<NewOrderListData> newOrderListDatas;
     ProgressBarHandler progressBarHandler;
 
-    public OrderListAdapter(Context context, List<OrderListData> itemList) {
+    public NewOrderListAdapter(Context context, List<NewOrderListData> itemList) {
         this.itemList = itemList;
         this.context = context;
         appSharedPreference = new AppSharedPreference(context);
         userId = appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), "");
         progressBarHandler = new ProgressBarHandler(context);
     }
-    public OrderListAdapter(Context context, List<OrderListData> itemList, Fragment fragment) {
+    public NewOrderListAdapter(Context context, List<NewOrderListData> itemList, Fragment fragment) {
         this.itemList = itemList;
         this.context = context;
         appSharedPreference = new AppSharedPreference(context);
@@ -59,12 +59,12 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListViewHolder> 
     }
 
     @Override
-    public OrderListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new OrderListViewHolder(LayoutInflater.from(context).inflate(R.layout.row_order_list, parent, false));
+    public NewOrderListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new NewOrderListViewHolder(LayoutInflater.from(context).inflate(R.layout.row_order_list, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(OrderListViewHolder holder, final int position) {
+    public void onBindViewHolder(NewOrderListViewHolder holder, final int position) {
         holder.productName.setText(itemList.get(position).product_name);
         holder.tvOrderDate.setText(itemList.get(position).order_date);
         holder.tvOrderPrice.setText(itemList.get(position).product_price);
@@ -98,15 +98,16 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListViewHolder> 
                 hitTrackOrderWebService(position);
             }
         });
+        holder.imgOrderDetail.setVisibility(View.GONE);
 
         holder.imgOrderDetail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(context, OrderDetailsActivity.class);
+               /* Intent i = new Intent(context, OrderDetailsActivity.class);
                 i.putExtra("OrderId", itemList.get(position).order_id);
                 i.putExtra("userId", userId);
 
-                context.startActivity(i);
+                context.startActivity(i);*/
             }
         });
     }

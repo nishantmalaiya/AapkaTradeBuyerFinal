@@ -1,18 +1,13 @@
 package com.aapkatrade.buyer.user_dashboard;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.aapkatrade.buyer.R;
-import com.aapkatrade.buyer.dialogs.ServiceEnquiry;
-import com.aapkatrade.buyer.dialogs.comingsoon.ComingSoonFragmentDialog;
 import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 
@@ -35,7 +30,6 @@ import com.aapkatrade.buyer.seller.selleruser_dashboard.servicemanagment.Service
 import com.aapkatrade.buyer.user_dashboard.changepassword.ChangePassword;
 
 import com.aapkatrade.buyer.user_dashboard.my_profile.MyProfileActivity;
-import com.aapkatrade.buyer.user_dashboard.order_list.OrderActivity;
 import com.aapkatrade.buyer.user_dashboard.order_list.OrderManagementActivity;
 
 import com.squareup.picasso.Picasso;
@@ -154,15 +148,7 @@ public class DashboardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
                     }
 
-                } else if (itemList.get(position).dashboard_name.equals("Cancel Order")) {
-
-
-                    Intent list_product = new Intent(context, OrderActivity.class);
-                    context.startActivity(list_product);
-
-
-                    //    Associate Agreement
-                } else if (itemList.get(position).dashboard_name.equals("Bank Details")) {
+                }  else if (itemList.get(position).dashboard_name.equals("Bank Details")) {
                     if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString(), "notlogin").equals("notlogin")) {
                         Intent i = new Intent(context, LoginDashboard.class);
                         context.startActivity(i);

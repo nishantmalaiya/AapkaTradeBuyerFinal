@@ -114,7 +114,7 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/tvDateHeading"
                         android:layout_marginTop="5dp"
-                        android:text="Status:"
+                        android:text="Order Status:"
                         android:textColor="@color/black" />
 
                     <TextView

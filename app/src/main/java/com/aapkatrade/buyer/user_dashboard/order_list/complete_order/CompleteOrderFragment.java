@@ -15,8 +15,8 @@ import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
-import com.aapkatrade.buyer.user_dashboard.order_list.OrderListAdapter;
-import com.aapkatrade.buyer.user_dashboard.order_list.OrderListData;
+import com.aapkatrade.buyer.user_dashboard.order_list.new_order.NewOrderListAdapter;
+import com.aapkatrade.buyer.user_dashboard.order_list.new_order.NewOrderListData;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
@@ -29,9 +29,9 @@ public class CompleteOrderFragment extends Fragment
 {
 
 
-    private ArrayList<OrderListData> orderListDatas = new ArrayList<>();
+    private ArrayList<NewOrderListData> newOrderListDatas = new ArrayList<>();
     private RecyclerView order_list;
-    private OrderListAdapter orderListAdapter;
+    private NewOrderListAdapter newOrderListAdapter;
     private ProgressBarHandler progress_handler;
     private LinearLayout layout_container;
     private AppSharedPreference appSharedPreference;
@@ -73,7 +73,7 @@ public class CompleteOrderFragment extends Fragment
     private void get_web_data()
     {
         // layout_container.setVisibility(View.INVISIBLE);
-        orderListDatas.clear();
+        newOrderListDatas.clear();
         progress_handler.show();
 
         Log.e("hi1234", user_id+"#complete###"+AndroidUtils.getUserType(user_type)+"@@@@@"+user_type);
@@ -146,14 +146,14 @@ public class CompleteOrderFragment extends Fragment
 
                                     String product_image= jsonObject2.get("image_url").getAsString();
 
-//                                    orderListDatas.add(new OrderListData(order_id, product_name, product_price,product_qty,address,email,buyersmobile,buyersname,company_name,status,created_at,product_image));
+//                                    newOrderListDatas.add(new NewOrderListData(order_id, product_name, product_price,product_qty,address,email,buyersmobile,buyersname,company_name,status,created_at,product_image));
 
 
                                 }
 
-                                orderListAdapter = new OrderListAdapter(getActivity(), orderListDatas);
-                                order_list.setAdapter(orderListAdapter);
-                                orderListAdapter.notifyDataSetChanged();
+                                newOrderListAdapter = new NewOrderListAdapter(getActivity(), newOrderListDatas);
+                                order_list.setAdapter(newOrderListAdapter);
+                                newOrderListAdapter.notifyDataSetChanged();
                                 progress_handler.hide();
                             }
 
