@@ -3,6 +3,7 @@ package com.aapkatrade.buyer.login;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.design.widget.CoordinatorLayout;
@@ -32,8 +33,7 @@ import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.interfaces.TaskCompleteReminder;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
-import com.aapkatrade.buyer.smsreceiver.SmsListener;
-import com.aapkatrade.buyer.smsreceiver.SmsReceiver;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
@@ -52,7 +52,7 @@ public class ActivityOTPVerify extends AppCompatActivity {
     AppSharedPreference appSharedPreference;
 
     CoordinatorLayout coordinatorLayout;
-    BroadcastReceiver receiver;
+
     LocalBroadcastManager bManager;
     String class_name, etEmail, etFirstName, etPassword, etMobileNo, cityID, etLastName, state_id, address;
     String otp_id;
@@ -80,16 +80,26 @@ public class ActivityOTPVerify extends AppCompatActivity {
         setUpToolBar();
         setup_layout();
 
-        SmsReceiver.bindListener(new SmsListener() {
+
+
+
+       /* if(!appSharedPreference.getSharedPref(SharedPreferenceConstants.LASTEST_OTP.toString()).equals("0000"))
+        {*/
+            AndroidUtils.showToast(context,"Otp"+appSharedPreference.getSharedPref(SharedPreferenceConstants.LASTEST_OTP.toString()));
+            update_otp(appSharedPreference.getSharedPref(SharedPreferenceConstants.LASTEST_OTP.toString()));
+        /**/
+
+
+       /* SmsReceiver.bindListener(new SmsListener() {
             @Override
             public void messageReceived(String messageText) {
                 Log.d("Text",messageText);
                 //Toast.makeText(ActivityOTPVerify.this,"Message: "+messageText,Toast.LENGTH_LONG).show();
 
-                update_otp(messageText);
+
 
             }
-        });
+        });*/
 
 
 
@@ -646,6 +656,30 @@ public class ActivityOTPVerify extends AppCompatActivity {
                 });
 
         progressBarHandler.hide();
+    }
+
+    private BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equalsIgnoreCase("otp")) {
+                final String message = intent.getStringExtra("message");
+
+
+                //Do whatever you want with the code here
+            }
+        }
+    };
+
+    @Override
+    public void onResume() {
+        LocalBroadcastManager.getInstance(this).registerReceiver(receiver, new IntentFilter("otp"));
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
     }
 
 
