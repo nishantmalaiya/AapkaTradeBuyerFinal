@@ -20,6 +20,7 @@ import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
 import com.aapkatrade.buyer.user_dashboard.order_list.cancel_order_fragment.CancelOrderFragment;
+import com.aapkatrade.buyer.user_dashboard.order_list.order_details.OrderDetailsActivity;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
@@ -67,7 +68,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListViewHolder> 
         holder.productName.setText(itemList.get(position).product_name);
         holder.tvOrderDate.setText(itemList.get(position).order_date);
         holder.tvOrderPrice.setText(itemList.get(position).product_price);
-        holder.imgOrderDetail.setVisibility(View.GONE);
+
         if(fragment!=null && fragment instanceof CancelOrderFragment){
             holder.buttonStripLayout.setVisibility(View.GONE);
         }
@@ -95,6 +96,17 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListViewHolder> 
             @Override
             public void onClick(View v) {
                 hitTrackOrderWebService(position);
+            }
+        });
+
+        holder.imgOrderDetail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(context, OrderDetailsActivity.class);
+                i.putExtra("OrderId", itemList.get(position).order_id);
+                i.putExtra("userId", userId);
+
+                context.startActivity(i);
             }
         });
     }

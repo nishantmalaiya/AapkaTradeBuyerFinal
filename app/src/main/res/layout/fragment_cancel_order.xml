@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/grey_light2"
-    tools:context="com.aapkatrade.buyer.categories_tab.BlankFragment">
+    tools:context="com.aapkatrade.buyer.user_dashboard.order_list.new_order.NewOrderFragment">
 
 
     <android.support.v4.widget.NestedScrollView
