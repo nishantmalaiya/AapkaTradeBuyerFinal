@@ -1,4 +1,4 @@
-package com.aapkatrade.buyer.categories_tab;
+package com.aapkatrade.buyer.user_dashboard.order_list.new_order;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -26,7 +26,7 @@ import com.koushikdutta.ion.Ion;
 import java.util.ArrayList;
 
 
-public class BlankFragment extends Fragment {
+public class NewOrderFragment extends Fragment {
 
     private ArrayList<OrderListData> orderListDatas = new ArrayList<>();
     private RecyclerView order_list;

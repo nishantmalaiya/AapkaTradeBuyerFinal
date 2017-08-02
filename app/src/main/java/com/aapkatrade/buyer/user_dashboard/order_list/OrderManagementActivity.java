@@ -16,12 +16,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aapkatrade.buyer.home.HomeActivity;
 import com.aapkatrade.buyer.R;
-import com.aapkatrade.buyer.categories_tab.BlankFragment;
+import com.aapkatrade.buyer.user_dashboard.order_list.new_order.NewOrderFragment;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.user_dashboard.order_list.cancel_order_fragment.CancelOrderFragment;
 import com.aapkatrade.buyer.user_dashboard.order_list.complete_order.CompleteOrderFragment;
@@ -184,7 +183,7 @@ public class OrderManagementActivity extends AppCompatActivity implements TabLay
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFrag(new BlankFragment(), "New Order");
+        adapter.addFrag(new NewOrderFragment(), "New Order");
         adapter.addFrag(new CancelOrderFragment(), "Cancelled");
         adapter.addFrag(new ShippedFragment(), "Shipped");
         adapter.addFrag(new CompleteOrderFragment(), "Completed");

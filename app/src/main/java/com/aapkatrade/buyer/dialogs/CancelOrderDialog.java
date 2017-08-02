@@ -14,7 +14,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 
 import com.aapkatrade.buyer.R;
-import com.aapkatrade.buyer.categories_tab.BlankFragment;
+import com.aapkatrade.buyer.user_dashboard.order_list.new_order.NewOrderFragment;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.progressbar.ProgressDialogHandler;
 import com.aapkatrade.buyer.user_dashboard.order_list.order_details.OrderDetailsActivity;
@@ -175,7 +175,7 @@ public class CancelOrderDialog extends DialogFragment {
                                 else{
 
                                     AndroidUtils.showErrorLog(getActivity(), result.toString());
-                                    BlankFragment.commonInterface.getData(position);
+                                    NewOrderFragment.commonInterface.getData(position);
 
                                 }
 

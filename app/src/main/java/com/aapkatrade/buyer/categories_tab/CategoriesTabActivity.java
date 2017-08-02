@@ -17,6 +17,7 @@ import android.widget.ImageView;
 
 import com.aapkatrade.buyer.home.navigation.NavigationFragment;
 import com.aapkatrade.buyer.R;
+import com.aapkatrade.buyer.user_dashboard.order_list.new_order.NewOrderFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,8 +85,8 @@ public class CategoriesTabActivity extends AppCompatActivity implements  AppBarL
     private void setupViewPager(ViewPager viewPager)
     {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new BlankFragment(), "Groceries");
-        adapter.addFragment(new BlankFragment(), "Restaurant");
+        adapter.addFragment(new NewOrderFragment(), "Groceries");
+        adapter.addFragment(new NewOrderFragment(), "Restaurant");
         viewPager.setAdapter(adapter);
     }
 
