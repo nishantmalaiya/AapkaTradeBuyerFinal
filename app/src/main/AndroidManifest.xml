@@ -90,6 +90,7 @@
             android:name=".home$buyerregistration.BuyerRegistrationActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".categories_tab.particular_data.ParticularActivity" />
+        <activity android:name=".contact_us.ContactUsActivity" />
         <activity android:name=".login.ActivityOTPVerify" />
         <activity android:name=".general.ConnectivityNotFound" />
         <activity android:name=".user_dashboard.order_list.order_details.OrderDetailsActivity" />

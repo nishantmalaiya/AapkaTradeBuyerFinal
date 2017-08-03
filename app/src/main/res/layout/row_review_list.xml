@@ -60,21 +60,36 @@
         </RelativeLayout>
 
 
+
+
+
         <TextView
             android:id="@+id/tvMessage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/relativeRatingBar"
-            android:layout_marginTop="@dimen/ten_dip"
+            android:layout_marginTop="@dimen/five_dip"
             android:text="Phone is amazing. Nice display, nice camera, smooth touch, design is superb. The only thing I didn't like is the sim card thing. The only thing I did not like is the sim card thing." />
 
+
+
+        <TextView
+            android:id="@+id/deliver_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/tvMessage"
+            android:text="21 Oct, 2016"
+            android:textColor="@color/green"
+            android:textSize="@dimen/fifteen_dip"
+            android:layout_marginTop="@dimen/five_dip"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tvMessage"
-            android:layout_marginTop="@dimen/ten_dip">
+            android:layout_below="@+id/deliver_date"
+            android:layout_marginTop="@dimen/five_dip">
 
             <TextView
                 android:id="@+id/tvShopName"
@@ -101,12 +116,14 @@
                     android:id="@+id/imgCertified"
                     android:layout_width="@dimen/twenty_five_dip"
                     android:layout_height="@dimen/twenty_five_dip"
+                    android:layout_centerVertical="true"
                     android:background="@drawable/ic_certified" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/five_dip"
+                    android:layout_centerVertical="true"
                     android:layout_toRightOf="@+id/imgCertified"
                     android:text="Certified Buyer"
                     android:textColor="@color/green" />
@@ -115,15 +132,6 @@
             </RelativeLayout>
 
 
-            <TextView
-                android:id="@+id/deliver_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_below="@+id/relativeCertified"
-                android:text="21 Oct, 2016"
-                android:textColor="@color/green"
-                android:textSize="@dimen/fifteen_dip" />
 
 
         </RelativeLayout>

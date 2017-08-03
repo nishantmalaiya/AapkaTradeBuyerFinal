@@ -1,40 +1,45 @@
 package com.aapkatrade.buyer.contact_us;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatImageView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.AppConfig;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Validation;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
+import com.aapkatrade.buyer.home.HomeActivity;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
-public class ContactUsFragment extends Fragment {
+public class ContactUsActivity extends AppCompatActivity {
 
     EditText etSubject, etUserName, etMobileNo, etEmail, etQuery;
     Button buttonSave;
     ProgressBarHandler progress_handler;
     ImageView imgPhone, imgEmail;
-
+    private Context context;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_contact_us, container, false);
-        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-        progress_handler = new ProgressBarHandler(getContext());
-        initView(view);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        setContentView(R.layout.activity_contact_us);
+        context = ContactUsActivity.this;
+        progress_handler = new ProgressBarHandler(context);
+        setUpToolBar();
+        initView();
         buttonSave.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -61,49 +66,80 @@ public class ContactUsFragment extends Fragment {
 
                                         } else {
 
-                                            AndroidUtils.showToast(getContext(), "Please Enter Query");
+                                            AndroidUtils.showToast(context, "Please Enter Query");
                                         }
 
                                     } else {
-                                        AndroidUtils.showToast(getContext(), "Please Enter Valid Email Address");
+                                        AndroidUtils.showToast(context, "Please Enter Valid Email Address");
                                     }
                                 } else {
-                                    AndroidUtils.showToast(getContext(), "Please Enter Email Address");
+                                    AndroidUtils.showToast(context, "Please Enter Email Address");
                                 }
 
                             } else {
-                                AndroidUtils.showToast(getContext(), "Please Enter 10 digit Mobile Number");
+                                AndroidUtils.showToast(context, "Please Enter 10 digit Mobile Number");
                             }
 
                         } else {
-                            AndroidUtils.showToast(getContext(), "Please Enter Mobile Number");
+                            AndroidUtils.showToast(context, "Please Enter Mobile Number");
                         }
 
                     } else {
-                        AndroidUtils.showToast(getContext(), "Please Enter User Name");
+                        AndroidUtils.showToast(context, "Please Enter User Name");
                     }
 
                 } else {
-                    AndroidUtils.showToast(getContext(), "Please Enter Subject");
+                    AndroidUtils.showToast(context, "Please Enter Subject");
                 }
 
             }
         });
 
-        return view;
     }
 
-    private void initView(View v) {
-        imgPhone = (ImageView) v.findViewById(R.id.imgPhone);
-        imgEmail = (ImageView) v.findViewById(R.id.imgEmail);
-        AndroidUtils.setImageColor(imgEmail, getActivity(), R.color.black);
-        AndroidUtils.setImageColor(imgPhone, getActivity(), R.color.black);
-        etSubject = (EditText) v.findViewById(R.id.etSubject);
-        etUserName = (EditText) v.findViewById(R.id.etUserName);
-        etMobileNo = (EditText) v.findViewById(R.id.etMobileNo);
-        etEmail = (EditText) v.findViewById(R.id.etEmail);
-        etQuery = (EditText) v.findViewById(R.id.etQuery);
-        buttonSave = (Button) v.findViewById(R.id.buttonSave);
+
+    private void setUpToolBar() {
+        AppCompatImageView homeIcon = (AppCompatImageView) findViewById(R.id.logoWord);
+        AppCompatImageView back_imagview = (AppCompatImageView) findViewById(R.id.back_imagview);
+        back_imagview.setVisibility(View.VISIBLE);
+        back_imagview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        TextView header_name = (TextView) findViewById(R.id.header_name);
+        //header_name.setVisibility(View.VISIBLE);
+        header_name.setText(getResources().getString(R.string.service_enquiry_list_heading));
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        homeIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, HomeActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }
+        });
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            getSupportActionBar().setTitle(null);
+            getSupportActionBar().setElevation(0);
+        }
+    }
+
+    private void initView() {
+        imgPhone = (ImageView) findViewById(R.id.imgPhone);
+        imgEmail = (ImageView) findViewById(R.id.imgEmail);
+        AndroidUtils.setImageColor(imgEmail, context, R.color.black);
+        AndroidUtils.setImageColor(imgPhone, context, R.color.black);
+        etSubject = (EditText) findViewById(R.id.etSubject);
+        etUserName = (EditText) findViewById(R.id.etUserName);
+        etMobileNo = (EditText) findViewById(R.id.etMobileNo);
+        etEmail = (EditText) findViewById(R.id.etEmail);
+        etQuery = (EditText) findViewById(R.id.etQuery);
+        buttonSave = (Button) findViewById(R.id.buttonSave);
 
 
     }
@@ -111,7 +147,7 @@ public class ContactUsFragment extends Fragment {
 
     private void callContactUsWebService(String subject, String username, String mobile, String email, String query) {
         progress_handler.show();
-        Ion.with(getActivity())
+        Ion.with(context)
                 .load(getResources().getString(R.string.webservice_base_url) + "/contact_us")
                 .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                 .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
@@ -120,7 +156,7 @@ public class ContactUsFragment extends Fragment {
                 .setBodyParameter("mobile_num", mobile)
                 .setBodyParameter("message", query)
                 .setBodyParameter("subject", subject)
-                .setBodyParameter("device_id", AppConfig.getCurrentDeviceId(getActivity()))
+                .setBodyParameter("device_id", AppConfig.getCurrentDeviceId(context))
                 .asJsonObject()
                 .setCallback(new FutureCallback<JsonObject>() {
 
@@ -133,10 +169,9 @@ public class ContactUsFragment extends Fragment {
                             JsonObject jsonObject = result.getAsJsonObject();
 
 
-                            if(jsonObject.get("error").getAsString().contains("false"))
-                            {
+                            if (jsonObject.get("error").getAsString().contains("false")) {
                                 String message = jsonObject.get("message").getAsString();
-                                AndroidUtils.showToast(getActivity(),message);
+                                AndroidUtils.showToast(context, message);
 
                             }
                             Log.e("message", jsonObject.toString());

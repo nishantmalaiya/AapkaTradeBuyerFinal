@@ -6,9 +6,11 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -22,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.aapkatrade.buyer.contact_us.ContactUsActivity;
 import com.aapkatrade.buyer.home.HomeActivity;
 import com.aapkatrade.buyer.home.navigation.adapter.NavigationAdapter;
 import com.aapkatrade.buyer.R;
@@ -42,7 +45,6 @@ import com.koushikdutta.ion.Ion;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -66,13 +68,14 @@ public class NavigationFragment extends Fragment {
     private TextView textViewName, emailid, tv_user_heading;
     private NavigationAdapter categoryAdapter;
     public ArrayList<Category> listDataHeader = new ArrayList<>();
-    private RelativeLayout rlprofilepic, rlLogout, rlPolicy, rlTerms, rlInvite;
+    private RelativeLayout rlprofilepic, rlLogout, rlPolicy, rlTerms, rlInvite, rlContactUs;
     private View rlMainContent;
     private ProgressBarHandler progressBarHandler;
     private RecyclerView navigationRecycleview;
     private LinearLayoutManager navigationLinearLayoutManager;
     private ImageView navigationClose;
     public static CircleImageView profilePic;
+    private ContactUsActivity contactUsActivity;
 
     String usertype;
 
@@ -115,24 +118,29 @@ public class NavigationFragment extends Fragment {
         });
 
         rlInvite = (RelativeLayout) view.findViewById(R.id.rl_invite);
+        rlContactUs = (RelativeLayout) view.findViewById(R.id.rl_contact_us);
 
         rlInvite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent share = new Intent(Intent.ACTION_SEND);
                 share.setType("text/plain");
-                // Uri screenshotUri = Uri.parse("android.resource://"+getActivity().getPackageName()+"/" + R.drawable.ic_app_icon);
                 String strShareMessage = "\nLet me recommend you this application\n\n";
                 strShareMessage = strShareMessage + "https://play.google.com/store/apps/details?id=com.aapkatrade.buyer";
-
-                // share.setType("image");
-                //  share.putExtra(Intent.EXTRA_STREAM, screenshotUri);
                 share.putExtra(Intent.EXTRA_TEXT, strShareMessage);
 
 
                 startActivity(Intent.createChooser(share, "Share using"));
 
 
+            }
+        });
+
+
+        rlContactUs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(context, ContactUsActivity.class));
             }
         });
 
@@ -195,11 +203,11 @@ public class NavigationFragment extends Fragment {
             String userName = appSharedpreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString(), "not");
             String emailId = appSharedpreference.getSharedPref(SharedPreferenceConstants.EMAIL_ID.toString(), "not");
             if (appSharedpreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), "").contains("1")) {
-                usertype = "Buyer";
+                usertype = SharedPreferenceConstants.USER_TYPE_BUYER.toString();
             } else if (appSharedpreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), "").contains("2")) {
-                usertype = "Seller";
+                usertype = SharedPreferenceConstants.USER_TYPE_SELLER.toString();
             } else if (appSharedpreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), "").contains("3")) {
-                usertype = "Associate";
+                usertype = SharedPreferenceConstants.USER_TYPE_ASSOCIATE.toString();
             }
 
 
@@ -367,6 +375,18 @@ public class NavigationFragment extends Fragment {
         appSharedpreference.setSharedPref(SharedPreferenceConstants.USER_NAME.toString(), user_name);
         appSharedpreference.setSharedPref(SharedPreferenceConstants.EMAIL_ID.toString(), email_id);
         appSharedpreference.setSharedPref(SharedPreferenceConstants.PROFILE_PIC.toString(), profile_pic);
+    }
+
+
+    private void replaceFragment(Fragment fragment) {
+
+        if(mDrawerLayout!=null)
+            mDrawerLayout.closeDrawers();
+//        mDrawerLayout.closeDrawer(View.GONE);
+        FragmentTransaction transaction = ((AppCompatActivity) context).getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.rl_main_content, fragment, fragment.getTag()).addToBackStack(fragment.getTag());
+        transaction.setCustomAnimations(R.anim.slide_left, R.anim.slide_right);
+        transaction.commit();
     }
 
 

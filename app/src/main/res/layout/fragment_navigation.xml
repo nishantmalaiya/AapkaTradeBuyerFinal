@@ -229,10 +229,34 @@
 
 
             <RelativeLayout
+                android:id="@+id/rl_contact_us"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+
+                android:layout_below="@+id/rl_invite"
+                android:background="@color/blue_gradient">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="26dp"
+                    android:text="@string/contact_us"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/blue_gradient_dark" />
+            </RelativeLayout>
+
+            <RelativeLayout
                 android:id="@+id/rl_logout"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
-                android:layout_below="@+id/rl_invite"
+                android:layout_below="@+id/rl_contact_us"
                 android:background="@color/blue_gradient"
                 android:visibility="gone">
 
