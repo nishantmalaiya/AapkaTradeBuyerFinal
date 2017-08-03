@@ -4,8 +4,8 @@
     android:id="@+id/coordination_home"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F1F5F8"
-    tools:context="com.aapkatrade.buyer.Home.DashboardFragment">
+    android:background="#e4e1e1"
+    >
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -34,7 +34,6 @@
                 android:id="@+id/scrollView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#F1F5F8"
                 android:visibility="invisible">
 
 

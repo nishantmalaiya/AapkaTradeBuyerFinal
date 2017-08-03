@@ -48,7 +48,6 @@ public class ProductManagementActivity extends AppCompatActivity {
     private ImageView imgShopType;
     private int page = 0;
     private TextView tvHeading;
-
     RelativeLayout rlSearchContainer;
 
 

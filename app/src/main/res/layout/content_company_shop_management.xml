@@ -11,7 +11,8 @@
 
     <include layout="@layout/list_header" />
 
-    <include layout="@layout/fragment_categories_shop" />
+    <include
+        layout="@layout/fragment_categories_shop" />
 
 
 
