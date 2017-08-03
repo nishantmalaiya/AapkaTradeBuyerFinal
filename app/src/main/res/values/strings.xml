@@ -35,7 +35,7 @@
     <string name="tab_2">About Us</string>
     <string name="tab_3">Track Order</string>
     <string name="tab_4">Account</string>
-    <string name="tab_5">Contact Us</string>
+    <string name="tab_5">Chat</string>
 
 
     <string name="welcomeguest">Welcome Guest</string>
@@ -73,7 +73,7 @@
     <string name="delivery_date">Delivery date: 19 Jan to 20 Jan</string>
     <string name="subtotal">Subtotal:</string>
 
-    <string name="webservice_base_url">http://staging.aapkatrade.com/slim</string>
+    <string name="webservice_base_url">http://staging.aapkatrade.com/android</string>
     <string name="share_base_url">https://www.aapkatrade.com/product</string>
 
 
@@ -350,4 +350,5 @@
     <string name="save_and_update"><![CDATA[Save & Update]]></string>
 
     <string name="new_data">data</string>
+    <string name="contact_us">Contact Us</string>
 </resources>

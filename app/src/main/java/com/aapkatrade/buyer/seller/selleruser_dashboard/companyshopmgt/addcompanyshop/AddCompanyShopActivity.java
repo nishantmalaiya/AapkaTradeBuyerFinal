@@ -851,8 +851,6 @@ public class AddCompanyShopActivity extends AppCompatActivity
 
                 captureVideo(requestCode, resultCode, data);
             }
-
-
         } catch (Exception e) {
             AndroidUtils.showErrorLog(context, "Exception", e.toString());
         }
@@ -875,7 +873,7 @@ public class AddCompanyShopActivity extends AppCompatActivity
         if (productMediaDatas != null && productMediaDatas.size() > 0) {
 
             for (ProductMediaData file : productMediaDatas) {
-                if (!file.isVideo) {
+                if (!file.isVideo && file.imagePath!=null) {
                     files.add(new FilePart("image[]", savebitmap(file.imagePath)));
                     AndroidUtils.showErrorLog(context, files.toArray().toString());
                 }

@@ -1,13 +1,9 @@
 package com.aapkatrade.buyer.home;
 
-import android.annotation.TargetApi;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.speech.RecognizerIntent;
@@ -23,7 +19,6 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -33,8 +28,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.aapkatrade.buyer.chat.ChatActivity;
+import com.aapkatrade.buyer.contact_us.ContactUsActivity;
 import com.aapkatrade.buyer.dialogs.ChatDialogFragment;
-import com.aapkatrade.buyer.dialogs.ServiceEnquiry;
 import com.aapkatrade.buyer.dialogs.track_order.TrackOrderDialog;
 import com.aapkatrade.buyer.general.Validation;
 import com.aapkatrade.buyer.login.LoginDashboard;
@@ -44,11 +39,9 @@ import com.aapkatrade.buyer.home.aboutus.AboutUsFragment;
 import com.aapkatrade.buyer.home.cart.MyCartActivity;
 import com.aapkatrade.buyer.home.navigation.NavigationFragment;
 import com.aapkatrade.buyer.R;
-import com.aapkatrade.buyer.contact_us.ContactUsFragment;
 import com.aapkatrade.buyer.general.AppConfig;
 import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.CheckPermission;
-import com.aapkatrade.buyer.general.ConnetivityCheck;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
@@ -75,7 +68,6 @@ public class HomeActivity extends AppCompatActivity {
     private AHBottomNavigation bottomNavigation;
     private CoordinatorLayout coordinatorLayout;
     private UserDashboardFragment userDashboardFragment;
-    private ContactUsFragment contactUsFragment;
     private ProgressBar progressBar;
     private Boolean permission_status;
     public static String userid, username;
@@ -153,8 +145,6 @@ public class HomeActivity extends AppCompatActivity {
         AppConfig.set_defaultfont(HomeActivity.this);
 
         aboutUsFragment = new AboutUsFragment();
-
-        contactUsFragment = new ContactUsFragment();
 
         userDashboardFragment = new UserDashboardFragment();
 
@@ -263,7 +253,6 @@ public class HomeActivity extends AppCompatActivity {
     public void onBackPressed() {
         FragmentManager fm = getSupportFragmentManager();
         DashboardFragment dashboardFragment = (DashboardFragment) fm.findFragmentByTag(homeFragment.getClass().getName());
-        ContactUsFragment showcontactUsFragment = (ContactUsFragment) fm.findFragmentByTag(contactUsFragment.getClass().getName());
         AboutUsFragment showaboutUsFragment = (AboutUsFragment) fm.findFragmentByTag(aboutUsFragment.getClass().getName());
 
         UserDashboardFragment showuserdashboardfragment = (UserDashboardFragment) fm.findFragmentByTag(userDashboardFragment.getClass().getName());
@@ -274,11 +263,6 @@ public class HomeActivity extends AppCompatActivity {
             //finish();
 
             Log.e("myfragment_visible", "myfragment visible");
-        } else if (showcontactUsFragment != null && showcontactUsFragment.isVisible()) {
-            double_back_pressed("finish");
-            // finish();
-            Log.e("contact us visible", "contact us visible");
-
         } else if (showaboutUsFragment != null && showaboutUsFragment.isVisible()) {
             double_back_pressed("finish");
             //finish();
@@ -339,7 +323,7 @@ public class HomeActivity extends AppCompatActivity {
         AHBottomNavigationItem item2 = new AHBottomNavigationItem(R.string.tab_2, R.drawable.ic_home_dashboard_aboutus, R.color.orange);
         AHBottomNavigationItem item3 = new AHBottomNavigationItem(R.string.tab_3, R.drawable.track, R.color.dark_green);
         AHBottomNavigationItem item4 = new AHBottomNavigationItem(R.string.tab_4, R.drawable.ic_home_bottom_account, R.color.dark_green);
-        AHBottomNavigationItem item5 = new AHBottomNavigationItem(R.string.tab_5, R.drawable.ic_about_us, R.color.dark_green);
+        AHBottomNavigationItem item5 = new AHBottomNavigationItem(R.string.tab_5, R.drawable.ic_chat, R.color.dark_green);
 
         bottomNavigation.setOnNavigationPositionListener(new AHBottomNavigation.OnNavigationPositionListener() {
             @Override
@@ -370,16 +354,15 @@ public class HomeActivity extends AppCompatActivity {
             public boolean onTabSelected(int position, boolean wasSelected) {
 
                 switch (position) {
-                    case 0:
 
+                    case 0:
                         if (homeFragment == null) {
                             homeFragment = new DashboardFragment();
                         }
                         String tagName = homeFragment.getClass().getName();
                         replaceFragment(homeFragment, tagName);
-
-
                         break;
+
                     case 1:
 
                         Log.e("time  fragment", String.valueOf(System.currentTimeMillis()));
@@ -419,12 +402,12 @@ public class HomeActivity extends AppCompatActivity {
                         break;
 
                     case 4:
-                        if (contactUsFragment == null) {
-                            contactUsFragment = new ContactUsFragment();
-                        }
-                        String contact_us_fragment = contactUsFragment.getClass().getName();
-                        replaceFragment(contactUsFragment, contact_us_fragment);
-                        //showOrHideBottomNavigation(true);
+
+                        FragmentManager fragmentManager = getSupportFragmentManager();
+                        ChatDialogFragment chatDialogFragment = new ChatDialogFragment(context);
+                        chatDialogFragment.show(fragmentManager, "Chat Dialog");
+
+
                         break;
 
 

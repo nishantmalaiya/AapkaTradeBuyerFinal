@@ -201,6 +201,10 @@ public class BankDetailsActivity extends AppCompatActivity {
                                             }
                                             disableViews();
                                         }
+                                    } else {
+
+                                        saveButton.setVisibility(View.VISIBLE);
+                                        editDetailsIcon.setVisibility(View.GONE);
                                     }
 
                                 } else {
