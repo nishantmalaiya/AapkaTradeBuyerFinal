@@ -18,6 +18,7 @@ import android.widget.ImageView;
 
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.AppConfig;
+import com.aapkatrade.buyer.general.ConnetivityCheck;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Validation;
 import com.aapkatrade.buyer.general.progressbar.ProgressDialogHandler;
@@ -108,14 +109,20 @@ public class TrackOrderDialog extends DialogFragment {
 
                         String otp_id = result.get("result").getAsJsonObject().get("otp_id").getAsString();
 
+                        if(ConnetivityCheck.isNetworkAvailable(getActivity()))
+                        {
+                            Intent go_to_activity_otp_verify = new Intent(getActivity(), ActivityOTPVerify.class);
+                            go_to_activity_otp_verify.putExtra("class_name", "TrackOrderDialog");
+                            go_to_activity_otp_verify.putExtra("otp_id", otp_id);
+                            startActivity(go_to_activity_otp_verify);
 
-                        Intent go_to_activity_otp_verify = new Intent(getActivity(), ActivityOTPVerify.class);
-                        go_to_activity_otp_verify.putExtra("class_name", "TrackOrderDialog");
-                        go_to_activity_otp_verify.putExtra("otp_id", otp_id);
-                        startActivity(go_to_activity_otp_verify);
 
+                            Log.e("otp_id", getActivity().getClass().getName());
+                        }
+                        else{
 
-                        Log.e("otp_id", getActivity().getClass().getName());
+                            AndroidUtils.showToast(getActivity(),"!Internet not available. Check your internet connection.");
+                        }
 
 
                     } else {

@@ -75,8 +75,6 @@
 
     <string name="webservice_base_url">http://staging.aapkatrade.com/android</string>
     <string name="share_base_url">https://www.aapkatrade.com/product</string>
-
-
     <string name="logout">Logout</string>
     <string name="latest_update">LATEST UPDATE</string>
     <string name="first_name">First Name*</string>

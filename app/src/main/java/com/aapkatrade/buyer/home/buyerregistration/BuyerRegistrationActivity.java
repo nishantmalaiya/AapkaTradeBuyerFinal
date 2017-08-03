@@ -25,6 +25,7 @@ import android.widget.TextView;
 import com.aapkatrade.buyer.Manifest;
 import com.aapkatrade.buyer.categories_tab.particular_data.ParticularActivity;
 import com.aapkatrade.buyer.general.CheckPermission;
+import com.aapkatrade.buyer.general.ConnetivityCheck;
 import com.aapkatrade.buyer.general.LocationManagerCheck;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.home.HomeActivity;
@@ -146,21 +147,30 @@ SmsManager smsManager;
                                 AndroidUtils.showSnackBar(registrationLayout, result.get("message").getAsString());
 
                                 progressBarHandler.hide();
-                                Intent call_to_startactivity = new Intent(BuyerRegistrationActivity.this, ActivityOTPVerify.class);
-                                call_to_startactivity.putExtra("email", etEmail.getText().toString());
-                                call_to_startactivity.putExtra("name", etFirstName.getText().toString());
-                                call_to_startactivity.putExtra("password", etPassword.getText().toString());
-                                call_to_startactivity.putExtra("mobile", etMobileNo.getText().toString());
-                                call_to_startactivity.putExtra("city_id", cityID);
-                                call_to_startactivity.putExtra("lastname", etLastName.getText().toString());
-                                call_to_startactivity.putExtra("country_id", "101");
-                                call_to_startactivity.putExtra("state_id", stateID);
-                                call_to_startactivity.putExtra("address", etAddress.getText().toString());
-                                call_to_startactivity.putExtra("class_name", context.getClass().getSimpleName());
 
-                                System.out.println("data is available");
+                                if(ConnetivityCheck.isNetworkAvailable(context)) {
+                                    Intent call_to_startactivity = new Intent(BuyerRegistrationActivity.this, ActivityOTPVerify.class);
+                                    call_to_startactivity.putExtra("email", etEmail.getText().toString());
+                                    call_to_startactivity.putExtra("name", etFirstName.getText().toString());
+                                    call_to_startactivity.putExtra("password", etPassword.getText().toString());
+                                    call_to_startactivity.putExtra("mobile", etMobileNo.getText().toString());
+                                    call_to_startactivity.putExtra("city_id", cityID);
+                                    call_to_startactivity.putExtra("lastname", etLastName.getText().toString());
+                                    call_to_startactivity.putExtra("country_id", "101");
+                                    call_to_startactivity.putExtra("state_id", stateID);
+                                    call_to_startactivity.putExtra("address", etAddress.getText().toString());
+                                    call_to_startactivity.putExtra("class_name", context.getClass().getSimpleName());
 
-                                startActivity(call_to_startactivity);
+                                    System.out.println("data is available");
+
+                                    startActivity(call_to_startactivity);
+                                }
+                                else {
+
+
+
+                                    AndroidUtils.showToast(context, "!Internet not available. Check your internet connection.");
+                                }
 
                             } else {
                                 progressBarHandler.hide();

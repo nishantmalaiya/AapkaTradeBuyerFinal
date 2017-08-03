@@ -37,6 +37,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.aapkatrade.buyer.animation.Animations;
+import com.aapkatrade.buyer.general.ConnetivityCheck;
 import com.aapkatrade.buyer.home.HomeActivity;
 import com.aapkatrade.buyer.home.buyerregistration.entity.City;
 import com.aapkatrade.buyer.home.buyerregistration.entity.Country;
@@ -291,10 +292,19 @@ public class SellerRegistrationActivity extends AppCompatActivity implements Tim
                                             Log.e("registration_seller", "done");
                                             AndroidUtils.showSnackBar(registrationLayout, result.get("message").getAsString());
 
-                                            Intent call_to_startactivity = new Intent(SellerRegistrationActivity.this, ActivityOTPVerify.class);
-                                            call_to_startactivity.putExtra("class_name", "SellerRegistrationActivity");
-                                            startActivity(call_to_startactivity);
+                                            if(ConnetivityCheck.isNetworkAvailable(context))
 
+                                            {
+                                                Intent call_to_startactivity = new Intent(SellerRegistrationActivity.this, ActivityOTPVerify.class);
+                                                call_to_startactivity.putExtra("class_name", "SellerRegistrationActivity");
+                                                startActivity(call_to_startactivity);
+                                            }
+
+
+                                            else{
+
+                                                AndroidUtils.showToast(context, "!Internet not available. Check your internet connection.");
+                                            }
 
                                         } else {
                                             AndroidUtils.showSnackBar(registrationLayout, result.get("message").getAsString());

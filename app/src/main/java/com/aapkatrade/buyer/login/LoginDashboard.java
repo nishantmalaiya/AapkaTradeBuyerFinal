@@ -14,12 +14,12 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.aapkatrade.buyer.general.ConnetivityCheck;
 import com.aapkatrade.buyer.home.HomeActivity;
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
-
 
 
 /**
@@ -35,8 +35,7 @@ public class LoginDashboard extends AppCompatActivity {
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_logindashboard);
@@ -48,25 +47,39 @@ public class LoginDashboard extends AppCompatActivity {
         fl_seller.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (app_sharedpreference.sharedPreferences != null)
-                    app_sharedpreference.setSharedPref(SharedPreferenceConstants.USER_TYPE.toString(),SharedPreferenceConstants.USER_TYPE_SELLER.toString());
 
-                Intent i = new Intent(LoginDashboard.this, LoginActivity.class);
-                i.putExtra("user_login", "SELLER LOGIN");
-                startActivity(i);
-                overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left);
+                if (ConnetivityCheck.isNetworkAvailable(context)) {
+                    if (app_sharedpreference.sharedPreferences != null)
+                        app_sharedpreference.setSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), SharedPreferenceConstants.USER_TYPE_SELLER.toString());
+
+                    Intent i = new Intent(LoginDashboard.this, LoginActivity.class);
+                    i.putExtra("user_login", "SELLER LOGIN");
+                    startActivity(i);
+                    overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left);
+                } else {
+
+                    AndroidUtils.showToast(context, "!Internet not available. Check your internet connection.");
+
+                }
             }
         });
 
         fl_buyer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (app_sharedpreference.sharedPreferences != null)
-                    app_sharedpreference.setSharedPref(SharedPreferenceConstants.USER_TYPE.toString(),SharedPreferenceConstants.USER_TYPE_BUYER.toString());
-                Intent i = new Intent(LoginDashboard.this, LoginActivity.class);
-                i.putExtra("user_login", "BUYER LOGIN");
-                startActivity(i);
-                overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left);
+
+                if (ConnetivityCheck.isNetworkAvailable(context)) {
+                    if (app_sharedpreference.sharedPreferences != null)
+                        app_sharedpreference.setSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), SharedPreferenceConstants.USER_TYPE_BUYER.toString());
+                    Intent i = new Intent(LoginDashboard.this, LoginActivity.class);
+                    i.putExtra("user_login", "BUYER LOGIN");
+                    startActivity(i);
+                    overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left);
+                } else {
+
+                    AndroidUtils.showToast(context, "!Internet not available. Check your internet connection.");
+
+                }
             }
         });
 
@@ -105,8 +118,7 @@ public class LoginDashboard extends AppCompatActivity {
 
     }
 
-    private void setUpToolBar()
-    {
+    private void setUpToolBar() {
         AppCompatImageView homeIcon = (AppCompatImageView) findViewById(R.id.logoWord);
         findViewById(R.id.logoWord).setVisibility(View.INVISIBLE);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -127,7 +139,7 @@ public class LoginDashboard extends AppCompatActivity {
             getSupportActionBar().setElevation(0);
         }
 
-        
+
     }
 
     @Override

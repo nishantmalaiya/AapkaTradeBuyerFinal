@@ -19,6 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.aapkatrade.buyer.R;
+import com.aapkatrade.buyer.general.ConnetivityCheck;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Validation;
 import com.aapkatrade.buyer.general.progressbar.ProgressDialogHandler;
@@ -103,8 +104,17 @@ RelativeLayout rl_dialog_enquiry_container;
                         if (Validation.isValidNumber(mobile.getText().toString(), Validation.getNumberPrefix(mobile.getText().toString()))) {
 
                             if (Validation.validateEdittext(service_enquiry)) {
-                                String call_enquiry_url = getResources().getString(R.string.webservice_base_url) + "/enquiry";
-                                call_enquiry_webservice(call_enquiry_url);
+                                if(ConnetivityCheck.isNetworkAvailable(context))
+
+                                {
+                                    String call_enquiry_url = getResources().getString(R.string.webservice_base_url) + "/enquiry";
+                                    call_enquiry_webservice(call_enquiry_url);
+                                }
+                                else{
+
+                                    AndroidUtils.showToast(context, "!Internet not available. Check your internet connection.");
+
+                                }
 
                             } else {
 
