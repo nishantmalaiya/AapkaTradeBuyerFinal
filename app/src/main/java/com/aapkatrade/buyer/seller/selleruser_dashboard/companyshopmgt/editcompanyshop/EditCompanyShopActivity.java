@@ -1,7 +1,5 @@
 package com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.editcompanyshop;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.content.ContentUris;
 import android.content.Context;

@@ -83,23 +83,13 @@ public class ActivityOTPVerify extends AppCompatActivity {
 
 
 
-       /* if(!appSharedPreference.getSharedPref(SharedPreferenceConstants.LASTEST_OTP.toString()).equals("0000"))
-        {*/
-            AndroidUtils.showToast(context,"Otp"+appSharedPreference.getSharedPref(SharedPreferenceConstants.LASTEST_OTP.toString()));
-            update_otp(appSharedPreference.getSharedPref(SharedPreferenceConstants.LASTEST_OTP.toString()));
-        /**/
 
 
-       /* SmsReceiver.bindListener(new SmsListener() {
-            @Override
-            public void messageReceived(String messageText) {
-                Log.d("Text",messageText);
-                //Toast.makeText(ActivityOTPVerify.this,"Message: "+messageText,Toast.LENGTH_LONG).show();
+            //update_otp(appSharedPreference.getSharedPref(SharedPreferenceConstants.LASTEST_OTP.toString()));
 
 
 
-            }
-        });*/
+
 
 
 
@@ -107,20 +97,22 @@ public class ActivityOTPVerify extends AppCompatActivity {
 
     public void update_otp(String message)
     {
-        message = message.replace("Your otp is ", "").trim();
-        String a = message.substring(0, 1).trim();
-        String b = message.substring(1, 2).trim();
-        String c = message.substring(2, 3).trim();
-        String d = message.substring(3, 4).trim();
-        editText1 = (EditText) findViewById(R.id.etotp1);
-        editText2 = (EditText) findViewById(R.id.etotp2);
-        editText3 = (EditText) findViewById(R.id.etotp3);
-        editText4 = (EditText) findViewById(R.id.etotp4);
-        editText1.setText(a);
-        editText2.setText(b);
-        editText3.setText(c);
-        editText4.setText(d);
-        Log.e("message412354235", message);
+        if(message.length()!=0) {
+            message = message.replace("Your otp is ", "").trim();
+            String a = message.substring(0, 1).trim();
+            String b = message.substring(1, 2).trim();
+            String c = message.substring(2, 3).trim();
+            String d = message.substring(3, 4).trim();
+            editText1 = (EditText) findViewById(R.id.etotp1);
+            editText2 = (EditText) findViewById(R.id.etotp2);
+            editText3 = (EditText) findViewById(R.id.etotp3);
+            editText4 = (EditText) findViewById(R.id.etotp4);
+            editText1.setText(a);
+            editText2.setText(b);
+            editText3.setText(c);
+            editText4.setText(d);
+            Log.e("message412354235", message);
+        }
     }
 
 

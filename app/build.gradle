@@ -12,10 +12,10 @@ android {
     defaultConfig {
         applicationId "com.aapkatrade.buyer"
         multiDexEnabled true
-        minSdkVersion 16
-        targetSdkVersion 25
-        versionCode 6
-        versionName "1.5"
+        minSdkVersion 19
+        targetSdkVersion 26
+        versionCode 9
+        versionName "1.8"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }

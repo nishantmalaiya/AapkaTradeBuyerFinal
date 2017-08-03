@@ -86,7 +86,7 @@ public class PrivacyPolicyActivity extends AppCompatActivity {
             }
         });
         TextView header_name = (TextView) findViewById(R.id.header_name);
-        header_name.setVisibility(View.VISIBLE);
+        //header_name.setVisibility(View.VISIBLE);
         header_name.setText(getResources().getString(R.string.privacy_policy));
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         homeIcon.setOnClickListener(new View.OnClickListener() {
