@@ -9,8 +9,10 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.View;
 import android.view.Window;
 import android.webkit.JavascriptInterface;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
@@ -41,33 +43,32 @@ import java.util.Random;
 public class PayMentGateWay extends Activity {
 
     private ArrayList<String> post_val = new ArrayList<String>();
-    private String post_Data="";
-    WebView webView ;
+    private String post_Data = "";
+    WebView webView;
     final Activity activity = this;
     private String tag = "PayMentGateWay";
-    private String hash,hashSequence;
-    ProgressDialog progressDialog ;
+    private String hash, hashSequence;
+    ProgressDialog progressDialog;
 
 //    String merchant_key="zBxSQi"; // live
 //    String salt="ZhraT96O"; // live
 
-  /* String merchant_key="Gb2Yti8E"; // comapny
-   String salt="o7wK8tcxmC"; // comapny
-*/
+    String merchant_key = "Gb2Yti8E"; // comapny
+    String salt = "o7wK8tcxmC"; // comapny
 
-    String merchant_key="kYz2vV"; // test
-    String salt="zhoXe53j"; // test
-	 	String action1 ="";
-    String base_url="https://test.payu.in";
-     //https://secure.payu.in
- //   String base_url="https://secure.payu.in";//
-    int error=0;
-    String hashString="";
-    Map<String,String> params;
-    String txnid ="";
+    /*   String merchant_key="kYz2vV"; // test
+       String salt="zhoXe53j"; // test*/
+    String action1 = "";
+    /*String base_url="https://test.payu.in";*/
+    //https://secure.payu.in
+    String base_url = "https://secure.payu.in";
+    int error = 0;
+    String hashString = "";
+    Map<String, String> params;
+    String txnid = "";
     ProgressBarHandler progressBarHandler;
-    String SUCCESS_URL = "https://www.payumoney.com/mobileapp/payumoney/success.php" ; // failed
-    String FAILED_URL = "https://www.payumoney.com/mobileapp/payumoney/failure.php" ;
+    String SUCCESS_URL = "https://www.payumoney.com/mobileapp/payumoney/success.php"; // failed
+    String FAILED_URL = "https://www.payumoney.com/mobileapp/payumoney/failure.php";
     AppSharedPreference app_sharedpreference;
     Handler mHandler = new Handler();
     String order_number;
@@ -75,9 +76,10 @@ public class PayMentGateWay extends Activity {
     static String getFirstName, getNumber, getEmailAddress, getRechargeAmt;
 
 
-    ProgressDialog pDialog ;
+    ProgressDialog pDialog;
 
-    @SuppressLint("JavascriptInterface") @Override
+    @SuppressLint("JavascriptInterface")
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
@@ -92,18 +94,18 @@ public class PayMentGateWay extends Activity {
         webView = new WebView(this);
         setContentView(webView);
 
-        Intent oIntent  = getIntent();
+        Intent oIntent = getIntent();
 
-        getFirstName    = oIntent.getExtras().getString("FIRST_NAME");
-        getNumber       = oIntent.getExtras().getString("PHONE_NUMBER");
+        getFirstName = oIntent.getExtras().getString("FIRST_NAME");
+        getNumber = oIntent.getExtras().getString("PHONE_NUMBER");
         getEmailAddress = oIntent.getExtras().getString("EMAIL_ADDRESS");
-        getRechargeAmt  = oIntent.getExtras().getString("RECHARGE_AMT");
+        getRechargeAmt = oIntent.getExtras().getString("RECHARGE_AMT");
         order_number = oIntent.getExtras().getString("ORDER_NUMBER");
 
 
         //post_val = getIntent().getStringArrayListExtra("post_val");
         //Log.d(tag, "post_val: "+post_val);
-        params= new HashMap<String,String>();
+        params = new HashMap<String, String>();
         params.put("key", merchant_key);
 
         params.put("amount", getRechargeAmt);
@@ -129,27 +131,25 @@ public class PayMentGateWay extends Activity {
         params.put("pg", "");
 
 		/*for(int i = 0;i<post_val.size();){
-			params.put(post_val.get(i), post_val.get(i+1));
+            params.put(post_val.get(i), post_val.get(i+1));
 
 			i+=2;
 		}*/
 
 
-        if(empty(params.get("txnid"))){
+        if (empty(params.get("txnid"))) {
             Random rand = new Random();
-            String rndm = Integer.toString(rand.nextInt())+(System.currentTimeMillis() / 1000L);
-            txnid=hashCal("SHA-256",rndm).substring(0,20);
+            String rndm = Integer.toString(rand.nextInt()) + (System.currentTimeMillis() / 1000L);
+            txnid = hashCal("SHA-256", rndm).substring(0, 20);
             params.put("txnid", txnid);
-        }
-        else
-            txnid=params.get("txnid");
+        } else
+            txnid = params.get("txnid");
         //String udf2 = txnid;
         //String txn="abcd";
-        hash="";
+        hash = "";
         String hashSequence = "key|txnid|amount|productinfo|firstname|email|udf1|udf2|udf3|udf4|udf5|udf6|udf7|udf8|udf9|udf10";
-        if(empty(params.get("hash")) && params.size()>0)
-        {
-            if( empty(params.get("key"))
+        if (empty(params.get("hash")) && params.size() > 0) {
+            if (empty(params.get("key"))
                     || empty(params.get("txnid"))
                     || empty(params.get("amount"))
                     || empty(params.get("firstname"))
@@ -160,31 +160,27 @@ public class PayMentGateWay extends Activity {
                     || empty(params.get("furl"))
                     || empty(params.get("service_provider"))
 
-                    ){
-                error=1;
-            }
-            else{
-                String[] hashVarSeq=hashSequence.split("\\|");
+                    ) {
+                error = 1;
+            } else {
+                String[] hashVarSeq = hashSequence.split("\\|");
 
-                for(String part : hashVarSeq)
-                {
-                    hashString= (empty(params.get(part)))?hashString.concat(""):hashString.concat(params.get(part));
-                    hashString=hashString.concat("|");
+                for (String part : hashVarSeq) {
+                    hashString = (empty(params.get(part))) ? hashString.concat("") : hashString.concat(params.get(part));
+                    hashString = hashString.concat("|");
                 }
-                hashString=hashString.concat(salt);
+                hashString = hashString.concat(salt);
 
 
-                hash=hashCal("SHA-512",hashString);
-                action1=base_url.concat("/_payment");
+                hash = hashCal("SHA-512", hashString);
+                action1 = base_url.concat("/_payment");
             }
-        }
-        else if(!empty(params.get("hash")))
-        {
-            hash=params.get("hash");
-            action1=base_url.concat("/_payment");
+        } else if (!empty(params.get("hash"))) {
+            hash = params.get("hash");
+            action1 = base_url.concat("/_payment");
         }
 
-        webView.setWebViewClient(new MyWebViewClient(){
+        webView.setWebViewClient(new MyWebViewClient() {
 
             public void onPageFinished(WebView view, final String url) {
                 progressDialog.dismiss();
@@ -192,7 +188,7 @@ public class PayMentGateWay extends Activity {
 
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 //make sure dialog is showing
-                if(! progressDialog.isShowing()){
+                if (!progressDialog.isShowing()) {
                     progressDialog.show();
                 }
             }
@@ -240,9 +236,9 @@ public class PayMentGateWay extends Activity {
         });
 
 
-        webView.setVisibility(0);
+        webView.setVisibility(View.VISIBLE);
         webView.getSettings().setBuiltInZoomControls(true);
-        webView.getSettings().setCacheMode(2);
+        webView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
         webView.getSettings().setDomStorageEnabled(true);
         webView.clearHistory();
         webView.clearCache(true);
@@ -254,36 +250,36 @@ public class PayMentGateWay extends Activity {
         //webView.addJavascriptInterface(new PayUJavaScriptInterface(getApplicationContext()), "PayUMoney");
         webView.addJavascriptInterface(new PayUJavaScriptInterface(), "PayUMoney");
         Map<String, String> mapParams = new HashMap<String, String>();
-        mapParams.put("key",merchant_key);
-        mapParams.put("hash",PayMentGateWay.this.hash);
-        mapParams.put("txnid",(empty(PayMentGateWay.this.params.get("txnid"))) ? "" : PayMentGateWay.this.params.get("txnid"));
-        Log.d(tag, "txnid: "+PayMentGateWay.this.params.get("txnid"));
-        mapParams.put("service_provider","payu_paisa");
+        mapParams.put("key", merchant_key);
+        mapParams.put("hash", PayMentGateWay.this.hash);
+        mapParams.put("txnid", (empty(PayMentGateWay.this.params.get("txnid"))) ? "" : PayMentGateWay.this.params.get("txnid"));
+        Log.d(tag, "txnid: " + PayMentGateWay.this.params.get("txnid"));
+        mapParams.put("service_provider", "payu_paisa");
 
-        mapParams.put("amount",(empty(PayMentGateWay.this.params.get("amount"))) ? "" : PayMentGateWay.this.params.get("amount"));
-        mapParams.put("firstname",(empty(PayMentGateWay.this.params.get("firstname"))) ? "" : PayMentGateWay.this.params.get("firstname"));
-        mapParams.put("email",(empty(PayMentGateWay.this.params.get("email"))) ? "" : PayMentGateWay.this.params.get("email"));
-        mapParams.put("phone",(empty(PayMentGateWay.this.params.get("phone"))) ? "" : PayMentGateWay.this.params.get("phone"));
+        mapParams.put("amount", (empty(PayMentGateWay.this.params.get("amount"))) ? "" : PayMentGateWay.this.params.get("amount"));
+        mapParams.put("firstname", (empty(PayMentGateWay.this.params.get("firstname"))) ? "" : PayMentGateWay.this.params.get("firstname"));
+        mapParams.put("email", (empty(PayMentGateWay.this.params.get("email"))) ? "" : PayMentGateWay.this.params.get("email"));
+        mapParams.put("phone", (empty(PayMentGateWay.this.params.get("phone"))) ? "" : PayMentGateWay.this.params.get("phone"));
 
-        mapParams.put("productinfo",(empty(PayMentGateWay.this.params.get("productinfo"))) ? "" : PayMentGateWay.this.params.get("productinfo"));
-        mapParams.put("surl",(empty(PayMentGateWay.this.params.get("surl"))) ? "" : PayMentGateWay.this.params.get("surl"));
-        mapParams.put("furl",(empty(PayMentGateWay.this.params.get("furl"))) ? "" : PayMentGateWay.this.params.get("furl"));
-        mapParams.put("lastname",(empty(PayMentGateWay.this.params.get("lastname"))) ? "" : PayMentGateWay.this.params.get("lastname"));
+        mapParams.put("productinfo", (empty(PayMentGateWay.this.params.get("productinfo"))) ? "" : PayMentGateWay.this.params.get("productinfo"));
+        mapParams.put("surl", (empty(PayMentGateWay.this.params.get("surl"))) ? "" : PayMentGateWay.this.params.get("surl"));
+        mapParams.put("furl", (empty(PayMentGateWay.this.params.get("furl"))) ? "" : PayMentGateWay.this.params.get("furl"));
+        mapParams.put("lastname", (empty(PayMentGateWay.this.params.get("lastname"))) ? "" : PayMentGateWay.this.params.get("lastname"));
 
-        mapParams.put("address1",(empty(PayMentGateWay.this.params.get("address1"))) ? "" : PayMentGateWay.this.params.get("address1"));
-        mapParams.put("address2",(empty(PayMentGateWay.this.params.get("address2"))) ? "" : PayMentGateWay.this.params.get("address2"));
-        mapParams.put("city",(empty(PayMentGateWay.this.params.get("city"))) ? "" : PayMentGateWay.this.params.get("city"));
-        mapParams.put("state",(empty(PayMentGateWay.this.params.get("state"))) ? "" : PayMentGateWay.this.params.get("state"));
+        mapParams.put("address1", (empty(PayMentGateWay.this.params.get("address1"))) ? "" : PayMentGateWay.this.params.get("address1"));
+        mapParams.put("address2", (empty(PayMentGateWay.this.params.get("address2"))) ? "" : PayMentGateWay.this.params.get("address2"));
+        mapParams.put("city", (empty(PayMentGateWay.this.params.get("city"))) ? "" : PayMentGateWay.this.params.get("city"));
+        mapParams.put("state", (empty(PayMentGateWay.this.params.get("state"))) ? "" : PayMentGateWay.this.params.get("state"));
 
-        mapParams.put("country",(empty(PayMentGateWay.this.params.get("country"))) ? "" : PayMentGateWay.this.params.get("country"));
-        mapParams.put("zipcode",(empty(PayMentGateWay.this.params.get("zipcode"))) ? "" : PayMentGateWay.this.params.get("zipcode"));
-        mapParams.put("udf1",(empty(PayMentGateWay.this.params.get("udf1"))) ? "" : PayMentGateWay.this.params.get("udf1"));
-        mapParams.put("udf2",(empty(PayMentGateWay.this.params.get("udf2"))) ? "" : PayMentGateWay.this.params.get("udf2"));
+        mapParams.put("country", (empty(PayMentGateWay.this.params.get("country"))) ? "" : PayMentGateWay.this.params.get("country"));
+        mapParams.put("zipcode", (empty(PayMentGateWay.this.params.get("zipcode"))) ? "" : PayMentGateWay.this.params.get("zipcode"));
+        mapParams.put("udf1", (empty(PayMentGateWay.this.params.get("udf1"))) ? "" : PayMentGateWay.this.params.get("udf1"));
+        mapParams.put("udf2", (empty(PayMentGateWay.this.params.get("udf2"))) ? "" : PayMentGateWay.this.params.get("udf2"));
 
-        mapParams.put("udf3",(empty(PayMentGateWay.this.params.get("udf3"))) ? "" : PayMentGateWay.this.params.get("udf3"));
-        mapParams.put("udf4",(empty(PayMentGateWay.this.params.get("udf4"))) ? "" : PayMentGateWay.this.params.get("udf4"));
-        mapParams.put("udf5",(empty(PayMentGateWay.this.params.get("udf5"))) ? "" : PayMentGateWay.this.params.get("udf5"));
-        mapParams.put("pg",(empty(PayMentGateWay.this.params.get("pg"))) ? "" : PayMentGateWay.this.params.get("pg"));
+        mapParams.put("udf3", (empty(PayMentGateWay.this.params.get("udf3"))) ? "" : PayMentGateWay.this.params.get("udf3"));
+        mapParams.put("udf4", (empty(PayMentGateWay.this.params.get("udf4"))) ? "" : PayMentGateWay.this.params.get("udf4"));
+        mapParams.put("udf5", (empty(PayMentGateWay.this.params.get("udf5"))) ? "" : PayMentGateWay.this.params.get("udf5"));
+        mapParams.put("pg", (empty(PayMentGateWay.this.params.get("pg"))) ? "" : PayMentGateWay.this.params.get("pg"));
         webview_ClientPost(webView, action1, mapParams.entrySet());
 
     }
@@ -326,9 +322,9 @@ public class PayMentGateWay extends Activity {
 	                    intent.putExtra(Constants.PAYMENT_ID, paymentId);
 	                    setResult(RESULT_OK, intent);
 	                    finish();*/
-                   // new PostRechargeData().execute();
+                    // new PostRechargeData().execute();
 
-                    callWebServiceMakePayment(paymentId,"true");
+                    callWebServiceMakePayment(paymentId, "true");
 
                     /*Intent intent=new Intent(PayMentGateWay.this,CartCheckoutActivity.class);
                     intent.putExtra("test",getFirstName);
@@ -346,7 +342,7 @@ public class PayMentGateWay extends Activity {
                 @Override
                 public void run() {
                     //cancelPayment();
-                    Toast.makeText(getApplicationContext(),"Cancel payment" , Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Cancel payment", Toast.LENGTH_LONG).show();
                 }
             });
         }
@@ -366,7 +362,7 @@ public class PayMentGateWay extends Activity {
 	                    intent.putExtra(Constants.RESULT, params);
 	                    setResult(RESULT_CANCELED, intent);
 	                    finish();*/
-                    Toast.makeText(getApplicationContext(),"Failed payment" , Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Failed payment", Toast.LENGTH_LONG).show();
                 }
             });
         }
@@ -374,7 +370,7 @@ public class PayMentGateWay extends Activity {
     }
 
 
-    public void webview_ClientPost(WebView webView, String url, Collection< Map.Entry<String, String>> postData){
+    public void webview_ClientPost(WebView webView, String url, Collection<Map.Entry<String, String>> postData) {
         StringBuilder sb = new StringBuilder();
 
         sb.append("<html><head></head>");
@@ -399,41 +395,40 @@ public class PayMentGateWay extends Activity {
             public void run() {
                 mHandler = null;
 
-              //  new PostRechargeData().execute();
+                //  new PostRechargeData().execute();
 
-                Toast.makeText(getApplicationContext(),"Successfully payment\n redirect from Success Function" , Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Successfully payment\n redirect from Success Function", Toast.LENGTH_LONG).show();
 
             }
         });
     }
 
 
-    public boolean empty(String s)
-    {
-        if(s== null || s.trim().equals(""))
+    public boolean empty(String s) {
+        if (s == null || s.trim().equals(""))
             return true;
         else
             return false;
     }
 
-    public String hashCal(String type, String str){
-        byte[] hashseq=str.getBytes();
+    public String hashCal(String type, String str) {
+        byte[] hashseq = str.getBytes();
         StringBuffer hexString = new StringBuffer();
-        try{
+        try {
             MessageDigest algorithm = MessageDigest.getInstance(type);
             algorithm.reset();
             algorithm.update(hashseq);
             byte messageDigest[] = algorithm.digest();
 
 
-
-            for (int i=0;i<messageDigest.length;i++) {
-                String hex= Integer.toHexString(0xFF & messageDigest[i]);
-                if(hex.length()==1) hexString.append("0");
+            for (int i = 0; i < messageDigest.length; i++) {
+                String hex = Integer.toHexString(0xFF & messageDigest[i]);
+                if (hex.length() == 1) hexString.append("0");
                 hexString.append(hex);
             }
 
-        }catch(NoSuchAlgorithmException nsae){ }
+        } catch (NoSuchAlgorithmException nsae) {
+        }
 
         return hexString.toString();
 
@@ -455,11 +450,12 @@ public class PayMentGateWay extends Activity {
         		Toast.makeText(getApplicationContext(),"Successfully payment\n redirect from webview" ,Toast.LENGTH_LONG).show();
 
                 return false;
-        	}else  */if(url.startsWith("http")){
+        	}else  */
+            if (url.startsWith("http")) {
                 //Toast.makeText(getApplicationContext(),url ,Toast.LENGTH_LONG).show();
                 progressDialog.show();
                 view.loadUrl(url);
-                System.out.println("myresult "+url);
+                System.out.println("myresult " + url);
                 //return true;
             } else {
                 return false;
@@ -539,14 +535,13 @@ public class PayMentGateWay extends Activity {
 
     /******************************************* closed send record to back end ************************************/
 
-    private void callWebServiceMakePayment(String transactionId, String status)
-    {
+    private void callWebServiceMakePayment(String transactionId, String status) {
 
         progressBarHandler.show();
 
         String login_url = getApplicationContext().getResources().getString(R.string.webservice_base_url) + "/make_payment";
 
-        System.out.println("order_number--------------" + order_number+status+transactionId+"fgdfgb----");
+        System.out.println("order_number--------------" + order_number + status + transactionId + "fgdfgb----");
 
         Ion.with(PayMentGateWay.this)
                 .load(login_url)
@@ -561,22 +556,18 @@ public class PayMentGateWay extends Activity {
                     @Override
                     public void onCompleted(Exception e, JsonObject result) {
                         //  AndroidUtils.showErrorLog(context,result,"dghdfghsaf dawbnedvhaewnbedvsab dsadduyf");
-                       // progressBarHandler.hide();
+                        // progressBarHandler.hide();
 
                         System.out.println("result--------------" + result);
-                        if (result.get("error").getAsString().contains("false"))
-                        {
+                        if (result.get("error").getAsString().contains("false")) {
                             progressBarHandler.hide();
                             String payment_status;
                             JsonObject jsonObject = result.getAsJsonObject("result");
 
-                            if(result.get("payment_status").getAsString().contains("false"))
-                            {
+                            if (result.get("payment_status").getAsString().contains("false")) {
                                 payment_status = "false";
                                 app_sharedpreference.setSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), 0);
-                            }
-                            else
-                            {
+                            } else {
                                 payment_status = "true";
                                 String cart_count = jsonObject.get("cart_item").getAsString();
                                 app_sharedpreference.setSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), Integer.valueOf(cart_count));
@@ -604,8 +595,6 @@ public class PayMentGateWay extends Activity {
                     }
                 });
     }
-
-
 
 
 }
