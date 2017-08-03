@@ -19,6 +19,7 @@ import com.aapkatrade.buyer.general.AppConfig;
 import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.CallWebService;
 import com.aapkatrade.buyer.general.ChangeFont;
+import com.aapkatrade.buyer.general.ConnetivityCheck;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.interfaces.TaskCompleteReminder;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
@@ -191,11 +192,16 @@ public class ForgotPasswordFragment extends Fragment implements View.OnClickList
                     String error = data.get("error").getAsString();
                     if (error.contains("false")) {
                         Log.e("data", data.toString());
+if(ConnetivityCheck.isNetworkAvailable(getActivity())) {
+    Intent go_to_activity_otp_verify = new Intent(getActivity(), ActivityOTPVerify.class);
+    go_to_activity_otp_verify.putExtra("class_name", getActivity().getClass().getName());
+    go_to_activity_otp_verify.putExtra("otp_id", data.get("otp_id").getAsString());
+    startActivity(go_to_activity_otp_verify);
+}
+else{
 
-                        Intent go_to_activity_otp_verify = new Intent(getActivity(), ActivityOTPVerify.class);
-                        go_to_activity_otp_verify.putExtra("class_name", getActivity().getClass().getName());
-                        go_to_activity_otp_verify.putExtra("otp_id", data.get("otp_id").getAsString());
-                        startActivity(go_to_activity_otp_verify);
+    AndroidUtils.showToast(getActivity(), "!Internet not available. Check your internet connection.");
+}
                     }
                     String message = data.get("message").getAsString();
                     AndroidUtils.showSnackBar(forgot_password_container, message);

@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.AppSharedPreference;
+import com.aapkatrade.buyer.general.ConnetivityCheck;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Validation;
 import com.aapkatrade.buyer.general.interfaces.CommonInterface;
@@ -88,9 +89,19 @@ public class PagingSpinner extends RelativeLayout {
             @Override
             public void onClick(View v) {
                 AndroidUtils.showErrorLog(context, "relativeLayoutRoot clicked.");
-                pagingSpinnerDialog = new PagingSpinnerDialog(context, shopType, sellerId);
-                FragmentManager fm = ((AppCompatActivity) context).getSupportFragmentManager();
-                pagingSpinnerDialog.show(fm, "PagingSpinnerDialog");
+               if( ConnetivityCheck.isNetworkAvailable(context))
+
+
+               {
+                   pagingSpinnerDialog = new PagingSpinnerDialog(context, shopType, sellerId);
+                   FragmentManager fm = ((AppCompatActivity) context).getSupportFragmentManager();
+                   pagingSpinnerDialog.show(fm, "PagingSpinnerDialog");
+               }
+               else{
+
+                   AndroidUtils.showToast(context,"!Internet not available. Check your internet connection.");
+               }
+
             }
         });
         commonInterface = new CommonInterface() {

@@ -19,6 +19,7 @@ import com.aapkatrade.buyer.dialogs.Seller_Update_Product_Policy;
 import com.aapkatrade.buyer.dialogs.ServiceEnquiry;
 import com.aapkatrade.buyer.dialogs.comingsoon.ComingSoonFragmentDialog;
 import com.aapkatrade.buyer.general.AppSharedPreference;
+import com.aapkatrade.buyer.general.ConnetivityCheck;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
@@ -98,7 +99,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         homeHolder.tvProductCategoryName.setText(itemList.get(position).category_name);
         homeHolder.tvProductShopName.setText(itemList.get(position).shop_name);
         homeHolder.tvProductStateName.setText(itemList.get(position).State_name);
-        AndroidUtils.showErrorLog(context, "--------------------------------url"+itemList.get(position).product_image);
+        AndroidUtils.showErrorLog(context, "--------------------------------url" + itemList.get(position).product_image);
         Ion.with(context)
                 .load(itemList.get(position).product_image)
                 .withBitmap().asBitmap()
@@ -113,13 +114,17 @@ public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         homeHolder.btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
 
-          
 
-       public void onClick(View v)
-            {
-                Intent editProductIntent = new Intent(context, EditProductActivity.class);
-                editProductIntent.putExtra("productId", itemList.get(position).product_id);
-                context.startActivity(editProductIntent);
+            public void onClick(View v) {
+                if (ConnetivityCheck.isNetworkAvailable(context)) {
+                    Intent editProductIntent = new Intent(context, EditProductActivity.class);
+                    editProductIntent.putExtra("productId", itemList.get(position).product_id);
+                    context.startActivity(editProductIntent);
+                } else {
+
+                    AndroidUtils.showToast(context, "!Internet not available. Check your internet connection.");
+
+                }
 
             }
         });

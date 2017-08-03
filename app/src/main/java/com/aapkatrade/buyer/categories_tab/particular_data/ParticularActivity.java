@@ -14,9 +14,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.aapkatrade.buyer.categories_tab.ShopListByCategoryActivity;
+import com.aapkatrade.buyer.general.LocationManagerCheck;
 import com.aapkatrade.buyer.home.HomeActivity;
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.categories_tab.CategoriesListAdapter;
@@ -25,6 +28,8 @@ import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
 import com.aapkatrade.buyer.general.recycleview_custom.MyRecyclerViewEffect;
 import com.aapkatrade.buyer.location.Mylocation;
+import com.aapkatrade.buyer.search.Search;
+import com.aapkatrade.buyer.service.GpsLocationService;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
@@ -46,8 +51,10 @@ public class ParticularActivity extends AppCompatActivity {
     Mylocation mylocation;
     private Context context;
     TextView listfootername, tv_list_quantity;
+    private ViewGroup view;
+    GpsLocationService gps;
 
-
+    ImageButton  btnsearch;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -85,11 +92,73 @@ public class ParticularActivity extends AppCompatActivity {
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
         listfootername = (TextView) view.findViewById(R.id.listfootername);
+
+        if(url.contains("latestpost"))
+        {
+
+            listfootername.setText("Latest Deals");
+
+        }
+        else if(url.contains("latestupdate")){
+
+            listfootername.setText("Latest Post");
+        }
+
+
         tv_list_quantity = (TextView) view.findViewById(R.id.tv_list_quantity);
         mRecyclerView.setHasFixedSize(true);
 
 
         get_web_data();
+
+
+        btnsearch = (ImageButton) view.findViewById(R.id.btnsearch);
+        btnsearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                LocationManagerCheck locationManagerCheck = new LocationManagerCheck(context);
+
+                if (locationManagerCheck.isLocationServiceAvailable()) {
+                    progress_handler.show();
+
+
+                    gps = new GpsLocationService(context);
+
+                    // check if GPS enabled
+                    if (gps.canGetLocation()) {
+
+
+                        double latitude = gps.getLatitude();
+                        double longitude = gps.getLongitude();
+                        String statename = gps.getStaeName();
+
+                        Intent intentAsync = new Intent(context, Search.class);
+                        intentAsync.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        intentAsync.putExtra("classname", "homeactivity");
+                        intentAsync.putExtra("state_name", statename);
+                        intentAsync.putExtra("latitude", String.valueOf(latitude));
+                        intentAsync.putExtra("longitude", String.valueOf(longitude));
+                        startActivity(intentAsync);
+
+                        progress_handler.hide();
+                    } else {
+                        // can't get location
+                        // GPS or Network is not enabled
+                        // Ask user to enable GPS/network in settings
+                        gps.showSettingsAlert();
+                    }
+
+
+                } else {
+                    locationManagerCheck.createLocationServiceError(ParticularActivity.this);
+                }
+
+
+            }
+        });
+
 
     }
 

@@ -65,7 +65,7 @@
                 android:layout_marginTop="2dp"
                 android:gravity="center_horizontal"
                 app:prb_clickable="false"
-                app:prb_defaultRating="3"
+                app:prb_defaultRating="0"
                 app:prb_tickNormalDrawable="@drawable/ic_white_star"
                 app:prb_tickSelectedDrawable="@drawable/ic_orange_star"
                 app:prb_tickSpacing="0dp"

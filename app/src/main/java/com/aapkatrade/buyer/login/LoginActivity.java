@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.aapkatrade.buyer.general.ConnetivityCheck;
 import com.aapkatrade.buyer.home.HomeActivity;
 import com.aapkatrade.buyer.home.buyerregistration.BuyerRegistrationActivity;
 import com.aapkatrade.buyer.R;
@@ -77,15 +78,27 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 if (usertype.contains("SELLER")) {
+                    if(ConnetivityCheck.isNetworkAvailable(context)) {
 
-                    Intent registerUserActivity = new Intent(context, SellerRegistrationActivity.class);
-                    startActivity(registerUserActivity);
+                        Intent registerUserActivity = new Intent(context, SellerRegistrationActivity.class);
+                        startActivity(registerUserActivity);
+                    }
+                    else{
+                        AndroidUtils.showToast(context, "!Internet not available. Check your internet connection.");
+                    }
                 } else if (usertype.contains("BUSINESS")) {
                     Intent registerUserActivity = new Intent(context, RegistrationBusinessAssociateActivity.class);
                     startActivity(registerUserActivity);
                 } else {
-                    Intent registerUserActivity = new Intent(context, BuyerRegistrationActivity.class);
-                    startActivity(registerUserActivity);
+
+                   if(ConnetivityCheck.isNetworkAvailable(context))
+                    {
+                        Intent registerUserActivity = new Intent(context, BuyerRegistrationActivity.class);
+                        startActivity(registerUserActivity);
+                    }
+                    else{
+                       AndroidUtils.showToast(context, "!Internet not available. Check your internet connection.");
+                   }
                 }
 
 
