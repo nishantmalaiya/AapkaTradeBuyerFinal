@@ -155,7 +155,7 @@ public class RateUsActivity extends AppCompatActivity {
             }
         });
         TextView header_name = (TextView) findViewById(R.id.header_name);
-        header_name.setVisibility(View.VISIBLE);
+       // header_name.setVisibility(View.VISIBLE);
         header_name.setText(getResources().getString(R.string.write_and_review));
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         homeIcon.setOnClickListener(new View.OnClickListener() {
@@ -215,6 +215,8 @@ public class RateUsActivity extends AppCompatActivity {
                     .setCallback(new FutureCallback<JsonObject>() {
                         @Override
                         public void onCompleted(Exception e, JsonObject result) {
+
+                            AndroidUtils.showErrorLog(context,"review",result);
                             if (result == null) {
                                 progress_handler.hide();
                             } else {

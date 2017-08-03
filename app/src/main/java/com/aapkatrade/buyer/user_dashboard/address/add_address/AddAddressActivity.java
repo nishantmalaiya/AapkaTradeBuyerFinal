@@ -414,7 +414,7 @@ public class AddAddressActivity extends AppCompatActivity
         AppCompatImageView homeIcon = (AppCompatImageView) findViewById(R.id.logoWord);
 
         TextView header_name = (TextView) findViewById(R.id.header_name);
-        header_name.setVisibility(View.VISIBLE);
+        //header_name.setVisibility(View.VISIBLE);
 
         header_name.setText(getResources().getString(R.string.add_address_heading));
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

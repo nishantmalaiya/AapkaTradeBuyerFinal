@@ -72,7 +72,7 @@ public class ServiceEnquiryActivity extends AppCompatActivity implements SwipeRe
             }
         });
         TextView header_name = (TextView) findViewById(R.id.header_name);
-        header_name.setVisibility(View.VISIBLE);
+        //header_name.setVisibility(View.VISIBLE);
         header_name.setText(getResources().getString(R.string.service_enquiry_list_heading));
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         homeIcon.setOnClickListener(new View.OnClickListener() {

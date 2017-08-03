@@ -317,7 +317,7 @@ public class BillHistory extends AppCompatActivity implements TimePickerDialog.O
             }
         });
         TextView header_name = (TextView) findViewById(R.id.header_name);
-        header_name.setVisibility(View.VISIBLE);
+       // header_name.setVisibility(View.VISIBLE);
         header_name.setText("");
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         homeIcon.setOnClickListener(new View.OnClickListener() {
