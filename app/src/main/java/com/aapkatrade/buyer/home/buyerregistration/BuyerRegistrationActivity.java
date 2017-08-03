@@ -1,11 +1,15 @@
 package com.aapkatrade.buyer.home.buyerregistration;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.Toolbar;
+import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,6 +22,11 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.aapkatrade.buyer.Manifest;
+import com.aapkatrade.buyer.categories_tab.particular_data.ParticularActivity;
+import com.aapkatrade.buyer.general.CheckPermission;
+import com.aapkatrade.buyer.general.LocationManagerCheck;
+import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.home.HomeActivity;
 import com.aapkatrade.buyer.home.buyerregistration.entity.BuyerRegistration;
 import com.aapkatrade.buyer.home.buyerregistration.entity.City;
@@ -28,6 +37,7 @@ import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.adapter.CustomSpinnerAdapter;
 import com.aapkatrade.buyer.general.Validation;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
+import com.aapkatrade.buyer.location.Mylocation;
 import com.aapkatrade.buyer.login.ActivityOTPVerify;
 
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -58,7 +68,7 @@ public class BuyerRegistrationActivity extends AppCompatActivity
     private CheckBox agreement_check;
     String refreshedToken;
 
-
+SmsManager smsManager;
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
@@ -125,6 +135,13 @@ public class BuyerRegistrationActivity extends AppCompatActivity
                         if (result != null) {
 
                             if (result.get("error").getAsString().equals("false")) {
+
+
+
+
+
+
+
                                 Log.e("registration_buyer", result.toString());
                                 AndroidUtils.showSnackBar(registrationLayout, result.get("message").getAsString());
 

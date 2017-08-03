@@ -52,17 +52,16 @@ public class BillPaymentPaymentGatway extends Activity {
 //    String merchant_key="zBxSQi"; // live
 //    String salt="ZhraT96O"; // live
 
-  /*  String merchant_key="Y9TTGAD1"; // comapny
-   String salt="9Q1J4MqWWd"; // comapny
-*/
+    String merchant_key = "Gb2Yti8E"; // comapny
+    String salt = "o7wK8tcxmC"; // comapny
 
 
-    String merchant_key="kYz2vV"; // test
-    String salt="zhoXe53j"; // test
+    /*String merchant_key="kYz2vV"; // test
+    String salt="zhoXe53j"; // test*/
     String action1 ="";
-    String base_url="https://test.payu.in";
+   // String base_url="https://test.payu.in";
     //https://secure.payu.in
-    // String base_url="https://secure.payu.in";//
+     String base_url="https://secure.payu.in";//
     int error=0;
     String hashString="";
     Map<String,String> params;
