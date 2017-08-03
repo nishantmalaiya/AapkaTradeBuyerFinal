@@ -1,7 +1,5 @@
 package com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.addcompanyshop;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.content.ContentUris;
 import android.content.Context;
@@ -27,8 +25,6 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewAnimationUtils;
-import android.view.animation.AnimationUtils;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -42,7 +38,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.aapkatrade.buyer.R;
-import com.aapkatrade.buyer.animation.Animations;
 import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.ImageUtils;
