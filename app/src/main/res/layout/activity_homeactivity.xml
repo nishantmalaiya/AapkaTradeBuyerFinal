@@ -73,7 +73,7 @@
     android:layout_width="@dimen/sixty_dip"
     android:layout_alignParentBottom="true"
     android:layout_gravity="bottom|right"
-
+    android:visibility="gone"
     android:id="@+id/container_chat_icon"
     app:layout_behavior="com.aapkatrade.buyer.general.BottomNavigationBehavior"
     android:layout_marginBottom="@dimen/sixty_dip"
