@@ -4,7 +4,7 @@
     android:id="@+id/coordination_home"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#e4e1e1"
+    android:background="#e8e6e6"
     >
 
     <RelativeLayout

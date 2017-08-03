@@ -605,7 +605,7 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
             finish();
 
         } else {
-
+            super.onBackPressed();
         }
 
     }

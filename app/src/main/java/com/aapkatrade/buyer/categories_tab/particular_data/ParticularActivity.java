@@ -136,7 +136,7 @@ public class ParticularActivity extends AppCompatActivity {
 
                         Intent intentAsync = new Intent(context, Search.class);
                         intentAsync.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        intentAsync.putExtra("classname", "homeactivity");
+                        intentAsync.putExtra("classname", context.getClass().getSimpleName());
                         intentAsync.putExtra("state_name", statename);
                         intentAsync.putExtra("latitude", String.valueOf(latitude));
                         intentAsync.putExtra("longitude", String.valueOf(longitude));
