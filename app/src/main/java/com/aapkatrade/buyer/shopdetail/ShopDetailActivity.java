@@ -274,7 +274,7 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
                                 for (int i = 0; i < openCloseDayArray.size(); i++) {
                                     JsonObject jsonObjectDays = (JsonObject) openCloseDayArray.get(i);
                                     OpenCloseShopData openCloseShopData = new OpenCloseShopData(jsonObjectDays.get("days").getAsString().substring(0, 3), jsonObjectDays.get("open_time") == null ? "" : jsonObjectDays.get("open_time").getAsString(), jsonObjectDays.get("close_time") == null ? "" : jsonObjectDays.get("close_time").getAsString());
-                                    if (jsonObjectDays.get("days").getAsString().toLowerCase().contains("mon") && jsonObjectDays.get("days").getAsString().toLowerCase().contains("fri")) {
+                                    if (Validation.containsIgnoreCase(jsonObjectDays.get("days").getAsString(), "mon") && Validation.containsIgnoreCase(jsonObjectDays.get("days").getAsString(), "fri")) {
                                         for (int j = 0; j < 5; j++) {
                                             String[] daysName = {"Mon", "Tue", "Wed", "Thu", "Fri"};
                                             OpenCloseShopData openCloseShopData1 = new OpenCloseShopData(daysName[j], openCloseShopData.openingTime, openCloseShopData.closingTime);

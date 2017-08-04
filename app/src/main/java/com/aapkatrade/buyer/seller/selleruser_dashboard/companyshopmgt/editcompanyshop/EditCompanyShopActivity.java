@@ -47,6 +47,7 @@ import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.Utils.adapter.CustomSimpleListAdapter;
 import com.aapkatrade.buyer.general.Utils.adapter.CustomSpinnerAdapter;
 import com.aapkatrade.buyer.general.Validation;
+import com.aapkatrade.buyer.general.entity.KeyValue;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
 import com.aapkatrade.buyer.home.HomeActivity;
 import com.aapkatrade.buyer.home.buyerregistration.entity.City;
@@ -110,8 +111,7 @@ public class EditCompanyShopActivity extends AppCompatActivity {
     private LinearLayout llShopDetailsContainer, llGeneralContainer;
     private String company_name, product_type, state_id, city_id, area, pincode, mobile, phone, email_id, web_url, category_id, sub_cat_id, facebookurl, twitterurl, googleplusurl, youtubeurl, short_description, address, videoURL, shopId;
     private boolean cityFlag = false, subCategoryFlag = false;
-    private ArrayList<String> imageUrlList = new ArrayList<>();
-
+    private ArrayList<KeyValue> imageUrlList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -243,7 +243,7 @@ public class EditCompanyShopActivity extends AppCompatActivity {
 
                         for (int i = 0; i < jsonArray.size(); i++) {
                             AndroidUtils.showErrorLog(context, "imagepathurl---------------------" + jsonArray.get(i).getAsJsonObject().get("image_url").getAsString());
-                            imageUrlList.add(jsonArray.get(i).getAsJsonObject().get("image_url").getAsString());
+                            imageUrlList.add(new KeyValue(jsonArray.get(i).getAsJsonObject().get("id").getAsString(), jsonArray.get(i).getAsJsonObject().get("image_url").getAsString()));
                         }
                         if (imageUrlList.size() > 0) {
                             for (int i = 0; i < imageUrlList.size(); i++) {
@@ -258,7 +258,7 @@ public class EditCompanyShopActivity extends AppCompatActivity {
     private void downloadImage(final int index) {
         progressBarHandler.show();
 
-        Ion.with(this).load(imageUrlList.get(index)).withBitmap().asBitmap()
+        Ion.with(this).load(imageUrlList.get(index).value.toString()).withBitmap().asBitmap()
                 .setCallback(new FutureCallback<Bitmap>() {
                     @Override
                     public void onCompleted(Exception e, Bitmap result) {
@@ -315,7 +315,7 @@ public class EditCompanyShopActivity extends AppCompatActivity {
         }
         // Create a media file name
         File mediaFile;
-        String mImageName = getFileName(imageUrlList.get(index)) + ".jpg";
+        String mImageName = getFileName(imageUrlList.get(index).value.toString()) + ".jpg";
         mediaFile = new File(mediaStorageDir.getPath() + File.separator + mImageName);
         return mediaFile;
     }
@@ -875,6 +875,7 @@ public class EditCompanyShopActivity extends AppCompatActivity {
         AndroidUtils.showErrorLog(context, "category_id", categoryID);
         AndroidUtils.showErrorLog(context, "area", etAreaLocation.getText().toString());
         AndroidUtils.showErrorLog(context, "state_id", stateID);
+        AndroidUtils.showErrorLog(context, "submitImages----------", submitImages()==null?null:submitImages().size());
         AndroidUtils.showErrorLog(context, "product_type", serviceType);
         AndroidUtils.showErrorLog(context, "sub_cat_id", subCategoryID);
         AndroidUtils.showErrorLog(context, "city_id", cityID);
@@ -1291,8 +1292,7 @@ public class EditCompanyShopActivity extends AppCompatActivity {
         ArrayList<Part> files = new ArrayList<>();
         if (productMediaDatas != null && productMediaDatas.size() > 0) {
             for (ProductMediaData file : productMediaDatas) {
-                if (!file.isVideo) {
-
+                if (!file.isVideo&& !isExistingImage(file) && savebitmap(file.imagePath)!=null) {
                     files.add(new FilePart("image[]", savebitmap(file.imagePath)));
                     AndroidUtils.showErrorLog(context, files.toArray().toString());
                 }
@@ -1300,6 +1300,15 @@ public class EditCompanyShopActivity extends AppCompatActivity {
             return files;
         }
         return null;
+    }
+    private boolean isExistingImage(ProductMediaData file) {
+        for (int i = 0; i < imageUrlList.size(); i++) {
+            AndroidUtils.showErrorLog(context, "------isExistingImage--imageUrlList.get(i)------->" + imageUrlList.get(i).value.toString().split("/")[imageUrlList.get(i).value.toString().split("/").length - 1] + "-------file.imagePath---------->" + file.imagePath.split("/")[file.imagePath.split("/").length - 1]);
+            if (file.imagePath.split("/")[file.imagePath.split("/").length - 1].equals(imageUrlList.get(i).value.toString().split("/")[imageUrlList.get(i).value.toString().split("/").length - 1])) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private List<Part> submitDeletedImages() {
@@ -1311,9 +1320,9 @@ public class EditCompanyShopActivity extends AppCompatActivity {
                 if (!file.isVideo) {
 
                     for (int i = 0; i < imageUrlList.size(); i++) {
-                        AndroidUtils.showErrorLog(context, "--------------Compare-------------------))))))imageUrlList((((((" + getFileName(imageUrlList.get(i)), "file.imagePath" + file.imagePath);
+                        AndroidUtils.showErrorLog(context, "--------------Compare-------------------))))))imageUrlList((((((" + getFileName(imageUrlList.get(i).value.toString()), "file.imagePath" + file.imagePath);
 
-                        if (!imageUrlList.get(i).split("/")[imageUrlList.get(i).split("/").length - 1].equals(file.imagePath)) {
+                        if (!imageUrlList.get(i).value.toString().split("/")[imageUrlList.get(i).value.toString().split("/").length - 1].equals(file.imagePath)) {
 //                            productMediaDatasDelete.remove(file);
 //                            files.add(new FilePart("delimg[]", savebitmap(file.imagePath)));
 //                            AndroidUtils.showErrorLog(context, "---------------------------------))))))((((((", files.toArray().toString());
