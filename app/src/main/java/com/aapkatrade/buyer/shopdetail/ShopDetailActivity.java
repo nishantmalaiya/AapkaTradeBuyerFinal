@@ -73,7 +73,7 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
     private RelativeLayout shopProductsLayout, openingClosingRelativeLayout, relativeLayoutlViewAllProducts, viewpager_container_shopdetail;
     private Spinner spinner;
     private int max = 10;
-    private ArrayList<String> imageList;
+    private ArrayList<ShopDetailMediaDatas> imageList;
     private int currentPage = 0;
     private int isStartDate = -1;
     private ServiceEnquiry serviceEnquiry;
@@ -117,6 +117,7 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
     private CustomBottomNavigationView bottomNavigationShop;
     private CoordinatorLayout coordinatorLayout;
     ImageButton btnServiceEnquiry;
+    String VideoPath;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -175,10 +176,14 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
                     @Override
                     public void onCompleted(Exception e, JsonObject result) {
                         if (result != null) {
+
                             AndroidUtils.showErrorLog(context, "result---------", result);
                             JsonObject json_result = result.get("result").getAsJsonObject();
                             shopId = json_result.get("id").getAsString();
                             productUrlPart = json_result.get("product_url").getAsString();
+                            VideoPath=json_result.get("shop_video").getAsString();
+
+                            AndroidUtils.showErrorLog(context,"video_Path",VideoPath);
                             JsonObject json_total_rating = result.getAsJsonObject("total_rating");
                             String avg_rating = json_total_rating.get("avg_rating").getAsString();
                             tvRatingAverage.setText(avg_rating);
@@ -207,8 +212,10 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
                                 JsonObject jsonimage = (JsonObject) jsonArrayImage.get(i);
                                 String image_url = jsonimage.get("image_url").getAsString();
                                 AndroidUtils.showErrorLog(context, "imageUrl---------" + image_url);
-                                imageList.add(image_url);
+                                imageList.add(new ShopDetailMediaDatas(image_url,false));
                             }
+
+                            imageList.add(new ShopDetailMediaDatas(VideoPath,true));
                             product_name = json_result.get("name").getAsString();
                             categoryName = json_result.get("catname").getAsString();
 //                            String product_price = json_result.get("price").getAsString();
@@ -430,7 +437,7 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
                         rate_us.putExtra("product_id", product_id);
                         rate_us.putExtra("product_name", tvshopName.getText().toString());
                         rate_us.putExtra("product_price", "");
-                        rate_us.putExtra("product_image", imageList.get(0));
+                        rate_us.putExtra("product_image", imageList.get(0).MediaUrl);
                         startActivity(rate_us);
                     }
                 }
