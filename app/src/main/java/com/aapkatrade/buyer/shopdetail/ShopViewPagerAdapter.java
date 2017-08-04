@@ -59,10 +59,6 @@ public class ShopViewPagerAdapter extends PagerAdapter {
 
         String product_imageurl = imageUrlArrayList.get(position);
 
-        Ion.with(imageView)
-                .error(ContextCompat.getDrawable(context, R.drawable.ic_applogo1))
-                .placeholder(ContextCompat.getDrawable(context, R.drawable.ic_applogo1))
-                .load(product_imageurl);
 
         container.addView(itemView);
 
