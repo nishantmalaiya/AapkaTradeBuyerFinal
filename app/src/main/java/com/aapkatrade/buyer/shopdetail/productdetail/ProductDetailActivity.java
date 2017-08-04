@@ -38,6 +38,7 @@ import com.aapkatrade.buyer.general.interfaces.CommonInterface;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
 import com.aapkatrade.buyer.login.LoginDashboard;
 import com.aapkatrade.buyer.rateus.RateUsActivity;
+import com.aapkatrade.buyer.shopdetail.ShopDetailMediaDatas;
 import com.aapkatrade.buyer.shopdetail.ShopViewPagerAdapter;
 import com.aapkatrade.buyer.shopdetail.reviewlist.ReviewListAdapter;
 import com.aapkatrade.buyer.shopdetail.reviewlist.ReviewListData;
@@ -74,7 +75,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     private Timer banner_timer = new Timer();
     private int currentPage = 0;
     private ShopViewPagerAdapter viewPagerAdapter;
-    private ArrayList<String> imageUrlArrayList = new ArrayList<>();
+    public ArrayList<ShopDetailMediaDatas> imageUrlArrayList = new ArrayList<>();
     private RecyclerView reviewRecyclerView;
     private LinearLayoutManager mLayoutManager;
     private ReviewListAdapter reviewListAdapter;
@@ -118,7 +119,7 @@ public class ProductDetailActivity extends AppCompatActivity {
                         rate_us.putExtra("isShopDetail", false);
                         rate_us.putExtra("product_name", tvProductName.getText().toString());
                         rate_us.putExtra("product_price", tvProductPrice.getText().toString());
-                        rate_us.putExtra("product_image", imageUrlArrayList.get(0));
+                        rate_us.putExtra("product_image", imageUrlArrayList.get(0).MediaUrl);
                         startActivity(rate_us);
                     }
 
@@ -336,7 +337,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     private void loadImageUrlArrayList(JsonArray jsonImageUrlArray) {
         for (int i = 0; i < jsonImageUrlArray.size(); i++) {
             JsonObject jsonUrlObject = (JsonObject) jsonImageUrlArray.get(i);
-            imageUrlArrayList.add(jsonUrlObject.get("image_url").getAsString());
+            imageUrlArrayList.add(new ShopDetailMediaDatas(jsonUrlObject.get("image_url").getAsString(),false));
 
         }
         setUpViewPager();

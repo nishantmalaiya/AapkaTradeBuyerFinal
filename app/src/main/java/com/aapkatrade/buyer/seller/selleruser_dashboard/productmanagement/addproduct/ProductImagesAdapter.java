@@ -161,9 +161,10 @@ public class ProductImagesAdapter extends RecyclerView.Adapter<RecyclerView.View
                             File file = itemList.get(position).videoFile;
                             Intent intent = new Intent(Intent.ACTION_VIEW);
                             if (itemList.get(position).videoFile == null) {
-                                intent.setDataAndType(Uri.parse(itemList.get(position).videoThumbnail.replace("png", "mp4")), "video/*");
+                                intent.setDataAndType(/*itemList.get(position).videoThumbnail.replace("png", "mp4")*/FileProvider.getUriForFile(context, "com.aapkatrade.buyer.provider",file), "video/*");
                             } else {
-                                intent.setDataAndType(Uri.fromFile(file), "video/*");
+
+                                intent.setDataAndType(/*Uri.fromFile(file)*/FileProvider.getUriForFile(context, "com.aapkatrade.buyer.provider",file), "video/*");
                             }
                             context.startActivity(intent);
                         } else {
