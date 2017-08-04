@@ -337,7 +337,6 @@
                             android:layout_height="@dimen/thirty_five_dip"
                             android:layout_alignParentRight="true"
                             android:gravity="left|center_vertical"
-                            android:text="2594"
                             android:textColor="@color/red"
                             android:textSize="@dimen/textsize"
                             android:textStyle="bold" />

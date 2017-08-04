@@ -1054,23 +1054,6 @@ public class AddCompanyShopActivity extends AppCompatActivity
 
             for (int k = 0; k < data.getClipData().getItemCount(); k++) {
 
-               /* Uri selectedImage = data.getClipData().getItemAt(k).getUri();
-
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
-                multipleImages.add(bitmap);
-
-
-                AndroidUtils.showErrorLog(context, "doc", "***START.****** ");
-                if (ImageUtils.sizeOf(bitmap) > 2048) {
-                    AndroidUtils.showErrorLog(context, "doc", "if doc file path 1");
-                    docFile = ImageUtils.getFile(context, ImageUtils.resize(bitmap, bitmap.getHeight() / 2, bitmap.getWidth() / 2));
-                    AndroidUtils.showErrorLog(context, "doc", "if doc file path" + docFile.getAbsolutePath());
-                } else {
-                    AndroidUtils.showErrorLog(context, "doc", " else doc file path 1");
-                    docFile = ImageUtils.getFile(context, bitmap);
-                    AndroidUtils.showErrorLog(context, "doc", " else doc file path" + docFile.getAbsolutePath());
-                }*/
-
                 File finalFile = new File(ImageUtils.getRealPathFromURI(context, data.getClipData().getItemAt(k).getUri()));
 
                 productMediaDatas.add(new ProductMediaData(finalFile.getAbsolutePath(), "", null, ""));
@@ -1081,19 +1064,9 @@ public class AddCompanyShopActivity extends AppCompatActivity
                     recyclerView.setVisibility(View.VISIBLE);
 
                 }
-
-
             }
 
-        } else {
-
-
-          /*  try {
-                InputStream inputStream = getContentResolver().openInputStream(data.getData());
-                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-                Uri tempUri = ImageUtils.getImageUri(context, bitmap);
-*/
-                // CALL THIS METHOD TO GET THE ACTUAL PATH
+        } else {                // CALL THIS METHOD TO GET THE ACTUAL PATH
                 File finalFile = new File(ImageUtils.getRealPathFromURI(context, data.getData()));
 
                 productMediaDatas.add(new ProductMediaData(finalFile.getAbsolutePath(), "", null, ""));
@@ -1104,12 +1077,6 @@ public class AddCompanyShopActivity extends AppCompatActivity
                     recyclerView.setVisibility(View.VISIBLE);
 
                 }
-
-          /*  } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }*/
-
-
         }
     }
 

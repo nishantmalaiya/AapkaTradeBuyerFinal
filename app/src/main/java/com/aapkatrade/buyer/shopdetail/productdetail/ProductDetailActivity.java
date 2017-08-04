@@ -1,5 +1,6 @@
 package com.aapkatrade.buyer.shopdetail.productdetail;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
@@ -83,6 +84,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     private LinearLayout dropDownContainer;
     private DroppyMenuPopup droppyMenu;
     private String singleUnitPrice = "0";
+    @SuppressLint("StaticFieldLeak")
     public static TextView tvCartCount;
 
     @Override
@@ -250,6 +252,12 @@ public class ProductDetailActivity extends AppCompatActivity {
             }
         };
 
+        tvPinCodeCheck.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AndroidUtils.showToast(context, "Currently this feature is not available.");
+            }
+        });
 
     }
 

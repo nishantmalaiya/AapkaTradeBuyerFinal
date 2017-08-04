@@ -2,7 +2,6 @@ package com.aapkatrade.buyer.filter;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
@@ -22,7 +21,6 @@ import com.aapkatrade.buyer.categories_tab.ShopListByCategoryActivity;
 import com.aapkatrade.buyer.filter.adapter.FilterColumn1RecyclerAdapter;
 import com.aapkatrade.buyer.filter.adapter.FilterColumn2RecyclerAdapter;
 import com.aapkatrade.buyer.filter.entity.FilterObject;
-import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.interfaces.CommonInterface;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.ParseUtils;
@@ -35,11 +33,9 @@ import java.util.ArrayList;
  * Created by PPC09 on 25-Mar-17.
  */
 public class FilterDialog extends Dialog {
-    private AppSharedPreference app_sharedpreference;
-    private ProgressBarHandler progress_handler;
     private Context context;
     private Button imgCLose;
-    private RelativeLayout dialogue_toolbar;
+    private RelativeLayout dialogueToolbar;
     private RecyclerView recyclerViewColumn1, recyclerViewColumn2;
     private String categoryId;
     private TextView applyFilter, clearAll;
@@ -49,9 +45,8 @@ public class FilterDialog extends Dialog {
     private ArrayMap<String, ArrayList<FilterObject>> filterHashMap = null;
     private ArrayMap<String, ArrayList<FilterObject>> selectedHashMap = new ArrayMap<>();
     private String key = "";
-    private int count = 0;
     public static String filterString = "";
-    ProgressBarHandler progressBarHandler;
+    private ProgressBarHandler progressBarHandler;
 
 
     public FilterDialog(Context context, String category_id, ArrayMap<String, ArrayList<FilterObject>> filterHashMap) {
@@ -156,10 +151,8 @@ public class FilterDialog extends Dialog {
     }
 
     private void initView() {
-        app_sharedpreference = new AppSharedPreference(context);
-        progress_handler = new ProgressBarHandler(context);
-        dialogue_toolbar = (RelativeLayout) findViewById(R.id.dialogue_toolbar);
-        AndroidUtils.setBackgroundSolid(dialogue_toolbar, context, R.color.green, 8, GradientDrawable.RECTANGLE);
+        dialogueToolbar = (RelativeLayout) findViewById(R.id.dialogue_toolbar);
+        AndroidUtils.setBackgroundSolid(dialogueToolbar, context, R.color.green, 8, GradientDrawable.RECTANGLE);
         imgCLose = (Button) findViewById(R.id.imgCLose);
         applyFilter = (TextView) findViewById(R.id.applyFilter);
         clearAll = (TextView) findViewById(R.id.clearAll);
@@ -231,7 +224,6 @@ public class FilterDialog extends Dialog {
                 return null;
             }
         };
-        count = 0;
         progressBarHandler.hide();
     }
 
