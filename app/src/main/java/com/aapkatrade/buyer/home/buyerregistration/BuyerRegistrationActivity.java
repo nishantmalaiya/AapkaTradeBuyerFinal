@@ -148,7 +148,8 @@ SmsManager smsManager;
 
                                 progressBarHandler.hide();
 
-                                if(ConnetivityCheck.isNetworkAvailable(context)) {
+                                if(ConnetivityCheck.isNetworkAvailable(context))
+                                {
                                     Intent call_to_startactivity = new Intent(BuyerRegistrationActivity.this, ActivityOTPVerify.class);
                                     call_to_startactivity.putExtra("email", etEmail.getText().toString());
                                     call_to_startactivity.putExtra("name", etFirstName.getText().toString());

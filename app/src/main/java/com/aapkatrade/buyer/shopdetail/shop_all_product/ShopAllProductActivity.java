@@ -187,7 +187,11 @@ public class ShopAllProductActivity extends AppCompatActivity {
                                     String productShortDescription = jsonproduct.get("short_des").getAsString();
                                     String price = jsonproduct.get("price").getAsString();
                                     String productImage = jsonproduct.get("image_url").getAsString();
-                                    shopAllProductDatas.add(new ShopAllProductData(productId, productName, productShortDescription, price, productImage, ""));
+                                   // String unitsname = jsonproduct.get("unitsname").getAsString();
+                                    String category_name = jsonproduct.get("cat_name").getAsString();
+                                    String company_name = jsonproduct.get("company_name").getAsString();
+
+                                    shopAllProductDatas.add(new ShopAllProductData(productId, productName, productShortDescription, price, productImage, "",category_name,company_name));
                                 }
                                 RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
                                 mRecyclerView.setLayoutManager(mLayoutManager);

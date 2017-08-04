@@ -6,9 +6,9 @@ package com.aapkatrade.buyer.home.cart;
 
 public class CartData
 {
-    public String productName,id,price,quantity,product_image,product_id,subtotal_price,shipping_cost,available_status;
+    public String productName,id,price,quantity,product_image,product_id,subtotal_price,shipping_cost,available_status,shop_name;
 
-    public CartData(String id, String productName, String quantity,String price,String product_image,String product_id,String subtotal_price,String available_status,String shipping_cost)
+    public CartData(String id, String productName, String quantity,String price,String product_image,String product_id,String subtotal_price,String available_status,String shipping_cost,String shop_name)
     {
         this.id = id;
         this.productName = productName;
@@ -19,6 +19,7 @@ public class CartData
         this.subtotal_price= subtotal_price;
         this.available_status = available_status;
         this.shipping_cost = shipping_cost;
+        this.shop_name = shop_name;
     }
 
     public String getProductName() {

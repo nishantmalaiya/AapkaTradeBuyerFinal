@@ -48,22 +48,25 @@ public class ActivityOTPVerify extends AppCompatActivity {
     public static EditText editText1, editText2, editText3, editText4;
     private ProgressBarHandler progressBarHandler;
     int count = 00;
-    private Context context;
+
     AppSharedPreference appSharedPreference;
-
+    BroadcastReceiver receiver;
     CoordinatorLayout coordinatorLayout;
-
+    AppSharedPreference appSharedpreference;
     LocalBroadcastManager bManager;
     String class_name, etEmail, etFirstName, etPassword, etMobileNo, cityID, etLastName, state_id, address;
     String otp_id;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_otpverify);
+
         class_name = getIntent().getStringExtra("class_name");
         otp_id = getIntent().getStringExtra("otp_id");
-        if (class_name.contains("BuyerRegistrationActivity")) {
+        if (class_name.contains("BuyerRegistrationActivity"))
+        {
             etEmail = getIntent().getStringExtra("email");
             etFirstName = getIntent().getStringExtra("name");
             etPassword = getIntent().getStringExtra("password");
@@ -75,21 +78,14 @@ public class ActivityOTPVerify extends AppCompatActivity {
         }
 
 
-        context = ActivityOTPVerify.this;
-        appSharedPreference = new AppSharedPreference(context);
+        appSharedPreference = new AppSharedPreference(ActivityOTPVerify.this);
+
         setUpToolBar();
+
         setup_layout();
 
 
-
-
-
-
-            //update_otp(appSharedPreference.getSharedPref(SharedPreferenceConstants.LASTEST_OTP.toString()));
-
-
-
-
+        //update_otp(appSharedPreference.getSharedPref(SharedPreferenceConstants.LASTEST_OTP.toString()));
 
 
 
@@ -132,7 +128,7 @@ public class ActivityOTPVerify extends AppCompatActivity {
         homeIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, HomeActivity.class);
+                Intent intent = new Intent(ActivityOTPVerify.this, HomeActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
             }
@@ -194,6 +190,23 @@ public class ActivityOTPVerify extends AppCompatActivity {
         otpNotRespond = (TextView) findViewById(R.id.otpNotRespond);
 
 
+        receiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if (intent.getAction().equalsIgnoreCase("otp"))
+                {
+                    final String message = intent.getStringExtra("message");
+
+                    System.out.println("message----"+message);
+
+                    update_otp(message);
+
+                }
+            }
+        };
+
+
+
         verifyotp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -204,10 +217,10 @@ public class ActivityOTPVerify extends AppCompatActivity {
 
                         call_verifyotp_track_order(otp);
 
-                        AndroidUtils.showErrorLog(context, "working 1");
+                        AndroidUtils.showErrorLog(ActivityOTPVerify.this, "working 1");
                     } else {
 
-                        AndroidUtils.showErrorLog(context, "working 2");
+                        AndroidUtils.showErrorLog(ActivityOTPVerify.this, "working 2");
                         String otp = editText1.getText().toString().trim() + editText2.getText().toString().trim() + editText3.getText().toString().trim() + editText4.getText().toString().trim();
 
                         Log.e("otp ", otp);
@@ -321,7 +334,7 @@ public class ActivityOTPVerify extends AppCompatActivity {
         progressBarHandler.show();
 
         String track_order_url = getString(R.string.webservice_base_url) + "/varify_track_num";
-        Ion.with(context)
+        Ion.with(ActivityOTPVerify.this)
                 .load(track_order_url)
                 .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                 .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
@@ -341,7 +354,7 @@ public class ActivityOTPVerify extends AppCompatActivity {
                         progressBarHandler.hide();
 
 
-                        AndroidUtils.showErrorLog(context, result.toString());
+                        AndroidUtils.showErrorLog(ActivityOTPVerify.this, result.toString());
 
 
                         Intent go_to_activity_otp_verify = new Intent(ActivityOTPVerify.this, Order_detail.class);
@@ -418,7 +431,7 @@ public class ActivityOTPVerify extends AppCompatActivity {
 
                             JsonArray jsonElements = jsonObject.get("all_info").getAsJsonArray();
                             JsonObject jsonObject1 = jsonElements.get(0).getAsJsonObject();
-                            AndroidUtils.showErrorLog(context, "USERNAME***&&--->>" + jsonObject1.get("name").getAsString());
+                            AndroidUtils.showErrorLog(ActivityOTPVerify.this, "USERNAME***&&--->>" + jsonObject1.get("name").getAsString());
 
                             appSharedPreference.setSharedPref(SharedPreferenceConstants.USER_ID.toString(), jsonObject.get("user_id").getAsString());
                             appSharedPreference.setSharedPref(SharedPreferenceConstants.USER_NAME.toString(), jsonObject1.get("name").getAsString());
@@ -436,7 +449,7 @@ public class ActivityOTPVerify extends AppCompatActivity {
                             appSharedPreference.setSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS_PINCODE.toString(), jsonObject1.get("sh_pincode").getAsString());
                             appSharedPreference.setSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), user_type);
 
-                            Intent intent = new Intent(context, HomeActivity.class);
+                            Intent intent = new Intent(ActivityOTPVerify.this, HomeActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(intent);
 
@@ -462,7 +475,7 @@ public class ActivityOTPVerify extends AppCompatActivity {
 
                             JsonArray jsonElements = jsonObject.get("all_info").getAsJsonArray();
                             JsonObject jsonObject1 = jsonElements.get(0).getAsJsonObject();
-                            AndroidUtils.showErrorLog(context, "USERNAME***&&--->>" + jsonObject1.get("name").getAsString());
+                            AndroidUtils.showErrorLog(ActivityOTPVerify.this, "USERNAME***&&--->>" + jsonObject1.get("name").getAsString());
 
 
                             appSharedPreference.setSharedPref(SharedPreferenceConstants.USER_ID.toString(), jsonObject.get("user_id").getAsString());
@@ -475,7 +488,7 @@ public class ActivityOTPVerify extends AppCompatActivity {
                             appSharedPreference.setSharedPref(SharedPreferenceConstants.PROFILE_VIDEO_THUMBNAIL.toString(), jsonObject1.get("video_thumbnail").getAsString());
                             appSharedPreference.setSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), user_type);
 
-                            Intent intent = new Intent(context, HomeActivity.class);
+                            Intent intent = new Intent(ActivityOTPVerify.this, HomeActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(intent);
 
@@ -485,7 +498,7 @@ public class ActivityOTPVerify extends AppCompatActivity {
                             if(appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString())==SharedPreferenceConstants.USER_TYPE_SELLER.toString())
 
                             {
-                                Intent Homedashboard = new Intent(context, HomeActivity.class);
+                                Intent Homedashboard = new Intent(ActivityOTPVerify.this, HomeActivity.class);
                                 Homedashboard.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(Homedashboard);
                             }
@@ -563,7 +576,7 @@ public class ActivityOTPVerify extends AppCompatActivity {
 
         progressBarHandler.show();
 
-        String loginUrl = context.getResources().getString(R.string.webservice_base_url) + "/update_cart_user";
+        String loginUrl = ActivityOTPVerify.this.getResources().getString(R.string.webservice_base_url) + "/update_cart_user";
 
         String user_id = appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), "notlogin");
         if (user_id.equals("notlogin")) {
@@ -571,12 +584,12 @@ public class ActivityOTPVerify extends AppCompatActivity {
         }
 
 
-        Ion.with(context)
+        Ion.with(ActivityOTPVerify.this)
                 .load(loginUrl)
                 .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                 .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                 .setBodyParameter("user_id", user_id)
-                .setBodyParameter("device_id", AppConfig.getCurrentDeviceId(context))
+                .setBodyParameter("device_id", AppConfig.getCurrentDeviceId(ActivityOTPVerify.this))
 
                 .asJsonObject()
                 .setCallback(new FutureCallback<JsonObject>() {
@@ -607,20 +620,20 @@ public class ActivityOTPVerify extends AppCompatActivity {
     {
         progressBarHandler.show();
 
-        String login_url = context.getResources().getString(R.string.webservice_base_url) + "/update_cart_user";
+        String login_url = ActivityOTPVerify.this.getResources().getString(R.string.webservice_base_url) + "/update_cart_user";
 
         String user_id = appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), "notlogin");
         if (user_id.equals("notlogin")) {
             user_id = "";
         }
 
-        Ion.with(context)
+        Ion.with(ActivityOTPVerify.this)
                 .load(login_url)
                 .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                 .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                 .setBodyParameter("user_id", user_id)
                 .setBodyParameter("user_type",appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), ""))
-                .setBodyParameter("device_id", AppConfig.getCurrentDeviceId(context))
+                .setBodyParameter("device_id", AppConfig.getCurrentDeviceId(ActivityOTPVerify.this))
 
                 .asJsonObject()
                 .setCallback(new FutureCallback<JsonObject>() {
@@ -650,17 +663,7 @@ public class ActivityOTPVerify extends AppCompatActivity {
         progressBarHandler.hide();
     }
 
-    private BroadcastReceiver receiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (intent.getAction().equalsIgnoreCase("otp")) {
-                final String message = intent.getStringExtra("message");
 
-
-                //Do whatever you want with the code here
-            }
-        }
-    };
 
     @Override
     public void onResume() {
