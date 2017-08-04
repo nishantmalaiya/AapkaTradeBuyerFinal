@@ -64,9 +64,6 @@ public class ShopViewPagerAdapter extends PagerAdapter {
                 .placeholder(ContextCompat.getDrawable(context, R.drawable.ic_applogo1))
                 .load(product_imageurl);
 
-        //AndroidUtils.setBackgroundStroke(imageView, context, R.color.green, 20, 5);
-
-
         container.addView(itemView);
 
         imageView.setOnClickListener(new View.OnClickListener() {

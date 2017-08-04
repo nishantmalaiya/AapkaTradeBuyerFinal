@@ -66,8 +66,7 @@ import github.nisrulz.stackedhorizontalprogressbar.StackedHorizontalProgressBar;
 import me.relex.circleindicator.CircleIndicator;
 
 
-public class ShopDetailActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener
-{
+public class ShopDetailActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
     private LinearLayout viewpagerindicator, linearlayoutShare, linearlayoutLocation;
     private RelativeLayout shopProductsLayout, openingClosingRelativeLayout, relativeLayoutlViewAllProducts, viewpager_container_shopdetail;
@@ -86,8 +85,8 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
     private ImageView[] dots;
     private Timer banner_timer = new Timer();
 
-    private RelativeLayout  relativeRateReview;
-    private LinearLayout linearProductDetail,RelativeProductDetail;
+    private RelativeLayout relativeRateReview;
+    private LinearLayout linearProductDetail, RelativeProductDetail;
     private TextView tvshopName, tvProPrice, tvCrossPrice, tvDiscription, tvSpecification, tvQuatity;
     private ProgressBarHandler progress_handler;
     private String product_id;
@@ -158,8 +157,7 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
 
     }
 
-    private void getShopDetailsData()
-    {
+    private void getShopDetailsData() {
 
         linearProductDetail.setVisibility(View.GONE);
         progress_handler.show();
@@ -265,41 +263,31 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
                             JsonArray openCloseDayArray = result.getAsJsonArray("opening_time");
 
                             if (openCloseDayArray != null && openCloseDayArray.size() > 0) {
-
-
                                 openingClosingRelativeLayout.setVisibility(View.VISIBLE);
                                 for (int i = 0; i < openCloseDayArray.size(); i++) {
                                     JsonObject jsonObjectDays = (JsonObject) openCloseDayArray.get(i);
                                     OpenCloseShopData openCloseShopData = new OpenCloseShopData(jsonObjectDays.get("days").getAsString().substring(0, 3), jsonObjectDays.get("open_time") == null ? "" : jsonObjectDays.get("open_time").getAsString(), jsonObjectDays.get("close_time") == null ? "" : jsonObjectDays.get("close_time").getAsString());
                                     if (jsonObjectDays.get("days").getAsString().toLowerCase().contains("mon") && jsonObjectDays.get("days").getAsString().toLowerCase().contains("fri")) {
                                         for (int j = 0; j < 5; j++) {
-                                            if(openCloseShopData.openingTime.equals(""))
-                                            {
-                                                openingClosingRelativeLayout.setVisibility(View.GONE);
-                                            }
-                                            else {
-
-                                                String[] daysName = {"Mon", "Tue", "Wed", "Thu", "Fri"};
-                                                OpenCloseShopData openCloseShopData1 = new OpenCloseShopData(daysName[j], openCloseShopData.openingTime, openCloseShopData.closingTime);
-                                                openCloseDayArrayList.add(openCloseShopData1);
-
-                                                AndroidUtils.showErrorLog(context, "openCloseShopData", openCloseShopData);
-                                            }
+                                            String[] daysName = {"Mon", "Tue", "Wed", "Thu", "Fri"};
+                                            OpenCloseShopData openCloseShopData1 = new OpenCloseShopData(daysName[j], openCloseShopData.openingTime, openCloseShopData.closingTime);
+                                            openCloseDayArrayList.add(openCloseShopData1);
+                                            AndroidUtils.showErrorLog(context, "openCloseShopData", openCloseShopData);
                                         }
-
-
                                     } else {
                                         openCloseDayArrayList.add(openCloseShopData);
-
                                     }
                                     removeUnavailedDays(openCloseDayArrayList);
                                 }
-
-                                mLayoutManagerShoplist = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
-                                openShopList.setLayoutManager(mLayoutManagerShoplist);
-                                openCloseDaysRecyclerAdapter = new OpenCloseDaysRecyclerAdapter(context, openCloseDayArrayList);
-                                openShopList.setAdapter(openCloseDaysRecyclerAdapter);
-                            } else {
+                                if (openCloseDayArrayList.size() > 0) {
+                                    mLayoutManagerShoplist = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
+                                    openShopList.setLayoutManager(mLayoutManagerShoplist);
+                                    openCloseDaysRecyclerAdapter = new OpenCloseDaysRecyclerAdapter(context, openCloseDayArrayList);
+                                    openShopList.setAdapter(openCloseDaysRecyclerAdapter);
+                                } else {
+                                    openingClosingRelativeLayout.setVisibility(View.GONE);
+                                }
+                            }else {
                                 openingClosingRelativeLayout.setVisibility(View.GONE);
                             }
 
@@ -329,12 +317,9 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
 
     }
 
-    private void removeUnavailedDays(ArrayList<OpenCloseShopData> openCloseDayArrayList)
-    {
-        for (int i = 0; i < openCloseDayArrayList.size(); i++)
-        {
-            if (Validation.isEmptyStr(openCloseDayArrayList.get(i).openingTime) || Validation.isEmptyStr(openCloseDayArrayList.get(i).closingTime))
-            {
+    private void removeUnavailedDays(ArrayList<OpenCloseShopData> openCloseDayArrayList) {
+        for (int i = 0; i < openCloseDayArrayList.size(); i++) {
+            if (Validation.isEmptyStr(openCloseDayArrayList.get(i).openingTime) || Validation.isEmptyStr(openCloseDayArrayList.get(i).closingTime)) {
                 openCloseDayArrayList.remove(i);
                 i--;
             }
@@ -374,8 +359,7 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
     }
 
 
-    private void initView()
-    {
+    private void initView() {
         //AndroidUtils.showToast(context, "This is my Toast");
         shopProductsLayout = (RelativeLayout) findViewById(R.id.shop_products_relative_layout);
         progress_handler = new ProgressBarHandler(this);
@@ -484,7 +468,6 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
 
         tvDiscription = (TextView) findViewById(R.id.tvDiscription);
         tvSpecification = (TextView) findViewById(R.id.tvSpecification);
-
 
 
         btnServiceEnquiry = (ImageButton) findViewById(R.id.btnService_enquiry);
