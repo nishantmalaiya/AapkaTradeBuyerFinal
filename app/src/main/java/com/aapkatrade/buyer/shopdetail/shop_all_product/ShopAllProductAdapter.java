@@ -70,7 +70,7 @@ public class ShopAllProductAdapter extends RecyclerView.Adapter<ShopAllProductHo
 
         holder.tvProductName.setText(itemList.get(position).productName);
         holder.tvProductPrice.setText(context.getResources().getText(R.string.rupay_text)+itemList.get(position).productPrice);
-        holder.tvProductUnit.setText(itemList.get(position).product_qty);
+      //  holder.tvProductUnit.setText(itemList.get(position).product_qty);
         holder.tvCompanyName.setText(itemList.get(position).company_name);
         holder.tvCategoryName.setText(itemList.get(position).category_name);
 

@@ -105,12 +105,13 @@
 
             <TextView
                 android:id="@+id/tvProductName"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Rose "
                 android:layout_toRightOf="@+id/imgCardView"
                 android:layout_marginLeft="@dimen/ten_dip"
                 android:textColor="@color/black"
+                android:layout_marginRight="@dimen/ten_dip"
                 android:textSize="@dimen/fifteen_dip"
                 android:layout_marginTop="@dimen/five_dip"
                 android:maxLines="1"
@@ -126,6 +127,7 @@
                 android:layout_below="@+id/tvProductName"
                 android:layout_marginTop="@dimen/five_dip"
                 android:maxLines="1"
+                android:layout_marginRight="@dimen/ten_dip"
                 />
 
 

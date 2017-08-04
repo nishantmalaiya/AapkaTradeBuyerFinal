@@ -299,7 +299,7 @@ public class CartCheckoutActivity extends AppCompatActivity
                                     String price = jsonproduct.get("price").getAsString();
                                     String subtotal_price = jsonproduct.get("sub_total").getAsString();
                                     System.out.println("price--------------------" + price);
-
+                                    String shop_name = jsonproduct.get("shop_name").getAsString();
                                     String productImage = jsonproduct.get("image_url").getAsString();
                                     String product_id = jsonproduct.get("product_id").getAsString();
                                     String available_status = jsonproduct.get("available_status").getAsString();
@@ -307,7 +307,7 @@ public class CartCheckoutActivity extends AppCompatActivity
 
                                     shippingcost.add(shipping_cost);
 
-                                    cartDataArrayList.add(new CartData(Id, productName, productqty, price, productImage, product_id, subtotal_price,available_status,shipping_cost));
+                                    cartDataArrayList.add(new CartData(Id, productName, productqty, price, productImage, product_id, subtotal_price,available_status,shipping_cost,shop_name));
                                 }
                                 RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
                                 mycartRecyclerView.setLayoutManager(mLayoutManager);
