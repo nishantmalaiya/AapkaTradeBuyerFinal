@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
     app:cardBackgroundColor="@color/white"
-    android:layout_marginTop="@dimen/ten_dip"
+    android:layout_marginBottom="@dimen/ten_dip"
     android:layout_marginLeft="@dimen/ten_dip"
     android:layout_marginRight="@dimen/ten_dip">
 
@@ -68,27 +68,58 @@
 
             <TextView
                 android:id="@+id/tvProductName"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Rose "
                 android:layout_toRightOf="@+id/imgProduct"
                 android:layout_marginLeft="@dimen/ten_dip"
                 android:textColor="@color/black"
+                android:textSize="@dimen/eighteen"
+                android:maxLines="1"
+                android:layout_marginRight="@dimen/ten_dip"
+                />
+
+
+            <TextView
+                android:id="@+id/tvCompanyName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="India Mart"
+                android:layout_toRightOf="@+id/imgProduct"
+                android:layout_marginLeft="@dimen/ten_dip"
+                android:textColor="@color/green"
                 android:textSize="@dimen/fifteen_dip"
                 android:maxLines="1"
+                android:layout_below="@+id/tvProductName"
+                android:layout_marginRight="@dimen/ten_dip"
                 />
 
             <TextView
+                android:id="@+id/tvCategoryName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Grociries "
+                android:layout_toRightOf="@+id/imgProduct"
+                android:layout_marginLeft="@dimen/ten_dip"
+                android:textColor="@color/black"
+                android:maxLines="1"
+                android:layout_below="@+id/tvCompanyName"
+                android:layout_marginRight="@dimen/ten_dip"
+                />
+
+
+            <TextView
                 android:id="@+id/tvProductUnit"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Unit: Ltr"
                 android:layout_toRightOf="@+id/imgProduct"
                 android:layout_marginLeft="@dimen/ten_dip"
-                android:layout_below="@+id/tvProductName"
+                android:layout_below="@+id/tvCategoryName"
                 android:layout_marginTop="@dimen/five_dip"
                 android:textColor="@color/black"
                 android:maxLines="1"
+                android:layout_marginRight="@dimen/ten_dip"
                 />
 
 

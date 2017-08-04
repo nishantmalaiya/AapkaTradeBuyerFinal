@@ -17,7 +17,7 @@ public class ShopAllProductHolder extends RecyclerView.ViewHolder
 {
 
     public View view;
-    public TextView tvProductName, tvProductUnit, tvProductPrice,tv_qty;
+    public TextView tvProductName, tvProductUnit, tvProductPrice,tv_qty,tvCompanyName,tvCategoryName;
     public ImageView productImage;
     public Button addToCartButton;
     LinearLayout dropdown_ll;
@@ -37,8 +37,8 @@ public class ShopAllProductHolder extends RecyclerView.ViewHolder
         tvProductUnit = (TextView) itemView.findViewById(R.id.tvProductUnit);
         tvProductPrice = (TextView) itemView.findViewById(R.id.tvProductPrice);
         addToCartButton = (Button) itemView.findViewById(R.id.buttonAddtoCart);
-
-
+        tvCompanyName = (TextView) itemView.findViewById(R.id.tvCompanyName);
+        tvCategoryName = (TextView) itemView.findViewById(R.id.tvCategoryName);
 
         view = itemView;
     }
