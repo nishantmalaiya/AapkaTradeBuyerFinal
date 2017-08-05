@@ -122,6 +122,14 @@ public class ChatActivity extends AppCompatActivity {
 
         if (className.contains("HomeActivity")) {
 
+            if (getIntent().getStringExtra("message") != null) {
+
+                message=getIntent().getStringExtra("message").toString().trim();
+                name="You";
+
+            }
+
+
             initChat();
 
         }
@@ -231,8 +239,7 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
         TextView header_name = (TextView) findViewById(R.id.header_name);
-        header_name.setVisibility(View.VISIBLE);
-        header_name.setText(getResources().getString(R.string.privacy_policy));
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         homeIcon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -275,7 +282,7 @@ public class ChatActivity extends AppCompatActivity {
 
     }
 
-    @Override
+ /*   @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
         getMenuInflater().inflate(R.menu.home_menu, menu);
@@ -299,6 +306,6 @@ public class ChatActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
+*/
 
 }

@@ -232,73 +232,92 @@ public class ActivityOTPVerify extends AppCompatActivity {
             }
         });
 
-
         editText1.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {
 
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // TODO Auto-generated method stub
-                if (editText1.getText().toString().length() == 1)     //size as per your requirement
-                {
+                if (s.length() ==1) {
                     editText2.requestFocus();
                 }
-            }
-
-            public void beforeTextChanged(CharSequence s, int start,
-                                          int count, int after) {
-                // TODO Auto-generated method stub
 
             }
 
-            public void afterTextChanged(Editable s) {
-                // TODO Auto-generated method stub
+            public void beforeTextChanged(CharSequence s, int start, int count,
+                                          int after) {
             }
 
+            public void onTextChanged(CharSequence s, int start, int before,
+                                      int count) {
+            }
         });
 
         editText2.addTextChangedListener(new TextWatcher() {
-
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // TODO Auto-generated method stub
-                if (editText2.getText().toString().length() == 1)     //size as per your requirement
-                {
+            public void afterTextChanged(Editable s) {
+                if (s.length() == 1) {
                     editText3.requestFocus();
                 }
-            }
-
-            public void beforeTextChanged(CharSequence s, int start,
-                                          int count, int after) {
-                // TODO Auto-generated method stub
+                else{
+                    editText1.requestFocus();
+                }
 
             }
 
-            public void afterTextChanged(Editable s) {
-                // TODO Auto-generated method stub
+            public void beforeTextChanged(CharSequence s, int start, int count,
+                                          int after) {
+
             }
 
+            public void onTextChanged(CharSequence s, int start, int before,
+                                      int count) {
+
+            }
         });
-
-
         editText3.addTextChangedListener(new TextWatcher() {
-
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // TODO Auto-generated method stub
-                if (editText3.getText().toString().length() == 1)     //size as per your requirement
-                {
+            public void afterTextChanged(Editable s) {
+                if (s.length() == 1) {
                     editText4.requestFocus();
                 }
-            }
-
-            public void beforeTextChanged(CharSequence s, int start,
-                                          int count, int after) {
-                // TODO Auto-generated method stub
+                else{
+                    editText2.requestFocus();
+                }
 
             }
 
-            public void afterTextChanged(Editable s) {
-                // TODO Auto-generated method stub
+            public void beforeTextChanged(CharSequence s, int start, int count,
+                                          int after) {
+
             }
 
+            public void onTextChanged(CharSequence s, int start, int before,
+                                      int count) {
+
+            }
         });
+
+
+
+        editText4.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {
+                if (s.length() == 1) {
+
+                }
+                else{
+                    editText3.requestFocus();
+                }
+
+            }
+
+            public void beforeTextChanged(CharSequence s, int start, int count,
+                                          int after) {
+
+            }
+
+            public void onTextChanged(CharSequence s, int start, int before,
+                                      int count) {
+
+            }
+        });
+
+
 
 
         new CountDownTimer(30000, 1000) {

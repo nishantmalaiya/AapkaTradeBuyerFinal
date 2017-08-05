@@ -45,6 +45,7 @@ import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -102,6 +103,7 @@ public class MyProfileActivity extends AppCompatActivity {
     String my_profile_gif;
     int frameno = 0;
     public static ImageView imageViewProfile, imgEmailEdit, imgMobileEdit;
+    RelativeLayout relativeProfile;
 
 
     @Override
@@ -117,7 +119,7 @@ public class MyProfileActivity extends AppCompatActivity {
 
     private void initView() {
         app_sharedpreference = new AppSharedPreference(context);
-
+        relativeProfile = (RelativeLayout) findViewById(R.id.relativeProfile);
         p_handler = new ProgressBarHandler(context);
 
         getshared_pref_data();
@@ -128,25 +130,6 @@ public class MyProfileActivity extends AppCompatActivity {
 
         imageViewProfile = (ImageView) findViewById(R.id.imageViewProfile);
 
-
-        imageViewProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-                if (app_sharedpreference.getSharedPref(SharedPreferenceConstants.PROFILE_VIDEO.toString()).contains("")) {
-
-                } else {
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
-
-                    intent.setDataAndType(Uri.parse(app_sharedpreference.getSharedPref(SharedPreferenceConstants.PROFILE_VIDEO.toString(), "").toString()), "video/*");
-
-                    startActivity(Intent.createChooser(intent, "Complete action using"));
-
-
-                }
-            }
-        });
 
         tvMyProfileDetailHeading = (TextView) findViewById(R.id.tvMyProfileDetailHeading);
 
@@ -262,6 +245,30 @@ public class MyProfileActivity extends AppCompatActivity {
                         .into(imageViewProfile);*/
             }
 
+            imageViewProfile.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+
+                    if (app_sharedpreference.getSharedPref(SharedPreferenceConstants.PROFILE_VIDEO.toString(), "").toString().equals("")) {
+
+                        Log.e("shared--efwrgf---", app_sharedpreference.getSharedPref(SharedPreferenceConstants.PROFILE_VIDEO.toString(), "").toString());
+                    } else {
+
+                        Intent intent = new Intent(Intent.ACTION_VIEW);
+
+                        intent.setDataAndType(Uri.parse(app_sharedpreference.getSharedPref(SharedPreferenceConstants.PROFILE_VIDEO.toString(), "").toString()), "video/*");
+
+                        startActivity(Intent.createChooser(intent, "Complete action using"));
+
+
+                    }
+
+
+                }
+            });
+
+
         }
 
         userImageView.setOnClickListener(new View.OnClickListener() {
@@ -310,6 +317,25 @@ public class MyProfileActivity extends AppCompatActivity {
                 }
             }
         });
+
+        relativeProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (app_sharedpreference.getSharedPref(SharedPreferenceConstants.PROFILE_VIDEO.toString()).contains("")) {
+
+                } else {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+
+                    intent.setDataAndType(Uri.parse(app_sharedpreference.getSharedPref(SharedPreferenceConstants.PROFILE_VIDEO.toString(), "").toString()), "video/*");
+
+                    startActivity(Intent.createChooser(intent, "Complete action using"));
+
+
+                }
+            }
+        });
+
+
     }
 
     private void getshared_pref_data() {

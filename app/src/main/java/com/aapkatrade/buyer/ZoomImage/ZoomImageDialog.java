@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
+import com.aapkatrade.buyer.shopdetail.ShopDetailMediaDatas;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
@@ -31,12 +32,19 @@ public class ZoomImageDialog extends AppCompatActivity {
     Timer banner_timer = new Timer();
     int currentPage = 0;
     CircleIndicator circleIndicator;
+    ArrayList<ShopDetailMediaDatas> imageUrlArrayList = new ArrayList<>();
 
+    public ZoomImageDialog(Context context, ArrayList<ShopDetailMediaDatas> imageUrlArrayList) {
+
+        this.context=context;
+        this.imageUrlArrayList=imageUrlArrayList;
+
+
+    }
     public ZoomImageDialog() {
 
 
     }
-
 //    public ZoomImageDialog(Context context, Bitmap bitmap) {
 //       this.context=context;
 //        this.bitmap=bitmap;

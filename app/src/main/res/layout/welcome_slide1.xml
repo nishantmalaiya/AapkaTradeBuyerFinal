@@ -16,30 +16,32 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
             android:layout_gravity="center_vertical|center_horizontal"
-            android:gravity="center_horizontal|center_vertical">
+            android:layout_weight="1"
+            android:gravity="center_horizontal|center_vertical"
+            android:paddingLeft="@dimen/twenty_dip"
+            android:paddingRight="@dimen/twenty_dip">
 
             <TextView
                 android:id="@+id/tvSlideHeader"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-android:gravity="center"
+                android:layout_centerVertical="true"
+                android:gravity="center"
                 android:text="@string/slide_1_title"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/twenty_dip" />
 
             <ImageView
+                android:id="@+id/welcome_app_logo"
                 android:layout_width="@dimen/hundred_dip"
                 android:layout_height="wrap_content"
-                android:id="@+id/welcome_app_logo"
                 android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/ten_dip"
-                app:srcCompat="@drawable/ic_app_logo"
-
-                android:layout_toRightOf="@+id/tvSlideHeader"/>
+                android:layout_toRightOf="@+id/tvSlideHeader"
+                app:srcCompat="@drawable/ic_app_logo" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -54,7 +56,7 @@ android:gravity="center"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
-                android:scaleType="fitCenter"
+
 
                 android:src="@drawable/img_welcome_slide1" />
 
