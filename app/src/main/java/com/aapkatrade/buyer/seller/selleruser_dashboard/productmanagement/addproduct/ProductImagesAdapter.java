@@ -68,7 +68,8 @@ public class ProductImagesAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position)
+    {
         AndroidUtils.showErrorLog(context, "Hi holder.getItemViewType() " + holder.getItemViewType());
 
         switch (holder.getItemViewType()) {
@@ -171,14 +172,10 @@ public class ProductImagesAdapter extends RecyclerView.Adapter<RecyclerView.View
                             File file = new File(itemList.get(position).imagePath);
                             Intent intent = new Intent(android.content.Intent.ACTION_VIEW);
                             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-//                            Uri data = Uri.parse("file://" + file.getAbsolutePath());
-                            Uri data = FileProvider.getUriForFile(context,
-                                    "com.aapkatrade.buyer.provider",
-                                    file);
+                            //  Uri data = Uri.parse("file://" + file.getAbsolutePath());
+                            Uri data = FileProvider.getUriForFile(context, "com.aapkatrade.buyer.provider", file);
                             intent.setDataAndType(data, "image");
                             context.startActivity(intent);
-
-
                         }
                     }
                 });
@@ -197,14 +194,18 @@ public class ProductImagesAdapter extends RecyclerView.Adapter<RecyclerView.View
 
 
     @Override
-    public int getItemViewType(int position) {
+    public int getItemViewType(int position)
+    {
+
         AndroidUtils.showErrorLog(context, "itemlist----------------" + itemList.get(position).imagePath);
 
-        if (itemList.get(position).imagePath != null && itemList.get(position).imagePath.equals("first")) {
+        if (itemList.get(position).imagePath != null && itemList.get(position).imagePath.equals("first"))
+        {
             return userAdded;
         } else {
             return image;
         }
+
     }
 
 

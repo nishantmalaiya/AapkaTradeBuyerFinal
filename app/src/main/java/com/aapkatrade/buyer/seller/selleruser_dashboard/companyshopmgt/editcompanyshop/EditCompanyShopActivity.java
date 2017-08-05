@@ -83,9 +83,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
-import java.util.List;
 
-public class EditCompanyShopActivity extends AppCompatActivity {
+
+public class EditCompanyShopActivity extends AppCompatActivity
+{
 
     private Context context;
     private AppSharedPreference appSharedPreference;
@@ -113,6 +114,10 @@ public class EditCompanyShopActivity extends AppCompatActivity {
     private boolean cityFlag = false, subCategoryFlag = false;
     private ArrayList<KeyValue> imageUrlList = new ArrayList<>();
 
+    private ArrayList<String> submitImgDelList = new ArrayList<>();
+    private ArrayList<Part> submitImgList = new ArrayList<>();
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -121,6 +126,9 @@ public class EditCompanyShopActivity extends AppCompatActivity {
         if (getIntent() != null) {
             shopId = getIntent().getStringExtra("shopId");
         }
+
+
+        productMediaDatasDelete.clear();
         setUpToolBar();
         initView();
         getState();
@@ -134,6 +142,14 @@ public class EditCompanyShopActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 validateFields();
+
+                submitImgDelList.clear();
+                submitImgList = submitImages();
+
+                submitImgDelList = submitDeletedImages();
+
+                AndroidUtils.showErrorLog(context,"submitImgDelList-------"+submitImgDelList);
+
                 if (isAllFieldsValidate) {
                     AndroidUtils.showErrorLog(context, "working 1", "working isAllFieldsValidate");
                     hitUpdateCompanyShopWebService();
@@ -247,7 +263,7 @@ public class EditCompanyShopActivity extends AppCompatActivity {
                         }
                         if (imageUrlList.size() > 0) {
                             for (int i = 0; i < imageUrlList.size(); i++) {
-                                AndroidUtils.showErrorLog(context, "downloadImage---------------------" + imageUrlList.get(i));
+                                AndroidUtils.showErrorLog(context, "downloadImage---------------------" + imageUrlList.get(i).key);
                                 downloadImage(i);
                             }
                         }
@@ -859,10 +875,11 @@ public class EditCompanyShopActivity extends AppCompatActivity {
         }
     }
 
-    private void hitUpdateCompanyShopWebService() {
+    private void hitUpdateCompanyShopWebService()
+    {
 
-
-        for (int i = 0; i < productMediaDatas.size(); i++) {
+        for (int i = 0; i < productMediaDatas.size(); i++)
+        {
             AndroidUtils.showErrorLog(context, "media data : " + i, "productMediaDatas.get(i).imagePath : " + productMediaDatas.get(i).imagePath);
             AndroidUtils.showErrorLog(context, "media data : " + i, "productMediaDatas.get(i).imageUrl : " + productMediaDatas.get(i).imageUrl);
             AndroidUtils.showErrorLog(context, "media data : " + i, "productMediaDatas.get(i).videoThumbnail : " + productMediaDatas.get(i).videoThumbnail);
@@ -896,10 +913,13 @@ public class EditCompanyShopActivity extends AppCompatActivity {
         progressBarHandler.show();
 
 
-        if (submitVideo() == null) {
-            AndroidUtils.showErrorLog(context, "submitDeletedImages::::--------------::NULL", submitDeletedImages());
+        if (submitVideo() == null)
+        {
 
-            if (submitDeletedImages() == null) {
+            AndroidUtils.showErrorLog(context, "submitDeletedImages--------------", submitImgDelList);
+
+            if (submitImgDelList == null || submitImgDelList.size() ==0)
+            {
                 AndroidUtils.showErrorLog(context, "submitDeletedImages::::if--------------::NULL", submitDeletedImages());
 
                 Ion.with(context)
@@ -931,6 +951,7 @@ public class EditCompanyShopActivity extends AppCompatActivity {
                         .setMultipartParameter("lat", appSharedPreference.getSharedPref(SharedPreferenceConstants.CURRENT_LATTITUDE.toString(), "0"))
                         .setMultipartParameter("long", appSharedPreference.getSharedPref(SharedPreferenceConstants.CURRENT_LONGITUDE.toString(), "0"))
                         .addMultipartParts(submitImages())
+                        .setMultipartParameter("delimg", submitImgDelList.toString())
                         .asJsonObject()
                         .setCallback(new FutureCallback<JsonObject>() {
                             @Override
@@ -958,7 +979,12 @@ public class EditCompanyShopActivity extends AppCompatActivity {
                             }
                         });
             } else {
-                AndroidUtils.showErrorLog(context, "submitDeletedImages::::else--------------::NULL", submitDeletedImages());
+
+                for (int i= 0; i<submitImgDelList.size(); i++){
+                    AndroidUtils.showErrorLog(context, "submitDeletedImages----", submitImgDelList.get(i).toString());
+
+                }
+
 
                 Ion.with(context)
                         .load(getString(R.string.webservice_base_url) + "/editCompany")
@@ -989,15 +1015,15 @@ public class EditCompanyShopActivity extends AppCompatActivity {
                         .setMultipartParameter("lat", appSharedPreference.getSharedPref(SharedPreferenceConstants.CURRENT_LATTITUDE.toString(), "0"))
                         .setMultipartParameter("long", appSharedPreference.getSharedPref(SharedPreferenceConstants.CURRENT_LONGITUDE.toString(), "0"))
                         .addMultipartParts(submitImages())
-                        .addMultipartParts(submitDeletedImages())
-                        .asJsonObject()
-                        .setCallback(new FutureCallback<JsonObject>() {
+                        .setMultipartParameter("delimg", submitImgDelList.toString())
+                        .asString()
+                        .setCallback(new FutureCallback<String>() {
                             @Override
-                            public void onCompleted(Exception e, JsonObject result) {
+                            public void onCompleted(Exception e, String result) {
                                 progressBarHandler.hide();
                                 if (result != null) {
                                     AndroidUtils.showErrorLog(context, "result::::::", result);
-                                    if (result.get("error").getAsString().equalsIgnoreCase("false")) {
+                                   /* if (result.get("error").getAsString().equalsIgnoreCase("false")) {
                                         if (Validation.containsIgnoreCase(result.get("message").getAsString(), "successfully updated")) {
                                             AndroidUtils.showErrorLog(context, "result:::success:::", result);
                                             AndroidUtils.showToast(context, result.get("message").getAsString());
@@ -1010,7 +1036,7 @@ public class EditCompanyShopActivity extends AppCompatActivity {
                                     } else {
                                         AndroidUtils.showErrorLog(context, "error::::::TRUE");
                                     }
-
+*/
                                 } else {
                                     AndroidUtils.showErrorLog(context, "result::::::NULL");
                                 }
@@ -1018,7 +1044,7 @@ public class EditCompanyShopActivity extends AppCompatActivity {
                         });
             }
         } else {
-            if (submitDeletedImages() == null) {
+            if (submitImgDelList == null || submitImgDelList.size()==0) {
                 Ion.with(context)
                         .load(getString(R.string.webservice_base_url) + "/editCompany")
                         .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
@@ -1049,6 +1075,7 @@ public class EditCompanyShopActivity extends AppCompatActivity {
                         .setMultipartParameter("lat", appSharedPreference.getSharedPref(SharedPreferenceConstants.CURRENT_LATTITUDE.toString(), "0"))
                         .setMultipartParameter("long", appSharedPreference.getSharedPref(SharedPreferenceConstants.CURRENT_LONGITUDE.toString(), "0"))
                         .addMultipartParts(submitImages())
+                        .setMultipartParameter("delimg", submitImgDelList.toString())
                         .setMultipartFile("shop_video", "application/video", submitVideo())
 
                         .asJsonObject()
@@ -1106,7 +1133,7 @@ public class EditCompanyShopActivity extends AppCompatActivity {
                         .setMultipartParameter("lat", appSharedPreference.getSharedPref(SharedPreferenceConstants.CURRENT_LATTITUDE.toString(), "0"))
                         .setMultipartParameter("long", appSharedPreference.getSharedPref(SharedPreferenceConstants.CURRENT_LONGITUDE.toString(), "0"))
                         .addMultipartParts(submitImages())
-                        .addMultipartParts(submitDeletedImages())
+                        .setMultipartParameter("delimg", submitImgDelList.toString())
                         .setMultipartFile("shop_video", "application/video", submitVideo())
 
                         .asJsonObject()
@@ -1276,7 +1303,8 @@ public class EditCompanyShopActivity extends AppCompatActivity {
         }
     }
 
-    private File submitVideo() {
+    private File submitVideo()
+    {
         if (productMediaDatas != null && productMediaDatas.size() > 0) {
             for (ProductMediaData file : productMediaDatas) {
                 if (file.isVideo) {
@@ -1303,7 +1331,10 @@ public class EditCompanyShopActivity extends AppCompatActivity {
     }
     private boolean isExistingImage(ProductMediaData file) {
         for (int i = 0; i < imageUrlList.size(); i++) {
-            AndroidUtils.showErrorLog(context, "------isExistingImage--imageUrlList.get(i)------->" + imageUrlList.get(i).value.toString().split("/")[imageUrlList.get(i).value.toString().split("/").length - 1] + "-------file.imagePath---------->" + file.imagePath.split("/")[file.imagePath.split("/").length - 1]);
+            AndroidUtils.showErrorLog(context, "------isExistingImage--imageUrlList.get(i)------->" +
+                    imageUrlList.get(i).value.toString().split("/")[imageUrlList.get(i).value.toString().split("/").length - 1]
+                    + "-------file.imagePath---------->" +
+                    file.imagePath.split("/")[file.imagePath.split("/").length - 1]);
             if (file.imagePath.split("/")[file.imagePath.split("/").length - 1].equals(imageUrlList.get(i).value.toString().split("/")[imageUrlList.get(i).value.toString().split("/").length - 1])) {
                 return true;
             }
@@ -1311,32 +1342,39 @@ public class EditCompanyShopActivity extends AppCompatActivity {
         return false;
     }
 
-    private List<Part> submitDeletedImages() {
-        List<Part> files = Collections.synchronizedList(new ArrayList<Part>());
+    private ArrayList<String> submitDeletedImages()
+    {
 
-        if (productMediaDatasDelete != null && productMediaDatasDelete.size() > 0) {
-            for (int k = 0; k < productMediaDatasDelete.size(); k++) {
+        ArrayList<String> files = new ArrayList<>();
+        if (productMediaDatasDelete != null && productMediaDatasDelete.size() > 0)
+        {
+            AndroidUtils.showErrorLog(context,"productMediaDatasDelete---",productMediaDatasDelete.size());
+
+            for (int k = 0; k < productMediaDatasDelete.size(); k++)
+            {
                 ProductMediaData file = productMediaDatasDelete.get(k);
-                if (!file.isVideo) {
 
-                    for (int i = 0; i < imageUrlList.size(); i++) {
-                        AndroidUtils.showErrorLog(context, "--------------Compare-------------------))))))imageUrlList((((((" + getFileName(imageUrlList.get(i).value.toString()), "file.imagePath" + file.imagePath);
+                AndroidUtils.showErrorLog(context," !file.isVideo", !file.isVideo );
+                AndroidUtils.showErrorLog(context,"isExistingImagel", isExistingImage(file) );
+                AndroidUtils.showErrorLog(context," savebitmap(file.imagePath)!=null",  savebitmap(file.imagePath)!=null);
 
-                        if (!imageUrlList.get(i).value.toString().split("/")[imageUrlList.get(i).value.toString().split("/").length - 1].equals(file.imagePath)) {
-//                            productMediaDatasDelete.remove(file);
-//                            files.add(new FilePart("delimg[]", savebitmap(file.imagePath)));
-//                            AndroidUtils.showErrorLog(context, "---------------------------------))))))((((((", files.toArray().toString());
-                            continue;
-                        }
-                        files.add(new FilePart("delimg[]", savebitmap(file.imagePath)));
-                        AndroidUtils.showErrorLog(context, "---------------------------------))))))((((((", files.toArray().toString());
-
-                    }
+                if (!file.isVideo && savebitmap(file.imagePath)!=null)
+                { files.add(imageUrlList.get(getPositionOfExistingImage(file)).key.toString());
                 }
             }
             return files;
         }
         return null;
+    }
+
+    private int getPositionOfExistingImage(ProductMediaData file) {
+        for (int i = 0; i < imageUrlList.size(); i++) {
+            AndroidUtils.showErrorLog(context, "------isExistingImage--imageUrlList.get(i)------->" + imageUrlList.get(i).value.toString().split("/")[imageUrlList.get(i).value.toString().split("/").length - 1] + "-------file.imagePath---------->" + file.imagePath.split("/")[file.imagePath.split("/").length - 1]);
+            if (file.imagePath.split("/")[file.imagePath.split("/").length - 1].equals(imageUrlList.get(i).value.toString().split("/")[imageUrlList.get(i).value.toString().split("/").length - 1])) {
+                return i;
+            }
+        }
+        return 0;
     }
 
     private File savebitmap(String filePath) {

@@ -2,7 +2,6 @@ package com.aapkatrade.buyer.seller.selleruser_dashboard.billpayment;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,6 +10,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Window;
@@ -437,8 +437,6 @@ public class BillPaymentPaymentGatway extends Activity {
             algorithm.update(hashseq);
             byte messageDigest[] = algorithm.digest();
 
-
-
             for (int i=0;i<messageDigest.length;i++) {
                 String hex= Integer.toHexString(0xFF & messageDigest[i]);
                 if(hex.length()==1) hexString.append("0");
@@ -617,7 +615,8 @@ public class BillPaymentPaymentGatway extends Activity {
     }
 
     private void showDialogMessage(String message) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        android.support.v7.app.AlertDialog.Builder builder = new AlertDialog.Builder(BillPaymentPaymentGatway.this);
+
         builder.setTitle(TAG);
         builder.setMessage(message);
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -637,11 +636,11 @@ public class BillPaymentPaymentGatway extends Activity {
         });
         builder.show();
 
-        /*  AlertDialog dialog = builder.create();
+       /*   AlertDialog dialog = builder.create();
         Button positive = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
         positive.setTextColor(getResources().getColor(R.color.red));
-        */
 
+*/
 
     }
 }
