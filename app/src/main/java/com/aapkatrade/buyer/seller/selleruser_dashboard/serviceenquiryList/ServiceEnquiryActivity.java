@@ -159,7 +159,7 @@ public class ServiceEnquiryActivity extends AppCompatActivity implements SwipeRe
                     if ((totalItemCount - 1) == lastVisibleItemCount) {
 
                         page = page + 1;
-                        // get_service_list_data(page);
+                        get_service_list_data(page);
                     } else {
                         //loadingProgress.setVisibility(View.GONE);
                     }
@@ -227,6 +227,7 @@ public class ServiceEnquiryActivity extends AppCompatActivity implements SwipeRe
 
                                 }
 
+                                recyclerViewcompanylist.getRecycledViewPool().clear();
                                 serviceEnquiryAdapter.notifyDataSetChanged();
 
                                 // progressView.setVisibility(View.INVISIBLE);
@@ -297,6 +298,7 @@ public class ServiceEnquiryActivity extends AppCompatActivity implements SwipeRe
 
                             }
 
+                            recyclerViewcompanylist.getRecycledViewPool().clear();
                             serviceEnquiryAdapter.notifyDataSetChanged();
 
                             // progress_handler.hide();
