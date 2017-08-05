@@ -45,6 +45,7 @@ public class ServiceEnquiryActivity extends AppCompatActivity implements SwipeRe
     int page = 1;
     SwipeRefreshLayout mSwipyRefreshLayout;
     private Context context;
+    private int totalpage;
 
 
     @Override
@@ -127,7 +128,7 @@ public class ServiceEnquiryActivity extends AppCompatActivity implements SwipeRe
 
         recyclerViewcompanylist.setLayoutManager(mLayoutManager);
 
-        get_company_list_data();
+        get_company_list_data("1");
 
         serviceEnquiryAdapter = new ServiceEnquiryAdapter(ServiceEnquiryActivity.this, serviceEnquiryDatas, ServiceEnquiryActivity.this);
 
@@ -155,17 +156,17 @@ public class ServiceEnquiryActivity extends AppCompatActivity implements SwipeRe
 
                 int lastVisibleItemCount = mLayoutManager.findLastVisibleItemPosition();
 
-                if (totalItemCount > 0) {
-                    if ((totalItemCount - 1) == lastVisibleItemCount) {
+              /*  if (totalItemCount > 0) {
+                    if ((totalItemCount - 1) == lastVisibleItemCount&&page<=totalpage) {
 
                         page = page + 1;
-                        // get_service_list_data(page);
+                         get_company_list_data(String.valueOf(page));
                     } else {
                         //loadingProgress.setVisibility(View.GONE);
                     }
 
                 }
-
+*/
             }
 
         });
@@ -174,7 +175,7 @@ public class ServiceEnquiryActivity extends AppCompatActivity implements SwipeRe
     }
 
 
-    public void get_company_list_data() {
+    public void get_company_list_data(String page) {
         mSwipyRefreshLayout.setRefreshing(true);
         relativeCompanylist.setVisibility(View.INVISIBLE);
 
@@ -185,7 +186,7 @@ public class ServiceEnquiryActivity extends AppCompatActivity implements SwipeRe
                 .setBodyParameter("type", "company")
                 .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                 .setBodyParameter("user_id", app_sharedpreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), "0"))
-                .setBodyParameter("page", "0")
+                .setBodyParameter("page",page)
                 .asJsonObject()
                 .setCallback(new FutureCallback<JsonObject>() {
                     @Override
@@ -198,7 +199,7 @@ public class ServiceEnquiryActivity extends AppCompatActivity implements SwipeRe
                             Log.e("data===============", result.toString());
 
                             JsonObject jsonObject = result.getAsJsonObject();
-
+                        totalpage=result.get("total_page").getAsInt();
                             JsonArray jsonArray = jsonObject.getAsJsonArray("result");
 
                             if (jsonArray.size() != 0) {
@@ -244,76 +245,13 @@ public class ServiceEnquiryActivity extends AppCompatActivity implements SwipeRe
     }
 
 
-    public void get_service_list_data(int page) {
 
-        relativeCompanylist.setVisibility(View.INVISIBLE);
-
-        serviceEnquiryDatas.clear();
-        Ion.with(ServiceEnquiryActivity.this)
-
-                .load(getResources().getString(R.string.webservice_base_url) + "/enquiry_service_list")
-                .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
-                .setBodyParameter("type", "company")
-                .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
-                .setBodyParameter("user_id", app_sharedpreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), "0"))
-                .setBodyParameter("page", String.valueOf(page))
-                .asJsonObject()
-                .setCallback(new FutureCallback<JsonObject>() {
-                    @Override
-                    public void onCompleted(Exception e, JsonObject result) {
-
-                        if (result == null) {
-
-                            // progress_handler.hide();
-                        } else {
-                            Log.e("data===============", result.toString());
-
-                            JsonObject jsonObject = result.getAsJsonObject();
-
-                            JsonArray jsonArray = jsonObject.getAsJsonArray("result");
-
-                            for (int i = 0; i < jsonArray.size(); i++) {
-                                JsonObject jsonObject2 = (JsonObject) jsonArray.get(i);
-
-                                String service_enquiry_id = jsonObject2.get("id").getAsString();
-
-                                String product_name = jsonObject2.get("product_name").getAsString();
-
-                                String product_price = jsonObject2.get("price").getAsString();
-
-                                String user_name = jsonObject2.get("name").getAsString();
-
-                                String user_email = jsonObject2.get("email").getAsString();
-
-                                String user_mobile = jsonObject2.get("mobile").getAsString();
-
-                                String description = jsonObject2.get("short_des").getAsString();
-
-                                String created_date = jsonObject2.get("created_at").getAsString();
-
-                                String category_name = jsonObject2.get("category_name").getAsString();
-
-                                serviceEnquiryDatas.add(new ServiceEnquiryData(service_enquiry_id, product_name, product_price, user_name, user_email, user_mobile, description, created_date, category_name));
-
-                            }
-
-                            serviceEnquiryAdapter.notifyDataSetChanged();
-
-                            // progress_handler.hide();
-                            // progressView.setVisibility(View.INVISIBLE);
-                            relativeCompanylist.setVisibility(View.VISIBLE);
-
-                        }
-
-                    }
-
-                });
-    }
 
 
     @Override
     public void onRefresh() {
-        get_company_list_data();
+        page=1;
+        get_company_list_data(page+"");
     }
 
 
