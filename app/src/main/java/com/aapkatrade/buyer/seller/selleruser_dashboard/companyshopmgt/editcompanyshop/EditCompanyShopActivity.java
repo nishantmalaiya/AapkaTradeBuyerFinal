@@ -364,7 +364,8 @@ public class EditCompanyShopActivity extends AppCompatActivity
         }
     }
 
-    private void setSelectedCategory(String category_id, String sub_cat_id) {
+    private void setSelectedCategory(String category_id, String sub_cat_id)
+    {
 
         AndroidUtils.showErrorLog(context, "categoryid123------------------", category_id + "***" + sub_cat_id);
         AndroidUtils.showErrorLog(context, "listDataHeader------------------", listDataHeader.size());
