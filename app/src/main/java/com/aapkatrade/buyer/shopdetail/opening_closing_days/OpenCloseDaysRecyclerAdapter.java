@@ -17,7 +17,6 @@ import java.util.ArrayList;
 
 public class OpenCloseDaysRecyclerAdapter extends RecyclerView.Adapter<OpenCloseDaysViewHolder> {
 
-
     private Context context;
     private ArrayList<OpenCloseShopData> openCloseShopDataArrayList = new ArrayList<>();
     private LayoutInflater inflater;

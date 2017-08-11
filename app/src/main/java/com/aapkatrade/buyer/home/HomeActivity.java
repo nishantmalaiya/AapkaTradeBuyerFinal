@@ -100,7 +100,8 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
-    private void initView() {
+    private void initView()
+    {
 
         rl_main_content = (RelativeLayout) findViewById(R.id.rl_main_content);
 
