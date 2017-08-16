@@ -2,6 +2,7 @@ package com.aapkatrade.buyer.search;
 
 import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -91,7 +92,7 @@ public class SearchcategoryAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         viewHolder1.product_name.setText(common_category_searchlist.get(position).catname);
 
         AndroidUtils.setBackgroundStroke(viewHolder1.product_name,context,R.color.green,20,5);
-        viewHolder1.product_name.setTextColor(context.getResources().getColor(R.color.green));
+        viewHolder1.product_name.setTextColor(ContextCompat.getColor(context, R.color.green));
 
 
 
@@ -107,7 +108,7 @@ public class SearchcategoryAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
 
 
-                viewHolder1.product_name.setTextColor(context.getResources().getColor(R.color.white));
+                viewHolder1.product_name.setTextColor(ContextCompat.getColor(context, R.color.white));
                 Log.e("category_id",common_category_searchlist.get(position).cat_id);
 
                 callback_interface.callback(common_category_searchlist.get(position).cat_id,"category");

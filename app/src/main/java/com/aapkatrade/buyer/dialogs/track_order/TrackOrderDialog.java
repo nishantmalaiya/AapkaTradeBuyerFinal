@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -154,7 +155,7 @@ public class TrackOrderDialog extends DialogFragment {
 
         tracking_id = (EditText) v.findViewById(R.id.et_orderid);
         validate_order_id = (Button) v.findViewById(R.id.btn_trackorder);
-        tracking_id.getBackground().mutate().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
+        tracking_id.getBackground().mutate().setColorFilter(ContextCompat.getColor(getContext(), R.color.white), PorterDuff.Mode.SRC_ATOP);
 
     }
 
