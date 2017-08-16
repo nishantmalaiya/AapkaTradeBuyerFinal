@@ -2,6 +2,7 @@ package com.aapkatrade.buyer.search;
 
 import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -78,7 +79,7 @@ Log.e("common_state.statename",common_state_searchlist.get(position).statename);
         viewHolder1.product_name.setText(common_state_searchlist.get(position).statename);
 
         AndroidUtils.setBackgroundStroke(viewHolder1.product_name,context,R.color.green,20,5);
-        viewHolder1.product_name.setTextColor(context.getResources().getColor(R.color.green));
+        viewHolder1.product_name.setTextColor(ContextCompat.getColor(context, R.color.green));
 
 
 
@@ -95,7 +96,7 @@ Log.e("common_state.statename",common_state_searchlist.get(position).statename);
 
 
 
-                viewHolder1.product_name.setTextColor(context.getResources().getColor(R.color.white));
+                viewHolder1.product_name.setTextColor(ContextCompat.getColor(context, R.color.white));
                 callback_interface.callback(common_state_searchlist.get(position).state_id,"state");
 
 

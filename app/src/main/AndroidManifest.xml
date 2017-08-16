@@ -36,7 +36,6 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.provider"
@@ -101,7 +100,7 @@
         <activity android:name=".user_dashboard.address.AddressActivity" />
         <activity android:name=".user_dashboard.address.viewpager.CartCheckoutActivity" />
 
-        <receiver android:name="com.aapkatrade.buyer.smsreceiver.SmsReceiver">
+        <receiver android:name=".smsreceiver.SmsReceiver">
             <intent-filter>
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
@@ -177,7 +176,6 @@
             android:name=".seller.selleruser_dashboard.companyshopmgt.editcompanyshop.EditCompanyShopActivity"
             android:label="@string/title_activity_add_company_shop"
             android:theme="@style/AppTheme" />
-
         <activity android:name=".seller.selleruser_dashboard.billhistory.BillHistory" />
         <activity android:name=".seller.selleruser_dashboard.salestransaction.SalesTransactionActivity" />
         <activity android:name=".home.buyerregistration.BuyerRegistrationActivity" />
@@ -193,9 +191,10 @@
         <activity android:name=".seller.selleruser_dashboard.productmanagement.ProductManagementActivity" />
         <activity android:name=".seller.selleruser_dashboard.servicemanagment.ServiceManagementActivity" />
         <activity android:name=".seller.selleruser_dashboard.servicemanagment.addService.AddServiceActivity" />
-        <activity android:name=".seller.selleruser_dashboard.servicemanagment.editService.EditServiceActivity"></activity>
-        <activity android:name=".payumoney_paymentgatway.PayMentGateWay"></activity>
-        <activity android:name=".seller.selleruser_dashboard.billpayment.BillPaymentPaymentGatway"></activity>
+        <activity android:name=".seller.selleruser_dashboard.servicemanagment.editService.EditServiceActivity" />
+        <activity android:name=".payumoney_paymentgatway.PayMentGateWay" />
+        <activity android:name=".seller.selleruser_dashboard.billpayment.BillPaymentPaymentGatway" />
+
     </application>
 
 </manifest>

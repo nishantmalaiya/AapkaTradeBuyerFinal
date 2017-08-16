@@ -200,7 +200,7 @@ public class SellerRegistrationActivity extends AppCompatActivity implements Tim
     }
 
     private void showDate(int year, int month, int day) {
-        etDOB.setTextColor(getResources().getColor(R.color.black));
+        etDOB.setTextColor(ContextCompat.getColor(context, R.color.black));
         etDOB.setText(new StringBuilder().append(year).append("-").append(month).append("-").append(day));
     }
 

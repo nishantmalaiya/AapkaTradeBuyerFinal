@@ -12,6 +12,7 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.Toolbar;
@@ -25,13 +26,13 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.aapkatrade.buyer.R;
 import com.directions.route.AbstractRouting;
 import com.directions.route.Route;
 import com.directions.route.RouteException;
 import com.directions.route.Routing;
 import com.directions.route.RoutingListener;
 import com.aapkatrade.buyer.home.HomeActivity;
-import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.CheckPermission;
 import com.aapkatrade.buyer.general.LocationManagerCheck;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
@@ -604,7 +605,7 @@ public class GoogleMapActivity extends AppCompatActivity implements OnMapReadyCa
             int colorIndex = i % COLORS.length;
 
             PolylineOptions polyOptions = new PolylineOptions();
-            polyOptions.color(getResources().getColor(COLORS[colorIndex]));
+            polyOptions.color(ContextCompat.getColor(context, COLORS[colorIndex]));
             polyOptions.width(10);
             polyOptions.addAll(route.get(i).getPoints());
 
