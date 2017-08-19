@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
+import android.graphics.drawable.GradientDrawable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.aapkatrade.buyer.categories_tab.viewall.ViewAllCategoryActivity;
 import com.aapkatrade.buyer.home.navigation.entity.Category;
 import com.aapkatrade.buyer.home.navigation.viewholder.NavigationViewHolder;
 import com.aapkatrade.buyer.R;
@@ -30,8 +33,7 @@ import java.util.ArrayList;
 /**
  * Created by Netforce on 7/25/2016.
  */
-public class NavigationAdapter extends RecyclerView.Adapter<NavigationViewHolder>
-{
+public class NavigationAdapter extends RecyclerView.Adapter<NavigationViewHolder> {
 
     private Context context;
     private ArrayList<Category> listDataHeader;
@@ -40,8 +42,7 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationViewHolder
     AppSharedPreference appSharedPreference;
 
 
-    public NavigationAdapter(Context context, ArrayList<Category> listDataHeader)
-    {
+    public NavigationAdapter(Context context, ArrayList<Category> listDataHeader) {
         this.context = context;
         this.listDataHeader = listDataHeader;
         appSharedPreference = new AppSharedPreference(context);
@@ -55,7 +56,7 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationViewHolder
     }
 
     @Override
-    public void onBindViewHolder(NavigationViewHolder viewHolder, int position) {
+    public void onBindViewHolder(NavigationViewHolder viewHolder, final int position) {
 
         final int currentPosition = position;
         final ImageView imageView = viewHolder.imageViewIcon;
@@ -64,7 +65,7 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationViewHolder
 
         setUpIconBackground(imageView);
 
-        Log.e("image_pat",listDataHeader.get(position).getCategoryIconPath());
+        Log.e("image_pat", listDataHeader.get(position).getCategoryIconPath());
 
         Ion.with(context).load(listDataHeader.get(position).getCategoryIconPath()).withBitmap().asBitmap()
                 .setCallback(new FutureCallback<Bitmap>() {
@@ -77,14 +78,21 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationViewHolder
 
                 });
 
+      /*  if (position == 10) {
+            viewHolder.imageViewIcon.setVisibility(View.GONE);
+            AndroidUtils.setBackgroundSolid(viewHolder.rl_category_container, context, R.color.blue_gradient, 0, GradientDrawable.RECTANGLE);
+            AndroidUtils.setBackgroundSolid(viewHolder.splitLine, context, R.color.blue_gradient_dark, 0, GradientDrawable.RECTANGLE);
+            viewHolder.tvCategoryname.setTextColor(ContextCompat.getColor(context, R.color.white));
+            viewHolder.rl_category_container.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+        }
+*/
         viewHolder.rl_category_container.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 boolean permission_status = CheckPermission.checkPermissions((Activity) context);
 
-                if (permission_status)
-                {
+                if (permission_status) {
                     mylocation = new Mylocation(context);
                     LocationManagerCheck locationManagerCheck = new LocationManagerCheck(context);
                     if (locationManagerCheck.isLocationServiceAvailable()) {
@@ -92,19 +100,24 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationViewHolder
                         String currentLongitude = appSharedPreference.getSharedPref(SharedPreferenceConstants.CURRENT_LONGITUDE.toString(), "0.0");
                         appSharedPreference.getSharedPref(SharedPreferenceConstants.CURRENT_STATE_NAME.toString(), "Haryana");
 
-                        Intent i = new Intent(context, ShopListByCategoryActivity.class);
-                        i.putExtra("category_id", listDataHeader.get(currentPosition).getCategoryId());
-                        i.putExtra("latitude", currentLatitude);
-                        i.putExtra("longitude", currentLongitude);
+                        if (position != 10) {
+                            Intent i = new Intent(context, ShopListByCategoryActivity.class);
+                            i.putExtra("category_id", listDataHeader.get(currentPosition).getCategoryId());
+                            i.putExtra("latitude", currentLatitude);
+                            i.putExtra("longitude", currentLongitude);
+                        } else {
+                            context.startActivity(new Intent(context, ViewAllCategoryActivity.class));
+                        }
 
-                        context.startActivity(i);
+
+
+
 
                     } else {
                         locationManagerCheck.createLocationServiceError((Activity) context);
                     }
 
-                }
-                else {
+                } else {
                     AndroidUtils.showErrorLog(context, "error in permission");
                 }
 

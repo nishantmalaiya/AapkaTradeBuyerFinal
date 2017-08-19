@@ -48,7 +48,7 @@ public class CartHolder extends RecyclerView.ViewHolder
         tvProductShippingCharge = (TextView) itemView.findViewById(R.id.tvProductShippingCharge);
         //  tvProductNumber = (TextView) itemView.findViewById(R.id.tvProductNumber);
 
-        buttonAddtoCart = (Button) itemView.findViewById(R.id.buttonAddtoCart);
+        buttonAddtoCart = itemView.findViewById(R.id.buttonAddtoCart);
 
 
 

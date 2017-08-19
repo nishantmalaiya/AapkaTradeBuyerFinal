@@ -613,6 +613,9 @@ public class ShopListByCategoryActivity extends AppCompatActivity {
         final MenuItem alertMenuItem = menu.findItem(R.id.cart_total_item);
 
         RelativeLayout badgeLayout = (RelativeLayout) alertMenuItem.getActionView();
+        if(appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString()).equals("2")){
+            alertMenuItem.setVisible(false);
+        }
 
         tvCartCount = (TextView) badgeLayout.findViewById(R.id.tvCartCount);
         tvfilter = (TextView) badgeLayout.findViewById(R.id.filter);

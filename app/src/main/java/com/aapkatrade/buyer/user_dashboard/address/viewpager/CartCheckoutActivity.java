@@ -31,7 +31,6 @@ import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
 
-import com.aapkatrade.buyer.payment.PaymentActivity;
 import com.aapkatrade.buyer.payment.PaymentCompletionActivity;
 import com.aapkatrade.buyer.payumoney_paymentgatway.PayMentGateWay;
 import com.android.volley.AuthFailureError;
@@ -52,7 +51,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import static com.payUMoney.sdk.SdkSession.hashCal;
@@ -61,7 +59,7 @@ public class CartCheckoutActivity extends AppCompatActivity
 {
 
     RelativeLayout relativePayment;
-    AppSharedPreference app_sharedpreference;
+    AppSharedPreference appSharedpreference;
     ArrayList<CartData> cartDataArrayList = new ArrayList<>();
     private Context context;
     private ImageView locationImageView;
@@ -72,7 +70,7 @@ public class CartCheckoutActivity extends AppCompatActivity
     private ProgressBarHandler progressBarHandler;
     public static CardView cardviewProductDeatails;
     public static LinearLayout linearAddressLayout;
-    TextView addressLine1, addressLine2, addressLine3;
+    TextView name, addressLine2, addressLine3;
     String userid;
     int page = 1;
     LinearLayoutManager linearLayoutManager;
@@ -94,7 +92,7 @@ public class CartCheckoutActivity extends AppCompatActivity
 
         progressBarHandler = new ProgressBarHandler(context);
 
-        app_sharedpreference = new AppSharedPreference(getApplicationContext());
+        appSharedpreference = new AppSharedPreference(getApplicationContext());
 
         initView();
 
@@ -129,7 +127,7 @@ public class CartCheckoutActivity extends AppCompatActivity
 
         cardviewProductDeatails = (CardView) findViewById(R.id.cardviewProductDeatails);
 
-        addressLine1 = (TextView) findViewById(R.id.addressLine1);
+        name = (TextView) findViewById(R.id.name);
 
         addressLine2 = (TextView) findViewById(R.id.addressLine2);
 
@@ -137,13 +135,14 @@ public class CartCheckoutActivity extends AppCompatActivity
 
         addressPhone = (TextView) findViewById(R.id.addressPhone);
 
-        addressLine1.setText(app_sharedpreference.getSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS_NAME.toString(), ""));
+        name.setText(appSharedpreference.getSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS_NAME.toString()));
+        name.setText(Validation.isNonEmptyStr(appSharedpreference.getSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS_NAME.toString()))?"To : ".concat(appSharedpreference.getSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS_NAME.toString())):"");
 
-        addressLine2.setText(app_sharedpreference.getSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS.toString(), ""));
+        addressLine2.setText(appSharedpreference.getSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS.toString(), ""));
 
-        addressLine3.setText(app_sharedpreference.getSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS_CITY.toString(), "")+"-"+app_sharedpreference.getSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS_PINCODE.toString(), ""));
+        addressLine3.setText(appSharedpreference.getSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS_CITY.toString(), "")+"-"+ appSharedpreference.getSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS_PINCODE.toString(), ""));
 
-        addressPhone.setText(app_sharedpreference.getSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS_PHONE.toString(), ""));
+        addressPhone.setText(Validation.isNonEmptyStr(appSharedpreference.getSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS_PHONE.toString()))?"Contact No : ".concat(appSharedpreference.getSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS_PHONE.toString())):"");
 
         locationImageView = (ImageView) findViewById(R.id.locationImageView);
 
@@ -188,7 +187,7 @@ public class CartCheckoutActivity extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                String userid = app_sharedpreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), "");
+                String userid = appSharedpreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), "");
 
                 for (int i=0 ; i< cartDataArrayList.size(); i++)
                 {
@@ -250,7 +249,7 @@ public class CartCheckoutActivity extends AppCompatActivity
     {
         progressBarHandler.show();
 
-        String user_id = app_sharedpreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), "notlogin");
+        String user_id = appSharedpreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), "notlogin");
 
         if (user_id.equals("notlogin"))
         {
@@ -263,8 +262,8 @@ public class CartCheckoutActivity extends AppCompatActivity
                 .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                 .setBodyParameter("device_id", AppConfig.getCurrentDeviceId(context))
                 .setBodyParameter("user_id", user_id)
-                .setBodyParameter("pincode",app_sharedpreference.getSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS_PINCODE.toString(), ""))
-                .setBodyParameter("user_type",app_sharedpreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), ""))
+                .setBodyParameter("pincode", appSharedpreference.getSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS_PINCODE.toString(), ""))
+                .setBodyParameter("user_type", appSharedpreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), ""))
                 .setBodyParameter("page", pageNumber)
                 .asJsonObject()
                 .setCallback(new FutureCallback<JsonObject>() {
@@ -336,7 +335,7 @@ public class CartCheckoutActivity extends AppCompatActivity
 
         progressBarHandler.show();
 
-        String user_id = app_sharedpreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), "notlogin");
+        String user_id = appSharedpreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), "notlogin");
         String login_url = context.getResources().getString(R.string.webservice_base_url) + "/save_order";
         Ion.with(context)
                 .load(login_url)
@@ -397,25 +396,25 @@ public class CartCheckoutActivity extends AppCompatActivity
 
         String getFname,getPhone,getEmail,getAmt;
 
-        if(Validation.isNonEmptyStr(app_sharedpreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString(),"Aapka Trade")))
+        if(Validation.isNonEmptyStr(appSharedpreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString(),"Aapka Trade")))
         {
-           getFname = app_sharedpreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString(), "Aapka Trade");
+           getFname = appSharedpreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString(), "Aapka Trade");
         }
         else {
         getFname = "Aapka Trade";
         }
 
-        if(Validation.isNonEmptyStr(app_sharedpreference.getSharedPref(SharedPreferenceConstants.MOBILE.toString())))
+        if(Validation.isNonEmptyStr(appSharedpreference.getSharedPref(SharedPreferenceConstants.MOBILE.toString())))
         {
-            getPhone = app_sharedpreference.getSharedPref(SharedPreferenceConstants.MOBILE.toString());
+            getPhone = appSharedpreference.getSharedPref(SharedPreferenceConstants.MOBILE.toString());
         }
         else {
             getPhone = getApplicationContext().getResources().getText(R.string.customer_care_no).toString();
         }
 
-        if(Validation.isNonEmptyStr(app_sharedpreference.getSharedPref(SharedPreferenceConstants.EMAIL_ID.toString())))
+        if(Validation.isNonEmptyStr(appSharedpreference.getSharedPref(SharedPreferenceConstants.EMAIL_ID.toString())))
         {
-            getEmail = app_sharedpreference.getSharedPref(SharedPreferenceConstants.EMAIL_ID.toString());
+            getEmail = appSharedpreference.getSharedPref(SharedPreferenceConstants.EMAIL_ID.toString());
         }
         else {
             getEmail = "info@aapkatrade.com";
@@ -663,13 +662,13 @@ public class CartCheckoutActivity extends AppCompatActivity
                             if(result.get("payment_status").getAsString().contains("false"))
                             {
                                 payment_status = "false";
-                                app_sharedpreference.setSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), 0);
+                                appSharedpreference.setSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), 0);
                             }
                             else
                             {
                                 payment_status = "true";
                                 String cart_count = jsonObject.get("cart_item").getAsString();
-                                app_sharedpreference.setSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), Integer.valueOf(cart_count));
+                                appSharedpreference.setSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), Integer.valueOf(cart_count));
                             }
 
                             AndroidUtils.showErrorLog(context, result.toString());

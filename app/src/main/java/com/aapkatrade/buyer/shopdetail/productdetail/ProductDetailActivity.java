@@ -193,7 +193,8 @@ public class ProductDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), "").equals("2")) {
+
+                if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString()).equals("2")) {
                     AndroidUtils.showToast(context, "Oops Not Buyer Account");
 
                 } else {
@@ -485,6 +486,10 @@ public class ProductDetailActivity extends AppCompatActivity {
                 onOptionsItemSelected(alertMenuItem);
             }
         });
+        if(appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString()).equals("2")){
+            alertMenuItem.setVisible(false);
+            AndroidUtils.showErrorLog(context, "cart visibility gone");
+        }
 
 
         return true;

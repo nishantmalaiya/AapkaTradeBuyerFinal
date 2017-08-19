@@ -3,7 +3,7 @@ package com.aapkatrade.buyer.home.navigation.viewholder;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.aapkatrade.buyer.R;
@@ -13,14 +13,16 @@ import com.aapkatrade.buyer.R;
  */
 public class NavigationViewHolder extends RecyclerView.ViewHolder {
 
-    public RelativeLayout rl_category_container;
+    public LinearLayout rl_category_container;
     public ImageView imageViewIcon;
     public TextView tvCategoryname;
+    public View splitLine;
 
     public NavigationViewHolder(View itemView) {
         super(itemView);
-        rl_category_container = (RelativeLayout) itemView.findViewById(R.id.rl_category_container);
+        rl_category_container =  itemView.findViewById(R.id.ll_category_container);
         imageViewIcon = (ImageView) itemView.findViewById(R.id.imageViewIcon);
         tvCategoryname = (TextView) itemView.findViewById(R.id.lblListHeader);
+        splitLine = itemView.findViewById(R.id.splitLine);
     }
 }

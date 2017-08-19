@@ -1,5 +1,6 @@
 package com.aapkatrade.buyer.home.cart;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -49,11 +50,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartHolder> implements Vie
     private static int popup_position = 0;
 
 
-    public CartAdapter(Context context) {
-
-        this.context = context;
-        inflater = LayoutInflater.from(context);
-    }
 
     public CartAdapter(Context context, List<CartData> itemList) {
 
@@ -306,8 +302,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartHolder> implements Vie
                                 String cart_count = jsonObject.get("total_qty").getAsString();
 
                                 if (cart_count.equals("0")) {
-                                    MyCartActivity.cardviewProductDeatails.setVisibility(View.INVISIBLE);
-                                    MyCartActivity.cardBottom.setVisibility(View.INVISIBLE);
+                                    MyCartActivity.cardviewProductDeatails.setVisibility(View.GONE);
+                                    MyCartActivity.cardBottom.setVisibility(View.GONE);
+                                    ((Activity) context).finish();
                                 } else {
                                     MyCartActivity.cardviewProductDeatails.setVisibility(View.VISIBLE);
                                     MyCartActivity.cardBottom.setVisibility(View.VISIBLE);

@@ -194,7 +194,7 @@
         <activity android:name=".seller.selleruser_dashboard.servicemanagment.editService.EditServiceActivity" />
         <activity android:name=".payumoney_paymentgatway.PayMentGateWay" />
         <activity android:name=".seller.selleruser_dashboard.billpayment.BillPaymentPaymentGatway" />
-
+        <activity android:name=".categories_tab.viewall.ViewAllCategoryActivity"></activity>
     </application>
 
 </manifest>
