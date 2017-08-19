@@ -117,9 +117,6 @@ public class ShopViewPagerAdapter extends PagerAdapter {
         }
 
 
-        //AndroidUtils.setBackgroundStroke(imageView, context, R.color.green, 20, 5);
-
-
         container.addView(itemView);
 
 

@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.aapkatrade.buyer.animation.Animations;
 import com.aapkatrade.buyer.home.HomeActivity;
 import com.aapkatrade.buyer.home.buyerregistration.entity.City;
 import com.aapkatrade.buyer.R;
@@ -23,6 +24,7 @@ import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.Validation;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
+import com.aapkatrade.buyer.uicomponent.customcardview.CustomCardViewHeader;
 import com.aapkatrade.buyer.user_dashboard.address.viewpager.CartCheckoutActivity;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
@@ -45,6 +47,7 @@ public class AddAddressActivity extends AppCompatActivity
     private ProgressBarHandler progress_handler;
     Context context;
     private ArrayList<City> cityList = new ArrayList<>();
+    private CustomCardViewHeader deliveryHeader;
 
 
 
@@ -87,6 +90,7 @@ public class AddAddressActivity extends AppCompatActivity
         setup_layout();
 
 
+
     }
 
     private void setup_layout()
@@ -101,50 +105,9 @@ public class AddAddressActivity extends AppCompatActivity
         etCity = (EditText) findViewById(R.id.etCityCategory);
 
         etCity.setText(city_id);
+        deliveryHeader = (CustomCardViewHeader) findViewById(R.id.deliveryHeader);
 
 
-       /* spState.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id)
-            {
-                // your code here
-                appSharedPreference.setSharedPref(SharedPreferenceConstants.STATE_ID.toString(), String.valueOf(position));
-                state_id = appSharedPreference.getSharedPref(SharedPreferenceConstants.STATE_ID.toString(), "");
-                spState.setSelection(Integer.valueOf(state_id));
-
-                cityList = new ArrayList<>();
-                AndroidUtils.showErrorLog(context, "State Id is ::::::::" + position);
-                if (position > 0)
-                {
-                  *//*  findViewById(R.id.input_layout_city).setVisibility(View.VISIBLE);
-                    findViewById(R.id.view1).setVisibility(View.VISIBLE);*//*
-                    getCity(String.valueOf(position));
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parentView)
-            {
-                // your code here
-            }
-
-        });
-
-        ArrayAdapter spinnerArrayAdapter = new ArrayAdapter(AddAddressActivity.this, R.layout.black_textcolor_spinner, stateList);
-        spinnerArrayAdapter.setDropDownViewResource(R.layout.black_textcolor_spinner);
-        spState.setAdapter(spinnerArrayAdapter);
-
-         if (state_id.equals("")){
-
-
-         }
-         else
-         {
-
-             spState.setSelection(Integer.valueOf(state_id));
-
-         }
-         */
 
         etFirstName = (EditText) findViewById(R.id.etFirstName);
 

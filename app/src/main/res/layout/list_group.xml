@@ -1,43 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/rl_category_container"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_category_container"
     android:layout_width="match_parent"
-    android:layout_height="50dp"
+    android:layout_height="@dimen/fifty_five_dip"
     android:gravity="center_vertical"
-    android:orientation="horizontal">
+    android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/imageViewIcon"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="26dp"
-        android:padding="10dp"
-      />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/fifty_dip"
+        android:gravity="center_vertical"
+        android:layout_gravity="center_vertical"
 
-    <TextView
-        android:id="@+id/lblListHeader"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/image"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="72dp"
-        android:text="@string/category"
-        android:textColor="@color/black"
-        android:textSize="@dimen/textsize_medium" />
+        >
 
-    <ImageView
-        android:id="@+id/image"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="16dp" />
+        <ImageView
+            android:id="@+id/imageViewIcon"
+            android:layout_width="@dimen/thirty_five_dip"
+            android:layout_height="@dimen/thirty_five_dip"
+            android:layout_marginStart="@dimen/twenty_five_dip"
+            android:padding="@dimen/ten_dip"
+            android:contentDescription="@string/aapka_data" />
+
+        <TextView
+            android:id="@+id/lblListHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/category"
+            android:textColor="@color/black"
+            android:gravity="center_vertical"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/twenty_five_dip"
+            android:textSize="@dimen/textsize_medium" />
+
+
+    </LinearLayout>
+
 
 
     <View
+        android:id="@+id/splitLine"
         android:layout_width="fill_parent"
-        android:layout_height="1dp"
-        android:layout_alignParentBottom="true"
+        android:layout_height="@dimen/one_dip"
         android:background="@color/brown_light" />
-</RelativeLayout>
+</LinearLayout>

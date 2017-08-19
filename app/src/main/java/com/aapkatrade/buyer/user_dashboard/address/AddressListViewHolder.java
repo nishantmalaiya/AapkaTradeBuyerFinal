@@ -36,7 +36,7 @@ public class AddressListViewHolder extends RecyclerView.ViewHolder {
 
         addressRadioButton = (RadioButton) view.findViewById(R.id.addressRadioButton);
 
-        addressLine1 = (TextView) view.findViewById(R.id.addressLine1);
+        addressLine1 = (TextView) view.findViewById(R.id.name);
         addressLine2 = (TextView) view.findViewById(R.id.addressLine2);
         addressLine3 = (TextView) view.findViewById(R.id.addressLine3);
         isSelected = (RadioButton) view.findViewById(R.id.addressRadioButton);

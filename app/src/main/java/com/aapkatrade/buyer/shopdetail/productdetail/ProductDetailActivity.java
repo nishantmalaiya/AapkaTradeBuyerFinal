@@ -1,5 +1,6 @@
 package com.aapkatrade.buyer.shopdetail.productdetail;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
@@ -84,6 +85,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     private LinearLayout dropDownContainer;
     private DroppyMenuPopup droppyMenu;
     private String singleUnitPrice = "0";
+    @SuppressLint("StaticFieldLeak")
     public static TextView tvCartCount;
 
     @Override
@@ -191,7 +193,8 @@ public class ProductDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), "").equals("2")) {
+
+                if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString()).equals("2")) {
                     AndroidUtils.showToast(context, "Oops Not Buyer Account");
 
                 } else {
@@ -251,6 +254,12 @@ public class ProductDetailActivity extends AppCompatActivity {
             }
         };
 
+        tvPinCodeCheck.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AndroidUtils.showToast(context, "Currently this feature is not available.");
+            }
+        });
 
     }
 
@@ -477,6 +486,10 @@ public class ProductDetailActivity extends AppCompatActivity {
                 onOptionsItemSelected(alertMenuItem);
             }
         });
+        if(appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString()).equals("2")){
+            alertMenuItem.setVisible(false);
+            AndroidUtils.showErrorLog(context, "cart visibility gone");
+        }
 
 
         return true;

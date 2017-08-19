@@ -300,7 +300,7 @@
                                     android:layout_height="@dimen/twenty_dip"
                                     android:layout_below="@+id/tvShopAddress"
                                     android:layout_marginTop="@dimen/five_dip"
-                                    android:src="@drawable/ic_phone"
+                                    android:src="@drawable/ic_mobile"
                                     android:tint="@color/black" />
 
                                 <TextView
@@ -331,7 +331,7 @@
                                     android:layout_below="@+id/tvMobile"
                                     android:layout_marginTop="@dimen/five_dip"
                                     android:backgroundTintMode="src_in"
-                                    android:src="@drawable/ic_mobile"
+                                    android:src="@drawable/ic_phone"
                                     android:tint="@color/black" />
 
                             </RelativeLayout>

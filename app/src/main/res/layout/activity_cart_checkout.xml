@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/grey_light2"
@@ -46,102 +47,98 @@
                         xmlns:app="http://schemas.android.com/apk/res-auto"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/ten_dip"
-                        app:cardCornerRadius="5dp"
+                        android:layout_marginBottom="@dimen/ten_dip"
+                        android:layout_marginTop="@dimen/ten_dip"
                         app:cardBackgroundColor="@color/white"
                         app:cardMaxElevation="8dp">
 
                         <LinearLayout
+                            android:id="@+id/linearAddress"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical">
+                            android:orientation="vertical"
+                            android:padding="@dimen/ten_dip">
+
 
                             <LinearLayout
-                                android:id="@+id/linearAddress"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:orientation="vertical">
+                                android:paddingBottom="@dimen/ten_dip">
 
-                                <LinearLayout
+                                <TextView
+                                    android:id="@+id/name"
+                                    style="@style/myAddress"
                                     android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:orientation="vertical"
-                                    android:padding="10dp">
-
-
-                                    <LinearLayout
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content">
-
-                                        <TextView
-                                            android:id="@+id/addressLine1"
-                                            style="@style/myAddress"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="wrap_content"
-                                            android:maxLines="2"
-                                            android:text="" />
-
-                                    </LinearLayout>
-
-
-                                    <LinearLayout
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content">
-
-                                        <TextView
-                                            android:id="@+id/addressLine2"
-                                            style="@style/myAddress"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="wrap_content"
-                                            android:text="" />
-                                    </LinearLayout>
-
-                                    <LinearLayout
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="5dp">
-
-                                        <TextView
-                                            android:id="@+id/addressLine3"
-                                            style="@style/myAddress"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="wrap_content"
-
-                                            android:text="" />
-                                    </LinearLayout>
-
-
-                                    <LinearLayout
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="5dp">
-
-                                        <TextView
-                                            android:id="@+id/addressPhone"
-                                            style="@style/myAddress"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="wrap_content"
-
-                                            android:text="" />
-                                    </LinearLayout>
-
-                                    <Button
-                                        android:id="@+id/button_changeAddress"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:background="@color/green"
-                                        android:text="Change Address"
-                                        android:textColor="@color/white"
-                                        />
-
-
-                                </LinearLayout>
-
+                                    android:layout_height="wrap_content"
+                                    android:maxLines="1"
+                                    android:text=""
+                                    android:textSize="@dimen/fifteen_dip"
+                                    android:textColor="@color/black"
+                                    android:textStyle="bold" />
 
                             </LinearLayout>
 
 
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:paddingTop="@dimen/ten_dip">
+
+                                <TextView
+                                    android:id="@+id/addressLine2"
+                                    style="@style/myAddress"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="@dimen/twelve_dip"
+                                    android:text=""
+                                    tools:ignore="SpUsage" />
+                            </LinearLayout>
+
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:paddingBottom="@dimen/ten_dip">
+
+                                <TextView
+                                    android:id="@+id/addressLine3"
+                                    style="@style/myAddress"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text=""
+                                    android:textSize="@dimen/twelve_dip"
+                                    tools:ignore="SpUsage" />
+                            </LinearLayout>
+
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:paddingBottom="@dimen/ten_dip">
+
+                                <TextView
+                                    android:id="@+id/addressPhone"
+                                    style="@style/myAddress"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="@dimen/twelve_dip"
+                                    android:text=""
+                                    tools:ignore="SpUsage" />
+                            </LinearLayout>
+
+
+                            <Button
+                                android:id="@+id/button_changeAddress"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/ten_dip"
+                                android:background="@color/green"
+                                android:text="Change Address"
+                                android:textColor="@color/white" />
+
+
                         </LinearLayout>
+
 
                     </android.support.v7.widget.CardView>
 
@@ -152,18 +149,16 @@
                     android:id="@+id/order_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/ten_dip">
-
-                </android.support.v7.widget.RecyclerView>
+                    android:layout_marginBottom="@dimen/ten_dip" />
 
 
                 <android.support.v7.widget.CardView
                     android:id="@+id/cardviewProductDeatails"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/ten_dip"
-                    app:cardBackgroundColor="@color/white"
-                    android:visibility="invisible">
+                    android:layout_marginBottom="@dimen/ten_dip"
+                    android:visibility="invisible"
+                    app:cardBackgroundColor="@color/white">
 
                     <RelativeLayout
                         android:layout_width="match_parent"

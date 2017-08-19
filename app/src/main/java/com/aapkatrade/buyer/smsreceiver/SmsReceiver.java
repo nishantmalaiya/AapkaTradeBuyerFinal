@@ -80,7 +80,13 @@ public class SmsReceiver extends BroadcastReceiver
                     System.out.println("------------" + messageBody);
                     //Pass on the text to our listenmessageBodyer.
                     // mListener.messageReceived(messageBody);
-                    appSharedpreference.setSharedPref(SharedPreferenceConstants.LASTEST_OTP.toString(), messageBody.replace("Your otp is ",""));
+                  //  appSharedpreference.setSharedPref(SharedPreferenceConstants.LASTEST_OTP.toString(), messageBody.replace("Your otp is ",""));
+
+                    Intent myIntent = new Intent("otp");
+                    myIntent.putExtra("message",messageBody.replace("Your otp is ",""));
+                    LocalBroadcastManager.getInstance(context).sendBroadcast(myIntent);
+                    // Show Alert
+
                 }
 
             } else {
@@ -90,8 +96,13 @@ public class SmsReceiver extends BroadcastReceiver
                 if (Validation.isNonEmptyStr(smsMessage.toString())) {
                     String messageBody = smsMessage.getMessageBody();
 
-                    appSharedpreference.setSharedPref(SharedPreferenceConstants.LASTEST_OTP.toString(), messageBody.replace("Your otp is ",""));
+                    //appSharedpreference.setSharedPref(SharedPreferenceConstants.LASTEST_OTP.toString(), messageBody.replace("Your otp is ",""));
                     System.out.println("messageBody2------------" + messageBody);
+
+                    Intent myIntent = new Intent("otp");
+                    myIntent.putExtra("message",messageBody.replace("Your otp is ",""));
+                    LocalBroadcastManager.getInstance(context).sendBroadcast(myIntent);
+
                     //Pass on the text to our listener.
 //                    if(mListener != null) {
 //                        mListener.messageReceived(messageBody);

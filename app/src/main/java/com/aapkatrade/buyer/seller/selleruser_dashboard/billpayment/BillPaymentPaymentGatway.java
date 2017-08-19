@@ -3,18 +3,25 @@ package com.aapkatrade.buyer.seller.selleruser_dashboard.billpayment;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Window;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.aapkatrade.buyer.R;
+import com.aapkatrade.buyer.dialogs.comingsoon.ComingSoonFragmentDialog;
 import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.ParseUtils;
@@ -76,6 +83,7 @@ public class BillPaymentPaymentGatway extends Activity {
     static String getFirstName, getNumber, getEmailAddress, getRechargeAmt;
     ProgressDialog pDialog ;
     ProgressBarHandler progressBarHandler;
+    public static final String TAG = "Aapka Trade";
 
 
     @SuppressLint("JavascriptInterface") @Override
@@ -429,8 +437,6 @@ public class BillPaymentPaymentGatway extends Activity {
             algorithm.update(hashseq);
             byte messageDigest[] = algorithm.digest();
 
-
-
             for (int i=0;i<messageDigest.length;i++) {
                 String hex= Integer.toHexString(0xFF & messageDigest[i]);
                 if(hex.length()==1) hexString.append("0");
@@ -571,7 +577,6 @@ public class BillPaymentPaymentGatway extends Activity {
                              //  AndroidUtils.showErrorLog(context,result,"dghdfghsaf dawbnedvhaewnbedvsab dsadduyf");
                              // progressBarHandler.hide();
                              System.out.println("result--------------" + result);
-                            Log.e("resutm--",result.toString());
 
                             if (result.get("error").getAsString().contains("false"))
                             {
@@ -597,10 +602,45 @@ public class BillPaymentPaymentGatway extends Activity {
                                 startActivity(intent);
                             }
 
-                            //Toast.makeText(getApplicationContext(),result.toString(),Toast.LENGTH_SHORT).show();
 
                         }
                     });
         }
 
+    @Override
+    public void onBackPressed() {
+
+        showDialogMessage("Are you sure, you want to cancel your transaction?");
+
+    }
+
+    private void showDialogMessage(String message) {
+        android.support.v7.app.AlertDialog.Builder builder = new AlertDialog.Builder(BillPaymentPaymentGatway.this);
+
+        builder.setTitle(TAG);
+        builder.setMessage(message);
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+
+            }
+        });
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                finish();
+
+            }
+        });
+        builder.show();
+
+       /*   AlertDialog dialog = builder.create();
+        Button positive = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+        positive.setTextColor(getResources().getColor(R.color.red));
+
+*/
+
+    }
 }

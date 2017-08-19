@@ -3,7 +3,9 @@ package com.aapkatrade.buyer.payumoney_paymentgatway;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -75,7 +77,7 @@ public class PayMentGateWay extends Activity {
 
     static String getFirstName, getNumber, getEmailAddress, getRechargeAmt;
 
-
+    public static final String TAG = "Aapka Trade";
     ProgressDialog pDialog;
 
     @SuppressLint("JavascriptInterface")
@@ -594,6 +596,36 @@ public class PayMentGateWay extends Activity {
                         //Toast.makeText(getApplicationContext(),result.toString(),Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        showDialogMessage("Are you sure, you want to cancel your transaction?");
+
+    }
+
+    private void showDialogMessage(String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(TAG);
+        builder.setMessage(message);
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+
+            }
+        });
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                finish();
+
+            }
+        });
+        builder.show();
+
     }
 
 

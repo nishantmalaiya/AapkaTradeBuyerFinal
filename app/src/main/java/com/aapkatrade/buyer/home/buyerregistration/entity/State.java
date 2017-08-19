@@ -19,4 +19,13 @@ public class State {
         this.stateName = stateName;
         this.countprod = countprod;
     }
+
+    @Override
+    public String toString() {
+        return "State{" +
+                "stateId='" + stateId + '\'' +
+                ", stateName='" + stateName + '\'' +
+                ", countprod='" + countprod + '\'' +
+                '}';
+    }
 }

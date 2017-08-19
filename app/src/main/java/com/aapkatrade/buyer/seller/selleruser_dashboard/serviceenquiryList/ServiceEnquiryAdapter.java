@@ -103,11 +103,7 @@ public class ServiceEnquiryAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     @Override
     public int getItemCount()
     {
-
         return itemList.size();
     }
-
-
-
 
 }

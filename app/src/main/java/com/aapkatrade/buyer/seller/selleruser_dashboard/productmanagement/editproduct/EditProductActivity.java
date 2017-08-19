@@ -104,6 +104,9 @@ public class EditProductActivity extends AppCompatActivity {
         context = EditProductActivity.this;
         appSharedpreference = new AppSharedPreference(context);
         progressBarHandler = new ProgressBarHandler(context);
+
+        productMediaDatasDelete.clear();
+
         if (getIntent() != null) {
             productId = getIntent().getStringExtra("productId") == null ? "0" : getIntent().getStringExtra("productId");
         }
@@ -405,7 +408,7 @@ public class EditProductActivity extends AppCompatActivity {
                 submitImgDelList = submitDeletedImages();
 
                 AndroidUtils.showErrorLog(context, "productImagesDataArrayList............." + submitImgList.size());
-                AndroidUtils.showErrorLog(context, "productMediaDatasDeleteList.............", submitImgDelList == null ? "no delter list" : submitImgDelList.size());
+                AndroidUtils.showErrorLog(context, "productMediaDatasDeleteList.............", submitImgDelList == null ? "no delter list" : submitImgDelList.toString());
                 AndroidUtils.showErrorLog(context, "getDynamicSelectedData............." + dynamicFormData);
 
                 validateFields();
@@ -808,8 +811,8 @@ public class EditProductActivity extends AppCompatActivity {
             for (int i = 1; i < productImagesDataArrayList.size(); i++) {
                 ProductMediaData file = productImagesDataArrayList.get(i);
                 if (!file.isVideo && !isExistingImage(file) && savebitmap(file.imagePath)!=null) {
-                    files.add(new FilePart("image", savebitmap(file.imagePath)));
-                    AndroidUtils.showErrorLog(context, "----------------submitImages--->", files.toArray());
+                    files.add(new FilePart("image[]", savebitmap(file.imagePath)));
+                    AndroidUtils.showErrorLog(context, "----------------submitImages--->", files.get(files.size()-1).getFilename());
                 }
             }
             return files;
@@ -848,11 +851,12 @@ public class EditProductActivity extends AppCompatActivity {
 */
     private void hitUpdateProductWebservice() {
         progressBarHandler.show();
-
-        AndroidUtils.showErrorLog(context, "hitUpdateProductWebservice----------called");
-
-
 /*
+
+        for(Part part:submitImgList)
+        AndroidUtils.showErrorLog(context, "hitUpdateProductWebservice----------called",part.getFilename());
+
+
 
 
           if (submitImgList == null || submitImgList.size() == 0) {
@@ -911,7 +915,17 @@ public class EditProductActivity extends AppCompatActivity {
                 });
             }
         } else {
+
+
+
             if (submitImgDelList == null || submitImgDelList.size() == 0) {
+
+                for(Part part:submitImgList) {
+                    AndroidUtils.showErrorLog(context, "submitImgList-----------", part.getFilename());
+                }
+
+                AndroidUtils.showErrorLog(context,"submitImgList size-----------",submitImgList.size());
+
                 Ion.with(context)
                         .load(getString(R.string.webservice_base_url).concat("/edit_product/").concat(productId))
                         .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
@@ -967,6 +981,10 @@ public class EditProductActivity extends AppCompatActivity {
         }
 
 
+
+
+
+
 */
 
 
@@ -996,16 +1014,8 @@ public class EditProductActivity extends AppCompatActivity {
 
 
 
-
-
-
-
-
-
-
-
-        if (submitImgList == null) {
-            if (submitImgDelList == null) {
+        if (submitImgList == null || submitImgList.size()==0) {
+            if (submitImgDelList == null || submitImgDelList.size()==0) {
                 Ion.with(context)
                         .load(getString(R.string.webservice_base_url).concat("/edit_product/").concat(productId))
                         .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
@@ -1083,7 +1093,7 @@ public class EditProductActivity extends AppCompatActivity {
                 });
             }
         } else {
-            if (submitImgDelList == null) {
+            if (submitImgDelList == null || submitImgDelList.size()==0 ) {
                 Ion.with(context)
                         .load(getString(R.string.webservice_base_url).concat("/edit_product/").concat(productId))
                         .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")

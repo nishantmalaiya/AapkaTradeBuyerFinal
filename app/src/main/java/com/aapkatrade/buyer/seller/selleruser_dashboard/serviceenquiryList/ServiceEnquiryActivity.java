@@ -3,6 +3,7 @@ package com.aapkatrade.buyer.seller.selleruser_dashboard.serviceenquiryList;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatImageView;
@@ -31,9 +32,9 @@ import com.koushikdutta.ion.Ion;
 import java.util.ArrayList;
 
 
-public class ServiceEnquiryActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
+public class ServiceEnquiryActivity extends AppCompatActivity  {
 
-    RecyclerView recyclerViewcompanylist;
+     public RecyclerView recyclerViewcompanylist;
     ServiceEnquiryAdapter serviceEnquiryAdapter;
     ArrayList<ServiceEnquiryData> serviceEnquiryDatas = new ArrayList<>();
     RelativeLayout relativeCompanylist;
@@ -42,14 +43,19 @@ public class ServiceEnquiryActivity extends AppCompatActivity implements SwipeRe
     private final static String TAG_FRAGMENT = "TAG_FRAGMENT";
     TextView tvTitle;
     LinearLayoutManager mLayoutManager;
-    int page = 1;
+    int page = 0;
     SwipeRefreshLayout mSwipyRefreshLayout;
     private Context context;
+
     private int totalpage;
 
 
+    public  Boolean isLoading = false;
+
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_service_enquiry);
         context = ServiceEnquiryActivity.this;
@@ -62,7 +68,8 @@ public class ServiceEnquiryActivity extends AppCompatActivity implements SwipeRe
         setup_layout();
     }
 
-    private void setUpToolBar() {
+    private void setUpToolBar()
+    {
         AppCompatImageView homeIcon = (AppCompatImageView) findViewById(R.id.logoWord);
         AppCompatImageView back_imagview = (AppCompatImageView) findViewById(R.id.back_imagview);
         back_imagview.setVisibility(View.VISIBLE);
@@ -112,23 +119,41 @@ public class ServiceEnquiryActivity extends AppCompatActivity implements SwipeRe
     }
 
 
-    private void setup_layout() {
+    private void setup_layout()
+    {
 
         mSwipyRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe);
+       // mSwipyRefreshLayout.setEnabled(false);
 
-        mSwipyRefreshLayout.setRefreshing(false);
 
-        mSwipyRefreshLayout.setOnRefreshListener(this);
+        mSwipyRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+                new Handler().postDelayed(new Runnable() {
+
+                    @Override
+                    public void run()
+                    {
+                        page = 0;
+                        get_company_list_data(page);
+
+                    }
+                }, 3000);
+            }
+        });
 
         relativeCompanylist = (RelativeLayout) findViewById(R.id.relativeCompanylist);
 
         recyclerViewcompanylist = (RecyclerView) findViewById(R.id.companylist);
 
-        mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        mLayoutManager = new LinearLayoutManager(context);
 
         recyclerViewcompanylist.setLayoutManager(mLayoutManager);
 
-        get_company_list_data("1");
+
+        get_company_list_data(page);
+
 
         serviceEnquiryAdapter = new ServiceEnquiryAdapter(ServiceEnquiryActivity.this, serviceEnquiryDatas, ServiceEnquiryActivity.this);
 
@@ -137,45 +162,63 @@ public class ServiceEnquiryActivity extends AppCompatActivity implements SwipeRe
 
         app_sharedpreference = new AppSharedPreference(ServiceEnquiryActivity.this);
 
-
-        recyclerViewcompanylist.addOnScrollListener(new RecyclerView.OnScrollListener() {
-
-            public void onScrollStateChanged(RecyclerView view, int scrollState) {
-
-                super.onScrollStateChanged(recyclerViewcompanylist, scrollState);
+        recyclerViewcompanylist.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            int ydy = 0;
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
 
             }
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-
-                int totalItemCount = mLayoutManager.getItemCount();
-
-                int firstVisibleItem = mLayoutManager.findFirstVisibleItemPosition();
-
-                int lastVisibleItemCount = mLayoutManager.findLastVisibleItemPosition();
-
-              /*  if (totalItemCount > 0) {
-                    if ((totalItemCount - 1) == lastVisibleItemCount&&page<=totalpage) {
-
-                        page = page + 1;
-                         get_company_list_data(String.valueOf(page));
-                    } else {
-                        //loadingProgress.setVisibility(View.GONE);
-                    }
-
+                int offset = dy - ydy;
+                ydy = dy;
+                boolean shouldRefresh = (mLayoutManager.findFirstCompletelyVisibleItemPosition() == 0)
+                        && (recyclerView.getScrollState() == RecyclerView.SCROLL_STATE_DRAGGING) && offset > 30;
+                if (shouldRefresh) {
+                    mSwipyRefreshLayout.setRefreshing(true);
+                    //Refresh to load data here.
+                    AndroidUtils.showErrorLog(context,"show refresh data");
+                    page = 0;
+                    get_company_list_data(page);
+                    return;
                 }
-*/
+                boolean shouldPullUpRefresh = mLayoutManager.findLastCompletelyVisibleItemPosition() == mLayoutManager.getChildCount() - 1
+                        && recyclerView.getScrollState() == RecyclerView.SCROLL_STATE_DRAGGING && offset < -30;
+                if (shouldPullUpRefresh) {
+                    mSwipyRefreshLayout.setRefreshing(true);
+                    //refresh to load data here.
+                    AndroidUtils.showErrorLog(context,"show refresh data id enable");
+                    get_service_list_data(page);
+                    return;
+                }
+                mSwipyRefreshLayout.setRefreshing(false);
+
+
+            }
+        });
+
+
+
+
             }
 
         });
+     */
+
+
 
 
     }
 
 
-    public void get_company_list_data(String page) {
+
+    public void get_company_list_data(int loadpage)
+    {
+        isLoading =true;
+
         mSwipyRefreshLayout.setRefreshing(true);
         relativeCompanylist.setVisibility(View.INVISIBLE);
 
@@ -186,7 +229,9 @@ public class ServiceEnquiryActivity extends AppCompatActivity implements SwipeRe
                 .setBodyParameter("type", "company")
                 .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                 .setBodyParameter("user_id", app_sharedpreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), "0"))
-                .setBodyParameter("page",page)
+
+                .setBodyParameter("page", String.valueOf(loadpage))
+
                 .asJsonObject()
                 .setCallback(new FutureCallback<JsonObject>() {
                     @Override
@@ -195,6 +240,7 @@ public class ServiceEnquiryActivity extends AppCompatActivity implements SwipeRe
 
                         if (result == null) {
                             mSwipyRefreshLayout.setRefreshing(false);
+                            isLoading =false;
                         } else {
                             Log.e("data===============", result.toString());
 
@@ -227,13 +273,17 @@ public class ServiceEnquiryActivity extends AppCompatActivity implements SwipeRe
                                     serviceEnquiryDatas.add(new ServiceEnquiryData(service_enquiry_id, product_name, product_price, user_name, user_email, user_mobile, description, created_date, category_name));
 
                                 }
-
+                                isLoading = false;
                                 serviceEnquiryAdapter.notifyDataSetChanged();
 
                                 // progressView.setVisibility(View.INVISIBLE);
                                 relativeCompanylist.setVisibility(View.VISIBLE);
-                                mSwipyRefreshLayout.setRefreshing(false);
-                            } else {
+
+                               mSwipyRefreshLayout.setRefreshing(false);
+
+                            }
+                            else
+                            {
                                 mSwipyRefreshLayout.setRefreshing(false);
                                 AndroidUtils.showToast(context, "No Service Enquiry  Found in Your Account");
                             }
@@ -248,11 +298,84 @@ public class ServiceEnquiryActivity extends AppCompatActivity implements SwipeRe
 
 
 
+
     @Override
     public void onRefresh() {
         page=1;
         get_company_list_data(page+"");
     }
+
+    public void get_service_list_data(int page)
+    {
+        isLoading =true;
+        Ion.with(ServiceEnquiryActivity.this)
+
+                .load(getResources().getString(R.string.webservice_base_url) + "/enquiry_service_list")
+                .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                .setBodyParameter("type", "company")
+                .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                .setBodyParameter("user_id", app_sharedpreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), "0"))
+                .setBodyParameter("page", String.valueOf(page))
+                .asJsonObject()
+                .setCallback(new FutureCallback<JsonObject>() {
+                    @Override
+                    public void onCompleted(Exception e, JsonObject result) {
+
+                        if (result == null) {
+
+                            isLoading = false;
+                            // progress_handler.hide();
+                        } else {
+                            Log.e("data===============", result.toString());
+
+                            JsonObject jsonObject = result.getAsJsonObject();
+
+                            JsonArray jsonArray = jsonObject.getAsJsonArray("result");
+
+                            for (int i = 0; i < jsonArray.size(); i++) {
+                                JsonObject jsonObject2 = (JsonObject) jsonArray.get(i);
+
+                                String service_enquiry_id = jsonObject2.get("id").getAsString();
+
+                                String product_name = jsonObject2.get("product_name").getAsString();
+
+                                String product_price = jsonObject2.get("price").getAsString();
+
+                                String user_name = jsonObject2.get("name").getAsString();
+
+                                String user_email = jsonObject2.get("email").getAsString();
+
+                                String user_mobile = jsonObject2.get("mobile").getAsString();
+
+                                String description = jsonObject2.get("short_des").getAsString();
+
+                                String created_date = jsonObject2.get("created_at").getAsString();
+
+                                String category_name = jsonObject2.get("category_name").getAsString();
+
+                                serviceEnquiryDatas.add(new ServiceEnquiryData(service_enquiry_id, product_name, product_price, user_name, user_email, user_mobile, description, created_date, category_name));
+
+                            }
+                            int prevSize = serviceEnquiryDatas.size();
+
+                            serviceEnquiryAdapter.notifyItemRangeInserted(prevSize, serviceEnquiryDatas.size() -prevSize);
+
+                            //serviceEnquiryAdapter.notifyDataSetChanged();
+
+                            // progress_handler.hide();
+                            // progressView.setVisibility(View.INVISIBLE);
+                            relativeCompanylist.setVisibility(View.VISIBLE);
+                            isLoading = false;
+
+                        }
+
+                    }
+
+                });
+    }
+
+
+
 
 
 }
