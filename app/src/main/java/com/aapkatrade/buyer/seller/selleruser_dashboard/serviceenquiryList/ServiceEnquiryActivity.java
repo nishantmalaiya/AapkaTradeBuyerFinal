@@ -203,10 +203,6 @@ public class ServiceEnquiryActivity extends AppCompatActivity  {
 
 
 
-            }
-
-        });
-     */
 
 
 
@@ -299,11 +295,6 @@ public class ServiceEnquiryActivity extends AppCompatActivity  {
 
 
 
-    @Override
-    public void onRefresh() {
-        page=1;
-        get_company_list_data(page+"");
-    }
 
     public void get_service_list_data(int page)
     {
