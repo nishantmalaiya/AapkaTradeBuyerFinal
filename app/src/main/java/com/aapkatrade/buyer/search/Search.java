@@ -3,9 +3,11 @@ package com.aapkatrade.buyer.search;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.util.ArrayMap;
 import android.support.v4.view.ViewPager;
@@ -27,12 +29,16 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.aapkatrade.buyer.dialogs.ChatDialogFragment;
+import com.aapkatrade.buyer.dialogs.SearchLocationDialogFragment;
 import com.aapkatrade.buyer.general.Utils.adapter.SearchAutoCompleteData;
 import com.aapkatrade.buyer.general.Utils.adapter.Webservice_Search_AutoCompleteAdapterNew;
 import com.aapkatrade.buyer.general.Utils.adapter.Webservice_search_autocompleteadapter;
+import com.aapkatrade.buyer.general.interfaces.CommonInterface;
 import com.aapkatrade.buyer.home.CommonAdapter;
 import com.aapkatrade.buyer.home.CommonData;
 import com.aapkatrade.buyer.home.HomeActivity;
@@ -100,8 +106,13 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
     ViewPager viewpager_state;
     AppCompatImageView voice_search;
     private LinearLayoutManager linearLayoutManager;
+    LinearLayout ll_search_container;
 
+    public static CommonInterface commonInterface;
 
+    int firsttime=0;
+
+TextView selectedlocation;
 
 
     @Override
@@ -111,6 +122,17 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
         setContentView(R.layout.activity_search);
 
         c = Search.this;
+        call_state_dialog(true);
+        /*if(firsttime==0)
+        {
+
+            firsttime=1;
+
+        }
+        else{
+
+        }*/
+
         Intent i = getIntent();
         currentlocation_statename = i.getStringExtra("state_name");
 
@@ -128,10 +150,28 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
         setuptoolbar();
 
         initview();
-        call_state_webservice(currentlocation_statename);
 
 
 
+       // call_state_webservice(currentlocation_statename);
+
+        commonInterface=new CommonInterface() {
+            @Override
+            public Object getData(Object object) {
+
+String selected_state=(String)object;
+                selectedlocation.setText(selected_state);
+                return null;
+            }
+        };
+
+    }
+
+    private void call_state_dialog(boolean b) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        SearchLocationDialogFragment searchLocationDialogFragment = new SearchLocationDialogFragment(c,b);
+        searchLocationDialogFragment.setCancelable(false);
+        searchLocationDialogFragment.show(fragmentManager, "Select State");
     }
 
 
@@ -153,7 +193,7 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(null);
         getSupportActionBar().setElevation(0);
-        ((ImageView) toolbar.findViewById(R.id.img_vew_location)).setColorFilter(ContextCompat.getColor(Search.this, R.color.white));
+        //((ImageView) toolbar.findViewById(R.id.img_vew_location)).setColorFilter(ContextCompat.getColor(Search.this, R.color.white));
 
         // getSupportActionBar().setIcon(R.drawable.home_logo);
 
@@ -163,6 +203,10 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
     {
 
         voice_search = (AppCompatImageView) findViewById(R.id.voice_input);
+        ll_search_container= (LinearLayout) findViewById(R.id.ll_search_container);
+
+
+        AndroidUtils.setGradientColor(ll_search_container, android.graphics.drawable.GradientDrawable.RECTANGLE, ContextCompat.getColor(this, R.color.wallet_card2_gradient_bottom), ContextCompat.getColor(this, R.color.wallet_card2_gradient_Top), GradientDrawable.Orientation.LEFT_RIGHT, 0);
 
         voice_search.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -203,11 +247,11 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
 
                 if (text.length() > 0)
                 {
-                    if (state_list_spinner.getSelectedItemPosition() != 0)
-                    {
+                   /* if (state_list_spinner.getSelectedItemPosition() != 0)
+                    {*/
                         String product_search_url = (getResources().getString(R.string.webservice_base_url)) + "/search_suggesion";
 
-                        call_search_suggest_webservice_product(product_search_url, text, state_list_spinner.getSelectedItem().toString());
+                        call_search_suggest_webservice_product(product_search_url, text, selectedlocation.getText().toString());
 
                         autocomplete_textview_product.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
@@ -216,12 +260,12 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
                             }
                         });
 
-                    }
-                    else
+                    //}
+                   /* else
                         {
 
                         AndroidUtils.showSnackBar(coordinate_search, "Please Select State First");
-                    }
+                    }*/
 
                 }
                 else
@@ -247,7 +291,7 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
                 {
                     if (autocomplete_textview_product.getText().length() != 0)
                     {
-                        call_search_webservice(state_list_spinner.getSelectedItem().toString(), autocomplete_textview_product.getText().toString());
+                        call_search_webservice(selectedlocation.getText().toString(), autocomplete_textview_product.getText().toString());
                         autocomplete_textview_product.setHint("");
                         AppConfig.hideKeyboard(Search.this);
 
@@ -276,13 +320,23 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
 
     private void setup_state_spinner()
     {
-        state_list_spinner = (Spinner) findViewById(R.id.spin_select_state);
+
+        selectedlocation=(TextView)findViewById(R.id.selected_state);
+
+
+        selectedlocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                call_state_dialog(false);
+            }
+        });
+       /* state_list_spinner = (Spinner) findViewById(R.id.spin_select_state);
         stateList = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.state_list)));
 
         ArrayAdapter spinnerArrayAdapter = new ArrayAdapter(c, R.layout.white_textcolor_spinner, stateList);
         spinnerArrayAdapter.setDropDownViewResource(R.layout.white_textcolor_spinner);
 
-        state_list_spinner.setAdapter(spinnerArrayAdapter);
+        state_list_spinner.setAdapter(spinnerArrayAdapter);*/
 
     }
 
@@ -420,7 +474,7 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
                 }
             }
 
-            searchResults_category_Adapter = new SearchcategoryAdapter(Search.this, common_category_searchlist, state_list_spinner.getItemAtPosition(current_state_index).toString(),
+            searchResults_category_Adapter = new SearchcategoryAdapter(Search.this, common_category_searchlist, selectedlocation.getText().toString(),
                     autocomplete_textview_product.getText().toString());
             Log.e("category_data", common_category_searchlist.toString());
             searchResults_category_Adapter.notifyDataSetChanged();
@@ -484,7 +538,7 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
                 .setBodyParameter("name", product_search_text.trim())
                 .setBodyParameter("lat", latitude)
                 .setBodyParameter("long", longitude)
-                .setBodyParameter("location", state_list_spinner.getSelectedItem().toString())
+                .setBodyParameter("location", selectedlocation.getText().toString())
                 .asJsonObject()
                 .setCallback(new FutureCallback<JsonObject>() {
                     @Override

@@ -142,7 +142,7 @@
                         android:singleLine="true"
                         android:layout_marginRight="5dp"
                         android:layout_marginLeft="5dp"
-
+                        android:nextFocusUp="@+id/etotp1"
                         android:imeOptions="actionNext"
                         />
 
@@ -159,6 +159,7 @@
                         android:layout_marginRight="5dp"
                         android:layout_marginLeft="5dp"
                         android:maxLength="1"
+                        android:nextFocusUp="@+id/etotp2"
                         android:singleLine="true"
 
                         android:textSize="18sp"
@@ -174,7 +175,7 @@
                         android:background="@drawable/edit_text_green_back"
                         android:inputType="number"
                         android:maxLength="1"
-
+                        android:nextFocusUp="@+id/etotp3"
                         android:singleLine="true"
                         android:hint=""
                         android:layout_marginRight="5dp"

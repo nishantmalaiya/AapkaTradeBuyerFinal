@@ -1,6 +1,8 @@
 package com.aapkatrade.buyer.user_dashboard;
 
+
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -73,6 +75,38 @@ public class UserDashboardFragment extends Fragment {
                         .error(R.drawable.navigation_profile_bg)
                         .into(imageViewProfileVideo);*/
             }
+
+
+
+            imageViewProfileVideo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+
+                    if (appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_VIDEO.toString(), "").toString().equals("")) {
+
+                        Log.e("shared-----", "");
+                    } else {
+
+                        Intent intent = new Intent(Intent.ACTION_VIEW);
+
+                        intent.setDataAndType(Uri.parse(appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_VIDEO.toString(), "").toString()), "video/*");
+
+                        startActivity(Intent.createChooser(intent, "Complete action using"));
+
+
+
+
+              /*  Picasso.with(getActivity())
+                        .load(appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_VIDEO_THUMBNAIL.toString(), ""))
+                        .error(R.drawable.navigation_profile_bg)
+                        .placeholder(R.drawable.navigation_profile_bg)
+                        .error(R.drawable.navigation_profile_bg)
+                        .into(imageViewProfileVideo);*/
+                    }
+
+                }
+            });
         }
 
         setup_layout(v);
@@ -82,6 +116,7 @@ public class UserDashboardFragment extends Fragment {
         layoutManager = new LinearLayoutManager(getActivity());
         setup_data();
         dashboardlist.setNestedScrollingEnabled(false);
+
         return v;
     }
 

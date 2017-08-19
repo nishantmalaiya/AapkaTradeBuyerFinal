@@ -46,7 +46,12 @@ public class ServiceEnquiryActivity extends AppCompatActivity  {
     int page = 0;
     SwipeRefreshLayout mSwipyRefreshLayout;
     private Context context;
+
+    private int totalpage;
+
+
     public  Boolean isLoading = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -146,7 +151,9 @@ public class ServiceEnquiryActivity extends AppCompatActivity  {
 
         recyclerViewcompanylist.setLayoutManager(mLayoutManager);
 
+
         get_company_list_data(page);
+
 
         serviceEnquiryAdapter = new ServiceEnquiryAdapter(ServiceEnquiryActivity.this, serviceEnquiryDatas, ServiceEnquiryActivity.this);
 
@@ -195,40 +202,7 @@ public class ServiceEnquiryActivity extends AppCompatActivity  {
 
 
 
-        /*recyclerViewcompanylist.addOnScrollListener(new RecyclerView.OnScrollListener() {
 
-            public void onScrollStateChanged(RecyclerView view, int scrollState) {
-
-                super.onScrollStateChanged(recyclerViewcompanylist, scrollState);
-
-            }
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-
-                int totalItemCount = mLayoutManager.getItemCount();
-
-                int firstVisibleItem = mLayoutManager.findFirstVisibleItemPosition();
-
-                int lastVisibleItemCount = mLayoutManager.findLastVisibleItemPosition();
-
-                if (firstVisibleItem == 0)
-                    mSwipyRefreshLayout.setEnabled(true);
-                else
-                    mSwipyRefreshLayout.setEnabled(false);
-
-                if (!isLoading) {
-                    if (totalItemCount > 0) {
-                        if ((totalItemCount - 1) == lastVisibleItemCount) {
-                            page = page + 1;
-                            get_service_list_data(page);
-                        } else {
-                            //loadingProgress.setVisibility(View.GONE);
-                        }
-
-                    }
-                }
             }
 
         });
@@ -240,9 +214,11 @@ public class ServiceEnquiryActivity extends AppCompatActivity  {
     }
 
 
+
     public void get_company_list_data(int loadpage)
     {
         isLoading =true;
+
         mSwipyRefreshLayout.setRefreshing(true);
         relativeCompanylist.setVisibility(View.INVISIBLE);
 
@@ -253,7 +229,9 @@ public class ServiceEnquiryActivity extends AppCompatActivity  {
                 .setBodyParameter("type", "company")
                 .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                 .setBodyParameter("user_id", app_sharedpreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), "0"))
+
                 .setBodyParameter("page", String.valueOf(loadpage))
+
                 .asJsonObject()
                 .setCallback(new FutureCallback<JsonObject>() {
                     @Override
@@ -267,7 +245,7 @@ public class ServiceEnquiryActivity extends AppCompatActivity  {
                             Log.e("data===============", result.toString());
 
                             JsonObject jsonObject = result.getAsJsonObject();
-
+                        totalpage=result.get("total_page").getAsInt();
                             JsonArray jsonArray = jsonObject.getAsJsonArray("result");
 
                             if (jsonArray.size() != 0) {
@@ -316,6 +294,16 @@ public class ServiceEnquiryActivity extends AppCompatActivity  {
                 });
     }
 
+
+
+
+
+
+    @Override
+    public void onRefresh() {
+        page=1;
+        get_company_list_data(page+"");
+    }
 
     public void get_service_list_data(int page)
     {
@@ -385,6 +373,7 @@ public class ServiceEnquiryActivity extends AppCompatActivity  {
 
                 });
     }
+
 
 
 

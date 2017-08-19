@@ -3,7 +3,7 @@
 
 
     <string-array name="state_list">
-        <item>State</item>
+        <item>Select State</item>
         <item>Andaman and Nicobar Islands</item>
         <item>Andhra Pradesh</item>
         <item>Arunachal Pradesh</item>

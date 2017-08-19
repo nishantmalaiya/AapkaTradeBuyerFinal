@@ -3,4 +3,8 @@
 
     <item type="id" name="expandable_text"/>
     <item type="id" name="expand_collapse"/>
+
+
+
+    <item name="mcv_pager" type="id" />
 </resources>

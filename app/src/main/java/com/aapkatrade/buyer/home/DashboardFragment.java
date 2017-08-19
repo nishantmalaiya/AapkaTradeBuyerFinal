@@ -1,19 +1,25 @@
 package com.aapkatrade.buyer.home;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +29,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SearchView;
 
+import com.aapkatrade.buyer.general.Utils.FileUtils;
 import com.aapkatrade.buyer.home.banner_home.viewpageradapter_home;
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.categories_tab.particular_data.ParticularActivity;
@@ -46,6 +53,7 @@ import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -95,7 +103,14 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
     AppSharedPreference appSharedPreference;
     String user_id;
 
-
+    String[] permissions = new String[]{
+            Manifest.permission.INTERNET,
+            Manifest.permission.READ_PHONE_STATE,
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.VIBRATE,
+            Manifest.permission.RECORD_AUDIO,
+    };
     public DashboardFragment() {
         // Required empty public constructor
     }
@@ -300,6 +315,17 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
 
                         if (result != null) {
                             home_result = result;
+
+                                FileUtils.writeStringAsFile(getActivity(), result.toString(), "Aapkatrade.txt");
+                                String fileStorageData = FileUtils.appendFileContent(getActivity(),"2nd data"+result.toString(), "Aapkatrade2.txt");
+                                AndroidUtils.showErrorLog(getActivity(),getActivity().getFilesDir().getAbsolutePath()+"FileStorage*****" + fileStorageData);
+
+
+
+
+
+
+
                             if (rl_retry.getVisibility() == View.VISIBLE) {
                                 rl_retry.setVisibility(View.GONE);
                             }
@@ -527,6 +553,17 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
 
 
     }
+
+
+
+
+
+
+
+
+
+
+
 
 
 }

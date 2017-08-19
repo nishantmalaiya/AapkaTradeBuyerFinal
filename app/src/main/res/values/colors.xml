@@ -123,6 +123,8 @@
     <color name="random_color2">#e45641</color>
     <color name="random_color3">#00aaa0</color>
     <color name="random_color4">#c26baa</color>
-
-
+    <color name="wallet_card_gradient_bottom">#8fece7</color>
+    <color name="wallet_card_gradient_Top">#97d2a1</color>
+    <color name="wallet_card2_gradient_Top">#82c28d</color>
+    <color name="wallet_card2_gradient_bottom">#37d2ca</color>
 </resources>
