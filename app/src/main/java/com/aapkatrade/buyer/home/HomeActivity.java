@@ -32,6 +32,7 @@ import com.aapkatrade.buyer.contact_us.ContactUsActivity;
 import com.aapkatrade.buyer.dialogs.ChatDialogFragment;
 import com.aapkatrade.buyer.dialogs.track_order.TrackOrderDialog;
 import com.aapkatrade.buyer.general.Validation;
+import com.aapkatrade.buyer.home.wallet.Wallet;
 import com.aapkatrade.buyer.login.LoginDashboard;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
@@ -62,6 +63,8 @@ public class HomeActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private DashboardFragment homeFragment;
     private AboutUsFragment aboutUsFragment;
+
+    private Wallet walletFragment;
     private Context context;
     public static String shared_pref_name = "aapkatrade";
     private AppConfig aa;
@@ -71,7 +74,7 @@ public class HomeActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private Boolean permission_status;
     public static String userid, username;
-    private NestedScrollView scrollView;
+
     private float initialX, initialY;
     public static RelativeLayout rl_main_content, rlTutorial;
     private AppSharedPreference appSharedPreference;
@@ -143,7 +146,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private void preInit() {
         AppConfig.set_defaultfont(HomeActivity.this);
-
+        walletFragment=new Wallet();
         aboutUsFragment = new AboutUsFragment();
 
         userDashboardFragment = new UserDashboardFragment();
@@ -253,8 +256,8 @@ public class HomeActivity extends AppCompatActivity {
     public void onBackPressed() {
         FragmentManager fm = getSupportFragmentManager();
         DashboardFragment dashboardFragment = (DashboardFragment) fm.findFragmentByTag(homeFragment.getClass().getName());
-        AboutUsFragment showaboutUsFragment = (AboutUsFragment) fm.findFragmentByTag(aboutUsFragment.getClass().getName());
-
+        Wallet showwalletFragment = (Wallet) fm.findFragmentByTag(walletFragment.getClass().getName());
+AboutUsFragment aboutUsfragment=(AboutUsFragment)fm.findFragmentByTag(aboutUsFragment.getClass().getName()) ;
         UserDashboardFragment showuserdashboardfragment = (UserDashboardFragment) fm.findFragmentByTag(userDashboardFragment.getClass().getName());
 
         if (dashboardFragment != null && dashboardFragment.isVisible()) {
@@ -263,7 +266,14 @@ public class HomeActivity extends AppCompatActivity {
             //finish();
 
             Log.e("myfragment_visible", "myfragment visible");
-        } else if (showaboutUsFragment != null && showaboutUsFragment.isVisible()) {
+        }
+        else if (showwalletFragment != null && showwalletFragment.isVisible()) {
+            double_back_pressed("finish");
+            //finish();
+            Log.e("showabout visible", "showaboutUsFragment visible");
+        }
+
+        else if (aboutUsfragment != null && aboutUsfragment.isVisible()) {
             double_back_pressed("finish");
             //finish();
             Log.e("showabout visible", "showaboutUsFragment visible");
@@ -318,9 +328,9 @@ public class HomeActivity extends AppCompatActivity {
 
         bottomNavigation = (AHBottomNavigation) findViewById(R.id.bottom_navigation);
 
-        scrollView = (NestedScrollView) findViewById(R.id.scroll_main);
+       // scrollView = (NestedScrollView) findViewById(R.id.scroll_main);
         AHBottomNavigationItem item1 = new AHBottomNavigationItem(R.string.tab_1, R.drawable.ic_navigation_home, R.color.dark_green);
-        AHBottomNavigationItem item2 = new AHBottomNavigationItem(R.string.tab_2, R.drawable.ic_home_dashboard_aboutus, R.color.orange);
+        AHBottomNavigationItem item2 = new AHBottomNavigationItem(R.string.tab_2, R.drawable.ic_about_us, R.color.orange);
         AHBottomNavigationItem item3 = new AHBottomNavigationItem(R.string.tab_3, R.drawable.track, R.color.dark_green);
         AHBottomNavigationItem item4 = new AHBottomNavigationItem(R.string.tab_4, R.drawable.ic_home_bottom_account, R.color.dark_green);
         AHBottomNavigationItem item5 = new AHBottomNavigationItem(R.string.tab_5, R.drawable.ic_chat, R.color.dark_green);
@@ -364,8 +374,13 @@ public class HomeActivity extends AppCompatActivity {
                         break;
 
                     case 1:
+                       /* if (walletFragment == null) {
+                            walletFragment = new Wallet();
+                        }
+                        String walletFragment_tagName = walletFragment.getClass().getName();
+                        replaceFragment(walletFragment, walletFragment_tagName);
 
-                        Log.e("time  fragment", String.valueOf(System.currentTimeMillis()));
+                        Log.e("time  fragment", String.valueOf(System.currentTimeMillis()));*/
 
                         if (aboutUsFragment == null) {
                             aboutUsFragment = new AboutUsFragment();

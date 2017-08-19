@@ -48,13 +48,16 @@
                     android:layout_height="match_parent">
 
 
-                    <android.support.v4.widget.NestedScrollView
+                   <!-- <android.support.v4.widget.NestedScrollView
                         android:id="@+id/scroll_main"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:clickable="true"
-                        android:minHeight="1000dp"
-                        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+                        android:fitsSystemWindows="true"
+
+                        android:fillViewport="true"
+                        android:layout_marginBottom="@dimen/sixty_dip"
+                        app:layout_behavior="@string/appbar_scrolling_view_behavior">-->
 
                         <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
                             xmlns:tools="http://schemas.android.com/tools"
@@ -67,7 +70,7 @@
 
                         </FrameLayout>
 
-                    </android.support.v4.widget.NestedScrollView>
+                 <!--   </android.support.v4.widget.NestedScrollView>-->
 
 <RelativeLayout
     android:layout_width="@dimen/sixty_dip"
@@ -112,7 +115,7 @@
                     <com.aurelhubert.ahbottomnavigation.AHBottomNavigation
                         android:id="@+id/bottom_navigation"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/sixty_dip"
                         android:layout_alignParentBottom="true"
                         android:layout_gravity="bottom"
                         app:selectedBackgroundVisible="false"
