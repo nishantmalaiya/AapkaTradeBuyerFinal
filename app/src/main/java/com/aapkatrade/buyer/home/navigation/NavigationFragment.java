@@ -59,11 +59,7 @@ public class NavigationFragment extends Fragment {
     public static ActionBarDrawerToggle mDrawerToggle;
     public static DrawerLayout mDrawerLayout;
     private View view;
-    private int lastExpandedPosition = -1;
     private AppSharedPreference appSharedpreference;
-    public static final String PREFS_NAME = "call_recorder";
-    private List<String> categoryids;
-    private List<String> categoryname;
     private Context context;
     private TextView textViewName, emailid, tv_user_heading;
     private NavigationAdapter categoryAdapter;
@@ -75,7 +71,6 @@ public class NavigationFragment extends Fragment {
     private LinearLayoutManager navigationLinearLayoutManager;
     private ImageView navigationClose;
     public static CircleImageView profilePic;
-    private ContactUsActivity contactUsActivity;
 
     String usertype;
 
@@ -151,6 +146,7 @@ public class NavigationFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 saveSharedPref("notlogin", "notlogin", "notlogin", "notlogin");
+
                 Intent Homedashboard = new Intent(getActivity(), HomeActivity.class);
                 Homedashboard.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(Homedashboard);
@@ -158,7 +154,7 @@ public class NavigationFragment extends Fragment {
             }
         });
 
-        rlTerms = (RelativeLayout) view.findViewById(R.id.rl_terms);
+        rlTerms = view.findViewById(R.id.rl_terms);
         rlTerms.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -188,8 +184,6 @@ public class NavigationFragment extends Fragment {
                 }
             }
         });
-        categoryname = new ArrayList<>();
-        categoryids = new ArrayList<>();
         textViewName = (TextView) view.findViewById(R.id.tv_name);
         emailid = (TextView) view.findViewById(R.id.tv_email);
         prepareListData();
@@ -340,6 +334,11 @@ public class NavigationFragment extends Fragment {
 
                             listDataHeader = new ArrayList<>();
                             for (int i = 0; i < jsonResultArray.size(); i++) {
+                                /*if(i==10){
+                                    Category Category = new Category("-2", "View All Categores", "", null);
+                                    listDataHeader.add(Category);
+                                    break;
+                                }*/
                                 JsonObject jsonObject1 = (JsonObject) jsonResultArray.get(i);
 
                                 Category Category = new Category(jsonObject1.get("id").getAsString(), jsonObject1.get("name").getAsString(), jsonObject1.get("icon").getAsString(), null);
@@ -373,6 +372,7 @@ public class NavigationFragment extends Fragment {
     public void saveSharedPref(String user_id, String user_name, String email_id, String profile_pic) {
         appSharedpreference.setSharedPref(SharedPreferenceConstants.USER_ID.toString(), user_id);
         appSharedpreference.setSharedPref(SharedPreferenceConstants.USER_NAME.toString(), user_name);
+        appSharedpreference.setSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), "-1");
         appSharedpreference.setSharedPref(SharedPreferenceConstants.EMAIL_ID.toString(), email_id);
         appSharedpreference.setSharedPref(SharedPreferenceConstants.PROFILE_PIC.toString(), profile_pic);
     }

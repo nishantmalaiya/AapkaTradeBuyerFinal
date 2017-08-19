@@ -129,6 +129,10 @@ public class ShopAllProductActivity extends AppCompatActivity {
                 onOptionsItemSelected(alertMenuItem);
             }
         });
+        if(appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString()).equals("2")){
+            alertMenuItem.setVisible(false);
+            AndroidUtils.showErrorLog(context, "cart visibility gone");
+        }
 
 
         return true;

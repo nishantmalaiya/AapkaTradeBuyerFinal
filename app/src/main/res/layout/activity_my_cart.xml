@@ -121,9 +121,7 @@
                         android:id="@+id/order_list"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/ten_dip">
-
-                    </android.support.v7.widget.RecyclerView>
+                        android:layout_marginTop="@dimen/ten_dip" />
 
 
 
@@ -132,7 +130,8 @@
                         android:id="@+id/cardviewProductDeatails"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/ten_dip"
+                        android:layout_marginTop="@dimen/ten_dip"
+                        android:layout_marginBottom="@dimen/ten_dip"
                         android:visibility="invisible"
                         app:cardBackgroundColor="@color/white"
                         >
