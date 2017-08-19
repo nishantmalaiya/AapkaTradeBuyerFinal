@@ -55,6 +55,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartHolder> implements Vie
 
         this.itemList = itemList;
         this.context = context;
+
         inflater = LayoutInflater.from(context);
         appSharedPreference = new AppSharedPreference(context);
         progressBarHandler = new ProgressBarHandler(context);
