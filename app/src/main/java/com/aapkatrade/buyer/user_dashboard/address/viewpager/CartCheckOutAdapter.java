@@ -1,5 +1,6 @@
 package com.aapkatrade.buyer.user_dashboard.address.viewpager;
 
+import android.app.Activity;
 import android.content.Context;
 import android.provider.Settings;
 import android.support.v4.app.FragmentActivity;
@@ -30,6 +31,7 @@ import com.aapkatrade.buyer.general.interfaces.CommonInterface;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
+import com.aapkatrade.buyer.home.cart.MyCartActivity;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
@@ -44,8 +46,7 @@ import java.util.List;
  * Created by PPC16 on 4/25/2017.
  */
 
-public class CartCheckOutAdapter extends RecyclerView.Adapter<CartHolder> implements View.OnClickListener
-{
+public class CartCheckOutAdapter extends RecyclerView.Adapter<CartHolder> implements View.OnClickListener {
 
     public final LayoutInflater inflater;
     public static List<CartData> itemList;
@@ -60,10 +61,10 @@ public class CartCheckOutAdapter extends RecyclerView.Adapter<CartHolder> implem
     public static int cart_popup_position = 0;
 
 
-    public CartCheckOutAdapter(Context context, List<CartData> itemList)
-    {
+    public CartCheckOutAdapter(Context context, List<CartData> itemList) {
         this.itemList = itemList;
         this.context = context;
+
         inflater = LayoutInflater.from(context);
         appSharedPreference = new AppSharedPreference(context);
         progressBarHandler = new ProgressBarHandler(context);
@@ -71,14 +72,12 @@ public class CartCheckOutAdapter extends RecyclerView.Adapter<CartHolder> implem
     }
 
     @Override
-    public CartHolder onCreateViewHolder(ViewGroup parent, int viewType)
-    {
+    public CartHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new CartHolder(inflater.inflate(R.layout.row_my_cart, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(final CartHolder holder, final int position)
-    {
+    public void onBindViewHolder(final CartHolder holder, final int position) {
 
         linearLayoutQuantity = holder.dropdown_ll;
 
@@ -90,11 +89,11 @@ public class CartCheckOutAdapter extends RecyclerView.Adapter<CartHolder> implem
                 .load(itemList.get(position).product_image);
 
         //linearLayoutQuantity.setOnClickListener(this);
-        place_order.add(new CartData(itemList.get(position).id, itemList.get(position).productName, itemList.get(position).quantity, itemList.get(position).price, itemList.get(position).product_image, itemList.get(position).product_id, itemList.get(position).subtotal_price,itemList.get(position).available_status,itemList.get(position).shipping_cost,itemList.get(position).shop_name));
+        place_order.add(new CartData(itemList.get(position).id, itemList.get(position).productName, itemList.get(position).quantity, itemList.get(position).price, itemList.get(position).product_image, itemList.get(position).product_id, itemList.get(position).subtotal_price, itemList.get(position).available_status, itemList.get(position).shipping_cost, itemList.get(position).shop_name));
 
         textViewQuantity.setText(itemList.get(position).quantity);
 
-         holder.tvProductShopName.setText(itemList.get(position).shop_name);
+        holder.tvProductShopName.setText(itemList.get(position).shop_name);
 
         holder.tvProductName.setText(itemList.get(position).productName);
 
@@ -102,17 +101,14 @@ public class CartCheckOutAdapter extends RecyclerView.Adapter<CartHolder> implem
 
         holder.tvProductSubtotalPrice.setText(context.getResources().getText(R.string.rupay_text) + itemList.get(position).subtotal_price);
 
-        if (itemList.get(position).available_status.equals("false"))
-        {
+        if (itemList.get(position).available_status.equals("false")) {
             holder.tvAvailableProduct.setVisibility(View.VISIBLE);
-            holder.tvAvailableProduct.setText("Seller does'nt  deliver item to "+appSharedPreference.getSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS_PINCODE.toString(), ""));
+            holder.tvAvailableProduct.setText("Seller does'nt  deliver item to " + appSharedPreference.getSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS_PINCODE.toString(), ""));
             holder.tvProductShippingCharge.setVisibility(View.INVISIBLE);
-        }
-        else
-        {
+        } else {
             holder.tvProductShippingCharge.setVisibility(View.VISIBLE);
             holder.tvAvailableProduct.setVisibility(View.INVISIBLE);
-            holder.tvProductShippingCharge.setText("Shipping Charge "+context.getResources().getText(R.string.rupay_text) +itemList.get(position).shipping_cost);
+            holder.tvProductShippingCharge.setText("Shipping Charge " + context.getResources().getText(R.string.rupay_text) + itemList.get(position).shipping_cost);
         }
 
         System.out.println("itemlist-------------" + itemList.get(position).product_image);
@@ -151,7 +147,7 @@ public class CartCheckOutAdapter extends RecyclerView.Adapter<CartHolder> implem
                         cart_price = Double.valueOf(itemList.get(position).price) * 1;
                         /// itemList.set(position, new CartData(itemList.get(position).id,itemList.get(position).productName,"1",cart_price,itemList.get(position).product_image,itemList.get(position).product_id));
                         //holder.tvProductSubtotalPrice.setText(context.getResources().getText(R.string.rupay_text)+String.valueOf(cart_price));
-                        place_order.add(position, new CartData(itemList.get(position).id, itemList.get(position).productName, "1", String.valueOf(cart_price), itemList.get(position).product_image, itemList.get(position).product_id, itemList.get(position).subtotal_price,itemList.get(position).available_status,itemList.get(position).shipping_cost,itemList.get(position).shop_name));
+                        place_order.add(position, new CartData(itemList.get(position).id, itemList.get(position).productName, "1", String.valueOf(cart_price), itemList.get(position).product_image, itemList.get(position).product_id, itemList.get(position).subtotal_price, itemList.get(position).available_status, itemList.get(position).shipping_cost, itemList.get(position).shop_name));
                         //callWebServiceUpdateCart(itemList.get(position).id,position,"1");
 
                         callwebservice__update_cart(itemList.get(position).id, position, "1", itemList.get(position).product_id, holder, cart_price);
@@ -168,7 +164,7 @@ public class CartCheckOutAdapter extends RecyclerView.Adapter<CartHolder> implem
                         cart_price = Double.valueOf(itemList.get(position).price) * 2;
                         System.out.println("cart_price----------" + cart_price);
                         //holder.tvProductSubtotalPrice.setText(context.getResources().getText(R.string.rupay_text)+String.valueOf(cart_price));
-                        place_order.add(position, new CartData(itemList.get(position).id, itemList.get(position).productName, "2", String.valueOf(cart_price), itemList.get(position).product_image, itemList.get(position).product_id, itemList.get(position).subtotal_price,itemList.get(position).available_status,itemList.get(position).shipping_cost,itemList.get(position).shop_name));
+                        place_order.add(position, new CartData(itemList.get(position).id, itemList.get(position).productName, "2", String.valueOf(cart_price), itemList.get(position).product_image, itemList.get(position).product_id, itemList.get(position).subtotal_price, itemList.get(position).available_status, itemList.get(position).shipping_cost, itemList.get(position).shop_name));
                         //callWebServiceUpdateCart(itemList.get(position).id,position,"2");
 
                         callwebservice__update_cart(itemList.get(position).id, position, "2", itemList.get(position).product_id, holder, cart_price);
@@ -186,7 +182,7 @@ public class CartCheckOutAdapter extends RecyclerView.Adapter<CartHolder> implem
                         //holder.textView64.setText(itemList.get(position).quantity);
                         cart_price = Double.valueOf(itemList.get(position).price) * 3;
                         //holder.tvProductSubtotalPrice.setText(context.getResources().getText(R.string.rupay_text)+String.valueOf(cart_price));
-                        place_order.add(position, new CartData(itemList.get(position).id, itemList.get(position).productName, "3", String.valueOf(cart_price), itemList.get(position).product_image, itemList.get(position).product_id, itemList.get(position).subtotal_price,itemList.get(position).available_status,itemList.get(position).shipping_cost,itemList.get(position).shop_name));
+                        place_order.add(position, new CartData(itemList.get(position).id, itemList.get(position).productName, "3", String.valueOf(cart_price), itemList.get(position).product_image, itemList.get(position).product_id, itemList.get(position).subtotal_price, itemList.get(position).available_status, itemList.get(position).shipping_cost, itemList.get(position).shop_name));
                         //callWebServiceUpdateCart(itemList.get(position).id,position,"3");
 
                         callwebservice__update_cart(itemList.get(position).id, position, "3", itemList.get(position).product_id, holder, cart_price);
@@ -205,7 +201,7 @@ public class CartCheckOutAdapter extends RecyclerView.Adapter<CartHolder> implem
                         //holder.textView64.setText(itemList.get(position).quantity);
                         cart_price = Double.valueOf(itemList.get(position).price) * 4;
                         //holder.tvProductSubtotalPrice.setText(context.getResources().getText(R.string.rupay_text)+String.valueOf(cart_price));
-                        place_order.add(position, new CartData(itemList.get(position).id, itemList.get(position).productName, "4", String.valueOf(cart_price), itemList.get(position).product_image, itemList.get(position).product_id, itemList.get(position).subtotal_price,itemList.get(position).available_status,itemList.get(position).shipping_cost,itemList.get(position).shop_name));
+                        place_order.add(position, new CartData(itemList.get(position).id, itemList.get(position).productName, "4", String.valueOf(cart_price), itemList.get(position).product_image, itemList.get(position).product_id, itemList.get(position).subtotal_price, itemList.get(position).available_status, itemList.get(position).shipping_cost, itemList.get(position).shop_name));
                         //callWebServiceUpdateCart(itemList.get(position).id,position,"4");
 
                         callwebservice__update_cart(itemList.get(position).id, position, "4", itemList.get(position).product_id, holder, cart_price);
@@ -221,7 +217,7 @@ public class CartCheckOutAdapter extends RecyclerView.Adapter<CartHolder> implem
                         //holder.textView64.setText(itemList.get(position).quantity);
                         cart_price = Double.valueOf(itemList.get(position).price) * 5;
                         //holder.tvProductSubtotalPrice.setText(context.getResources().getText(R.string.rupay_text)+String.valueOf(cart_price));
-                        place_order.add(position, new CartData(itemList.get(position).id, itemList.get(position).productName, "5", String.valueOf(cart_price), itemList.get(position).product_image, itemList.get(position).product_id, itemList.get(position).subtotal_price,itemList.get(position).available_status,itemList.get(position).shipping_cost,itemList.get(position).shop_name));
+                        place_order.add(position, new CartData(itemList.get(position).id, itemList.get(position).productName, "5", String.valueOf(cart_price), itemList.get(position).product_image, itemList.get(position).product_id, itemList.get(position).subtotal_price, itemList.get(position).available_status, itemList.get(position).shipping_cost, itemList.get(position).shop_name));
                         //callWebServiceUpdateCart(itemList.get(position).id,position,"5");
 
                         callwebservice__update_cart(itemList.get(position).id, position, "5", itemList.get(position).product_id, holder, cart_price);
@@ -266,8 +262,7 @@ public class CartCheckOutAdapter extends RecyclerView.Adapter<CartHolder> implem
 
     }
 
-    public void showPopup(String description, TextView textView_subtotal, final int pos, String price, TextView textView_qty)
-    {
+    public void showPopup(String description, TextView textView_subtotal, final int pos, String price, TextView textView_qty) {
         CustomQuantityCheckout customQuantityDialog = new CustomQuantityCheckout(context, textView_subtotal, pos, price, textView_qty);
         FragmentManager fm = ((FragmentActivity) context).getSupportFragmentManager();
         customQuantityDialog.show(fm, "Quantity");
@@ -278,8 +273,7 @@ public class CartCheckOutAdapter extends RecyclerView.Adapter<CartHolder> implem
     }
 
 
-    private void callwebservice__delete_cart(String product_id, final int position)
-    {
+    private void callwebservice__delete_cart(String product_id, final int position) {
         progressBarHandler.show();
 
         String login_url = context.getResources().getString(R.string.webservice_base_url) + "/cart_remove";
@@ -301,7 +295,7 @@ public class CartCheckOutAdapter extends RecyclerView.Adapter<CartHolder> implem
                 .setBodyParameter("id", product_id)
                 .setBodyParameter("device_id", android_id)
                 .setBodyParameter("user_id", user_id)
-                .setBodyParameter("pincode",appSharedPreference.getSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS_PINCODE.toString(), ""))
+                .setBodyParameter("pincode", appSharedPreference.getSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS_PINCODE.toString(), ""))
                 .asJsonObject()
                 .setCallback(new FutureCallback<JsonObject>() {
                     @Override
@@ -310,8 +304,7 @@ public class CartCheckOutAdapter extends RecyclerView.Adapter<CartHolder> implem
                         if (result != null) {
                             String error_message = result.get("error").getAsString();
 
-                            if (error_message.equals("false"))
-                            {
+                            if (error_message.equals("false")) {
 
                                 System.out.println("result--------------" + result);
                                 JsonObject jsonObject = result.getAsJsonObject("result");
@@ -323,8 +316,7 @@ public class CartCheckOutAdapter extends RecyclerView.Adapter<CartHolder> implem
                                 if (cart_count.equals("0")) {
                                     CartCheckoutActivity.cardviewProductDeatails.setVisibility(View.INVISIBLE);
                                     CartCheckoutActivity.linearAddressLayout.setVisibility(View.INVISIBLE);
-                                    // CartCheckoutActivity.cardBottom.setVisibility(View.INVISIBLE);
-
+                                    ((Activity) context).finish();
                                 } else {
                                     CartCheckoutActivity.cardviewProductDeatails.setVisibility(View.VISIBLE);
                                     CartCheckoutActivity.linearAddressLayout.setVisibility(View.VISIBLE);
@@ -360,8 +352,7 @@ public class CartCheckOutAdapter extends RecyclerView.Adapter<CartHolder> implem
 
     }
 
-    private void callwebservice__update_cart(String id, final int position, String quantity, String product_id, final CartHolder cartHolder, final double cart_price)
-    {
+    private void callwebservice__update_cart(String id, final int position, String quantity, String product_id, final CartHolder cartHolder, final double cart_price) {
 
         progressBarHandler.show();
 
@@ -381,7 +372,7 @@ public class CartCheckOutAdapter extends RecyclerView.Adapter<CartHolder> implem
                 .setBodyParameter("product_id", product_id)
                 .setBodyParameter("quantity", quantity)
                 .setBodyParameter("user_id", user_id)
-                .setBodyParameter("pincode",appSharedPreference.getSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS_PINCODE.toString(), ""))
+                .setBodyParameter("pincode", appSharedPreference.getSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS_PINCODE.toString(), ""))
                 .setBodyParameter("device_id", AppConfig.getCurrentDeviceId(context))
                 .asJsonObject()
                 .setCallback(new FutureCallback<JsonObject>() {
@@ -405,7 +396,7 @@ public class CartCheckOutAdapter extends RecyclerView.Adapter<CartHolder> implem
                                 } else if (message.equals("Invalid Device ID!")) {
 
                                     progressBarHandler.hide();
-                                    AndroidUtils.showToast(context, "Invalid Device ID!." );
+                                    AndroidUtils.showToast(context, "Invalid Device ID!.");
                                 } else {
                                     JsonObject jsonresult = result.getAsJsonObject("result");
 

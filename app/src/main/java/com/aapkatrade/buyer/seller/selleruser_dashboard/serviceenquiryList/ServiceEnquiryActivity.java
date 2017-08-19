@@ -18,8 +18,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.aapkatrade.buyer.home.HomeActivity;
 import com.aapkatrade.buyer.R;
+import com.aapkatrade.buyer.home.HomeActivity;
 import com.aapkatrade.buyer.general.AppSharedPreference;
 
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
