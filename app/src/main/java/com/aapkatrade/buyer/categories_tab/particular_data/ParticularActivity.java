@@ -130,16 +130,16 @@ public class ParticularActivity extends AppCompatActivity {
                     if (gps.canGetLocation()) {
 
 
-                        double latitude = gps.getLatitude();
+                       /* double latitude = gps.getLatitude();
                         double longitude = gps.getLongitude();
-                        String statename = gps.getStaeName();
+                        String statename = gps.getStaeName();*/
 
                         Intent intentAsync = new Intent(context, Search.class);
                         intentAsync.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         intentAsync.putExtra("classname", context.getClass().getSimpleName());
-                        intentAsync.putExtra("state_name", statename);
-                        intentAsync.putExtra("latitude", String.valueOf(latitude));
-                        intentAsync.putExtra("longitude", String.valueOf(longitude));
+                        intentAsync.putExtra("state_name", "");
+                        intentAsync.putExtra("latitude", String.valueOf(0.0));
+                        intentAsync.putExtra("longitude", String.valueOf(0.0));
                         startActivity(intentAsync);
 
                         progress_handler.hide();

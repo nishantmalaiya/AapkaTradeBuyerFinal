@@ -119,15 +119,15 @@ public class ShopListByCategoryActivity extends AppCompatActivity {
                     progressBarHandler.show();
                     gpsLocationService = new GpsLocationService(context);
                     if (gpsLocationService.canGetLocation()) {
-                        double latitude = gpsLocationService.getLatitude();
+                       /* double latitude = gpsLocationService.getLatitude();
                         double longitude = gpsLocationService.getLongitude();
-                        String statename = gpsLocationService.getStaeName();
+                        String statename = gpsLocationService.getStaeName();*/
                         Intent intentAsync = new Intent(ShopListByCategoryActivity.this, Search.class);
                         intentAsync.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         intentAsync.putExtra("classname", context.getClass().getSimpleName());
-                        intentAsync.putExtra("state_name", statename);
-                        intentAsync.putExtra("latitude", String.valueOf(latitude));
-                        intentAsync.putExtra("longitude", String.valueOf(longitude));
+                        intentAsync.putExtra("state_name", "");
+                        intentAsync.putExtra("latitude", String.valueOf(0.0));
+                        intentAsync.putExtra("longitude", String.valueOf(0.0));
                         startActivity(intentAsync);
 
                         progressBarHandler.hide();

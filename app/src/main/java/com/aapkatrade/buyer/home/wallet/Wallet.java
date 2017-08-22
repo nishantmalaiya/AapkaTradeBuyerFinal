@@ -16,27 +16,24 @@ import android.view.ViewGroup;
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.home.wallet.walletadapter.WalletAdapter;
 import com.aapkatrade.buyer.home.wallet.walletadapter.WalletTransactionDatas;
-import com.aapkatrade.buyer.uicomponent.calenderview.CalendarDay;
-import com.aapkatrade.buyer.uicomponent.calenderview.CalendarMode;
-import com.aapkatrade.buyer.uicomponent.calenderview.MaterialCalendarView;
-import com.aapkatrade.buyer.uicomponent.calenderview.OnDateSelectedListener;
-import com.aapkatrade.buyer.uicomponent.calenderview.decorator.HighlightWeekendsDecorator;
-import com.aapkatrade.buyer.uicomponent.calenderview.decorator.MySelectorDecorator;
-import com.aapkatrade.buyer.uicomponent.calenderview.decorator.OneDayDecorator;
+
 
 import java.util.ArrayList;
 import java.util.Calendar;
 
 
-public class Wallet extends Fragment  implements OnDateSelectedListener {
+public class Wallet extends Fragment
+      /*  implements OnDateSelectedListener */
+
+{
 
     RecyclerView recyclerView;
 
     LinearLayoutManager wallet_history_layout_manager;
-    MaterialCalendarView materialCalendarView;
+   // MaterialCalendarView materialCalendarView;
 WalletAdapter  walletAdapter;
     ArrayList<WalletTransactionDatas> walletTransactionDataslist;
-    private final OneDayDecorator oneDayDecorator = new OneDayDecorator();
+ //   private final OneDayDecorator oneDayDecorator = new OneDayDecorator();
     public Wallet() {
         // Required empty public constructor
     }
@@ -58,11 +55,11 @@ WalletAdapter  walletAdapter;
 
     private void initView(View v) {
         walletTransactionDataslist=new ArrayList<>();
-setupcalender(v);
+//setupcalender(v);
         setupRecycleview(v);
     }
 
-    private void setupcalender(View v) {
+/*    private void setupcalender(View v) {
         materialCalendarView=(MaterialCalendarView)v.findViewById(R.id.calendarView);
         materialCalendarView.setOnDateChangedListener(this);
         materialCalendarView.setShowOtherDates(MaterialCalendarView.SHOW_ALL);
@@ -91,7 +88,7 @@ setupcalender(v);
         materialCalendarView.state().edit()
                 .setCalendarDisplayMode(CalendarMode.WEEKS)
                 .commit();
-    }
+    }*/
 
     private void setupRecycleview(View v) {
 
@@ -106,12 +103,12 @@ setupcalender(v);
         recyclerView.setLayoutManager(wallet_history_layout_manager);
         recyclerView.setAdapter(walletAdapter);
     }
-    @Override
+    /*@Override
     public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
         //If you change a decorate, you need to invalidate decorators
         oneDayDecorator.setDate(date.getDate());
         widget.invalidateDecorators();
-    }
+    }*/
 
 
 }
