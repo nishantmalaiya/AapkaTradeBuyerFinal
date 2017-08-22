@@ -27,115 +27,124 @@
 
 
         <TextView
+            android:id="@+id/welcome_user"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:layout_marginTop="11dp"
             android:text="@string/select_state_heading"
-            android:id="@+id/welcome_user"
+            android:textStyle="bold"
+            android:textSize="@dimen/textsize_medium"
             android:textColor="@color/white" />
 
 
     </RelativeLayout>
 
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|center_vertical"
+        android:layout_marginTop="@dimen/fifty_dip"
+        android:gravity="center_vertical|center_horizontal"
+        android:orientation="vertical">
 
 
-
-
-
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|center_vertical"
-            android:layout_marginTop="@dimen/fifty_dip"
-            android:gravity="center_vertical|center_horizontal"
-            android:orientation="vertical">
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="@dimen/twenty_dip"
+            android:layout_marginStart="@dimen/twenty_dip"
 
+            android:gravity="center_vertical"
+            tools:ignore="NestedWeights">
 
-            <RelativeLayout
+            <android.support.design.widget.TextInputLayout
+
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="@dimen/twenty_dip"
-                android:layout_marginRight="@dimen/twenty_dip"
+                android:layout_height="@dimen/fifty_dip"
+                android:hint="@string/email_or_mobile"
+                android:textColorHint="@color/white"
+                android:theme="@style/myedittextWhite"
+                tools:ignore="HardcodedText">
 
-                android:gravity="center_vertical"
-                tools:ignore="NestedWeights">
 
-                <android.support.design.widget.TextInputLayout
-
+                <RelativeLayout
+                    android:id="@+id/spStateListLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/email_or_mobile"
-                    android:textColorHint="@color/white"
-                    android:theme="@style/myedittextWhite"
-                    tools:ignore="HardcodedText">
-
-
-                    <RelativeLayout
-                        android:id="@+id/spStateListLayout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/five_dip"
-                        android:layout_marginTop="@dimen/five_dip">
-
-
-                        <Spinner
-                            android:id="@+id/spStateList"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-
-                            android:layout_alignParentLeft="true"
-
-                            android:background="@drawable/simple_spinner_back"
-                            android:gravity="center_horizontal" />
-
-                        <ImageView
-                            android:layout_width="@dimen/twenty_dip"
-                            android:layout_height="@dimen/twenty_dip"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginRight="@dimen/ten_dip"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/ic_arrow" />
-
-                    </RelativeLayout>
-
-                </android.support.design.widget.TextInputLayout>
-            </RelativeLayout>
-
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginBottom="@dimen/twenty_dip"
-                android:layout_marginTop="@dimen/twenty_dip"
-
-                android:gravity="center_vertical">
-
-                <Button
-                    android:id="@+id/btn_continue"
-                    android:layout_width="wrap_content"
                     android:layout_height="@dimen/fifty_dip"
-                    android:layout_centerHorizontal="true"
-                    android:background="@drawable/orange_background"
-                    android:padding="@dimen/ten_dip"
-                    android:text="@string/continue_search"
-                    android:textColor="@color/white" />
-
-            </RelativeLayout>
+                    android:layout_marginBottom="@dimen/five_dip"
+                    android:layout_marginTop="@dimen/five_dip">
 
 
+                    <Spinner
+                        android:id="@+id/spStateList"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/fifty_dip"
+
+                        android:layout_alignParentLeft="true"
+
+                        android:background="@drawable/simple_spinner_back"
+                        android:gravity="center_horizontal" />
+
+                    <ImageView
+                        android:layout_width="@dimen/twenty_dip"
+                        android:layout_height="@dimen/twenty_dip"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/ten_dip"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/ic_arrow" />
+
+                </RelativeLayout>
+
+            </android.support.design.widget.TextInputLayout>
+        </RelativeLayout>
 
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="@dimen/twenty_dip"
 
-        </LinearLayout>
+
+            android:gravity="center_vertical">
+
+            <ImageButton
+                android:id="@+id/btn_back_To_Home"
+                android:layout_width="@dimen/fifty_dip"
+                android:layout_height="@dimen/fifty_dip"
+                android:layout_alignParentStart="true"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/orange_background"
+                android:padding="@dimen/ten_dip"
+                android:src="@drawable/ic_navigation_home"
+
+                android:scaleType="fitCenter"
+                android:text="@string/back_to_home"
+                android:textColor="@color/white" />
+
+            <ImageButton
+                android:id="@+id/btn_continue"
+                android:layout_width="@dimen/fifty_dip"
+                android:layout_height="@dimen/fifty_dip"
+
+                android:layout_alignParentEnd="true"
+android:src="@drawable/ic_arrow_back_white_24dp"
+                android:rotation="180"
+                android:scaleType="fitCenter"
+                android:layout_alignParentTop="true"
+                android:background="@drawable/orange_background"
+                android:padding="@dimen/ten_dip"
+                android:textColor="@color/white" />
+
+        </RelativeLayout>
 
 
-
+    </LinearLayout>
 
 
 </LinearLayout>

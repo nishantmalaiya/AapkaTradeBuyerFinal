@@ -231,17 +231,17 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
                     if (gps.canGetLocation()) {
 
 
-                        double latitude = gps.getLatitude();
+                        /*double latitude = gps.getLatitude();
                         double longitude = gps.getLongitude();
-                        String statename = gps.getStaeName();
+                        String statename = gps.getStaeName();*/
 
 
                         Intent intentAsync = new Intent(getActivity(), Search.class);
                         intentAsync.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         intentAsync.putExtra("classname", "homeactivity");
-                        intentAsync.putExtra("state_name", statename);
-                        intentAsync.putExtra("latitude", String.valueOf(latitude));
-                        intentAsync.putExtra("longitude", String.valueOf(longitude));
+                        intentAsync.putExtra("state_name", "");
+                        intentAsync.putExtra("latitude", "0.0");
+                        intentAsync.putExtra("longitude", String.valueOf(0.0));
                         getActivity().startActivity(intentAsync);
 
                         progress_handler.hide();

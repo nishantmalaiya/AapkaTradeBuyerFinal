@@ -1,6 +1,7 @@
 package com.aapkatrade.buyer.dialogs;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -18,6 +19,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -64,7 +66,7 @@ public class SearchLocationDialogFragment extends DialogFragment {
 
     ProgressBarHandler progressBarHandler;
 
-    Button btn_continue;
+    ImageButton btn_continue,btn_back_To_Home;
     AppSharedPreference appSharedPreference;
     Spinner state_list_spinner;
     boolean firsttime;
@@ -97,7 +99,9 @@ public class SearchLocationDialogFragment extends DialogFragment {
     }
 
     private void initView(View v) {
-        btn_continue = (Button) v.findViewById(R.id.btn_continue);
+        btn_continue =  v.findViewById(R.id.btn_continue);
+        btn_back_To_Home =  v.findViewById(R.id.btn_back_To_Home);
+
         appSharedPreference = new AppSharedPreference(getActivity());
         img_close_dialog=(ImageView) v.findViewById(R.id.img_close_dialog);
 
@@ -122,6 +126,7 @@ public class SearchLocationDialogFragment extends DialogFragment {
                         dismiss();
                         Search.commonInterface.getData(state_list_spinner.getSelectedItem().toString());
                     }
+                    else{AndroidUtils.showToast(getActivity(),"Please Select State First");}
 
             }
         });
@@ -135,7 +140,15 @@ public class SearchLocationDialogFragment extends DialogFragment {
 
             }
         });
+        btn_back_To_Home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dismiss();
 
+                ((Activity)context).finish();
+
+            }
+        });
 
     }
 
