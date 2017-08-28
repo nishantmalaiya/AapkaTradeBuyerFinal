@@ -3,6 +3,7 @@ package com.aapkatrade.buyer.dialogs.track_order;
 
 import android.content.Intent;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.support.v4.app.DialogFragment;
@@ -155,6 +156,7 @@ public class TrackOrderDialog extends DialogFragment {
 
         tracking_id = (EditText) v.findViewById(R.id.et_orderid);
         validate_order_id = (Button) v.findViewById(R.id.btn_trackorder);
+        AndroidUtils.setBackgroundSolid(validate_order_id, getContext(), R.color.green_dark, 15, GradientDrawable.RECTANGLE);
         tracking_id.getBackground().mutate().setColorFilter(ContextCompat.getColor(getContext(), R.color.white), PorterDuff.Mode.SRC_ATOP);
 
     }

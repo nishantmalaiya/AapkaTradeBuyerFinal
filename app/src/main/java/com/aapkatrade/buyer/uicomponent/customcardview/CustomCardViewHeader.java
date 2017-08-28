@@ -1,5 +1,6 @@
 package com.aapkatrade.buyer.uicomponent.customcardview;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
@@ -28,7 +29,7 @@ public class CustomCardViewHeader extends CardView {
         init(context);
 
 
-        TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.CustomCardViewHeader);
+        @SuppressLint("Recycle") TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.CustomCardViewHeader);
 
         String title = a.getString((R.styleable.CustomCardViewHeader_titleText));
         textViewTitle.setText(title);

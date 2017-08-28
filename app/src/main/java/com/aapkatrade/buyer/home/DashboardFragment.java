@@ -181,7 +181,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
         rl_retry = (LinearLayout) view.findViewById(R.id.rl_retry);
         scrollView = (NestedScrollView) view.findViewById(R.id.scrollView);
 
-        recyclerlatestupdate = (RecyclerView) view.findViewById(R.id.recyclerlatestupdate);
+        recyclerlatestupdate = view.findViewById(R.id.recyclerlatestupdate);
         if (Tabletsize.isTablet(getActivity())) {
             gridLayoutManager = new GridLayoutManager(context, 3);
         } else {
