@@ -26,7 +26,6 @@ import android.widget.TextView;
 
 import com.aapkatrade.buyer.contact_us.ContactUsActivity;
 import com.aapkatrade.buyer.home.HomeActivity;
-import com.aapkatrade.buyer.home.navigation.adapter.NavigationAdapter;
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
@@ -47,7 +46,6 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -62,7 +60,7 @@ public class NavigationFragment extends Fragment {
     private AppSharedPreference appSharedpreference;
     private Context context;
     private TextView textViewName, emailid, tv_user_heading;
-    private NavigationAdapter categoryAdapter;
+    //private NavigationAdapter categoryAdapter;
     public ArrayList<Category> listDataHeader = new ArrayList<>();
     private RelativeLayout rlprofilepic, rlLogout, rlPolicy, rlTerms, rlInvite, rlContactUs;
     private View rlMainContent;
@@ -363,8 +361,8 @@ public class NavigationFragment extends Fragment {
         AndroidUtils.showErrorLog(context, "LIST CATEGORY---------------", listDataHeader.toString());
         if (listDataHeader.size() != 0) {
             AndroidUtils.showErrorLog(context, "LIST CATEGORY--------listDataHeader.size() != 0-------", listDataHeader.toString());
-            categoryAdapter = new NavigationAdapter(context, listDataHeader);
-            navigationRecycleview.setAdapter(categoryAdapter);
+           /* categoryAdapter = new NavigationAdapter(context, listDataHeader);
+            navigationRecycleview.setAdapter(categoryAdapter);*/
         }
     }
 

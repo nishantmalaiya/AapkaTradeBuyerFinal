@@ -535,7 +535,8 @@ public class WalletPaymentActivity extends Activity {
 
     /******************************************* closed send record to back end ************************************/
 
-    private void callWebServiceMakePayment(String transactionId, String status) {
+    private void callWebServiceMakePayment(String transactionId, String status)
+    {
 
         progressBarHandler.show();
 
@@ -580,7 +581,8 @@ public class WalletPaymentActivity extends Activity {
                             intent.putExtra("vpc_ReceiptNo", "");
                             startActivity(intent);
 
-                        } else {
+                        }
+                        else {
                             progressBarHandler.hide();
                             Intent intent = new Intent(WalletPaymentActivity.this, PaymentCompletionActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -599,7 +601,8 @@ public class WalletPaymentActivity extends Activity {
 
     }
 
-    private void showDialogMessage(String message) {
+    private void showDialogMessage(String message)
+    {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(TAG);
         builder.setMessage(message);
