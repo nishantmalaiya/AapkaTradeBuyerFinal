@@ -105,6 +105,7 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationViewHolder
                             i.putExtra("category_id", listDataHeader.get(currentPosition).getCategoryId());
                             i.putExtra("latitude", currentLatitude);
                             i.putExtra("longitude", currentLongitude);
+                            context.startActivity(i);
                         } else {
                             context.startActivity(new Intent(context, ViewAllCategoryActivity.class));
                         }

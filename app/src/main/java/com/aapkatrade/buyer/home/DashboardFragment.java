@@ -287,7 +287,8 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
 
     }
 
-    public void get_home_data() {
+    public void get_home_data()
+    {
         progress_handler.show();
 
         coordinatorLayout.setVisibility(View.INVISIBLE);

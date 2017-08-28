@@ -32,7 +32,7 @@
 
     <string name="category">Category</string>
     <string name="tab_1">Home</string>
-    <string name="tab_2">AboutUs</string>
+    <string name="tab_2">Wallet</string>
     <string name="tab_3">Track Order</string>
     <string name="tab_4">Account</string>
     <string name="tab_5">Chat</string>
@@ -352,11 +352,11 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="currentbalance">Current Balance</string>
+    <string name="currentbalance">Aapka Credit Balance</string>
     <string name="previous">Previous</string>
     <string name="calendar">Calendar</string>
     <string name="wallet_transaction_text">Wallet Transaction History</string>
     <string name="select_state_heading">STATE</string>
 
-    <string name="continue_search" >CONTINIUE</string>
+    <string name="continue_search">CONTINIUE</string>
 </resources>
