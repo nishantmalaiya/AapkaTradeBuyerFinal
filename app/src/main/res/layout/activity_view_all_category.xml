@@ -1,9 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/grey_more_light2"
     tools:context="com.aapkatrade.buyer.categories_tab.viewall.ViewAllCategoryActivity">
 
-</android.support.constraint.ConstraintLayout>
+
+    <include layout="@layout/toolbar_layout" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/fifty_dip"
+        android:layout_margin="@dimen/ten_dip"  >
+
+        <ImageView
+            android:id="@+id/ic_list_or_grid"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/seventy_dip"
+            android:layout_width="@dimen/fourty_dip"
+            android:padding="@dimen/five_dip"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_grid_view"
+            android:tint="@color/red"
+
+            />
+
+        <com.nightonke.jellytogglebutton.JellyToggleButton
+            android:id="@+id/toggle_button"
+            android:layout_alignParentEnd="true"
+            android:layout_width="@dimen/fifty_dip"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            app:jtbEaseType="ease_in_out_circ"
+            app:jtbLeftBackgroundColor="@color/red"
+            app:jtbRightBackgroundColor="@color/red"
+            app:jtbLeftThumbColor="@android:color/white"
+            app:jtbRightThumbColor="@android:color/white"
+            app:jtbLeftTextColor="@android:color/white"
+            app:jtbRightTextColor="@android:color/white"
+            />
+
+
+    </RelativeLayout>
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_margin="@dimen/ten_dip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:scrollbars="vertical" />
+
+</LinearLayout>

@@ -58,7 +58,6 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationViewHolder
     @Override
     public void onBindViewHolder(NavigationViewHolder viewHolder, final int position) {
 
-        final int currentPosition = position;
         final ImageView imageView = viewHolder.imageViewIcon;
 
         viewHolder.tvCategoryname.setText(listDataHeader.get(position).getCategoryName());
@@ -78,14 +77,6 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationViewHolder
 
                 });
 
-      /*  if (position == 10) {
-            viewHolder.imageViewIcon.setVisibility(View.GONE);
-            AndroidUtils.setBackgroundSolid(viewHolder.rl_category_container, context, R.color.blue_gradient, 0, GradientDrawable.RECTANGLE);
-            AndroidUtils.setBackgroundSolid(viewHolder.splitLine, context, R.color.blue_gradient_dark, 0, GradientDrawable.RECTANGLE);
-            viewHolder.tvCategoryname.setTextColor(ContextCompat.getColor(context, R.color.white));
-            viewHolder.rl_category_container.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
-        }
-*/
         viewHolder.rl_category_container.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -100,19 +91,11 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationViewHolder
                         String currentLongitude = appSharedPreference.getSharedPref(SharedPreferenceConstants.CURRENT_LONGITUDE.toString(), "0.0");
                         appSharedPreference.getSharedPref(SharedPreferenceConstants.CURRENT_STATE_NAME.toString(), "Haryana");
 
-                        if (position != 10) {
-                            Intent i = new Intent(context, ShopListByCategoryActivity.class);
-                            i.putExtra("category_id", listDataHeader.get(currentPosition).getCategoryId());
-                            i.putExtra("latitude", currentLatitude);
-                            i.putExtra("longitude", currentLongitude);
-                        } else {
-                            context.startActivity(new Intent(context, ViewAllCategoryActivity.class));
-                        }
-
-
-
-
-
+                        Intent i = new Intent(context, ShopListByCategoryActivity.class);
+                        i.putExtra("category_id", listDataHeader.get(position).getCategoryId());
+                        i.putExtra("latitude", currentLatitude);
+                        i.putExtra("longitude", currentLongitude);
+                        context.startActivity(i);
                     } else {
                         locationManagerCheck.createLocationServiceError((Activity) context);
                     }
