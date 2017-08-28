@@ -68,8 +68,9 @@ public class BuyerRegistrationActivity extends AppCompatActivity
     private Context context;
     private CheckBox agreement_check;
     String refreshedToken;
+    SmsManager smsManager;
 
-SmsManager smsManager;
+
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
@@ -85,6 +86,8 @@ SmsManager smsManager;
         setUpToolBar();
 
         initView();
+
+        getCountry();
 
         getState();
 
@@ -235,6 +238,57 @@ SmsManager smsManager;
                             JsonArray jsonResultArray = result.getAsJsonArray("result");
 
                             City cityEntity_init = new City("-1", "Please Select City");
+                            cityList.add(cityEntity_init);
+
+                            for (int i = 0; i < jsonResultArray.size(); i++) {
+                                JsonObject jsonObject1 = (JsonObject) jsonResultArray.get(i);
+                                City cityEntity = new City(jsonObject1.get("id").getAsString(), jsonObject1.get("name").getAsString());
+                                cityList.add(cityEntity);
+                            }
+
+                            SpCityAdapter spCityAdapter = new SpCityAdapter(context, cityList);
+                            spCity.setAdapter(spCityAdapter);
+
+                            spCity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                @Override
+                                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                    cityID = cityList.get(position).cityId;
+                                }
+
+                                @Override
+                                public void onNothingSelected(AdapterView<?> parent) {
+
+                                }
+                            });
+                        } else {
+                            showMessage("No City Found");
+                        }
+                    }
+
+                });
+
+    }
+
+    private void getCountry() {
+        progressBarHandler.show();
+        findViewById(R.id.input_layout_city).setVisibility(View.VISIBLE);
+        Ion.with(context)
+                .load("http://aapkatrade.com/slim/dropdown")
+                .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                .setBodyParameter("type", "country")
+                .setBodyParameter("id", "")
+                .asJsonObject()
+                .setCallback(new FutureCallback<JsonObject>() {
+                    @Override
+                    public void onCompleted(Exception e, JsonObject result) {
+                        progressBarHandler.hide();
+                        Log.e("city result ", result == null ? "null" : result.toString());
+
+                        if (result != null) {
+                            JsonArray jsonResultArray = result.getAsJsonArray("result");
+
+                            City cityEntity_init = new City("-1", "Please Country City");
                             cityList.add(cityEntity_init);
 
                             for (int i = 0; i < jsonResultArray.size(); i++) {

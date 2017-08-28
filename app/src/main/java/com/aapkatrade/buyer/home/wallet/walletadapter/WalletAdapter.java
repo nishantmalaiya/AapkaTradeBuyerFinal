@@ -47,15 +47,15 @@ public class WalletAdapter extends RecyclerView.Adapter<WalletTransactionHolder>
         if(position%2==0)
         {
 
-            AndroidUtils.setGradientColor(holder.cardview, android.graphics.drawable.GradientDrawable.RECTANGLE, ContextCompat.getColor(context, R.color.wallet_card_gradient_bottom), ContextCompat.getColor(context, R.color.wallet_card_gradient_Top), android.graphics.drawable.GradientDrawable.Orientation.TOP_BOTTOM, 0);
+          //  AndroidUtils.setGradientColor(holder.cardview, android.graphics.drawable.GradientDrawable.RECTANGLE, ContextCompat.getColor(context, R.color.wallet_card_gradient_bottom), ContextCompat.getColor(context, R.color.wallet_card_gradient_Top), android.graphics.drawable.GradientDrawable.Orientation.TOP_BOTTOM, 0);
 
-            AndroidUtils.setBackgroundSolid(holder.imgvew_transaction_status, context, R.color.white, 15, GradientDrawable.OVAL);
+            AndroidUtils.setBackgroundSolid(holder.imgvew_transaction_status, context, R.color.green, 15, GradientDrawable.OVAL);
 
         }
         else{
 
 
-            AndroidUtils.setGradientColor(holder.cardview, android.graphics.drawable.GradientDrawable.RECTANGLE, ContextCompat.getColor(context, R.color.wallet_card2_gradient_bottom), ContextCompat.getColor(context, R.color.wallet_card2_gradient_Top), android.graphics.drawable.GradientDrawable.Orientation.TOP_BOTTOM, 0);
+         //   AndroidUtils.setGradientColor(holder.cardview, android.graphics.drawable.GradientDrawable.RECTANGLE, ContextCompat.getColor(context, R.color.wallet_card2_gradient_bottom), ContextCompat.getColor(context, R.color.wallet_card2_gradient_Top), android.graphics.drawable.GradientDrawable.Orientation.TOP_BOTTOM, 0);
 
             AndroidUtils.setBackgroundSolid(holder.imgvew_transaction_status, context, R.color.color_voilet, 15, GradientDrawable.OVAL);
 
