@@ -27,7 +27,6 @@ import android.widget.TextView;
 import com.aapkatrade.buyer.categories_tab.viewall.ViewAllCategoryActivity;
 import com.aapkatrade.buyer.contact_us.ContactUsActivity;
 import com.aapkatrade.buyer.home.HomeActivity;
-import com.aapkatrade.buyer.home.navigation.adapter.NavigationAdapter;
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
