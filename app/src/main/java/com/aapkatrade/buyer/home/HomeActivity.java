@@ -31,6 +31,7 @@ import com.aapkatrade.buyer.chat.ChatActivity;
 import com.aapkatrade.buyer.dialogs.ChatDialogFragment;
 import com.aapkatrade.buyer.dialogs.track_order.TrackOrderDialog;
 import com.aapkatrade.buyer.general.Validation;
+import com.aapkatrade.buyer.home.wallet.Wallet;
 import com.aapkatrade.buyer.login.LoginDashboard;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
@@ -62,7 +63,7 @@ public class HomeActivity extends AppCompatActivity {
     private DashboardFragment homeFragment;
     private AboutUsFragment aboutUsFragment;
 
-   // private Wallet walletFragment;
+    private Wallet walletFragment;
     private Context context;
     public static String shared_pref_name = "aapkatrade";
     private AppConfig aa;
@@ -145,7 +146,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private void preInit() {
         AppConfig.set_defaultfont(HomeActivity.this);
-      //  walletFragment=new Wallet();
+        walletFragment=new Wallet();
         aboutUsFragment = new AboutUsFragment();
 
         userDashboardFragment = new UserDashboardFragment();
@@ -259,7 +260,7 @@ public class HomeActivity extends AppCompatActivity {
     public void onBackPressed() {
         FragmentManager fm = getSupportFragmentManager();
         DashboardFragment dashboardFragment = (DashboardFragment) fm.findFragmentByTag(homeFragment.getClass().getName());
-      //  Wallet showwalletFragment = (Wallet) fm.findFragmentByTag(walletFragment.getClass().getName());
+        Wallet showwalletFragment = (Wallet) fm.findFragmentByTag(walletFragment.getClass().getName());
         AboutUsFragment aboutUsfragment=(AboutUsFragment)fm.findFragmentByTag(aboutUsFragment.getClass().getName()) ;
         UserDashboardFragment showuserdashboardfragment = (UserDashboardFragment) fm.findFragmentByTag(userDashboardFragment.getClass().getName());
 
@@ -270,11 +271,11 @@ public class HomeActivity extends AppCompatActivity {
 
             Log.e("myfragment_visible", "myfragment visible");
         }
-      /*  else if (showwalletFragment != null && showwalletFragment.isVisible()) {
+        else if (showwalletFragment != null && showwalletFragment.isVisible()) {
             double_back_pressed("finish");
             //finish();
             Log.e("showabout visible", "showaboutUsFragment visible");
-        }*/
+        }
 
         else if (aboutUsfragment != null && aboutUsfragment.isVisible()) {
             double_back_pressed("finish");
@@ -377,12 +378,12 @@ public class HomeActivity extends AppCompatActivity {
                         break;
 
                     case 1:
-                       /* if (walletFragment == null) {
+                        if (walletFragment == null) {
                             walletFragment = new Wallet();
                         }
                         String walletFragment_tagName = walletFragment.getClass().getName();
                         replaceFragment(walletFragment, walletFragment_tagName);
-*/
+
                         Log.e("time  fragment", String.valueOf(System.currentTimeMillis()));
 
                       /*  if (aboutUsFragment == null) {
