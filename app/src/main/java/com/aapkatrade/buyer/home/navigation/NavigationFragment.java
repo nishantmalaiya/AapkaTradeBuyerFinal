@@ -32,6 +32,7 @@ import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.Validation;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
+import com.aapkatrade.buyer.home.navigation.adapter.NavigationAdapter;
 import com.aapkatrade.buyer.home.navigation.entity.Category;
 import com.aapkatrade.buyer.login.LoginDashboard;
 import com.aapkatrade.buyer.privacypolicy.PrivacyPolicyActivity;
@@ -60,7 +61,7 @@ public class NavigationFragment extends Fragment {
     private AppSharedPreference appSharedpreference;
     private Context context;
     private TextView textViewName, emailid, tv_user_heading;
-    //private NavigationAdapter categoryAdapter;
+    private NavigationAdapter categoryAdapter;
     public ArrayList<Category> listDataHeader = new ArrayList<>();
     private RelativeLayout rlprofilepic, rlLogout, rlPolicy, rlTerms, rlInvite, rlContactUs;
     private View rlMainContent;
@@ -361,8 +362,8 @@ public class NavigationFragment extends Fragment {
         AndroidUtils.showErrorLog(context, "LIST CATEGORY---------------", listDataHeader.toString());
         if (listDataHeader.size() != 0) {
             AndroidUtils.showErrorLog(context, "LIST CATEGORY--------listDataHeader.size() != 0-------", listDataHeader.toString());
-           /* categoryAdapter = new NavigationAdapter(context, listDataHeader);
-            navigationRecycleview.setAdapter(categoryAdapter);*/
+            categoryAdapter = new NavigationAdapter(context, listDataHeader);
+            navigationRecycleview.setAdapter(categoryAdapter);
         }
     }
 

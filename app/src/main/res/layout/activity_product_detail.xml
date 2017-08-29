@@ -93,7 +93,7 @@
                             android:layout_marginRight="@dimen/ten_dip"
                             android:layout_weight="2"
                             android:gravity="left|center_vertical"
-                            android:text="@string/product_name"
+                            android:text=""
                             android:textColor="@color/text_color_product_detail"
                             android:textSize="@dimen/textsize_medium"
                             android:textStyle="bold" />
