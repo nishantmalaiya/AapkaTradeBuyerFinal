@@ -32,7 +32,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/one_hundred_five_dip"
                 android:scaleType="fitXY"
-                android:src="@drawable/footweer" />
+                />
 
         </LinearLayout>
 

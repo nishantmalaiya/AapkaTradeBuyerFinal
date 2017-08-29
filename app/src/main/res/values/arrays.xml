@@ -173,13 +173,6 @@
     </integer-array>
 
 
-    <integer-array name="welcome_screen">
-        <item>@drawable/welcome_slide_one</item>
-        <item>@drawable/welcome_slide_two</item>
-        <item>@drawable/welcome_slide_three</item>
-        <item>@drawable/welcome_slide_four</item>
-        <item>@drawable/welcome_slide_five</item>
-    </integer-array>
 
 
     <string-array name="welcomeSliderHeaders">
