@@ -176,7 +176,7 @@
                                 android:id="@+id/spCountry"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginEnd="@dimen/twenty_dip"
+
                                 app:type="country" />
 
                             <ImageView

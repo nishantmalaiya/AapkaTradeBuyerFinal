@@ -360,4 +360,5 @@
 
     <string name="continue_search" >CONTINIUE</string>
     <string name="view_all_categories">View All Categories</string>
+    <string name="select_country_heading">CHOOSE COUNTRY</string>
 </resources>
