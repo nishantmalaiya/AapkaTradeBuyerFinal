@@ -155,7 +155,7 @@ public class NavigationFragment extends Fragment {
             }
         });
 
-        rlTerms = view.findViewById(R.id.rl_terms);
+        rlTerms =(RelativeLayout) view.findViewById(R.id.rl_terms);
         rlTerms.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

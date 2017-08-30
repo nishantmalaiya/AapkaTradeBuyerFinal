@@ -370,6 +370,44 @@ android:id="@+id/llSellerPersonalDetailContainer"
                         </android.support.design.widget.TextInputLayout>
 
                         <android.support.design.widget.TextInputLayout
+                            android:id="@+id/input_layout_country"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/twenty_dip"
+                            android:layout_marginLeft="@dimen/twenty_five_dip"
+                            android:layout_marginRight="@dimen/twenty_five_dip"
+                            android:layout_marginTop="@dimen/ten_dip"
+                            android:hint="State"
+                            android:textColorHint="@color/hint_color">
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <com.aapkatrade.buyer.uicomponent.customspinner.CountryStateSelectSpinner
+                                    android:id="@+id/spCountryCategory"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    app:type="country"
+                                    android:layout_alignParentLeft="true"
+                                    android:background="@drawable/simple_spinner_back" />
+
+                                <ImageView
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginRight="10dp"
+                                    android:scaleType="fitXY"
+                                    android:src="@drawable/ic_arrow" />
+
+
+                            </RelativeLayout>
+                        </android.support.design.widget.TextInputLayout>
+
+
+
+                        <android.support.design.widget.TextInputLayout
                             android:id="@+id/input_layout_state"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -384,10 +422,11 @@ android:id="@+id/llSellerPersonalDetailContainer"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
 
-                                <Spinner
+                                <com.aapkatrade.buyer.uicomponent.customspinner.CountryStateSelectSpinner
                                     android:id="@+id/spStateCategory"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    app:type="state"
                                     android:layout_alignParentLeft="true"
                                     android:background="@drawable/simple_spinner_back" />
 
@@ -417,11 +456,12 @@ android:id="@+id/llSellerPersonalDetailContainer"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
 
-                                <Spinner
+                                <com.aapkatrade.buyer.uicomponent.customspinner.CountryStateSelectSpinner
                                     android:id="@+id/spCityCategory"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_alignParentLeft="true"
+                                    app:type="city"
                                     android:background="@drawable/simple_spinner_back" />
 
 

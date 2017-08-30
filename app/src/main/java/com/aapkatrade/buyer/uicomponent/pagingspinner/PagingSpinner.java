@@ -213,7 +213,7 @@ public class PagingSpinner extends RelativeLayout {
                                         companyDropdownDatas.comapanyCategory + "</font>");
 //                AndroidUtils.showErrorLog(context, position+"position"+arrayList.size()+"arrayList.size()   "+"work1***" + Html.fromHtml(tvData));
                                 ((TextView) linearLayoutMain.findViewById(R.id.tvshopdropdownshopname)).setText(companyDropdownDatas.companyName);
-                                ((TextView) linearLayoutMain.findViewById(R.id.tvshopdropdownshopcategory)).setText("Category : " + companyDropdownDatas.comapanyCategory);
+                                ((TextView) linearLayoutMain.findViewById(R.id.tvshopdropdownshopcategory)).setText("Category : ".concat(companyDropdownDatas.comapanyCategory));
                             }
                         }
                     }

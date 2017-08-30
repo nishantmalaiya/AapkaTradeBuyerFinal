@@ -95,14 +95,14 @@ public class LoginActivity extends AppCompatActivity {
                     startActivity(registerUserActivity);
                 } else {
 
-                   if(ConnetivityCheck.isNetworkAvailable(context))
+                    if(ConnetivityCheck.isNetworkAvailable(context))
                     {
                         Intent registerUserActivity = new Intent(context, BuyerRegistrationActivity.class);
                         startActivity(registerUserActivity);
                     }
                     else{
-                       AndroidUtils.showToast(context, "!Internet not available. Check your internet connection.");
-                   }
+                        AndroidUtils.showToast(context, "!Internet not available. Check your internet connection.");
+                    }
                 }
 
 
@@ -327,6 +327,7 @@ public class LoginActivity extends AppCompatActivity {
         String user_id = appSharedpreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), "notlogin");
 
         System.out.println("user_id--------------" + user_id);
+        System.out.println("user_type--------------" +appSharedpreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), ""));
 
         if (user_id.equals("notlogin")) {
             user_id = "";

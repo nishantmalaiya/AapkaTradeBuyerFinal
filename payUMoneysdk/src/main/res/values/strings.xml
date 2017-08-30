@@ -85,7 +85,7 @@
     <string name="congrats">Congratulations,</string>
     <string name="selected_coupon">applied    <a href="#">Remove</a></string>
     <string name="remove"><a href="#">Remove</a></string>
-    <string name="main_button_text">See a hot new custom dialog!</string>
+    <string name="main_button_text">See a hot new custom searchableListDialog!</string>
     <string name="alert_image_content_description">Alert Image</string>
     <string name="confirmation_sms">Mobile Number For Confirmation SMS</string>
     <string name="card_name">Card name</string>
