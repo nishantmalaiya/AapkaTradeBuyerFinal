@@ -44,6 +44,7 @@ android {
         maven { url "https://www.jitpack.io" }
         maven { url 'https://oss.jfrog.org/artifactory/oss-snapshot-local' }
         maven { url "https://dl.bintray.com/drummer-aidan/maven" }
+
         mavenCentral()
     }
     sourceSets { main { res.srcDirs = ['src/main/res', 'src/main/res/menu'] } }
@@ -113,5 +114,8 @@ dependencies {
     compile 'com.android.support:percent:26.0.0-alpha1'
     compile 'com.google.firebase:firebase-messaging:11.0.4'
     compile 'com.nightonke:jellytogglebutton:1.0.2'
+    compile 'io.realm:realm-android:0.87.0'
+
+
 }
 apply plugin: 'com.google.gms.google-services'

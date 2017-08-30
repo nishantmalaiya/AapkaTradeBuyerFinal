@@ -31,7 +31,6 @@
                 android:id="@+id/imgProduct"
                 android:layout_width="@dimen/one_hundred_five_dip"
                 android:layout_height="@dimen/one_hundred_thirty"
-
                 android:scaleType="fitXY"
                 android:layout_marginRight="5dp"
                 />

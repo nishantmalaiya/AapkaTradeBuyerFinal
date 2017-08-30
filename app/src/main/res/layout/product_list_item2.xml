@@ -33,8 +33,6 @@
                 android:layout_alignParentLeft="true"
                 android:scaleType="fitXY"
                />
-
-
             <RelativeLayout
                 android:id="@+id/relativeContainer"
                 android:layout_width="wrap_content"
