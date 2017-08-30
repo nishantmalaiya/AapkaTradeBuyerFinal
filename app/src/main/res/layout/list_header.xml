@@ -6,9 +6,9 @@
     android:layout_height="@dimen/fifty_dip"
     android:layout_marginLeft="@dimen/ten_dip"
     android:layout_marginRight="@dimen/ten_dip"
-    app:cardBackgroundColor="@color/white"
     android:layout_marginTop="@dimen/ten_dip"
     android:orientation="vertical"
+    app:cardBackgroundColor="@color/white"
     app:cardCornerRadius="@dimen/five_dip">
 
 
