@@ -23,6 +23,8 @@ import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
 import com.aapkatrade.buyer.home.buyerregistration.BuyerRegistrationActivity;
 import com.aapkatrade.buyer.home.buyerregistration.entity.BuyerRegistration;
 import com.aapkatrade.buyer.seller.registration.SellerRegistrationActivity;
+import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.addcompanyshop.AddCompanyShopActivity;
+import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.editcompanyshop.EditCompanyShopActivity;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
@@ -129,8 +131,19 @@ public class CountryStateSelectSpinner extends RelativeLayout {
 
                             SellerRegistrationActivity.commonInterface.getData(new Idtype(selectedCountryId, "country"));
 
+                        } else if (context instanceof AddCompanyShopActivity) {
+
+
+                            AddCompanyShopActivity.commonInterface.getData(new Idtype(selectedCountryId, "country"));
+
                         }
 
+                        else if (context instanceof EditCompanyShopActivity) {
+
+
+                            EditCompanyShopActivity.commonInterface.getData(new Idtype(selectedCountryId, "country"));
+
+                        }
                         //hitStateWebService(true);
                     } else if (type.equals(SearchableSpinner.Constants.STATE.toString())) {
                         cityArrayList.clear();
@@ -145,7 +158,20 @@ public class CountryStateSelectSpinner extends RelativeLayout {
 
                             SellerRegistrationActivity.commonInterface.getData(new Idtype(selectedStateId, "state"));
 
+                        } else if (context instanceof AddCompanyShopActivity) {
+
+
+                            AddCompanyShopActivity.commonInterface.getData(new Idtype(selectedStateId, "state"));
+
                         }
+                        else if (context instanceof EditCompanyShopActivity) {
+
+
+                            EditCompanyShopActivity.commonInterface.getData(new Idtype(selectedStateId, "state"));
+
+                        }
+
+
                         // gd.getid(Integer.parseInt(selectedStateId), Constants.STATE.toString());
                     } else if (type.equals(SearchableSpinner.Constants.CITY.toString())) {
 
@@ -158,6 +184,17 @@ public class CountryStateSelectSpinner extends RelativeLayout {
 
                             SellerRegistrationActivity.commonInterface.getData(new Idtype(SelectedCityId, "city"));
 
+
+                        } else if (context instanceof AddCompanyShopActivity) {
+
+
+                            AddCompanyShopActivity.commonInterface.getData(new Idtype(SelectedCityId, "city"));
+
+                        }
+                        else if (context instanceof EditCompanyShopActivity) {
+
+
+                            EditCompanyShopActivity.commonInterface.getData(new Idtype(SelectedCityId, "city"));
 
                         }
 
@@ -236,7 +273,22 @@ public class CountryStateSelectSpinner extends RelativeLayout {
         if (context instanceof BuyerRegistrationActivity) {
             stateid = BuyerRegistrationActivity.formBuyerData.getStateId();
             AndroidUtils.showErrorLog(context, "state id", stateid);
-        } else {
+        }
+
+        else if(context instanceof AddCompanyShopActivity)
+        {
+
+            stateid=AddCompanyShopActivity.stateID;
+
+        }
+
+        else if(context instanceof EditCompanyShopActivity)
+        {
+
+            stateid=EditCompanyShopActivity.stateID;
+
+        }
+        else {
             stateid = SellerRegistrationActivity.formSellerData.getStateId();
         }
 
@@ -298,7 +350,22 @@ public class CountryStateSelectSpinner extends RelativeLayout {
             String countryid;
             if (context instanceof BuyerRegistrationActivity) {
                 countryid = BuyerRegistrationActivity.formBuyerData.getCountryId();
-            } else {
+            }
+
+            else if(context instanceof AddCompanyShopActivity)
+            {
+
+                countryid=AddCompanyShopActivity.countryID;
+
+            }
+            else if(context instanceof EditCompanyShopActivity)
+            {
+
+                countryid=EditCompanyShopActivity.countryID;
+
+            }
+
+            else {
                 countryid = SellerRegistrationActivity.formSellerData.getCountryId();
             }
             AndroidUtils.showErrorLog(context, "countryid" + countryid);

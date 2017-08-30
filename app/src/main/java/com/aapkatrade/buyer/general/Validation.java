@@ -67,8 +67,8 @@ public class Validation {
 
     public static String getNumberPrefix(String number) {
         if (number != null) {
-            if (number.length() > 9) {
-                return number.substring(0, number.length() - 9);
+            if (number.length() > 20) {
+                return number.substring(0, number.length() - 20);
             }
         }
         return "";

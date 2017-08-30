@@ -46,6 +46,7 @@ import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.Utils.adapter.CustomSimpleListAdapter;
 import com.aapkatrade.buyer.general.Utils.adapter.CustomSpinnerAdapter;
 import com.aapkatrade.buyer.general.Validation;
+import com.aapkatrade.buyer.general.interfaces.CommonInterface;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
 import com.aapkatrade.buyer.home.HomeActivity;
 import com.aapkatrade.buyer.home.buyerregistration.entity.City;
@@ -56,6 +57,8 @@ import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.CompanySh
 import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.addproduct.ProductImagesAdapter;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.addproduct.ProductMediaData;
 import com.aapkatrade.buyer.uicomponent.customcardview.CustomCardViewHeader;
+import com.aapkatrade.buyer.uicomponent.customspinner.CountryStateSelectSpinner;
+import com.aapkatrade.buyer.uicomponent.customspinner.Idtype;
 import com.aapkatrade.buyer.uicomponent.daystile.DaysTileView;
 import com.afollestad.materialcamera.MaterialCamera;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
@@ -79,14 +82,18 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class AddCompanyShopActivity extends AppCompatActivity
-{
+public class AddCompanyShopActivity extends AppCompatActivity {
 
     private Context context;
     private AppSharedPreference appSharedPreference;
     private ProgressBarHandler progressBarHandler;
-    private String userId, stateID, cityID, categoryID, subCategoryID, serviceType, videoPath;
-    private Spinner spState, spCity, spCategory, spSubCategory, spServiceType;
+    private String userId, categoryID, subCategoryID, serviceType, videoPath;
+
+    public static String stateID, cityID, countryID;
+    private Spinner spCategory, spSubCategory, spServiceType;
+    CountryStateSelectSpinner spState, spCity, spCountry;
+
+
     private ArrayList<String> stateList, stateIds;
     private ArrayList<City> cityList = new ArrayList<>();
     private ArrayList<Category> listDataHeader = new ArrayList<>();
@@ -104,10 +111,10 @@ public class AddCompanyShopActivity extends AppCompatActivity
     private CustomCardViewHeader generalDetailsHeader, shopDetailsHeader;
     private LinearLayout llShopDetailsContainer, llGeneralContainer;
 
+    public static CommonInterface commonInterface;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_company_shop);
         context = AddCompanyShopActivity.this;
@@ -190,7 +197,7 @@ public class AddCompanyShopActivity extends AppCompatActivity
             AndroidUtils.showSnackBar(addCompanyShopLayout, "Please enter valid mobile number.");
             etMobileNo.setError("Please enter valid mobile number.");
             isAllFieldsValidate = false;
-        }else if (Validation.isEmptyStr(etMobileNo.getText().toString())) {
+        } else if (Validation.isEmptyStr(etMobileNo.getText().toString())) {
             AndroidUtils.showSnackBar(addCompanyShopLayout, "Please enter valid mobile number.");
             etPhoneNo.setError("Please enter valid mobile number.");
             isAllFieldsValidate = false;
@@ -235,14 +242,15 @@ public class AddCompanyShopActivity extends AppCompatActivity
         progressBarHandler = new ProgressBarHandler(context);
         appSharedPreference = new AppSharedPreference(context);
         userId = appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString());
-        spState = (Spinner) findViewById(R.id.spState);
-        spCity = (Spinner) findViewById(R.id.spCity);
+        spState = (CountryStateSelectSpinner) findViewById(R.id.spState);
+        spCity = (CountryStateSelectSpinner) findViewById(R.id.spCity);
+        spCountry = (CountryStateSelectSpinner) findViewById(R.id.spCountry);
         spCategory = (Spinner) findViewById(R.id.spCategory);
         spSubCategory = (Spinner) findViewById(R.id.spSubCategory);
         spServiceType = (Spinner) findViewById(R.id.spServiceType);
         etAreaLocation = (EditText) findViewById(R.id.tv_area_location);
         findViewById(R.id.input_layout_sub_category).setVisibility(View.GONE);
-        findViewById(R.id.input_layout_city).setVisibility(View.GONE);
+
         btnSave = (Button) findViewById(R.id.btnSave);
         etCompanyShopName = (EditText) findViewById(R.id.etCompanyShopName);
         etPinCode = (EditText) findViewById(R.id.et_pin_code);
@@ -257,6 +265,7 @@ public class AddCompanyShopActivity extends AppCompatActivity
         etDescription = (EditText) findViewById(R.id.etDescription);
         etCompanyAddress = (EditText) findViewById(R.id.etCompanyAddress);
         addCompanyShopLayout = (RelativeLayout) findViewById(R.id.addCompanyShopLayout);
+
 
         daysTileView1 = (DaysTileView) findViewById(R.id.daysTileView);
         daysTileView1.setBackgroundColor(R.color.green);
@@ -284,15 +293,55 @@ public class AddCompanyShopActivity extends AppCompatActivity
         llShopDetailsContainer.setVisibility(View.GONE);
         generalDetailsHeader.setImageRightRotation(180);
 
+
+        init_country_state_data();
+        commonInterface = new CommonInterface() {
+            @Override
+            public Object getData(Object object) {
+                Idtype idtype = (Idtype) object;
+                String type = idtype.type;
+                if (type.equals("country")) {
+
+
+                    countryID = idtype.id;
+                    if (spState != null) {
+                        AndroidUtils.showErrorLog(context, "spState not null");
+                        spState.setText("Select State");
+                        spCity.setText("Select City");
+                        stateID = "";
+
+                        // spState.hitStateWebService(true);
+
+                    }
+
+
+                } else if (type.toLowerCase().equals("state")) {
+                    stateID = idtype.id;
+
+                    spCity.setText("Select City");
+                    //spCity.hitCityWebService(true);
+                } else if (type.equals("city")) {
+                    cityID = idtype.id;
+
+
+                }
+
+
+                AndroidUtils.showErrorLog(context, "integer value", type + "*******" + idtype.id);
+
+                return null;
+            }
+        };
+
         generalDetailsHeader.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(llGeneralContainer.getVisibility() == View.VISIBLE){
+                if (llGeneralContainer.getVisibility() == View.VISIBLE) {
                     llGeneralContainer.setVisibility(View.GONE);
                     generalDetailsHeader.setImageRightRotation(0);
                     llShopDetailsContainer.setVisibility(View.VISIBLE);
                     shopDetailsHeader.setImageRightRotation(180);
-                }else {
+                } else {
                     llGeneralContainer.setVisibility(View.VISIBLE);
                     generalDetailsHeader.setImageRightRotation(180);
                     llShopDetailsContainer.setVisibility(View.GONE);
@@ -304,12 +353,12 @@ public class AddCompanyShopActivity extends AppCompatActivity
         shopDetailsHeader.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(llShopDetailsContainer.getVisibility() == View.VISIBLE){
+                if (llShopDetailsContainer.getVisibility() == View.VISIBLE) {
                     llShopDetailsContainer.setVisibility(View.GONE);
                     shopDetailsHeader.setImageRightRotation(0);
                     llGeneralContainer.setVisibility(View.VISIBLE);
                     generalDetailsHeader.setImageRightRotation(180);
-                }else {
+                } else {
                     llShopDetailsContainer.setVisibility(View.VISIBLE);
                     shopDetailsHeader.setImageRightRotation(180);
                     llGeneralContainer.setVisibility(View.GONE);
@@ -322,7 +371,7 @@ public class AddCompanyShopActivity extends AppCompatActivity
         etCompanyAddress.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if(hasFocus){
+                if (hasFocus) {
                     llGeneralContainer.setVisibility(View.GONE);
                     generalDetailsHeader.setImageRightRotation(0);
                 }
@@ -333,7 +382,7 @@ public class AddCompanyShopActivity extends AppCompatActivity
 
         etPinCode.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event){
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_NEXT) {
                     llShopDetailsContainer.setVisibility(View.VISIBLE);
                     shopDetailsHeader.setImageRightRotation(180);
@@ -372,13 +421,12 @@ public class AddCompanyShopActivity extends AppCompatActivity
         }
     }
 
-    private void getState()
-    {
+    private void getState() {
 
         stateList = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.state_list)));
         stateIds = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.state_ids)));
         AndroidUtils.showErrorLog(context, stateList.toString());
-        spState.setAdapter(new CustomSpinnerAdapter(context, stateList));
+       /* spState.setAdapter(new CustomSpinnerAdapter(context, stateList));
         spState.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -394,7 +442,14 @@ public class AddCompanyShopActivity extends AppCompatActivity
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
-        });
+        });*/
+    }
+
+    private void init_country_state_data() {
+        stateID = "";
+        countryID = "";
+        cityID = "";
+
     }
 
     private void getCategory() {
@@ -452,13 +507,10 @@ public class AddCompanyShopActivity extends AppCompatActivity
         arrayList.add("Multiple/Group Product");
         arrayList.add("Only Services");
         spServiceType.setAdapter(new CustomSimpleListAdapter(context, arrayList));
-        spServiceType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
-        {
+        spServiceType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
-            {
-                if (position > 0)
-                {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position > 0) {
                     serviceType = arrayList.get(position);
                 }
             }
@@ -470,8 +522,7 @@ public class AddCompanyShopActivity extends AppCompatActivity
         });
     }
 
-    private void setCategoryAdapter()
-    {
+    private void setCategoryAdapter() {
         AndroidUtils.showErrorLog(context, "data", this.listDataHeader.toString());
         CustomSimpleListAdapter categoriesAdapter = new CustomSimpleListAdapter(context, this.listDataHeader);
         spCategory.setAdapter(categoriesAdapter);
@@ -548,13 +599,13 @@ public class AddCompanyShopActivity extends AppCompatActivity
                                 cityList.add(cityEntity);
                             }
 
-                            SpCityAdapter spCityAdapter = new SpCityAdapter(context, cityList);
+                           /* SpCityAdapter spCityAdapter = new SpCityAdapter(context, cityList);
                             spCity.setAdapter(spCityAdapter);
 
                             spCity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                                 @Override
                                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                                    if(position>0)
+                                    if (position > 0)
                                         cityID = cityList.get(position).cityId;
                                 }
 
@@ -562,7 +613,7 @@ public class AddCompanyShopActivity extends AppCompatActivity
                                 public void onNothingSelected(AdapterView<?> parent) {
 
                                 }
-                            });
+                            });*/
                         } else {
                             AndroidUtils.showToast(context, "! Invalid city");
                         }
@@ -590,6 +641,7 @@ public class AddCompanyShopActivity extends AppCompatActivity
         AndroidUtils.showErrorLog(context, "state_id", stateID);
         AndroidUtils.showErrorLog(context, "product_type", serviceType);
         AndroidUtils.showErrorLog(context, "sub_cat_id", subCategoryID);
+        AndroidUtils.showErrorLog(context, "country_id", countryID);
         AndroidUtils.showErrorLog(context, "city_id", cityID);
         AndroidUtils.showErrorLog(context, "open_id", String.valueOf(ParseUtils.stringArrayToJsonObject(new String[]{daysTileView1.getOpeningTimeID(), daysTileView2.getOpeningTimeID(), daysTileView3.getOpeningTimeID()})));
         AndroidUtils.showErrorLog(context, "mobile", etMobileNo.getText().toString());
@@ -619,6 +671,7 @@ public class AddCompanyShopActivity extends AppCompatActivity
                     .setMultipartParameter("category_id", categoryID)
                     .setMultipartParameter("sub_cat_id", subCategoryID)
                     .setMultipartParameter("area", etAreaLocation.getText().toString())
+                    .setMultipartParameter("country_id", countryID)
                     .setMultipartParameter("state_id", stateID)
                     .setMultipartParameter("city_id", cityID)
                     .setMultipartParameter("product_type", serviceType)
@@ -645,7 +698,7 @@ public class AddCompanyShopActivity extends AppCompatActivity
                             if (result != null) {
                                 AndroidUtils.showErrorLog(context, "result::::::", result.toString());
                                 if (result.get("error").getAsString().equalsIgnoreCase("false")) {
-                                    if (Validation.containsIgnoreCase(result.get("message").getAsString(),"successfully added")) {
+                                    if (Validation.containsIgnoreCase(result.get("message").getAsString(), "successfully added")) {
                                         AndroidUtils.showErrorLog(context, "result:::success:::", result.toString());
                                         AndroidUtils.showToast(context, result.get("message").getAsString());
                                         doExitReveal(false);
@@ -678,6 +731,7 @@ public class AddCompanyShopActivity extends AppCompatActivity
                     .setMultipartParameter("product_type", serviceType)
                     .setMultipartParameter("sub_cat_id", subCategoryID)
                     .setMultipartParameter("city_id", cityID)
+                    .setMultipartParameter("country_id", countryID)
                     .setMultipartParameter("mobile", etMobileNo.getText().toString())
                     .setMultipartParameter("pincode", etPinCode.getText().toString())
                     .setMultipartParameter("email_id", etEmail.getText().toString())
@@ -702,7 +756,7 @@ public class AddCompanyShopActivity extends AppCompatActivity
                             if (result != null) {
                                 AndroidUtils.showErrorLog(context, "result::::::", result.toString());
                                 if (result.get("error").getAsString().equalsIgnoreCase("false")) {
-                                    if (Validation.containsIgnoreCase(result.get("message").getAsString().toLowerCase(),"successfully added")) {
+                                    if (Validation.containsIgnoreCase(result.get("message").getAsString().toLowerCase(), "successfully added")) {
                                         AndroidUtils.showErrorLog(context, "result:::success:::", result.toString());
                                         AndroidUtils.showToast(context, result.get("message").getAsString());
                                         doExitReveal(false);
@@ -720,8 +774,9 @@ public class AddCompanyShopActivity extends AppCompatActivity
                         }
                     });
     }
+
     void doExitReveal(final boolean isBack) {
-        if(!isBack) {
+        if (!isBack) {
             Intent bankDetails = new Intent(context, CompanyShopManagementActivity.class);
             bankDetails.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             context.startActivity(bankDetails);
@@ -735,8 +790,7 @@ public class AddCompanyShopActivity extends AppCompatActivity
         doExitReveal(true);
     }
 
-    private void setupRecyclerView()
-    {
+    private void setupRecyclerView() {
         recyclerView = (RecyclerView) findViewById(R.id.recycler);
 
         productMediaDatas.add(new ProductMediaData("first", "", null, ""));
@@ -873,7 +927,7 @@ public class AddCompanyShopActivity extends AppCompatActivity
         if (productMediaDatas != null && productMediaDatas.size() > 0) {
 
             for (ProductMediaData file : productMediaDatas) {
-                if (!file.isVideo && file.imagePath!=null) {
+                if (!file.isVideo && file.imagePath != null) {
                     files.add(new FilePart("image[]", savebitmap(file.imagePath)));
                     AndroidUtils.showErrorLog(context, files.toArray().toString());
                 }
@@ -979,11 +1033,11 @@ public class AddCompanyShopActivity extends AppCompatActivity
 
         AndroidUtils.showErrorLog(context, "selectedImage----" + selectedImage);
 
-       // AndroidUtils.showToast(context, selectedImage.toString());
+        // AndroidUtils.showToast(context, selectedImage.toString());
 
         String selectedImagePath = getPath(context, selectedImage);
 
-       // AndroidUtils.showToast(context, "selectedImagePath----------------" + selectedImagePath);
+        // AndroidUtils.showToast(context, "selectedImagePath----------------" + selectedImagePath);
 
         Bitmap thumb = ThumbnailUtils.createVideoThumbnail(selectedImagePath, MediaStore.Video.Thumbnails.MINI_KIND);
 
@@ -1067,16 +1121,16 @@ public class AddCompanyShopActivity extends AppCompatActivity
             }
 
         } else {                // CALL THIS METHOD TO GET THE ACTUAL PATH
-                File finalFile = new File(ImageUtils.getRealPathFromURI(context, data.getData()));
+            File finalFile = new File(ImageUtils.getRealPathFromURI(context, data.getData()));
 
-                productMediaDatas.add(new ProductMediaData(finalFile.getAbsolutePath(), "", null, ""));
-                AndroidUtils.showErrorLog(context, "docfile", finalFile.getAbsolutePath());
+            productMediaDatas.add(new ProductMediaData(finalFile.getAbsolutePath(), "", null, ""));
+            AndroidUtils.showErrorLog(context, "docfile", finalFile.getAbsolutePath());
 
-                adapter.notifyDataSetChanged();
-                if (productMediaDatas.size() > 0) {
-                    recyclerView.setVisibility(View.VISIBLE);
+            adapter.notifyDataSetChanged();
+            if (productMediaDatas.size() > 0) {
+                recyclerView.setVisibility(View.VISIBLE);
 
-                }
+            }
         }
     }
 

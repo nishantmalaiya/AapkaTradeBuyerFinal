@@ -5,18 +5,15 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatImageView;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.aapkatrade.buyer.animation.Animations;
 import com.aapkatrade.buyer.home.HomeActivity;
 import com.aapkatrade.buyer.home.buyerregistration.entity.City;
 import com.aapkatrade.buyer.R;
@@ -39,10 +36,10 @@ public class AddAddressActivity extends AppCompatActivity {
 
     private ArrayList<String> stateList = new ArrayList<>();
     private AppSharedPreference appSharedPreference;
-    private String userid, Name, address, mobile, state_id, cityID = "", city_id, pincode, landmark;
+    private String userid, Name, address, mobile, stateName, cityID = "", cityName, pincode, landmark,countryName;
     private EditText etFirstName, etMobileNo, etAddress, etPincode, etLandMark;
     private Button buttonSave;
-    public EditText etState, etCity;
+    public EditText etState, etCity,etCountry;
     public RelativeLayout activity_add_address;
     private ProgressBarHandler progress_handler;
     Context context;
@@ -74,15 +71,15 @@ public class AddAddressActivity extends AppCompatActivity {
 
         address = appSharedPreference.getSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS.toString(), "");
 
-        state_id = appSharedPreference.getSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS_STATE.toString(), "");
-
-        city_id = appSharedPreference.getSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS_CITY.toString(), "");
+        stateName = appSharedPreference.getSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS_STATE.toString(), "");
+        countryName= appSharedPreference.getSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS_COUNTRY.toString());
+        cityName = appSharedPreference.getSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS_CITY.toString(), "");
 
         pincode = appSharedPreference.getSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS_PINCODE.toString(), "");
 
         landmark = appSharedPreference.getSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS_LANDMARK.toString(), "");
 
-        System.out.println("state_id-----------" + Name + mobile + address + state_id);
+        System.out.println("stateName-----------" + Name + mobile + address + stateName);
 
         setuptoolbar();
 
@@ -93,17 +90,19 @@ public class AddAddressActivity extends AppCompatActivity {
 
     private void setup_layout() {
         view = (ViewGroup) findViewById(android.R.id.content);
-        listfootername = (TextView) view.findViewById(R.id.listfootername);
+        listfootername = (TextView) findViewById(R.id.listfootername);
+        if(listfootername!=null)
         listfootername.setText("Add Address");
         activity_add_address = (RelativeLayout) findViewById(R.id.activity_add_address);
 
         etState = (EditText) findViewById(R.id.etStateCategory);
 
-        etState.setText(state_id);
-
+        etState.setText(stateName);
+        etCountry=(EditText) findViewById(R.id.etCountryCategory);
+        etCountry.setText(countryName);
         etCity = (EditText) findViewById(R.id.etCityCategory);
 
-        etCity.setText(city_id);
+        etCity.setText(cityName);
         deliveryHeader = (CustomCardViewHeader) findViewById(R.id.deliveryHeader);
 
 
@@ -153,7 +152,7 @@ public class AddAddressActivity extends AppCompatActivity {
                                                 if (!etLandMark.getText().toString().equals("")) {
 
                                                     System.out.println("userid------------" + userid + etFirstName.getText().toString() + etAddress.getText().toString());
-                                                    callAddCompanyWebService(userid, etFirstName.getText().toString(), etAddress.getText().toString(), etMobileNo.getText().toString(), etPincode.getText().toString(), etLandMark.getText().toString(), etState.getText().toString(), etCity.getText().toString());
+                                                    callAddCompanyWebService(userid, etFirstName.getText().toString(), etAddress.getText().toString(), etMobileNo.getText().toString(), etPincode.getText().toString(), etLandMark.getText().toString(), etState.getText().toString(), etCity.getText().toString(),etCountry.getText().toString());
 
                                                 } else {
                                                     showMessage("Please Enter Land mark");
@@ -209,7 +208,7 @@ public class AddAddressActivity extends AppCompatActivity {
 
     }
 
-    private void callAddCompanyWebService(String userId, final String firstName, final String address, final String phone, final String Pincode, final String landmark, final String state, final String city) {
+    private void callAddCompanyWebService(String userId, final String firstName, final String address, final String phone, final String Pincode, final String landmark, final String state, final String city,final String countryName) {
         progress_handler.show();
 
 
@@ -221,6 +220,7 @@ public class AddAddressActivity extends AppCompatActivity {
                 .setBodyParameter("pincode", Pincode)
                 .setBodyParameter("address", address)
                 .setBodyParameter("state", state)
+                .setBodyParameter("country", countryName)
                 .setBodyParameter("city", city)
                 .setBodyParameter("buyer_id", userId)
                 .setBodyParameter("phone", phone)
@@ -245,7 +245,7 @@ public class AddAddressActivity extends AppCompatActivity {
                         Intent checkout = new Intent(AddAddressActivity.this, CartCheckoutActivity.class);
                         checkout.putExtra("fname", etFirstName.getText().toString());
                         checkout.putExtra("mobile", etMobileNo.getText().toString());
-                        checkout.putExtra("state_id", state);
+                        checkout.putExtra("stateName", state);
                         checkout.putExtra("address", etAddress.getText().toString());
                         startActivity(checkout);
 
