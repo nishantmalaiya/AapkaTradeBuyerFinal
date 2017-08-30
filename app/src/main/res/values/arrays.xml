@@ -76,7 +76,17 @@
         <item>Closed</item>
         <item>Open</item>
     </string-array>
-
+    <string-array name="planets">
+        <item>Mercury</item>
+        <item>Venus</item>
+        <item>Earth</item>
+        <item>Mars</item>
+        <item>Jupiter</item>
+        <item>Saturn</item>
+        <item>Uranus</item>
+        <item>Neptune</item>
+        <item>Pluto</item>
+    </string-array>
 
     <string-array name="state_ids">
 
@@ -170,15 +180,6 @@
         <item>@color/random_color9_sellerdashboard</item>
 
 
-    </integer-array>
-
-
-    <integer-array name="welcome_screen">
-        <item>@drawable/welcome_slide_one</item>
-        <item>@drawable/welcome_slide_two</item>
-        <item>@drawable/welcome_slide_three</item>
-        <item>@drawable/welcome_slide_four</item>
-        <item>@drawable/welcome_slide_five</item>
     </integer-array>
 
 

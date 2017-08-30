@@ -2,97 +2,89 @@ package com.aapkatrade.buyer.home.buyerregistration;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.Toolbar;
-import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.aapkatrade.buyer.Manifest;
-import com.aapkatrade.buyer.categories_tab.particular_data.ParticularActivity;
-import com.aapkatrade.buyer.general.CheckPermission;
 import com.aapkatrade.buyer.general.ConnetivityCheck;
-import com.aapkatrade.buyer.general.LocationManagerCheck;
-import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
+import com.aapkatrade.buyer.general.interfaces.CommonInterface;
 import com.aapkatrade.buyer.home.HomeActivity;
 import com.aapkatrade.buyer.home.buyerregistration.entity.BuyerRegistration;
 import com.aapkatrade.buyer.home.buyerregistration.entity.City;
-import com.aapkatrade.buyer.home.buyerregistration.spinner_adapter.SpCityAdapter;
+import com.aapkatrade.buyer.home.buyerregistration.entity.Country;
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.AppConfig;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
-import com.aapkatrade.buyer.general.Utils.adapter.CustomSpinnerAdapter;
 import com.aapkatrade.buyer.general.Validation;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
-import com.aapkatrade.buyer.location.Mylocation;
 import com.aapkatrade.buyer.login.ActivityOTPVerify;
 
+import com.aapkatrade.buyer.uicomponent.customspinner.CountryStateSelectSpinner;
+import com.aapkatrade.buyer.uicomponent.customspinner.Idtype;
 import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
-public class BuyerRegistrationActivity extends AppCompatActivity
-{
-    private static BuyerRegistration formBuyerData = new BuyerRegistration();
+public class BuyerRegistrationActivity extends AppCompatActivity {
+    public static BuyerRegistration formBuyerData = new BuyerRegistration();
     private int isAllFieldSet = 0;
-    private Spinner spState, spCity;
+    //    public SearchableSpinner
+    CountryStateSelectSpinner spState, spCountry, spCity;
+    ;
     private EditText etFirstName, etLastName, etEmail, etMobileNo, etAddress, etPassword, etReenterPassword;
     private TextView tvSave, tv_agreement;
     private LinearLayout registrationLayout;
     private ArrayList<String> stateList = new ArrayList<>();
     private ArrayList<String> stateIds = new ArrayList<>();
     private ArrayList<City> cityList = new ArrayList<>();
-    private String stateID = "", cityID = "";
+    public String stateID = "", countryID = "", cityID = "";
     private DatePickerDialog datePickerDialog;
     private ProgressBarHandler progressBarHandler;
     private Context context;
     private CheckBox agreement_check;
     String refreshedToken;
+    ArrayList<String> countries_ = new ArrayList<>();
+    Country countryname;
+    public static CommonInterface commonInterface;
 
-SmsManager smsManager;
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
 
         context = BuyerRegistrationActivity.this;
 
-         refreshedToken = FirebaseInstanceId.getInstance().getToken();
 
-        System.out.println("refreshedToken2----------------"+refreshedToken);
+        refreshedToken = FirebaseInstanceId.getInstance().getToken();
+
+        System.out.println("refreshedToken2----------------" + refreshedToken);
 
 
         setUpToolBar();
 
         initView();
 
-        getState();
+        // getCountries();
 
-        tvSave.setOnClickListener(new View.OnClickListener()
-        {
+        //getState();
+
+        tvSave.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 Log.e("reach", "reach3");
                 getBuyerFormData();
                 validateFields();
@@ -105,8 +97,19 @@ SmsManager smsManager;
 
     }
 
-    private void callWebServiceForBuyerRegistration()
-    {
+
+    private AppCompatActivity scanForActivity(Context cont) {
+        if (cont == null)
+            return null;
+        else if (cont instanceof Activity)
+            return (AppCompatActivity) cont;
+        else if (cont instanceof ContextWrapper)
+            return scanForActivity(((ContextWrapper) cont).getBaseContext());
+
+        return null;
+    }
+
+    private void callWebServiceForBuyerRegistration() {
 
         Log.e("reach", " Buyer Data--------->\n" + formBuyerData.toString());
 
@@ -128,7 +131,7 @@ SmsManager smsManager;
                 .setBodyParameter("mobile", formBuyerData.getMobile())
                 .setBodyParameter("password", formBuyerData.getPassword())
                 .setBodyParameter("client_id", formBuyerData.getClientId())
-                .setBodyParameter("token",refreshedToken)
+                .setBodyParameter("token", refreshedToken)
                 .asJsonObject()
                 .setCallback(new FutureCallback<JsonObject>() {
                     @Override
@@ -138,18 +141,12 @@ SmsManager smsManager;
                             if (result.get("error").getAsString().equals("false")) {
 
 
-
-
-
-
-
                                 Log.e("registration_buyer", result.toString());
                                 AndroidUtils.showSnackBar(registrationLayout, result.get("message").getAsString());
 
                                 progressBarHandler.hide();
 
-                                if(ConnetivityCheck.isNetworkAvailable(context))
-                                {
+                                if (ConnetivityCheck.isNetworkAvailable(context)) {
                                     Intent call_to_startactivity = new Intent(BuyerRegistrationActivity.this, ActivityOTPVerify.class);
                                     call_to_startactivity.putExtra("email", etEmail.getText().toString());
                                     call_to_startactivity.putExtra("name", etFirstName.getText().toString());
@@ -165,9 +162,7 @@ SmsManager smsManager;
                                     System.out.println("data is available");
 
                                     startActivity(call_to_startactivity);
-                                }
-                                else {
-
+                                } else {
 
 
                                     AndroidUtils.showToast(context, "!Internet not available. Check your internet connection.");
@@ -187,84 +182,6 @@ SmsManager smsManager;
                 });
     }
 
-
-    private void getState() {
-        stateList = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.state_list)));
-        stateIds = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.state_ids)));
-        CustomSpinnerAdapter spinnerArrayAdapter = new CustomSpinnerAdapter(context, stateList);
-        spState.setAdapter(spinnerArrayAdapter);
-        spState.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                cityList = new ArrayList<>();
-                AndroidUtils.showErrorLog(context, "State Id is ::::::::" + position);
-                if (position > 0) {
-                    stateID = String.valueOf(position);
-                    findViewById(R.id.input_layout_city).setVisibility(View.VISIBLE);
-                    findViewById(R.id.view1).setVisibility(View.VISIBLE);
-
-                    getCity(String.valueOf(stateIds.get(position)));
-
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-    }
-
-    private void getCity(String stateId) {
-        progressBarHandler.show();
-        findViewById(R.id.input_layout_city).setVisibility(View.VISIBLE);
-        Ion.with(context)
-                .load("http://aapkatrade.com/slim/dropdown")
-                .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
-                .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
-                .setBodyParameter("type", "city")
-                .setBodyParameter("id", stateId)
-                .asJsonObject()
-                .setCallback(new FutureCallback<JsonObject>() {
-                    @Override
-                    public void onCompleted(Exception e, JsonObject result) {
-                        progressBarHandler.hide();
-                        Log.e("city result ", result == null ? "null" : result.toString());
-
-                        if (result != null) {
-                            JsonArray jsonResultArray = result.getAsJsonArray("result");
-
-                            City cityEntity_init = new City("-1", "Please Select City");
-                            cityList.add(cityEntity_init);
-
-                            for (int i = 0; i < jsonResultArray.size(); i++) {
-                                JsonObject jsonObject1 = (JsonObject) jsonResultArray.get(i);
-                                City cityEntity = new City(jsonObject1.get("id").getAsString(), jsonObject1.get("name").getAsString());
-                                cityList.add(cityEntity);
-                            }
-
-                            SpCityAdapter spCityAdapter = new SpCityAdapter(context, cityList);
-                            spCity.setAdapter(spCityAdapter);
-
-                            spCity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                                @Override
-                                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                                    cityID = cityList.get(position).cityId;
-                                }
-
-                                @Override
-                                public void onNothingSelected(AdapterView<?> parent) {
-
-                                }
-                            });
-                        } else {
-                            showMessage("No City Found");
-                        }
-                    }
-
-                });
-
-    }
 
     private void setUpToolBar() {
         AppCompatImageView homeIcon = (AppCompatImageView) findViewById(R.id.logoWord);
@@ -304,12 +221,13 @@ SmsManager smsManager;
         return super.onOptionsItemSelected(item);
     }
 
-    private void initView()
-    {
+    public void initView() {
         progressBarHandler = new ProgressBarHandler(this);
         registrationLayout = (LinearLayout) findViewById(R.id.registrationLayout);
-        spState = (Spinner) findViewById(R.id.spStateCategory);
-        spCity = (Spinner) findViewById(R.id.spCityCategory);
+
+        spCountry = (CountryStateSelectSpinner) findViewById(R.id.spCountry);
+        spState = (CountryStateSelectSpinner) findViewById(R.id.spStateCategory);
+        spCity = (CountryStateSelectSpinner) findViewById(R.id.spCityCategory);
         tvSave = (TextView) findViewById(R.id.tvSave);
         tvSave.setText(getString(R.string.save));
 
@@ -333,12 +251,46 @@ SmsManager smsManager;
                 }
             }
         });
+        commonInterface = new CommonInterface() {
+            @Override
+            public Object getData(Object object) {
+                Idtype idtype = (Idtype) object;
+                String type = idtype.type;
+                if (type.equals("country")) {
+                    formBuyerData.setCountryId(idtype.id);
+                    countryID = idtype.id;
+                    if (spState != null) {
+                        AndroidUtils.showErrorLog(context, "spState not null");
+                        spState.setText("select state");
+                        spCity.setText("select city");
+                        formBuyerData.setStateId("");
+                        // spState.hitStateWebService(true);
 
-        findViewById(R.id.input_layout_city).setVisibility(View.GONE);
-        findViewById(R.id.view1).setVisibility(View.GONE);
+                    }
+
+
+                } else if (type.equals("state")) {
+                    stateID = idtype.id;
+                    formBuyerData.setStateId(idtype.id);
+                    spCity.setText("select city");
+                    //spCity.hitCityWebService(true);
+                } else if (type.equals("city")) {
+                    cityID = idtype.id;
+                    formBuyerData.setCityId(idtype.id);
+
+
+                }
+
+
+                AndroidUtils.showErrorLog(context, "integer value", type + "*******" + idtype.id);
+
+                return null;
+            }
+        };
 
 
     }
+
 
     private void validateFields() {
         isAllFieldSet = 0;
@@ -355,10 +307,10 @@ SmsManager smsManager;
             } else if (!Validation.isValidNumber(formBuyerData.getMobile(), Validation.getNumberPrefix(formBuyerData.getMobile()))) {
                 putError(3);
                 isAllFieldSet++;
-            } else if (spState == null || spState.getSelectedItemPosition() == 0) {
+            } else if (spState == null) {
                 showMessage("Please Select State");
                 isAllFieldSet++;
-            } else if (spCity == null || spCity.getSelectedItemPosition() == 0) {
+            } else if (spCity == null) {
                 showMessage("Please Select City");
                 isAllFieldSet++;
             } else if (Validation.isEmptyStr(formBuyerData.getAddress())) {
@@ -386,8 +338,7 @@ SmsManager smsManager;
         }
     }
 
-    private void putError(int id)
-    {
+    private void putError(int id) {
         Log.e("reach", "       )))))))))" + id);
         switch (id) {
             case 0:
@@ -441,6 +392,7 @@ SmsManager smsManager;
 
 
     public void getBuyerFormData() {
+        formBuyerData.setCountryId(countryID == null ? "" : countryID);
         formBuyerData.setStateId(stateID == null ? "" : stateID);
         formBuyerData.setCityId(cityID == null ? "" : cityID);
         formBuyerData.setAddress(etAddress.getText().toString());
@@ -452,6 +404,5 @@ SmsManager smsManager;
         formBuyerData.setConfirmPassword(etReenterPassword.getText().toString());
         formBuyerData.setClientId(AppConfig.getCurrentDeviceId(BuyerRegistrationActivity.this));
     }
-
 
 }

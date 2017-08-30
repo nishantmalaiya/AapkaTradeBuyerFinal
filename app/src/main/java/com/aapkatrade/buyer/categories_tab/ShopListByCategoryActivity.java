@@ -107,6 +107,7 @@ public class ShopListByCategoryActivity extends AppCompatActivity {
     }
 
     private void initView() {
+        progressBarHandler = new ProgressBarHandler(this);
         view = (ViewGroup) findViewById(android.R.id.content);
         cardviewListContainer = (CardView) view.findViewById(R.id.cardview_list_container);
         llDataNotFound = (RelativeLayout) view.findViewById(R.id.ll_data_not_found);
@@ -153,7 +154,7 @@ public class ShopListByCategoryActivity extends AppCompatActivity {
                 getShopListData("0");
             }
         });
-        progressBarHandler = new ProgressBarHandler(this);
+
         layout_container = (CoordinatorLayout) view.findViewById(R.id.layout_container);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
         listfootername = (TextView) view.findViewById(R.id.listfootername);
@@ -394,7 +395,7 @@ public class ShopListByCategoryActivity extends AppCompatActivity {
 
                                 Log.e(AndroidUtils.getTag(context), result.toString());
                                 if (result.get("error").getAsString().contains("false")) {
-                                    if (Integer.parseInt(result.get("total_result").getAsString()) > 1) {
+                                    if (Integer.parseInt(result.get("total_result").getAsString()) > 0) {
                                         //toolbarRightText.setVisibility(View.VISIBLE);
                                         Log.e("data----------3", "sachin3");
 
@@ -720,5 +721,11 @@ public class ShopListByCategoryActivity extends AppCompatActivity {
 
     }
 
-
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        if ( progressBarHandler!=null  ){
+            progressBarHandler.hide();
+        }
+    }
 }

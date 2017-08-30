@@ -25,7 +25,7 @@
             android:theme="@style/MyTheme" />
 
         <activity
-            android:name=".dialog.SdkOtpProgressDialog"
+            android:name=".searchableListDialog.SdkOtpProgressDialog"
             android:label="@string/title_activity_otp_progress_dialog"
             android:screenOrientation="portrait"></activity>
         <activity

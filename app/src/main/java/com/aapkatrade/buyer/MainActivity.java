@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.aapkatrade.buyer.Notifications.MyFirebaseInstanceIDService;
 import com.aapkatrade.buyer.Notifications.NotificationUtils;
+import com.aapkatrade.buyer.general.AppConfig;
 import com.aapkatrade.buyer.home.HomeActivity;
 import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.ConnectivityNotFound;
@@ -35,6 +36,8 @@ import com.aapkatrade.buyer.service.GpsLocationService;
 import com.aapkatrade.buyer.welcome.WelcomeActivity;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
+
+import java.io.File;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -132,6 +135,9 @@ public class MainActivity extends AppCompatActivity {
                             startActivity(mainIntent);
                             finish();
                         } else {
+                            AppConfig.deleteCache(MainActivity.this);
+
+                            appSharedpreference.clearSharedPref();
                             // appSharedpreference.setSharedPrefInt(SharedPreferenceConstants.IS_FIRST_TIME.toString(), 1);
                             Intent mainIntent = new Intent(MainActivity.this, WelcomeActivity.class);
                             startActivity(mainIntent);
@@ -240,6 +246,9 @@ public class MainActivity extends AppCompatActivity {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mRegistrationBroadcastReceiver);
         super.onPause();
     }
+
+
+
 
 
 }

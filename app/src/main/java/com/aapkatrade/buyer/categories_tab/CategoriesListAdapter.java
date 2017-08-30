@@ -139,13 +139,13 @@ public class CategoriesListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
                         }
                         Log.e("time_taken 1", (System.currentTimeMillis() / 1000) + "");
-                        progressBarHandler.show();
+                       // progressBarHandler.show();
                         Intent intent = new Intent(context, GoogleMapActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         intent.putExtra("product_location", itemList.get(position).shopLocation);
                         context.startActivity(intent);
 
-                        progressBarHandler.hide();
+                       // progressBarHandler.hide();
                         Log.e("time_taken 2", (System.currentTimeMillis() / 1000) + "");
 
                     } else {
