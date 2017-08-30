@@ -196,7 +196,7 @@
                 android:layout_toLeftOf="@+id/img_got_it"
 
 
-                android:background="@drawable/img_navi_arow"></View>
+                android:background="@drawable/img_navi_arow" />
 
             <ImageView
                 android:id="@+id/img_trackorder"
@@ -208,7 +208,7 @@
                 android:layout_marginBottom="@dimen/sixty_dip"
 
                 android:layout_marginTop="@dimen/fifteen_dip"
-                android:background="@drawable/img_track_arow"></ImageView>
+                android:background="@drawable/img_track_arow" />
 
 
             <ImageView
@@ -227,7 +227,7 @@
                 android:layout_toRightOf="@+id/img_got_it"
                 android:background="@drawable/img_login_arow"
 
-                ></ImageView>
+               />
 
 
             <RelativeLayout
@@ -269,7 +269,7 @@
                 android:layout_toRightOf="@+id/img_got_it"
                 android:background="@drawable/img_ad_cart_arow"
 
-                ></ImageView>
+               />
 
             <RelativeLayout
                 android:layout_width="wrap_content"

@@ -24,15 +24,16 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.aapkatrade.buyer.categories_tab.viewall.ViewAllCategoryActivity;
 import com.aapkatrade.buyer.contact_us.ContactUsActivity;
 import com.aapkatrade.buyer.home.HomeActivity;
-import com.aapkatrade.buyer.home.navigation.adapter.NavigationAdapter;
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.Validation;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
+import com.aapkatrade.buyer.home.navigation.adapter.NavigationAdapter;
 import com.aapkatrade.buyer.home.navigation.entity.Category;
 import com.aapkatrade.buyer.login.LoginDashboard;
 import com.aapkatrade.buyer.privacypolicy.PrivacyPolicyActivity;
@@ -47,7 +48,6 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -64,7 +64,7 @@ public class NavigationFragment extends Fragment {
     private TextView textViewName, emailid, tv_user_heading;
     private NavigationAdapter categoryAdapter;
     public ArrayList<Category> listDataHeader = new ArrayList<>();
-    private RelativeLayout rlprofilepic, rlLogout, rlPolicy, rlTerms, rlInvite, rlContactUs;
+    private RelativeLayout rlprofilepic, rlLogout, rlPolicy, rlTerms, rlInvite, rlContactUs, rlViewAllCategories;
     private View rlMainContent;
     private ProgressBarHandler progressBarHandler;
     private RecyclerView navigationRecycleview;
@@ -112,8 +112,9 @@ public class NavigationFragment extends Fragment {
             }
         });
 
-        rlInvite = (RelativeLayout) view.findViewById(R.id.rl_invite);
-        rlContactUs = (RelativeLayout) view.findViewById(R.id.rl_contact_us);
+        rlInvite = view.findViewById(R.id.rl_invite);
+        rlContactUs = view.findViewById(R.id.rl_contact_us);
+        rlViewAllCategories = view.findViewById(R.id.rl_view_all_categories);
 
         rlInvite.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -165,7 +166,7 @@ public class NavigationFragment extends Fragment {
             }
         });
 
-        rlPolicy = (RelativeLayout) view.findViewById(R.id.rl_policy);
+        rlPolicy = view.findViewById(R.id.rl_policy);
         rlPolicy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -175,6 +176,16 @@ public class NavigationFragment extends Fragment {
 
             }
         });
+
+
+        rlViewAllCategories.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(context, ViewAllCategoryActivity.class));
+            }
+        });
+
+
         navigationClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -334,11 +345,9 @@ public class NavigationFragment extends Fragment {
 
                             listDataHeader = new ArrayList<>();
                             for (int i = 0; i < jsonResultArray.size(); i++) {
-                                /*if(i==10){
-                                    Category Category = new Category("-2", "View All Categores", "", null);
-                                    listDataHeader.add(Category);
+                                if(i==10){
                                     break;
-                                }*/
+                                }
                                 JsonObject jsonObject1 = (JsonObject) jsonResultArray.get(i);
 
                                 Category Category = new Category(jsonObject1.get("id").getAsString(), jsonObject1.get("name").getAsString(), jsonObject1.get("icon").getAsString(), null);

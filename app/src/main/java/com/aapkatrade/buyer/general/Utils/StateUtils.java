@@ -35,11 +35,11 @@ public class StateUtils {
             for (int i = 0; i < 3; i++) {
                 loadStateAPI();
                 if(isLoded){
-                    return stateList;
+                    break;
                 }
             }
         }
-        return null;
+        return stateList;
     }
 
 

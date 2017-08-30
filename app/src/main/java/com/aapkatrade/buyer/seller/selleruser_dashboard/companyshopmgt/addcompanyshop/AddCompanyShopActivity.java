@@ -403,7 +403,7 @@ public class AddCompanyShopActivity extends AppCompatActivity
         progressBarHandler.show();
         AndroidUtils.showErrorLog(context, "data", "getCategory Entered");
         Ion.with(context)
-                .load("http://aapkatrade.com/slim/dropdown")
+                .load(getString(R.string.webservice_base_url).concat("/dropdown"))
                 .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                 .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                 .setBodyParameter("type", "category")

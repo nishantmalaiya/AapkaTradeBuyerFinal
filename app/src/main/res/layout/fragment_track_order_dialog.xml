@@ -3,161 +3,182 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:cardBackgroundColor="@color/green"
     app:cardCornerRadius="@dimen/ten_dip"
-
     tools:context="com.aapkatrade.buyer.dialogs.track_order.TrackOrderDialog">
 
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        android:layout_height="match_parent">
-
-        <ImageView
-            android:id="@+id/dialog_close"
-            android:layout_width="@dimen/fourty_dip"
-            android:layout_height="@dimen/fourty_dip"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/ten_dip"
-            android:layout_marginTop="@dimen/ten_dip"
-            android:background="@drawable/delete" />
-
-        <LinearLayout
+        <RelativeLayout
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/dialog_close"
-            android:orientation="vertical"
-            android:weightSum="10">
+            android:layout_height="@dimen/fourty_dip"
+            android:background="@color/green">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-
-                android:layout_weight="4">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/track_order_background" />
+            <ImageView
+                android:id="@+id/dialog_close"
+                android:layout_width="@dimen/fourty_dip"
+                android:layout_height="@dimen/fourty_dip"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="@dimen/ten_dip"
+                android:layout_marginTop="@dimen/ten_dip"
+                android:contentDescription="@string/aacount_no"
+                android:src="@drawable/delete" />
 
 
-            </RelativeLayout>
+        </RelativeLayout>
 
+  <!--      <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent" >-->
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="6"
+                android:layout_height="fill_parent"
                 android:orientation="vertical"
-                android:weightSum="4">
+                android:weightSum="10" >
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_gravity="center_horizontal|center_vertical"
-                    android:layout_weight="1"
-                    android:gravity="center_horizontal|center_vertical">
+                    android:layout_weight="4"
+                    android:background="@color/green">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/trackorder"
-                        android:textColor="@color/white" />
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="@dimen/twenty_dip"
+                        android:src="@drawable/track_order_background" />
 
 
                 </RelativeLayout>
 
-                <RelativeLayout
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_gravity="center_horizontal|center_vertical"
-                    android:layout_margin="@dimen/ten_dip"
-                    android:layout_weight="1"
-                    android:gravity="center_horizontal|center_vertical">
+                    android:layout_weight="6"
+                    android:orientation="vertical" >
 
 
-                    <android.support.design.widget.TextInputLayout
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center_horizontal"
-                        android:hint="@string/tracking_text"
-                        android:textColorHint="#04956E"
-
-                        app:hintTextAppearance="@style/TextInputLayout"
+                        android:layout_gravity="center_horizontal|center_vertical"
+                        android:gravity="center_horizontal|top">
 
 
-                        >
+                        <ImageView
+                            android:layout_width="@dimen/fifty_dip"
+                            android:layout_height="@dimen/fifteen_dip"
+                            android:background="@drawable/triangle_green"
+                            android:scaleType="fitCenter" />
 
-                        <EditText
-                            android:id="@+id/et_orderid"
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/twenty_dip"
+                        android:layout_gravity="center_horizontal|center_vertical"
+                        android:gravity="center_horizontal|center_vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/trackorder"
+                            android:textColor="@color/green_dark"
+                            android:textSize="@dimen/twenty_five_dip"
+                            android:textStyle="bold"
+                            tools:ignore="SpUsage" />
+
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal|center_vertical"
+                        android:layout_margin="@dimen/ten_dip"
+                        android:gravity="center_horizontal|center_vertical">
+
+
+                        <android.support.design.widget.TextInputLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:gravity="center_horizontal"
-                            android:inputType="number"
-                            android:maxLength="14"
-android:layout_marginLeft="@dimen/ten_dip"
-                            android:layout_marginRight="@dimen/ten_dip"
-                            android:textColor="@color/white"
-                            android:textColorHint="#04956E"
-                            app:hintTextAppearance="@style/TextInputLayout"
-                           app:theme="@style/myedittextWhite"
-
-                            />
+                            android:gravity="start"
+                            android:hint="@string/tracking_text"
+                            android:textColorHint="@color/black"
 
 
-                    </android.support.design.widget.TextInputLayout>
+                            >
+
+                            <EditText
+                                android:id="@+id/et_orderid"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/ten_dip"
+                                android:layout_marginRight="@dimen/ten_dip"
+                                android:gravity="start"
+                                android:inputType="number"
+                                android:maxLength="14"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/black_overlay"
+                                app:hintTextAppearance="@style/TextInputLayout"
+
+                                />
 
 
-                </RelativeLayout>
+                        </android.support.design.widget.TextInputLayout>
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_gravity="center_horizontal|center_vertical"
-                    android:layout_weight="1"
-                    android:gravity="center_horizontal|center_vertical"
-                    android:padding="@dimen/twenty_dip">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center_horizontal"
+                        android:layout_gravity="center_horizontal|center_vertical"
+                        android:gravity="center_horizontal|center_vertical"
+                        android:padding="@dimen/twenty_dip">
 
-                        android:minLines="2"
-                        android:text="@string/trackorder_heading"
-                        android:textColor="@color/white" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:minLines="2"
+                            android:text="@string/trackorder_heading"
+                            android:textAlignment="center"
+                            android:textColor="@color/black" />
 
 
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_gravity="center_horizontal|bottom"
-                    android:layout_weight="1"
-                    android:gravity="bottom">
-
+                    </RelativeLayout>
 
                     <Button
                         android:id="@+id/btn_trackorder"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_margin="@dimen/twenty_dip"
-                        android:background="#04956D"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/twenty_dip"
+                        android:layout_gravity="center_horizontal|bottom"
+                        android:layout_marginBottom="@dimen/twenty_dip"
+                        android:paddingEnd="@dimen/fifty_dip"
+                        android:paddingStart="@dimen/fifty_dip"
                         android:text="@string/continue_order"
                         android:textAllCaps="true"
                         android:textColor="@color/white" />
 
-                </RelativeLayout>
+
+                </LinearLayout>
 
 
             </LinearLayout>
 
+<!--
+        </android.support.v4.widget.NestedScrollView>-->
+    </LinearLayout>
 
-        </LinearLayout>
-
-
-    </RelativeLayout>
 
 </android.support.v7.widget.CardView>

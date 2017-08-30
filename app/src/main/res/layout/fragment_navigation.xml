@@ -27,8 +27,8 @@
         </View>
 
         <RelativeLayout
-            android:layout_width="wrap_content"
             android:id="@+id/navigation_profile"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:background="@drawable/navigation_profile_bg"
@@ -154,11 +154,36 @@
 
 
             <RelativeLayout
-                android:id="@+id/rl_terms"
+                android:id="@+id/rl_view_all_categories"
                 android:layout_width="match_parent"
 
                 android:layout_height="45dp"
                 android:layout_below="@+id/recycle_view_navigation"
+                android:background="@color/blue_gradient">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="26dp"
+                    android:text="@string/view_all_categories"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/blue_gradient_dark" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_terms"
+                android:layout_width="match_parent"
+
+                android:layout_height="45dp"
+                android:layout_below="@+id/rl_view_all_categories"
                 android:background="@color/blue_gradient">
 
                 <TextView

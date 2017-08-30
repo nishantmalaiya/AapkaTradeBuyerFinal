@@ -358,5 +358,6 @@
     <string name="wallet_transaction_text">Wallet Transaction History</string>
     <string name="select_state_heading">STATE</string>
 
-    <string name="continue_search" >CONTINUE</string>
+    <string name="continue_search" >CONTINIUE</string>
+    <string name="view_all_categories">View All Categories</string>
 </resources>

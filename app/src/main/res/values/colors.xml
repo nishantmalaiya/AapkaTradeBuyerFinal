@@ -6,6 +6,7 @@
     <color name="hint_color">#606060</color>
     <color name="color_voilet">#FF6600</color>
     <color name="green">#63BEAC</color>
+    <color name="green_dark">#04956E</color>
     <color name="blue">#FF1784C7</color>
 
     <color name="listing_not_found_color">#f96e38</color>

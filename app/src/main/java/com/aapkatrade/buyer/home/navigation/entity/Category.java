@@ -29,6 +29,17 @@ public class Category
         setCategoryIconPath(createIconPath(categoryName));
     }
 
+
+    public Category(String categoryId, String categoryName, String categoryIconName) {
+        this.categoryId = categoryId;
+        this.categoryName = categoryName;
+        this.categoryIconName = categoryIconName;
+        this.subCategoryList=null;
+        setCategoryIconPath(createIconPath(categoryName));
+    }
+
+
+
     private String createIconPath(String iconName){
         return Validation.isNonEmptyStr(iconName)? basePath+iconName.replaceAll(" |/|&","")+iconExtention: "";
     }

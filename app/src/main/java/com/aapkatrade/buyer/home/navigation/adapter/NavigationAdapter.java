@@ -100,15 +100,15 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationViewHolder
                         String currentLongitude = appSharedPreference.getSharedPref(SharedPreferenceConstants.CURRENT_LONGITUDE.toString(), "0.0");
                         appSharedPreference.getSharedPref(SharedPreferenceConstants.CURRENT_STATE_NAME.toString(), "Haryana");
 
-                        /*if (position != 10) {*/
+                        if (position != 10) {
                             Intent i = new Intent(context, ShopListByCategoryActivity.class);
                             i.putExtra("category_id", listDataHeader.get(currentPosition).getCategoryId());
                             i.putExtra("latitude", currentLatitude);
                             i.putExtra("longitude", currentLongitude);
                             context.startActivity(i);
-                        //} /*else {
-                           // context.startActivity(new Intent(context, ViewAllCategoryActivity.class));
-
+                        } else {
+                            context.startActivity(new Intent(context, ViewAllCategoryActivity.class));
+                        }
 
 
 
