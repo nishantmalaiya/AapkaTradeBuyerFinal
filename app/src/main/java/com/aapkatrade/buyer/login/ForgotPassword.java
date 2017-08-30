@@ -24,9 +24,6 @@ import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.smsreceiver.SmsListener;
 import com.aapkatrade.buyer.smsreceiver.SmsReceiver;
 
-
-
-
 public class ForgotPassword extends AppCompatActivity
 {
 
@@ -52,9 +49,6 @@ public class ForgotPassword extends AppCompatActivity
         setUpToolBar();
         setupForgetpassword(class_index);
 
-
-        setupForgetpassword(class_index);
-        setUpToolBar();
         initView();
 
 

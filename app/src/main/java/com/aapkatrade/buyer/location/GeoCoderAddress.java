@@ -17,9 +17,10 @@ public class GeoCoderAddress {
 
     Context c;
     public double latitude, longitude;
-    String result ;
-    HashMap<Object,String > geocoder_address_list=new HashMap<>();
-   // ProgressBarHandler progressBarHandler;
+    String result;
+    HashMap<Object, String> geocoder_address_list = new HashMap<>();
+
+    // ProgressBarHandler progressBarHandler;
     public GeoCoderAddress(Context c, double latitude, double longitude) {
         this.c = c;
         this.latitude = latitude;
@@ -30,10 +31,8 @@ public class GeoCoderAddress {
     }
 
 
-
-
-    public HashMap<Object,String > get_state_name() {
-       // progressBarHandler.show();
+    public HashMap<Object, String> get_state_name() {
+        // progressBarHandler.show();
         android.location.Geocoder geocoder = new android.location.Geocoder(c, Locale.getDefault());
 
 
@@ -49,31 +48,25 @@ public class GeoCoderAddress {
                 result = address.getAdminArea();
 
 
-
                 geocoder_address_list.put(AddressEnum.STATE, address.getAdminArea());
                 geocoder_address_list.put(AddressEnum.CITY, address.getLocality());
                 geocoder_address_list.put(AddressEnum.ADDRESS, address.getCountryName());
                 geocoder_address_list.put(AddressEnum.PINCODE, address.getPostalCode());
 
-               // progressBarHandler.hide();
+                // progressBarHandler.hide();
 
-            }
-            else {
+            } else {
 
-                Log.e("addressList_is_empty","addressList_is_empty");
+                Log.e("addressList_is_empty", "addressList_is_empty");
             }
 
 
         } catch (IOException e) {
             e.printStackTrace();
-           // progressBarHandler.hide();
+            // progressBarHandler.hide();
         }
         return geocoder_address_list;
     }
-
-
-
-
 
 
 }

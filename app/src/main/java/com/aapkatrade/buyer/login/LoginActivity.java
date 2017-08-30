@@ -29,6 +29,7 @@ import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Validation;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
 import com.aapkatrade.buyer.seller.registration.SellerRegistrationActivity;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
@@ -52,6 +53,9 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_login);
+
+        FirebaseApp.initializeApp(this);
+
         if (FirebaseInstanceId.getInstance().getToken() != null) {
 
             refreshedToken = FirebaseInstanceId.getInstance().getToken();
@@ -91,14 +95,14 @@ public class LoginActivity extends AppCompatActivity {
                     startActivity(registerUserActivity);
                 } else {
 
-                   if(ConnetivityCheck.isNetworkAvailable(context))
+                    if(ConnetivityCheck.isNetworkAvailable(context))
                     {
                         Intent registerUserActivity = new Intent(context, BuyerRegistrationActivity.class);
                         startActivity(registerUserActivity);
                     }
                     else{
-                       AndroidUtils.showToast(context, "!Internet not available. Check your internet connection.");
-                   }
+                        AndroidUtils.showToast(context, "!Internet not available. Check your internet connection.");
+                    }
                 }
 
 
@@ -323,6 +327,7 @@ public class LoginActivity extends AppCompatActivity {
         String user_id = appSharedpreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString(), "notlogin");
 
         System.out.println("user_id--------------" + user_id);
+        System.out.println("user_type--------------" +appSharedpreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString(), ""));
 
         if (user_id.equals("notlogin")) {
             user_id = "";

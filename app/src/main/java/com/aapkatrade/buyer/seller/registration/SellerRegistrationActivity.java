@@ -38,6 +38,7 @@ import android.widget.TextView;
 
 import com.aapkatrade.buyer.animation.Animations;
 import com.aapkatrade.buyer.general.ConnetivityCheck;
+import com.aapkatrade.buyer.general.interfaces.CommonInterface;
 import com.aapkatrade.buyer.home.HomeActivity;
 import com.aapkatrade.buyer.home.buyerregistration.entity.City;
 import com.aapkatrade.buyer.home.buyerregistration.entity.Country;
@@ -55,6 +56,7 @@ import com.aapkatrade.buyer.general.Validation;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
 import com.aapkatrade.buyer.login.ActivityOTPVerify;
 import com.aapkatrade.buyer.uicomponent.customcardview.CustomCardViewHeader;
+import com.aapkatrade.buyer.uicomponent.customspinner.Idtype;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
@@ -64,7 +66,7 @@ import com.nbsp.materialfilepicker.MaterialFilePicker;
 import com.nbsp.materialfilepicker.ui.FilePickerActivity;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
-
+import com.aapkatrade.buyer.uicomponent.customspinner.CountryStateSelectSpinner;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileDescriptor;
@@ -80,10 +82,11 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class SellerRegistrationActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener {
 
-    private static SellerRegistration formSellerData = new SellerRegistration();
+    public static SellerRegistration formSellerData = new SellerRegistration();
     private int isAllFieldSet = 0;
     private LinearLayout uploadCard, ll_content_seller_registration;
-    private Spinner spBussinessCategory, spState, spCity;
+    private CountryStateSelectSpinner spCountry, spState, spCity;
+    private Spinner spBussinessCategory;
     private String[] spBussinessName = {"Please Select Business Type", "Licence", "Personal"};
     private EditText etProductName, etFirstName, etLastName, etDOB, etEmail, etMobileNo, etAddress, etPassword, etReenterPassword, et_tin_number, et_tan_number, etReferenceNo;
     private TextView tvSave, uploadMsg, tv_agreement, tvListFootername;
@@ -108,6 +111,7 @@ public class SellerRegistrationActivity extends AppCompatActivity implements Tim
     private RelativeLayout relativeCompanyListheader;
     private Context context;
     private CheckBox agreement_check;
+    public static CommonInterface commonInterface;
     CustomCardViewHeader customCardViewHeaderBusinessDetail, customCardViewHeaderPersonalDetail, customCardViewHeaderSignUpDetails;
 //    private ImageView collapseoropenim_business, collapseoropenim_personal, collapseoropenim_user;
 
@@ -122,7 +126,7 @@ public class SellerRegistrationActivity extends AppCompatActivity implements Tim
         initView();
         saveUserTypeInSharedPreferences();
         setUpBusinessCategory();
-        getState();
+       // getState();
 
         uploadPDFButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -195,6 +199,59 @@ public class SellerRegistrationActivity extends AppCompatActivity implements Tim
                 previewPDFLayout.setVisibility(View.GONE);
             }
         });
+
+
+        commonInterface = new CommonInterface() {
+            @Override
+            public Object getData(Object object) {
+                Idtype idtype = (Idtype) object;
+                String type = idtype.type;
+                if (type.equals("country")) {
+                    formSellerData.setCountryId(idtype.id);
+                    countryID = idtype.id;
+                    if (spState != null) {
+                        AndroidUtils.showErrorLog(context, "spState not null");
+                        spState.setText("select state");
+                        spCity.setText("select city");
+                        formSellerData.setStateId("");
+
+
+                        // spState.hitStateWebService(true);
+
+                    }
+
+
+                } else if (type.equals("state")) {
+                    stateID = idtype.id;
+                    formSellerData.setStateId(idtype.id);
+                    spCity.setText("select city");
+                    //spCity.hitCityWebService(true);
+                } else if (type.equals("city")) {
+                    cityID = idtype.id;
+                    formSellerData.setCityId(idtype.id);
+
+
+                }
+
+
+                AndroidUtils.showErrorLog(context, "integer value", type + "*******" + idtype.id);
+
+                return null;
+            }
+        };
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     }
@@ -471,7 +528,7 @@ public class SellerRegistrationActivity extends AppCompatActivity implements Tim
 
 
     private void getState() {
-        stateList = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.state_list)));
+    /*    stateList = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.state_list)));
         stateIds = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.state_ids)));
         CustomSpinnerAdapter spinnerArrayAdapter = new CustomSpinnerAdapter(context, stateList);
         spState.setAdapter(spinnerArrayAdapter);
@@ -494,12 +551,12 @@ public class SellerRegistrationActivity extends AppCompatActivity implements Tim
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
-        });
+        });*/
     }
 
 
     private void getCity(String stateId) {
-        progressBarHandler.show();
+     /*   progressBarHandler.show();
         findViewById(R.id.input_layout_city).setVisibility(View.VISIBLE);
         Ion.with(context)
                 .load("http://aapkatrade.com/slim/dropdown")
@@ -545,7 +602,7 @@ public class SellerRegistrationActivity extends AppCompatActivity implements Tim
                         }
                     }
 
-                });
+                });*/
     }
 
 
@@ -599,8 +656,9 @@ public class SellerRegistrationActivity extends AppCompatActivity implements Tim
         progressBarHandler = new ProgressBarHandler(this);
         registrationLayout = (LinearLayout) findViewById(R.id.registrationLayout);
         spBussinessCategory = (Spinner) findViewById(R.id.spBussinessCategory);
-        spState = (Spinner) findViewById(R.id.spStateCategory);
-        spCity = (Spinner) findViewById(R.id.spCityCategory);
+        spCountry=(CountryStateSelectSpinner) findViewById(R.id.spCountryCategory);
+        spState = (CountryStateSelectSpinner) findViewById(R.id.spStateCategory);
+        spCity = (CountryStateSelectSpinner) findViewById(R.id.spCityCategory);
         tvSave = (TextView) findViewById(R.id.tvSave);
         tvSave.setText(getString(R.string.save));
         uploadMsg = (TextView) findViewById(R.id.uploadMsg);
@@ -646,10 +704,10 @@ public class SellerRegistrationActivity extends AppCompatActivity implements Tim
         });
 
 
-        City cityEntity_init = new City("-1", "Please Select City");
+       /* City cityEntity_init = new City("-1", "Please Select City");
         cityList.add(cityEntity_init);
         SpCityAdapter spCityAdapter = new SpCityAdapter(context, cityList);
-        spCity.setAdapter(spCityAdapter);
+        spCity.setAdapter(spCityAdapter);*/
 
         AndroidUtils.setGradientColor(ll_content_seller_registration, android.graphics.drawable.GradientDrawable.RECTANGLE, ContextCompat.getColor(context, R.color.datanotfound_gradient_bottom), ContextCompat.getColor(context, R.color.datanotfound_gradient_top), android.graphics.drawable.GradientDrawable.Orientation.TOP_BOTTOM, 0);
 

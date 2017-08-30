@@ -256,8 +256,13 @@ public class ProductDetailActivity extends AppCompatActivity {
 
         tvPinCodeCheck.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                AndroidUtils.showToast(context, "Currently this feature is not available.");
+            public void onClick(View v)
+            {
+
+                //AndroidUtils.showToast(context, "Currently this feature is not available.");
+                callwebservice_check_delivery(editTextPostalCode.getText().toString());
+
+
             }
         });
 
@@ -562,6 +567,41 @@ public class ProductDetailActivity extends AppCompatActivity {
 
     }
 
+
+    public  void callwebservice_check_delivery(String pincode){
+        progressBarHandler.show();
+
+        Ion.with(context)
+                .load(context.getResources().getString(R.string.webservice_base_url)+"/check_delivery")
+                .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                .setBodyParameter("pincode", pincode)
+                .asJsonObject()
+                .setCallback(new FutureCallback<JsonObject>() {
+                    @Override
+                    public void onCompleted(Exception e, JsonObject result) {
+
+                        if (result != null)
+                        {
+
+                            progressBarHandler.hide();
+                            System.out.println("result--------------" + result);
+                            String message = result.get("message").getAsString();
+                            AndroidUtils.showToast(context, message);
+
+                        }
+                        else
+                        {
+                            progressBarHandler.hide();
+                            AndroidUtils.showToast(context, "Server is not responding. Please try again.");
+                        }
+
+                    }
+                });
+
+
+
+    }
 
     private void callwebservice__add_tocart_buy(String product_id, String device_id, String product_name, String price, String qty) {
         progressBarHandler.show();

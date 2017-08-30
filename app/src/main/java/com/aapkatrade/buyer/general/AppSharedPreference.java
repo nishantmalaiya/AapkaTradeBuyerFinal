@@ -69,5 +69,8 @@ public class AppSharedPreference extends Application {
         return sharedPreferences.getBoolean(pref_key, false);
     }
 
-
+    public void clearSharedPref() {
+        editor.clear();
+        editor.commit();
+    }
 }

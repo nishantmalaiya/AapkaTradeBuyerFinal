@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -34,26 +35,24 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 
-public class AddAddressActivity extends AppCompatActivity
-{
+public class AddAddressActivity extends AppCompatActivity {
 
     private ArrayList<String> stateList = new ArrayList<>();
     private AppSharedPreference appSharedPreference;
-    private String userid, Name, address, mobile, state_id,cityID = "",city_id,pincode,landmark;
-    private EditText etFirstName, etMobileNo, etAddress,etPincode,etLandMark;
+    private String userid, Name, address, mobile, state_id, cityID = "", city_id, pincode, landmark;
+    private EditText etFirstName, etMobileNo, etAddress, etPincode, etLandMark;
     private Button buttonSave;
-    public EditText etState,etCity;
+    public EditText etState, etCity;
     public RelativeLayout activity_add_address;
     private ProgressBarHandler progress_handler;
     Context context;
     private ArrayList<City> cityList = new ArrayList<>();
     private CustomCardViewHeader deliveryHeader;
+    TextView listfootername;
 
-
-
+    private ViewGroup view;
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
 
@@ -79,23 +78,23 @@ public class AddAddressActivity extends AppCompatActivity
 
         city_id = appSharedPreference.getSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS_CITY.toString(), "");
 
-        pincode  = appSharedPreference.getSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS_PINCODE.toString(), "");
+        pincode = appSharedPreference.getSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS_PINCODE.toString(), "");
 
         landmark = appSharedPreference.getSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS_LANDMARK.toString(), "");
 
-        System.out.println("state_id-----------" + Name+mobile+address+state_id);
+        System.out.println("state_id-----------" + Name + mobile + address + state_id);
 
         setuptoolbar();
 
         setup_layout();
 
 
-
     }
 
-    private void setup_layout()
-    {
-
+    private void setup_layout() {
+        view = (ViewGroup) findViewById(android.R.id.content);
+        listfootername = (TextView) view.findViewById(R.id.listfootername);
+        listfootername.setText("Add Address");
         activity_add_address = (RelativeLayout) findViewById(R.id.activity_add_address);
 
         etState = (EditText) findViewById(R.id.etStateCategory);
@@ -106,7 +105,6 @@ public class AddAddressActivity extends AppCompatActivity
 
         etCity.setText(city_id);
         deliveryHeader = (CustomCardViewHeader) findViewById(R.id.deliveryHeader);
-
 
 
         etFirstName = (EditText) findViewById(R.id.etFirstName);
@@ -135,99 +133,71 @@ public class AddAddressActivity extends AppCompatActivity
 
         buttonSave.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
 
-                if (!etFirstName.getText().toString().equals(""))
-                {
+                if (!etFirstName.getText().toString().equals("")) {
 
-                    if (!etMobileNo.getText().toString().equals(""))
-                    {
+                    if (!etMobileNo.getText().toString().equals("")) {
 
-                        if (Validation.isValidNumber(etMobileNo.getText().toString(), Validation.getNumberPrefix(etMobileNo.getText().toString())))
-                        {
+                        if (Validation.isValidNumber(etMobileNo.getText().toString(), Validation.getNumberPrefix(etMobileNo.getText().toString()))) {
 
-                            if (!etPincode.getText().toString().equals("")){
+                            if (!etPincode.getText().toString().equals("")) {
 
-                                if (etPincode.getText().toString().length()==6)
-                                {
+                                if (etPincode.getText().toString().length() == 6) {
 
-                                    if (!etState.getText().toString().equals(""))
-                                    {
+                                    if (!etState.getText().toString().equals("")) {
 
-                                        if (!etCity.getText().toString().equals(""))
-                                        {
+                                        if (!etCity.getText().toString().equals("")) {
 
-                                            if (!etAddress.getText().toString().equals(""))
-                                            {
-                                                if (!etLandMark.getText().toString().equals(""))
-                                                {
+                                            if (!etAddress.getText().toString().equals("")) {
+                                                if (!etLandMark.getText().toString().equals("")) {
 
-                                                    System.out.println("userid------------"+userid+etFirstName.getText().toString()+etAddress.getText().toString());
-                                                    callAddCompanyWebService(userid, etFirstName.getText().toString(), etAddress.getText().toString(),etMobileNo.getText().toString(),etPincode.getText().toString(),etLandMark.getText().toString(),etState.getText().toString(),etCity.getText().toString());
+                                                    System.out.println("userid------------" + userid + etFirstName.getText().toString() + etAddress.getText().toString());
+                                                    callAddCompanyWebService(userid, etFirstName.getText().toString(), etAddress.getText().toString(), etMobileNo.getText().toString(), etPincode.getText().toString(), etLandMark.getText().toString(), etState.getText().toString(), etCity.getText().toString());
 
-                                                }
-                                                else
-                                                {
+                                                } else {
                                                     showMessage("Please Enter Land mark");
 
                                                 }
 
-                                            }
-                                            else
-                                            {
+                                            } else {
                                                 showMessage("Please Enter Address");
 
                                             }
 
-                                        }
-                                        else
-                                        {
+                                        } else {
                                             showMessage("Please Enter City Name");
 
                                         }
 
-                                    }
-                                    else
-                                    {
+                                    } else {
 
                                         showMessage("Please Enter State Name");
 
                                     }
 
 
-
-                                }
-                                else
-                                {
+                                } else {
                                     showMessage("Please Enter 6 digit Pincode");
 
                                 }
 
-                            }
-                            else
-                            {
+                            } else {
                                 showMessage("Please Enter Pincode");
 
                             }
 
-                        }
-                        else
-                        {
+                        } else {
 
                             showMessage("Please Enter 10 digit or valid Mobile Number");
 
                         }
-                    }
-                    else
-                    {
+                    } else {
                         showMessage("Please Enter  Mobile Number");
 
                     }
 
-                }
-                else
-                {
+                } else {
                     showMessage("Please Enter First Name");
 
                 }
@@ -237,11 +207,9 @@ public class AddAddressActivity extends AppCompatActivity
         });
 
 
-
     }
 
-    private void callAddCompanyWebService(String userId, final String firstName, final String address,final String phone,final String Pincode, final String landmark , final  String state, final String city)
-    {
+    private void callAddCompanyWebService(String userId, final String firstName, final String address, final String phone, final String Pincode, final String landmark, final String state, final String city) {
         progress_handler.show();
 
 
@@ -253,21 +221,19 @@ public class AddAddressActivity extends AppCompatActivity
                 .setBodyParameter("pincode", Pincode)
                 .setBodyParameter("address", address)
                 .setBodyParameter("state", state)
-                .setBodyParameter("city",city)
+                .setBodyParameter("city", city)
                 .setBodyParameter("buyer_id", userId)
-                .setBodyParameter("phone",phone)
-                .setBodyParameter("landmark",landmark)
+                .setBodyParameter("phone", phone)
+                .setBodyParameter("landmark", landmark)
                 .asJsonObject()
-                .setCallback(new FutureCallback<JsonObject>()
-                {
+                .setCallback(new FutureCallback<JsonObject>() {
 
                     @Override
-                    public void onCompleted(Exception e, JsonObject result)
-                    {
-                        System.out.println("result-------------"+result);
+                    public void onCompleted(Exception e, JsonObject result) {
+                        System.out.println("result-------------" + result);
 
 
-                        appSharedPreference.setSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS.toString(),  etAddress.getText().toString());
+                        appSharedPreference.setSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS.toString(), etAddress.getText().toString());
                         appSharedPreference.setSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS_NAME.toString(), etFirstName.getText().toString());
                         appSharedPreference.setSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS_PHONE.toString(), etMobileNo.getText().toString());
                         appSharedPreference.setSharedPref(SharedPreferenceConstants.SHIPPING_ADDRESS_STATE.toString(), state);
@@ -289,32 +255,25 @@ public class AddAddressActivity extends AppCompatActivity
     }
 
 
-    private void setuptoolbar()
-    {
-
+    private void setuptoolbar() {
         AppCompatImageView homeIcon = (AppCompatImageView) findViewById(R.id.logoWord);
-
-        TextView header_name = (TextView) findViewById(R.id.header_name);
-        //header_name.setVisibility(View.VISIBLE);
-
-        header_name.setText(getResources().getString(R.string.add_address_heading));
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-
-
+        AppCompatImageView back_imagview = (AppCompatImageView) findViewById(R.id.back_imagview);
+        back_imagview.setVisibility(View.VISIBLE);
+        back_imagview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
         homeIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Intent intent = new Intent(AddAddressActivity.this, HomeActivity.class);
+                Intent intent = new Intent(context, HomeActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
             }
         });
-
-        setSupportActionBar(toolbar);
-
-        if (getSupportActionBar() != null)
-        {
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayShowTitleEnabled(false);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setTitle(null);
@@ -324,18 +283,16 @@ public class AddAddressActivity extends AppCompatActivity
 
     }
 
+
     @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
+    public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_map, menu);
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch (item.getItemId())
-        {
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
                 break;
@@ -346,13 +303,9 @@ public class AddAddressActivity extends AppCompatActivity
     }
 
 
-
-    public void showMessage(String message)
-    {
+    public void showMessage(String message) {
         AndroidUtils.showSnackBar(activity_add_address, message);
     }
-
-
 
 
 }

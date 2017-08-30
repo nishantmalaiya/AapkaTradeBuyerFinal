@@ -13,7 +13,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -29,7 +28,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.aapkatrade.buyer.chat.ChatActivity;
-import com.aapkatrade.buyer.contact_us.ContactUsActivity;
 import com.aapkatrade.buyer.dialogs.ChatDialogFragment;
 import com.aapkatrade.buyer.dialogs.track_order.TrackOrderDialog;
 import com.aapkatrade.buyer.general.Validation;
@@ -263,7 +261,7 @@ public class HomeActivity extends AppCompatActivity {
         FragmentManager fm = getSupportFragmentManager();
         DashboardFragment dashboardFragment = (DashboardFragment) fm.findFragmentByTag(homeFragment.getClass().getName());
         Wallet showwalletFragment = (Wallet) fm.findFragmentByTag(walletFragment.getClass().getName());
-AboutUsFragment aboutUsfragment=(AboutUsFragment)fm.findFragmentByTag(aboutUsFragment.getClass().getName()) ;
+        AboutUsFragment aboutUsfragment=(AboutUsFragment)fm.findFragmentByTag(aboutUsFragment.getClass().getName()) ;
         UserDashboardFragment showuserdashboardfragment = (UserDashboardFragment) fm.findFragmentByTag(userDashboardFragment.getClass().getName());
 
         if (dashboardFragment != null && dashboardFragment.isVisible()) {
@@ -380,19 +378,19 @@ AboutUsFragment aboutUsfragment=(AboutUsFragment)fm.findFragmentByTag(aboutUsFra
                         break;
 
                     case 1:
-                       /* if (walletFragment == null) {
+                        if (walletFragment == null) {
                             walletFragment = new Wallet();
                         }
                         String walletFragment_tagName = walletFragment.getClass().getName();
                         replaceFragment(walletFragment, walletFragment_tagName);
 
-                        Log.e("time  fragment", String.valueOf(System.currentTimeMillis()));*/
+                        Log.e("time  fragment", String.valueOf(System.currentTimeMillis()));
 
-                        if (aboutUsFragment == null) {
+                      /*  if (aboutUsFragment == null) {
                             aboutUsFragment = new AboutUsFragment();
                         }
                         String aboutUsFragment_tagName = aboutUsFragment.getClass().getName();
-                        replaceFragment(aboutUsFragment, aboutUsFragment_tagName);
+                        replaceFragment(aboutUsFragment, aboutUsFragment_tagName);*/
 
                         break;
 

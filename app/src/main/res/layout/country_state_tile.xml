@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/twenty_five_dip"
+        android:layout_marginRight="@dimen/twenty_five_dip"
+        android:layout_marginTop="@dimen/ten_dip"
+        android:hint="Country"
+        android:textColorHint="@color/hint_color"
+      >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <com.aapkatrade.buyer.uicomponent.customspinner.SearchableSpinner
+                android:id="@+id/spCountry"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/twenty_dip"
+                app:type="country" />
+
+            <ImageView
+                android:layout_width="@dimen/twenty_dip"
+                android:layout_height="@dimen/twenty_dip"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="10dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_arrow" />
+
+
+        </RelativeLayout>
+    </android.support.design.widget.TextInputLayout>
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/twenty_five_dip"
+        android:layout_marginRight="@dimen/twenty_five_dip"
+        android:layout_marginTop="@dimen/ten_dip"
+        android:hint="State"
+        android:textColorHint="@color/hint_color"
+        app:type="state">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <com.aapkatrade.buyer.uicomponent.customspinner.SearchableSpinner
+                android:id="@+id/spStateCategory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:background="@drawable/simple_spinner_back"
+                app:type="state" />
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_arrow" />
+
+
+        </RelativeLayout>
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/input_layout_city"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/twenty_five_dip"
+        android:layout_marginRight="@dimen/twenty_five_dip"
+        android:layout_marginTop="@dimen/ten_dip"
+
+        android:textColorHint="@color/hint_color"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.aapkatrade.buyer.uicomponent.customspinner.SearchableSpinner
+                android:id="@+id/spCityCategory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+
+                android:background="@drawable/simple_spinner_back"
+                app:type="city" />
+
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_arrow" />
+
+
+        </RelativeLayout>
+    </android.support.design.widget.TextInputLayout>
+</LinearLayout>

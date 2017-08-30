@@ -38,7 +38,6 @@
             android:id="@+id/tvSave"
             android:layout_width="match_parent"
             android:layout_height="@dimen/sixty_dip"
-
             android:text="@string/save_and_next"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"

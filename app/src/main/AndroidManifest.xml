@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.aapkatrade.buyer">
+
     <uses-permission android:name="android.permission.READ_INTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE" />
     <uses-permission android:name="com.example.pat.aapkatrade.permission.MAPS_RECEIVE" />
@@ -196,7 +197,9 @@
         <activity android:name=".seller.selleruser_dashboard.servicemanagment.editService.EditServiceActivity" />
         <activity android:name=".payumoney_paymentgatway.PayMentGateWay" />
         <activity android:name=".seller.selleruser_dashboard.billpayment.BillPaymentPaymentGatway" />
-        <activity android:name=".categories_tab.viewall.ViewAllCategoryActivity"></activity>
+        <activity android:name=".categories_tab.viewall.ViewAllCategoryActivity" />
+        <activity android:name=".wallet.AddWalletMoneyActivity"></activity>
+        <activity android:name=".wallet.WalletPaymentActivity"></activity>
     </application>
 
 </manifest>
