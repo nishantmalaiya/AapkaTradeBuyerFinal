@@ -29,10 +29,10 @@ import com.koushikdutta.ion.Ion;
 public class AddWalletMoneyActivity extends AppCompatActivity
 {
 
-    TextView tvWalletAmount;
-    EditText edtAmount;
-    Button buttonAddMoney;
-    Context context;
+     TextView tvWalletAmount;
+     EditText edtAmount;
+     Button buttonAddMoney;
+     Context context;
      ProgressBarHandler progressBarHandler;
      AppSharedPreference appSharedPreference;
 
