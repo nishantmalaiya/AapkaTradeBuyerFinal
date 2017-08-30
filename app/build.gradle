@@ -62,9 +62,9 @@ dependencies {
     compile project(':payUMoneysdk')
 
 
+
+
     compile 'de.hdodenhof:circleimageview:2.1.0'
-
-
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'com.shehabic.droppy:Droppy:0.5.1@aar'
     compile 'com.mikepenz:actionitembadge:3.2.6@aar'
