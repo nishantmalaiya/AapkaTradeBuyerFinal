@@ -33,6 +33,7 @@ import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.Validation;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
+import com.aapkatrade.buyer.home.navigation.adapter.NavigationAdapter;
 import com.aapkatrade.buyer.home.navigation.entity.Category;
 import com.aapkatrade.buyer.login.LoginDashboard;
 import com.aapkatrade.buyer.privacypolicy.PrivacyPolicyActivity;
@@ -94,8 +95,8 @@ public class NavigationFragment extends Fragment {
 
     private void initView(View view) {
 
-        tv_user_heading = (TextView) view.findViewById(R.id.welcome_guest);
-        rlprofilepic = (RelativeLayout) view.findViewById(R.id.navigation_profile);
+        tv_user_heading = view.findViewById(R.id.welcome_guest);
+        rlprofilepic = view.findViewById(R.id.navigation_profile);
         rlprofilepic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -104,13 +105,9 @@ public class NavigationFragment extends Fragment {
                 } else {
                     Log.e("hiiii", appSharedpreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString(), "not"));
                     startActivity(new Intent(getActivity(), MyProfileActivity.class));
-
-                    //showOrHideBottomNavigation(true);
                 }
-
             }
         });
-
         rlInvite = view.findViewById(R.id.rl_invite);
         rlContactUs = view.findViewById(R.id.rl_contact_us);
         rlViewAllCategories = view.findViewById(R.id.rl_view_all_categories);
@@ -123,11 +120,7 @@ public class NavigationFragment extends Fragment {
                 String strShareMessage = "\nLet me recommend you this application\n\n";
                 strShareMessage = strShareMessage + "https://play.google.com/store/apps/details?id=com.aapkatrade.buyer";
                 share.putExtra(Intent.EXTRA_TEXT, strShareMessage);
-
-
                 startActivity(Intent.createChooser(share, "Share using"));
-
-
             }
         });
 
@@ -139,9 +132,9 @@ public class NavigationFragment extends Fragment {
             }
         });
 
-        profilePic = (CircleImageView) view.findViewById(R.id.circular_profile_image_home);
-        navigationClose = (ImageView) view.findViewById(R.id.navigation_close);
-        rlLogout = (RelativeLayout) view.findViewById(R.id.rl_logout);
+        profilePic = view.findViewById(R.id.circular_profile_image_home);
+        navigationClose = view.findViewById(R.id.navigation_close);
+        rlLogout = view.findViewById(R.id.rl_logout);
         rlLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -194,14 +187,14 @@ public class NavigationFragment extends Fragment {
                 }
             }
         });
-        textViewName = (TextView) view.findViewById(R.id.tv_name);
-        emailid = (TextView) view.findViewById(R.id.tv_email);
+        textViewName = view.findViewById(R.id.tv_name);
+        emailid = view.findViewById(R.id.tv_email);
         prepareListData();
         navigationLinearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
-        navigationRecycleview = (RecyclerView) this.view.findViewById(R.id.recycle_view_navigation);
+        navigationRecycleview = this.view.findViewById(R.id.recycle_view_navigation);
         navigationRecycleview.setLayoutManager(navigationLinearLayoutManager);
 
-//        rlCategory = (RelativeLayout) this.view.findViewById(R.id.rl_category);
+//        rlCategory = this.view.findViewById(R.id.rl_category);
 
         if (appSharedpreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString(), "not") != null) {
             String userName = appSharedpreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString(), "not");

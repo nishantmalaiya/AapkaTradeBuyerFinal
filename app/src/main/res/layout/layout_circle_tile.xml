@@ -22,8 +22,7 @@
             android:layout_height="@dimen/seventy_dip"
             android:layout_gravity="center_horizontal|center_vertical"
             android:gravity="center_horizontal|center_vertical"
-            android:scaleType="fitCenter"
-            android:src="@drawable/demo_review_pic" />
+            android:scaleType="fitCenter" />
 
     </LinearLayout>
 
