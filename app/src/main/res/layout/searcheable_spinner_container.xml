@@ -12,11 +12,14 @@
 
     <TextView
         android:id="@+id/tvData"
+        style="@style/myedittext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_margin="@dimen/ten_dip"
         android:layout_marginEnd="@dimen/thirty_dip"
+        android:theme="@style/myedittext"
+        android:textColor="@color/hint_color"
 
         />
 

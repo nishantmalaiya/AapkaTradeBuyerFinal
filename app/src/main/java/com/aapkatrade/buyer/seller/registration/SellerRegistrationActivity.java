@@ -67,6 +67,7 @@ import com.nbsp.materialfilepicker.ui.FilePickerActivity;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 import com.aapkatrade.buyer.uicomponent.customspinner.CountryStateSelectSpinner;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileDescriptor;
@@ -124,9 +125,11 @@ public class SellerRegistrationActivity extends AppCompatActivity implements Tim
         //isAddVendorCall = app_sharedpreference.getSharedPref("isAddVendorCall");
         setUpToolBar();
         initView();
+        init_country_state_data();
         saveUserTypeInSharedPreferences();
         setUpBusinessCategory();
-       // getState();
+        // getState();
+
 
         uploadPDFButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -211,8 +214,8 @@ public class SellerRegistrationActivity extends AppCompatActivity implements Tim
                     countryID = idtype.id;
                     if (spState != null) {
                         AndroidUtils.showErrorLog(context, "spState not null");
-                        spState.setText("select state");
-                        spCity.setText("select city");
+                        spState.setText("Select State");
+                        spCity.setText("Select City");
                         formSellerData.setStateId("");
 
 
@@ -224,7 +227,7 @@ public class SellerRegistrationActivity extends AppCompatActivity implements Tim
                 } else if (type.equals("state")) {
                     stateID = idtype.id;
                     formSellerData.setStateId(idtype.id);
-                    spCity.setText("select city");
+                    spCity.setText("Select City");
                     //spCity.hitCityWebService(true);
                 } else if (type.equals("city")) {
                     cityID = idtype.id;
@@ -241,20 +244,16 @@ public class SellerRegistrationActivity extends AppCompatActivity implements Tim
         };
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
+
+
+    private void init_country_state_data() {
+
+        formSellerData.setStateId("");
+        formSellerData.setCountryId("");
+        formSellerData.setStateId("");
+    }
+
 
     private void showDate(int year, int month, int day) {
         etDOB.setTextColor(ContextCompat.getColor(context, R.color.black));
@@ -349,16 +348,13 @@ public class SellerRegistrationActivity extends AppCompatActivity implements Tim
                                             Log.e("registration_seller", "done");
                                             AndroidUtils.showSnackBar(registrationLayout, result.get("message").getAsString());
 
-                                            if(ConnetivityCheck.isNetworkAvailable(context))
+                                            if (ConnetivityCheck.isNetworkAvailable(context))
 
                                             {
                                                 Intent call_to_startactivity = new Intent(SellerRegistrationActivity.this, ActivityOTPVerify.class);
                                                 call_to_startactivity.putExtra("class_name", "SellerRegistrationActivity");
                                                 startActivity(call_to_startactivity);
-                                            }
-
-
-                                            else{
+                                            } else {
 
                                                 AndroidUtils.showToast(context, "!Internet not available. Check your internet connection.");
                                             }
@@ -656,7 +652,7 @@ public class SellerRegistrationActivity extends AppCompatActivity implements Tim
         progressBarHandler = new ProgressBarHandler(this);
         registrationLayout = (LinearLayout) findViewById(R.id.registrationLayout);
         spBussinessCategory = (Spinner) findViewById(R.id.spBussinessCategory);
-        spCountry=(CountryStateSelectSpinner) findViewById(R.id.spCountryCategory);
+        spCountry = (CountryStateSelectSpinner) findViewById(R.id.spCountryCategory);
         spState = (CountryStateSelectSpinner) findViewById(R.id.spStateCategory);
         spCity = (CountryStateSelectSpinner) findViewById(R.id.spCityCategory);
         tvSave = (TextView) findViewById(R.id.tvSave);
@@ -789,9 +785,9 @@ public class SellerRegistrationActivity extends AppCompatActivity implements Tim
             }
         });
 
-       et_tan_number.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        et_tan_number.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event){
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_NEXT) {
                     customCardViewHeaderPersonalDetail.performClick();
                     return true;
@@ -802,7 +798,7 @@ public class SellerRegistrationActivity extends AppCompatActivity implements Tim
 
         etProductName.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event){
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_NEXT) {
                     customCardViewHeaderPersonalDetail.performClick();
                     return true;
@@ -813,7 +809,7 @@ public class SellerRegistrationActivity extends AppCompatActivity implements Tim
 
         etReferenceNo.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event){
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_NEXT) {
                     customCardViewHeaderSignUpDetails.performClick();
                     return true;

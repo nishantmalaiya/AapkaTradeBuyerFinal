@@ -33,7 +33,7 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:layout_marginTop="11dp"
-            android:text="@string/select_state_heading"
+            android:text="@string/select_country_heading"
             android:textStyle="bold"
             android:textSize="@dimen/textsize_medium"
             android:textColor="@color/white" />
@@ -80,9 +80,10 @@
 
 
                     <Spinner
-                        android:id="@+id/spStateList"
+                        android:id="@+id/spCountryList"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/fifty_dip"
+
 
                         android:layout_alignParentLeft="true"
 

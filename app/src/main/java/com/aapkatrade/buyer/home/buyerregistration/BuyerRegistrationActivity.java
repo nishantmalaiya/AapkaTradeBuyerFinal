@@ -251,6 +251,8 @@ public class BuyerRegistrationActivity extends AppCompatActivity {
                 }
             }
         });
+
+        init_country_state_data();
         commonInterface = new CommonInterface() {
             @Override
             public Object getData(Object object) {
@@ -261,18 +263,18 @@ public class BuyerRegistrationActivity extends AppCompatActivity {
                     countryID = idtype.id;
                     if (spState != null) {
                         AndroidUtils.showErrorLog(context, "spState not null");
-                        spState.setText("select state");
-                        spCity.setText("select city");
+                        spState.setText("Select State");
+                        spCity.setText("Select City");
                         formBuyerData.setStateId("");
                         // spState.hitStateWebService(true);
 
                     }
 
 
-                } else if (type.equals("state")) {
+                } else if (type.toLowerCase().equals("state")) {
                     stateID = idtype.id;
                     formBuyerData.setStateId(idtype.id);
-                    spCity.setText("select city");
+                    spCity.setText("Select City");
                     //spCity.hitCityWebService(true);
                 } else if (type.equals("city")) {
                     cityID = idtype.id;
@@ -289,6 +291,13 @@ public class BuyerRegistrationActivity extends AppCompatActivity {
         };
 
 
+    }
+
+    private void init_country_state_data() {
+
+        formBuyerData.setStateId("");
+        formBuyerData.setCountryId("");
+        formBuyerData.setStateId("");
     }
 
 

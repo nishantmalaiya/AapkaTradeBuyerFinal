@@ -1,6 +1,7 @@
 package com.aapkatrade.buyer.uicomponent.customspinner;
 
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.res.TypedArray;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
@@ -16,6 +17,7 @@ import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.ConnetivityCheck;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
+import com.aapkatrade.buyer.general.Validation;
 import com.aapkatrade.buyer.general.interfaces.CommonInterface;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
 import com.aapkatrade.buyer.home.buyerregistration.BuyerRegistrationActivity;
@@ -106,7 +108,7 @@ public class CountryStateSelectSpinner extends RelativeLayout {
         progressBarHandler = new ProgressBarHandler(context);
         tvData = view.findViewById(R.id.tvData);
         relativeLayoutRoot = view.findViewById(R.id.relativeLayoutRoot);
-        tvData.setText("Select " + type);
+        tvData.setText(new StringBuilder("Select ").append(String.valueOf(type.charAt(0)).toUpperCase()).append(type.substring(1)));
 
         commonInterface = new CommonInterface() {
             @Override
@@ -187,6 +189,8 @@ public class CountryStateSelectSpinner extends RelativeLayout {
                             hitCountryWebService(true);
                         } else {
                             searchableListDialog = new SearchableListDialog(context, countryArrayList, commonInterface);
+
+
                             FragmentManager fm = ((AppCompatActivity) context).getSupportFragmentManager();
 
                             searchableListDialog.show(fm, "SearchableListDialog");
@@ -203,7 +207,7 @@ public class CountryStateSelectSpinner extends RelativeLayout {
                         }
 
                     } else if (type.equals(SearchableSpinner.Constants.CITY.toString())) {
-                        // cityArrayList.clear();
+                        cityArrayList.clear();
 
                         if (cityArrayList.size() == 0) {
                             hitCityWebService(true);
@@ -237,7 +241,7 @@ public class CountryStateSelectSpinner extends RelativeLayout {
         }
 
 
-        if (stateid != null) {
+        if (Validation.isNonEmptyStr(stateid)) {
             progressBarHandler.show();
             Ion.with(context)
                     .load(getResources().getString(R.string.webservice_base_url).concat("/dropdown"))
@@ -270,6 +274,8 @@ public class CountryStateSelectSpinner extends RelativeLayout {
                                     } else {
 
                                         cityArrayList.clear();
+
+                                        AndroidUtils.showToast(context, "No City found for this state");
                                     }
 
                                 }
@@ -279,6 +285,8 @@ public class CountryStateSelectSpinner extends RelativeLayout {
         } else {
 
             AndroidUtils.showErrorLog(context, "state id null");
+
+            AndroidUtils.showToast(context, "Please Select Country/State First");
         }
 
     }
@@ -296,7 +304,7 @@ public class CountryStateSelectSpinner extends RelativeLayout {
             AndroidUtils.showErrorLog(context, "countryid" + countryid);
 
 
-            if (countryid != null)
+            if (Validation.isNonEmptyStr(countryid))
 
             {
 
@@ -334,6 +342,9 @@ public class CountryStateSelectSpinner extends RelativeLayout {
                             }
                         });
             } else {
+
+
+                AndroidUtils.showToast(context, "please Select Country First");
                 AndroidUtils.showErrorLog(context, "country_id null");
             }
         } catch (Exception e) {
