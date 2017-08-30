@@ -17,6 +17,7 @@ public class Category
     private String categoryId;
     private String categoryName;
     private String categoryIconName;
+    private String categoryImage;
     private String categoryIconPath;
     private ArrayList<SubCategory> subCategoryList;
     private String basePath = AndroidUtils.BaseUrl+"/public/appicon/";
@@ -30,14 +31,13 @@ public class Category
     }
 
 
-    public Category(String categoryId, String categoryName, String categoryIconName) {
+    public Category(String categoryId, String categoryName, String categoryImage) {
         this.categoryId = categoryId;
         this.categoryName = categoryName;
-        this.categoryIconName = categoryIconName;
+        this.categoryImage = categoryImage;
         this.subCategoryList=null;
         setCategoryIconPath(createIconPath(categoryName));
     }
-
 
 
     private String createIconPath(String iconName){
@@ -56,8 +56,18 @@ public class Category
         return categoryIconName;
     }
 
+    public String getCategoryImage(){
+        return categoryImage;
+    }
+
+
     public String getCategoryIconPath() {
         return categoryIconPath;
+    }
+
+    public void setCategoryImage(String categoryImage){
+        this.categoryImage = categoryImage;
+
     }
 
     public void setCategoryIconPath(String categoryIconPath) {

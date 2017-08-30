@@ -81,7 +81,7 @@ public class ViewAllCategoryActivity extends AppCompatActivity {
                     if(Tabletsize.isTablet(context)){
                         gridLayoutManager.setSpanCount(3);
                     } else {
-                        gridLayoutManager.setSpanCount(2);
+                        gridLayoutManager.setSpanCount(3);
                     }
                     recyclerView.setLayoutManager(gridLayoutManager);
                     recyclerView.setAdapter(viewAllCategoriesAdapter);
@@ -95,7 +95,7 @@ public class ViewAllCategoryActivity extends AppCompatActivity {
         if(Tabletsize.isTablet(context)){
             gridLayoutManager = new GridLayoutManager(context, 3);
         } else {
-            gridLayoutManager = new GridLayoutManager(context, 2);
+            gridLayoutManager = new GridLayoutManager(context, 3);
         }
 
 
@@ -195,7 +195,7 @@ public class ViewAllCategoryActivity extends AppCompatActivity {
                             listDataHeader = new ArrayList<>();
                             for (int i = 0; i < jsonResultArray.size(); i++) {
                                 JsonObject jsonObject1 = (JsonObject) jsonResultArray.get(i);
-                                listDataHeader.add(new Category(jsonObject1.get("id").getAsString(), jsonObject1.get("name").getAsString(), jsonObject1.get("icon").getAsString()));
+                                listDataHeader.add(new Category(jsonObject1.get("id").getAsString(), jsonObject1.get("name").getAsString(),jsonObject1.get("cat_icon").getAsString()));
                             }
                             if(viewAllCategoriesAdapter == null){
                                 viewAllCategoriesAdapter = new ViewAllCategoriesAdapter(context, listDataHeader);
