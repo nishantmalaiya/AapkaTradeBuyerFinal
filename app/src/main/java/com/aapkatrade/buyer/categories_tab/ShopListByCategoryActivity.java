@@ -366,8 +366,9 @@ public class ShopListByCategoryActivity extends AppCompatActivity {
             String shopImage = jsonObject2.get("image_url").getAsString();
             String distance = jsonObject2.get("distance").getAsString();
             String category_name = jsonObject2.get("category_name").getAsString();
+            String shopLocation = "";
 
-            String shopLocation = /*jsonObject2.get("city_name").getAsString() + "," +*/ jsonObject2.get("state_name").getAsString() + "," + jsonObject2.get("country_name").getAsString();
+                shopLocation = /*jsonObject2.get("city_name").getAsString() + "," + jsonObject2.get("state_name").getAsString() ," */ "Haryana,"+ "India";
 
             Log.e("shop_list", shopImage);
             shopArrayListByCategory.add(new CategoriesListData(shopId, shopName, shopImage, shopLocation, distance, category_name));

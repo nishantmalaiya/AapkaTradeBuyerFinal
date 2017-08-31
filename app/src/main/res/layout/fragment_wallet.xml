@@ -55,7 +55,7 @@
 
 
                     <TextView
-                        android:id="@+id/tv_currentbal"
+                        android:id="@+id/tvUserName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Arvind Kumar"
@@ -69,7 +69,7 @@
 
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/tv_currentbal"
+                        android:layout_below="@+id/tvUserName"
                         android:text="Aapka Trade"
                         android:layout_marginStart="@dimen/five_dip"
                         android:layout_toRightOf="@+id/imgUser"

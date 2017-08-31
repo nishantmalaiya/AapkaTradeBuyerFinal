@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.categories_tab.CategoriesListHolder;
+import com.aapkatrade.buyer.categories_tab.ShopListByCategoryActivity;
 import com.aapkatrade.buyer.categories_tab.viewall.ViewAllCategoryActivity;
 import com.aapkatrade.buyer.categories_tab.viewall.holder.GridViewHolder;
 import com.aapkatrade.buyer.dialogs.track_order.orderdetail.CommonHolder_listProduct;
@@ -35,6 +36,7 @@ import com.aapkatrade.buyer.home.CommonData;
 import com.aapkatrade.buyer.home.CommonHolder;
 import com.aapkatrade.buyer.home.CommonHolderGrid;
 import com.aapkatrade.buyer.home.navigation.entity.Category;
+import com.aapkatrade.buyer.location.Mylocation;
 import com.aapkatrade.buyer.map.GoogleMapActivity;
 import com.aapkatrade.buyer.shopdetail.ShopDetailActivity;
 import com.aapkatrade.buyer.shopdetail.productdetail.ProductDetailActivity;
@@ -50,34 +52,68 @@ import java.util.zip.Inflater;
  * Created by PPC15 on 8/22/2017.
  */
 
-public class ViewAllCategoriesAdapter extends RecyclerView.Adapter<GridViewHolder>  {
+public class ViewAllCategoriesAdapter extends RecyclerView.Adapter<GridViewHolder> {
     private Context context;
     private ArrayList<Category> categoryArrayList = new ArrayList<>();
-
+    private Mylocation mylocation;
+   private AppSharedPreference appSharedPreference;
 
     public ViewAllCategoriesAdapter(Context context, ArrayList<Category> categoryArrayList) {
         this.context = context;
         this.categoryArrayList = categoryArrayList;
+
+        appSharedPreference = new AppSharedPreference(context);
     }
 
     @Override
     public GridViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         AndroidUtils.showErrorLog(context, "---------------->>>>>", ViewAllCategoryActivity.gridLayoutManager.getSpanCount());
-            return ViewAllCategoryActivity.gridLayoutManager.getSpanCount() == 1?new GridViewHolder(LayoutInflater.from(context).inflate(R.layout.row_category_list, parent, false)):new GridViewHolder(LayoutInflater.from(context).inflate(R.layout.row_category_grid, parent, false));
+        return ViewAllCategoryActivity.gridLayoutManager.getSpanCount() == 1 ? new GridViewHolder(LayoutInflater.from(context).inflate(R.layout.row_category_list, parent, false)) : new GridViewHolder(LayoutInflater.from(context).inflate(R.layout.row_category_grid, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(GridViewHolder holder, int position) {
+    public void onBindViewHolder(GridViewHolder holder, final int position) {
         Ion.with(holder.imageView)
                 .error(ContextCompat.getDrawable(context, R.drawable.ic_applogo1))
                 .placeholder(ContextCompat.getDrawable(context, R.drawable.ic_applogo1))
-                .load(categoryArrayList.get(position).getCategoryIconPath());
+                .load(categoryArrayList.get(position).getCategoryImage());
 
         holder.textView.setText(categoryArrayList.get(position).getCategoryName());
 
-       AndroidUtils.setGradientColor(holder.gridLayout, GradientDrawable.RECTANGLE, R.color.red_light, R.color.green_gradient2, GradientDrawable.Orientation.BOTTOM_TOP, 0);
-    }
+        holder.gridLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
+                boolean permission_status = CheckPermission.checkPermissions((Activity) context);
+
+                if (permission_status) {
+                    mylocation = new Mylocation(context);
+                    LocationManagerCheck locationManagerCheck = new LocationManagerCheck(context);
+                    if (locationManagerCheck.isLocationServiceAvailable()) {
+                        String currentLatitude = appSharedPreference.getSharedPref(SharedPreferenceConstants.CURRENT_LATTITUDE.toString(), "0.0");
+                        String currentLongitude = appSharedPreference.getSharedPref(SharedPreferenceConstants.CURRENT_LONGITUDE.toString(), "0.0");
+                        appSharedPreference.getSharedPref(SharedPreferenceConstants.CURRENT_STATE_NAME.toString(), "Haryana");
+
+                        Intent i = new Intent(context, ShopListByCategoryActivity.class);
+                        i.putExtra("category_id", categoryArrayList.get(position).getCategoryId());
+                        i.putExtra("latitude", currentLatitude);
+                        i.putExtra("longitude", currentLongitude);
+                        context.startActivity(i);
+                    } else {
+                        locationManagerCheck.createLocationServiceError((Activity) context);
+                    }
+
+                } else {
+                    AndroidUtils.showErrorLog(context, "error in permission");
+                }
+
+            }
+
+
+        });
+
+        // AndroidUtils.setGradientColor(holder.gridLayout, GradientDrawable.RECTANGLE, R.color.red_light, R.color.green_gradient2, GradientDrawable.Orientation.BOTTOM_TOP, 0);
+    }
 
 
     @Override

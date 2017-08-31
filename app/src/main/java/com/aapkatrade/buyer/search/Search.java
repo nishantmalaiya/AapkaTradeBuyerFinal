@@ -112,7 +112,7 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
 
     int firsttime=0;
 
-TextView selectedlocation;
+    TextView selectedlocation;
 
 
     @Override
@@ -159,7 +159,7 @@ TextView selectedlocation;
             @Override
             public Object getData(Object object) {
 
-String selected_state=(String)object;
+      String selected_state=(String)object;
                 selectedlocation.setText(selected_state);
                 return null;
             }

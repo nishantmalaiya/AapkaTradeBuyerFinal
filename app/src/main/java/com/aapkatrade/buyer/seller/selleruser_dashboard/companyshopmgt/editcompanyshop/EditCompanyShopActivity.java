@@ -48,6 +48,7 @@ import com.aapkatrade.buyer.general.Utils.adapter.CustomSimpleListAdapter;
 import com.aapkatrade.buyer.general.Utils.adapter.CustomSpinnerAdapter;
 import com.aapkatrade.buyer.general.Validation;
 import com.aapkatrade.buyer.general.entity.KeyValue;
+import com.aapkatrade.buyer.general.interfaces.CommonInterface;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
 import com.aapkatrade.buyer.home.HomeActivity;
 import com.aapkatrade.buyer.home.buyerregistration.entity.City;
@@ -58,6 +59,8 @@ import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.CompanySh
 import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.addproduct.ProductImagesAdapter;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.addproduct.ProductMediaData;
 import com.aapkatrade.buyer.uicomponent.customcardview.CustomCardViewHeader;
+import com.aapkatrade.buyer.uicomponent.customspinner.CountryStateSelectSpinner;
+import com.aapkatrade.buyer.uicomponent.customspinner.Idtype;
 import com.aapkatrade.buyer.uicomponent.daystile.DaysTileView;
 import com.afollestad.materialcamera.MaterialCamera;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
@@ -85,14 +88,17 @@ import java.util.Collections;
 import java.util.Date;
 
 
-public class EditCompanyShopActivity extends AppCompatActivity
-{
+public class EditCompanyShopActivity extends AppCompatActivity {
 
     private Context context;
     private AppSharedPreference appSharedPreference;
     private ProgressBarHandler progressBarHandler;
-    private String userId, stateID, cityID, categoryID, subCategoryID, serviceType, videoPath, tempCityID, tempsubcategoryId;
-    private Spinner spState, spCity, spCategory, spSubCategory, spServiceType;
+    private String userId, categoryID, subCategoryID, serviceType, videoPath, tempCityID, tempsubcategoryId, countryName, stateName, cityName;
+    public static String stateID, countryID, cityID;
+    private Spinner spCategory, spSubCategory, spServiceType;
+    CountryStateSelectSpinner spState, spCity, spCountry;
+
+
     private ArrayList<String> stateList, stateIds;
     private ArrayList<City> cityList = new ArrayList<>();
     private ArrayList<Category> listDataHeader = new ArrayList<>();
@@ -110,12 +116,13 @@ public class EditCompanyShopActivity extends AppCompatActivity
     private DaysTileView daysTileView1, daysTileView2, daysTileView3;
     private CustomCardViewHeader generalDetailsHeader, shopDetailsHeader;
     private LinearLayout llShopDetailsContainer, llGeneralContainer;
-    private String company_name, product_type, state_id, city_id, area, pincode, mobile, phone, email_id, web_url, category_id, sub_cat_id, facebookurl, twitterurl, googleplusurl, youtubeurl, short_description, address, videoURL, shopId;
+    private String company_name, product_type, country_id, state_id, city_id, area, pincode, mobile, phone, email_id, web_url, category_id, sub_cat_id, facebookurl, twitterurl, googleplusurl, youtubeurl, short_description, address, videoURL, shopId;
     private boolean cityFlag = false, subCategoryFlag = false;
     private ArrayList<KeyValue> imageUrlList = new ArrayList<>();
 
     private ArrayList<String> submitImgDelList = new ArrayList<>();
     private ArrayList<Part> submitImgList = new ArrayList<>();
+    public static CommonInterface commonInterface;
 
 
     @Override
@@ -126,7 +133,7 @@ public class EditCompanyShopActivity extends AppCompatActivity
         if (getIntent() != null) {
             shopId = getIntent().getStringExtra("shopId");
         }
-
+        init_country_state_data();
 
         productMediaDatasDelete.clear();
         setUpToolBar();
@@ -142,13 +149,13 @@ public class EditCompanyShopActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 validateFields();
-
-                submitImgDelList.clear();
+                if (submitImgDelList != null)
+                    submitImgDelList.clear();
                 submitImgList = submitImages();
 
                 submitImgDelList = submitDeletedImages();
 
-                AndroidUtils.showErrorLog(context,"submitImgDelList-------"+submitImgDelList);
+                AndroidUtils.showErrorLog(context, "submitImgDelList-------" + submitImgDelList);
 
                 if (isAllFieldsValidate) {
                     AndroidUtils.showErrorLog(context, "working 1", "working isAllFieldsValidate");
@@ -156,6 +163,54 @@ public class EditCompanyShopActivity extends AppCompatActivity
                 }
             }
         });
+
+
+        commonInterface = new CommonInterface() {
+            @Override
+            public Object getData(Object object) {
+                Idtype idtype = (Idtype) object;
+                String type = idtype.type;
+                if (type.equals("country")) {
+
+
+                    countryID = idtype.id;
+                    if (spState != null) {
+                        AndroidUtils.showErrorLog(context, "spState not null");
+                        spState.setText("Select State");
+                        spCity.setText("Select City");
+                        stateID = "";
+
+                        // spState.hitStateWebService(true);
+
+                    }
+
+
+                } else if (type.toLowerCase().equals("state")) {
+                    stateID = idtype.id;
+
+                    spCity.setText("Select City");
+                    //spCity.hitCityWebService(true);
+                } else if (type.equals("city")) {
+                    cityID = idtype.id;
+
+
+                }
+
+
+                AndroidUtils.showErrorLog(context, "integer value", type + "*******" + idtype.id);
+
+                return null;
+            }
+        };
+
+
+    }
+
+    private void init_country_state_data() {
+        stateID = "";
+        countryID = "";
+        cityID = "";
+
     }
 
     private void getCompanyShopDetails() {
@@ -183,10 +238,10 @@ public class EditCompanyShopActivity extends AppCompatActivity
 
 
                         state_id = jsonObject.get("state_id").getAsString();
-
+                        country_id = jsonObject.get("country_id").getAsString();
 
                         city_id = jsonObject.get("city_id").getAsString();
-                        selectStateCity(state_id, city_id);
+                        selectStateCity(country_id, state_id, city_id);
 
                         area = jsonObject.get("area").getAsString();
                         etAreaLocation.setText(area);
@@ -194,6 +249,12 @@ public class EditCompanyShopActivity extends AppCompatActivity
 
                         etPinCode.setText(pincode);
                         mobile = jsonObject.get("mobile").getAsString();
+                        countryName = jsonObject.get("country_name").getAsString();
+                        stateName = jsonObject.get("state_name").getAsString();
+                        cityName = jsonObject.get("city_name").getAsString();
+                        spCountry.setText(countryName);
+                        spState.setText(stateName);
+                        spCity.setText(cityName);
                         etMobileNo.setText(mobile);
                         phone = jsonObject.get("phone").getAsString();
                         etPhoneNo.setText(phone);
@@ -364,8 +425,7 @@ public class EditCompanyShopActivity extends AppCompatActivity
         }
     }
 
-    private void setSelectedCategory(String category_id, String sub_cat_id)
-    {
+    private void setSelectedCategory(String category_id, String sub_cat_id) {
 
         AndroidUtils.showErrorLog(context, "categoryid123------------------", category_id + "***" + sub_cat_id);
         AndroidUtils.showErrorLog(context, "listDataHeader------------------", listDataHeader.size());
@@ -381,10 +441,11 @@ public class EditCompanyShopActivity extends AppCompatActivity
 
     }
 
-    private void selectStateCity(String state_id, String city_id) {
+    private void selectStateCity(String country_id, String state_id, String city_id) {
 
 
-        for (int i = 0; i < stateIds.size(); i++) {
+
+        /*for (int i = 0; i < stateIds.size(); i++) {
             if (stateIds.get(i).equals(state_id)) {
 
                 cityFlag = true;
@@ -393,7 +454,7 @@ public class EditCompanyShopActivity extends AppCompatActivity
 
             }
 
-        }
+        }*/
 
 
     }
@@ -499,14 +560,15 @@ public class EditCompanyShopActivity extends AppCompatActivity
         progressBarHandler = new ProgressBarHandler(context);
         appSharedPreference = new AppSharedPreference(context);
         userId = appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString());
-        spState = (Spinner) findViewById(R.id.spState);
-        spCity = (Spinner) findViewById(R.id.spCity);
+        spState = (CountryStateSelectSpinner) findViewById(R.id.spState);
+        spCity = (CountryStateSelectSpinner) findViewById(R.id.spCity);
+        spCountry = (CountryStateSelectSpinner) findViewById(R.id.spCountry);
         spCategory = (Spinner) findViewById(R.id.spCategory);
         spSubCategory = (Spinner) findViewById(R.id.spSubCategory);
         spServiceType = (Spinner) findViewById(R.id.spServiceType);
         etAreaLocation = (EditText) findViewById(R.id.tv_area_location);
         findViewById(R.id.input_layout_sub_category).setVisibility(View.GONE);
-        findViewById(R.id.input_layout_city).setVisibility(View.GONE);
+
         btnSave = (Button) findViewById(R.id.btnSave);
         btnSave.setText("Update Company/Shop");
         etCompanyShopName = (EditText) findViewById(R.id.etCompanyShopName);
@@ -639,7 +701,7 @@ public class EditCompanyShopActivity extends AppCompatActivity
 
     private void getState() {
 
-        stateList = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.state_list)));
+       /* stateList = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.state_list)));
         stateIds = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.state_ids)));
         AndroidUtils.showErrorLog(context, stateList.toString());
         spState.setAdapter(new CustomSpinnerAdapter(context, stateList));
@@ -660,7 +722,7 @@ public class EditCompanyShopActivity extends AppCompatActivity
 
 
             }
-        });
+        });*/
 
     }
 
@@ -801,86 +863,10 @@ public class EditCompanyShopActivity extends AppCompatActivity
         }
     }
 
-    private void getCity(String stateId, final boolean cityflag) {
 
+    private void hitUpdateCompanyShopWebService() {
 
-        AndroidUtils.showErrorLog(context, " stateId ", stateId.toString());
-        progressBarHandler.show();
-        findViewById(R.id.input_layout_city).setVisibility(View.VISIBLE);
-        Ion.with(context)
-                .load("http://aapkatrade.com/slim/dropdown")
-                .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
-                .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
-                .setBodyParameter("type", "city")
-                .setBodyParameter("id", stateId)
-                .asJsonObject()
-                .setCallback(new FutureCallback<JsonObject>() {
-                    @Override
-                    public void onCompleted(Exception e, JsonObject result) {
-
-
-                        progressBarHandler.hide();
-                        AndroidUtils.showErrorLog(context, "city result ", result == null ? "null" : result);
-
-                        if (result != null) {
-                            JsonArray jsonResultArray = result.getAsJsonArray("result");
-                            //cityList.clear();
-                            City cityEntity_init = new City("-1", "Please Select City");
-                            cityList.add(cityEntity_init);
-
-                            for (int i = 0; i < jsonResultArray.size(); i++) {
-                                JsonObject jsonObject1 = (JsonObject) jsonResultArray.get(i);
-                                City cityEntity = new City(jsonObject1.get("id").getAsString(), jsonObject1.get("name").getAsString());
-                                cityList.add(cityEntity);
-                            }
-
-                            SpCityAdapter spCityAdapter = new SpCityAdapter(context, cityList);
-                            spCity.setAdapter(spCityAdapter);
-
-                            if (cityflag) {
-                                for (int k = 0; k < cityList.size(); k++) {
-
-                                    if (cityList.get(k).cityId.equals(tempCityID)) {
-
-                                        spCity.setSelection(k);
-                                    }
-
-
-                                }
-                            }
-
-                            spCity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                                @Override
-                                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                                    if (position > 0)
-                                        cityID = cityList.get(position).cityId;
-                                }
-
-                                @Override
-                                public void onNothingSelected(AdapterView<?> parent) {
-
-
-                                }
-
-
-                            });
-                        } else {
-                            AndroidUtils.showToast(context, "! Invalid city");
-                        }
-                    }
-
-                });
-
-        if (cityflag) {
-            this.cityFlag = false;
-        }
-    }
-
-    private void hitUpdateCompanyShopWebService()
-    {
-
-        for (int i = 0; i < productMediaDatas.size(); i++)
-        {
+        for (int i = 0; i < productMediaDatas.size(); i++) {
             AndroidUtils.showErrorLog(context, "media data : " + i, "productMediaDatas.get(i).imagePath : " + productMediaDatas.get(i).imagePath);
             AndroidUtils.showErrorLog(context, "media data : " + i, "productMediaDatas.get(i).imageUrl : " + productMediaDatas.get(i).imageUrl);
             AndroidUtils.showErrorLog(context, "media data : " + i, "productMediaDatas.get(i).videoThumbnail : " + productMediaDatas.get(i).videoThumbnail);
@@ -893,7 +879,7 @@ public class EditCompanyShopActivity extends AppCompatActivity
         AndroidUtils.showErrorLog(context, "category_id", categoryID);
         AndroidUtils.showErrorLog(context, "area", etAreaLocation.getText().toString());
         AndroidUtils.showErrorLog(context, "state_id", stateID);
-        AndroidUtils.showErrorLog(context, "submitImages----------", submitImages()==null?null:submitImages().size());
+        AndroidUtils.showErrorLog(context, "submitImages----------", submitImages() == null ? null : submitImages().size());
         AndroidUtils.showErrorLog(context, "product_type", serviceType);
         AndroidUtils.showErrorLog(context, "sub_cat_id", subCategoryID);
         AndroidUtils.showErrorLog(context, "city_id", cityID);
@@ -914,13 +900,11 @@ public class EditCompanyShopActivity extends AppCompatActivity
         progressBarHandler.show();
 
 
-        if (submitVideo() == null)
-        {
+        if (submitVideo() == null) {
 
             AndroidUtils.showErrorLog(context, "submitDeletedImages--------------", submitImgDelList);
 
-            if (submitImgDelList == null || submitImgDelList.size() ==0)
-            {
+            if (submitImgDelList == null || submitImgDelList.size() == 0) {
                 AndroidUtils.showErrorLog(context, "submitDeletedImages::::if--------------::NULL", submitDeletedImages());
 
                 Ion.with(context)
@@ -934,6 +918,7 @@ public class EditCompanyShopActivity extends AppCompatActivity
                         .setMultipartParameter("category_id", categoryID)
                         .setMultipartParameter("sub_cat_id", subCategoryID)
                         .setMultipartParameter("area", etAreaLocation.getText().toString())
+                        .setMultipartParameter("country_id", countryID)
                         .setMultipartParameter("state_id", stateID)
                         .setMultipartParameter("city_id", cityID)
                         .setMultipartParameter("product_type", serviceType)
@@ -952,7 +937,7 @@ public class EditCompanyShopActivity extends AppCompatActivity
                         .setMultipartParameter("lat", appSharedPreference.getSharedPref(SharedPreferenceConstants.CURRENT_LATTITUDE.toString(), "0"))
                         .setMultipartParameter("long", appSharedPreference.getSharedPref(SharedPreferenceConstants.CURRENT_LONGITUDE.toString(), "0"))
                         .addMultipartParts(submitImages())
-                        .setMultipartParameter("delimg", submitImgDelList.toString())
+                        .setMultipartParameter("delimg", "")
                         .asJsonObject()
                         .setCallback(new FutureCallback<JsonObject>() {
                             @Override
@@ -981,7 +966,7 @@ public class EditCompanyShopActivity extends AppCompatActivity
                         });
             } else {
 
-                for (int i= 0; i<submitImgDelList.size(); i++){
+                for (int i = 0; i < submitImgDelList.size(); i++) {
                     AndroidUtils.showErrorLog(context, "submitDeletedImages----", submitImgDelList.get(i).toString());
 
                 }
@@ -998,6 +983,7 @@ public class EditCompanyShopActivity extends AppCompatActivity
                         .setMultipartParameter("category_id", categoryID)
                         .setMultipartParameter("sub_cat_id", subCategoryID)
                         .setMultipartParameter("area", etAreaLocation.getText().toString())
+                        .setMultipartParameter("country_id", countryID)
                         .setMultipartParameter("state_id", stateID)
                         .setMultipartParameter("city_id", cityID)
                         .setMultipartParameter("product_type", serviceType)
@@ -1031,7 +1017,7 @@ public class EditCompanyShopActivity extends AppCompatActivity
                         });
             }
         } else {
-            if (submitImgDelList == null || submitImgDelList.size()==0) {
+            if (submitImgDelList == null || submitImgDelList.size() == 0) {
                 Ion.with(context)
                         .load(getString(R.string.webservice_base_url) + "/editCompany")
                         .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
@@ -1043,6 +1029,7 @@ public class EditCompanyShopActivity extends AppCompatActivity
                         .setMultipartParameter("address", etCompanyAddress.getText().toString())
                         .setMultipartParameter("category_id", categoryID)
                         .setMultipartParameter("area", etAreaLocation.getText().toString())
+                        .setMultipartParameter("country_id", countryID)
                         .setMultipartParameter("state_id", stateID)
                         .setMultipartParameter("product_type", serviceType)
                         .setMultipartParameter("sub_cat_id", subCategoryID)
@@ -1101,6 +1088,7 @@ public class EditCompanyShopActivity extends AppCompatActivity
                         .setMultipartParameter("address", etCompanyAddress.getText().toString())
                         .setMultipartParameter("category_id", categoryID)
                         .setMultipartParameter("area", etAreaLocation.getText().toString())
+                        .setMultipartParameter("country_id", countryID)
                         .setMultipartParameter("state_id", stateID)
                         .setMultipartParameter("product_type", serviceType)
                         .setMultipartParameter("sub_cat_id", subCategoryID)
@@ -1290,8 +1278,7 @@ public class EditCompanyShopActivity extends AppCompatActivity
         }
     }
 
-    private File submitVideo()
-    {
+    private File submitVideo() {
         if (productMediaDatas != null && productMediaDatas.size() > 0) {
             for (ProductMediaData file : productMediaDatas) {
                 if (file.isVideo) {
@@ -1307,7 +1294,7 @@ public class EditCompanyShopActivity extends AppCompatActivity
         ArrayList<Part> files = new ArrayList<>();
         if (productMediaDatas != null && productMediaDatas.size() > 0) {
             for (ProductMediaData file : productMediaDatas) {
-                if (!file.isVideo&& !isExistingImage(file) && savebitmap(file.imagePath)!=null) {
+                if (!file.isVideo && !isExistingImage(file) && savebitmap(file.imagePath) != null) {
                     files.add(new FilePart("image[]", savebitmap(file.imagePath)));
                     AndroidUtils.showErrorLog(context, files.toArray().toString());
                 }
@@ -1316,6 +1303,7 @@ public class EditCompanyShopActivity extends AppCompatActivity
         }
         return null;
     }
+
     private boolean isExistingImage(ProductMediaData file) {
         for (int i = 0; i < imageUrlList.size(); i++) {
             AndroidUtils.showErrorLog(context, "------isExistingImage--imageUrlList.get(i)------->" +
@@ -1329,24 +1317,21 @@ public class EditCompanyShopActivity extends AppCompatActivity
         return false;
     }
 
-    private ArrayList<String> submitDeletedImages()
-    {
+    private ArrayList<String> submitDeletedImages() {
 
         ArrayList<String> files = new ArrayList<>();
-        if (productMediaDatasDelete != null && productMediaDatasDelete.size() > 0)
-        {
-            AndroidUtils.showErrorLog(context,"productMediaDatasDelete---",productMediaDatasDelete.size());
+        if (productMediaDatasDelete != null && productMediaDatasDelete.size() > 0) {
+            AndroidUtils.showErrorLog(context, "productMediaDatasDelete---", productMediaDatasDelete.size());
 
-            for (int k = 0; k < productMediaDatasDelete.size(); k++)
-            {
+            for (int k = 0; k < productMediaDatasDelete.size(); k++) {
                 ProductMediaData file = productMediaDatasDelete.get(k);
 
-                AndroidUtils.showErrorLog(context," !file.isVideo", !file.isVideo );
-                AndroidUtils.showErrorLog(context,"isExistingImagel", isExistingImage(file) );
-                AndroidUtils.showErrorLog(context," savebitmap(file.imagePath)!=null",  savebitmap(file.imagePath)!=null);
+                AndroidUtils.showErrorLog(context, " !file.isVideo", !file.isVideo);
+                AndroidUtils.showErrorLog(context, "isExistingImagel", isExistingImage(file));
+                AndroidUtils.showErrorLog(context, " savebitmap(file.imagePath)!=null", savebitmap(file.imagePath) != null);
 
-                if (!file.isVideo && savebitmap(file.imagePath)!=null)
-                { files.add(imageUrlList.get(getPositionOfExistingImage(file)).key.toString());
+                if (!file.isVideo && savebitmap(file.imagePath) != null) {
+                    files.add(imageUrlList.get(getPositionOfExistingImage(file)).key.toString());
                 }
             }
             return files;

@@ -378,19 +378,19 @@ public class HomeActivity extends AppCompatActivity {
                         break;
 
                     case 1:
-                        if (walletFragment == null) {
+                        /*if (walletFragment == null) {
                             walletFragment = new Wallet();
                         }
                         String walletFragment_tagName = walletFragment.getClass().getName();
                         replaceFragment(walletFragment, walletFragment_tagName);
 
-                        Log.e("time  fragment", String.valueOf(System.currentTimeMillis()));
+                        Log.e("time  fragment", String.valueOf(System.currentTimeMillis()));*/
 
-                      /*  if (aboutUsFragment == null) {
+                        if (aboutUsFragment == null) {
                             aboutUsFragment = new AboutUsFragment();
                         }
                         String aboutUsFragment_tagName = aboutUsFragment.getClass().getName();
-                        replaceFragment(aboutUsFragment, aboutUsFragment_tagName);*/
+                        replaceFragment(aboutUsFragment, aboutUsFragment_tagName);
 
                         break;
 

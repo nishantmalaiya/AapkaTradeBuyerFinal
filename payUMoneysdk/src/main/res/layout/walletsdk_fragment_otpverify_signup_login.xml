@@ -83,7 +83,7 @@
                 android:hint="Mobile Number"
 
                 android:inputType="number"
-                android:maxLength="10"
+                android:maxLength="20"
                 android:textColorHint="@color/color_2" />
 
             <EditText
