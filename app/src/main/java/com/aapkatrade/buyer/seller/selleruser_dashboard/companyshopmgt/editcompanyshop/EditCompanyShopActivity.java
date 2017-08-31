@@ -1024,20 +1024,6 @@ public class EditCompanyShopActivity extends AppCompatActivity
                                 progressBarHandler.hide();
                                 if (result != null) {
                                     AndroidUtils.showErrorLog(context, "result::::::", result);
-                                   /* if (result.get("error").getAsString().equalsIgnoreCase("false")) {
-                                        if (Validation.containsIgnoreCase(result.get("message").getAsString(), "successfully updated")) {
-                                            AndroidUtils.showErrorLog(context, "result:::success:::", result);
-                                            AndroidUtils.showToast(context, result.get("message").getAsString());
-                                            doExitReveal(false);
-
-                                        } else {
-                                            AndroidUtils.showErrorLog(context, "error::::::TRUE");
-                                        }
-
-                                    } else {
-                                        AndroidUtils.showErrorLog(context, "error::::::TRUE");
-                                    }
-*/
                                 } else {
                                     AndroidUtils.showErrorLog(context, "result::::::NULL");
                                 }
