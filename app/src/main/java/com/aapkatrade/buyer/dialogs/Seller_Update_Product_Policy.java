@@ -88,7 +88,7 @@ public class Seller_Update_Product_Policy extends DialogFragment
 
                     if (Validation.isValidEmail(et_replacement_policy.getText().toString())) {
 
-                        if (Validation.isValidNumber(et_cash_on_delivery.getText().toString(), Validation.getNumberPrefix(et_cash_on_delivery.getText().toString()))) {
+                        if (Validation.isValidNumber(et_cash_on_delivery.getText().toString())) {
 
                             if (Validation.validateEdittext(et_free_installation)) {
                                 String call_enquiry_url = getResources().getString(R.string.webservice_base_url) + "/enquiry";

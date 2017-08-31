@@ -839,7 +839,7 @@ public class SellerRegistrationActivity extends AppCompatActivity implements Tim
             } else if (Validation.isEmptyStr(formSellerData.getLastName())) {
                 putError(1);
                 isAllFieldSet++;
-            } else if (!Validation.isValidNumber(formSellerData.getMobile(), Validation.getNumberPrefix(formSellerData.getMobile()))) {
+            } else if (!Validation.isValidNumber(formSellerData.getMobile())) {
                 putError(3);
                 isAllFieldSet++;
             } else if (Validation.isEmptyStr(formSellerData.getBusinessType())
