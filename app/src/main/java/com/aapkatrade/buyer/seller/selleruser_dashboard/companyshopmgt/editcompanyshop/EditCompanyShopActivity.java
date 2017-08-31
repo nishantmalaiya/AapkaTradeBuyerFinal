@@ -513,7 +513,7 @@ public class EditCompanyShopActivity extends AppCompatActivity {
             AndroidUtils.showSnackBar(addCompanyShopLayout, "Please enter company/shop Address.");
             etCompanyAddress.setError("Please enter company/shop Address.");
             isAllFieldsValidate = false;
-        } else if (!Validation.isValidNumber(etMobileNo.getText().toString(), Validation.getNumberPrefix(etMobileNo.getText().toString()))) {
+        } else if (!Validation.isValidNumber(etMobileNo.getText().toString())) {
             AndroidUtils.showSnackBar(addCompanyShopLayout, "Please enter valid mobile number.");
             etMobileNo.setError("Please enter valid mobile number.");
             isAllFieldsValidate = false;

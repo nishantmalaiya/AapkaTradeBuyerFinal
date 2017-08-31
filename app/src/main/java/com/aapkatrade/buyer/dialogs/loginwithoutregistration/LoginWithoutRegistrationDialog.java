@@ -121,7 +121,7 @@ public class LoginWithoutRegistrationDialog extends DialogFragment {
     {
         progressDialogHandler.show();
         final String emailPhone = etEmailOrMobile.getText().toString();
-        if (Validation.isValidEmail(emailPhone) || Validation.isValidNumber(emailPhone, Validation.getNumberPrefix(emailPhone))) {
+        if (Validation.isValidEmail(emailPhone) || Validation.isValidNumber(emailPhone)) {
             Ion.with(context)
                     .load(new StringBuilder(getString(R.string.webservice_base_url)).append("/").append("login").toString())
                     .setHeader("Authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
@@ -191,7 +191,7 @@ public class LoginWithoutRegistrationDialog extends DialogFragment {
     private void callStep1WebService() {
         progressDialogHandler.show();
         final String emailPhone = etEmailOrMobile.getText().toString();
-        if (Validation.isValidEmail(emailPhone) || Validation.isValidNumber(emailPhone, Validation.getNumberPrefix(emailPhone))) {
+        if (Validation.isValidEmail(emailPhone) || Validation.isValidNumber(emailPhone)) {
             Ion.with(context)
                     .load(new StringBuilder(getString(R.string.webservice_base_url)).append("/").append("register").toString())
                     .setHeader("Authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")

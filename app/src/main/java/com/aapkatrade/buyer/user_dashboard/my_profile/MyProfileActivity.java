@@ -305,7 +305,7 @@ public class MyProfileActivity extends AppCompatActivity {
 
                 if (Validation.isValidEmail(etEmail.getText().toString()) || Validation.isEmptyStr(etEmail.getText().toString())) {
 
-                    if (!Validation.isEmptyStr(etMobileNo.getText().toString()) || Validation.isValidNumber(etMobileNo.getText().toString(), Validation.getNumberPrefix(etMobileNo.getText().toString()))) {
+                    if (!Validation.isEmptyStr(etMobileNo.getText().toString()) || Validation.isValidNumber(etMobileNo.getText().toString())) {
                         edit_profile_webservice();
                     } else {
                         AndroidUtils.showSnackBar(coordinatorlayout_myprofile, "Please Enter Valid Mobile Number");

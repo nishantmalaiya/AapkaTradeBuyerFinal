@@ -164,7 +164,7 @@ public class LoginActivity extends AppCompatActivity {
                 String input_password = password.getText().toString();
 
 
-                if (Validation.isValidEmail(input_email) || Validation.isValidNumber(input_email, Validation.getNumberPrefix(input_email))) {
+                if (Validation.isValidEmail(input_email) || Validation.isValidNumber(input_email)) {
                     if (Validation.validateEdittext(password)) {
                         String login_url = "";
                         if (usertype.contains("SELLER")) {

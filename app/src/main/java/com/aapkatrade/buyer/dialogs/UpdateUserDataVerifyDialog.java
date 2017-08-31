@@ -128,7 +128,7 @@ public class UpdateUserDataVerifyDialog extends DialogFragment
     private void callLoginWebService() {
         progressDialogHandler.show();
         final String emailPhone = etEmailOrMobile.getText().toString();
-        if (Validation.isValidEmail(emailPhone) || Validation.isValidNumber(emailPhone, Validation.getNumberPrefix(emailPhone))) {
+        if (Validation.isValidEmail(emailPhone) || Validation.isValidNumber(emailPhone)) {
             Ion.with(context)
                     .load(new StringBuilder(getString(R.string.webservice_base_url)).append("/").append("login").toString())
                     .setHeader("Authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
@@ -173,7 +173,7 @@ public class UpdateUserDataVerifyDialog extends DialogFragment
 
         progressDialogHandler.show();
         final String emailPhone = etEmailOrMobile.getText().toString();
-        if (Validation.isValidEmail(emailPhone) || Validation.isValidNumber(emailPhone, Validation.getNumberPrefix(emailPhone)))
+        if (Validation.isValidEmail(emailPhone) || Validation.isValidNumber(emailPhone))
         {
             Ion.with(context)
                     .load(new StringBuilder(getString(R.string.webservice_base_url)).append("/").append("update_contact").toString())
