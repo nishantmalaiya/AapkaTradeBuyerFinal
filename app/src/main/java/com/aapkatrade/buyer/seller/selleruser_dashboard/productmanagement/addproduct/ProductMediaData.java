@@ -9,6 +9,7 @@ import java.io.File;
  */
 
 public class ProductMediaData {
+    public String id;
     public String imagePath, imageUrl, videoThumbnail;
     public File videoFile;
     public boolean isVideo = false;
@@ -23,9 +24,60 @@ public class ProductMediaData {
         }
     }
 
+    public ProductMediaData() {
+    }
+
     public ProductMediaData(String videoThumbnail) {
         this.videoThumbnail = videoThumbnail;
         this.isVideo = true;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public String getVideoThumbnail() {
+        return videoThumbnail;
+    }
+
+    public void setVideoThumbnail(String videoThumbnail) {
+        this.videoThumbnail = videoThumbnail;
+    }
+
+    public File getVideoFile() {
+        return videoFile;
+    }
+
+    public void setVideoFile(File videoFile) {
+        this.videoFile = videoFile;
+    }
+
+    public boolean isVideo() {
+        return isVideo;
+    }
+
+    public void setVideo(boolean video) {
+        isVideo = video;
     }
 
     @Override
@@ -35,14 +87,14 @@ public class ProductMediaData {
 
         ProductMediaData that = (ProductMediaData) o;
 
-        if (isVideo != that.isVideo) return false;
-        return false;
+        return isVideo == that.isVideo && (id != null ? id.equals(that.id) : that.id == null && (imagePath != null ? imagePath.equals(that.imagePath) : that.imagePath == null && (imageUrl != null ? imageUrl.equals(that.imageUrl) : that.imageUrl == null && (videoThumbnail != null ? videoThumbnail.equals(that.videoThumbnail) : that.videoThumbnail == null && (videoFile != null ? videoFile.equals(that.videoFile) : that.videoFile == null)))));
 
     }
 
     @Override
     public int hashCode() {
-        int result = imagePath != null ? imagePath.hashCode() : 0;
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (imagePath != null ? imagePath.hashCode() : 0);
         result = 31 * result + (imageUrl != null ? imageUrl.hashCode() : 0);
         result = 31 * result + (videoThumbnail != null ? videoThumbnail.hashCode() : 0);
         result = 31 * result + (videoFile != null ? videoFile.hashCode() : 0);
