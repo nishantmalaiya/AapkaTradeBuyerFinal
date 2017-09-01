@@ -8,19 +8,24 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
+import com.aapkatrade.buyer.general.Validation;
+import com.aapkatrade.buyer.general.interfaces.CommonInterface;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
 import com.aapkatrade.buyer.home.wallet.walletadapter.WalletAdapter;
 import com.aapkatrade.buyer.home.wallet.walletadapter.WalletTransactionDatas;
@@ -29,6 +34,7 @@ import com.aapkatrade.buyer.uicomponent.calenderview.CalendarDay;
 import com.aapkatrade.buyer.uicomponent.calenderview.CalendarMode;
 import com.aapkatrade.buyer.uicomponent.calenderview.MaterialCalendarView;
 import com.aapkatrade.buyer.uicomponent.calenderview.OnDateSelectedListener;
+import com.aapkatrade.buyer.uicomponent.calenderview.OnRangeSelectedListener;
 import com.aapkatrade.buyer.uicomponent.calenderview.decorator.HighlightWeekendsDecorator;
 import com.aapkatrade.buyer.uicomponent.calenderview.decorator.MySelectorDecorator;
 import com.aapkatrade.buyer.uicomponent.calenderview.decorator.OneDayDecorator;
@@ -38,25 +44,30 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 
 public class Wallet extends Fragment  implements OnDateSelectedListener
 {
 
+    LinearLayout linearLayoutUser,linearLayourWallet;
     RecyclerView recyclerView;
     Button buttonAddCredit;
     ImageView imgUser;
     TextView tv_currentbal_value,tvUserName;
     LinearLayoutManager wallet_history_layout_manager;
-    MaterialCalendarView materialCalendarView;
+    public MaterialCalendarView materialCalendarView;
     WalletAdapter  walletAdapter;
     ArrayList<WalletTransactionDatas> walletTransactionDataslist;
     private final OneDayDecorator oneDayDecorator = new OneDayDecorator();
     ProgressBarHandler progressBarHandler;
     AppSharedPreference appSharedPreference;
+    CardView cardViewBalance;
+
 
 
     public Wallet()
@@ -76,8 +87,25 @@ public class Wallet extends Fragment  implements OnDateSelectedListener
         progressBarHandler = new ProgressBarHandler(getActivity());
 
 
-
         initView(v);
+        materialCalendarView.setOnRangeSelectedListener(new OnRangeSelectedListener() {
+            @Override
+            public void onRangeSelected(@NonNull MaterialCalendarView widget, @NonNull List<CalendarDay> dates) {
+                AndroidUtils.showToast(getActivity(),"  hi  "+ dates.toString());
+            }
+        });
+
+        materialCalendarView.commonInterface = new CommonInterface() {
+            @Override
+            public Object getData(Object object) {
+                if((Boolean) object){
+//                    AndroidUtils.showToast(getActivity(),"  hi  "+ String.valueOf(materialCalendarView.getLastDayOfWeek()));
+
+
+                }
+                return null;
+            }
+        };
         // Inflate the layout for this fragment
         return v;
 
@@ -85,8 +113,21 @@ public class Wallet extends Fragment  implements OnDateSelectedListener
 
     private void initView(View v)
     {
+        linearLayourWallet = (LinearLayout) v.findViewById(R.id.linearLayourWallet);
 
-        imgUser = (ImageView) v.findViewById(R.id.imgUser);
+        linearLayoutUser = (LinearLayout) v.findViewById(R.id.linearLayoutUser);
+
+        cardViewBalance = (CardView) v.findViewById(R.id.cardViewBalance);
+
+        imgUser = (ImageView) v.findViewById(R.id.imageviewpp);
+
+        if (Validation.isNonEmptyStr(appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_PIC.toString(), "")))
+        {
+            Picasso.with(getActivity()).load(appSharedPreference.getSharedPref(SharedPreferenceConstants.PROFILE_PIC.toString(), ""))
+                    .error(R.drawable.ic_profile_user)
+                    .into(imgUser);
+        }
+
 
         tv_currentbal_value = (TextView) v.findViewById(R.id.tv_currentbal_value);
 
@@ -99,18 +140,20 @@ public class Wallet extends Fragment  implements OnDateSelectedListener
         setupRecycleview(v);
 
 
-
     }
 
-    private void setupcalender(View v) {
+    private void setupcalender(View v)
+    {
 
         buttonAddCredit = (Button) v.findViewById(R.id.buttonAddCredit);
 
-        buttonAddCredit.setOnClickListener(new View.OnClickListener() {
+        buttonAddCredit.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
-
+            public void onClick(View view)
+            {
                 Intent i = new Intent(getActivity(), AddWalletMoneyActivity.class);
+                i.putExtra("Amount",tv_currentbal_value.getText().toString());
                 startActivity(i);
 
             }
@@ -144,6 +187,21 @@ public class Wallet extends Fragment  implements OnDateSelectedListener
         materialCalendarView.state().edit()
                 .setCalendarDisplayMode(CalendarMode.WEEKS)
                 .commit();
+
+
+
+
+
+        materialCalendarView.setOnDateChangedListener(new OnDateSelectedListener() {
+            @Override
+            public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
+
+                AndroidUtils.showToast(getActivity(),"Hi Dear"+date.toString());
+
+            }
+        });
+
+
     }
 
     private void setupRecycleview(View v)
@@ -161,9 +219,11 @@ public class Wallet extends Fragment  implements OnDateSelectedListener
         recyclerView.setAdapter(walletAdapter);
 
 
-        callWebServiceMakePayment();
+        callWebServicewallet_history();
 
     }
+
+
     @Override
     public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected)
     {
@@ -173,8 +233,9 @@ public class Wallet extends Fragment  implements OnDateSelectedListener
     }
 
 
-    private void callWebServiceMakePayment()
+    private void callWebServicewallet_history()
     {
+        linearLayourWallet.setVisibility(View.INVISIBLE);
         progressBarHandler.show();
 
         String login_url = getActivity().getResources().getString(R.string.webservice_base_url) + "/wallet_history";
@@ -192,44 +253,49 @@ public class Wallet extends Fragment  implements OnDateSelectedListener
                     @Override
                     public void onCompleted(Exception e, JsonObject result)
                     {
-                        //  AndroidUtils.showErrorLog(context,result,"dghdfghsaf dawbnedvhaewnbedvsab dsadduyf");
+                         AndroidUtils.showErrorLog(getActivity(),"d",result);
                         // progressBarHandler.hide();
                         progressBarHandler.hide();
 
-                         if (result.get("error").getAsString().contains("false"))
+                        if (result!=null)
                         {
-                            progressBarHandler.hide();
-                            String payment_status;
-
-                            JsonObject jsonObject = result.getAsJsonObject("result");
-
-                            String total_balance = jsonObject.get("total_balance").getAsString();
-
-                            tv_currentbal_value.setText(getString(R.string.rupay_text)+total_balance);
-
-                            JsonArray jsonArray = jsonObject.getAsJsonArray("history");
-
-                            for (int i= 0; i<jsonArray.size(); i++)
+                            if (result.get("error").getAsString().contains("false"))
                             {
-                                JsonObject jsonObject1 = (JsonObject) jsonArray.get(i);
+                                linearLayourWallet.setVisibility(View.VISIBLE);
+                                progressBarHandler.hide();
+                                String payment_status;
 
-                                String transactionid =jsonObject1.get("transactionId").getAsString();
+                                JsonObject jsonObject = result.getAsJsonObject("result");
 
-                                String trans_amt = jsonObject1.get("trans_amt").getAsString();
+                                String total_balance = jsonObject.get("total_balance").getAsString();
 
-                                String txn_type = jsonObject1.get("txn_type").getAsString();
+                                tv_currentbal_value.setText(getString(R.string.rupay_text)+total_balance);
 
-                                String transaction_status = jsonObject1.get("transaction_status").getAsString();
+                                JsonArray jsonArray = jsonObject.getAsJsonArray("history");
 
-                                String transaction_date = jsonObject1.get("created_at").getAsString();
+                                for (int i= 0; i<jsonArray.size(); i++)
+                                {
+                                    JsonObject jsonObject1 = (JsonObject) jsonArray.get(i);
 
-                                walletTransactionDataslist.add(new WalletTransactionDatas(transactionid,transaction_date,transaction_status,getString(R.string.rupay_text)+trans_amt,txn_type,""));
+                                    String transactionid =jsonObject1.get("transactionId").getAsString();
+
+                                    String trans_amt = jsonObject1.get("trans_amt").getAsString();
+
+                                    String txn_type = jsonObject1.get("txn_type").getAsString();
+
+                                    String transaction_status = jsonObject1.get("transaction_status").getAsString();
+
+                                    String transaction_date = jsonObject1.get("created_at").getAsString();
+
+                                    String transaction_message = jsonObject1.get("message").getAsString();
+
+                                    walletTransactionDataslist.add(new WalletTransactionDatas(transactionid,transaction_date,transaction_status,trans_amt,txn_type,transaction_message));
 
 
-                            }
+                                }
 
-
-                            AndroidUtils.showErrorLog(getActivity(), jsonObject.toString());
+                                walletAdapter.notifyDataSetChanged();
+                                AndroidUtils.showErrorLog(getActivity(), jsonObject.toString());
 
                                 /* Intent intent = new Intent(getActivity(), PaymentCompletionActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -239,14 +305,25 @@ public class Wallet extends Fragment  implements OnDateSelectedListener
                             intent.putExtra("vpc_ReceiptNo", "");
                             startActivity(intent);*/
 
+                            }
+                            else {
+                                linearLayourWallet.setVisibility(View.INVISIBLE);
+                                progressBarHandler.hide();
+                                Intent intent = new Intent(getActivity(), PaymentCompletionActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                intent.putExtra("isSuccess", "false");
+                                startActivity(intent);
+                            }
+
                         }
                         else {
+
                             progressBarHandler.hide();
-                            Intent intent = new Intent(getActivity(), PaymentCompletionActivity.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            intent.putExtra("isSuccess", "false");
-                            startActivity(intent);
+                            linearLayourWallet.setVisibility(View.INVISIBLE);
+                            AndroidUtils.showErrorLog(getActivity(),"Server Error Please Try Again");
+
                         }
+
                         //Toast.makeText(getApplicationContext(),result.toString(),Toast.LENGTH_SHORT).show();
 
 

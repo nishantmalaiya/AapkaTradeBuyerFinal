@@ -573,16 +573,19 @@ public class WalletPaymentActivity extends Activity {
 
                             AndroidUtils.showErrorLog(getApplicationContext(), result.toString());
 
-                            Intent intent = new Intent(WalletPaymentActivity.this, PaymentCompletionActivity.class);
+                           // AddWalletMoneyActivity.tvWalletAmount.setText(jsonObject.get("trans_amt").getAsString());
+
+                            Intent intent = new Intent(WalletPaymentActivity.this, AddMoneyWalletSuccessActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             intent.putExtra("isSuccess", "true");
-                            intent.putExtra("vpc_Amount", jsonObject.get("amount").getAsString());
-                            intent.putExtra("vpc_TransactionNo", jsonObject.get("transactionID").getAsString());
-                            intent.putExtra("vpc_ReceiptNo", "");
+                            intent.putExtra("vpc_Amount", jsonObject.get("trans_amt").getAsString());
+                            intent.putExtra("Date", jsonObject.get("created_at").getAsString());
+                            intent.putExtra("vpc_TransactionNo", jsonObject.get("transactionid").getAsString());
                             startActivity(intent);
-
+                            finish();
                         }
-                        else {
+                        else
+                        {
                             progressBarHandler.hide();
                             Intent intent = new Intent(WalletPaymentActivity.this, PaymentCompletionActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
