@@ -513,7 +513,7 @@ public class EditCompanyShopActivity extends AppCompatActivity {
             AndroidUtils.showSnackBar(addCompanyShopLayout, "Please enter company/shop Address.");
             etCompanyAddress.setError("Please enter company/shop Address.");
             isAllFieldsValidate = false;
-        } else if (!Validation.isValidNumber(etMobileNo.getText().toString(), Validation.getNumberPrefix(etMobileNo.getText().toString()))) {
+        } else if (!Validation.isValidNumber(etMobileNo.getText().toString())) {
             AndroidUtils.showSnackBar(addCompanyShopLayout, "Please enter valid mobile number.");
             etMobileNo.setError("Please enter valid mobile number.");
             isAllFieldsValidate = false;
@@ -1010,20 +1010,6 @@ public class EditCompanyShopActivity extends AppCompatActivity {
                                 progressBarHandler.hide();
                                 if (result != null) {
                                     AndroidUtils.showErrorLog(context, "result::::::", result);
-                                   /* if (result.get("error").getAsString().equalsIgnoreCase("false")) {
-                                        if (Validation.containsIgnoreCase(result.get("message").getAsString(), "successfully updated")) {
-                                            AndroidUtils.showErrorLog(context, "result:::success:::", result);
-                                            AndroidUtils.showToast(context, result.get("message").getAsString());
-                                            doExitReveal(false);
-
-                                        } else {
-                                            AndroidUtils.showErrorLog(context, "error::::::TRUE");
-                                        }
-
-                                    } else {
-                                        AndroidUtils.showErrorLog(context, "error::::::TRUE");
-                                    }
-*/
                                 } else {
                                     AndroidUtils.showErrorLog(context, "result::::::NULL");
                                 }

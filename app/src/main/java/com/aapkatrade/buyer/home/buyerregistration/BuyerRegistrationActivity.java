@@ -313,7 +313,7 @@ public class BuyerRegistrationActivity extends AppCompatActivity {
             } else if (Validation.isEmptyStr(formBuyerData.getLastName())) {
                 putError(1);
                 isAllFieldSet++;
-            } else if (!Validation.isValidNumber(formBuyerData.getMobile(), Validation.getNumberPrefix(formBuyerData.getMobile()))) {
+            } else if (!Validation.isValidNumber(formBuyerData.getMobile())) {
                 putError(3);
                 isAllFieldSet++;
             } else if (spState == null) {

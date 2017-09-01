@@ -859,7 +859,7 @@ public class RegistrationBusinessAssociateActivity extends AppCompatActivity imp
                 } else if (Validation.isEmptyStr(formBusinessData.getFatherName())) {
                     putError(10);
                     step1FieldsSet++;
-                } else if (!Validation.isValidNumber(formBusinessData.getMobile_no(), Validation.getNumberPrefix(formBusinessData.getMobile_no()))) {
+                } else if (!Validation.isValidNumber(formBusinessData.getMobile_no())) {
                     putError(3);
                     step1FieldsSet++;
                 }  else if (!(Validation.isNonEmptyStr(formBusinessData.getStateID()) &&
@@ -938,7 +938,7 @@ public class RegistrationBusinessAssociateActivity extends AppCompatActivity imp
                 } else if (Validation.isEmptyStr(formBusinessData.getAccountHolderName())) {
                     putError(17);
                     step3FieldsSet++;
-                } else if (!Validation.isValidNumber(formBusinessData.getRegisteredMobileWithBank(), Validation.getNumberPrefix(formBusinessData.getRegisteredMobileWithBank()))) {
+                } else if (!Validation.isValidNumber(formBusinessData.getRegisteredMobileWithBank())) {
                     putError(18);
                     step3FieldsSet++;
                 }

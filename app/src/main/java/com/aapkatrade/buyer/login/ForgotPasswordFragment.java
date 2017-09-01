@@ -132,7 +132,7 @@ public class ForgotPasswordFragment extends Fragment implements View.OnClickList
 
             }
 
-        } else if (Validation.isValidNumber(et_mobile_no.getText().toString(), Validation.getNumberPrefix(et_mobile_no.getText().toString())))
+        } else if (Validation.isValidNumber(et_mobile_no.getText().toString()))
         {
             System.out.println("dg dbv "+appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString()));
 

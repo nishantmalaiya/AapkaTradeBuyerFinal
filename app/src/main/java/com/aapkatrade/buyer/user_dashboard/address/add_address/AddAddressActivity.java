@@ -138,7 +138,7 @@ public class AddAddressActivity extends AppCompatActivity {
 
                     if (!etMobileNo.getText().toString().equals("")) {
 
-                        if (Validation.isValidNumber(etMobileNo.getText().toString(), Validation.getNumberPrefix(etMobileNo.getText().toString()))) {
+                        if (Validation.isValidNumber(etMobileNo.getText().toString())) {
 
                             if (!etPincode.getText().toString().equals("")) {
 

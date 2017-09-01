@@ -101,7 +101,7 @@ RelativeLayout rl_dialog_enquiry_container;
 
                     if (Validation.isValidEmail(email.getText().toString())) {
 
-                        if (Validation.isValidNumber(mobile.getText().toString(), Validation.getNumberPrefix(mobile.getText().toString()))) {
+                        if (Validation.isValidNumber(mobile.getText().toString())) {
 
                             if (Validation.validateEdittext(service_enquiry)) {
                                 if(ConnetivityCheck.isNetworkAvailable(context))
