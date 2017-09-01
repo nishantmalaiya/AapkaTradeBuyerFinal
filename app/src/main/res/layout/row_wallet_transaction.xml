@@ -39,7 +39,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="@dimen/ten_dip"
-                android:text="@string/rupay_text" />
+                android:text="" />
         </RelativeLayout>
 
         <ImageView
@@ -47,11 +47,10 @@
             android:layout_width="@dimen/seventy_dip"
             android:layout_height="@dimen/seventy_dip"
             android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="@dimen/twenty_dip"
-            android:layout_marginRight="@dimen/twenty_dip"
             android:layout_marginTop="@dimen/ten_dip"
-            android:background="@drawable/edit_text_white_back"
+            android:background="@drawable/circle_gray_back"
             android:padding="@dimen/ten_dip"
+            android:src="@drawable/ic_add_money"
             android:scaleType="fitXY" />
 
         <TextView

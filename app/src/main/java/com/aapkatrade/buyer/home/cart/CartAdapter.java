@@ -36,7 +36,8 @@ import java.util.List;
  */
 
 
-public class CartAdapter extends RecyclerView.Adapter<CartHolder> implements View.OnClickListener {
+public class CartAdapter extends RecyclerView.Adapter<CartHolder> implements View.OnClickListener
+{
 
     public final LayoutInflater inflater;
     public static List<CartData> itemList;
@@ -51,7 +52,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartHolder> implements Vie
 
 
 
-    public CartAdapter(Context context, List<CartData> itemList) {
+    public CartAdapter(Context context, List<CartData> itemList)
+    {
 
         this.itemList = itemList;
         this.context = context;
@@ -63,12 +65,14 @@ public class CartAdapter extends RecyclerView.Adapter<CartHolder> implements Vie
     }
 
     @Override
-    public CartHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public CartHolder onCreateViewHolder(ViewGroup parent, int viewType)
+    {
         return new CartHolder(inflater.inflate(R.layout.row_my_cart, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(final CartHolder holder, final int position) {
+    public void onBindViewHolder(final CartHolder holder, final int position)
+    {
         linearLayoutQuantity = holder.dropdown_ll;
 
         textViewQuantity = holder.textView64;
