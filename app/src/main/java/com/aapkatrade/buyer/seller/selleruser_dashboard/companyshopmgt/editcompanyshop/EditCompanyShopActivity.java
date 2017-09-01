@@ -25,13 +25,11 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewAnimationUtils;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -45,14 +43,12 @@ import com.aapkatrade.buyer.general.Utils.ImageUtils;
 import com.aapkatrade.buyer.general.Utils.ParseUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.Utils.adapter.CustomSimpleListAdapter;
-import com.aapkatrade.buyer.general.Utils.adapter.CustomSpinnerAdapter;
 import com.aapkatrade.buyer.general.Validation;
 import com.aapkatrade.buyer.general.entity.KeyValue;
 import com.aapkatrade.buyer.general.interfaces.CommonInterface;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
 import com.aapkatrade.buyer.home.HomeActivity;
 import com.aapkatrade.buyer.home.buyerregistration.entity.City;
-import com.aapkatrade.buyer.home.buyerregistration.spinner_adapter.SpCityAdapter;
 import com.aapkatrade.buyer.home.navigation.entity.Category;
 import com.aapkatrade.buyer.home.navigation.entity.SubCategory;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.CompanyShopManagementActivity;
@@ -81,11 +77,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Date;
 
 
 public class EditCompanyShopActivity extends AppCompatActivity {
@@ -105,7 +97,7 @@ public class EditCompanyShopActivity extends AppCompatActivity {
     private ArrayList<SubCategory> listDataChild = new ArrayList<>();
     private EditText etCompanyShopName, etAreaLocation, etCompanyAddress, etPinCode, etMobileNo, etPhoneNo, etEmail, etWebURL, etFBUrl, etTwitterUrl, etYoutubeURL, etGooglePlusURL, etDescription;
     private File docFile = new File("");
-    private ArrayList<ProductMediaData> productMediaDatas = new ArrayList<>();
+    private ArrayList<ProductMediaData> productMediaDataArrayList = new ArrayList<>();
     public static ArrayList<ProductMediaData> productMediaDatasDelete = new ArrayList<>();
     private RecyclerView recyclerView;
     private ProductImagesAdapter adapter;
@@ -116,11 +108,11 @@ public class EditCompanyShopActivity extends AppCompatActivity {
     private DaysTileView daysTileView1, daysTileView2, daysTileView3;
     private CustomCardViewHeader generalDetailsHeader, shopDetailsHeader;
     private LinearLayout llShopDetailsContainer, llGeneralContainer;
-    private String company_name, product_type, country_id, state_id, city_id, area, pincode, mobile, phone, email_id, web_url, category_id, sub_cat_id, facebookurl, twitterurl, googleplusurl, youtubeurl, short_description, address, videoURL, shopId;
+    private String company_name, product_type, area, pincode, mobile, phone, email_id, web_url, category_id, sub_cat_id, facebookurl, twitterurl, googleplusurl, youtubeurl, short_description, address, videoURL, shopId;
     private boolean cityFlag = false, subCategoryFlag = false;
     private ArrayList<KeyValue> imageUrlList = new ArrayList<>();
 
-    private ArrayList<String> submitImgDelList = new ArrayList<>();
+    public static ArrayList<String> submitImgDelList = new ArrayList<>();
     private ArrayList<Part> submitImgList = new ArrayList<>();
     public static CommonInterface commonInterface;
 
@@ -134,15 +126,11 @@ public class EditCompanyShopActivity extends AppCompatActivity {
             shopId = getIntent().getStringExtra("shopId");
         }
         init_country_state_data();
-
+        submitImgDelList.clear();
         productMediaDatasDelete.clear();
         setUpToolBar();
         initView();
-        getState();
-        getCategory();
-        getServiceType();
-        takeAreaLocation();
-        setupRecyclerView();
+
 
 
         btnSave.setOnClickListener(new View.OnClickListener() {
@@ -150,10 +138,9 @@ public class EditCompanyShopActivity extends AppCompatActivity {
             public void onClick(View v) {
                 validateFields();
                 if (submitImgDelList != null)
-                    submitImgDelList.clear();
+                   // submitImgDelList.clear();
                 submitImgList = submitImages();
 
-                submitImgDelList = submitDeletedImages();
 
                 AndroidUtils.showErrorLog(context, "submitImgDelList-------" + submitImgDelList);
 
@@ -237,16 +224,12 @@ public class EditCompanyShopActivity extends AppCompatActivity {
                         }
 
 
-                        state_id = jsonObject.get("state_id").getAsString();
-                        country_id = jsonObject.get("country_id").getAsString();
-
-                        city_id = jsonObject.get("city_id").getAsString();
-                        selectStateCity(country_id, state_id, city_id);
-
+                        stateID = jsonObject.get("state_id").getAsString();
+                        countryID = jsonObject.get("country_id").getAsString();
+                        cityID = jsonObject.get("city_id").getAsString();
                         area = jsonObject.get("area").getAsString();
                         etAreaLocation.setText(area);
                         pincode = jsonObject.get("pincode").getAsString();
-
                         etPinCode.setText(pincode);
                         mobile = jsonObject.get("mobile").getAsString();
                         countryName = jsonObject.get("country_name").getAsString();
@@ -262,11 +245,8 @@ public class EditCompanyShopActivity extends AppCompatActivity {
                         etEmail.setText(email_id);
                         category_id = jsonObject.get("category_id").getAsString();
                         sub_cat_id = jsonObject.get("sub_cat_id").getAsString();
-                        setSelectedCategory(category_id, sub_cat_id);
-
                         web_url = jsonObject.get("web_url").getAsString();
                         etWebURL.setText(web_url);
-
                         facebookurl = jsonObject.get("facebookurl").getAsString();
                         etFBUrl.setText(facebookurl);
                         twitterurl = jsonObject.get("twitterurl").getAsString();
@@ -312,7 +292,7 @@ public class EditCompanyShopActivity extends AppCompatActivity {
                         videoURL = jsonObject.get("shop_video").getAsString();
                         if (Validation.isNonEmptyStr(videoURL) && !videoURL.equals("No Video")) {
                             AndroidUtils.showErrorLog(context, "videoURL---------------------" + videoURL);
-                            productMediaDatas.add(new ProductMediaData(videoURL.replace("mp4", "png")));
+                            productMediaDataArrayList.add(new ProductMediaData(videoURL.replace("mp4", "png")));
                             adapter.notifyDataSetChanged();
                         }
 
@@ -320,19 +300,27 @@ public class EditCompanyShopActivity extends AppCompatActivity {
 
                         for (int i = 0; i < jsonArray.size(); i++) {
                             AndroidUtils.showErrorLog(context, "imagepathurl---------------------" + jsonArray.get(i).getAsJsonObject().get("image_url").getAsString());
-                            imageUrlList.add(new KeyValue(jsonArray.get(i).getAsJsonObject().get("id").getAsString(), jsonArray.get(i).getAsJsonObject().get("image_url").getAsString()));
+//                            imageUrlList.add(new KeyValue(jsonArray.get(i).getAsJsonObject().get("id").getAsString(), jsonArray.get(i).getAsJsonObject().get("image_url").getAsString()));
+                            ProductMediaData productMediaData = new ProductMediaData();
+                            productMediaData.setId(jsonArray.get(i).getAsJsonObject().get("id").getAsString());
+                            productMediaData.setVideo(false);
+                            productMediaData.setImageUrl(jsonArray.get(i).getAsJsonObject().get("image_url").getAsString());
+                           productMediaDataArrayList.add(productMediaData);
                         }
-                        if (imageUrlList.size() > 0) {
+                        adapter.notifyDataSetChanged();
+
+
+/*                        if (imageUrlList.size() > 0) {
                             for (int i = 0; i < imageUrlList.size(); i++) {
                                 AndroidUtils.showErrorLog(context, "downloadImage---------------------" + imageUrlList.get(i).key);
                                 downloadImage(i);
                             }
-                        }
+                        }*/
                     }
                 });
     }
 
-    private void downloadImage(final int index) {
+    /*private void downloadImage(final int index) {
         progressBarHandler.show();
 
         Ion.with(this).load(imageUrlList.get(index).value.toString()).withBitmap().asBitmap()
@@ -340,7 +328,6 @@ public class EditCompanyShopActivity extends AppCompatActivity {
                     @Override
                     public void onCompleted(Exception e, Bitmap result) {
                         progressBarHandler.hide();
-                        // do something with your bitmap
                         if (result == null) {
                             AndroidUtils.showErrorLog(context, "Problems in downloading image result == null.");
                         } else {
@@ -369,7 +356,7 @@ public class EditCompanyShopActivity extends AppCompatActivity {
         }
         AndroidUtils.showErrorLog(context, "Image file exists with path-------------- : ", pictureFile.getAbsolutePath());// e.getMessage());
 
-        productMediaDatas.add(new ProductMediaData(pictureFile.getAbsolutePath(), "", null, ""));
+        productMediaDataArrayList.add(new ProductMediaData(pictureFile.getAbsolutePath(), "", null, ""));
         adapter.notifyDataSetChanged();
     }
 
@@ -397,7 +384,7 @@ public class EditCompanyShopActivity extends AppCompatActivity {
         return mediaFile;
     }
 
-    private String getFileName(String s) {
+  private String getFileName(String s) {
         if (Validation.isNonEmptyStr(s)) {
             String s1[] = s.split("/");
             String s2 = s1[s1.length - 1];
@@ -440,34 +427,17 @@ public class EditCompanyShopActivity extends AppCompatActivity {
 
 
     }
-
-    private void selectStateCity(String country_id, String state_id, String city_id) {
-
-
-
-        /*for (int i = 0; i < stateIds.size(); i++) {
-            if (stateIds.get(i).equals(state_id)) {
-
-                cityFlag = true;
-                tempCityID = city_id;
-                spState.setSelection(i);
-
-            }
-
-        }*/
-
-
-    }
+*/
 
     private void validateFields() {
         isAllFieldsValidate = true;
-        if (productMediaDatas.size() > 0) {
-            if (productMediaDatas.get(0).imagePath != null && productMediaDatas.get(0).imagePath.equalsIgnoreCase("first")) {
-                productMediaDatas.remove(0);
+        if (productMediaDataArrayList.size() > 0) {
+            if (productMediaDataArrayList.get(0).imagePath != null && productMediaDataArrayList.get(0).imagePath.equalsIgnoreCase("first")) {
+                productMediaDataArrayList.remove(0);
             }
         }
 
-        if (!isImageExists(productMediaDatas)) {
+        if (!isImageExists(productMediaDataArrayList)) {
             AndroidUtils.showSnackBar(addCompanyShopLayout, "Please Capture/Upload at least one Imaage.");
             isAllFieldsValidate = false;
             isGeneralDetailsCompleted = false;
@@ -499,6 +469,10 @@ public class EditCompanyShopActivity extends AppCompatActivity {
         } else if (Validation.isEmptyStr(etAreaLocation.getText().toString())) {
             AndroidUtils.showSnackBar(addCompanyShopLayout, "Please enter company/shop Area.");
             etAreaLocation.setError("Please enter company/shop Area.");
+            isAllFieldsValidate = false;
+            isGeneralDetailsCompleted = false;
+        } else if (Validation.isEmptyStr(countryID)) {
+            AndroidUtils.showSnackBar(addCompanyShopLayout, "Please select Country.");
             isAllFieldsValidate = false;
             isGeneralDetailsCompleted = false;
         } else if (Validation.isEmptyStr(stateID)) {
@@ -671,6 +645,11 @@ public class EditCompanyShopActivity extends AppCompatActivity {
             }
         });
 
+        setupRecyclerView();
+        getState();
+        getCategory();
+        getServiceType();
+        takeAreaLocation();
     }
 
     private void setUpToolBar() {
@@ -866,12 +845,12 @@ public class EditCompanyShopActivity extends AppCompatActivity {
 
     private void hitUpdateCompanyShopWebService() {
 
-        for (int i = 0; i < productMediaDatas.size(); i++) {
-            AndroidUtils.showErrorLog(context, "media data : " + i, "productMediaDatas.get(i).imagePath : " + productMediaDatas.get(i).imagePath);
-            AndroidUtils.showErrorLog(context, "media data : " + i, "productMediaDatas.get(i).imageUrl : " + productMediaDatas.get(i).imageUrl);
-            AndroidUtils.showErrorLog(context, "media data : " + i, "productMediaDatas.get(i).videoThumbnail : " + productMediaDatas.get(i).videoThumbnail);
-            AndroidUtils.showErrorLog(context, "media data : " + i, "productMediaDatas.get(i).productMediaDatas.get(i).videoFile == null : " + productMediaDatas.get(i).videoFile == null);
-            AndroidUtils.showErrorLog(context, "media data : " + i, "productMediaDatas.get(i).isVideo : " + productMediaDatas.get(i).isVideo);
+        for (int i = 0; i < productMediaDataArrayList.size(); i++) {
+            AndroidUtils.showErrorLog(context, "media data : " + i, "productMediaDataArrayList.get(i).imagePath : " + productMediaDataArrayList.get(i).imagePath);
+            AndroidUtils.showErrorLog(context, "media data : " + i, "productMediaDataArrayList.get(i).imageUrl : " + productMediaDataArrayList.get(i).imageUrl);
+            AndroidUtils.showErrorLog(context, "media data : " + i, "productMediaDataArrayList.get(i).videoThumbnail : " + productMediaDataArrayList.get(i).videoThumbnail);
+            AndroidUtils.showErrorLog(context, "media data : " + i, "productMediaDataArrayList.get(i).productMediaDataArrayList.get(i).videoFile == null : " + productMediaDataArrayList.get(i).videoFile == null);
+            AndroidUtils.showErrorLog(context, "media data : " + i, "productMediaDataArrayList.get(i).isVideo : " + productMediaDataArrayList.get(i).isVideo);
         }
         AndroidUtils.showErrorLog(context, "user_id", userId);
         AndroidUtils.showErrorLog(context, "company_name", etCompanyShopName.getText().toString());
@@ -905,7 +884,7 @@ public class EditCompanyShopActivity extends AppCompatActivity {
             AndroidUtils.showErrorLog(context, "submitDeletedImages--------------", submitImgDelList);
 
             if (submitImgDelList == null || submitImgDelList.size() == 0) {
-                AndroidUtils.showErrorLog(context, "submitDeletedImages::::if--------------::NULL", submitDeletedImages());
+                AndroidUtils.showErrorLog(context, "submitDeletedImages::::if--------------::NULL", submitImgDelList.toString());
 
                 Ion.with(context)
                         .load(getString(R.string.webservice_base_url) + "/editCompany")
@@ -1003,13 +982,27 @@ public class EditCompanyShopActivity extends AppCompatActivity {
                         .setMultipartParameter("long", appSharedPreference.getSharedPref(SharedPreferenceConstants.CURRENT_LONGITUDE.toString(), "0"))
                         .addMultipartParts(submitImages())
                         .setMultipartParameter("delimg", submitImgDelList.toString())
-                        .asString()
-                        .setCallback(new FutureCallback<String>() {
+                        .asJsonObject()
+                        .setCallback(new FutureCallback<JsonObject>() {
                             @Override
-                            public void onCompleted(Exception e, String result) {
+                            public void onCompleted(Exception e, JsonObject result) {
                                 progressBarHandler.hide();
                                 if (result != null) {
                                     AndroidUtils.showErrorLog(context, "result::::::", result);
+                                    if (result.get("error").getAsString().equalsIgnoreCase("false")) {
+                                        if (Validation.containsIgnoreCase(result.get("message").getAsString(), "successfully updated")) {
+                                            AndroidUtils.showErrorLog(context, "result:::success:::", result);
+                                            AndroidUtils.showToast(context, result.get("message").getAsString());
+                                            doExitReveal(false);
+
+                                        } else {
+                                            AndroidUtils.showErrorLog(context, "error::::::TRUE");
+                                        }
+
+                                    } else {
+                                        AndroidUtils.showErrorLog(context, "error::::::TRUE");
+                                    }
+
                                 } else {
                                     AndroidUtils.showErrorLog(context, "result::::::NULL");
                                 }
@@ -1024,7 +1017,6 @@ public class EditCompanyShopActivity extends AppCompatActivity {
                         .setMultipartParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
                         .setMultipartParameter("user_id", userId)
                         .setMultipartParameter("shop_id", shopId)
-
                         .setMultipartParameter("company_name", etCompanyShopName.getText().toString())
                         .setMultipartParameter("address", etCompanyAddress.getText().toString())
                         .setMultipartParameter("category_id", categoryID)
@@ -1158,9 +1150,9 @@ public class EditCompanyShopActivity extends AppCompatActivity {
     private void setupRecyclerView() {
         recyclerView = (RecyclerView) findViewById(R.id.recycler);
 
-        productMediaDatas.add(new ProductMediaData("first", "", null, ""));
+        productMediaDataArrayList.add(new ProductMediaData("first", "", null, ""));
 
-        adapter = new ProductImagesAdapter(context, productMediaDatas, this);
+        adapter = new ProductImagesAdapter(context, productMediaDataArrayList, this);
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
 
@@ -1279,8 +1271,8 @@ public class EditCompanyShopActivity extends AppCompatActivity {
     }
 
     private File submitVideo() {
-        if (productMediaDatas != null && productMediaDatas.size() > 0) {
-            for (ProductMediaData file : productMediaDatas) {
+        if (productMediaDataArrayList != null && productMediaDataArrayList.size() > 0) {
+            for (ProductMediaData file : productMediaDataArrayList) {
                 if (file.isVideo) {
                     AndroidUtils.showErrorLog(context, " video file.toString()", file.toString());
                     return file.videoFile;
@@ -1292,9 +1284,9 @@ public class EditCompanyShopActivity extends AppCompatActivity {
 
     private ArrayList<Part> submitImages() {
         ArrayList<Part> files = new ArrayList<>();
-        if (productMediaDatas != null && productMediaDatas.size() > 0) {
-            for (ProductMediaData file : productMediaDatas) {
-                if (!file.isVideo && !isExistingImage(file) && savebitmap(file.imagePath) != null) {
+        if (productMediaDataArrayList != null && productMediaDataArrayList.size() > 0) {
+            for (ProductMediaData file : productMediaDataArrayList) {
+                if (!file.isVideo && Validation.isEmptyStr(file.id)) {
                     files.add(new FilePart("image[]", savebitmap(file.imagePath)));
                     AndroidUtils.showErrorLog(context, files.toArray().toString());
                 }
@@ -1317,27 +1309,7 @@ public class EditCompanyShopActivity extends AppCompatActivity {
         return false;
     }
 
-    private ArrayList<String> submitDeletedImages() {
 
-        ArrayList<String> files = new ArrayList<>();
-        if (productMediaDatasDelete != null && productMediaDatasDelete.size() > 0) {
-            AndroidUtils.showErrorLog(context, "productMediaDatasDelete---", productMediaDatasDelete.size());
-
-            for (int k = 0; k < productMediaDatasDelete.size(); k++) {
-                ProductMediaData file = productMediaDatasDelete.get(k);
-
-                AndroidUtils.showErrorLog(context, " !file.isVideo", !file.isVideo);
-                AndroidUtils.showErrorLog(context, "isExistingImagel", isExistingImage(file));
-                AndroidUtils.showErrorLog(context, " savebitmap(file.imagePath)!=null", savebitmap(file.imagePath) != null);
-
-                if (!file.isVideo && savebitmap(file.imagePath) != null) {
-                    files.add(imageUrlList.get(getPositionOfExistingImage(file)).key.toString());
-                }
-            }
-            return files;
-        }
-        return null;
-    }
 
     private int getPositionOfExistingImage(ProductMediaData file) {
         for (int i = 0; i < imageUrlList.size(); i++) {
@@ -1412,13 +1384,13 @@ public class EditCompanyShopActivity extends AppCompatActivity {
 
                 AndroidUtils.showToast(context, "Video timing should be between 30 to 120 second only");
             } else {
-                if (!isVideoExists(productMediaDatas)) {
-                    productMediaDatas.add(new ProductMediaData("", "", file, videothumbnail.getAbsolutePath()));
+                if (!isVideoExists(productMediaDataArrayList)) {
+                    productMediaDataArrayList.add(new ProductMediaData("", "", file, videothumbnail.getAbsolutePath()));
                 } else {
-                    for (int i = 0; i < productMediaDatas.size(); i++) {
-                        if (productMediaDatas.get(i).isVideo) {
-                            productMediaDatas.get(i).videoFile = file;
-                            productMediaDatas.get(i).videoThumbnail = videothumbnail.getAbsolutePath();
+                    for (int i = 0; i < productMediaDataArrayList.size(); i++) {
+                        if (productMediaDataArrayList.get(i).isVideo) {
+                            productMediaDataArrayList.get(i).videoFile = file;
+                            productMediaDataArrayList.get(i).videoThumbnail = videothumbnail.getAbsolutePath();
                         }
                     }
                 }
@@ -1478,13 +1450,13 @@ public class EditCompanyShopActivity extends AppCompatActivity {
         } else if (timeInMillisec <= 30000) {
             AndroidUtils.showToast(context, "Video timing should be between 30 to 120 second only");
         } else {
-            if (!isVideoExists(productMediaDatas)) {
-                productMediaDatas.add(new ProductMediaData("", "", file, video_thumbnail.getAbsolutePath()));
+            if (!isVideoExists(productMediaDataArrayList)) {
+                productMediaDataArrayList.add(new ProductMediaData("", "", file, video_thumbnail.getAbsolutePath()));
             } else {
-                for (int i = 0; i < productMediaDatas.size(); i++) {
-                    if (productMediaDatas.get(i).isVideo) {
-                        productMediaDatas.get(i).videoFile = file;
-                        productMediaDatas.get(i).videoThumbnail = video_thumbnail.getAbsolutePath();
+                for (int i = 0; i < productMediaDataArrayList.size(); i++) {
+                    if (productMediaDataArrayList.get(i).isVideo) {
+                        productMediaDataArrayList.get(i).videoFile = file;
+                        productMediaDataArrayList.get(i).videoThumbnail = video_thumbnail.getAbsolutePath();
                     }
                 }
             }
@@ -1505,7 +1477,7 @@ public class EditCompanyShopActivity extends AppCompatActivity {
         // CALL THIS METHOD TO GET THE ACTUAL PATH
         File finalFile = new File(ImageUtils.getRealPathFromURI(context, tempUri));
 
-        productMediaDatas.add(new ProductMediaData(finalFile.getAbsolutePath(), "", null, ""));
+        productMediaDataArrayList.add(new ProductMediaData(finalFile.getAbsolutePath(), "", null, ""));
         AndroidUtils.showErrorLog(context, "docfile", finalFile.getAbsolutePath());
 
         adapter.notifyDataSetChanged();
@@ -1537,11 +1509,11 @@ public class EditCompanyShopActivity extends AppCompatActivity {
                     AndroidUtils.showErrorLog(context, "doc", " else doc file path" + docFile.getAbsolutePath());
                 }
 
-                productMediaDatas.add(new ProductMediaData(docFile.getAbsolutePath(), "", null, ""));
+                productMediaDataArrayList.add(new ProductMediaData(docFile.getAbsolutePath(), "", null, ""));
                 AndroidUtils.showErrorLog(context, "docfile", docFile.getAbsolutePath());
 
                 adapter.notifyDataSetChanged();
-                if (productMediaDatas.size() > 0) {
+                if (productMediaDataArrayList.size() > 0) {
                     recyclerView.setVisibility(View.VISIBLE);
 
                 }
@@ -1560,11 +1532,11 @@ public class EditCompanyShopActivity extends AppCompatActivity {
                 // CALL THIS METHOD TO GET THE ACTUAL PATH
                 File finalFile = new File(ImageUtils.getRealPathFromURI(context, tempUri));
 
-                productMediaDatas.add(new ProductMediaData(finalFile.getAbsolutePath(), "", null, ""));
+                productMediaDataArrayList.add(new ProductMediaData(finalFile.getAbsolutePath(), "", null, ""));
                 AndroidUtils.showErrorLog(context, "docfile", finalFile.getAbsolutePath());
 
                 adapter.notifyDataSetChanged();
-                if (productMediaDatas.size() > 0) {
+                if (productMediaDataArrayList.size() > 0) {
                     recyclerView.setVisibility(View.VISIBLE);
 
                 }
