@@ -176,11 +176,13 @@ public class ProductImagesAdapter extends RecyclerView.Adapter<RecyclerView.View
                             }
                             context.startActivity(intent);
                         } else {
-                            File file = new File(itemList.get(position).getId()==null?itemList.get(position).imagePath:itemList.get(position).getImageUrl());
+                            AndroidUtils.showErrorLog(context, "getImageUrl", itemList.get(position).getImageUrl());
+                            File file = new File(/*itemList.get(position).getId()==null?itemList.get(position).imagePath:*/itemList.get(position).getImageUrl());
                             Intent intent = new Intent(android.content.Intent.ACTION_VIEW);
                             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                            //  Uri data = Uri.parse("file://" + file.getAbsolutePath());
+//                              Uri data = Uri.parse("file://" + file.getAbsolutePath());
                             Uri data = FileProvider.getUriForFile(context, "com.aapkatrade.buyer.provider", file);
+
                             intent.setDataAndType(data, "image");
                             context.startActivity(intent);
                         }

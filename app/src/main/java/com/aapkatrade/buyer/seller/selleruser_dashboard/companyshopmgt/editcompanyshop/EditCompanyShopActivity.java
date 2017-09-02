@@ -108,7 +108,7 @@ public class EditCompanyShopActivity extends AppCompatActivity {
     private DaysTileView daysTileView1, daysTileView2, daysTileView3;
     private CustomCardViewHeader generalDetailsHeader, shopDetailsHeader;
     private LinearLayout llShopDetailsContainer, llGeneralContainer;
-    private String company_name, product_type, area, pincode, mobile, phone, email_id, web_url, category_id, sub_cat_id, facebookurl, twitterurl, googleplusurl, youtubeurl, short_description, address, videoURL, shopId;
+    private String company_name, product_type, area, pincode, mobile, phone, email_id, web_url,  facebookurl, twitterurl, googleplusurl, youtubeurl, short_description, address, videoURL, shopId;
     private boolean cityFlag = false, subCategoryFlag = false;
     private ArrayList<KeyValue> imageUrlList = new ArrayList<>();
 
@@ -243,8 +243,20 @@ public class EditCompanyShopActivity extends AppCompatActivity {
                         etPhoneNo.setText(phone);
                         email_id = jsonObject.get("email_id").getAsString();
                         etEmail.setText(email_id);
-                        category_id = jsonObject.get("category_id").getAsString();
-                        sub_cat_id = jsonObject.get("sub_cat_id").getAsString();
+                        categoryID = jsonObject.get("category_id").getAsString();
+                        subCategoryID = jsonObject.get("sub_cat_id").getAsString();
+                        for(int i = 0; i <listDataHeader.size();i++){
+                            if(listDataHeader.get(i).getCategoryId().equals(categoryID)){
+                                spCategory.setSelection(i);
+                                if(listDataHeader.get(i).getSubCategoryList().size()>0){
+                                    for(int j = 0; j <listDataHeader.get(i).getSubCategoryList().size();j++){
+                                        if(listDataHeader.get(i).getSubCategoryList().get(j).subCategoryId.equals(subCategoryID)){
+                                            spSubCategory.setSelection(j);
+                                        }
+                                    }
+                                }
+                            }
+                        }
                         web_url = jsonObject.get("web_url").getAsString();
                         etWebURL.setText(web_url);
                         facebookurl = jsonObject.get("facebookurl").getAsString();
