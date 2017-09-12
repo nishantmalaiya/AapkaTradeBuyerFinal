@@ -205,7 +205,10 @@ public class EditCompanyShopActivity extends AppCompatActivity {
                     @Override
                     public void onCompleted(Exception e, JsonObject result) {
 
-                        AndroidUtils.showErrorLog(context, "getCompanyShopDetails_response", result);
+                        AndroidUtils.showErrorLog(context, "get", result);
+
+                        System.out.println("result--"+result);
+
                         JsonObject jsonObject = result.getAsJsonObject("result");
                         company_name = jsonObject.get("company_name").getAsString();
                         etCompanyShopName.setText(company_name);
