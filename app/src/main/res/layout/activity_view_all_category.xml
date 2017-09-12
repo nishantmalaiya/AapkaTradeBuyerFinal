@@ -16,38 +16,52 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="@dimen/ten_dip"
-        app:cardCornerRadius="@dimen/twenty_dip"
+        app:cardCornerRadius="@dimen/thirty_dip"
         android:backgroundTint="#E7EAF1"
         >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
 
             <RelativeLayout
+                android:id="@+id/rl_view_all_categories"
                 android:layout_width="match_parent"
+
                 android:layout_height="@dimen/one_hundred_fifty_dip">
 
                 <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/one_hundred_fifty_dip"
-                    android:src="@drawable/ic_categories_bg"
+                    android:layout_height="match_parent"
                     android:scaleType="fitXY"
-                    />
+                    android:src="@drawable/taj" />
+
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/user_imageview"
+
+                    android:layout_width="@dimen/hundred_dip"
+                    android:layout_height="@dimen/hundred_dip"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/ten_dip"
+
+                    android:background="@drawable/circle_green_back"
+                    android:padding="@dimen/two_dip"
+                    android:src="@drawable/hand" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+
                     android:layout_centerHorizontal="true"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="@dimen/fifteen_dip"
+                    android:layout_below="@+id/user_imageview"
+                    android:layout_marginTop="@dimen/ten_dip"
+
                     android:text="All Categories"
-                    android:textSize="18sp"
                     android:textColor="@color/white"
-                    android:textStyle="bold"
-                    />
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
             </RelativeLayout>
 
@@ -55,35 +69,36 @@
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/fifty_dip"
-                  >
+                android:layout_marginEnd="@dimen/ten_dip">
 
                 <ImageView
                     android:id="@+id/ic_list_or_grid"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="@dimen/seventy_dip"
                     android:layout_width="@dimen/fourty_dip"
-                    android:padding="@dimen/five_dip"
                     android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/seventy_dip"
+                    android:padding="@dimen/five_dip"
                     android:src="@drawable/ic_grid_view"
-                    android:tint="@color/green"
+                    android:tint="#146734"
 
                     />
 
                 <com.nightonke.jellytogglebutton.JellyToggleButton
                     android:id="@+id/toggle_button"
-                    android:layout_alignParentEnd="true"
-                    android:layout_width="@dimen/fifty_dip"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+
+                    android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     app:jtbEaseType="ease_in_out_circ"
-                    app:jtbLeftBackgroundColor="@color/green"
-                    app:jtbRightBackgroundColor="@color/green"
-                    app:jtbLeftThumbColor="@android:color/white"
-                    app:jtbRightThumbColor="@android:color/white"
-                    app:jtbLeftTextColor="@android:color/white"
-                    app:jtbRightTextColor="@android:color/white"
-                    />
+                    app:jtbLeftBackgroundColor="#A2ABA9"
+                    app:jtbLeftTextColor="@color/white"
+                    app:jtbLeftThumbColor="#146734"
+
+                    app:jtbRightBackgroundColor="#A2ABA9"
+                    app:jtbRightTextColor="@color/white"
+                    app:jtbRightThumbColor="#146734" />
 
 
             </RelativeLayout>
@@ -91,9 +106,9 @@
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerView"
-                android:layout_margin="@dimen/ten_dip"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="@dimen/ten_dip"
                 android:scrollbars="vertical" />
 
         </LinearLayout>

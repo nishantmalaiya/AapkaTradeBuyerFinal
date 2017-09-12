@@ -78,6 +78,8 @@ public class ViewAllCategoriesAdapter extends RecyclerView.Adapter<GridViewHolde
                 .placeholder(ContextCompat.getDrawable(context, R.drawable.ic_applogo1))
                 .load(categoryArrayList.get(position).getCategoryImage());
 
+        AndroidUtils.showErrorLog(context,"imageurl"+categoryArrayList.get(position).getCategoryImage());
+
         holder.textView.setText(categoryArrayList.get(position).getCategoryName());
 
         holder.gridLayout.setOnClickListener(new View.OnClickListener() {
