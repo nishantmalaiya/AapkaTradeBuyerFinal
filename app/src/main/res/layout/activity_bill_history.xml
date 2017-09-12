@@ -79,7 +79,7 @@
                             android:layout_height="wrap_content"
                             android:layout_centerHorizontal="true"
                             android:layout_marginTop="@dimen/ten_dip"
-                            android:text="@string/paymenthistory"
+                            android:text="@string/billhistory"
                             android:textStyle="bold" />
 
                         <android.support.design.widget.TextInputLayout

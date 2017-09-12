@@ -52,9 +52,10 @@ public class BillHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         final BillHistoryListHolder homeHolder = (BillHistoryListHolder) holder;
 
 
-        StringBuilder stringBuilder = new StringBuilder(itemList.get(position).paymentMode);
-        stringBuilder.append("<br>").append("<font color=\"#7dbd00\"><i>").append(itemList.get(position).paymentDate).append("</i></font>").append("<br>").append("<b>Request Ref. No : </b>").append(" ").append(itemList.get(position).RequestRefNo).append("<br>").append("<b>Bank Ref. No : </b>").append(" ").append(itemList.get(position).BankRefNo)
-        ;
+        StringBuilder stringBuilder = new StringBuilder("<b>" + "PAYMENT MODE: " + "<font color=\"#7dbd00\"><i>" + itemList.get(position).paymentMode + "</i></font>" + "</b>");
+        stringBuilder.append("<br>").append("<b>" + "PAYMENT DATE: " + "<font color=\"#7dbd00\"><i>").append(itemList.get(position).paymentDate).append("</i></font>" + "</b>");
+        stringBuilder.append("<br>").append("<b>" + "PAYMENT STATUS: " + "<font color=\"#7dbd00\"><i>").append(itemList.get(position).paymentStatus).append("</i></font>" + "</b>");
+        stringBuilder.append("<br>").append("<b>" + "PAYMENT AMOUNT: " + "<font color=\"#7dbd00\"><i>").append(context.getString(R.string.rupay_text)).append(itemList.get(position).paymentAmount).append("</i></font>" + "</b>");
         String tvData = stringBuilder.toString();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {

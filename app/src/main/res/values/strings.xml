@@ -299,7 +299,7 @@
     <string name="mpos_machine">MPOS Machine</string>
     <string name="payment">PAYMENT</string>
     <string name="payableAmount">PAYABLE AMOUNT</string>
-    <string name="paymenthistory">Payment History</string>
+    <string name="billhistory">Payment History</string>
     <string name="startdate">Start Date</string>
     <string name="enddate">End Date</string>
     <string name="search">Search</string>

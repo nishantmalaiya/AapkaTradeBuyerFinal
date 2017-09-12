@@ -52,6 +52,7 @@ public class BillHistory extends AppCompatActivity implements TimePickerDialog.O
     BillHistoryAdapter billHistoryAdapter;
     ArrayList<BillHistoryData> billHistoryDatas = new ArrayList<>();
     ProgressBarHandler progressBarHandler;
+    private TextView tvpaymenthistory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -190,7 +191,8 @@ public class BillHistory extends AppCompatActivity implements TimePickerDialog.O
 
     private void initView() {
         context = this;
-
+        tvpaymenthistory = (TextView) findViewById(R.id.tvpaymenthistory);
+        tvpaymenthistory.setText("Bill History");
         progressBarHandler = new ProgressBarHandler(this);
 
         appSharedPreference = new AppSharedPreference(this);
@@ -247,13 +249,21 @@ public class BillHistory extends AppCompatActivity implements TimePickerDialog.O
                             for (int k = 0; k < result_jsonArray.size(); k++) {
 
                                 JsonObject result_jsonobject = result_jsonArray.get(k).getAsJsonObject();
-                                String paymentDate = result_jsonobject.get("created_at").getAsString();
+                                String paymentDate = result_jsonobject.get("pay_date").getAsString();
 
-                                String paymentStatus = result_jsonobject.get("status_name").getAsString();
-                                String paymentMode = result_jsonobject.get("transferType").getAsString();
-                                String RequestRefNo = result_jsonobject.get("request_reference_no").getAsString();
-                                String BankRefNo = result_jsonobject.get("bankReferenceNo").getAsString();
-                                String paymentAmount = result_jsonobject.get("total_vendor_amt").getAsString();
+                                String paymentStatus = "";
+                                //= result_jsonobject.get("status").getAsString();
+
+                                if (result_jsonobject.get("status").getAsString().equals("1")) {
+                                    paymentStatus = "COMPLETED";
+                                }
+                                String paymentMode = result_jsonobject.get("paymentmode").getAsString();
+                                String RequestRefNo = "";
+                                //result_jsonobject.get("request_reference_no").getAsString();
+                                String BankRefNo = "";
+
+                                //result_jsonobject.get("bankReferenceNo").getAsString();
+                                String paymentAmount = result_jsonobject.get("payment").getAsString();
 
                                 billHistoryDatas.add(new BillHistoryData(paymentMode, paymentDate, RequestRefNo, BankRefNo, paymentStatus, paymentAmount));
 
@@ -317,7 +327,7 @@ public class BillHistory extends AppCompatActivity implements TimePickerDialog.O
             }
         });
         TextView header_name = (TextView) findViewById(R.id.header_name);
-       // header_name.setVisibility(View.VISIBLE);
+        // header_name.setVisibility(View.VISIBLE);
         header_name.setText("");
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         homeIcon.setOnClickListener(new View.OnClickListener() {
