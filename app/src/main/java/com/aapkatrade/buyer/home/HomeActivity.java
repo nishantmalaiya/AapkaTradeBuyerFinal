@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.speech.RecognizerIntent;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -30,6 +31,7 @@ import android.widget.TextView;
 import com.aapkatrade.buyer.chat.ChatActivity;
 import com.aapkatrade.buyer.dialogs.ChatDialogFragment;
 import com.aapkatrade.buyer.dialogs.track_order.TrackOrderDialog;
+import com.aapkatrade.buyer.general.NetworkChangeReceiver;
 import com.aapkatrade.buyer.general.Validation;
 import com.aapkatrade.buyer.home.wallet.Wallet;
 import com.aapkatrade.buyer.login.LoginDashboard;
@@ -56,7 +58,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements NetworkChangeReceiver.ConnectivityReceiverListener {
 
     private NavigationFragment drawer;
     private Toolbar toolbar;
@@ -96,14 +98,14 @@ public class HomeActivity extends AppCompatActivity {
 
         preInit();
 
+
         setContentView(R.layout.activity_homeactivity);
         initView();
 
 
     }
 
-    private void initView()
-    {
+    private void initView() {
 
         rl_main_content = (RelativeLayout) findViewById(R.id.rl_main_content);
 
@@ -142,11 +144,12 @@ public class HomeActivity extends AppCompatActivity {
                 open_chat();
             }
         });
+
     }
 
     private void preInit() {
         AppConfig.set_defaultfont(HomeActivity.this);
-        walletFragment=new Wallet();
+        walletFragment = new Wallet();
         aboutUsFragment = new AboutUsFragment();
 
         userDashboardFragment = new UserDashboardFragment();
@@ -162,6 +165,10 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
+    private void checkConnection() {
+        boolean isConnected = NetworkChangeReceiver.isConnected();
+        showSnack(isConnected);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -180,7 +187,7 @@ public class HomeActivity extends AppCompatActivity {
                 onOptionsItemSelected(alertMenuItem);
             }
         });
-        if(appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString()).equals("2")){
+        if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString()).equals("2")) {
             alertMenuItem.setVisible(false);
             AndroidUtils.showErrorLog(context, "cart visibility gone");
         }
@@ -188,8 +195,6 @@ public class HomeActivity extends AppCompatActivity {
 
         return true;
     }
-
-
 
 
     private void setupToolBar() {
@@ -261,7 +266,7 @@ public class HomeActivity extends AppCompatActivity {
         FragmentManager fm = getSupportFragmentManager();
         DashboardFragment dashboardFragment = (DashboardFragment) fm.findFragmentByTag(homeFragment.getClass().getName());
         Wallet showwalletFragment = (Wallet) fm.findFragmentByTag(walletFragment.getClass().getName());
-        AboutUsFragment aboutUsfragment=(AboutUsFragment)fm.findFragmentByTag(aboutUsFragment.getClass().getName()) ;
+        AboutUsFragment aboutUsfragment = (AboutUsFragment) fm.findFragmentByTag(aboutUsFragment.getClass().getName());
         UserDashboardFragment showuserdashboardfragment = (UserDashboardFragment) fm.findFragmentByTag(userDashboardFragment.getClass().getName());
 
         if (dashboardFragment != null && dashboardFragment.isVisible()) {
@@ -270,14 +275,11 @@ public class HomeActivity extends AppCompatActivity {
             //finish();
 
             Log.e("myfragment_visible", "myfragment visible");
-        }
-        else if (showwalletFragment != null && showwalletFragment.isVisible()) {
+        } else if (showwalletFragment != null && showwalletFragment.isVisible()) {
             double_back_pressed("finish");
             //finish();
             Log.e("showabout visible", "showaboutUsFragment visible");
-        }
-
-        else if (aboutUsfragment != null && aboutUsfragment.isVisible()) {
+        } else if (aboutUsfragment != null && aboutUsfragment.isVisible()) {
             double_back_pressed("finish");
             //finish();
             Log.e("showabout visible", "showaboutUsFragment visible");
@@ -332,7 +334,7 @@ public class HomeActivity extends AppCompatActivity {
 
         bottomNavigation = (AHBottomNavigation) findViewById(R.id.bottom_navigation);
 
-       // scrollView = (NestedScrollView) findViewById(R.id.scroll_main);
+        // scrollView = (NestedScrollView) findViewById(R.id.scroll_main);
         AHBottomNavigationItem item1 = new AHBottomNavigationItem(R.string.tab_1, R.drawable.ic_navigation_home, R.color.dark_green);
         AHBottomNavigationItem item2 = new AHBottomNavigationItem(R.string.tab_2, R.drawable.ic_about_us, R.color.orange);
         AHBottomNavigationItem item3 = new AHBottomNavigationItem(R.string.tab_3, R.drawable.track, R.color.dark_green);
@@ -501,6 +503,7 @@ public class HomeActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
         AndroidUtils.showErrorLog(context, "testing", appSharedPreference.getSharedPrefInt(SharedPreferenceConstants.IS_FIRST_TIME.toString()));
+
       /*  if (appSharedPreference.getSharedPrefInt(SharedPreferenceConstants.IS_FIRST_TIME.toString()) == 1) {
             rlTutorial.setVisibility(View.GONE);
         } else {
@@ -561,7 +564,6 @@ public class HomeActivity extends AppCompatActivity {
     }
 
 
-
     private void callChatListWebService(String ChatId) {
 
 
@@ -612,6 +614,32 @@ public class HomeActivity extends AppCompatActivity {
                 });
 
 
+    }
+
+
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        showSnack(isConnected);
+    }
+
+    private void showSnack(boolean isConnected) {
+        String message;
+        int color;
+        if (isConnected) {
+            message = "Good! Connected to Internet";
+            color = Color.WHITE;
+        } else {
+            message = "Sorry! Not connected to internet";
+            color = Color.RED;
+        }
+
+        Snackbar snackbar = Snackbar
+                .make(findViewById(R.id.fab), message, Snackbar.LENGTH_LONG);
+
+        View sbView = snackbar.getView();
+        TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+        textView.setTextColor(color);
+        snackbar.show();
     }
 
 

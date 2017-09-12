@@ -17,12 +17,12 @@ import java.util.Locale;
  */
 
 public class AppConfig extends Application {
-
+    private static AppConfig mInstance;
     @Override
     public void onCreate() {
         super.onCreate();
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
-
+        mInstance = this;
     }
 
     public static void set_defaultfont(Context c) {
@@ -80,7 +80,13 @@ public class AppConfig extends Application {
         }
     }
 
+    public static synchronized AppConfig getInstance() {
+        return mInstance;
+    }
 
+    public void setConnectivityListener(NetworkChangeReceiver.ConnectivityReceiverListener listener) {
+        NetworkChangeReceiver.connectivityReceiverListener = listener;
+    }
 
 
 
