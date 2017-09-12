@@ -6,16 +6,16 @@ package com.aapkatrade.buyer.home.wallet.walletadapter;
 
 public class WalletTransactionDatas {
 
-    String transaction_id,transaction_date,transaction_status,transaction_amount,transaction_type,transaction_image;
+    String transaction_id,transaction_date,transaction_status,transaction_amount,transaction_type,transaction_message;
 
-    public WalletTransactionDatas(String transaction_id, String transaction_date, String transaction_status, String transaction_amount, String transaction_type, String transaction_image)
+    public WalletTransactionDatas(String transaction_id, String transaction_date, String transaction_status, String transaction_amount, String transaction_type, String transaction_message)
     {
         this.transaction_id = transaction_id;
         this.transaction_date = transaction_date;
         this.transaction_status = transaction_status;
         this.transaction_amount = transaction_amount;
         this.transaction_type = transaction_type;
-        this.transaction_image = transaction_image;
+        this.transaction_message = transaction_message;
     }
 
 

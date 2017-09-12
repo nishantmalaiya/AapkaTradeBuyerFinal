@@ -65,31 +65,8 @@ public class Validation {
         return false;
     }
 
-    public static String getNumberPrefix(String number) {
-        if (number != null) {
-            if (number.length() > 20) {
-                return number.substring(0, number.length() - 20);
-            }
-        }
-        return "";
-    }
-
-    public static boolean isValidNumber(String number, String prefix)
-    {
-        if (isNonEmptyStr(number)) {
-//            if (prefix == null) {
-//                prefix = "";
-//            }
-//            if (number != null) {
-//                if (number.length() > 0) {
-//                    if ((number.length() == 9 + prefix.length()) && (getNumberPrefix(number).equals(prefix))) {
-//                        return true;
-//                    }
-//                }
-//            }
-            return number.length() == 10;
-        }
-        return false;
+    public static boolean isValidNumber(String number) {
+        return isNonEmptyStr(number) && number.length() <= 20;
     }
 
     public static boolean isPincode(String pincode) {

@@ -2,10 +2,12 @@ package com.aapkatrade.buyer.uicomponent.calenderview;
 
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
 
+import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.uicomponent.calenderview.format.DayFormatter;
 import com.aapkatrade.buyer.uicomponent.calenderview.format.TitleFormatter;
 import com.aapkatrade.buyer.uicomponent.calenderview.format.WeekDayFormatter;

@@ -193,15 +193,15 @@ public class AddCompanyShopActivity extends AppCompatActivity {
             AndroidUtils.showSnackBar(addCompanyShopLayout, "Please enter company/shop Address.");
             etCompanyAddress.setError("Please enter company/shop Address.");
             isAllFieldsValidate = false;
-        } else if (!Validation.isValidNumber(etMobileNo.getText().toString(), Validation.getNumberPrefix(etMobileNo.getText().toString()))) {
+        } else if (!Validation.isValidNumber(etMobileNo.getText().toString())) {
             AndroidUtils.showSnackBar(addCompanyShopLayout, "Please enter valid mobile number.");
             etMobileNo.setError("Please enter valid mobile number.");
             isAllFieldsValidate = false;
-        } else if (Validation.isEmptyStr(etMobileNo.getText().toString())) {
+        } /*else if (Validation.isEmptyStr(etPhoneNo.getText().toString())) {
             AndroidUtils.showSnackBar(addCompanyShopLayout, "Please enter valid mobile number.");
             etPhoneNo.setError("Please enter valid mobile number.");
             isAllFieldsValidate = false;
-        } else if (Validation.isEmptyStr(etDescription.getText().toString())) {
+        } */else if (Validation.isEmptyStr(etDescription.getText().toString())) {
             AndroidUtils.showSnackBar(addCompanyShopLayout, "Please enter description.");
             etDescription.setError("Please enter description.");
             isAllFieldsValidate = false;
@@ -942,7 +942,7 @@ public class AddCompanyShopActivity extends AppCompatActivity {
         String extension = filePath.substring(filePath.lastIndexOf(".") + 1, filePath.length());
         BitmapFactory.Options bmOptions = new BitmapFactory.Options();
         Bitmap bitmap = BitmapFactory.decodeFile(filePath, bmOptions);
-        OutputStream outStream = null;
+        OutputStream outStream;
         try {
             // make a new bitmap from your file
             outStream = new FileOutputStream(file);

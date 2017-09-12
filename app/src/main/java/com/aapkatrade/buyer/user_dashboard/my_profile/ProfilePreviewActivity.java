@@ -31,7 +31,8 @@ import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class ProfilePreviewActivity extends AppCompatActivity {
+public class ProfilePreviewActivity extends AppCompatActivity
+{
 
     private TextView textViewName, tvMobile, tvEmail, tvUserType;
     private LinearLayout linearLayoutLagout, linearLayoutResetpassword, linearLayoutProfileVideo;
@@ -44,6 +45,7 @@ public class ProfilePreviewActivity extends AppCompatActivity {
     RelativeLayout relativeLayoutProfile;
     private String my_profile_gif;
     private ProgressBarHandler p_handler;
+
 
 
     @Override
@@ -85,12 +87,15 @@ public class ProfilePreviewActivity extends AppCompatActivity {
                     }
                 });
 
+
                /* Picasso.with(context)
                         .load(app_sharedpreference.getSharedPref(SharedPreferenceConstants.PROFILE_VIDEO_THUMBNAIL.toString(), ""))
                         .error(R.drawable.navigation_profile_bg)
                         .placeholder(R.drawable.navigation_profile_bg)
                         .error(R.drawable.navigation_profile_bg)
                         .into(imageViewProfile);*/
+
+
             }
 
         }
