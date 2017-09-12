@@ -26,6 +26,7 @@ public class AddMoneyWalletSuccessActivity extends AppCompatActivity
     TextView txtDate,txtBankTransactionId;
     private boolean isSuccess = false;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -39,19 +40,15 @@ public class AddMoneyWalletSuccessActivity extends AppCompatActivity
 
         if (getIntent() != null)
         {
-            if (getIntent().getExtras().get("isSuccess").toString().equals("true"))
-            {
-                isSuccess = true;
-            }
-            if (isSuccess)
-            {
-                amount = oIntent.getExtras().getString("vpc_Amount");
-                transaction_id =oIntent.getExtras().getString("vpc_TransactionNo");
-                created_date =oIntent.getExtras().getString("Date");
-            }
+                amount = oIntent.getExtras().getString("transaction_amount");
+                transaction_id =oIntent.getExtras().getString("transaction_id");
+                created_date =oIntent.getExtras().getString("transaction_date");
+
         }
 
         setup_layout();
+
+
 
     }
 

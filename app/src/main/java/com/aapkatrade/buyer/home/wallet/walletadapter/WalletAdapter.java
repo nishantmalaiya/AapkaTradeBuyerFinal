@@ -33,12 +33,10 @@ public class WalletAdapter extends RecyclerView.Adapter<WalletTransactionHolder>
     private List<WalletTransactionDatas> itemList;
     private Context context;
 
-
     public WalletAdapter(Context context, List<WalletTransactionDatas> itemList)
     {
         this.itemList = itemList;
         this.context = context;
-
     }
 
     @Override
@@ -91,6 +89,9 @@ public class WalletAdapter extends RecyclerView.Adapter<WalletTransactionHolder>
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(context, AddMoneyWalletSuccessActivity.class);
+                i.putExtra("transaction_amount",itemList.get(position).transaction_amount);
+                i.putExtra("transaction_id",itemList.get(position).transaction_id);
+                i.putExtra("transaction_date",itemList.get(position).transaction_date);
                 context.startActivity(i);
             }
         });

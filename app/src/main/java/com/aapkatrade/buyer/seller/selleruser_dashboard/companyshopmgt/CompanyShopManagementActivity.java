@@ -156,6 +156,9 @@ public class CompanyShopManagementActivity extends AppCompatActivity {
                                     for (int i = 0; i < jsonArray.size(); i++) {
                                         JsonObject jsonObject = jsonArray.get(i).getAsJsonObject();
                                         CompanyShopData companyShopData = new CompanyShopData(jsonObject.get("id").getAsString(), jsonObject.get("company_name").getAsString(), jsonObject.get("short_des").getAsString(), jsonObject.get("short_des").getAsString(), jsonObject.get("created_at").getAsString(), jsonObject.get("product_count").getAsString(), jsonObject.get("image_url").getAsString());
+
+                                        AndroidUtils.showErrorLog(context,"company"+ jsonObject.get("company_name").getAsString()+jsonObject.get("company_id").getAsString());
+
                                         if (!companyShopLinkedList.contains(companyShopData)) {
                                             companyShopLinkedList.add(companyShopData);
                                         }
