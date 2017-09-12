@@ -108,7 +108,7 @@ public class EditCompanyShopActivity extends AppCompatActivity {
     private DaysTileView daysTileView1, daysTileView2, daysTileView3;
     private CustomCardViewHeader generalDetailsHeader, shopDetailsHeader;
     private LinearLayout llShopDetailsContainer, llGeneralContainer;
-    private String company_name, product_type, area, pincode, mobile, phone, email_id, web_url,  facebookurl, twitterurl, googleplusurl, youtubeurl, short_description, address, videoURL, shopId;
+    private String company_name, product_type, area, pincode, mobile, phone, email_id, web_url, facebookurl, twitterurl, googleplusurl, youtubeurl, short_description, address, videoURL, shopId;
     private boolean cityFlag = false, subCategoryFlag = false;
     private ArrayList<KeyValue> imageUrlList = new ArrayList<>();
 
@@ -132,14 +132,12 @@ public class EditCompanyShopActivity extends AppCompatActivity {
         initView();
 
 
-
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 validateFields();
                 if (submitImgDelList != null)
-                   // submitImgDelList.clear();
-                submitImgList = submitImages();
+                    submitImgList = submitImages();
 
 
                 AndroidUtils.showErrorLog(context, "submitImgDelList-------" + submitImgDelList);
@@ -166,9 +164,6 @@ public class EditCompanyShopActivity extends AppCompatActivity {
                         spState.setText("Select State");
                         spCity.setText("Select City");
                         stateID = "";
-
-                        // spState.hitStateWebService(true);
-
                     }
 
 
@@ -176,7 +171,6 @@ public class EditCompanyShopActivity extends AppCompatActivity {
                     stateID = idtype.id;
 
                     spCity.setText("Select City");
-                    //spCity.hitCityWebService(true);
                 } else if (type.equals("city")) {
                     cityID = idtype.id;
 
@@ -245,12 +239,12 @@ public class EditCompanyShopActivity extends AppCompatActivity {
                         etEmail.setText(email_id);
                         categoryID = jsonObject.get("category_id").getAsString();
                         subCategoryID = jsonObject.get("sub_cat_id").getAsString();
-                        for(int i = 0; i <listDataHeader.size();i++){
-                            if(listDataHeader.get(i).getCategoryId().equals(categoryID)){
+                        for (int i = 0; i < listDataHeader.size(); i++) {
+                            if (listDataHeader.get(i).getCategoryId().equals(categoryID)) {
                                 spCategory.setSelection(i);
-                                if(listDataHeader.get(i).getSubCategoryList().size()>0){
-                                    for(int j = 0; j <listDataHeader.get(i).getSubCategoryList().size();j++){
-                                        if(listDataHeader.get(i).getSubCategoryList().get(j).subCategoryId.equals(subCategoryID)){
+                                if (listDataHeader.get(i).getSubCategoryList().size() > 0) {
+                                    for (int j = 0; j < listDataHeader.get(i).getSubCategoryList().size(); j++) {
+                                        if (listDataHeader.get(i).getSubCategoryList().get(j).subCategoryId.equals(subCategoryID)) {
                                             spSubCategory.setSelection(j);
                                         }
                                     }
@@ -317,129 +311,12 @@ public class EditCompanyShopActivity extends AppCompatActivity {
                             productMediaData.setId(jsonArray.get(i).getAsJsonObject().get("id").getAsString());
                             productMediaData.setVideo(false);
                             productMediaData.setImageUrl(jsonArray.get(i).getAsJsonObject().get("image_url").getAsString());
-                           productMediaDataArrayList.add(productMediaData);
+                            productMediaDataArrayList.add(productMediaData);
                         }
                         adapter.notifyDataSetChanged();
-
-
-/*                        if (imageUrlList.size() > 0) {
-                            for (int i = 0; i < imageUrlList.size(); i++) {
-                                AndroidUtils.showErrorLog(context, "downloadImage---------------------" + imageUrlList.get(i).key);
-                                downloadImage(i);
-                            }
-                        }*/
                     }
                 });
     }
-
-    /*private void downloadImage(final int index) {
-        progressBarHandler.show();
-
-        Ion.with(this).load(imageUrlList.get(index).value.toString()).withBitmap().asBitmap()
-                .setCallback(new FutureCallback<Bitmap>() {
-                    @Override
-                    public void onCompleted(Exception e, Bitmap result) {
-                        progressBarHandler.hide();
-                        if (result == null) {
-                            AndroidUtils.showErrorLog(context, "Problems in downloading image result == null.");
-                        } else {
-                            storeImage(result, index);
-                        }
-                    }
-                });
-
-
-    }
-
-    private void storeImage(Bitmap image, int index) {
-        File pictureFile = getOutputMediaFile(index);
-        if (pictureFile == null) {
-            AndroidUtils.showErrorLog(context, "Error creating media file, check storage permissions: ");// e.getMessage());
-            return;
-        }
-        try {
-            FileOutputStream fos = new FileOutputStream(pictureFile);
-            image.compress(Bitmap.CompressFormat.PNG, 100, fos);
-            fos.close();
-        } catch (FileNotFoundException e) {
-            AndroidUtils.showErrorLog(context, "File not found: " + e.getMessage());
-        } catch (IOException e) {
-            AndroidUtils.showErrorLog(context, "Error accessing file: " + e.getMessage());
-        }
-        AndroidUtils.showErrorLog(context, "Image file exists with path-------------- : ", pictureFile.getAbsolutePath());// e.getMessage());
-
-        productMediaDataArrayList.add(new ProductMediaData(pictureFile.getAbsolutePath(), "", null, ""));
-        adapter.notifyDataSetChanged();
-    }
-
-    private File getOutputMediaFile(int index) {
-        // To be safe, you should check that the SDCard is mounted
-        // using Environment.getExternalStorageState() before doing this.
-        File mediaStorageDir = new File(Environment.getExternalStorageDirectory()
-                + "/Android/data/"
-                + getApplicationContext().getPackageName()
-                + "/Files");
-
-        // This location works best if you want the created images to be shared
-        // between applications and persist after your app has been uninstalled.
-
-        // Create the storage directory if it does not exist
-        if (!mediaStorageDir.exists()) {
-            if (!mediaStorageDir.mkdirs()) {
-                return null;
-            }
-        }
-        // Create a media file name
-        File mediaFile;
-        String mImageName = getFileName(imageUrlList.get(index).value.toString()) + ".jpg";
-        mediaFile = new File(mediaStorageDir.getPath() + File.separator + mImageName);
-        return mediaFile;
-    }
-
-  private String getFileName(String s) {
-        if (Validation.isNonEmptyStr(s)) {
-            String s1[] = s.split("/");
-            String s2 = s1[s1.length - 1];
-            return s2;
-        }
-        return new SimpleDateFormat("ddMMyyyy_HHmm").format(new Date());
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        AndroidUtils.showErrorLog(context, "________________^^^^^^^onDestroyonDestroyonDestroy^^^^^^^^^_________________");
-        File mediaStorageDir = new File(Environment.getExternalStorageDirectory()
-                + "/Android/data/"
-                + getApplicationContext().getPackageName()
-                + "/Files");
-
-        if (mediaStorageDir.isDirectory()) {
-            String[] children = mediaStorageDir.list();
-            for (String aChildren : children) {
-                AndroidUtils.showErrorLog(context, "________________^^^^^^^onDestroyonDestroyonDestroy^^^^^^^^^Entry_________________");
-
-                new File(mediaStorageDir, aChildren).delete();
-            }
-        }
-    }
-
-    private void setSelectedCategory(String category_id, String sub_cat_id) {
-
-        AndroidUtils.showErrorLog(context, "categoryid123------------------", category_id + "***" + sub_cat_id);
-        AndroidUtils.showErrorLog(context, "listDataHeader------------------", listDataHeader.size());
-        for (int i = 0; i < listDataHeader.size(); i++) {
-            if (listDataHeader.get(i).getCategoryId().equals(category_id)) {
-
-                subCategoryFlag = true;
-                tempsubcategoryId = sub_cat_id;
-                spCategory.setSelection(i);
-            }
-        }
-
-
-    }
-*/
 
     private void validateFields() {
         isAllFieldsValidate = true;
@@ -1320,7 +1197,6 @@ public class EditCompanyShopActivity extends AppCompatActivity {
         }
         return false;
     }
-
 
 
     private int getPositionOfExistingImage(ProductMediaData file) {
