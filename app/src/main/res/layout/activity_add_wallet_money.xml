@@ -46,11 +46,11 @@
                 android:id="@+id/tvWalletAmount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="5000"
+                android:text=""
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="@dimen/ten_dip"
                 android:textColor="@color/orange"
-                android:textSize="@dimen/sixteen"
+                android:textSize="@dimen/eighteen"
                 />
 
         </RelativeLayout>
@@ -66,6 +66,7 @@
         android:layout_marginTop="@dimen/thirty_dip"
         android:layout_marginRight="@dimen/fifteen_dip"
         android:layout_marginLeft="@dimen/fifteen_dip"
+        android:inputType="number"
         android:hint="Amount"
         android:textColorHint="#575757"
         app:backgroundTint="@color/green"

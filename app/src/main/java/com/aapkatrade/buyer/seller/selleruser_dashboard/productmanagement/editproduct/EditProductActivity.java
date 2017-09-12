@@ -70,7 +70,9 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-public class EditProductActivity extends AppCompatActivity {
+public class EditProductActivity extends AppCompatActivity
+{
+
     private File docFile = new File("");
     private ArrayList<ProductMediaData> productImagesDataArrayList = new ArrayList<>();
     private RecyclerView recyclerView;

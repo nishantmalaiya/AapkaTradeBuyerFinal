@@ -200,7 +200,11 @@
         <activity android:name=".categories_tab.viewall.ViewAllCategoryActivity" />
         <activity android:name=".wallet.AddWalletMoneyActivity" />
         <activity android:name=".wallet.WalletPaymentActivity" />
-        <activity android:name=".wallet.AddMoneyWalletSuccessActivity"></activity>
+        <activity
+            android:name=".wallet.AddMoneyWalletSuccessActivity"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/AppTheme"
+            ></activity>
     </application>
 
 </manifest>
