@@ -22,7 +22,7 @@
                 android:layout_width="@dimen/one_hundred_five_dip"
                 android:layout_height="@dimen/one_hundred_five_dip"
                 android:scaleType="fitXY"
-                android:src="@drawable/honda_navi" />
+                android:src="@drawable/default_noimage" />
 
 
         </RelativeLayout>

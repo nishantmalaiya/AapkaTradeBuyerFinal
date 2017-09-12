@@ -29,12 +29,13 @@ import com.koushikdutta.ion.Ion;
 public class AddWalletMoneyActivity extends AppCompatActivity
 {
 
-     TextView tvWalletAmount;
+    public static TextView tvWalletAmount;
      EditText edtAmount;
      Button buttonAddMoney;
      Context context;
      ProgressBarHandler progressBarHandler;
      AppSharedPreference appSharedPreference;
+     String amount ,transaction_id,created_date;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -49,6 +50,13 @@ public class AddWalletMoneyActivity extends AppCompatActivity
 
         progressBarHandler = new ProgressBarHandler(context);
 
+        Intent oIntent = getIntent();
+
+        amount = oIntent.getExtras().getString("Amount");
+
+
+      //  AndroidUtils.showToast(context,amount);
+
         setUpToolBar();
 
         setupLayout();
@@ -59,6 +67,8 @@ public class AddWalletMoneyActivity extends AppCompatActivity
         tvWalletAmount = (TextView) findViewById(R.id.tvWalletAmount);
 
         edtAmount = (EditText) findViewById(R.id.edtAmount);
+
+        tvWalletAmount.setText(amount);
 
         buttonAddMoney = (Button) findViewById(R.id.buttonAddMoney);
 
@@ -133,20 +143,30 @@ public class AddWalletMoneyActivity extends AppCompatActivity
 
     private void setUpToolBar() {
         AppCompatImageView homeIcon = (AppCompatImageView) findViewById(R.id.logoWord);
+        AppCompatImageView back_imagview = (AppCompatImageView) findViewById(R.id.back_imagview);
+        back_imagview.setVisibility(View.VISIBLE);
+        back_imagview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        TextView header_name = (TextView) findViewById(R.id.header_name);
+        //header_name.setVisibility(View.VISIBLE);
+        header_name.setText(getResources().getString(R.string.change_password_heading));
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         homeIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(AddWalletMoneyActivity.this, HomeActivity.class);
+                Intent intent = new Intent(context, HomeActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
             }
         });
-       // AndroidUtils.setBackgroundSolid(toolbar, AddWalletMoneyActivity.this, R.color.transparent, 0, GradientDrawable.RECTANGLE);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayShowTitleEnabled(false);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
             getSupportActionBar().setTitle(null);
             getSupportActionBar().setElevation(0);
         }
@@ -170,12 +190,4 @@ public class AddWalletMoneyActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-
-
-    @Override
-    public void onBackPressed() {
-
-        finish();
-
-    }
 }

@@ -14,12 +14,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.aapkatrade.buyer.BuildConfig;
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Validation;
 import com.aapkatrade.buyer.general.interfaces.CommonInterface;
-import com.aapkatrade.buyer.home.CommonData;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.addcompanyshop.AddCompanyShopActivity;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.editcompanyshop.EditCompanyShopActivity;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.editproduct.EditProductActivity;
@@ -35,7 +33,7 @@ public class ProductImagesAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     private List<ProductMediaData> itemList;
     private Context context;
-    private final int userAdded = 0, image = 1;
+    private final int PLUS_BUTTON = 0, MEDIA_VIEW = 1;
     private Activity activity;
     public static CommonInterface commonInterface;
 
@@ -50,17 +48,14 @@ public class ProductImagesAdapter extends RecyclerView.Adapter<RecyclerView.View
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder viewHolder = null;
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        AndroidUtils.showErrorLog(context, "viewType---------------" + viewType);
+        AndroidUtils.showErrorLog(context, itemList.size() + "viewType---------------" + viewType);
         switch (viewType) {
-            case userAdded:
-                View v1 = inflater.inflate(R.layout.row_user_added, parent, false);
-                viewHolder = new ProductUserHolder(v1);
+            case PLUS_BUTTON:
+                viewHolder = new ProductUserHolder(inflater.inflate(R.layout.row_user_added, parent, false));
                 break;
-            case image:
-                View v2 = inflater.inflate(R.layout.row_product_images, parent, false);
-                viewHolder = new ProductMediaHolder(v2);
+            case MEDIA_VIEW:
+                viewHolder = new ProductMediaHolder(inflater.inflate(R.layout.row_product_images, parent, false));
                 break;
-
         }
         return viewHolder;
 
@@ -68,12 +63,11 @@ public class ProductImagesAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position)
-    {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         AndroidUtils.showErrorLog(context, "Hi holder.getItemViewType() " + holder.getItemViewType());
 
         switch (holder.getItemViewType()) {
-            case userAdded:
+            case PLUS_BUTTON:
                 final ProductUserHolder homeHolder_User = (ProductUserHolder) holder;
 
                 homeHolder_User.relativeImage.setOnClickListener(new View.OnClickListener() {
@@ -94,7 +88,7 @@ public class ProductImagesAdapter extends RecyclerView.Adapter<RecyclerView.View
                 });
                 break;
 
-            case image:
+            case MEDIA_VIEW:
                 final ProductMediaHolder homeHolder = (ProductMediaHolder) holder;
                 AndroidUtils.showErrorLog(context, "itemimage", itemList.get(position).imagePath);
 
@@ -118,16 +112,18 @@ public class ProductImagesAdapter extends RecyclerView.Adapter<RecyclerView.View
                 } else {
 
                     if (Validation.isEmptyStr(itemList.get(position).imagePath)) {
-                        Ion.with(context)
-                                .load(itemList.get(position).imageUrl)
-                                .withBitmap().asBitmap()
-                                .setCallback(new FutureCallback<Bitmap>() {
-                                    @Override
-                                    public void onCompleted(Exception e, Bitmap result) {
-                                        if (result != null)
-                                            homeHolder.previewImage.setImageBitmap(result);
-                                    }
-                                });
+                        if (Validation.isNonEmptyStr(itemList.get(position).getImageUrl())) {
+                            Ion.with(context)
+                                    .load(itemList.get(position).getImageUrl())
+                                    .withBitmap().asBitmap()
+                                    .setCallback(new FutureCallback<Bitmap>() {
+                                        @Override
+                                        public void onCompleted(Exception e, Bitmap result) {
+                                            if (result != null)
+                                                homeHolder.previewImage.setImageBitmap(result);
+                                        }
+                                    });
+                        }
                     } else {
                         File imgFile = new File(itemList.get(position).imagePath);
                         if (imgFile.exists()) {
@@ -142,8 +138,14 @@ public class ProductImagesAdapter extends RecyclerView.Adapter<RecyclerView.View
                     @Override
                     public void onClick(View v) {
                         if (activity instanceof EditCompanyShopActivity) {
-                            EditCompanyShopActivity.productMediaDatasDelete.add(itemList.get(position));
-                            itemList.remove(position);
+                            EditCompanyShopActivity.submitImgDelList.add(itemList.get(position).getId());
+                            AndroidUtils.showErrorLog(context, EditCompanyShopActivity.submitImgDelList.size()+"deletedId", itemList.get(position).getId());
+
+                            try {
+                                itemList.remove(position);
+                            } catch (ArrayIndexOutOfBoundsException e) {
+                                AndroidUtils.showErrorLog(context, " Exception : ", e);
+                            }
                             notifyDataSetChanged();
                         } else if (activity instanceof EditProductActivity) {
                             EditProductActivity.productMediaDatasDelete.add(itemList.get(position));
@@ -162,18 +164,20 @@ public class ProductImagesAdapter extends RecyclerView.Adapter<RecyclerView.View
                             File file = itemList.get(position).videoFile;
                             Intent intent = new Intent(Intent.ACTION_VIEW);
                             if (itemList.get(position).videoFile == null) {
-                                intent.setDataAndType(/*itemList.get(position).videoThumbnail.replace("png", "mp4")*/FileProvider.getUriForFile(context, "com.aapkatrade.buyer.provider",file), "video/*");
+                                intent.setDataAndType(/*itemList.get(position).videoThumbnail.replace("png", "mp4")*/FileProvider.getUriForFile(context, "com.aapkatrade.buyer.provider", file), "video/*");
                             } else {
 
-                                intent.setDataAndType(/*Uri.fromFile(file)*/FileProvider.getUriForFile(context, "com.aapkatrade.buyer.provider",file), "video/*");
+                                intent.setDataAndType(/*Uri.fromFile(file)*/FileProvider.getUriForFile(context, "com.aapkatrade.buyer.provider", file), "video/*");
                             }
                             context.startActivity(intent);
                         } else {
-                            File file = new File(itemList.get(position).imagePath);
+                            AndroidUtils.showErrorLog(context, "getImageUrl", itemList.get(position).getImageUrl());
+                            File file = new File(/*itemList.get(position).getId()==null?itemList.get(position).imagePath:*/itemList.get(position).getImageUrl());
                             Intent intent = new Intent(android.content.Intent.ACTION_VIEW);
                             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                            //  Uri data = Uri.parse("file://" + file.getAbsolutePath());
+//                              Uri data = Uri.parse("file://" + file.getAbsolutePath());
                             Uri data = FileProvider.getUriForFile(context, "com.aapkatrade.buyer.provider", file);
+
                             intent.setDataAndType(data, "image");
                             context.startActivity(intent);
                         }
@@ -194,16 +198,14 @@ public class ProductImagesAdapter extends RecyclerView.Adapter<RecyclerView.View
 
 
     @Override
-    public int getItemViewType(int position)
-    {
+    public int getItemViewType(int position) {
 
         AndroidUtils.showErrorLog(context, "itemlist----------------" + itemList.get(position).imagePath);
 
-        if (itemList.get(position).imagePath != null && itemList.get(position).imagePath.equals("first"))
-        {
-            return userAdded;
+        if (itemList.get(position).imagePath != null && itemList.get(position).imagePath.equals("first")) {
+            return PLUS_BUTTON;
         } else {
-            return image;
+            return MEDIA_VIEW;
         }
 
     }

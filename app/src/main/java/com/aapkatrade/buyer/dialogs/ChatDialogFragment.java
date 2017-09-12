@@ -145,7 +145,7 @@ public class ChatDialogFragment extends DialogFragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-                if (Validation.isValidEmail(s.toString()) || Validation.isValidNumber(s.toString(), Validation.getNumberPrefix(s.toString()))) {
+                if (Validation.isValidEmail(s.toString()) || Validation.isValidNumber(s.toString())) {
 
 
                     //callWebserviceValidateUser(EmailOrPhone.getText().toString());
