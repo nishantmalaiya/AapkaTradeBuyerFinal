@@ -2,6 +2,7 @@ package com.aapkatrade.buyer.categories_tab.viewall;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.GradientDrawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,10 +20,12 @@ import android.widget.TextView;
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.categories_tab.viewall.adapter.ViewAllCategoriesAdapter;
 import com.aapkatrade.buyer.general.AppSharedPreference;
+import com.aapkatrade.buyer.general.SpacesItemDecoration;
 import com.aapkatrade.buyer.general.Tabletsize;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
+import com.aapkatrade.buyer.general.recycleview_custom.GridSpacingItemDecoration;
 import com.aapkatrade.buyer.home.HomeActivity;
 import com.aapkatrade.buyer.home.cart.MyCartActivity;
 import com.aapkatrade.buyer.home.navigation.entity.Category;
@@ -49,6 +52,7 @@ public class ViewAllCategoryActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     public static GridLayoutManager gridLayoutManager;
     private ViewAllCategoriesAdapter viewAllCategoriesAdapter;
+    RelativeLayout rl_view_all_categories;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,10 +68,10 @@ public class ViewAllCategoryActivity extends AppCompatActivity {
     private void initView() {
         appSharedPreference = new AppSharedPreference(context);
         progressBarHandler = new ProgressBarHandler(context);
-
+        rl_view_all_categories = (RelativeLayout) findViewById(R.id.rl_view_all_categories);
         icListOrGrid = (ImageView) findViewById(R.id.ic_list_or_grid);
         toggleButton = (JellyToggleButton) findViewById(R.id.toggle_button);
-        toggleButton.setText("List", "Grid");
+        toggleButton.setText("Grid", "List");
         toggleButton.setOnStateChangeListener(new JellyToggleButton.OnStateChangeListener() {
             @Override
             public void onStateChange(float v, State state, JellyToggleButton jellyToggleButton) {
@@ -78,7 +82,7 @@ public class ViewAllCategoryActivity extends AppCompatActivity {
                     recyclerView.setAdapter(viewAllCategoriesAdapter);
                 } else if (state.equals(State.LEFT)) {
                     icListOrGrid.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_grid_view));
-                    if(Tabletsize.isTablet(context)){
+                    if (Tabletsize.isTablet(context)) {
                         gridLayoutManager.setSpanCount(3);
                     } else {
                         gridLayoutManager.setSpanCount(3);
@@ -90,9 +94,11 @@ public class ViewAllCategoryActivity extends AppCompatActivity {
             }
         });
 
+        //AndroidUtils.setBackgroundSolidEachRadius(rl_view_all_categories, context, R.color.grey, 10, 10, 0, 0, GradientDrawable.RECTANGLE);
+
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        if(Tabletsize.isTablet(context)){
+        if (Tabletsize.isTablet(context)) {
             gridLayoutManager = new GridLayoutManager(context, 3);
         } else {
             gridLayoutManager = new GridLayoutManager(context, 3);
@@ -195,12 +201,17 @@ public class ViewAllCategoryActivity extends AppCompatActivity {
                             listDataHeader = new ArrayList<>();
                             for (int i = 0; i < jsonResultArray.size(); i++) {
                                 JsonObject jsonObject1 = (JsonObject) jsonResultArray.get(i);
-                                listDataHeader.add(new Category(jsonObject1.get("id").getAsString(), jsonObject1.get("name").getAsString(),jsonObject1.get("cat_icon").getAsString()));
+                                listDataHeader.add(new Category(jsonObject1.get("id").getAsString(), jsonObject1.get("name").getAsString(), jsonObject1.get("cat_icon").getAsString()));
                             }
-                            if(viewAllCategoriesAdapter == null){
+                            if (viewAllCategoriesAdapter == null) {
                                 viewAllCategoriesAdapter = new ViewAllCategoriesAdapter(context, listDataHeader);
                                 recyclerView.setLayoutManager(gridLayoutManager);
+                                int scaleRatio = (int) getResources().getDisplayMetrics().density;
+                                int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.spacing);
+                                int dimenOrginal = spacingInPixels / scaleRatio;
+                                recyclerView.addItemDecoration(new GridSpacingItemDecoration(dimenOrginal));
                                 recyclerView.setAdapter(viewAllCategoriesAdapter);
+
                             } else {
                                 viewAllCategoriesAdapter.notifyDataSetChanged();
                             }

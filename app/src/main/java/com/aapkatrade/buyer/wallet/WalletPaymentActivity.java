@@ -577,12 +577,14 @@ public class WalletPaymentActivity extends Activity {
 
                             Intent intent = new Intent(WalletPaymentActivity.this, AddMoneyWalletSuccessActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            intent.putExtra("isSuccess", "true");
-                            intent.putExtra("vpc_Amount", jsonObject.get("trans_amt").getAsString());
-                            intent.putExtra("Date", jsonObject.get("created_at").getAsString());
-                            intent.putExtra("vpc_TransactionNo", jsonObject.get("transactionid").getAsString());
+                            //intent.putExtra("isSuccess", "true");
+                            intent.putExtra("transaction_amount", jsonObject.get("trans_amt").getAsString());
+                            intent.putExtra("transaction_date", jsonObject.get("created_at").getAsString());
+                            intent.putExtra("transaction_id", jsonObject.get("transactionid").getAsString());
                             startActivity(intent);
                             finish();
+
+
                         }
                         else
                         {
@@ -598,10 +600,9 @@ public class WalletPaymentActivity extends Activity {
     }
 
     @Override
-    public void onBackPressed() {
-
+    public void onBackPressed()
+    {
         showDialogMessage("Are you sure, you want to cancel your transaction?");
-
     }
 
     private void showDialogMessage(String message)

@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
 import com.aapkatrade.buyer.R;
 import com.squareup.picasso.Picasso;
@@ -22,6 +24,7 @@ public class viewpageradapter_home extends PagerAdapter {
     private Context mContext;
     ArrayList<String> imageIdList;
 
+    ProgressBar progressBar;
 
     public viewpageradapter_home(Context mContext, ArrayList<String> imageIdList) {
         this.imageIdList = imageIdList;
@@ -43,9 +46,23 @@ public class viewpageradapter_home extends PagerAdapter {
     public Object instantiateItem(ViewGroup container, int position) {
         View itemView = LayoutInflater.from(mContext).inflate(R.layout.viewpager_item, container, false);
 
-        ImageView imageView = (ImageView) itemView.findViewById(R.id.img_pager_item);
 
-        Picasso.with(mContext).load(imageIdList.get(position)).into(imageView);
+        ImageView imageView = (ImageView) itemView.findViewById(R.id.img_pager_item);
+        progressBar = (ProgressBar) itemView.findViewById(R.id.progress_bar);
+
+        Picasso.with(mContext).load(imageIdList.get(position)).into(imageView, new com.squareup.picasso.Callback() {
+            @Override
+            public void onSuccess() {
+                if (progressBar != null) {
+                    progressBar.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onError() {
+
+            }
+        });
 
 
         container.addView(itemView);
@@ -55,6 +72,6 @@ public class viewpageradapter_home extends PagerAdapter {
 
 
     public void destroyItem(ViewGroup container, int position, Object object) {
-        container.removeView((LinearLayout) object);
+        container.removeView((RelativeLayout) object);
     }
 }

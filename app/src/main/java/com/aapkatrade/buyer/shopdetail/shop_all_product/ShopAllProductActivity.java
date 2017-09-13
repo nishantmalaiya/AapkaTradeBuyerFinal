@@ -31,7 +31,8 @@ import com.koushikdutta.ion.Ion;
 import java.util.ArrayList;
 
 
-public class ShopAllProductActivity extends AppCompatActivity {
+public class ShopAllProductActivity extends AppCompatActivity
+{
     private int shopAllActivity = 1;
     private ArrayList<ShopAllProductData> shopAllProductDatas = new ArrayList<>();
     private RecyclerView mRecyclerView;
