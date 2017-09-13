@@ -35,14 +35,14 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Map;
 
-public class BillPaymentActivity extends AppCompatActivity
-{
+public class BillPaymentActivity extends AppCompatActivity {
     private Context context;
     private AppSharedPreference appSharedPreference;
     private TextView rlSaveLayout;
@@ -101,7 +101,16 @@ public class BillPaymentActivity extends AppCompatActivity
                                 }
 
                             } else {
-                                AndroidUtils.showErrorLog(context, "json_return_error", result.get("error").getAsString());
+                                String message = result.get("message").getAsString();
+                                if (message.equals("No bill pending!")) {
+
+                                    AndroidUtils.showToast(context, "No Bill Pending ");
+
+
+                                }
+
+
+                                // AndroidUtils.showErrorLog(context, "json_return_error", result.get("message").getAsString());
                             }
 
                         }
@@ -111,8 +120,7 @@ public class BillPaymentActivity extends AppCompatActivity
     }
 
 
-    private void initView()
-    {
+    private void initView() {
         appSharedPreference = new AppSharedPreference(context);
         progressBarHandler = new ProgressBarHandler(context);
         tvAmount = (TextView) findViewById(R.id.tv_billing_amount2);
@@ -124,15 +132,13 @@ public class BillPaymentActivity extends AppCompatActivity
         rlSaveLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (billPaymentArrayList.size() == 0)
-                {
+                if (billPaymentArrayList.size() == 0) {
                     AndroidUtils.showToast(context, "You don't have any machine.");
-                }
-                else if (tvAmount.getText().toString().contains(new StringBuilder(getString(R.string.rupay_text)).append("  0"))) {
+                } else if (billPaymentArrayList.size() == 0 || tvAmount.getText().toString().contains(new StringBuilder(getString(R.string.rupay_text)).append("  0"))) {
+                    AndroidUtils.showToast(context, "No Bill Pending ");
+                } else if (tvAmount.getText().toString().contains(new StringBuilder(getString(R.string.rupay_text)).append("  0"))) {
                     AndroidUtils.showToast(context, "No machine Selected");
-                }
-                else
-                {
+                } else {
                     openPayuMoneyWebview();
                 }
             }
@@ -141,7 +147,7 @@ public class BillPaymentActivity extends AppCompatActivity
         commonInterface = new CommonInterface() {
             @Override
             public Object getData(Object object) {
-                if((boolean) object){
+                if ((boolean) object) {
                     tvAmount.setText(new StringBuilder(getString(R.string.rupay_text)).append("  ").append(calculateTotalAmountToPay()));
 
                 }
@@ -163,7 +169,7 @@ public class BillPaymentActivity extends AppCompatActivity
             }
         });
         TextView header_name = (TextView) findViewById(R.id.header_name);
-       // header_name.setVisibility(View.VISIBLE);
+        // header_name.setVisibility(View.VISIBLE);
         header_name.setText(getResources().getString(R.string.privacy_policy));
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         homeIcon.setOnClickListener(new View.OnClickListener() {
@@ -277,48 +283,48 @@ public class BillPaymentActivity extends AppCompatActivity
     }*/
 
 
-   /* public void makePayment() {
+    /* public void makePayment() {
 
-        String phone = "8882434664";
-        String productName = "product_name";
-        String firstName = "piyush";
-        String txnId = "0nf7" + System.currentTimeMillis();
-        String email = "piyush.jain@payu.in";
-        String sUrl = "https://test.payumoney.com/mobileapp/payumoney/success.php";
-        String fUrl = "https://test.payumoney.com/mobileapp/payumoney/failure.php";
-        String udf1 = "";
-        String udf2 = "";
-        String udf3 = "";
-        String udf4 = "";
-        String udf5 = "";
-        boolean isDebug = true;
-        String key = "dRQuiA";
-        String merchantId = "4928174";
+         String phone = "8882434664";
+         String productName = "product_name";
+         String firstName = "piyush";
+         String txnId = "0nf7" + System.currentTimeMillis();
+         String email = "piyush.jain@payu.in";
+         String sUrl = "https://test.payumoney.com/mobileapp/payumoney/success.php";
+         String fUrl = "https://test.payumoney.com/mobileapp/payumoney/failure.php";
+         String udf1 = "";
+         String udf2 = "";
+         String udf3 = "";
+         String udf4 = "";
+         String udf5 = "";
+         boolean isDebug = true;
+         String key = "dRQuiA";
+         String merchantId = "4928174";
 
-        PayUmoneySdkInitilizer.PaymentParam.Builder builder = new PayUmoneySdkInitilizer.PaymentParam.Builder();
+         PayUmoneySdkInitilizer.PaymentParam.Builder builder = new PayUmoneySdkInitilizer.PaymentParam.Builder();
 
-        builder.setAmount(Double.valueOf(tvAmount.getText().toString().replace(getApplicationContext().getResources().getText(R.string.rupay_text), "")))
-                .setTnxId(txnId)
-                .setPhone(phone)
-                .setProductName(productName)
-                .setFirstName(firstName)
-                .setEmail(email)
-                .setsUrl(sUrl)
-                .setfUrl(fUrl)
-                .setUdf1(udf1)
-                .setUdf2(udf2)
-                .setUdf3(udf3)
-                .setUdf4(udf4)
-                .setUdf5(udf5)
-                .setIsDebug(isDebug)
-                .setKey(key)
-                .setMerchantId(merchantId);
+         builder.setAmount(Double.valueOf(tvAmount.getText().toString().replace(getApplicationContext().getResources().getText(R.string.rupay_text), "")))
+                 .setTnxId(txnId)
+                 .setPhone(phone)
+                 .setProductName(productName)
+                 .setFirstName(firstName)
+                 .setEmail(email)
+                 .setsUrl(sUrl)
+                 .setfUrl(fUrl)
+                 .setUdf1(udf1)
+                 .setUdf2(udf2)
+                 .setUdf3(udf3)
+                 .setUdf4(udf4)
+                 .setUdf5(udf5)
+                 .setIsDebug(isDebug)
+                 .setKey(key)
+                 .setMerchantId(merchantId);
 
-        PayUmoneySdkInitilizer.PaymentParam paymentParam = builder.build();
+         PayUmoneySdkInitilizer.PaymentParam paymentParam = builder.build();
 
-        // server side call required to calculate hash with the help of <salt>
-        //  <salt> is already shared along with merchant <key>
-         *//*        serverCalculatedHash =sha512(key|txnid|amount|productinfo|firstname|email|udf1|udf2|udf3|udf4|udf5|<salt>)
+         // server side call required to calculate hash with the help of <salt>
+         //  <salt> is already shared along with merchant <key>
+          *//*        serverCalculatedHash =sha512(key|txnid|amount|productinfo|firstname|email|udf1|udf2|udf3|udf4|udf5|<salt>)
              (e.g.)
              sha512(FCstqb|0nf7|10.0|product_name|piyush|piyush.jain@payu.in||||||MBgjYaFG)
              9f1ce50ba8995e970a23c33e665a990e648df8de3baf64a33e19815acd402275617a16041e421cfa10b7532369f5f12725c7fcf69e8d10da64c59087008590fc
@@ -410,7 +416,7 @@ public class BillPaymentActivity extends AppCompatActivity
             Log.i(TAG, "Success - Payment ID : " + data.getStringExtra(Constants.PAYMENT_ID));
             String paymentId = data.getStringExtra(Constants.PAYMENT_ID);
             // showDialogMessage("Payment Success Id : " + paymentId);
-          //  callWebServiceMakePayment(paymentId, "true");
+            //  callWebServiceMakePayment(paymentId, "true");
 
         } else if (resultCode == RESULT_CANCELED) {
             Log.i(TAG, "failure");
@@ -474,121 +480,112 @@ public class BillPaymentActivity extends AppCompatActivity
     }
 
 
-   /* private void callWebServiceMakePayment(String transactionId, String status) {
+    /* private void callWebServiceMakePayment(String transactionId, String status) {
 
-        progressBarHandler.show();
+         progressBarHandler.show();
 
-        String login_url = context.getResources().getString(R.string.webservice_base_url) + "/payment_bill";
+         String login_url = context.getResources().getString(R.string.webservice_base_url) + "/payment_bill";
 
-        System.out.println("order_number--------------" + status + transactionId + "fgdfgb----");
+         System.out.println("order_number--------------" + status + transactionId + "fgdfgb----");
 
-        if (selectedMachineNoArrayList.size() != 0) {
-            String jsonArrayMachineNOs = ParseUtils.ArrayListToJsonObject(selectedMachineNoArrayList);
-            AndroidUtils.showErrorLog(context, "machine_numbers", jsonArrayMachineNOs);
+         if (selectedMachineNoArrayList.size() != 0) {
+             String jsonArrayMachineNOs = ParseUtils.ArrayListToJsonObject(selectedMachineNoArrayList);
+             AndroidUtils.showErrorLog(context, "machine_numbers", jsonArrayMachineNOs);
 
-            Ion.with(context)
-                    .load(login_url)
-                    .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
-                    .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
-                    .setBodyParameter("transactionid", transactionId)
-                    .setBodyParameter("status", status)
-                    .setBodyParameter("machine_num", jsonArrayMachineNOs)
-                    .setBodyParameter("payment", tvAmount.getText().toString())
-                    .asJsonObject()
-                    .setCallback(new FutureCallback<JsonObject>() {
-                        @Override
-                        public void onCompleted(Exception e, JsonObject result) {
-                            //  AndroidUtils.showErrorLog(context,result,"dghdfghsaf dawbnedvhaewnbedvsab dsadduyf");
-                            progressBarHandler.hide();
+             Ion.with(context)
+                     .load(login_url)
+                     .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                     .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                     .setBodyParameter("transactionid", transactionId)
+                     .setBodyParameter("status", status)
+                     .setBodyParameter("machine_num", jsonArrayMachineNOs)
+                     .setBodyParameter("payment", tvAmount.getText().toString())
+                     .asJsonObject()
+                     .setCallback(new FutureCallback<JsonObject>() {
+                         @Override
+                         public void onCompleted(Exception e, JsonObject result) {
+                             //  AndroidUtils.showErrorLog(context,result,"dghdfghsaf dawbnedvhaewnbedvsab dsadduyf");
+                             progressBarHandler.hide();
 
-                            System.out.println("result--------------" + result);
-                            if (result.get("error").getAsString().contains("false")) {
-                                String payment_status;
-                                JsonObject jsonObject = result.getAsJsonObject("result");
+                             System.out.println("result--------------" + result);
+                             if (result.get("error").getAsString().contains("false")) {
+                                 String payment_status;
+                                 JsonObject jsonObject = result.getAsJsonObject("result");
 
-                                if (result.get("payment_status").getAsString().contains("false")) {
-                                    payment_status = "false";
-                                    appSharedPreference.setSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), 0);
-                                } else {
-                                    payment_status = "true";
-                                    String cart_count = jsonObject.get("cart_item").getAsString();
-                                    appSharedPreference.setSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), Integer.valueOf(cart_count));
-                                }
+                                 if (result.get("payment_status").getAsString().contains("false")) {
+                                     payment_status = "false";
+                                     appSharedPreference.setSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), 0);
+                                 } else {
+                                     payment_status = "true";
+                                     String cart_count = jsonObject.get("cart_item").getAsString();
+                                     appSharedPreference.setSharedPrefInt(SharedPreferenceConstants.CART_COUNT.toString(), Integer.valueOf(cart_count));
+                                 }
 
-                                AndroidUtils.showErrorLog(context, result.toString());
+                                 AndroidUtils.showErrorLog(context, result.toString());
 
-                                Intent intent = new Intent(context, PaymentCompletionActivity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                intent.putExtra("isSuccess", payment_status);
-                                intent.putExtra("vpc_Amount", jsonObject.get("amount").getAsString());
-                                intent.putExtra("vpc_TransactionNo", jsonObject.get("transactionID").getAsString());
-                                intent.putExtra("vpc_ReceiptNo", jsonObject.get("order_id").getAsString());
-                                startActivity(intent);
-
-
-                            } else {
-                                Intent intent = new Intent(context, PaymentCompletionActivity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                intent.putExtra("isSuccess", "false");
-                                startActivity(intent);
-                            }
-                            //Toast.makeText(getApplicationContext(),result.toString(),Toast.LENGTH_SHORT).show();
-                        }
-                    });
-        } else {
-            AndroidUtils.showErrorLog(context, "selectedMachineNoArrayList", "selectedMachineNoArrayList size 0");
-        }
+                                 Intent intent = new Intent(context, PaymentCompletionActivity.class);
+                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                 intent.putExtra("isSuccess", payment_status);
+                                 intent.putExtra("vpc_Amount", jsonObject.get("amount").getAsString());
+                                 intent.putExtra("vpc_TransactionNo", jsonObject.get("transactionID").getAsString());
+                                 intent.putExtra("vpc_ReceiptNo", jsonObject.get("order_id").getAsString());
+                                 startActivity(intent);
 
 
-    }
-*/
-    public void openPayuMoneyWebview()
-    {
-        String getFname,getPhone,getEmail,getAmt;
+                             } else {
+                                 Intent intent = new Intent(context, PaymentCompletionActivity.class);
+                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                 intent.putExtra("isSuccess", "false");
+                                 startActivity(intent);
+                             }
+                             //Toast.makeText(getApplicationContext(),result.toString(),Toast.LENGTH_SHORT).show();
+                         }
+                     });
+         } else {
+             AndroidUtils.showErrorLog(context, "selectedMachineNoArrayList", "selectedMachineNoArrayList size 0");
+         }
 
-        if(Validation.isNonEmptyStr(appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString(),"Aapka Trade")))
-        {
+
+     }
+ */
+    public void openPayuMoneyWebview() {
+        String getFname, getPhone, getEmail, getAmt;
+
+        if (Validation.isNonEmptyStr(appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString(), "Aapka Trade"))) {
             getFname = appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString(), "Aapka Trade");
-        }
-        else {
+        } else {
             getFname = "Aapka Trade";
         }
 
-        if(Validation.isNonEmptyStr(appSharedPreference.getSharedPref(SharedPreferenceConstants.MOBILE.toString())))
-        {
+        if (Validation.isNonEmptyStr(appSharedPreference.getSharedPref(SharedPreferenceConstants.MOBILE.toString()))) {
             getPhone = appSharedPreference.getSharedPref(SharedPreferenceConstants.MOBILE.toString());
-        }
-        else {
+        } else {
             getPhone = getApplicationContext().getResources().getText(R.string.customer_care_no).toString();
         }
 
-        if(Validation.isNonEmptyStr(appSharedPreference.getSharedPref(SharedPreferenceConstants.EMAIL_ID.toString())))
-        {
+        if (Validation.isNonEmptyStr(appSharedPreference.getSharedPref(SharedPreferenceConstants.EMAIL_ID.toString()))) {
             getEmail = appSharedPreference.getSharedPref(SharedPreferenceConstants.EMAIL_ID.toString());
-        }
-        else {
+        } else {
             getEmail = "info@aapkatrade.com";
         }
 
-            String jsonArrayMachineNOs = ParseUtils.ArrayListToJsonObject(selectedMachineNoArrayList);
-            AndroidUtils.showErrorLog(context, "machine_numbers", jsonArrayMachineNOs);
+        String jsonArrayMachineNOs = ParseUtils.ArrayListToJsonObject(selectedMachineNoArrayList);
+        AndroidUtils.showErrorLog(context, "machine_numbers", jsonArrayMachineNOs);
 
-         getAmt   = tvAmount.getText().toString().replace(getApplicationContext().getResources().getText(R.string.rupay_text),"");//rechargeAmt.getText().toString().trim();
+        getAmt = tvAmount.getText().toString().replace(getApplicationContext().getResources().getText(R.string.rupay_text), "");//rechargeAmt.getText().toString().trim();
 
-        AndroidUtils.showErrorLog(context,"Fname--"+getFname +"Phone"+getPhone +"Email--"+getEmail+"Amit--"+getAmt);
+        AndroidUtils.showErrorLog(context, "Fname--" + getFname + "Phone" + getPhone + "Email--" + getEmail + "Amit--" + getAmt);
 
         Intent intent = new Intent(BillPaymentActivity.this, BillPaymentPaymentGatway.class);
-        intent.putExtra("FIRST_NAME",getFname);
-        intent.putExtra("PHONE_NUMBER",getPhone);
-        intent.putExtra("EMAIL_ADDRESS",getEmail);
-        intent.putExtra("RECHARGE_AMT",getAmt);
-        intent.putExtra("MACHINE_ARRAY",jsonArrayMachineNOs);
+        intent.putExtra("FIRST_NAME", getFname);
+        intent.putExtra("PHONE_NUMBER", getPhone);
+        intent.putExtra("EMAIL_ADDRESS", getEmail);
+        intent.putExtra("RECHARGE_AMT", getAmt);
+        intent.putExtra("MACHINE_ARRAY", jsonArrayMachineNOs);
         startActivity(intent);
 
 
-
     }
-
 
 
 }
