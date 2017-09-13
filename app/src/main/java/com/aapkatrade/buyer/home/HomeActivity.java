@@ -334,7 +334,7 @@ public class HomeActivity extends AppCompatActivity {
 
        // scrollView = (NestedScrollView) findViewById(R.id.scroll_main);
         AHBottomNavigationItem item1 = new AHBottomNavigationItem(R.string.tab_1, R.drawable.ic_navigation_home, R.color.dark_green);
-        AHBottomNavigationItem item2 = new AHBottomNavigationItem(R.string.tab_2, R.drawable.ic_about_us, R.color.orange);
+        AHBottomNavigationItem item2 = new AHBottomNavigationItem(R.string.tab_2, R.drawable.ic_wallet, R.color.orange);
         AHBottomNavigationItem item3 = new AHBottomNavigationItem(R.string.tab_3, R.drawable.track, R.color.dark_green);
         AHBottomNavigationItem item4 = new AHBottomNavigationItem(R.string.tab_4, R.drawable.ic_home_bottom_account, R.color.dark_green);
         AHBottomNavigationItem item5 = new AHBottomNavigationItem(R.string.tab_5, R.drawable.ic_chat, R.color.dark_green);
@@ -378,19 +378,27 @@ public class HomeActivity extends AppCompatActivity {
                         break;
 
                     case 1:
-                        /*if (walletFragment == null) {
+
+                        if (walletFragment == null) {
                             walletFragment = new Wallet();
                         }
-                        String walletFragment_tagName = walletFragment.getClass().getName();
-                        replaceFragment(walletFragment, walletFragment_tagName);
 
-                        Log.e("time  fragment", String.valueOf(System.currentTimeMillis()));*/
+                        if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString(), "not").contains("not")) {
+                            startActivity(new Intent(HomeActivity.this, LoginDashboard.class));
+                        }
+                        else {
+                            String walletFragment_tagName = walletFragment.getClass().getName();
+                            replaceFragment(walletFragment, walletFragment_tagName);
 
-                        if (aboutUsFragment == null) {
+                            Log.e("time  fragment", String.valueOf(System.currentTimeMillis()));
+                        }
+
+
+                      /*  if (aboutUsFragment == null) {
                             aboutUsFragment = new AboutUsFragment();
                         }
                         String aboutUsFragment_tagName = aboutUsFragment.getClass().getName();
-                        replaceFragment(aboutUsFragment, aboutUsFragment_tagName);
+                        replaceFragment(aboutUsFragment, aboutUsFragment_tagName);*/
 
                         break;
 

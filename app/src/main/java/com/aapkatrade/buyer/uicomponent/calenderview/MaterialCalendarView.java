@@ -64,6 +64,8 @@ import android.widget.TextView;
 
 
 import com.aapkatrade.buyer.R;
+import com.aapkatrade.buyer.general.Utils.AndroidUtils;
+import com.aapkatrade.buyer.general.interfaces.CommonInterface;
 import com.aapkatrade.buyer.uicomponent.calenderview.format.ArrayWeekDayFormatter;
 import com.aapkatrade.buyer.uicomponent.calenderview.format.DateFormatTitleFormatter;
 import com.aapkatrade.buyer.uicomponent.calenderview.format.DayFormatter;
@@ -210,8 +212,8 @@ public class MaterialCalendarView extends ViewGroup {
     private final TitleChanger titleChanger;
 
     private final TextView title;
-    private final DirectionButton buttonPast;
-    private final DirectionButton buttonFuture;
+    final DirectionButton buttonPast;
+    final DirectionButton buttonFuture;
     private final CalendarPager pager;
     private CalendarPagerAdapter<?> adapter;
     private CalendarDay currentMonth;
@@ -221,6 +223,7 @@ public class MaterialCalendarView extends ViewGroup {
      * Used for the dynamic calendar height.
      */
     private boolean mDynamicHeightEnabled;
+    public CommonInterface commonInterface;
 
     private final ArrayList<DayViewDecorator> dayViewDecorators = new ArrayList<>();
 
@@ -229,6 +232,9 @@ public class MaterialCalendarView extends ViewGroup {
         public void onClick(View v) {
             if (v == buttonFuture) {
                 pager.setCurrentItem(pager.getCurrentItem() + 1, true);
+                if(commonInterface!=null){
+                    commonInterface.getData(true);
+                }
             } else if (v == buttonPast) {
                 pager.setCurrentItem(pager.getCurrentItem() - 1, true);
             }
@@ -279,6 +285,7 @@ public class MaterialCalendarView extends ViewGroup {
         this(context, null);
     }
 
+    @SuppressWarnings("ResourceType")
     public MaterialCalendarView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
@@ -570,9 +577,6 @@ public class MaterialCalendarView extends ViewGroup {
         this.tileHeight = size;
         requestLayout();
     }
-
-
-
 
 
     /**
@@ -1255,6 +1259,10 @@ public class MaterialCalendarView extends ViewGroup {
         return firstDayOfWeek;
     }
 
+    public int getLastDayOfWeek() {
+        return firstDayOfWeek + 6;
+    }
+
     /**
      * By default, the calendar will take up all the space needed to show any month (6 rows).
      * By enabling dynamic height, the view will change height dependant on the visible month.
@@ -1399,8 +1407,8 @@ public class MaterialCalendarView extends ViewGroup {
      */
     protected void dispatchOnRangeSelected(final CalendarDay firstDay, final CalendarDay lastDay) {
         final OnRangeSelectedListener listener = rangeListener;
-        final List<CalendarDay> days = new ArrayList<>();
 
+        final List<CalendarDay> days = new ArrayList<>();
         final Calendar counter = Calendar.getInstance();
         counter.setTime(firstDay.getDate());  //  start from the first day and increment
 

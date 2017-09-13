@@ -23,7 +23,8 @@ import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.Validation;
 
-public class PaymentCompletionActivity extends AppCompatActivity {
+public class PaymentCompletionActivity extends AppCompatActivity
+{
     private Context context;
     private TextView tvStatusTitle, tvDone, tvStatusMsg, tvHeaderTransaction, tvHeaderAmountPaid, tvSubHeaderTransaction, tvSubHeaderAmountPaid, tvReceiptNo;
     private LinearLayout circleTile1Layout, circleTile2Layout, paymentCompletionRootLayout;
@@ -35,16 +36,21 @@ public class PaymentCompletionActivity extends AppCompatActivity {
     private String transactionNo, receiptNo;
     private AppSharedPreference appSharedPreference;
 
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment_completion);
         context = PaymentCompletionActivity.this;
-        if (getIntent() != null) {
-            if (getIntent().getExtras().get("isSuccess").toString().equals("true")) {
+        if (getIntent() != null)
+        {
+            if (getIntent().getExtras().get("isSuccess").toString().equals("true"))
+            {
                 isSuccess = true;
             }
-            if (isSuccess) {
+            if (isSuccess)
+            {
                 transactionAmount = Double.parseDouble(getIntent().getExtras().get("vpc_Amount").toString());
                 transactionNo = getIntent().getExtras().get("vpc_TransactionNo").toString();
                 receiptNo = getIntent().getExtras().get("vpc_ReceiptNo").toString();
