@@ -58,7 +58,7 @@ public class ShopListByCategoryActivity extends AppCompatActivity {
     private ArrayMap<String, ArrayList<FilterObject>> filterHashMap = null;
     private ViewGroup view;
     private LinearLayoutManager linearLayoutManager;
-    private int page = 1;
+    private int page = 0, totalPage = 0;;
     public static TextView tvCartCount, tvfilter;
     private int categoryListActivity = 1;
     CardView cardviewListContainer;
@@ -87,19 +87,20 @@ public class ShopListByCategoryActivity extends AppCompatActivity {
         linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(linearLayoutManager);
         mRecyclerView.setHasFixedSize(true);
-        getShopListData("0");
+        getShopListData(String.valueOf(++page));
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 int totalItemCount = linearLayoutManager.getItemCount();
                 int lastVisibleItemCount = linearLayoutManager.findLastVisibleItemPosition();
-                if (totalItemCount > 0) {
+                if (totalItemCount > 0 && totalPage > page) {
                     if ((totalItemCount - 1) == lastVisibleItemCount) {
-                        page = page + 1;
-                        getShopListData(String.valueOf(page));
+                        getShopListData(String.valueOf(++page));
                     }
                 }
+
+
             }
 
         });
@@ -196,6 +197,7 @@ public class ShopListByCategoryActivity extends AppCompatActivity {
                                 if (result.get("error").getAsString().contains("false")) {
 
                                     int totalresult = Integer.parseInt(result.get("total_result").getAsString());
+                                    totalPage = totalresult;
                                     if (totalresult > 1) {
                                         tvListQuantity.setText(String.valueOf(totalresult));
 
@@ -368,7 +370,7 @@ public class ShopListByCategoryActivity extends AppCompatActivity {
             String category_name = jsonObject2.get("category_name").getAsString();
             String shopLocation = "";
 
-                shopLocation = /*jsonObject2.get("city_name").getAsString() + "," + jsonObject2.get("state_name").getAsString() ," */ "Haryana,"+ "India";
+            shopLocation = /*jsonObject2.get("city_name").getAsString() + "," + jsonObject2.get("state_name").getAsString() ," */ "Haryana," + "India";
 
             Log.e("shop_list", shopImage);
             shopArrayListByCategory.add(new CategoriesListData(shopId, shopName, shopImage, shopLocation, distance, category_name));
@@ -418,7 +420,7 @@ public class ShopListByCategoryActivity extends AppCompatActivity {
         final MenuItem alertMenuItem = menu.findItem(R.id.cart_total_item);
 
         RelativeLayout badgeLayout = (RelativeLayout) alertMenuItem.getActionView();
-        if(appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString()).equals("2")){
+        if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString()).equals("2")) {
             alertMenuItem.setVisible(false);
         }
 
