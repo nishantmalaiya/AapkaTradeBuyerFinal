@@ -103,7 +103,7 @@ public class EditCompanyShopActivity extends AppCompatActivity {
     private ProductImagesAdapter adapter;
     private ArrayList<Bitmap> multipleImages;
     private RelativeLayout addCompanyShopLayout;
-    private Button btnSave;
+    private  TextView  save ;
     private boolean isAllFieldsValidate = true, isGeneralDetailsCompleted = true;
     private DaysTileView daysTileView1, daysTileView2, daysTileView3;
     private CustomCardViewHeader generalDetailsHeader, shopDetailsHeader;
@@ -132,7 +132,7 @@ public class EditCompanyShopActivity extends AppCompatActivity {
         initView();
 
 
-        btnSave.setOnClickListener(new View.OnClickListener() {
+        save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 validateFields();
@@ -435,8 +435,8 @@ public class EditCompanyShopActivity extends AppCompatActivity {
         etAreaLocation = (EditText) findViewById(R.id.tv_area_location);
         findViewById(R.id.input_layout_sub_category).setVisibility(View.GONE);
 
-        btnSave = (Button) findViewById(R.id.btnSave);
-        btnSave.setText("Update Company/Shop");
+        save = (TextView) findViewById(R.id.tvSaveButton);
+        save.setText("Update Company/Shop");
         etCompanyShopName = (EditText) findViewById(R.id.etCompanyShopName);
         etPinCode = (EditText) findViewById(R.id.et_pin_code);
         etMobileNo = (EditText) findViewById(R.id.etMobileNo);
@@ -485,7 +485,8 @@ public class EditCompanyShopActivity extends AppCompatActivity {
                     generalDetailsHeader.setImageRightRotation(0);
                     llShopDetailsContainer.setVisibility(View.VISIBLE);
                     shopDetailsHeader.setImageRightRotation(180);
-                } else {
+                }
+                else {
                     llGeneralContainer.setVisibility(View.VISIBLE);
                     generalDetailsHeader.setImageRightRotation(180);
                     llShopDetailsContainer.setVisibility(View.GONE);

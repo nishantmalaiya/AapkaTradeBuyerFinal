@@ -40,7 +40,9 @@ import java.util.List;
  * Created by PPC16 on 7/10/2017.
  */
 
-public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
+{
+
     private final LayoutInflater inflater;
     private List<ProductListData> itemList;
     private Context context;
@@ -52,7 +54,8 @@ public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private int mSelectedVariation;
 
 
-    public ProductListAdapter(Context context, List<ProductListData> itemList) {
+    public ProductListAdapter(Context context, List<ProductListData> itemList)
+    {
         this.itemList = itemList;
 
         this.context = context;
@@ -86,9 +89,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, ProductDetailActivity.class);
-
                 intent.putExtra("productId", itemList.get(position).product_id);
-
                 context.startActivity(intent);
                 ((AppCompatActivity) context).overridePendingTransition(R.anim.enter, R.anim.exit);
 

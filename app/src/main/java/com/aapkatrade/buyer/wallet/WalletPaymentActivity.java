@@ -583,8 +583,6 @@ public class WalletPaymentActivity extends Activity {
                             intent.putExtra("transaction_id", jsonObject.get("transactionid").getAsString());
                             startActivity(intent);
                             finish();
-
-
                         }
                         else
                         {
@@ -626,7 +624,6 @@ public class WalletPaymentActivity extends Activity {
             }
         });
         builder.show();
-
     }
 
 

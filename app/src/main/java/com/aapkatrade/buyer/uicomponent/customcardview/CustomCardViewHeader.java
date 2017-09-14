@@ -24,7 +24,8 @@ public class CustomCardViewHeader extends CardView {
     private ImageView imageViewLeft, imageViewRight;
     private TextView textViewTitle;
 
-    public CustomCardViewHeader(Context context, AttributeSet attrs) {
+    public CustomCardViewHeader(Context context, AttributeSet attrs)
+    {
         super(context, attrs);
         init(context);
 
