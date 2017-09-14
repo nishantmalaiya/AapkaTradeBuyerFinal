@@ -16,7 +16,7 @@ import com.aapkatrade.buyer.R;
 public class BillPaymentViewHolder extends RecyclerView.ViewHolder {
 
     public View view;
-    public TextView machineType, machineNo, machinePrice;
+    public TextView machineType, machineNo, machinePrice, machineDurationTo, machineDurationFrom;
     public ImageView imageView;
     public LinearLayout linearLayout;
     public CheckBox checkBox;
@@ -27,9 +27,13 @@ public class BillPaymentViewHolder extends RecyclerView.ViewHolder {
         checkBox = (CheckBox) itemView.findViewById(R.id.checkedBoxMachineSelection);
         linearLayout = (LinearLayout) itemView.findViewById(R.id.linearLayout);
         machineType = (TextView) itemView.findViewById(R.id.tvMachineType);
-        machineNo = (TextView) itemView.findViewById(R.id.machineNo);
+        machineNo = (TextView) itemView.findViewById(R.id.machineNo2);
         machinePrice = (TextView) itemView.findViewById(R.id.machinePrize);
+        machineDurationTo = (TextView) itemView.findViewById(R.id.tvMachineDurationTo);
+        machineDurationFrom = (TextView) itemView.findViewById(R.id.tvMachineDurationFrom);
         imageView = (ImageView) itemView.findViewById(R.id.machine_img);
+
+
         view = itemView;
     }
 }

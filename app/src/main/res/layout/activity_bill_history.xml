@@ -17,8 +17,7 @@
 
         <include
 
-            layout="@layout/toolbar_layout"
-             />
+            layout="@layout/toolbar_layout" />
 
 
     </android.support.design.widget.AppBarLayout>
@@ -222,7 +221,8 @@
                         <Button
                             android:id="@+id/searchBillHistory"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+
+                            android:layout_height="@dimen/fifty_dip"
                             android:layout_below="@+id/input_layout_end_date"
                             android:layout_centerHorizontal="true"
                             android:layout_marginBottom="@dimen/ten_dip"

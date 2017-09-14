@@ -13,13 +13,15 @@ import com.aapkatrade.buyer.R;
 class BillHistoryListHolder extends RecyclerView.ViewHolder {
 
 
-    TextView tvBillhistories,tvPaymentStatus,tvBillhistoryAmount;
+    TextView tvBillhistories, tvPaymentStatus, tvBillhistoryAmount, tvPaymentDate, tvPaymentTime;
+
     public BillHistoryListHolder(View view) {
         super(view);
-        tvBillhistories=(TextView)view.findViewById(R.id.tv_billhistories);
-        tvPaymentStatus=(TextView)view.findViewById(R.id.tvPaymentStatus);
-        tvBillhistoryAmount=(TextView)view.findViewById(R.id.billhistoryamount);
-
+        tvBillhistories = (TextView) view.findViewById(R.id.tv_billhistories);
+        tvPaymentStatus = (TextView) view.findViewById(R.id.payment_mode_status);
+        tvBillhistoryAmount = (TextView) view.findViewById(R.id.payment_amount);
+        tvPaymentDate = (TextView) view.findViewById(R.id.tv_bill_date);
+        tvPaymentTime = (TextView) view.findViewById(R.id.tv_bill_time);
 
 
     }

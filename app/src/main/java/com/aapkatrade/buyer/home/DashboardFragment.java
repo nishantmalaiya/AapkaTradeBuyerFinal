@@ -13,6 +13,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
@@ -75,7 +76,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
     ArrayList<CommonData> commonDatas_latestpost = new ArrayList<>();
     ArrayList<CommonData> commonDatas_latestupdate = new ArrayList<>();
     private CommonAdapter commonAdapter_latestproduct;
-    LatestDealsAdapter  commonAdapter_latestpost;
+    LatestDealsAdapter commonAdapter_latestpost;
     ProgressBarHandler progress_handler;
     private int dotsCount;
     private ArrayList<String> imageIdList;
@@ -111,6 +112,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
             Manifest.permission.VIBRATE,
             Manifest.permission.RECORD_AUDIO,
     };
+
     public DashboardFragment() {
         // Required empty public constructor
     }
@@ -127,7 +129,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
     }
 
 
-    private void setupviewpager(ArrayList<String> imageIdList) {
+    private void setupviewpager(final ArrayList<String> imageIdList) {
         viewpageradapter = new viewpageradapter_home(getActivity(), imageIdList);
         vp.setAdapter(viewpageradapter);
         vp.setCurrentItem(currentPage);
@@ -137,7 +139,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
 
         final Runnable update = new Runnable() {
             public void run() {
-                if (currentPage == viewpageradapter.getCount() - 1) {
+                if (currentPage == imageIdList.size()) {
                     currentPage = 0;
                 }
                 vp.setCurrentItem(currentPage++, true);
@@ -153,7 +155,29 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
         }, 0, 3000);
 
         circleIndicator.setViewPager(vp);
+
+
+        circleIndicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
+            @Override
+            public void onPageSelected(int position) {
+                currentPage = position;
+
+            }
+
+            @Override
+            public void onPageScrolled(int pos, float arg1, int arg2) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int pos) {
+
+            }
+        });
+
     }
+
 
     private void initializeview(View v, ViewGroup v2) {
 
@@ -287,8 +311,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
 
     }
 
-    public void get_home_data()
-    {
+    public void get_home_data() {
         progress_handler.show();
 
         coordinatorLayout.setVisibility(View.INVISIBLE);
@@ -317,14 +340,9 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
                         if (result != null) {
                             home_result = result;
 
-                                FileUtils.writeStringAsFile(getActivity(), result.toString(), "Aapkatrade.txt");
-                                String fileStorageData = FileUtils.appendFileContent(getActivity(),"2nd data"+result.toString(), "Aapkatrade2.txt");
-                                AndroidUtils.showErrorLog(getActivity(),getActivity().getFilesDir().getAbsolutePath()+"FileStorage*****" + fileStorageData);
-
-
-
-
-
+                            FileUtils.writeStringAsFile(getActivity(), result.toString(), "Aapkatrade.txt");
+                            String fileStorageData = FileUtils.appendFileContent(getActivity(), "2nd data" + result.toString(), "Aapkatrade2.txt");
+                            AndroidUtils.showErrorLog(getActivity(), getActivity().getFilesDir().getAbsolutePath() + "FileStorage*****" + fileStorageData);
 
 
                             if (rl_retry.getVisibility() == View.VISIBLE) {
@@ -388,7 +406,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
                                         jsonObject_latest_post.get("country_name").getAsString();
                                 String categoryName = jsonObject_latest_post.get("category_name").getAsString();
                                 commonDatas_latestpost.add(new CommonData(product_id, product_name, "", imageurl, productlocation, categoryName));
-                                AndroidUtils.showErrorLog(context, "-------------888888888888888++++++++++++>>>>>",commonDatas_latestpost);
+                                AndroidUtils.showErrorLog(context, "-------------888888888888888++++++++++++>>>>>", commonDatas_latestpost);
                             }
 
 
@@ -461,7 +479,6 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
         transaction.commit();
 
     }
-
 
 
     @Override
@@ -554,17 +571,6 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
 
 
     }
-
-
-
-
-
-
-
-
-
-
-
 
 
 }
