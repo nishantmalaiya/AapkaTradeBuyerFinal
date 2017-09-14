@@ -42,7 +42,40 @@
     </LinearLayout>
 
 
-    <RelativeLayout
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardBottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/nestedScrollView"
+        android:layout_alignParentBottom="true"
+        android:visibility="visible">
+
+        <LinearLayout
+            android:id="@+id/linearBottomLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#EBEBEB"
+            android:orientation="horizontal"
+            android:padding="@dimen/ten_dip">
+
+
+            <TextView
+                android:id="@+id/tvSaveButton"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/orange_background"
+                android:gravity="center_horizontal|center_vertical"
+                android:padding="@dimen/ten_dip"
+                android:text="Save"
+                android:textColor="@color/white"
+                android:textSize="@dimen/textsize_medium" />
+        </LinearLayout>
+
+
+    </android.support.v7.widget.CardView>
+
+    <!--<RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:gravity="bottom">
@@ -55,12 +88,13 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:text="@string/add_company_shop"
+            android:layout_margin="@dimen/ten_dip"
             android:textAllCaps="false"
             android:textColor="@color/white" />
 
 
     </RelativeLayout>
-
+-->
 
 
 </RelativeLayout>
