@@ -64,12 +64,10 @@ public class BillHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             //noinspection deprecation
             homeHolder.tvBillhistories.setText(Html.fromHtml(tvData));
         }
+homeHolder.tvPaymentDate.setText(itemList.get(position).paymentDate.substring(0,10));
+        homeHolder.tvPaymentTime.setText(itemList.get(position).paymentDate.substring(11));
 
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            homeHolder.tvBillhistories.setText(Html.fromHtml(tvData, 1));
-        }
-        homeHolder.tvBillhistoryAmount.setText(itemList.get(position).paymentAmount);
+        homeHolder.tvBillhistoryAmount.setText(context.getString(R.string.rupay_text)+itemList.get(position).paymentAmount);
         homeHolder.tvPaymentStatus.setText(itemList.get(position).paymentStatus);
     }
 

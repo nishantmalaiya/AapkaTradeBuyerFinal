@@ -86,10 +86,23 @@ public class BillPaymentActivity extends AppCompatActivity {
                         AndroidUtils.showErrorLog(context, "--------loadBillPaymentData-------> ", result);
                         if (result != null) {
                             if (result.get("error").getAsString().contains("false")) {
+
+
                                 JsonArray jsonArrayResult = result.getAsJsonArray("result");
                                 for (int i = 0; i < jsonArrayResult.size(); i++) {
                                     JsonObject jsonObjectResult = jsonArrayResult.get(i).getAsJsonObject();
-                                    billPaymentArrayList.add(new BillPaymentList(jsonObjectResult.get("machine_number").getAsString(), jsonObjectResult.get("machine_type").getAsString(), jsonObjectResult.get("machine_fee").getAsString(), false, R.drawable.circle_sienna));
+                                    String machineno = jsonObjectResult.get("machine_number").getAsString();
+
+                                    JsonArray jsonArraybills = jsonObjectResult.getAsJsonArray("bills");
+
+                                    for (int k = 0; k < jsonArraybills.size(); k++) {
+                                        JsonObject jsonObjectBills = jsonArraybills.get(k).getAsJsonObject();
+
+
+                                        billPaymentArrayList.add(new BillPaymentList(machineno, jsonObjectBills.get("type").getAsString(), jsonObjectBills.get("amount").getAsString(), false, R.drawable.circle_sienna, jsonObjectBills.get("from_date").getAsString(), jsonObjectBills.get("to_date").getAsString()));
+                                    }
+
+
                                 }
 
                                 if (billPaymentAdapter == null) {

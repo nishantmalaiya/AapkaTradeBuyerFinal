@@ -41,11 +41,14 @@ public class BillPaymentAdapter extends RecyclerView.Adapter<BillPaymentViewHold
 
     @Override
     public void onBindViewHolder(final BillPaymentViewHolder holder, final int position) {
-       
 
-        holder.machineNo.setText(itemList.get(position).getMachineNo());
+
+        holder.machineNo.setText("( "+itemList.get(position).getMachineNo()+" )");
         holder.machinePrice.setText(new StringBuilder(context.getString(R.string.rupay_text)).append("  ").append(itemList.get(position).getMachineCost()));
         holder.machineType.setText(itemList.get(position).getMachineType());
+
+        holder.machineDurationFrom.setText(itemList.get(position).getFromDate());
+        holder.machineDurationTo.setText(itemList.get(position).getToDate());
         holder.imageView.setBackground(ContextCompat.getDrawable(context, itemList.get(position).getBackgroundColor()));
 
         holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -71,17 +74,15 @@ public class BillPaymentAdapter extends RecyclerView.Adapter<BillPaymentViewHold
     }
 
 
-    private ArrayList<Integer> calculateTotalAmountToPay(){
+    private ArrayList<Integer> calculateTotalAmountToPay() {
         ArrayList<Integer> selectedList = new ArrayList<>();
-        for (int i = 0; i < itemList.size(); i++){
-            if(itemList.get(i).isSelected()){
+        for (int i = 0; i < itemList.size(); i++) {
+            if (itemList.get(i).isSelected()) {
                 selectedList.add(i);
             }
         }
         return selectedList;
     }
-
-
 
 
     @Override

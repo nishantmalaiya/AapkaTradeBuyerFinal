@@ -1,47 +1,213 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_margin="@dimen/ten_dip"
-    app:cardBackgroundColor="@color/white"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_margin="@dimen/ten_dip"
+    android:orientation="vertical"
+    app:cardBackgroundColor="@color/white">
 
-
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
+
+
+
+
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_toEndOf="@+id/view1"
+            android:orientation="vertical">
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+
+                android:layout_height="wrap_content">
+
+
+                <TextView
+                    android:id="@+id/tv_bill_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/ten_dip"
+                    android:layout_marginBottom="@dimen/ten_dip"
+                    android:text="2017-09-09"
+                    android:layout_marginStart="@dimen/five_dip"
+                    android:textColor="@color/slate_gray" />
+
+                <TextView
+                    android:id="@+id/tv_bill_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_margin="@dimen/ten_dip"
+                    android:gravity="end"
+                    android:text="11:44:33"
+
+
+                    android:textColor="@color/deep_pink" />
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+
+                android:layout_height="wrap_content">
+
+
+
+                <ImageView
+                    android:id="@+id/img_paymentmode"
+                    android:layout_width="@dimen/fifty_dip"
+                    android:layout_height="@dimen/fifty_dip"
+                    android:contentDescription="@string/name"
+                    android:layout_marginStart="@dimen/five_dip"
+                    android:src="@drawable/payment_mode" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/ten_dip"
+
+                    android:layout_toEndOf="@+id/img_paymentmode"
+                    android:text="Payment Mode"
+                    android:textColor="@color/slate_gray"
+                    tools:ignore="HardcodedText" />
+
+                <TextView
+                    android:id="@+id/payment_mode_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_margin="@dimen/ten_dip"
+                    android:gravity="end"
+                    android:text="Manual"
+
+
+                    android:textColor="@color/green" />
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:visibility="gone"
+                android:layout_height="wrap_content">
+
+
+                <ImageView
+                    android:id="@+id/img_paymentstatus"
+                    android:layout_width="@dimen/fifty_dip"
+                    android:layout_height="@dimen/fifty_dip"
+                    android:contentDescription="@string/name"
+                    android:src="@drawable/payment_status" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/one_dip"
+
+                    android:layout_below="@+id/img_paymentstatus"
+                    android:layout_marginEnd="@dimen/five_dip"
+                    android:layout_marginTop="@dimen/five_dip"
+                    android:background="@color/grey"></View>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/ten_dip"
+
+                    android:layout_toEndOf="@+id/img_paymentstatus"
+                    android:text="Payment Status"
+
+                    android:textColor="@color/slate_gray"
+                    tools:ignore="HardcodedText" />
+
+                <TextView
+                    android:id="@+id/payment_mode_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_margin="@dimen/ten_dip"
+                    android:gravity="end"
+                    android:text="Completed"
+                    android:textColor="@color/green"
+                    tools:ignore="HardcodedText" />
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:background="#f9f7fb"
+                android:layout_height="wrap_content">
+
+
+                <ImageView
+                    android:id="@+id/img_paymentamount"
+                    android:layout_width="@dimen/fifty_dip"
+                    android:layout_height="@dimen/fifty_dip"
+                    android:contentDescription="@string/name"
+                    android:layout_marginStart="@dimen/five_dip"
+                    android:src="@drawable/ic_img_amount" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/ten_dip"
+
+                    android:layout_toEndOf="@+id/img_paymentamount"
+                    android:text="Payment Amount"
+
+                    android:textColor="@color/black"
+
+                    tools:ignore="HardcodedText" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_margin="@dimen/ten_dip"
+                    android:gravity="end"
+                    android:text="Completed"
+                    android:id="@+id/payment_amount"
+
+                    android:textColor="@color/color_voilet"
+                    tools:ignore="HardcodedText" />
+
+
+            </RelativeLayout>
+        </LinearLayout>
 
 
         <TextView
             android:id="@+id/tv_billhistories"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/ten_dip" />
+            android:layout_margin="@dimen/ten_dip"
+            android:visibility="gone" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/two_dip"
-            android:visibility="gone"
-            android:background="@color/grey">
-
-        </View>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:layout_margin="@dimen/ten_dip">
+            android:layout_margin="@dimen/ten_dip"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/tvPaymentStatus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:textColor="#7dbd00"
-                android:text="COMPLETE" />
+                android:text="COMPLETE"
+                android:textColor="#7dbd00" />
 
             <TextView
                 android:id="@+id/billhistoryamount"
@@ -49,7 +215,10 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
 
-                android:textColor="@color/color_voilet" />
+                android:textColor="@color/color_voilet"
+                tools:ignore="RelativeOverlap" />
         </RelativeLayout>
-    </LinearLayout>
+    </RelativeLayout>
+
+
 </android.support.v7.widget.CardView>
