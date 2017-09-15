@@ -185,6 +185,10 @@ public class BankDetailsActivity extends AppCompatActivity {
                                             beneficiaryBankName = jsonObject.get("beneficiaryBankName").getAsString();
                                             beneficiaryAddress = jsonObject.get("beneficiaryAddress").getAsString();
 
+                                            if (Validation.isEmptyStrArray(new String[]{ifscCode, beneficiaryName, beneficiaryAccount, stateName, beneficiaryBankName, beneficiaryAddress})) {
+                                                editDetailsIcon.performClick();
+                                            }
+
                                             etBeneficiaryIFSC.setText(ifscCode);
                                             etBeneficiaryName.setText(beneficiaryName);
                                             etBeneficiaryAccount.setText(beneficiaryAccount);
@@ -201,22 +205,28 @@ public class BankDetailsActivity extends AppCompatActivity {
                                             }
                                             disableViews();
                                         }
-                                    } else {
-
+                                    } else if (jsonArray != null && jsonArray.size() == 0){
+                                        //AndroidUtils.showToast(context, "Hi hit size 0");
                                         saveButton.setVisibility(View.VISIBLE);
                                         editDetailsIcon.setVisibility(View.GONE);
                                     }
 
                                 } else {
                                     AndroidUtils.showErrorLog(context, "error::::::TRUE");
+                                    saveButton.setVisibility(View.VISIBLE);
+                                    editDetailsIcon.setVisibility(View.GONE);
                                 }
 
                             } else {
                                 AndroidUtils.showErrorLog(context, "error::::::TRUE");
+                                saveButton.setVisibility(View.VISIBLE);
+                                editDetailsIcon.setVisibility(View.GONE);
                             }
 
                         } else {
                             AndroidUtils.showErrorLog(context, "result::::::NULL");
+                            saveButton.setVisibility(View.VISIBLE);
+                            editDetailsIcon.setVisibility(View.GONE);
                         }
                     }
                 });
@@ -260,12 +270,12 @@ public class BankDetailsActivity extends AppCompatActivity {
     private void callUpdateBankDetailWebService() {
         AndroidUtils.showErrorLog(context,
                 "-----userID-----" + userId
-                        + "------user_type--------"+ SharedPreferenceConstants.USER_TYPE_SELLER.toString()
-                        + "--------state_id----------- "+ stateID
-                        + "--------beneficiaryBankName---------"+ etBeneficiaryBankName.getText().toString()
-                        + "--------beneficiaryAccount----------- "+ etBeneficiaryAccount.getText().toString()
-                        + "----------beneficiaryName---------- "+ etBeneficiaryName.getText().toString()
-                        + "--------beneficiaryAddress------------"+ etBeneficiaryAddress.getText().toString());
+                        + "------user_type--------" + SharedPreferenceConstants.USER_TYPE_SELLER.toString()
+                        + "--------state_id----------- " + stateID
+                        + "--------beneficiaryBankName---------" + etBeneficiaryBankName.getText().toString()
+                        + "--------beneficiaryAccount----------- " + etBeneficiaryAccount.getText().toString()
+                        + "----------beneficiaryName---------- " + etBeneficiaryName.getText().toString()
+                        + "--------beneficiaryAddress------------" + etBeneficiaryAddress.getText().toString());
         progressBarHandler.show();
         Ion.with(context)
                 .load(getString(R.string.webservice_base_url) + "/bank_detail_update")

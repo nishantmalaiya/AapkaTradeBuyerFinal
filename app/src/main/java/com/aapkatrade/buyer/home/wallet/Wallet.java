@@ -253,7 +253,7 @@ public class Wallet extends Fragment  implements OnDateSelectedListener
                     @Override
                     public void onCompleted(Exception e, JsonObject result)
                     {
-                         AndroidUtils.showErrorLog(getActivity(),"d",result);
+                         AndroidUtils.showErrorLog(getActivity(),"wallet history",result);
                         // progressBarHandler.hide();
                         progressBarHandler.hide();
 

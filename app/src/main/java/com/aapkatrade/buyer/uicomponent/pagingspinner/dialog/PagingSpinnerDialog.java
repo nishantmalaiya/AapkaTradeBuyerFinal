@@ -14,6 +14,9 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
@@ -46,6 +49,7 @@ public class PagingSpinnerDialog extends DialogFragment {
     private PagingSpinnerAdapter companyShopListAdapter;
     private LinearLayoutManager linearLayoutManager;
     public static CommonInterface commonInterface;
+    private LinearLayout noShopFound;
 
     public PagingSpinnerDialog(Context context, String shopType, String sellerId) {
         this.context = context;
@@ -59,7 +63,7 @@ public class PagingSpinnerDialog extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         final View v = inflater.inflate(R.layout.dialog_paging_spinner, container, false);
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-        getDialog().getWindow().setBackgroundDrawableResource(R.drawable.rounded_dialog);
+//        getDialog().getWindow().setBackgroundDrawableResource(R.drawable.rounded_dialog);
         getDialog().getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
         getDialog().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE|WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
         initView(v);
@@ -82,6 +86,16 @@ public class PagingSpinnerDialog extends DialogFragment {
                 AndroidUtils.showErrorLog(getActivity(),"Paging Spinner Dialog",v.getVerticalScrollbarPosition());
             }
         });
+        noShopFound = v.findViewById(R.id.no_shop_found);
+        ((TextView)noShopFound.findViewById(R.id.tv_product_listing_not_found)).setText("Error in fetching Company/Shop List.");
+        ((RelativeLayout) noShopFound.findViewById(R.id.rl_tryagain)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                callCompanyListWebservice(++page);
+            }
+        });
+
+        recyclerView.setVisibility(View.GONE);
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -136,7 +150,10 @@ public class PagingSpinnerDialog extends DialogFragment {
                     if (result.get("error").getAsString().contains("false")) {
                         JsonArray jsonArray_response = result.getAsJsonArray("result");
                         totalPage = result.get("total_page").getAsInt();
-
+                        if(jsonArray_response!=null && jsonArray_response.size()>0){
+                            noShopFound.setVisibility(View.GONE);
+                            recyclerView.setVisibility(View.VISIBLE);
+                        }
                         for (int i = 0; i < jsonArray_response.size(); i++) {
 
 

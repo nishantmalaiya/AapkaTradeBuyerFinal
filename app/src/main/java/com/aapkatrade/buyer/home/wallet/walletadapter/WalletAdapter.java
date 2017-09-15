@@ -71,7 +71,7 @@ public class WalletAdapter extends RecyclerView.Adapter<WalletTransactionHolder>
         holder.tv_transaction_amount.setText(context.getResources().getString(R.string.rupay_text)+" "+itemList.get(position).transaction_amount);
         holder.tv_transactionDate.setText(itemList.get(position).transaction_date);
 
-        if (itemList.get(position).transaction_message.equals("Amt Added"))
+        if (itemList.get(position).transaction_type.equals("2"))
         {
             holder.tv_transactiontypeName.setText("Added to Account");
             holder.transaction_type_imgvew.setImageDrawable(ActivityCompat.getDrawable(context, R.drawable.ic_add_money));

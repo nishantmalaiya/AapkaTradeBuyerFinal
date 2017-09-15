@@ -105,7 +105,8 @@ public class AddCompanyShopActivity extends AppCompatActivity {
     private ProductImagesAdapter adapter;
     private ArrayList<Bitmap> multipleImages;
     private RelativeLayout addCompanyShopLayout;
-    private Button btnSave;
+
+    private  TextView  save ;
     private boolean isAllFieldsValidate = true, isGeneralDetailsCompleted = true;
     private DaysTileView daysTileView1, daysTileView2, daysTileView3;
     private CustomCardViewHeader generalDetailsHeader, shopDetailsHeader;
@@ -125,7 +126,7 @@ public class AddCompanyShopActivity extends AppCompatActivity {
         getServiceType();
         takeAreaLocation();
         setupRecyclerView();
-        btnSave.setOnClickListener(new View.OnClickListener() {
+        save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 validateFields();
@@ -251,7 +252,9 @@ public class AddCompanyShopActivity extends AppCompatActivity {
         etAreaLocation = (EditText) findViewById(R.id.tv_area_location);
         findViewById(R.id.input_layout_sub_category).setVisibility(View.GONE);
 
-        btnSave = (Button) findViewById(R.id.btnSave);
+        //btnSave = (Button) findViewById(R.id.btnSave);
+        save = (TextView) findViewById(R.id.tvSaveButton);
+
         etCompanyShopName = (EditText) findViewById(R.id.etCompanyShopName);
         etPinCode = (EditText) findViewById(R.id.et_pin_code);
         etMobileNo = (EditText) findViewById(R.id.etMobileNo);
@@ -281,6 +284,7 @@ public class AddCompanyShopActivity extends AppCompatActivity {
 
         generalDetailsHeader = (CustomCardViewHeader) findViewById(R.id.generalDetailsHeader);
         generalDetailsHeader.setTitle("General Information");
+        generalDetailsHeader.setBackgroundColor(getResources().getColor(R.color.black));
         generalDetailsHeader.setImageDrawableLeft(ContextCompat.getDrawable(context, R.drawable.ic_info));
 
         shopDetailsHeader = (CustomCardViewHeader) findViewById(R.id.shopDetailsHeader);
