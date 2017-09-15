@@ -22,6 +22,28 @@ public class Validation {
         return TextUtils.isEmpty(s) || s.trim().equals("");
     }
 
+    public static boolean isEmptyStrArray(String s[]) {
+        if (s != null && s.length > 0) {
+            for (String value : s) {
+                if (isNonEmptyStr(value)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public static boolean isNonEmptyStrArray(String s[]) {
+        if (s != null && s.length > 0) {
+            for (String value : s) {
+                if (isEmptyStr(value)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
     public static boolean isNonEmptyStr(String s) {
         return !isEmptyStr(s);
     }
@@ -40,8 +62,8 @@ public class Validation {
     }
 
     public static boolean isValidPassword(String password) {
-        if(isNonEmptyStr(password) && password.length() >= 6){
-            Log.e("^^^^^^^^^^^^^^^$$$$$$$", ""+password.matches("(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^!&+-]).{6,30}"));
+        if (isNonEmptyStr(password) && password.length() >= 6) {
+            Log.e("^^^^^^^^^^^^^^^$$$$$$$", "" + password.matches("(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^!&+-]).{6,30}"));
 
             return password.matches("(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^!&+-]).{6,30}");
         }
@@ -82,10 +104,10 @@ public class Validation {
         return isNonEmptyStr(s) && TextUtils.isDigitsOnly(s);
     }
 
-    public static boolean containsIgnoreCase(String containerString, String containingString){
-        if(containerString == containingString) return true;
-        if(isNonEmptyStr(containerString) && isNonEmptyStr(containingString)){
-            if(containerString.toLowerCase().contains(containingString.toLowerCase())){
+    public static boolean containsIgnoreCase(String containerString, String containingString) {
+        if (containerString == containingString) return true;
+        if (isNonEmptyStr(containerString) && isNonEmptyStr(containingString)) {
+            if (containerString.toLowerCase().contains(containingString.toLowerCase())) {
                 return true;
             }
         }

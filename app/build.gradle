@@ -18,6 +18,7 @@ android {
         versionName "1.12"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
+        multiDexEnabled true
     }
 
     buildTypes {
@@ -114,6 +115,7 @@ dependencies {
     compile 'com.android.support:percent:26.0.2'
     compile 'com.google.firebase:firebase-messaging:11.2.2'
     compile 'com.nightonke:jellytogglebutton:1.0.2'
+    compile 'com.android.support:multidex:1.0.2'
 
 
 }
