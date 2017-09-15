@@ -179,9 +179,9 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
                             JsonObject json_result = result.get("result").getAsJsonObject();
                             shopId = json_result.get("id").getAsString();
                             productUrlPart = json_result.get("product_url").getAsString();
-                            VideoPath=json_result.get("shop_video").getAsString();
+                            VideoPath = json_result.get("shop_video").getAsString();
 
-                            AndroidUtils.showErrorLog(context,"video_Path",VideoPath);
+                            AndroidUtils.showErrorLog(context, "video_Path", VideoPath);
                             JsonObject json_total_rating = result.getAsJsonObject("total_rating");
                             String avg_rating = json_total_rating.get("avg_rating").getAsString();
                             tvRatingAverage.setText(avg_rating);
@@ -210,10 +210,13 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
                                 JsonObject jsonimage = (JsonObject) jsonArrayImage.get(i);
                                 String image_url = jsonimage.get("image_url").getAsString();
                                 AndroidUtils.showErrorLog(context, "imageUrl---------" + image_url);
-                                imageList.add(new ShopDetailMediaDatas(image_url,false));
+                                imageList.add(new ShopDetailMediaDatas(image_url, false));
                             }
+                            if (VideoPath.equals("No Video")) {
 
-                            imageList.add(new ShopDetailMediaDatas(VideoPath,true));
+                            } else {
+                                imageList.add(new ShopDetailMediaDatas(VideoPath, true));
+                            }
                             product_name = json_result.get("name").getAsString();
                             categoryName = json_result.get("catname").getAsString();
 //                            String product_price = json_result.get("price").getAsString();
@@ -273,7 +276,7 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
                                 openingClosingRelativeLayout.setVisibility(View.VISIBLE);
                                 for (int i = 0; i < openCloseDayArray.size(); i++) {
                                     JsonObject jsonObjectDays = (JsonObject) openCloseDayArray.get(i);
-                                    OpenCloseShopData openCloseShopData = new OpenCloseShopData(jsonObjectDays.get("days").getAsString().substring(0, 3), jsonObjectDays.get("open_time") == null ? "" : jsonObjectDays.get("open_time").getAsString(), jsonObjectDays.get("close_time") == null ? "" : jsonObjectDays.get("close_time").getAsString());
+                                    OpenCloseShopData openCloseShopData = new OpenCloseShopData(Validation.isEmptyStr(jsonObjectDays.get("days").getAsString())?"":jsonObjectDays.get("days").getAsString().substring(0, 3), jsonObjectDays.get("open_time") == null ? "" : jsonObjectDays.get("open_time").getAsString(), jsonObjectDays.get("close_time") == null ? "" : jsonObjectDays.get("close_time").getAsString());
                                     if (Validation.containsIgnoreCase(jsonObjectDays.get("days").getAsString(), "mon") && Validation.containsIgnoreCase(jsonObjectDays.get("days").getAsString(), "fri")) {
                                         for (int j = 0; j < 5; j++) {
                                             String[] daysName = {"Mon", "Tue", "Wed", "Thu", "Fri"};
@@ -294,7 +297,7 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
                                 } else {
                                     openingClosingRelativeLayout.setVisibility(View.GONE);
                                 }
-                            }else {
+                            } else {
                                 openingClosingRelativeLayout.setVisibility(View.GONE);
                             }
 
@@ -345,7 +348,7 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
 
         final Runnable update = new Runnable() {
             public void run() {
-                if (currentPage == viewpageradapter.getCount() - 1) {
+                if (currentPage == imageList.size()) {
                     currentPage = 0;
                 }
                 vp.setCurrentItem(currentPage++, true);
@@ -480,6 +483,8 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
         btnServiceEnquiry = (ImageButton) findViewById(R.id.btnService_enquiry);
 
         vp = (HorizontalInfiniteCycleViewPager) findViewById(R.id.viewpager_custom);
+        vp.stopAutoScroll();
+
         viewpagerindicator = (LinearLayout) findViewById(R.id.viewpagerindicator);
 
         progressbarFive = (StackedHorizontalProgressBar) findViewById(R.id.progressbarFive);
@@ -567,7 +572,7 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
                 onOptionsItemSelected(alertMenuItem);
             }
         });
-        if(appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString()).equals("2")){
+        if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_TYPE.toString()).equals("2")) {
             alertMenuItem.setVisible(false);
             AndroidUtils.showErrorLog(context, "cart visibility gone");
         }

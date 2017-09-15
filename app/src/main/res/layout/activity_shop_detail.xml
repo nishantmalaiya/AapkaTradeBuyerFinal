@@ -50,14 +50,14 @@
                         android:id="@+id/viewpager_custom"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/two_hundreds_fifty_dip"
-                        app:icvp_center_page_scale_offset="30dp"
-                        app:icvp_interpolator="@dimen/hundred_dip"
-                        app:icvp_max_page_scale="0.8"
-                        app:icvp_medium_scaled="true"
-                        app:icvp_min_page_scale="0.5"
+                        app:icvp_center_page_scale_offset="3dp"
 
+                        app:icvp_max_page_scale="0.8"
+                        app:icvp_interpolator="@android:anim/accelerate_decelerate_interpolator"
+                        app:icvp_min_page_scale="0.55"
+                        app:icvp_medium_scaled="false"
                         app:icvp_min_page_scale_offset="5dp"
-                        app:icvp_scroll_duration="2000" />
+                        app:icvp_scroll_duration="500" />
 
 
                     <me.relex.circleindicator.CircleIndicator

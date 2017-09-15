@@ -22,6 +22,7 @@ import com.aapkatrade.buyer.general.Tabletsize;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.Validation;
+import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
 import java.util.ArrayList;
@@ -68,36 +69,40 @@ public class ShopViewPagerAdapter extends PagerAdapter {
     public Object instantiateItem(final ViewGroup container, final int position) {
 
         itemView = LayoutInflater.from(context).inflate(R.layout.viewpager_product_detail, container, false);
+        CardView cardviewContainer=(CardView)itemView.findViewById(R.id.CardViewShopdetail) ;
         ImageView imgview_video = (ImageView) itemView.findViewById(R.id.img_video);
         final ImageView imageView = (ImageView) itemView.findViewById(R.id.img_viewpager_detail);
         AndroidUtils.showErrorLog(context, "list12============" + imageUrlArrayList.get(position).MediaUrl);
 
         if (imageUrlArrayList.get(position).isVideo) {
-
-            AndroidUtils.showErrorLog(context, "position============" + imageUrlArrayList.get(position).MediaUrl + "");
-            imgview_video.setVisibility(View.VISIBLE);
-            imageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+            if (Validation.isNonEmptyStr(imageUrlArrayList.get(position).MediaUrl)) {
+                AndroidUtils.showErrorLog(context, "position============" + imageUrlArrayList.get(position).MediaUrl + "");
+                imgview_video.setVisibility(View.VISIBLE);
 
 
-                    if (Validation.isNonEmptyStr(imageUrlArrayList.get(position).MediaUrl)) {
+                cardviewContainer.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
 
 
-                        Intent intent = new Intent(Intent.ACTION_VIEW);
 
-                        intent.setDataAndType(Uri.parse(imageUrlArrayList.get(position).MediaUrl), "video/*");
 
-                        context.startActivity(Intent.createChooser(intent, "Complete action using"));
 
-                    } else {
+                            Intent intent = new Intent(Intent.ACTION_VIEW);
 
-                        AndroidUtils.showErrorLog(context, "video Url", imageUrlArrayList.get(position).MediaUrl);
+                            intent.setDataAndType(Uri.parse(imageUrlArrayList.get(position).MediaUrl), "video/*");
+
+                            context.startActivity(Intent.createChooser(intent, "Complete action using"));
+
 
                     }
-                }
-            });
+                });
+            }
+            else {
 
+                AndroidUtils.showErrorLog(context, "video Url", imageUrlArrayList.get(position).MediaUrl.replace(".mp4", ".gif"));
+
+            }
 
         } else {
 

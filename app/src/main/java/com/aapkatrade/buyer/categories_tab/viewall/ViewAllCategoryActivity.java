@@ -206,10 +206,10 @@ public class ViewAllCategoryActivity extends AppCompatActivity {
                             if (viewAllCategoriesAdapter == null) {
                                 viewAllCategoriesAdapter = new ViewAllCategoriesAdapter(context, listDataHeader);
                                 recyclerView.setLayoutManager(gridLayoutManager);
-                                int scaleRatio = (int) getResources().getDisplayMetrics().density;
-                                int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.spacing);
+                                /*int scaleRatio = (int) getResources().getDisplayMetrics().density;
+                                int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.twenty_five_dip);
                                 int dimenOrginal = spacingInPixels / scaleRatio;
-                                recyclerView.addItemDecoration(new GridSpacingItemDecoration(dimenOrginal));
+                                recyclerView.addItemDecoration(new GridSpacingItemDecoration(dimenOrginal));*/
                                 recyclerView.setAdapter(viewAllCategoriesAdapter);
 
                             } else {
