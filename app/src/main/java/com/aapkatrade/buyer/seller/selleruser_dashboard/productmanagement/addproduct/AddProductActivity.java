@@ -65,30 +65,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AddProductActivity extends AppCompatActivity {
-    private File docFile = new File("");
     private ArrayList<ProductMediaData> productImagesDatas = new ArrayList<>();
     private RecyclerView recyclerView;
     private ProductImagesAdapter adapter;
-    private ArrayList<Bitmap> multiple_images;
     private EditText etproductname, etProductPrice, etProductPriceDiscount, etProductWeight, etDescription, etMaxorderQuantity, etProductLength, etProductWidth, etProductHeight;
     private TextView save;
-    private List<Part> files = new ArrayList();
     private AppSharedPreference appSharedpreference;
     private ProgressBarHandler progressBarHandler;
     private Context context;
     private Spinner spUnitCategory;
     private PagingSpinner pagingSpinner;
-    private ArrayList<City> cityList = new ArrayList<>();
     private ArrayList<City> unitList = new ArrayList<>();
-    private String cityID, unitID, dynamicFormData;
+    private String unitID, dynamicFormData;
     private ArrayList<DynamicFormEntity> dynamicFormEntityArrayList = new ArrayList<>();
     private LinearLayout llSellerProductDetailContainer;
-    int page = 0, totalPage = 0, companyPosition = 0;
     public static CommonInterface commonInterface = null;
-
-    ArrayList<CompanyDropdownDatas> companyDropdownDatas = new ArrayList<>();
-    CustomSpinnerAdapter customSpinnerAdapter;
-
     private boolean isAllFieldsSet = true;
 
 
@@ -100,9 +91,6 @@ public class AddProductActivity extends AppCompatActivity {
         context = AddProductActivity.this;
         appSharedpreference = new AppSharedPreference(context);
         progressBarHandler = new ProgressBarHandler(context);
-//        if (getIntent() != null) {
-//            shopId = getIntent().getStringExtra("shopId");
-//        }
         setUpToolBar();
         initView();
         setupRecyclerView();
@@ -523,8 +511,6 @@ public class AddProductActivity extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        multiple_images = new ArrayList<>();
 
         AndroidUtils.showErrorLog(context, "hi", "requestCode : " + requestCode + "result code : " + resultCode);
 

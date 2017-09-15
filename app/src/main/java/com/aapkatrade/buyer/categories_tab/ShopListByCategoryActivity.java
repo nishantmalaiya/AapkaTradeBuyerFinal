@@ -228,6 +228,11 @@ public class ShopListByCategoryActivity extends AppCompatActivity {
 
                                             if (resultJsonArray != null) {
                                                 loadResultData(resultJsonArray);
+                                            } else {
+                                                layout_container.setVisibility(View.INVISIBLE);
+                                                cardviewListContainer.setVisibility(View.GONE);
+                                                llDataNotFound.setVisibility(View.VISIBLE);
+                                                findViewById(R.id.filter).setVisibility(View.GONE);
                                             }
                                             if (categoriesListAdapter == null) {
                                                 categoriesListAdapter = new CategoriesListAdapter(ShopListByCategoryActivity.this, shopArrayListByCategory);
@@ -254,6 +259,7 @@ public class ShopListByCategoryActivity extends AppCompatActivity {
                                     cardviewListContainer.setVisibility(View.GONE);
 
                                     llDataNotFound.setVisibility(View.VISIBLE);
+                                    findViewById(R.id.filter).setVisibility(View.GONE);
                                     progressBarHandler.hide();
                                 }
                             }
@@ -290,6 +296,10 @@ public class ShopListByCategoryActivity extends AppCompatActivity {
                             if (result == null) {
                                 layout_container.setVisibility(View.INVISIBLE);
                                 progressBarHandler.hide();
+                                layout_container.setVisibility(View.INVISIBLE);
+                                cardviewListContainer.setVisibility(View.GONE);
+                                llDataNotFound.setVisibility(View.VISIBLE);
+                                findViewById(R.id.filter).setVisibility(View.GONE);
 
                             } else {
 
@@ -325,6 +335,11 @@ public class ShopListByCategoryActivity extends AppCompatActivity {
 
                                             if (resultJsonArray != null) {
                                                 loadResultData(resultJsonArray);
+                                            } else {
+                                                layout_container.setVisibility(View.INVISIBLE);
+                                                cardviewListContainer.setVisibility(View.GONE);
+                                                llDataNotFound.setVisibility(View.VISIBLE);
+                                                findViewById(R.id.filter).setVisibility(View.GONE);
                                             }
                                             if (categoriesListAdapter == null) {
                                                 categoriesListAdapter = new CategoriesListAdapter(ShopListByCategoryActivity.this, shopArrayListByCategory);

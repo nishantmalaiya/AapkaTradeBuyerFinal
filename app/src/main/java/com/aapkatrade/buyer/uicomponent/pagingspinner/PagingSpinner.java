@@ -84,23 +84,17 @@ public class PagingSpinner extends RelativeLayout {
         linearLayoutMain.findViewById(R.id.container_simple_spinner).setVisibility(View.VISIBLE);
         ((TextView) linearLayoutMain.findViewById(R.id.tvSpCategory)).setText("Please Select Company/Shop");
         linearLayoutMain.findViewById(R.id.containershoplist).setVisibility(View.GONE);
-//        AndroidUtils.setBackgroundStroke(relativeLayoutRoot, context, R.color.green, 10, 3);
         relativeLayoutRoot.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 AndroidUtils.showErrorLog(context, "relativeLayoutRoot clicked.");
-               if( ConnetivityCheck.isNetworkAvailable(context))
-
-
-               {
-                   pagingSpinnerDialog = new PagingSpinnerDialog(context, shopType, sellerId);
-                   FragmentManager fm = ((AppCompatActivity) context).getSupportFragmentManager();
-                   pagingSpinnerDialog.show(fm, "PagingSpinnerDialog");
-               }
-               else{
-
-                   AndroidUtils.showToast(context,"!Internet not available. Check your internet connection.");
-               }
+                if (ConnetivityCheck.isNetworkAvailable(context)) {
+                    pagingSpinnerDialog = new PagingSpinnerDialog(context, shopType, sellerId);
+                    FragmentManager fm = ((AppCompatActivity) context).getSupportFragmentManager();
+                    pagingSpinnerDialog.show(fm, "PagingSpinnerDialog");
+                } else {
+                    AndroidUtils.showToast(context, "!Internet not available. Check your internet connection.");
+                }
 
             }
         });
@@ -110,7 +104,7 @@ public class PagingSpinner extends RelativeLayout {
                 if (object != null) {
                     CompanyDropdownDatas companyDropdownDatas = (CompanyDropdownDatas) object;
                     shopId = companyDropdownDatas.comapanyId;
-                    if(commonInterfaceOuter!=null){
+                    if (commonInterfaceOuter != null) {
                         commonInterfaceOuter.getData(shopId);
                     }
                     linearLayoutMain.findViewById(R.id.rootContainer).setVisibility(VISIBLE);
@@ -186,6 +180,7 @@ public class PagingSpinner extends RelativeLayout {
                     public void onCompleted(Exception e, JsonObject result) {
                         AndroidUtils.showErrorLog(context, "result shop_short_details -----> ", result);
                         progressBarHandler.hide();
+
                         if (result != null) {
                             if (result.get("error").getAsString().contains("true")) {
                                 JsonObject jsonObject = result.get("result").getAsJsonObject();
@@ -211,7 +206,6 @@ public class PagingSpinner extends RelativeLayout {
 
                                 StringBuilder stringBuilder_txnamount = new StringBuilder("<font size=\"20\" color=" + "#ffffff>" + companyDropdownDatas.companyName +
                                         companyDropdownDatas.comapanyCategory + "</font>");
-//                AndroidUtils.showErrorLog(context, position+"position"+arrayList.size()+"arrayList.size()   "+"work1***" + Html.fromHtml(tvData));
                                 ((TextView) linearLayoutMain.findViewById(R.id.tvshopdropdownshopname)).setText(companyDropdownDatas.companyName);
                                 ((TextView) linearLayoutMain.findViewById(R.id.tvshopdropdownshopcategory)).setText("Category : ".concat(companyDropdownDatas.comapanyCategory));
                             }

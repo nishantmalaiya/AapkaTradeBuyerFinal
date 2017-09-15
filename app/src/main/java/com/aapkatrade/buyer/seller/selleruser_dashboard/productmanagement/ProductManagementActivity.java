@@ -51,6 +51,7 @@ public class ProductManagementActivity extends AppCompatActivity {
     RelativeLayout rlSearchContainer;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,8 +80,13 @@ public class ProductManagementActivity extends AppCompatActivity {
         imgShopType.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent addProductIntent = new Intent(context, AddProductActivity.class);
-                startActivity(addProductIntent);
+                if(getIntent()!=null && getIntent().getStringExtra("companyCount")!=null && Integer.valueOf(getIntent().getStringExtra("companyCount"))>1){
+                    Intent addProductIntent = new Intent(context, AddProductActivity.class);
+                    startActivity(addProductIntent);
+                } else {
+                    AndroidUtils.showToast(context, "Please Add Company / Shop First.");
+                }
+
             }
         });
 
