@@ -7,6 +7,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.aapkatrade.buyer.R;
+import com.aapkatrade.buyer.uicomponent.customimageview.MyImageView;
 
 /**
  * Created by PPC15 on 8/22/2017.

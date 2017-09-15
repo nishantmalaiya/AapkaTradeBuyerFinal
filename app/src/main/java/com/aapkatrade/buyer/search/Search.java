@@ -30,6 +30,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -114,7 +115,7 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
 
     TextView selectedlocation;
 
-
+RelativeLayout rl_selected_state;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -320,16 +321,23 @@ public class Search extends AppCompatActivity implements Adapter_callback_interf
 
     private void setup_state_spinner()
     {
-
+        rl_selected_state=(RelativeLayout)findViewById(R.id.rl_selected_state);
         selectedlocation=(TextView)findViewById(R.id.selected_state);
 
-
-        selectedlocation.setOnClickListener(new View.OnClickListener() {
+        rl_selected_state.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 call_state_dialog(false);
             }
+
+
         });
+      /*  selectedlocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                call_state_dialog(false);
+            }
+        });*/
        /* state_list_spinner = (Spinner) findViewById(R.id.spin_select_state);
         stateList = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.state_list)));
 
