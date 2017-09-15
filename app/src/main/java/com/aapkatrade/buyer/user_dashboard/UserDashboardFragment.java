@@ -210,7 +210,6 @@ public class UserDashboardFragment extends Fragment {
                                 dashboardDatas.add(new DashboardData("", "Change Password", R.drawable.ic_change_password, R.drawable.circle_purple, false, ""));
                                 dashboardDatas.add(new DashboardData("", "Order", R.drawable.ic_my_order, R.drawable.circle_sienna, true, order_quantity));
 
-
                             } else if (appSharedPreference.getSharedPref((SharedPreferenceConstants.USER_TYPE.toString())).equals(SharedPreferenceConstants.USER_TYPE_SELLER.toString())) {
                                 tvUserType.setText("Welcome Seller");
 
@@ -238,13 +237,10 @@ public class UserDashboardFragment extends Fragment {
                                 dashboardDatas.add(new DashboardData("", "Change Password", R.drawable.ic_change_password,R.drawable.circle_random_color4_sellerdashboard, false, ""));
                                 dashboardDatas.add(new DashboardData("", "Bill History", R.drawable.ic_bill_history,R.drawable.circle_random_color7_sellerdashboard, false, ""));
 
-
                             }
                             dashboardlist.setLayoutManager(layoutManager);
                             dashboardAdapter = new DashboardAdapter(getActivity(), dashboardDatas);
                             dashboardlist.setAdapter(dashboardAdapter);
-
-
                         }
                     }
 

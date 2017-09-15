@@ -11,6 +11,7 @@ import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.AppSharedPreference;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 
+import com.aapkatrade.buyer.general.Validation;
 import com.aapkatrade.buyer.login.LoginDashboard;
 
 
@@ -47,6 +48,7 @@ public class DashboardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private Context context;
     private DashboardHolder viewHolder;
     private AppSharedPreference appSharedPreference;
+    private String companyCount = "0";
 
 
     public DashboardAdapter(Context context, List<DashboardData> itemList) {
@@ -70,10 +72,10 @@ public class DashboardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         DashboardHolder homeHolder = (DashboardHolder) holder;
 
-        homeHolder.tvDashboard.setText(itemList.get(position).dashboard_name.toString());
+        homeHolder.tvDashboard.setText(itemList.get(position).dashboard_name);
 
         if (itemList.get(position).isList) {
-            homeHolder.tvquantity.setText(itemList.get(position).quantities.toString());
+            homeHolder.tvquantity.setText(itemList.get(position).quantities);
         } else {
             homeHolder.tvquantity.setVisibility(View.INVISIBLE);
         }
@@ -157,10 +159,7 @@ public class DashboardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     } else {
                         Intent bankDetails = new Intent(context, BankDetailsActivity.class);
                         context.startActivity(bankDetails);
-                        /*ComingSoonFragmentDialog comingSoonFragmentDialog = new ComingSoonFragmentDialog(context);
-                        FragmentManager fm = ((AppCompatActivity) context).getSupportFragmentManager();
-                        comingSoonFragmentDialog.show(fm, "enquiry");*/
-                    }
+                         }
 
                 } else if (itemList.get(position).dashboard_name.equals("Company/Shop List")) {
                     if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString(), "notlogin").equals("notlogin")) {
@@ -171,11 +170,8 @@ public class DashboardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     } else {
                         Intent bankDetails = new Intent(context, CompanyShopManagementActivity.class);
                         context.startActivity(bankDetails);
-
-                      /*  ComingSoonFragmentDialog comingSoonFragmentDialog = new ComingSoonFragmentDialog(context);
-                        FragmentManager fm = ((AppCompatActivity) context).getSupportFragmentManager();
-                        comingSoonFragmentDialog.show(fm, "enquiry");*/
-                    }
+                        companyCount = itemList.get(position).quantities;
+                   }
 
                 } else if (itemList.get(position).dashboard_name.equals("Bill History")) {
                     if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString(), "notlogin").equals("notlogin")) {
@@ -209,7 +205,9 @@ public class DashboardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
                     } else {
                         Intent productManagementIntent = new Intent(context, ProductManagementActivity.class);
-
+                        if(Integer.valueOf(companyCount)>0) {
+                            productManagementIntent.putExtra("companyCount", companyCount);
+                        }
                        context.startActivity(productManagementIntent);
         
                     }

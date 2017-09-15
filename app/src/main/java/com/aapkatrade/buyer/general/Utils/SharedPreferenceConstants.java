@@ -63,7 +63,7 @@ public enum SharedPreferenceConstants {
     PROFILE_ViDEO_GIF("PROFILE_ViDEO_GIF"),
     SHIPPING_ADDRESS("SHIPPING_ADDRESS"),
     SHOP_LIST_COUNT("0"),
-   LASTEST_OTP("0000"),
+    LASTEST_OTP("0000"),
     ENQUIRY_LIST_COUNT("0"),
     SUCESSFULLY_APPEND("Sucessfully Append");
 
