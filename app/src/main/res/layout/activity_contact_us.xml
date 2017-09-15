@@ -157,7 +157,7 @@
                         tools:ignore="RtlHardcoded">
 
 
-                        <ImageView
+                        <com.aapkatrade.buyer.uicomponent.customimageview.MyImageView
                             android:id="@+id/imageView"
                             android:layout_width="@dimen/seventy_dip"
                             android:layout_height="@dimen/seventy_dip"

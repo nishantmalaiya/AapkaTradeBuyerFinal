@@ -9,12 +9,13 @@
     app:contentInsetStart="0dp"
     app:contentInsetStartWithNavigation="0dp"
     android:elevation="4dp"
-    android:minHeight="?attr/actionBarSize"
+    android:minHeight="@dimen/toolbarsize"
     >
 
 
     <RelativeLayout
         android:layout_width="wrap_content"
+        android:gravity="center_vertical"
         android:layout_height="match_parent"
         >
 
@@ -36,6 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/back_imagview"
+            android:layout_centerVertical="true"
             app:srcCompat="@drawable/ic_app_logo" />
 
 

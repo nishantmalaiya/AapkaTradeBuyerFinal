@@ -201,7 +201,7 @@ public class ViewAllCategoryActivity extends AppCompatActivity {
                             listDataHeader = new ArrayList<>();
                             for (int i = 0; i < jsonResultArray.size(); i++) {
                                 JsonObject jsonObject1 = (JsonObject) jsonResultArray.get(i);
-                                listDataHeader.add(new Category(jsonObject1.get("id").getAsString(), jsonObject1.get("name").getAsString(), jsonObject1.get("cat_icon").getAsString()));
+                                listDataHeader.add(new Category(jsonObject1.get("id").getAsString(), jsonObject1.get("name").getAsString(), jsonObject1.get("app_icon").getAsString()));
                             }
                             if (viewAllCategoriesAdapter == null) {
                                 viewAllCategoriesAdapter = new ViewAllCategoriesAdapter(context, listDataHeader);

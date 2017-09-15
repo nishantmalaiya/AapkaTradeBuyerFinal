@@ -11,8 +11,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        app:cardCornerRadius="@dimen/ten_dip"
-        app:cardBackgroundColor="@color/white">
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="@dimen/ten_dip">
 
         <LinearLayout
             android:id="@+id/gridLayout"
@@ -30,10 +30,10 @@
 
                 <ImageView
                     android:id="@+id/imageView"
-                    android:layout_width="@dimen/seventy_dip"
-                    android:layout_height="@dimen/seventy_dip"
-                    android:layout_centerHorizontal="true"
+                    android:layout_width="@dimen/fifty_dip"
+                    android:layout_height="@dimen/fifty_dip"
 
+                    android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true" />
 
             </RelativeLayout>
@@ -51,10 +51,10 @@
         android:layout_below="@+id/cardView1"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/ten_dip"
-        android:text="Accomadation"
         android:gravity="center_horizontal"
-        android:textStyle="bold"
+        android:text="Accomadation"
         android:textColor="@color/black"
-        android:textSize="12sp" />
+        android:textSize="12sp"
+        android:textStyle="bold" />
 
 </RelativeLayout>
