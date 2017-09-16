@@ -53,6 +53,7 @@
     <dimen name="one_hundred_fourty_dip">280dp</dimen>
     <dimen name="eighty_five_dip">170dp</dimen>
     <dimen name="three_hundreds_fifty_dip">700dp</dimen>
+    <dimen name="twenty_seven_dip">54dp</dimen>
 
 
 </resources>

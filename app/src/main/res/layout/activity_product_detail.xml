@@ -102,13 +102,11 @@
                             android:id="@+id/tvProductPrice"
                             android:layout_width="wrap_content"
                             android:layout_height="@dimen/fifty_dip"
-                            android:layout_gravity="center_horizontal|center_vertical"
-                            android:layout_weight="1"
+                             android:layout_weight="1"
                             android:minWidth="@dimen/hundred_dip"
                             android:background="@color/orange"
-                            android:gravity="center_horizontal|center_vertical"
                             android:text=""
-                               android:textColor="@color/white"
+                            android:textColor="@color/white"
                             android:textSize="@dimen/textsize_large"
                             android:textStyle="bold" />
 
