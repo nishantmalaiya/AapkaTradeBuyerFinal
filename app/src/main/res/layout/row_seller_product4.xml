@@ -1,101 +1,221 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout
+
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="180dp"
+    android:layout_height="wrap_content"
     android:background="@color/cb_background"
+    android:orientation="vertical"
     >
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/twenty_five_dip"
+        >
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/card_view"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="10dp"
+            android:layout_marginBottom="@dimen/ten_dip"
+            android:layout_marginTop="@dimen/two_dip"
+            android:layout_marginLeft="@dimen/ten_dip"
+            android:layout_marginRight="@dimen/ten_dip"
+            >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
+
+                <ToggleButton
+                    android:id="@+id/radioButtonStatus"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                     android:layout_marginTop="@dimen/ten_dip"
+                    android:button="@drawable/radio_button_toggle"
+                    android:textOn=""
+                    android:layout_alignParentLeft="true"
+                    android:background="@null"
+                    android:textOff=""
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:layout_marginLeft="@dimen/ten_dip"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Status"
+                    android:layout_toRightOf="@+id/radioButtonStatus"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="@dimen/twelve_dip"
+                    />
+
+
+                <Button
+                    android:id="@+id/btnPolicyUpdate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/thirty_dip"
+                    android:text="Policy Update"
+                    android:textColor="@color/white"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="10dp"
+                    android:paddingLeft="@dimen/ten_dip"
+                    android:paddingRight="@dimen/five_dip"
+                    android:paddingBottom="@dimen/five_dip"
+                    android:paddingTop="@dimen/five_dip"
+                    android:background="@drawable/purple_button_back"
+                    />
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/btnPolicyUpdate"
+                    android:layout_marginTop="@dimen/ten_dip"
+                    >
+
+                    <ImageView
+                        android:id="@+id/imgProduct"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/banner"
+                        android:scaleType="fitXY"
+                        android:layout_marginLeft="@dimen/ten_dip"
+                        android:layout_marginTop="@dimen/five_dip"
+                        />
+
+                    <LinearLayout
+                        android:id="@+id/linearLayoutDetail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/imgProduct"
+                        android:layout_marginLeft="@dimen/ten_dip"
+                        android:layout_marginRight="@dimen/ten_dip"
+                        android:orientation="vertical"
+                        >
+
+                        <TextView
+                            android:id="@+id/tvProductName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="JK Light"
+                            android:textColor="@color/black"
+                            android:layout_marginLeft="10dp"
+                            android:textSize="18sp"
+                            />
+                        <TextView
+                            android:id="@+id/tvCompanyName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Syska Led"
+                            android:textColor="@color/orange"
+                            android:layout_marginLeft="10dp"
+                            android:textSize="16sp"
+                            android:maxLines="1"
+                            />
+
+
+                        <TextView
+                            android:id="@+id/tvCategoryName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Electronics"
+                            android:layout_marginLeft="10dp"
+                            android:textSize="16sp"
+                             android:maxLines="1"
+                            />
+
+
+                        <TextView
+                            android:id="@+id/tvStateName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Electronics"
+                            android:textSize="16sp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginStart="10dp"
+                            android:maxLines="1"
+                            />
+
+                    </LinearLayout>
+
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/ten_dip"
+                        android:layout_alignParentRight="true"
+                        android:layout_below="@+id/linearLayoutDetail"
+                        android:layout_marginTop="@dimen/ten_dip"
+                        >
+
+
+                        <Button
+                            android:id="@+id/btnEdit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/thirty_dip"
+                            android:text="Edit"
+                            android:textColor="@color/blue"
+                            android:padding="@dimen/five_dip"
+                            android:background="@drawable/blue_button_selector"
+                            android:layout_marginRight="10dp"
+
+                            />
+
+                        <Button
+                            android:id="@+id/btnDelete"
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/thirty_dip"
+                            android:text="Delete"
+                            android:textColor="@color/blue"
+                            android:padding="@dimen/five_dip"
+                            android:background="@drawable/blue_button_selector"
+                            android:layout_marginRight="10dp"
+                            android:layout_toRightOf="@+id/btnEdit"
+                            />
+
+                    </RelativeLayout>
+
+
+                </RelativeLayout>
+
+
+            </RelativeLayout>
+
+
+        </android.support.v7.widget.CardView>
+
+
+
+    </FrameLayout>
+
+    <ImageView
+        android:layout_width="@dimen/sixty_dip"
+        android:layout_height="27dp"
+        android:text="Delete"
+        android:background="@drawable/half_circle_new"
+        android:textColor="@color/white"
+        android:layout_marginRight="@dimen/ten_dip"
+        android:layout_gravity="center_horizontal"
+        />
 
     <ImageView
         android:layout_width="@dimen/fifty_dip"
         android:layout_height="@dimen/fifty_dip"
-        android:background="@drawable/half_circle_new"
-        android:layout_centerHorizontal="true"
+        android:text="Delete"
+        android:textColor="@color/white"
+        android:layout_marginRight="@dimen/ten_dip"
+        android:layout_gravity="center_horizontal"
         android:src="@drawable/ic_seller_product"
-        android:layout_marginTop="@dimen/ten_dip"
-        >
+        android:padding="6dp"
+        />
 
 
-
-    </ImageView>
-
-
-    <android.support.v7.widget.CardView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        app:cardCornerRadius="10dp"
-        android:layout_marginTop="@dimen/twenty_dip"
-        android:layout_marginLeft="@dimen/twenty_dip"
-        android:layout_marginRight="@dimen/twenty_dip"
-        >
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
-
-
-            <LinearLayout
-                android:id="@+id/linear_hotal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/fourty_dip"
-                android:orientation="vertical"
-
-                  >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Svenska Design Hotel"
-                    android:textSize="@dimen/eighteen"
-                    android:textColor="@color/black"
-                    android:layout_marginLeft="@dimen/five_dip"
-                    />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="India"
-                    android:textSize="@dimen/sixteen"
-                    android:layout_marginLeft="@dimen/five_dip"
-                    android:layout_marginTop="@dimen/five_dip"
-                    android:textColor="@color/green"
-                    />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Bihar"
-                    android:layout_marginLeft="@dimen/five_dip"
-                    android:layout_marginTop="@dimen/five_dip"
-                    />
-
-            </LinearLayout>
-
-            <ImageView
-                android:id="@+id/imgMore"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_round_circle"
-                android:layout_marginTop="@dimen/fourty_dip"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/ten_dip"
-                android:rotation="90"
-                />
-
-
-
-        </RelativeLayout>
-
-
-    </android.support.v7.widget.CardView>
-
-
-
-
-
-</RelativeLayout>
+</FrameLayout>

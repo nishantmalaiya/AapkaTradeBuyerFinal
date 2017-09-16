@@ -41,6 +41,7 @@
     <dimen name="one_hundred_fourty_dip">140dp</dimen>
     <dimen name="eighty_five_dip">85dp</dimen>
     <dimen name="three_hundreds_fifty_dip">350dp</dimen>
+    <dimen name="twenty_seven_dip" >27dp</dimen>
     <!-- view* 1 -->
 
 </resources>

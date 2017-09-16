@@ -33,7 +33,7 @@
             <LinearLayout
                 android:id="@+id/linearLayoutUser"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/ten_dip"
                 android:layout_marginRight="@dimen/ten_dip"
                 android:layout_marginTop="@dimen/twelve_dip"
@@ -45,7 +45,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="6.5"
-                    android:layout_gravity="center_vertical"
+
                     >
 
                     <de.hdodenhof.circleimageview.CircleImageView
@@ -61,6 +61,7 @@
                         android:text="Arvind Kumar"
                         android:textColor="#2c2e34"
                         android:layout_marginStart="@dimen/five_dip"
+                        android:layout_marginTop="@dimen/two_dip"
                         android:layout_toRightOf="@+id/imageviewpp"
                         android:textSize="@dimen/textsize_medium" />
 
@@ -86,29 +87,31 @@
                  <View
                      android:id="@+id/view1"
                      android:layout_width="1dp"
-                     android:layout_height="match_parent"
+                     android:layout_height="60dp"
                      android:background="#BBBFC2"
                      ></View>
 
                    <Button
                        android:id="@+id/buttonAddCredit"
-                       android:layout_width="wrap_content"
-                       android:layout_height="@dimen/fourty_dip"
+                       android:layout_width="match_parent"
+                       android:layout_height="@dimen/thirty_dip"
                        android:background="@drawable/waalet_add_credit_button"
                        android:text="Add Credit"
                        android:textColor="@color/white"
                        android:layout_toRightOf="@+id/view1"
                        android:layout_marginLeft="@dimen/ten_dip"
+                       android:padding="@dimen/five_dip"
                        />
 
                    <TextView
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
                        android:text="Decline"
-                       android:textSize="@dimen/sixteen"
+                       android:textSize="@dimen/eighteen"
                        android:layout_below="@+id/buttonAddCredit"
                        android:layout_toRightOf="@+id/view1"
                        android:layout_marginLeft="@dimen/ten_dip"
+                       android:layout_marginTop="@dimen/two_dip"
                        />
 
 
