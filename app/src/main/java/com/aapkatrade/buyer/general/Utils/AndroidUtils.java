@@ -6,7 +6,10 @@ import android.content.res.Resources;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
@@ -48,8 +51,7 @@ public class AndroidUtils {
                     .build(layout);
             snackbar.setText(message);
             snackbar.show();
-        }
-        else {
+        } else {
             Log.e("showSnackBarError", " : showSnackBar Layout is Null.");
         }
     }
@@ -98,13 +100,12 @@ public class AndroidUtils {
             outputDate = df_output.format(parsed);
 
         } catch (ParseException e) {
-       Log.e("ParseE_Fromstring",e.toString());
+            Log.e("ParseE_Fromstring", e.toString());
         }
 
         return outputDate;
 
     }
-
 
 
     public static void setBackgroundSolid(View layout, Context context, int bgColor, int cornerRadius, int oval) {
@@ -229,7 +230,15 @@ public class AndroidUtils {
         toast.show();
     }
 
+    public static void replaceFragment(Context context, int layoutContainer, Fragment fragment) {
 
+        ((AppCompatActivity) context).getSupportFragmentManager()
+                .beginTransaction()
+                .add(layoutContainer, fragment)
+                .addToBackStack(null)
+                .setCustomAnimations(R.anim.slide_left, R.anim.slide_right)
+                .commit();
+    }
 
 
 }

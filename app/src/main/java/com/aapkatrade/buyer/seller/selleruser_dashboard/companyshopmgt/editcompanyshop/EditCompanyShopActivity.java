@@ -1,5 +1,6 @@
 package com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.editcompanyshop;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ContentUris;
 import android.content.Context;
@@ -83,6 +84,7 @@ import java.util.ArrayList;
 public class EditCompanyShopActivity extends AppCompatActivity {
 
     private Context context;
+    public boolean isFragment = false;
     private AppSharedPreference appSharedPreference;
     private ProgressBarHandler progressBarHandler;
     private String userId, categoryID, subCategoryID, serviceType, videoPath, tempCityID, tempsubcategoryId, countryName, stateName, cityName;
@@ -102,7 +104,7 @@ public class EditCompanyShopActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ProductImagesAdapter adapter;
     private ArrayList<Bitmap> multipleImages;
-    private RelativeLayout addCompanyShopLayout;
+    private LinearLayout addCompanyShopLayout;
     private  TextView  save ;
     private boolean isAllFieldsValidate = true, isGeneralDetailsCompleted = true;
     private DaysTileView daysTileView1, daysTileView2, daysTileView3;
@@ -422,6 +424,7 @@ public class EditCompanyShopActivity extends AppCompatActivity {
         });
     }
 
+    @SuppressLint({"ResourceAsColor", "ResourceType"})
     private void initView() {
         progressBarHandler = new ProgressBarHandler(context);
         appSharedPreference = new AppSharedPreference(context);
@@ -449,7 +452,7 @@ public class EditCompanyShopActivity extends AppCompatActivity {
         etGooglePlusURL = (EditText) findViewById(R.id.etGooglePlusURL);
         etDescription = (EditText) findViewById(R.id.etDescription);
         etCompanyAddress = (EditText) findViewById(R.id.etCompanyAddress);
-        addCompanyShopLayout = (RelativeLayout) findViewById(R.id.addCompanyShopLayout);
+        addCompanyShopLayout = (LinearLayout) findViewById(R.id.addCompanyShopLayout);
 
         daysTileView1 = (DaysTileView) findViewById(R.id.daysTileView);
         daysTileView1.setBackgroundColor(R.color.green);
@@ -821,7 +824,7 @@ public class EditCompanyShopActivity extends AppCompatActivity {
                                         if (Validation.containsIgnoreCase(result.get("message").getAsString(), "successfully updated")) {
                                             AndroidUtils.showErrorLog(context, "result:::success:::", result);
                                             AndroidUtils.showToast(context, result.get("message").getAsString());
-                                            doExitReveal(false);
+
 
                                         } else {
                                             AndroidUtils.showErrorLog(context, "error::::::TRUE");
@@ -886,7 +889,7 @@ public class EditCompanyShopActivity extends AppCompatActivity {
                                         if (Validation.containsIgnoreCase(result.get("message").getAsString(), "successfully updated")) {
                                             AndroidUtils.showErrorLog(context, "result:::success:::", result);
                                             AndroidUtils.showToast(context, result.get("message").getAsString());
-                                            doExitReveal(false);
+
 
                                         } else {
                                             AndroidUtils.showErrorLog(context, "error::::::TRUE");
@@ -948,7 +951,7 @@ public class EditCompanyShopActivity extends AppCompatActivity {
                                         if (Validation.containsIgnoreCase(result.get("message").getAsString().toLowerCase(), "successfully added")) {
                                             AndroidUtils.showErrorLog(context, "result:::success:::", result);
                                             AndroidUtils.showToast(context, result.get("message").getAsString());
-                                            doExitReveal(false);
+
                                         } else {
                                             AndroidUtils.showErrorLog(context, "error::::::TRUE");
                                         }
@@ -1007,7 +1010,7 @@ public class EditCompanyShopActivity extends AppCompatActivity {
                                         if (Validation.containsIgnoreCase(result.get("message").getAsString().toLowerCase(), "successfully added")) {
                                             AndroidUtils.showErrorLog(context, "result:::success:::", result);
                                             AndroidUtils.showToast(context, result.get("message").getAsString());
-                                            doExitReveal(false);
+
                                         } else {
                                             AndroidUtils.showErrorLog(context, "error::::::TRUE");
                                         }
@@ -1025,19 +1028,16 @@ public class EditCompanyShopActivity extends AppCompatActivity {
         }
     }
 
-    void doExitReveal(final boolean isBack) {
-        if (!isBack) {
-            Intent bankDetails = new Intent(context, CompanyShopManagementActivity.class);
-            bankDetails.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            context.startActivity(bankDetails);
-        } else {
-            finish();
-        }
-    }
+
 
     @Override
     public void onBackPressed() {
-        doExitReveal(true);
+        if(!isFragment){
+            super.onBackPressed();
+        }else {
+            isFragment = false;
+            getSupportFragmentManager().popBackStack();
+        }
     }
 
     private void setupRecyclerView() {

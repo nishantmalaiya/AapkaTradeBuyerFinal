@@ -6,11 +6,11 @@ package com.aapkatrade.buyer.shopdetail;
 
 public class ShopDetailMediaDatas {
     public String MediaUrl;
-public  boolean isVideo;
+    public boolean isVideo;
 
 
     public ShopDetailMediaDatas(String mediaUrl, boolean isVideo) {
-       this. MediaUrl = mediaUrl;
+        this.MediaUrl = mediaUrl;
         this.isVideo = isVideo;
     }
 }
