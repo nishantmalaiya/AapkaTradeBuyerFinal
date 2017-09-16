@@ -105,7 +105,7 @@ public class EditCompanyShopActivity extends AppCompatActivity {
     private ProductImagesAdapter adapter;
     private ArrayList<Bitmap> multipleImages;
     private LinearLayout addCompanyShopLayout;
-    private  TextView  save ;
+    private TextView save;
     private boolean isAllFieldsValidate = true, isGeneralDetailsCompleted = true;
     private DaysTileView daysTileView1, daysTileView2, daysTileView3;
     private CustomCardViewHeader generalDetailsHeader, shopDetailsHeader;
@@ -209,7 +209,7 @@ public class EditCompanyShopActivity extends AppCompatActivity {
 
                         AndroidUtils.showErrorLog(context, "get", result);
 
-                        System.out.println("result--"+result);
+                        System.out.println("result--" + result);
 
                         JsonObject jsonObject = result.getAsJsonObject("result");
                         company_name = jsonObject.get("company_name").getAsString();
@@ -243,7 +243,8 @@ public class EditCompanyShopActivity extends AppCompatActivity {
                         email_id = jsonObject.get("email_id").getAsString();
                         etEmail.setText(email_id);
                         categoryID = jsonObject.get("category_id").getAsString();
-                        subCategoryID = jsonObject.get("sub_cat_id").getAsString();
+                        tempsubcategoryId = jsonObject.get("sub_cat_id").getAsString();
+                        setCategoryAdapter();
                         for (int i = 0; i < listDataHeader.size(); i++) {
                             if (listDataHeader.get(i).getCategoryId().equals(categoryID)) {
                                 spCategory.setSelection(i);
@@ -303,7 +304,7 @@ public class EditCompanyShopActivity extends AppCompatActivity {
                         videoURL = jsonObject.get("shop_video").getAsString();
                         if (Validation.isNonEmptyStr(videoURL) && !videoURL.equals("No Video")) {
                             AndroidUtils.showErrorLog(context, "videoURL---------------------" + videoURL);
-                            productMediaDataArrayList.add(new ProductMediaData(videoURL.replace("mp4", "png")));
+                            productMediaDataArrayList.add(new ProductMediaData(videoURL.concat(".png")));
                             adapter.notifyDataSetChanged();
                         }
 
@@ -488,8 +489,7 @@ public class EditCompanyShopActivity extends AppCompatActivity {
                     generalDetailsHeader.setImageRightRotation(0);
                     llShopDetailsContainer.setVisibility(View.VISIBLE);
                     shopDetailsHeader.setImageRightRotation(180);
-                }
-                else {
+                } else {
                     llGeneralContainer.setVisibility(View.VISIBLE);
                     generalDetailsHeader.setImageRightRotation(180);
                     llShopDetailsContainer.setVisibility(View.GONE);
@@ -542,7 +542,6 @@ public class EditCompanyShopActivity extends AppCompatActivity {
         });
 
         setupRecyclerView();
-        getState();
         getCategory();
         getServiceType();
         takeAreaLocation();
@@ -574,32 +573,6 @@ public class EditCompanyShopActivity extends AppCompatActivity {
         }
     }
 
-    private void getState() {
-
-       /* stateList = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.state_list)));
-        stateIds = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.state_ids)));
-        AndroidUtils.showErrorLog(context, stateList.toString());
-        spState.setAdapter(new CustomSpinnerAdapter(context, stateList));
-        spState.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                AndroidUtils.showErrorLog(context, "State Id is ::::::::" + position);
-                if (position > 0) {
-                    findViewById(R.id.input_layout_city).setVisibility(View.VISIBLE);
-                    stateID = String.valueOf(position);
-                    getCity(stateIds.get(position), cityFlag);
-                }
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-
-            }
-        });*/
-
-    }
 
     private void getCategory() {
         listDataChild.clear();
@@ -643,7 +616,6 @@ public class EditCompanyShopActivity extends AppCompatActivity {
 
                                 }
                             }
-                            setCategoryAdapter();
                         }
                         getCompanyShopDetails();
                     }
@@ -687,25 +659,20 @@ public class EditCompanyShopActivity extends AppCompatActivity {
                     listDataChild = new ArrayList<>();
                     listDataChild = listDataHeader.get(position).getSubCategoryList();
                     if (listDataChild.size() > 0) {
-
-
                         findViewById(R.id.input_layout_sub_category).setVisibility(View.VISIBLE);
                         CustomSimpleListAdapter adapter = new CustomSimpleListAdapter(context, listDataChild);
                         spSubCategory.setAdapter(adapter);
-                        if (subCategoryFlag) {
-                            for (int i = 0; i < listDataChild.size(); i++) {
-                                if (listDataChild.get(i).subCategoryId.equals(tempsubcategoryId)) {
-                                    spSubCategory.setSelection(i);
-                                }
+                        for (int i = 0; i < listDataChild.size(); i++) {
+                            if (listDataChild.get(i).subCategoryId.equals(tempsubcategoryId)) {
+                                spSubCategory.setSelection(i);
                             }
                         }
                         spSubCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                             @Override
                             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-
                                 if (position >= 0) {
                                     subCategoryID = listDataChild.get(position).subCategoryId;
+                                    AndroidUtils.showErrorLog(context, String.valueOf(subCategoryID) + "--------------->>>>>>>>>>>>>");
                                 }
                             }
 
@@ -824,7 +791,7 @@ public class EditCompanyShopActivity extends AppCompatActivity {
                                         if (Validation.containsIgnoreCase(result.get("message").getAsString(), "successfully updated")) {
                                             AndroidUtils.showErrorLog(context, "result:::success:::", result);
                                             AndroidUtils.showToast(context, result.get("message").getAsString());
-
+                                            finish();
 
                                         } else {
                                             AndroidUtils.showErrorLog(context, "error::::::TRUE");
@@ -889,7 +856,7 @@ public class EditCompanyShopActivity extends AppCompatActivity {
                                         if (Validation.containsIgnoreCase(result.get("message").getAsString(), "successfully updated")) {
                                             AndroidUtils.showErrorLog(context, "result:::success:::", result);
                                             AndroidUtils.showToast(context, result.get("message").getAsString());
-
+                                            finish();
 
                                         } else {
                                             AndroidUtils.showErrorLog(context, "error::::::TRUE");
@@ -948,10 +915,10 @@ public class EditCompanyShopActivity extends AppCompatActivity {
                                 if (result != null) {
                                     AndroidUtils.showErrorLog(context, "result::::::", result);
                                     if (result.get("error").getAsString().equalsIgnoreCase("false")) {
-                                        if (Validation.containsIgnoreCase(result.get("message").getAsString().toLowerCase(), "successfully added")) {
+                                        if (Validation.containsIgnoreCase(result.get("message").getAsString().toLowerCase(), "successfully")) {
                                             AndroidUtils.showErrorLog(context, "result:::success:::", result);
                                             AndroidUtils.showToast(context, result.get("message").getAsString());
-
+                                            finish();
                                         } else {
                                             AndroidUtils.showErrorLog(context, "error::::::TRUE");
                                         }
@@ -998,7 +965,6 @@ public class EditCompanyShopActivity extends AppCompatActivity {
                         .addMultipartParts(submitImages())
                         .setMultipartParameter("delimg", submitImgDelList.toString())
                         .setMultipartFile("shop_video", "application/video", submitVideo())
-
                         .asJsonObject()
                         .setCallback(new FutureCallback<JsonObject>() {
                             @Override
@@ -1007,10 +973,10 @@ public class EditCompanyShopActivity extends AppCompatActivity {
                                 if (result != null) {
                                     AndroidUtils.showErrorLog(context, "result::::::", result);
                                     if (result.get("error").getAsString().equalsIgnoreCase("false")) {
-                                        if (Validation.containsIgnoreCase(result.get("message").getAsString().toLowerCase(), "successfully added")) {
+                                        if (Validation.containsIgnoreCase(result.get("message").getAsString().toLowerCase(), "successfully ")) {
                                             AndroidUtils.showErrorLog(context, "result:::success:::", result);
                                             AndroidUtils.showToast(context, result.get("message").getAsString());
-
+                                            finish();
                                         } else {
                                             AndroidUtils.showErrorLog(context, "error::::::TRUE");
                                         }
@@ -1029,12 +995,11 @@ public class EditCompanyShopActivity extends AppCompatActivity {
     }
 
 
-
     @Override
     public void onBackPressed() {
-        if(!isFragment){
+        if (!isFragment) {
             super.onBackPressed();
-        }else {
+        } else {
             isFragment = false;
             getSupportFragmentManager().popBackStack();
         }
@@ -1189,29 +1154,6 @@ public class EditCompanyShopActivity extends AppCompatActivity {
         return null;
     }
 
-    private boolean isExistingImage(ProductMediaData file) {
-        for (int i = 0; i < imageUrlList.size(); i++) {
-            AndroidUtils.showErrorLog(context, "------isExistingImage--imageUrlList.get(i)------->" +
-                    imageUrlList.get(i).value.toString().split("/")[imageUrlList.get(i).value.toString().split("/").length - 1]
-                    + "-------file.imagePath---------->" +
-                    file.imagePath.split("/")[file.imagePath.split("/").length - 1]);
-            if (file.imagePath.split("/")[file.imagePath.split("/").length - 1].equals(imageUrlList.get(i).value.toString().split("/")[imageUrlList.get(i).value.toString().split("/").length - 1])) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-
-    private int getPositionOfExistingImage(ProductMediaData file) {
-        for (int i = 0; i < imageUrlList.size(); i++) {
-            AndroidUtils.showErrorLog(context, "------isExistingImage--imageUrlList.get(i)------->" + imageUrlList.get(i).value.toString().split("/")[imageUrlList.get(i).value.toString().split("/").length - 1] + "-------file.imagePath---------->" + file.imagePath.split("/")[file.imagePath.split("/").length - 1]);
-            if (file.imagePath.split("/")[file.imagePath.split("/").length - 1].equals(imageUrlList.get(i).value.toString().split("/")[imageUrlList.get(i).value.toString().split("/").length - 1])) {
-                return i;
-            }
-        }
-        return 0;
-    }
 
     private File savebitmap(String filePath) {
         File file = new File(filePath);

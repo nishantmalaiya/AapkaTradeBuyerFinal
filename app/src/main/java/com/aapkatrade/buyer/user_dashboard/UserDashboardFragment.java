@@ -216,7 +216,7 @@ public class UserDashboardFragment extends Fragment {
                                 appSharedPreference.setSharedPref(SharedPreferenceConstants.ORDER_QUANTITY.toString(), order_quantity);
                                 dashboardDatas.add(new DashboardData("", "My Profile", R.drawable.ic_my_profile, R.drawable.circle_random_color1_sellerdashboard, false, ""));
 
-                                dashboardDatas.add(new DashboardData("", "Company/Shop List", R.drawable.ic_company_shop_list, R.drawable.circle_random_color2_sellerdashboard, true, result.get("company").getAsString()));
+                                dashboardDatas.add(new DashboardData("", "Company/Shop Management", R.drawable.ic_company_shop_list, R.drawable.circle_random_color2_sellerdashboard, true, result.get("company").getAsString()));
 
 
                                 dashboardDatas.add(new DashboardData("", "Product Management", R.drawable.ic_add_company,R.drawable.circle_random_color3_sellerdashboard, true, result.get("product").getAsString()));

@@ -94,7 +94,8 @@ public class EditProductActivity extends AppCompatActivity
     private ArrayList<KeyValue> imageUrlList = new ArrayList<>();
     private ArrayList<Part> submitImgList = new ArrayList<>();
     private ArrayList<String> submitImgDelList = new ArrayList<>();
-    
+
+    public boolean isFragment = false;
     private boolean isAllFieldsSet = true;
 
 
@@ -116,6 +117,18 @@ public class EditProductActivity extends AppCompatActivity
         initView();
         setupRecyclerView();
         loadUnitWebService();
+    }
+
+
+
+    @Override
+    public void onBackPressed() {
+        if (!isFragment) {
+            super.onBackPressed();
+        } else {
+            isFragment = false;
+            getSupportFragmentManager().popBackStack();
+        }
     }
 
     private void loadProductDataWebService() {

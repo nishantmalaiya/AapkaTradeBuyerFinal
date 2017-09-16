@@ -81,6 +81,7 @@ public class AddProductActivity extends AppCompatActivity {
     private LinearLayout llSellerProductDetailContainer;
     public static CommonInterface commonInterface = null;
     private boolean isAllFieldsSet = true;
+    public boolean isFragment = false;
 
 
     @Override
@@ -101,6 +102,15 @@ public class AddProductActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onBackPressed() {
+        if (!isFragment) {
+            super.onBackPressed();
+        } else {
+            isFragment = false;
+            getSupportFragmentManager().popBackStack();
+        }
+    }
     private void loadDynamicForm(final String shopId) {
 
         AndroidUtils.showErrorLog(context, "     shop_id     ", shopId == null ? "0" : shopId);

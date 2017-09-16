@@ -106,6 +106,7 @@ public class AddCompanyShopActivity extends AppCompatActivity {
     private ArrayList<Bitmap> multipleImages;
     private RelativeLayout addCompanyShopLayout;
 
+    public boolean isFragment = false;
     private  TextView  save ;
     private boolean isAllFieldsValidate = true, isGeneralDetailsCompleted = true;
     private DaysTileView daysTileView1, daysTileView2, daysTileView3;
@@ -705,7 +706,6 @@ public class AddCompanyShopActivity extends AppCompatActivity {
                                     if (Validation.containsIgnoreCase(result.get("message").getAsString(), "successfully added")) {
                                         AndroidUtils.showErrorLog(context, "result:::success:::", result.toString());
                                         AndroidUtils.showToast(context, result.get("message").getAsString());
-                                        doExitReveal(false);
 
                                     } else {
                                         AndroidUtils.showErrorLog(context, "error::::::TRUE");
@@ -763,7 +763,6 @@ public class AddCompanyShopActivity extends AppCompatActivity {
                                     if (Validation.containsIgnoreCase(result.get("message").getAsString().toLowerCase(), "successfully added")) {
                                         AndroidUtils.showErrorLog(context, "result:::success:::", result.toString());
                                         AndroidUtils.showToast(context, result.get("message").getAsString());
-                                        doExitReveal(false);
                                     } else {
                                         AndroidUtils.showErrorLog(context, "error::::::TRUE");
                                     }
@@ -779,19 +778,16 @@ public class AddCompanyShopActivity extends AppCompatActivity {
                     });
     }
 
-    void doExitReveal(final boolean isBack) {
-        if (!isBack) {
-            Intent bankDetails = new Intent(context, CompanyShopManagementActivity.class);
-            bankDetails.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            context.startActivity(bankDetails);
-        } else {
-            finish();
-        }
-    }
+
 
     @Override
     public void onBackPressed() {
-        doExitReveal(true);
+        if (!isFragment) {
+            super.onBackPressed();
+        } else {
+            isFragment = false;
+            getSupportFragmentManager().popBackStack();
+        }
     }
 
     private void setupRecyclerView() {

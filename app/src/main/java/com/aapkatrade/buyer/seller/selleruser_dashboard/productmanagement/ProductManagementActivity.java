@@ -80,10 +80,11 @@ public class ProductManagementActivity extends AppCompatActivity {
         imgShopType.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(getIntent()!=null && getIntent().getStringExtra("companyCount")!=null && Integer.valueOf(getIntent().getStringExtra("companyCount"))>1){
+                if(getIntent()!=null && getIntent().getStringExtra("companyCount")!=null && Integer.valueOf(getIntent().getStringExtra("companyCount"))>0){
                     Intent addProductIntent = new Intent(context, AddProductActivity.class);
                     startActivity(addProductIntent);
                 } else {
+//                    AndroidUtils.showErrorLog(context, "total count = = = = "+Integer.valueOf(getIntent().getStringExtra("companyCount")));
                     AndroidUtils.showToast(context, "Please Add Company / Shop First.");
                 }
 

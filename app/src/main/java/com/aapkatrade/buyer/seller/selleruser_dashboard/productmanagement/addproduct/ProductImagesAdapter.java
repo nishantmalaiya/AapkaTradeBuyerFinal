@@ -161,33 +161,16 @@ public class ProductImagesAdapter extends RecyclerView.Adapter<RecyclerView.View
                 homeHolder.cardImage.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-//                        if (itemList.get(position).isVideo) {
-//                            File file = itemList.get(position).videoFile;
-//                            Intent intent = new Intent(Intent.ACTION_VIEW);
-//                            if (itemList.get(position).videoFile == null) {
-//                                intent.setDataAndType(/*itemList.get(position).videoThumbnail.replace("png", "mp4")*/FileProvider.getUriForFile(context, "com.aapkatrade.buyer.provider", file), "video/*");
-//                            } else {
-//
-//                                intent.setDataAndType(/*Uri.fromFile(file)*/FileProvider.getUriForFile(context, "com.aapkatrade.buyer.provider", file), "video/*");
-//                            }
-//                            context.startActivity(intent);
-//                        } else {
-                          /*  AndroidUtils.showErrorLog(context, "getImageUrl", itemList.get(position).getImageUrl());
-                            File file = new File(*//*itemList.get(position).getId()==null?itemList.get(position).imagePath:*//*itemList.get(position).getImageUrl());
-                            Intent intent = new Intent(android.content.Intent.ACTION_VIEW);
-                            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                            Uri data = Uri.parse("file://" + file.getAbsolutePath());
-                            Uri data = FileProvider.getUriForFile(context, "com.aapkatrade.buyer.provider", file);
-
-                            intent.setDataAndType(data, "image");
-                            context.startActivity(intent);*/
                         if (itemList.get(position).isVideo()) {
+//                            AndroidUtils.replaceFragment(context, R.id.relativeCompany, new ImageVideoFullScreenDialog(context, itemList.get(position).getVideoThumbnail().replace(".png", ""), false));
+                            Intent intent = new Intent(Intent.ACTION_VIEW);
 
+                            intent.setDataAndType(Uri.parse(itemList.get(position).getVideoThumbnail().replace(".png", "")), "video/*");
+
+                            context.startActivity(Intent.createChooser(intent, "Complete action using"));
                         } else {
                             AndroidUtils.replaceFragment(context, R.id.relativeCompany, new ImageVideoFullScreenDialog(context, itemList.get(position).getImageUrl(), false));
                         }
-
-//                        }
                     }
                 });
 

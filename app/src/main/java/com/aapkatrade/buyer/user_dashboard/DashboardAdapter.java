@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.AppSharedPreference;
+import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 
 import com.aapkatrade.buyer.general.Validation;
@@ -161,16 +162,16 @@ public class DashboardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         context.startActivity(bankDetails);
                          }
 
-                } else if (itemList.get(position).dashboard_name.equals("Company/Shop List")) {
+                } else if (itemList.get(position).dashboard_name.equals("Company/Shop Management")) {
                     if (appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString(), "notlogin").equals("notlogin")) {
                         Intent i = new Intent(context, LoginDashboard.class);
                         context.startActivity(i);
 
 
                     } else {
+                        companyCount = itemList.get(position).quantities;
                         Intent bankDetails = new Intent(context, CompanyShopManagementActivity.class);
                         context.startActivity(bankDetails);
-                        companyCount = itemList.get(position).quantities;
                    }
 
                 } else if (itemList.get(position).dashboard_name.equals("Bill History")) {
@@ -204,10 +205,11 @@ public class DashboardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
 
                     } else {
+                        companyCount = itemList.get(1).quantities;
                         Intent productManagementIntent = new Intent(context, ProductManagementActivity.class);
-                        if(Integer.valueOf(companyCount)>0) {
+//                        if(Integer.valueOf(companyCount)>0) {
                             productManagementIntent.putExtra("companyCount", companyCount);
-                        }
+//                        }
                        context.startActivity(productManagementIntent);
         
                     }
