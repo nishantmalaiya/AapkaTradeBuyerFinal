@@ -407,6 +407,8 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
                                 String categoryName = jsonObject_latest_post.get("category_name").getAsString();
                                 commonDatas_latestpost.add(new CommonData(product_id, product_name, "", imageurl, productlocation, categoryName));
                                 AndroidUtils.showErrorLog(context, "-------------888888888888888++++++++++++>>>>>", commonDatas_latestpost);
+
+
                             }
 
 

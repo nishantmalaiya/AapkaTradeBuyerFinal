@@ -102,30 +102,18 @@
 
         <RelativeLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="1dp"
+            android:layout_width="@dimen/one_hundred_five_dip"
+            android:layout_height="@dimen/one_hundred_five_dip"
             >
 
             <ImageView
-                android:id="@+id/imageToShow"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_alignBottom="@+id/imgCorners"
-                android:layout_alignLeft="@+id/imgCorners"
-                android:layout_alignRight="@+id/imgCorners"
-                android:layout_alignTop="@+id/imgCorners"
-                android:background="#ffffff"
-                android:padding="5dp"
-                android:src="@drawable/honda_navi"
-                android:scaleType="centerCrop" />
+                android:id="@+id/image1"
+                android:layout_width="@dimen/one_hundred_five_dip"
+                android:layout_height="@dimen/one_hundred_five_dip"
+                android:src="@android:color/holo_red_dark"
+                />
 
-            <ImageView
-                android:id="@+id/imgCorners"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:adjustViewBounds="true"
-                android:src="@drawable/corner_white" />
+
 
         </RelativeLayout>
 

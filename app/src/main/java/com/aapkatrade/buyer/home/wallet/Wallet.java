@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
@@ -22,6 +23,7 @@ import android.widget.TextView;
 
 import com.aapkatrade.buyer.R;
 import com.aapkatrade.buyer.general.AppSharedPreference;
+import com.aapkatrade.buyer.general.Tabletsize;
 import com.aapkatrade.buyer.general.Utils.AndroidUtils;
 import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.Validation;
@@ -51,7 +53,7 @@ import java.util.Calendar;
 import java.util.List;
 
 
-public class Wallet extends Fragment  implements OnDateSelectedListener
+public class Wallet extends Fragment
 {
 
     LinearLayout linearLayoutUser,linearLayourWallet;
@@ -59,7 +61,7 @@ public class Wallet extends Fragment  implements OnDateSelectedListener
     Button buttonAddCredit;
     ImageView imgUser;
     TextView tv_currentbal_value,tvUserName;
-    LinearLayoutManager wallet_history_layout_manager;
+    GridLayoutManager wallet_history_layout_manager;
     public MaterialCalendarView materialCalendarView;
     WalletAdapter  walletAdapter;
     ArrayList<WalletTransactionDatas> walletTransactionDataslist;
@@ -86,9 +88,10 @@ public class Wallet extends Fragment  implements OnDateSelectedListener
 
         progressBarHandler = new ProgressBarHandler(getActivity());
 
-
         initView(v);
-        materialCalendarView.setOnRangeSelectedListener(new OnRangeSelectedListener() {
+
+
+       /* materialCalendarView.setOnRangeSelectedListener(new OnRangeSelectedListener() {
             @Override
             public void onRangeSelected(@NonNull MaterialCalendarView widget, @NonNull List<CalendarDay> dates) {
                 AndroidUtils.showToast(getActivity(),"  hi  "+ dates.toString());
@@ -99,14 +102,15 @@ public class Wallet extends Fragment  implements OnDateSelectedListener
             @Override
             public Object getData(Object object) {
                 if((Boolean) object){
-//                    AndroidUtils.showToast(getActivity(),"  hi  "+ String.valueOf(materialCalendarView.getLastDayOfWeek()));
-
-
+                  // AndroidUtils.showToast(getActivity(),"  hi  "+ String.valueOf(materialCalendarView.getLastDayOfWeek()));
                 }
                 return null;
             }
-        };
+        };*/
         // Inflate the layout for this fragment
+
+
+
         return v;
 
     }
@@ -128,10 +132,11 @@ public class Wallet extends Fragment  implements OnDateSelectedListener
                     .into(imgUser);
         }
 
-
         tv_currentbal_value = (TextView) v.findViewById(R.id.tv_currentbal_value);
 
         tvUserName = (TextView) v.findViewById(R.id.tvUserName);
+
+        tvUserName.setText(appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_NAME.toString(), ""));
 
         walletTransactionDataslist=new ArrayList<>();
 
@@ -159,7 +164,7 @@ public class Wallet extends Fragment  implements OnDateSelectedListener
             }
         });
 
-        materialCalendarView=(MaterialCalendarView)v.findViewById(R.id.calendarView);
+      /*  materialCalendarView=(MaterialCalendarView)v.findViewById(R.id.calendarView);
         materialCalendarView.setOnDateChangedListener(this);
         materialCalendarView.setShowOtherDates(MaterialCalendarView.SHOW_ALL);
 
@@ -200,7 +205,7 @@ public class Wallet extends Fragment  implements OnDateSelectedListener
 
             }
         });
-
+*/
 
     }
 
@@ -208,7 +213,14 @@ public class Wallet extends Fragment  implements OnDateSelectedListener
     {
 
         recyclerView=(RecyclerView) v.findViewById(R.id.recycleview_wallet_history);
-        wallet_history_layout_manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+
+        if (Tabletsize.isTablet(getActivity())) {
+            wallet_history_layout_manager = new GridLayoutManager(getActivity(), 3);
+        } else {
+
+            wallet_history_layout_manager = new GridLayoutManager(getActivity(), 2);
+        }
+        //wallet_history_layout_manager = new GridLayoutManager(getActivity(), 2);
 
       /*  walletTransactionDataslist.add(new WalletTransactionDatas("123","12345","Complete",getString(R.string.rupay_text)+"200","Cash",""));
         walletTransactionDataslist.add(new WalletTransactionDatas("123","12345","Complete",getString(R.string.rupay_text)+"200","Cash",""));
@@ -224,13 +236,13 @@ public class Wallet extends Fragment  implements OnDateSelectedListener
     }
 
 
-    @Override
+  /*  @Override
     public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected)
     {
         //If you change a decorate, you need to invalidate decorators
         oneDayDecorator.setDate(date.getDate());
         widget.invalidateDecorators();
-    }
+    }*/
 
 
     private void callWebServicewallet_history()

@@ -25,99 +25,11 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="7.5"
+            android:layout_weight="10"
             android:orientation="vertical"
 
            >
 
-            <LinearLayout
-                android:id="@+id/linearLayoutUser"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/ten_dip"
-                android:layout_marginRight="@dimen/ten_dip"
-                android:layout_marginTop="@dimen/twelve_dip"
-                android:weightSum="10"
-                android:orientation="horizontal"
-              >
-
-                <RelativeLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="6.5"
-
-                    >
-
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/imageviewpp"
-                        android:layout_width="@dimen/fifty_dip"
-                        android:layout_height="@dimen/fifty_dip"
-                        android:background="@drawable/ic_profile_user" />
-
-                    <TextView
-                        android:id="@+id/tvUserName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Arvind Kumar"
-                        android:textColor="#2c2e34"
-                        android:layout_marginStart="@dimen/five_dip"
-                        android:layout_marginTop="@dimen/two_dip"
-                        android:layout_toRightOf="@+id/imageviewpp"
-                        android:textSize="@dimen/textsize_medium" />
-
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/tvUserName"
-                        android:text="Aapka Trade"
-                        android:layout_marginStart="@dimen/five_dip"
-                        android:layout_toRightOf="@+id/imageviewpp"
-                        android:textSize="@dimen/textsize_medium" />
-
-                </RelativeLayout>
-
-
-               <RelativeLayout
-                   android:layout_width="0dp"
-                   android:layout_height="wrap_content"
-                   android:layout_weight="3.5"
-                   >
-
-                 <View
-                     android:id="@+id/view1"
-                     android:layout_width="1dp"
-                     android:layout_height="60dp"
-                     android:background="#BBBFC2"
-                     ></View>
-
-                   <Button
-                       android:id="@+id/buttonAddCredit"
-                       android:layout_width="match_parent"
-                       android:layout_height="@dimen/thirty_dip"
-                       android:background="@drawable/waalet_add_credit_button"
-                       android:text="Add Credit"
-                       android:textColor="@color/white"
-                       android:layout_toRightOf="@+id/view1"
-                       android:layout_marginLeft="@dimen/ten_dip"
-                       android:padding="@dimen/five_dip"
-                       />
-
-                   <TextView
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
-                       android:text="Decline"
-                       android:textSize="@dimen/eighteen"
-                       android:layout_below="@+id/buttonAddCredit"
-                       android:layout_toRightOf="@+id/view1"
-                       android:layout_marginLeft="@dimen/ten_dip"
-                       android:layout_marginTop="@dimen/two_dip"
-                       />
-
-
-               </RelativeLayout>
-
-            </LinearLayout>
 
             <android.support.v7.widget.CardView
                 android:id="@+id/cardViewBalance"
@@ -126,56 +38,158 @@
                 android:layout_margin="@dimen/ten_dip"
                 >
 
-
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/ten_dip"
+                    android:orientation="vertical"
+                    android:paddingBottom="@dimen/ten_dip"
                     >
 
-
-                    <TextView
-                        android:id="@+id/tvCurrentBalanceHeading"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:id="@+id/linearLayoutUser"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Current Balance"
-                        android:textColor="@color/black"
-                        />
-
-                    <TextView
-                        android:id="@+id/tv_currentbal_value"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/tvCurrentBalanceHeading"
-                        android:text="@string/rupay_text"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/eighteen"
-                        />
-
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/ten_dip"
                         android:layout_marginRight="@dimen/ten_dip"
-                        android:src="@drawable/ic_balance"
-                        />
+                        android:layout_marginTop="@dimen/twelve_dip"
+                        android:weightSum="10"
+                        android:orientation="horizontal"
+                        >
 
-                </RelativeLayout>
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="6.5"
+
+                            >
+
+                            <de.hdodenhof.circleimageview.CircleImageView
+                                android:id="@+id/imageviewpp"
+                                android:layout_width="@dimen/fifty_dip"
+                                android:layout_height="@dimen/fifty_dip"
+                                android:layout_marginTop="@dimen/five_dip"
+                                android:background="@drawable/ic_profile_user" />
+
+                            <TextView
+                                android:id="@+id/tvUserName"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Arvind Kumar"
+                                android:textColor="#2c2e34"
+                                android:layout_marginStart="@dimen/five_dip"
+                                android:layout_marginTop="@dimen/two_dip"
+                                android:layout_toRightOf="@+id/imageviewpp"
+                                android:textSize="@dimen/textsize_medium" />
+
+
+                            <TextView
+                                android:id="@+id/tv_currentbal_value"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/tvUserName"
+                                android:text="@string/rupay_text"
+                                android:textColor="@color/black"
+                                android:layout_marginStart="@dimen/five_dip"
+                                android:layout_toRightOf="@+id/imageviewpp"
+                                android:textSize="@dimen/textsize_medium" />
+
+                        </RelativeLayout>
+
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="3.5"
+                            >
+
+                            <View
+                                android:id="@+id/view1"
+                                android:layout_width="1dp"
+                                android:layout_height="60dp"
+                                android:background="#BBBFC2"
+                                ></View>
+
+                            <Button
+                                android:id="@+id/buttonAddCredit"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/thirty_dip"
+                                android:background="@drawable/waalet_add_credit_button"
+                                android:text="Add Credit"
+                                android:textColor="@color/white"
+                                android:layout_toRightOf="@+id/view1"
+                                android:layout_marginLeft="@dimen/ten_dip"
+                                android:padding="@dimen/five_dip"
+                                />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Decline"
+                                android:textSize="@dimen/eighteen"
+                                android:layout_below="@+id/buttonAddCredit"
+                                android:layout_toRightOf="@+id/view1"
+                                android:layout_marginLeft="@dimen/ten_dip"
+                                android:layout_marginTop="@dimen/two_dip"
+                                />
+
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+                   <!-- <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/ten_dip"
+                        >
+
+
+                        <TextView
+                            android:id="@+id/tvCurrentBalanceHeading"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Current Balance"
+                            android:textColor="@color/black"
+                            />
+
+                        <TextView
+                            android:id="@+id/tv_currentbal_value"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/tvCurrentBalanceHeading"
+                            android:text="@string/rupay_text"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/eighteen"
+                            />
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="@dimen/ten_dip"
+                            android:src="@drawable/ic_balance"
+                            />
+
+                    </RelativeLayout>-->
+
+                </LinearLayout>
+
+
 
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycleview_wallet_history"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
                >
 
 
             </android.support.v7.widget.RecyclerView>
 
-            <View
+           <!-- <View
                 android:layout_width="match_parent"
 
                 android:layout_height="@dimen/two"
@@ -213,11 +227,11 @@
                 android:layout_marginBottom="@dimen/ten_dip"
                 android:layout_marginTop="@dimen/twelve_dip"
 
-                android:background="#DADDE4" />
+                android:background="#DADDE4" />-->
         </LinearLayout>
 
 
-        <RelativeLayout
+        <!--<RelativeLayout
             android:id="@+id/curve_bg"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -234,7 +248,7 @@
 
 
 
-        </RelativeLayout>
+        </RelativeLayout>-->
 
     </LinearLayout>
 
