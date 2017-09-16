@@ -319,12 +319,13 @@ public class Wallet extends Fragment
 
                             }
                             else {
-                                linearLayourWallet.setVisibility(View.INVISIBLE);
+                                //linearLayourWallet.setVisibility(View.INVISIBLE);
                                 progressBarHandler.hide();
-                                Intent intent = new Intent(getActivity(), PaymentCompletionActivity.class);
+                               /* Intent intent = new Intent(getActivity(), PaymentCompletionActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 intent.putExtra("isSuccess", "false");
-                                startActivity(intent);
+                                startActivity(intent);*/
+                                AndroidUtils.showErrorLog(getActivity(),"Server Error Please Try Again");
                             }
 
                         }
