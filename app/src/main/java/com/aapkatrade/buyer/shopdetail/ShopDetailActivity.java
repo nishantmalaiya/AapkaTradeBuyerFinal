@@ -117,6 +117,7 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
     private CoordinatorLayout coordinatorLayout;
     ImageButton btnServiceEnquiry;
     String VideoPath;
+    MenuItem alertMenuItem;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -524,6 +525,11 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
             }
         });
 
+runtimeinitView();
+    }
+
+    private void runtimeinitView() {
+
 
     }
 
@@ -554,7 +560,7 @@ public class ShopDetailActivity extends AppCompatActivity implements DatePickerD
 
         getMenuInflater().inflate(R.menu.home_menu, menu);
 
-        final MenuItem alertMenuItem = menu.findItem(R.id.cart_total_item);
+         alertMenuItem = menu.findItem(R.id.cart_total_item);
 
         final MenuItem login = menu.findItem(R.id.login);
 
