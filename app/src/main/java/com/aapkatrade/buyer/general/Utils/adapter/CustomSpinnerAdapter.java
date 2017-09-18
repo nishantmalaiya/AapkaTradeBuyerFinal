@@ -21,6 +21,7 @@ import com.aapkatrade.buyer.seller.selleruser_dashboard.companyshopmgt.CompanySh
 import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.addproduct.AddProductActivity;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.addproduct.CompanyDropdownDatas;
 import com.aapkatrade.buyer.seller.selleruser_dashboard.productmanagement.addproduct.entity.FormValue;
+import com.aapkatrade.buyer.uicomponent.customspinner.SpinnerDatas;
 import com.koushikdutta.ion.Ion;
 import com.squareup.picasso.Picasso;
 
@@ -71,49 +72,66 @@ public class CustomSpinnerAdapter extends BaseAdapter {
         LinearLayout linearLayout = (LinearLayout) view.findViewById(R.id.container_simple_spinner);
         RelativeLayout containershoplist = (RelativeLayout) view.findViewById(R.id.containershoplist);
         TextView spinnerItemName = (TextView) view.findViewById(R.id.tvSpCategory);
-       View  view2=(View)view.findViewById(R.id.view2);
+        View view2 = (View) view.findViewById(R.id.view2);
         if (arrayList.get(position) instanceof CompanyDropdownDatas) {
-           if(((CompanyDropdownDatas) arrayList.get(position)).comapanyCategory!="") {
-               linearLayout.setVisibility(View.GONE);
-               containershoplist.setVisibility(View.VISIBLE);
+            if (((CompanyDropdownDatas) arrayList.get(position)).comapanyCategory != "") {
+                linearLayout.setVisibility(View.GONE);
+                containershoplist.setVisibility(View.VISIBLE);
 
-               CircleImageView circleImageView = (CircleImageView) view.findViewById(R.id.shopimage);
-               TextView tvshopdropdownShopname = (TextView) view.findViewById(R.id.tvshopdropdownshopname);
-               TextView tvshopdropdownCategoryname = (TextView) view.findViewById(R.id.tvshopdropdownshopcategory);
-
-
-               if (Validation.isNonEmptyStr(((CompanyDropdownDatas) arrayList.get(position)).companyImageUrl)) {
-                   Picasso.with(context)
-                           .load(((CompanyDropdownDatas) arrayList.get(position)).companyImageUrl)
-                           .error(R.drawable.banner)
-                           .placeholder(R.drawable.default_noimage)
-                           .error(R.drawable.default_noimage)
-                           .into(circleImageView);
-               }
+                CircleImageView circleImageView = (CircleImageView) view.findViewById(R.id.shopimage);
+                TextView tvshopdropdownShopname = (TextView) view.findViewById(R.id.tvshopdropdownshopname);
+                TextView tvshopdropdownCategoryname = (TextView) view.findViewById(R.id.tvshopdropdownshopcategory);
 
 
-               StringBuilder stringBuilder_txnamount = new StringBuilder("<font size=\"20\" color=" + "#ffffff>" + ((CompanyDropdownDatas) arrayList.get(position)).companyName +
-                       ((CompanyDropdownDatas) arrayList.get(position)).comapanyCategory + "</font>");
-               String tvData = stringBuilder_txnamount.toString();
-               AndroidUtils.showErrorLog(context, position+"position"+arrayList.size()+"arrayList.size()   "+"work1***" + Html.fromHtml(tvData));
-               tvshopdropdownShopname.setText(((CompanyDropdownDatas) arrayList.get(position)).companyName);
-               tvshopdropdownCategoryname.setText("Category : " + ((CompanyDropdownDatas) arrayList.get(position)).comapanyCategory);
+                if (Validation.isNonEmptyStr(((CompanyDropdownDatas) arrayList.get(position)).companyImageUrl)) {
+                    Picasso.with(context)
+                            .load(((CompanyDropdownDatas) arrayList.get(position)).companyImageUrl)
+                            .error(R.drawable.banner)
+                            .placeholder(R.drawable.default_noimage)
+                            .error(R.drawable.default_noimage)
+                            .into(circleImageView);
+                }
+
+
+                StringBuilder stringBuilder_txnamount = new StringBuilder("<font size=\"20\" color=" + "#ffffff>" + ((CompanyDropdownDatas) arrayList.get(position)).companyName +
+                        ((CompanyDropdownDatas) arrayList.get(position)).comapanyCategory + "</font>");
+                String tvData = stringBuilder_txnamount.toString();
+                AndroidUtils.showErrorLog(context, position + "position" + arrayList.size() + "arrayList.size()   " + "work1***" + Html.fromHtml(tvData));
+                tvshopdropdownShopname.setText(((CompanyDropdownDatas) arrayList.get(position)).companyName);
+                tvshopdropdownCategoryname.setText("Category : " + ((CompanyDropdownDatas) arrayList.get(position)).comapanyCategory);
 
               /* if(position == arrayList.size()-1) {
                    AddProductActivity.commonInterface.getData(true);
                }*/
 
-             
 
-               return view;
-           }
-           else{
+                return view;
+            } else {
 
-               linearLayout.setVisibility(View.VISIBLE);
-               containershoplist.setVisibility(View.GONE);
-               spinnerItemName.setText("Please Select Shop/Company");
-               return view;
-           }
+                linearLayout.setVisibility(View.VISIBLE);
+                containershoplist.setVisibility(View.GONE);
+                spinnerItemName.setText("Please Select Shop/Company");
+                return view;
+            }
+
+        }
+
+        if (arrayList.get(position) instanceof SpinnerDatas) {
+            if (Validation.isNonEmptyStr(((SpinnerDatas) arrayList.get(position)).Name)) {
+
+
+                spinnerItemName.setText(((SpinnerDatas) arrayList.get(position)).Name);
+            } else {
+
+                linearLayout.setVisibility(View.VISIBLE);
+                containershoplist.setVisibility(View.GONE);
+                spinnerItemName.setText("Please Select State");
+                return view;
+            }
+
+
+            return view;
+
 
         } else {
 

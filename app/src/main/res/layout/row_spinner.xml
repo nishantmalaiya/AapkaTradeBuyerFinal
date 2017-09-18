@@ -10,7 +10,7 @@
     <LinearLayout
         android:id="@+id/container_simple_spinner"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/fifty_dip"
+        android:layout_height="wrap_content"
         android:background="@color/white"
 android:gravity="center_vertical"
         android:orientation="vertical">
@@ -28,6 +28,7 @@ android:gravity="center_vertical"
             android:layout_height="@dimen/thirty_five_dip"
             android:layout_below="@+id/view1"
             android:gravity="center_vertical"
+
             android:paddingLeft="@dimen/ten_dip"
             android:text="Electronics"
 

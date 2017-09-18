@@ -24,6 +24,7 @@ import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.Validation;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -79,6 +80,13 @@ public class ShopViewPagerAdapter extends PagerAdapter {
                 AndroidUtils.showErrorLog(context, "position============" + imageUrlArrayList.get(position).MediaUrl + "");
                 imgview_video.setVisibility(View.VISIBLE);
 
+
+
+
+                Ion.with(imageView)
+                        .error(ContextCompat.getDrawable(context, R.drawable.ic_applogo1))
+                        .placeholder(ContextCompat.getDrawable(context, R.drawable.ic_applogo1))
+                        .load(imageUrlArrayList.get(position).MediaUrl.concat(".png"));
 
                 cardviewContainer.setOnClickListener(new View.OnClickListener() {
                     @Override

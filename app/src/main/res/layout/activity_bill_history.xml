@@ -28,6 +28,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/toolbarsize"
+        android:scrollbars="none"
         tools:context="com.aapkatrade.buyer.seller.selleruser_dashboard.billhistory.BillHistory">
 
         <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -241,6 +242,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_below="@+id/cardview_billDate"
+                    android:nestedScrollingEnabled="false"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+
+
                     android:layout_marginBottom="@dimen/ten_dip">
 
 

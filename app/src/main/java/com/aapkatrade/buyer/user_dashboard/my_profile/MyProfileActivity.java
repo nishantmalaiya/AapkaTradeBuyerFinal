@@ -22,6 +22,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
@@ -510,11 +511,73 @@ public class MyProfileActivity extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
+
+        AndroidUtils.showErrorLog(context,"get_data",requestCode+"*******"+resultCode+"********");
+
         switch (requestCode) {
             case 1:
+if( data!=null) {
+    File imagefile = new File(ImageUtils.getRealPathFromURI(context, data.getData()));
+    call_myprofile_webservice(imagefile);
+}
 
-                File imagefile = new File(ImageUtils.getRealPathFromURI(context, data.getData()));
-                call_myprofile_webservice(imagefile);
+                break;
+            case 2:
+
+                try {
+
+                    BitmapFactory.Options option = new BitmapFactory.Options();
+                    option.inDither = false;
+                    option.inPurgeable = true;
+                    option.inInputShareable = true;
+                    option.inTempStorage = new byte[32 * 1024];
+                    option.inPreferredConfig = Bitmap.Config.RGB_565;
+                    if (Build.VERSION.SDK_INT < 19) {
+
+                        imageForPreview = BitmapFactory.decodeFile(getFilesDir().getPath(), option);
+
+                    } else {
+                        if (data.getData() != null) {
+
+                            ParcelFileDescriptor pfd;
+                            try {
+                                pfd = getContentResolver()
+                                        .openFileDescriptor(data.getData(), "r");
+                                if (pfd != null) {
+                                    FileDescriptor fileDescriptor = pfd
+                                            .getFileDescriptor();
+
+                                    imageForPreview = BitmapFactory.decodeFileDescriptor(fileDescriptor, null, option);
+
+                                }
+                                pfd.close();
+
+
+                            } catch (FileNotFoundException e) {
+                                Log.e("FileNotFoundException", e.toString());
+                            } catch (IOException e) {
+                                Log.e("IOException", e.toString());
+                            }
+                        } else {
+
+                            imageForPreview = (Bitmap) data.getExtras().get("data");
+
+                            Log.e("data_not_found", "data_not_found");
+                        }
+
+                    }
+
+                    userImageView.setVisibility(View.VISIBLE);
+
+                    //userImageView.setImageBitmap(imageForPreview);
+                    File imagefile = ImageUtils.getFile(context, imageForPreview);
+
+                    call_myprofile_webservice(imagefile);
+
+
+                } catch (Exception e) {
+                    AndroidUtils.showErrorLog(context, "error in myprofile", e.toString());
+                }
 
                 break;
 

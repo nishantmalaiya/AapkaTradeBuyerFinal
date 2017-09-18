@@ -2,6 +2,7 @@ package com.aapkatrade.buyer.seller.selleruser_dashboard.bankdetails;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatImageView;
@@ -23,6 +24,8 @@ import com.aapkatrade.buyer.general.Utils.SharedPreferenceConstants;
 import com.aapkatrade.buyer.general.Utils.adapter.CustomSpinnerAdapter;
 import com.aapkatrade.buyer.general.Validation;
 import com.aapkatrade.buyer.general.progressbar.ProgressBarHandler;
+import com.aapkatrade.buyer.uicomponent.customspinner.SearchableListDialog;
+import com.aapkatrade.buyer.uicomponent.customspinner.SpinnerDatas;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
@@ -35,7 +38,7 @@ public class BankDetailsActivity extends AppCompatActivity {
     private Context context;
     private AppSharedPreference appSharedPreference;
     private ProgressBarHandler progressBarHandler;
-    private ArrayList<String> stateList = new ArrayList<>();
+    private ArrayList<SpinnerDatas> stateList = new ArrayList<>();
     private Spinner spState;
     private ImageView editDetailsIcon;
     private String stateID = "", userId = "", ifscCode = "", beneficiaryName = "", beneficiaryAccount = "", stateName = "", beneficiaryBankName = "", beneficiaryAddress = "";
@@ -53,12 +56,7 @@ public class BankDetailsActivity extends AppCompatActivity {
         userId = appSharedPreference.getSharedPref(SharedPreferenceConstants.USER_ID.toString());
         saveButton.setVisibility(View.GONE);
         loadInitSpinner();
-        if (Validation.isNonEmptyStr(userId)) {
-            AndroidUtils.showErrorLog(context, "userId:::if:::", userId);
-            callBankDetailWebService();
-        } else {
-            AndroidUtils.showErrorLog(context, "userId else::::::", userId);
-        }
+
 
         etBeneficiaryIFSC.addTextChangedListener(new TextWatcher() {
             @Override
@@ -69,7 +67,7 @@ public class BankDetailsActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String ifscCode = s.toString();
-                if (Validation.isNonEmptyStr(ifscCode) && ifscCode.length() >= 11)
+                if (Validation.isNonEmptyStr(ifscCode) && ifscCode.length() >= 11 && findViewById(R.id.btnSave).getVisibility() == View.VISIBLE)
                     hitIFSCWebService(ifscCode);
             }
 
@@ -142,7 +140,7 @@ public class BankDetailsActivity extends AppCompatActivity {
                                     AndroidUtils.showErrorLog(context, "   " + stateName);
                                     if (Validation.isNonEmptyStr(stateName)) {
                                         for (int j = 0; j < stateList.size(); j++) {
-                                            if (stateList.get(j).equalsIgnoreCase(stateName)) {
+                                            if (stateList.get(j).Name.equalsIgnoreCase(stateName)) {
                                                 AndroidUtils.showErrorLog(context, stateName, "      state name   ");
                                                 spState.setSelection(j);
                                             }
@@ -197,7 +195,7 @@ public class BankDetailsActivity extends AppCompatActivity {
                                             AndroidUtils.showErrorLog(context, "   " + stateName);
                                             if (Validation.isNonEmptyStr(stateName)) {
                                                 for (int j = 0; j < stateList.size(); j++) {
-                                                    if (stateList.get(j).equalsIgnoreCase(stateName)) {
+                                                    if (stateList.get(j).Name.equalsIgnoreCase(stateName)) {
                                                         AndroidUtils.showErrorLog(context, stateName, "      state name");
                                                         spState.setSelection(j);
                                                     }
@@ -205,7 +203,7 @@ public class BankDetailsActivity extends AppCompatActivity {
                                             }
                                             disableViews();
                                         }
-                                    } else if (jsonArray != null && jsonArray.size() == 0){
+                                    } else if (jsonArray != null && jsonArray.size() == 0) {
                                         //AndroidUtils.showToast(context, "Hi hit size 0");
                                         saveButton.setVisibility(View.VISIBLE);
                                         editDetailsIcon.setVisibility(View.GONE);
@@ -362,14 +360,54 @@ public class BankDetailsActivity extends AppCompatActivity {
     }
 
     private void getState() {
-        stateList = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.state_list)));
-        spState.setAdapter(new CustomSpinnerAdapter(context, stateList));
+        stateList.add(new SpinnerDatas("", ""));
+
+        progressBarHandler.show();
+        Ion.with(context)
+                .load(getResources().getString(R.string.webservice_base_url).concat("/dropdown"))
+                .setHeader("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                .setBodyParameter("authorization", "xvfdbgfdhbfdhtrh54654h54ygdgerwer3")
+                .setBodyParameter("type", "state")
+                .setBodyParameter("id", "101")
+                .asJsonObject()
+                .setCallback(new FutureCallback<JsonObject>() {
+                    @Override
+                    public void onCompleted(Exception e, JsonObject result) {
+                        progressBarHandler.hide();
+                        AndroidUtils.showErrorLog(context, "Country Data loading : ", result);
+
+                        if (result != null) {
+                            if (result.get("error").getAsString().equals("false")) {
+                                JsonArray jsonArray = result.getAsJsonArray("result");
+                                for (int i = 0; i < jsonArray.size(); i++) {
+                                    stateList.add(new SpinnerDatas(jsonArray.get(i).getAsJsonObject().get("id").getAsString(), jsonArray.get(i).getAsJsonObject().get("name").getAsString()));
+                                }
+
+                                spState.setAdapter(new CustomSpinnerAdapter(context, stateList));
+
+                            } else {
+                                AndroidUtils.showErrorLog(context, "not null", result.toString());
+                            }
+                        }
+                    }
+                });
+
+        if (Validation.isNonEmptyStr(userId)) {
+            AndroidUtils.showErrorLog(context, "userId:::if:::", userId);
+            callBankDetailWebService();
+        } else {
+            AndroidUtils.showErrorLog(context, "userId else::::::", userId);
+        }
+
+
+        //stateList = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.state_list)));
+
         spState.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 AndroidUtils.showErrorLog(context, "State Id is ::::::::" + position);
                 if (position > 0) {
-                    stateID = String.valueOf(position);
+                    stateID = stateList.get(position).Id;
                 }
             }
 

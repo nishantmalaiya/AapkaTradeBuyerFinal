@@ -169,6 +169,7 @@ public class BillHistory extends AppCompatActivity implements TimePickerDialog.O
 
                         customSpinnerAdapter = new CustomSpinnerAdapter(context, machineList);
 
+
                         SpMachineList.setAdapter(customSpinnerAdapter);
 
                         AndroidUtils.showErrorLog(context, "responseMachineList", result.toString());
@@ -274,7 +275,7 @@ public class BillHistory extends AppCompatActivity implements TimePickerDialog.O
 
                             recycleBillHistory.setLayoutManager(linearLayoutManager);
                             recycleBillHistory.setAdapter(billHistoryAdapter);
-
+                            recycleBillHistory.smoothScrollToPosition(billHistoryDatas.size());
 
                             AndroidUtils.showErrorLog(context, "responseBillPayment2", result.toString());
                             progressBarHandler.hide();
