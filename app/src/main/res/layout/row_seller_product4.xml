@@ -85,7 +85,6 @@
                         android:id="@+id/imgProduct"
                         android:layout_width="100dp"
                         android:layout_height="100dp"
-                        android:src="@drawable/banner"
                         android:scaleType="fitXY"
                         android:layout_marginLeft="@dimen/ten_dip"
                         android:layout_marginTop="@dimen/five_dip"

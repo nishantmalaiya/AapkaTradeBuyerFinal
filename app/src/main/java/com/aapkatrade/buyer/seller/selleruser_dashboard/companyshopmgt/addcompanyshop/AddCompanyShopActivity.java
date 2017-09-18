@@ -104,7 +104,7 @@ public class AddCompanyShopActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ProductImagesAdapter adapter;
     private ArrayList<Bitmap> multipleImages;
-    private RelativeLayout addCompanyShopLayout;
+    private LinearLayout addCompanyShopLayout;
 
     private  TextView  save ;
     private boolean isAllFieldsValidate = true, isGeneralDetailsCompleted = true;
@@ -267,7 +267,7 @@ public class AddCompanyShopActivity extends AppCompatActivity {
         etGooglePlusURL = (EditText) findViewById(R.id.etGooglePlusURL);
         etDescription = (EditText) findViewById(R.id.etDescription);
         etCompanyAddress = (EditText) findViewById(R.id.etCompanyAddress);
-        addCompanyShopLayout = (RelativeLayout) findViewById(R.id.addCompanyShopLayout);
+        addCompanyShopLayout = (LinearLayout) findViewById(R.id.addCompanyShopLayout);
 
 
         daysTileView1 = (DaysTileView) findViewById(R.id.daysTileView);
