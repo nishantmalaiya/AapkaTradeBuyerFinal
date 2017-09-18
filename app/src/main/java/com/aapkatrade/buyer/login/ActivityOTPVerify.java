@@ -41,7 +41,8 @@ import com.koushikdutta.ion.Ion;
 
 import java.util.HashMap;
 
-public class ActivityOTPVerify extends AppCompatActivity {
+public class ActivityOTPVerify extends AppCompatActivity
+{
 
     Button retryotp, verifyotp;
     TextView toolbar_title_txt, tittleTxt, otpNotRespond, couter_textview;
@@ -86,8 +87,6 @@ public class ActivityOTPVerify extends AppCompatActivity {
 
 
         //update_otp(appSharedPreference.getSharedPref(SharedPreferenceConstants.LASTEST_OTP.toString()));
-
-
 
     }
 
@@ -340,7 +339,10 @@ public class ActivityOTPVerify extends AppCompatActivity {
                 //here you can have your logic to set text to edittext
             }
 
-            public void onFinish() {
+            public void onFinish()
+            {
+                otpNotRespond.setVisibility(View.VISIBLE);
+                retryotp.setVisibility(View.VISIBLE);
                 couter_textview.setText("00:00");
             }
 

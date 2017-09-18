@@ -211,16 +211,13 @@
                 android:textColor="@color/white"
                 android:background="@drawable/button_orange_back"
                 />
-
-</RelativeLayout>
+            </RelativeLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:orientation="horizontal"
                 android:weightSum="10"
-
-
                 >
 
                 <TextView
@@ -231,6 +228,7 @@
                     android:text="@string/otp_not_recived"
                     android:textColor="#000000"
                     android:textAllCaps="false"
+                    android:visibility="invisible"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="10dp"
                     />
@@ -247,7 +245,7 @@
                         android:id="@+id/retryButton"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-
+                        android:visibility="invisible"
                         android:text="RETRY"
                         android:layout_gravity="center_vertical"
 

@@ -273,41 +273,55 @@ public class Wallet extends Fragment
                         {
                             if (result.get("error").getAsString().contains("false"))
                             {
-                                linearLayourWallet.setVisibility(View.VISIBLE);
-                                progressBarHandler.hide();
-                                String payment_status;
 
-                                JsonObject jsonObject = result.getAsJsonObject("result");
+                                AndroidUtils.showErrorLog(getContext(),"messge",result.get("message").getAsString());
 
-                                String total_balance = jsonObject.get("total_balance").getAsString();
-
-                                tv_currentbal_value.setText(getString(R.string.rupay_text)+total_balance);
-
-                                JsonArray jsonArray = jsonObject.getAsJsonArray("history");
-
-                                for (int i= 0; i<jsonArray.size(); i++)
+                                if (!result.get("message").getAsString().contains("There is no Wallet History Data Available."))
                                 {
-                                    JsonObject jsonObject1 = (JsonObject) jsonArray.get(i);
+                                    linearLayourWallet.setVisibility(View.VISIBLE);
+                                    progressBarHandler.hide();
+                                    String payment_status;
 
-                                    String transactionid =jsonObject1.get("transactionId").getAsString();
+                                    JsonObject jsonObject = result.getAsJsonObject("result");
 
-                                    String trans_amt = jsonObject1.get("trans_amt").getAsString();
+                                    String total_balance = jsonObject.get("total_balance").getAsString();
 
-                                    String txn_type = jsonObject1.get("txn_type").getAsString();
+                                    tv_currentbal_value.setText(getString(R.string.rupay_text)+total_balance);
 
-                                    String transaction_status = jsonObject1.get("transaction_status").getAsString();
+                                    JsonArray jsonArray = jsonObject.getAsJsonArray("history");
 
-                                    String transaction_date = jsonObject1.get("created_at").getAsString();
+                                    for (int i= 0; i<jsonArray.size(); i++)
+                                    {
+                                        JsonObject jsonObject1 = (JsonObject) jsonArray.get(i);
 
-                                    String transaction_message = jsonObject1.get("message").getAsString();
+                                        String transactionid =jsonObject1.get("transactionId").getAsString();
 
-                                    walletTransactionDataslist.add(new WalletTransactionDatas(transactionid,transaction_date,transaction_status,trans_amt,txn_type,transaction_message));
+                                        String trans_amt = jsonObject1.get("trans_amt").getAsString();
 
+                                        String txn_type = jsonObject1.get("txn_type").getAsString();
+
+                                        String transaction_status = jsonObject1.get("transaction_status").getAsString();
+
+                                        String transaction_date = jsonObject1.get("created_at").getAsString();
+
+                                        String transaction_message = jsonObject1.get("message").getAsString();
+
+                                        walletTransactionDataslist.add(new WalletTransactionDatas(transactionid,transaction_date,transaction_status,trans_amt,txn_type,transaction_message));
+
+
+                                    }
+
+                                    walletAdapter.notifyDataSetChanged();
+                                    AndroidUtils.showErrorLog(getActivity(), jsonObject.toString());
+                                }
+                                else {
+
+                                    linearLayourWallet.setVisibility(View.VISIBLE);
+                                    progressBarHandler.hide();
+                                    AndroidUtils.showToast(getContext(),result.get("message").getAsString());
 
                                 }
 
-                                walletAdapter.notifyDataSetChanged();
-                                AndroidUtils.showErrorLog(getActivity(), jsonObject.toString());
 
                                 /* Intent intent = new Intent(getActivity(), PaymentCompletionActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -319,12 +333,13 @@ public class Wallet extends Fragment
 
                             }
                             else {
-                                linearLayourWallet.setVisibility(View.INVISIBLE);
+                                //linearLayourWallet.setVisibility(View.INVISIBLE);
                                 progressBarHandler.hide();
-                                Intent intent = new Intent(getActivity(), PaymentCompletionActivity.class);
+                               /* Intent intent = new Intent(getActivity(), PaymentCompletionActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 intent.putExtra("isSuccess", "false");
-                                startActivity(intent);
+                                startActivity(intent);*/
+                                AndroidUtils.showErrorLog(getActivity(),"Server Error Please Try Again");
                             }
 
                         }

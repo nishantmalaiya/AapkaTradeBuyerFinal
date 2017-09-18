@@ -47,10 +47,10 @@ public class ForgotPassword extends AppCompatActivity
         forgot_password_fragment = new ForgotPasswordFragment();
 
         setUpToolBar();
+
         setupForgetpassword(class_index);
 
         initView();
-
 
     }
 
